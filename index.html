@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>微积分记忆闪卡 - 首页</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700;900&display=swap');
+        
+        body {
+            font-family: 'Noto Sans SC', sans-serif;
+            background-color: #f8fafc; /* 极简的浅灰白背景 */
+            overscroll-behavior: none;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        /* 卡片悬停动画 */
+        .module-card {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .module-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 24px -8px rgba(0, 0, 0, 0.1);
+        }
+        .module-card:active {
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body class="min-h-screen p-6 md:p-10 max-w-4xl mx-auto">
+
+    <header class="mb-10 mt-4">
+        <h1 class="text-3xl font-black text-slate-800 tracking-tight">公式记忆闪卡</h1>
+        <p class="text-sm text-slate-500 mt-2 font-medium">高效复习 · 核心考点突破</p>
+    </header>
+
+    <div id="module-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        </div>
+
+    <script src="data.js"></script>
+    
+    <script>
+        // 定义主题色的映射表（因为 Tailwind 需要完整的类名才能打包/生效）
+        const themeStyles = {
+            sky: { bg: 'bg-sky-500', text: 'text-sky-600', lightBg: 'bg-sky-50', border: 'border-sky-100', icon: 'fa-square-root-variable' },
+            indigo: { bg: 'bg-indigo-500', text: 'text-indigo-600', lightBg: 'bg-indigo-50', border: 'border-indigo-100', icon: 'fa-infinity' },
+            violet: { bg: 'bg-violet-500', text: 'text-violet-600', lightBg: 'bg-violet-50', border: 'border-violet-100', icon: 'fa-chart-line' },
+            // 以后新增模块如果用其他颜色，可以在这里补充，比如 emerald, rose 等
+            default: { bg: 'bg-slate-500', text: 'text-slate-600', lightBg: 'bg-slate-50', border: 'border-slate-100', icon: 'fa-book' }
+        };
+
+        const gridContainer = document.getElementById('module-grid');
+
+        // 遍历 data.js 中的 appData 对象，动态生成卡片
+        Object.values(appData).forEach(module => {
+            const theme = themeStyles[module.themeColor] || themeStyles.default;
+            const cardCount = module.cards.length;
+
+            // 创建卡片元素，点击后跳转到 study.html 并附带对应模块的 id 参数
+            const cardHTML = `
+                <a href="study.html?type=${module.id}" class="module-card block bg-white rounded-2xl p-6 border ${theme.border} cursor-pointer shadow-sm relative overflow-hidden group">
+                    <div class="absolute -right-4 -top-4 opacity-5 transform group-hover:scale-110 transition-transform duration-500">
+                        <i class="fa-solid ${theme.icon} text-9xl ${theme.text}"></i>
+                    </div>
+                    
+                    <div class="relative z-10 flex flex-col h-full">
+                        <div class="w-12 h-12 rounded-xl ${theme.lightBg} ${theme.text} flex items-center justify-center text-xl mb-4 shadow-sm">
+                            <i class="fa-solid ${theme.icon}"></i>
+                        </div>
+                        
+                        <h2 class="text-xl font-bold text-slate-800 mb-1">${module.title}</h2>
+                        <p class="text-xs font-bold text-slate-400 mb-6">${module.subtitle}</p>
+                        
+                        <div class="mt-auto flex items-center justify-between">
+                            <span class="text-xs font-bold px-3 py-1 rounded-full ${theme.lightBg} ${theme.text}">
+                                共 ${cardCount} 张卡片
+                            </span>
+                            <div class="w-8 h-8 rounded-full ${theme.bg} text-white flex items-center justify-center shadow-md transform group-hover:translate-x-1 transition-transform">
+                                <i class="fa-solid fa-arrow-right text-sm"></i>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            `;
+            gridContainer.innerHTML += cardHTML;
+        });
+    </script>
+</body>
+</html>
