@@ -173,4 +173,45 @@ const appData = {
             }
         ]
     }
-};
+},
+    // === 这里记得在上一个模块的 } 后面加一个逗号 ===
+    ,
+    // === 模块 4：三角函数特殊值 ===
+    trig_special: {
+        id: "trig_special",
+        title: "三角函数特殊值",
+        subtitle: "表格数据速记",
+        themeColor: "sky", 
+        cards: [
+            {
+                title: "🌊 基础组：正弦与余弦",
+                q: "$$\\sin\\theta \\quad \\text{和} \\quad \\cos\\theta$$<br><span class='text-sm font-normal text-slate-500'>(30°, 45°, 60°)</span>",
+                tip: "<b>口诀：</b><ul><li>$\\sin$ 的分子从小到大：$1, \\sqrt{2}, \\sqrt{3}$。</li><li>$\\cos$ 的分子从大到小：$\\sqrt{3}, \\sqrt{2}, 1$。</li><li>分母全都是 $2$。</li></ul>",
+                a: "<b>$\\sin\\theta$:</b> $$\\frac{1}{2}, \\quad \\frac{\\sqrt{2}}{2}, \\quad \\frac{\\sqrt{3}}{2}$$<br><br><b>$\\cos\\theta$:</b> $$\\frac{\\sqrt{3}}{2}, \\quad \\frac{\\sqrt{2}}{2}, \\quad \\frac{1}{2}$$"
+            },
+            {
+                title: "📈 进阶组：正切与余切",
+                q: "$$\\tan\\theta \\quad \\text{和} \\quad \\cot\\theta$$<br><span class='text-sm font-normal text-slate-500'>(30°, 45°, 60°)</span>",
+                tip: "<b>联系：</b><ul><li>$45^\\circ$ 时两者相等，都是 $1$。</li><li>$30^\\circ$ 和 $60^\\circ$ 的结果刚好对调，且互为倒数。</li></ul>",
+                a: "<b>$\\tan\\theta$:</b> $$\\frac{\\sqrt{3}}{3}, \\quad 1, \\quad \\sqrt{3}$$<br><br><b>$\\cot\\theta$:</b> $$\\sqrt{3}, \\quad 1, \\quad \\frac{\\sqrt{3}}{3}$$"
+            },
+            {
+                title: "🛡️ 倒数组：正割与余割",
+                q: "$$\\sec\\theta \\quad \\text{和} \\quad \\csc\\theta$$<br><span class='text-sm font-normal text-slate-500'>(30°, 45°, 60°)</span>",
+                tip: "<b>定义：</b>$\\sec$ 是 $\\cos$ 的倒数，$\\csc$ 是 $\\sin$ 的倒数。<br>遇到 $\\frac{2}{\\sqrt{3}}$ 时，分子分母同乘 $\\sqrt{3}$ 有理化，即得 $\\frac{2\\sqrt{3}}{3}$。",
+                a: "<b>$\\sec\\theta$:</b> $$\\frac{2\\sqrt{3}}{3}, \\quad \\sqrt{2}, \\quad 2$$<br><br><b>$\\csc\\theta$:</b> $$2, \\quad \\sqrt{2}, \\quad \\frac{2\\sqrt{3}}{3}$$"
+            },
+            {
+                title: "🪓 坐标轴关键点：0° 和 90°",
+                q: "当 $\\theta = 0^\\circ (0)$ 和 $90^\\circ (\\frac{\\pi}{2})$ 时的所有值",
+                tip: "<b>重点提示：</b>分母为 $0$ 的情况（$\\tan 90^\\circ$, $\\cot 0^\\circ$, $\\sec 90^\\circ$, $\\csc 0^\\circ$）都是<b>不存在</b>的！",
+                a: "<b>对于 $0^\\circ$:</b><br>$\\sin=0, \\cos=1, \\tan=0$<br>$\\cot=\\text{不存在}, \\sec=1, \\csc=\\text{不存在}$<br><br><b>对于 $90^\\circ$:</b><br>$\\sin=1, \\cos=0, \\tan=\\text{不存在}$<br>$\\cot=0, \\sec=\\text{不存在}, \\csc=1$"
+            },
+            {
+                title: "🪓 坐标轴关键点：180° 和 270°",
+                q: "当 $\\theta = 180^\\circ (\\pi)$ 和 $270^\\circ (\\frac{3\\pi}{2})$ 时的所有值",
+                tip: "<b>符号变化：</b>在 $x$ 轴负半轴和 $y$ 轴负半轴，$\\sin$ 和 $\\cos$ 会出现负数（$-1$）。",
+                a: "<b>对于 $180^\\circ$:</b><br>$\\sin=0, \\cos=-1, \\tan=0$<br>$\\cot=\\text{不存在}, \\sec=-1, \\csc=\\text{不存在}$<br><br><b>对于 $270^\\circ$:</b><br>$\\sin=-1, \\cos=0, \\tan=\\text{不存在}$<br>$\\cot=0, \\sec=\\text{不存在}, \\csc=-1$"
+            }
+        ]
+    };
