@@ -7,7 +7,7 @@ const appData = {
         id: "derivatives",
         title: "基本求导公式",
         subtitle: "微积分基础强化",
-        themeColor: "sky", // 对应 Tailwind 的 sky 色系
+        themeColor: "sky", 
         cards: [
             {
                 title: "📐 幂函数求导",
@@ -83,7 +83,7 @@ const appData = {
         id: "equivalent",
         title: "等价无穷小记忆卡",
         subtitle: "x → 0 数二专用",
-        themeColor: "indigo", // 对应 Tailwind 的 indigo 色系
+        themeColor: "indigo", 
         cards: [
             { title: "基础三角", q: "$$\\sin x \\sim ?$$", a: "$$\\sin x \\sim x$$", tip: "<b>最基础的起点：</b><ul><li>在单位圆中，$x \\to 0$ 时弧长约等于弦长。</li><li>这是所有三角函数等价的母式。</li></ul>" },
             { title: "基础三角", q: "$$\\tan x \\sim ?$$", a: "$$\\tan x \\sim x$$", tip: "<b>切线斜率：</b><ul><li>$\\tan x$ 在原点处的切线斜率为 1。</li><li>注意：虽然 $\\sin x$ 和 $\\tan x$ 都等价于 $x$，但它们的<span class='highlight'>三阶差值</span>不同。</li></ul>" },
@@ -115,7 +115,7 @@ const appData = {
         id: "taylor",
         title: "泰勒公式记忆卡",
         subtitle: "核心展开式",
-        themeColor: "violet", // 改为紫罗兰色以区分前两个
+        themeColor: "violet", 
         cards: [
             {
                 title: "🌟 核心母座",
@@ -172,10 +172,8 @@ const appData = {
                 a: "$$(1+x)^\\alpha = 1 + \\alpha x + \\frac{\\alpha(\\alpha-1)}{2!}x^2 + o(x^2)$$"
             }
         ]
-    }
-},
-    // === 这里记得在上一个模块的 } 后面加一个逗号 ===
-    ,
+    },
+    
     // === 模块 4：三角函数特殊值 ===
     trig_special: {
         id: "trig_special",
@@ -214,4 +212,5 @@ const appData = {
                 a: "<b>对于 $180^\\circ$:</b><br>$\\sin=0, \\cos=-1, \\tan=0$<br>$\\cot=\\text{不存在}, \\sec=-1, \\csc=\\text{不存在}$<br><br><b>对于 $270^\\circ$:</b><br>$\\sin=-1, \\cos=0, \\tan=\\text{不存在}$<br>$\\cot=0, \\sec=\\text{不存在}, \\csc=-1$"
             }
         ]
-    };
+    }
+};
