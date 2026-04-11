@@ -8,7 +8,6 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
-    <!-- 替换为 KaTeX: 速度极快，瞬间渲染 -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
     <script src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js"></script>
@@ -180,7 +179,6 @@
             <h1 id="page-title" class="text-xl font-black text-slate-800">加载中...</h1>
         </div>
         <div class="flex gap-2">
-            <!-- 新增的全屏按钮 -->
             <button onclick="toggleFullScreen()" class="w-10 h-10 rounded-full bg-white border border-slate-200 text-slate-600 shadow-sm flex items-center justify-center hover:bg-slate-50 active:scale-95 transition-transform" title="全屏">
                 <i class="fa-solid fa-expand" id="fullscreen-icon"></i>
             </button>
@@ -225,7 +223,7 @@
                     </div>
                     
                     <div class="flex-1 mt-1">
-                        <div class="text-xs font-bold text-slate-400 uppercase mb-1 border-b border-slate-100 pb-1">答案核值得对</div>
+                        <div class="text-xs font-bold text-slate-400 uppercase mb-1 border-b border-slate-100 pb-1">答案核对</div>
                         <div class="math-scroll-wrapper" id="a-wrapper" onclick="event.stopPropagation()">
                             <div id="a-content"></div>
                         </div>
@@ -452,11 +450,13 @@
     let touchStartY = 0;
     let touchEndX = 0;
     let touchEndY = 0;
+    let touchTarget = null; // 记录手指按下的初始元素
     const swipeZone = document.getElementById('swipe-zone');
 
     swipeZone.addEventListener('touchstart', e => {
         touchStartX = e.changedTouches[0].screenX;
         touchStartY = e.changedTouches[0].screenY;
+        touchTarget = e.target;
     }, {passive: true});
 
     swipeZone.addEventListener('touchend', e => {
@@ -471,10 +471,14 @@
         
         // 关键防误触逻辑：只在水平滑动距离大于 50px，且 水平滑动幅度 > 垂直滑动幅度 时才触发
         if (Math.abs(deltaX) > 50 && Math.abs(deltaX) > Math.abs(deltaY)) {
-            if (!isFlipped) { // 只有在正面才允许滑动切换
-                if (deltaX > 0) nextCard(); 
-                if (deltaX < 0) prevCard(); 
+            // 如果是在长公式区域内进行的水平滑动，直接拦截，保留公式本身的滚动体验
+            if (touchTarget && touchTarget.closest('.math-scroll-wrapper')) {
+                return;
             }
+            
+            // 允许在任何状态下（包含背面）左右滑动切换卡片
+            if (deltaX > 0) nextCard(); 
+            if (deltaX < 0) prevCard(); 
         }
     }
 
