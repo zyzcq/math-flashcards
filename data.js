@@ -251,5 +251,44 @@ const appData = {
                 a: "$$\\left(\\frac{1}{ax+b}\\right)^{(n)} = (-1)^n a^n \\frac{n!}{(ax+b)^{n+1}}$$"
             }
         ]
+    },
+    // === 模块 6：罗尔定理辅助函数 ===
+    rolle_auxiliary: {
+        id: "rolle_auxiliary",
+        title: "罗尔定理辅助函数",
+        subtitle: "微分中值定理核心构造法",
+        themeColor: "emerald", // 翠绿色主题
+        cards: [
+            {
+                title: "🔄 乘积法则逆用 I",
+                q: "$$f(x)f'(x)$$",
+                tip: "<b>逆运算思维：</b><ul><li>见到原函数与一阶导数直接相乘，立刻联想平方项的求导。</li><li>源自：$$[f^2(x)]' = 2f(x)f'(x)$$</li></ul>",
+                a: "令 $$F(x) = f^2(x)$$"
+            },
+            {
+                title: "🔄 乘积法则逆用 II",
+                q: "$$[f'(x)]^2 + f(x)f''(x)$$",
+                tip: "<b>结构特征：</b>一阶导数的平方 加上 原函数乘二阶导数。<ul><li>这是标准乘积求导公式 $$(uv)' = u'v + uv'$$ 的直接逆用。</li><li>源自：$$[f(x)f'(x)]' = [f'(x)]^2 + f(x)f''(x)$$</li></ul>",
+                a: "令 $$F(x) = f(x)f'(x)$$"
+            },
+            {
+                title: "🚀 神奇的指数因子 (必考)",
+                q: "$$f'(x) + f(x)$$ <br><br> $$f'(x) - f(x)$$ <br><br> $$f'(x) + kf(x)$$",
+                tip: "<b>手写小结：见到 $$f' \\pm f$$ 必配指数函数！</b><ul><li>加号配正指数 $$e^x$$，减号配负指数 $$e^{-x}$$。</li><li>源自通式：$$[f(x)e^{\\varphi(x)}]' = [f'(x) + f(x)\\varphi'(x)]e^{\\varphi(x)}$$</li></ul>",
+                a: "令 $$F(x) = f(x)e^x$$ <hr class='my-2 border-slate-200'> 令 $$F(x) = f(x)e^{-x}$$ <hr class='my-2 border-slate-200'> 令 $$F(x) = f(x)e^{kx}$$"
+            },
+            {
+                title: "➗ 商的法则逆用 I",
+                q: "见到 $$f'(x)x - f(x)$$ <br><span class='text-sm font-normal text-slate-500'>$$(x \\neq 0)$$</span>",
+                tip: "<b>特征：</b>一阶导数乘 $$x$$，再减去原函数。<ul><li>看到中间的<b>减号</b>和乘数 $$x$$，就应该想到分母是 $$x$$ 的商的求导。</li><li>源自：$$\\left[\\frac{f(x)}{x}\\right]' = \\frac{f'(x)x - f(x)}{x^2}$$</li></ul>",
+                a: "令 $$F(x) = \\frac{f(x)}{x}$$"
+            },
+            {
+                title: "➗ 商的法则逆用 II",
+                q: "见到 $$f''(x)f(x) - [f'(x)]^2$$",
+                tip: "<b>高阶特征：</b>二阶导乘原函数 减去 一阶导的平方。<ul><li>这是 $$\\left[\\frac{f'(x)}{f(x)}\\right]'$$ 的分子部分。</li><li><b>高阶技巧：</b>当 $$f(x) > 0$$ 时，因为 $$[\\ln f(x)]' = \\frac{f'(x)}{f(x)}$$，对其再求导也会产生同样的分子！</li></ul>",
+                a: "当 $$f(x) \\neq 0$$ 时，<br>令 $$F(x) = \\frac{f'(x)}{f(x)}$$ <hr class='my-2 border-slate-200'> 当 $$f(x) > 0$$ 时，<br>亦可令 $$F(x) = \\ln f(x)$$"
+            }
+        ]
     }
 };
