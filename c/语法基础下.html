@@ -1,0 +1,1787 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>语法基础下</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: "Microsoft YaHei", "PingFang SC", Arial, sans-serif;
+            line-height: 1.8;
+            background: #f5f7fb;
+            color: #222;
+        }
+
+        header {
+            background: linear-gradient(135deg, #1e3c72, #2a5298);
+            color: #fff;
+            padding: 40px 24px;
+            text-align: center;
+        }
+
+            header h1 {
+                margin: 0 0 12px;
+                font-size: 32px;
+            }
+
+            header p {
+                margin: 0;
+                font-size: 17px;
+                opacity: 0.95;
+            }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 24px;
+        }
+
+        nav {
+            background: #fff;
+            border-radius: 14px;
+            padding: 20px 24px;
+            margin-bottom: 24px;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+        }
+
+            nav h2 {
+                margin-top: 0;
+                font-size: 22px;
+                color: #1e3c72;
+            }
+
+            nav ol {
+                columns: 2;
+                padding-left: 24px;
+            }
+
+            nav a {
+                color: #1e5bb8;
+                text-decoration: none;
+            }
+
+                nav a:hover {
+                    text-decoration: underline;
+                }
+
+        section {
+            background: #fff;
+            border-radius: 14px;
+            padding: 28px;
+            margin-bottom: 24px;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+        }
+
+        h2 {
+            color: #1e3c72;
+            border-left: 6px solid #2a5298;
+            padding-left: 12px;
+            margin-top: 0;
+        }
+
+        h3 {
+            color: #244f8f;
+            margin-top: 28px;
+        }
+
+        .main-line {
+            background: #eef5ff;
+            border-left: 5px solid #2a5298;
+            padding: 16px 18px;
+            border-radius: 8px;
+            font-weight: bold;
+            margin: 18px 0;
+        }
+
+        .key-point {
+            background: #fff7e6;
+            border-left: 5px solid #faad14;
+            padding: 14px 18px;
+            border-radius: 8px;
+            margin: 18px 0;
+        }
+
+        .danger {
+            background: #fff1f0;
+            border-left: 5px solid #ff4d4f;
+            padding: 14px 18px;
+            border-radius: 8px;
+            margin: 18px 0;
+        }
+
+        .success {
+            background: #f0fff4;
+            border-left: 5px solid #52c41a;
+            padding: 14px 18px;
+            border-radius: 8px;
+            margin: 18px 0;
+        }
+
+        .formula {
+            background: #f6f8fa;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            padding: 14px 18px;
+            font-family: Consolas, Monaco, monospace;
+            margin: 16px 0;
+        }
+
+        code {
+            background: #f0f2f5;
+            color: #c7254e;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: Consolas, Monaco, monospace;
+        }
+
+        pre {
+            background: #1f2937;
+            color: #f9fafb;
+            padding: 18px;
+            border-radius: 10px;
+            overflow-x: auto;
+            line-height: 1.6;
+            font-size: 14px;
+        }
+
+            pre code {
+                background: none;
+                color: inherit;
+                padding: 0;
+            }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 18px 0;
+            background: #fff;
+        }
+
+        th {
+            background: #eaf2ff;
+            color: #1e3c72;
+        }
+
+        th, td {
+            border: 1px solid #d9e2ef;
+            padding: 10px 12px;
+            text-align: left;
+        }
+
+        .review-box {
+            background: #f8fbff;
+            border: 1px dashed #8bb8f5;
+            border-radius: 10px;
+            padding: 18px;
+            margin-top: 20px;
+        }
+
+            .review-box h3 {
+                margin-top: 0;
+            }
+
+        .tag {
+            display: inline-block;
+            background: #eaf2ff;
+            color: #1e3c72;
+            padding: 3px 8px;
+            border-radius: 999px;
+            font-size: 13px;
+            margin-right: 6px;
+        }
+
+        .top-link {
+            display: inline-block;
+            margin-top: 14px;
+            color: #1e5bb8;
+            text-decoration: none;
+        }
+
+            .top-link:hover {
+                text-decoration: underline;
+            }
+
+        footer {
+            text-align: center;
+            color: #666;
+            padding: 30px 16px;
+        }
+
+        .print-btn {
+            position: fixed;
+            right: 24px;
+            bottom: 24px;
+            border: none;
+            background: #2a5298;
+            color: #fff;
+            padding: 12px 18px;
+            border-radius: 999px;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.18);
+            font-size: 15px;
+        }
+
+            .print-btn:hover {
+                background: #1e3c72;
+            }
+
+        @media print {
+            body {
+                background: #fff;
+            }
+
+            header, nav, section {
+                box-shadow: none;
+            }
+
+            .print-btn {
+                display: none;
+            }
+
+            section {
+                page-break-inside: avoid;
+            }
+        }
+
+        @media (max-width: 768px) {
+            nav ol {
+                columns: 1;
+            }
+
+            header h1 {
+                font-size: 26px;
+            }
+
+            .container {
+                padding: 14px;
+            }
+
+            section {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body id="top">
+
+    <header>
+        <h1>C语言核心语法与进制复习笔记</h1>
+        <p>主线：数据怎么输出 → 数据怎么保存 → 数据在计算机底层怎么存 → 不同进制怎么表示和转换</p>
+    </header>
+
+    <button class="print-btn" onclick="window.print()">打印 / 导出 PDF</button>
+
+    <div class="container">
+
+        <nav>
+            <h2>目录</h2>
+            <ol>
+                <li><a href="#printf">printf 输出常量</a></li>
+                <li><a href="#variable-basic">变量的基本使用</a></li>
+                <li><a href="#variable-notes">变量的注意事项</a></li>
+                <li><a href="#storage-rule">计算机的数据存储规则</a></li>
+                <li><a href="#why-binary">为什么计算机使用二进制</a></li>
+                <li><a href="#data-storage">文本、图片、声音如何存储</a></li>
+                <li><a href="#common-base">常见进制</a></li>
+                <li><a href="#c-base">C语言中不同进制的写法</a></li>
+                <li><a href="#base-to-decimal">任意进制转十进制</a></li>
+                <li><a href="#8421">8421 快速转换法</a></li>
+                <li><a href="#decimal-to-base">十进制转任意进制</a></li>
+                <li><a href="#code-summary">核心代码汇总</a></li>
+                <li><a href="#final-review">最终复习重点</a></li>
+            </ol>
+        </nav>
+
+        <section>
+            <h2>总览：这几节课的学习主线</h2>
+            <div class="main-line">
+                数据怎么输出 → 数据怎么保存 → 数据在计算机底层怎么存 → 不同进制怎么表示和转换
+            </div>
+            <p>
+                这几节课从 C 语言的表层语法开始，先学习如何使用 <code>printf</code> 输出数据，
+                再学习变量如何保存数据，接着理解数据在计算机底层会被统一转换成二进制，
+                最后学习二进制、八进制、十进制、十六进制之间的表示和转换。
+            </p>
+            <p>
+                真正要建立的底层理解是：程序中的变量负责保存数据，计算机底层用二进制保存数据，
+                不同进制只是同一个数据的不同表示方式。
+            </p>
+        </section>
+
+        <section id="printf">
+            <h2>一、printf 输出常量</h2>
+
+            <p>
+                <code>printf</code> 用来输出内容。最简单的写法是直接输出一段文本。
+            </p>
+
+<pre><code class="language-c">printf("hello");</code></pre>
+
+            <p>
+                如果要输出多个数据，就需要使用占位符。占位符相当于先在字符串里占一个位置，
+                后面再用具体的数据填进去。
+            </p>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>占位符</th>
+                        <th>含义</th>
+                        <th>示例</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>%s</code></td>
+                        <td>输出字符串</td>
+                        <td><code>"张三"</code></td>
+                    </tr>
+                    <tr>
+                        <td><code>%d</code></td>
+                        <td>输出整数</td>
+                        <td><code>18</code></td>
+                    </tr>
+                    <tr>
+                        <td><code>%f</code></td>
+                        <td>输出小数</td>
+                        <td><code>1.82</code></td>
+                    </tr>
+                    <tr>
+                        <td><code>%.2f</code></td>
+                        <td>输出小数，保留 2 位</td>
+                        <td><code>1.82</code></td>
+                    </tr>
+                </tbody>
+            </table>
+
+<pre><code class="language-c">#include &lt;stdio.h&gt;
+
+int main()
+{
+    printf("姓名：%s，性别：%s，年龄：%d岁，身高：%.2f米，体重：%d斤\n",
+           "小诗诗", "女", 18, 1.82, 110);
+
+    return 0;
+}</code></pre>
+
+            <p>输出结果：</p>
+
+<pre><code>姓名：小诗诗，性别：女，年龄：18岁，身高：1.82米，体重：110斤</code></pre>
+
+            <div class="key-point">
+                <strong>重点：</strong><code>printf</code> 中占位符和后面的数据必须一一对应。
+                也就是数量要对应、顺序要对应、类型要对应。
+            </div>
+
+            <p>正确示例：</p>
+
+<pre><code class="language-c">printf("姓名：%s，年龄：%d", "张三", 18);</code></pre>
+
+            <p>错误思路：</p>
+
+<pre><code class="language-c">printf("姓名：%s，年龄：%d", 18, "张三");</code></pre>
+
+            <div class="danger">
+                上面这句是错误思路，因为 <code>%s</code> 需要字符串，但给了整数；
+                <code>%d</code> 需要整数，但给了字符串。
+            </div>
+
+            <h3>换行</h3>
+
+            <p>
+                <code>printf</code> 默认不会自动换行。
+            </p>
+
+<pre><code class="language-c">printf("hello");
+printf("world");</code></pre>
+
+            <p>输出会连在一起：</p>
+
+<pre><code>helloworld</code></pre>
+
+            <p>如果要换行，需要使用转义字符 <code>\n</code>。</p>
+
+<pre><code class="language-c">printf("hello\n");
+printf("world\n");</code></pre>
+
+            <p>输出结果：</p>
+
+<pre><code>hello
+world</code></pre>
+
+            <p>不同系统底层换行符有所不同：</p>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>系统</th>
+                        <th>换行规则</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Windows</td>
+                        <td><code>\r\n</code></td>
+                    </tr>
+                    <tr>
+                        <td>Linux</td>
+                        <td><code>\n</code></td>
+                    </tr>
+                    <tr>
+                        <td>旧版 Mac</td>
+                        <td><code>\r</code></td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <p>
+                其中，<code>\r</code> 表示回到行首，<code>\n</code> 表示换到下一行。
+                不过写 C 语言时，一般直接写 <code>\n</code> 即可。
+            </p>
+
+            <div class="review-box">
+                <h3>本部分复习重点</h3>
+                <p>
+                    <code>printf</code> 输出多个数据时，用占位符。
+                    占位符和数据要数量、顺序、类型都对应。想换行就写 <code>\n</code>。
+                </p>
+            </div>
+
+            <a class="top-link" href="#top">返回顶部</a>
+        </section>
+
+        <section id="variable-basic">
+            <h2>二、变量的基本使用</h2>
+
+            <p>
+                程序是用来处理数据的，而变量就是用来保存数据的。
+                变量可以理解成存数据的盒子。
+            </p>
+
+            <div class="key-point">
+                <strong>注意：</strong>变量不是数据本身，而是存储数据的容器。
+            </div>
+
+<pre><code class="language-c">int age = 18;</code></pre>
+
+            <p>
+                这里 <code>age</code> 是变量，<code>18</code> 是变量里面保存的数据。
+            </p>
+
+            <h3>变量的定义格式</h3>
+
+<pre><code class="language-c">数据类型 变量名;</code></pre>
+
+            <p>例如：</p>
+
+<pre><code class="language-c">int a;</code></pre>
+
+            <p>
+                这句话的含义是：定义一个变量 <code>a</code>，它可以保存整数。
+                其中 <code>int</code> 表示整数类型，<code>a</code> 是变量名，
+                分号 <code>;</code> 表示语句结束。
+            </p>
+
+            <h3>给变量赋值</h3>
+
+<pre><code class="language-c">a = 10;</code></pre>
+
+            <p>完整写法：</p>
+
+<pre><code class="language-c">int a;
+a = 10;</code></pre>
+
+            <p>如果定义变量时已经知道它的值，可以合并写：</p>
+
+<pre><code class="language-c">int a = 10;</code></pre>
+
+            <p>
+                这种写法叫做：定义变量的同时初始化。
+            </p>
+
+            <h3>变量可以打印</h3>
+
+<pre><code class="language-c">#include &lt;stdio.h&gt;
+
+int main()
+{
+    int a = 10;
+
+    printf("%d\n", a);
+
+    return 0;
+}</code></pre>
+
+            <p>输出结果：</p>
+
+<pre><code>10</code></pre>
+
+            <p>
+                这里打印的不是字母 <code>a</code>，而是变量 <code>a</code> 里面保存的值。
+            </p>
+
+            <h3>变量参与计算</h3>
+
+            <p>变量可以直接参与计算。</p>
+
+<pre><code class="language-c">#include &lt;stdio.h&gt;
+
+int main()
+{
+    int c = 10;
+    int d = 20;
+
+    printf("%d\n", c + d);
+
+    return 0;
+}</code></pre>
+
+            <p>输出结果：</p>
+
+<pre><code>30</code></pre>
+
+            <p>也可以把计算结果保存到新变量中。</p>
+
+<pre><code class="language-c">#include &lt;stdio.h&gt;
+
+int main()
+{
+    int c = 10;
+    int d = 20;
+    int e = c + d;
+
+    printf("%d\n", e);
+
+    return 0;
+}</code></pre>
+
+            <h3>变量用于实际项目</h3>
+
+            <p>
+                经常变化的数据，适合用变量保存。比如微信余额：
+            </p>
+
+<pre><code class="language-c">#include &lt;stdio.h&gt;
+
+int main()
+{
+    int money = 100;
+
+    money = money + 2;
+
+    printf("当前余额：%d元\n", money);
+
+    return 0;
+}</code></pre>
+
+            <p>输出结果：</p>
+
+<pre><code>当前余额：102元</code></pre>
+
+            <p>
+                重点理解这句代码：
+            </p>
+
+<pre><code class="language-c">money = money + 2;</code></pre>
+
+            <div class="key-point">
+                这不是数学等式，而是赋值语句。
+                它的执行过程是：先算右边 <code>money + 2</code>，
+                也就是 <code>100 + 2</code>，得到 <code>102</code>；
+                再把 <code>102</code> 赋值给左边的 <code>money</code>；
+                原来的 <code>100</code> 被覆盖。
+            </div>
+
+            <p>
+                所以 <code>money = money + 2;</code> 的意思是：
+                让 <code>money</code> 在原来的基础上增加 2。
+            </p>
+
+            <div class="review-box">
+                <h3>本部分复习重点</h3>
+                <p>
+                    变量用来保存数据。定义格式是 <code>数据类型 变量名;</code>，
+                    赋值格式是 <code>变量名 = 数据值;</code>。
+                    变量可以打印、计算、修改。实际开发中，经常变化的数据适合定义成变量。
+                </p>
+            </div>
+
+            <a class="top-link" href="#top">返回顶部</a>
+        </section>
+
+        <section id="variable-notes">
+            <h2>三、变量的注意事项</h2>
+
+            <h3>1. 变量只能存一个值</h3>
+
+<pre><code class="language-c">int a = 10;
+a = 20;</code></pre>
+
+            <p>
+                最后 <code>a</code> 里面只有 <code>20</code>，原来的 <code>10</code> 被覆盖。
+            </p>
+
+<pre><code class="language-c">#include &lt;stdio.h&gt;
+
+int main()
+{
+    int a = 10;
+
+    printf("%d\n", a);
+
+    a = 20;
+
+    printf("%d\n", a);
+
+    return 0;
+}</code></pre>
+
+            <p>输出结果：</p>
+
+<pre><code>10
+20</code></pre>
+
+            <h3>2. 变量名不能重复定义</h3>
+
+            <p>错误写法：</p>
+
+<pre><code class="language-c">int a = 10;
+int a = 20;</code></pre>
+
+            <div class="danger">
+                同一个范围内不能有两个同名变量，否则程序不知道你要使用哪一个。
+                在 VS 中，重复定义变量可能出现类似错误：
+                <code>C2374：变量重复定义</code>。
+            </div>
+
+            <p>正确写法：</p>
+
+<pre><code class="language-c">int a = 10;
+int b = 20;</code></pre>
+
+            <h3>3. 一条语句可以定义多个变量，但不推荐</h3>
+
+            <p>C 语言允许这样写：</p>
+
+<pre><code class="language-c">int b = 10, c = 20, d = 30;</code></pre>
+
+            <p>
+                这表示同时定义三个 <code>int</code> 类型变量。
+                但不推荐经常这样写，因为可读性不好。
+            </p>
+
+            <p>更推荐写成：</p>
+
+<pre><code class="language-c">int b = 10;
+int c = 20;
+int d = 30;</code></pre>
+
+            <p>这样代码更清楚。</p>
+
+            <h3>4. 变量使用前必须赋值</h3>
+
+            <p>错误写法：</p>
+
+<pre><code class="language-c">int e;
+printf("%d\n", e);</code></pre>
+
+            <div class="danger">
+                <code>e</code> 只定义了，但没有明确赋值，就直接使用。
+                这种写法不安全，也可能报错。
+                在 VS 中可能出现：<code>C4700：使用了未初始化的局部变量</code>。
+            </div>
+
+            <p>正确写法：</p>
+
+<pre><code class="language-c">int e = 100;
+printf("%d\n", e);</code></pre>
+
+            <p>或者：</p>
+
+<pre><code class="language-c">int e;
+e = 100;
+printf("%d\n", e);</code></pre>
+
+            <p>
+                这里的“使用变量”包括：打印变量、参与计算、赋值给其他变量、出现在表达式中。
+            </p>
+
+            <h3>5. 变量有作用范围</h3>
+
+            <p>
+                变量不是在程序任何地方都能用，它有自己的作用范围。
+                这一节先知道这个概念即可，后面学习判断、循环、函数时会详细展开。
+            </p>
+
+            <h3>6. VS 中多个 main 的问题</h3>
+
+            <p>
+                如果一个项目中有多个 <code>.c</code> 文件，并且多个文件都有：
+            </p>
+
+<pre><code class="language-c">int main()
+{
+}</code></pre>
+
+            <p>
+                可能会导致运行出问题，因为一个程序通常只能有一个主入口 <code>main</code>。
+                练习多个文件时，可以把暂时不用的 <code>main</code> 注释掉。
+            </p>
+
+            <div class="review-box">
+                <h3>本部分复习重点</h3>
+                <p>
+                    变量只能存一个值；变量名不能重复；变量使用前必须赋值；
+                    一行可以定义多个变量但不推荐；变量有作用范围；
+                    一个程序通常只保留一个 <code>main</code> 入口。
+                </p>
+            </div>
+
+            <a class="top-link" href="#top">返回顶部</a>
+        </section>
+
+        <section id="storage-rule">
+            <h2>四、计算机的数据存储规则</h2>
+
+            <div class="main-line">
+                计算机中的任意数据，最终都是以二进制形式存储的。
+            </div>
+
+            <p>
+                二进制只有两个数字：<code>0</code> 和 <code>1</code>。
+            </p>
+
+            <p>
+                计算机常见数据可以分为三类：
+            </p>
+
+            <ul>
+                <li>文本数据</li>
+                <li>图片数据</li>
+                <li>声音数据</li>
+            </ul>
+
+            <p>
+                视频可以理解成：视频 = 连续的图片 + 声音。
+                所以视频本质上也可以归到图片和声音的组合。
+            </p>
+
+            <div class="review-box">
+                <h3>本部分复习重点</h3>
+                <p>
+                    不管是文本、图片、声音还是视频，最终在计算机底层都会变成二进制数据。
+                </p>
+            </div>
+
+            <a class="top-link" href="#top">返回顶部</a>
+        </section>
+
+        <section id="why-binary">
+            <h2>五、为什么计算机使用二进制</h2>
+
+            <p>
+                十进制由 <code>0 1 2 3 4 5 6 7 8 9</code> 组成，
+                规则是逢十进一，借一当十。
+            </p>
+
+<pre><code>9 + 1 = 10
+99 + 1 = 100</code></pre>
+
+            <p>
+                二进制由 <code>0</code> 和 <code>1</code> 组成，
+                规则是逢二进一，借一当二。
+            </p>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>十进制</th>
+                        <th>二进制</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>0</td>
+                        <td><code>0</code></td>
+                    </tr>
+                    <tr>
+                        <td>1</td>
+                        <td><code>1</code></td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td><code>10</code></td>
+                    </tr>
+                    <tr>
+                        <td>3</td>
+                        <td><code>11</code></td>
+                    </tr>
+                    <tr>
+                        <td>4</td>
+                        <td><code>100</code></td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="key-point">
+                二进制 <code>10</code> 读作“一零”，不要读作“十”。
+                二进制 <code>100</code> 读作“一零零”，不要读作“一百”。
+            </div>
+
+            <p>
+                计算机使用二进制的原因是：硬件最容易表示两种状态。
+            </p>
+
+            <p>
+                早期计算机可以用打孔纸带表示数据：
+            </p>
+
+            <ul>
+                <li>有孔 = 1</li>
+                <li>没孔 = 0</li>
+            </ul>
+
+            <p>
+                现代计算机可以用电压状态表示数据：
+            </p>
+
+            <ul>
+                <li>低电压 = 0</li>
+                <li>高电压 = 1</li>
+            </ul>
+
+            <p>
+                两种状态稳定、简单、可靠，所以计算机使用二进制。
+            </p>
+
+            <div class="review-box">
+                <h3>本部分复习重点</h3>
+                <p>
+                    二进制只由 <code>0</code> 和 <code>1</code> 组成，规则是逢二进一。
+                    计算机使用二进制，是因为硬件最容易表示两种状态。
+                </p>
+            </div>
+
+            <a class="top-link" href="#top">返回顶部</a>
+        </section>
+
+        <section id="data-storage">
+            <h2>六、文本、图片、声音如何存储</h2>
+
+            <h3>1. 数字如何存储</h3>
+
+            <p>
+                数字会先转成二进制，再存储。
+            </p>
+
+            <p>
+                例如十进制 <code>99</code> 可以转换成二进制 <code>01100011</code>。
+            </p>
+
+            <div class="formula">
+                十进制数字 → 二进制 → 存入计算机
+            </div>
+
+            <h3>2. 字母如何存储</h3>
+
+            <p>
+                字母本身不是数字，不能直接转二进制，所以要查编码表。
+                常见编码表是 ASCII 码表。
+            </p>
+
+            <p>
+                例如字符 <code>'a'</code> 对应十进制数字 <code>97</code>。
+            </p>
+
+            <div class="formula">
+                字符 'a' → 查 ASCII 码表 → 得到 97 → 转成二进制 → 存储
+            </div>
+
+            <p>C 语言中可以这样验证：</p>
+
+<pre><code class="language-c">#include &lt;stdio.h&gt;
+
+int main()
+{
+    printf("%d\n", 'a');
+
+    return 0;
+}</code></pre>
+
+            <p>通常输出：</p>
+
+<pre><code>97</code></pre>
+
+            <p>也可以这样看字符形式和整数形式：</p>
+
+<pre><code class="language-c">#include &lt;stdio.h&gt;
+
+int main()
+{
+    char ch = 'a';
+
+    printf("字符形式：%c\n", ch);
+    printf("整数形式：%d\n", ch);
+
+    return 0;
+}</code></pre>
+
+            <p>输出结果：</p>
+
+<pre><code>字符形式：a
+整数形式：97</code></pre>
+
+            <h3>3. 汉字如何存储</h3>
+
+            <p>
+                ASCII 主要解决英文字符，不包含汉字。
+                汉字需要中文编码表。
+            </p>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>编码</th>
+                        <th>说明</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>GB2312</td>
+                        <td>早期中文简体编码，收录常用汉字和符号</td>
+                    </tr>
+                    <tr>
+                        <td>Big5</td>
+                        <td>繁体中文相关编码</td>
+                    </tr>
+                    <tr>
+                        <td>GBK</td>
+                        <td>扩展中文编码，收录更多汉字</td>
+                    </tr>
+                    <tr>
+                        <td>Unicode</td>
+                        <td>统一字符编码体系，覆盖更多国家和地区文字</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="formula">
+                汉字 → 查编码表 → 得到数字 → 转成二进制 → 存储
+            </div>
+
+            <h3>4. 图片如何存储</h3>
+
+            <p>
+                图片存储涉及三个概念：分辨率、像素、RGB 三原色。
+            </p>
+
+            <p>
+                例如分辨率 <code>1920 × 1080</code> 表示：
+                横向有 1920 个小格子，纵向有 1080 个小格子。
+                这些小格子就是像素。
+            </p>
+
+            <div class="formula">
+                像素 = 组成图片的小方格<br>
+                分辨率 = 横向像素数 × 纵向像素数
+            </div>
+
+            <p>
+                图片放大后出现锯齿，就是因为图片本质上是由一个个像素小方格组成的。
+            </p>
+
+            <p>
+                计算机中的颜色使用光学三原色 RGB：
+            </p>
+
+            <ul>
+                <li>R = Red，红色</li>
+                <li>G = Green，绿色</li>
+                <li>B = Blue，蓝色</li>
+            </ul>
+
+            <p>
+                每个颜色值范围是 <code>0</code> 到 <code>255</code>。
+            </p>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>RGB 值</th>
+                        <th>含义</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>RGB(255, 0, 0)</code></td>
+                        <td>纯红色</td>
+                    </tr>
+                    <tr>
+                        <td><code>RGB(150, 150, 150)</code></td>
+                        <td>灰色</td>
+                    </tr>
+                    <tr>
+                        <td><code>RGB(43, 123, 194)</code></td>
+                        <td>某种蓝色</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="formula">
+                图片 → 拆成像素 → 记录每个像素的 RGB 值 → 转成二进制 → 存储
+            </div>
+
+            <p>
+                像素越多，图片越清晰，但要记录的数据越多，文件也通常越大。
+            </p>
+            <h3>5. 声音如何存储</h3>
+
+            <p>
+                声音进入计算机后，会形成音频波形。计算机会对声音进行采样。
+            </p>
+
+            <div class="formula">
+                采样 = 在某一个时间点记录一次声音数据
+            </div>
+
+            <p>
+                一般每秒可能采样四万多次。采样越多，声音还原越细致，音质越好，
+                但要保存的数据也越多，文件通常也越大。
+            </p>
+
+            <div class="formula">
+                声音 → 音频波形 → 采样 → 得到采样数据 → 转成二进制 → 存储
+            </div>
+
+            <p>
+                所以不同音质的音乐文件大小不同，本质原因就是采样数据量不同。
+            </p>
+
+            <div class="review-box">
+                <h3>本部分复习重点</h3>
+                <p>
+                    数字直接转二进制；字母和汉字先查编码表，再转二进制；
+                    图片记录每个像素的 RGB；声音记录采样数据。
+                    最终它们都会变成二进制。
+                </p>
+            </div>
+
+            <a class="top-link" href="#top">返回顶部</a>
+        </section>
+
+        <section id="common-base">
+            <h2>七、常见进制</h2>
+
+            <p>
+                计算机底层使用二进制，但二进制太长，不方便人阅读。
+                所以为了让二进制更短、更好读，就出现了八进制和十六进制。
+            </p>
+
+            <h3>1. 八进制怎么来的</h3>
+
+            <p>
+                八进制是把二进制每 3 位分成一组。
+            </p>
+
+            <p>
+                因为 3 位二进制最小是：
+            </p>
+
+<pre><code>000</code></pre>
+
+            <p>
+                最大是：
+            </p>
+
+<pre><code>111</code></pre>
+
+            <p>
+                对应十进制的范围是 <code>0</code> 到 <code>7</code>，
+                所以八进制每一位只能由 <code>0</code> 到 <code>7</code> 组成。
+            </p>
+
+            <div class="key-point">
+                八进制的本质：每 3 位二进制可以合成 1 位八进制。
+            </div>
+
+            <h3>2. 十六进制怎么来的</h3>
+
+            <p>
+                十六进制是把二进制每 4 位分成一组。
+            </p>
+
+            <p>
+                4 位二进制最小是：
+            </p>
+
+<pre><code>0000</code></pre>
+
+            <p>
+                最大是：
+            </p>
+
+<pre><code>1111</code></pre>
+
+            <p>
+                对应十进制的范围是 <code>0</code> 到 <code>15</code>。
+                十六进制需要表示 16 种情况，但数字 <code>0</code> 到 <code>9</code>
+                只有 10 个，所以用字母补充。
+            </p>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>十六进制</th>
+                        <th>十进制</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>A</code></td>
+                        <td>10</td>
+                    </tr>
+                    <tr>
+                        <td><code>B</code></td>
+                        <td>11</td>
+                    </tr>
+                    <tr>
+                        <td><code>C</code></td>
+                        <td>12</td>
+                    </tr>
+                    <tr>
+                        <td><code>D</code></td>
+                        <td>13</td>
+                    </tr>
+                    <tr>
+                        <td><code>E</code></td>
+                        <td>14</td>
+                    </tr>
+                    <tr>
+                        <td><code>F</code></td>
+                        <td>15</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <p>
+                所以十六进制每一位由 <code>0</code> 到 <code>9</code>，
+                以及 <code>A</code> 到 <code>F</code> 组成。
+            </p>
+
+            <div class="key-point">
+                十六进制的本质：每 4 位二进制可以合成 1 位十六进制。
+            </div>
+
+            <div class="review-box">
+                <h3>本部分复习重点</h3>
+                <p>
+                    八进制和十六进制都是为了让二进制更短、更好读。
+                    八进制每 3 位二进制一组，十六进制每 4 位二进制一组。
+                </p>
+            </div>
+
+            <a class="top-link" href="#top">返回顶部</a>
+        </section>
+
+        <section id="c-base">
+            <h2>八、C 语言中不同进制的写法</h2>
+
+            <p>
+                C 语言中常见四种进制：二进制、八进制、十进制、十六进制。
+                它们在代码中的写法主要通过前缀区分。
+            </p>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>进制</th>
+                        <th>组成</th>
+                        <th>代码前缀</th>
+                        <th>示例</th>
+                        <th>十进制结果</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>二进制</td>
+                        <td><code>0</code>、<code>1</code></td>
+                        <td><code>0b</code></td>
+                        <td><code>0b10</code></td>
+                        <td>2</td>
+                    </tr>
+                    <tr>
+                        <td>八进制</td>
+                        <td><code>0</code> 到 <code>7</code></td>
+                        <td><code>0</code></td>
+                        <td><code>010</code></td>
+                        <td>8</td>
+                    </tr>
+                    <tr>
+                        <td>十进制</td>
+                        <td><code>0</code> 到 <code>9</code></td>
+                        <td>无</td>
+                        <td><code>10</code></td>
+                        <td>10</td>
+                    </tr>
+                    <tr>
+                        <td>十六进制</td>
+                        <td><code>0</code> 到 <code>9</code>，<code>A</code> 到 <code>F</code></td>
+                        <td><code>0x</code></td>
+                        <td><code>0x10</code></td>
+                        <td>16</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <p>示例代码：</p>
+
+<pre><code class="language-c">#include &lt;stdio.h&gt;
+
+int main()
+{
+    int a = 0b10;  // 二进制 10，等于十进制 2
+    int b = 10;    // 十进制 10
+    int c = 010;   // 八进制 10，等于十进制 8
+    int d = 0x10;  // 十六进制 10，等于十进制 16
+
+    printf("%d\n", a);
+    printf("%d\n", b);
+    printf("%d\n", c);
+    printf("%d\n", d);
+
+    return 0;
+}</code></pre>
+
+            <p>输出结果：</p>
+
+<pre><code>2
+10
+8
+16</code></pre>
+
+            <div class="key-point">
+                <code>%d</code> 表示按照十进制整数形式输出。
+                所以无论变量原来用什么进制书写，打印时都会显示成十进制结果。
+            </div>
+
+            <h3>进制写法的易错点</h3>
+
+            <p>
+                判断一个数是否合法，要看两件事：
+            </p>
+
+            <ol>
+                <li>先看前缀，判断是什么进制。</li>
+                <li>再看后面的数字是否符合该进制允许的范围。</li>
+            </ol>
+
+            <p>正确示例：</p>
+
+<pre><code class="language-c">int a = 10;     // 十进制，正确
+int b = 010;    // 八进制，正确
+int c = 0b101;  // 二进制，正确
+int d = 0x12;   // 十六进制，正确</code></pre>
+
+            <p>错误示例：</p>
+
+<pre><code class="language-c">int x = 0b102;  // 错误，二进制不能出现 2
+int y = 09;     // 错误，八进制不能出现 9</code></pre>
+
+            <div class="danger">
+                尤其要注意：<code>09</code> 不是十进制 9，而是错误的八进制写法。
+                因为以 <code>0</code> 开头，C 语言会把它当成八进制，
+                但八进制中不能出现数字 <code>9</code>。
+            </div>
+
+            <div class="review-box">
+                <h3>本部分复习重点</h3>
+                <p>
+                    看一个数字是什么进制，先看前缀。
+                    <code>0b</code> 是二进制，<code>0</code> 是八进制，
+                    无前缀是十进制，<code>0x</code> 是十六进制。
+                    还要检查数字是否超出该进制允许范围。
+                </p>
+            </div>
+
+            <a class="top-link" href="#top">返回顶部</a>
+        </section>
+
+        <section id="base-to-decimal">
+            <h2>九、任意进制转十进制</h2>
+
+            <p>
+                任意进制转十进制，用按权展开求和的方法。
+            </p>
+
+            <div class="formula">
+                系数 × 基数的权次幂，最后全部相加
+            </div>
+
+            <p>
+                其中：
+            </p>
+
+            <ul>
+                <li><strong>系数：</strong>每一位上的数字。</li>
+                <li><strong>基数：</strong>当前进制。</li>
+                <li><strong>权：</strong>从右往左，从 0 开始递增。</li>
+            </ul>
+
+            <div class="key-point">
+                文稿中语音识别成“奇数”的地方，应理解为“基数”。
+            </div>
+
+            <h3>例 1：二进制 101 转十进制</h3>
+
+            <p>
+                二进制 <code>101</code> 从右往左，权分别是 <code>2</code>、<code>1</code>、<code>0</code>。
+            </p>
+
+<pre><code>1 × 2² + 0 × 2¹ + 1 × 2⁰
+= 4 + 0 + 1
+= 5</code></pre>
+
+            <p>
+                所以：
+            </p>
+
+<pre><code>二进制 101 = 十进制 5</code></pre>
+
+            <h3>例 2：八进制 101 转十进制</h3>
+
+<pre><code>1 × 8² + 0 × 8¹ + 1 × 8⁰
+= 64 + 0 + 1
+= 65</code></pre>
+
+            <p>
+                所以：
+            </p>
+
+<pre><code>八进制 101 = 十进制 65</code></pre>
+
+            <div class="key-point">
+                同样是 <code>101</code>，不同进制下的值不同。
+                二进制 <code>101</code> 是十进制 5；
+                八进制 <code>101</code> 是十进制 65。
+            </div>
+
+            <h3>例 3：十六进制 ABC 转十进制</h3>
+
+            <p>
+                十六进制中，<code>A = 10</code>，<code>B = 11</code>，<code>C = 12</code>。
+            </p>
+
+<pre><code>A × 16² + B × 16¹ + C × 16⁰
+= 10 × 16² + 11 × 16¹ + 12 × 16⁰
+= 10 × 256 + 11 × 16 + 12
+= 2560 + 176 + 12
+= 2748</code></pre>
+
+            <p>
+                所以：
+            </p>
+
+<pre><code>十六进制 ABC = 十进制 2748</code></pre>
+
+            <div class="review-box">
+                <h3>本部分复习重点</h3>
+                <p>
+                    任意进制转十进制，就是按位展开求和。
+                    核心是从右往左，权从 <code>0</code> 开始，
+                    每一位都用“系数 × 基数的权次幂”计算，最后相加。
+                </p>
+            </div>
+
+            <a class="top-link" href="#top">返回顶部</a>
+        </section>
+
+        <section id="8421">
+            <h2>十、8421 快速转换法</h2>
+
+            <p>
+                8421 法用于二进制快速转十进制。
+                它的本质仍然是按权展开，只是提前把常见权值算好了。
+            </p>
+
+            <p>
+                从右往左，每一位的值是：
+            </p>
+
+<pre><code>... 128 64 32 16 8 4 2 1</code></pre>
+
+            <p>
+                最常用的是：
+            </p>
+
+<pre><code>8 4 2 1</code></pre>
+
+            <h3>例 1：二进制 1101 转十进制</h3>
+
+<pre><code>二进制：1  1  0  1
+权值：  8  4  2  1</code></pre>
+
+            <p>
+                只加二进制中为 <code>1</code> 的位置：
+            </p>
+
+<pre><code>8 + 4 + 1 = 13</code></pre>
+
+            <p>
+                所以：
+            </p>
+
+<pre><code>二进制 1101 = 十进制 13</code></pre>
+
+            <h3>例 2：二进制 1010 转十进制</h3>
+
+<pre><code>二进制：1  0  1  0
+权值：  8  4  2  1</code></pre>
+
+            <p>
+                只加二进制中为 <code>1</code> 的位置：
+            </p>
+
+<pre><code>8 + 2 = 10</code></pre>
+
+            <p>
+                所以：
+            </p>
+
+<pre><code>二进制 1010 = 十进制 10</code></pre>
+
+            <div class="review-box">
+                <h3>本部分复习重点</h3>
+                <p>
+                    8421 法本质上还是“按权展开”，只是提前把权值算好了。
+                    二进制中哪一位是 <code>1</code>，就把对应权值加起来。
+                </p>
+            </div>
+
+            <a class="top-link" href="#top">返回顶部</a>
+        </section>
+
+        <section id="decimal-to-base">
+            <h2>十一、十进制转任意进制</h2>
+
+            <p>
+                十进制转任意进制，用除基取余法。
+            </p>
+
+            <div class="formula">
+                要转成几进制，就不断除以几；一直除到商为 0；最后把余数倒着拼起来。
+            </div>
+
+            <h3>例 1：十进制 11 转二进制</h3>
+
+<pre><code>11 ÷ 2 = 5 余 1
+5 ÷ 2 = 2 余 1
+2 ÷ 2 = 1 余 0
+1 ÷ 2 = 0 余 1</code></pre>
+
+            <p>
+                把余数倒着拼：
+            </p>
+
+<pre><code>1011</code></pre>
+
+            <p>
+                所以：
+            </p>
+
+<pre><code>十进制 11 = 二进制 1011</code></pre>
+
+            <div class="key-point">
+                有些资料会除到商为 <code>1</code> 就停止，再把商和余数拼起来，也能得到结果。
+                但更正统、更适合以后写代码的方式是：一直除到商为 <code>0</code>，
+                再倒着取余数。
+            </div>
+
+            <h3>例 2：十进制 7 转二进制</h3>
+
+<pre><code>7 ÷ 2 = 3 余 1
+3 ÷ 2 = 1 余 1
+1 ÷ 2 = 0 余 1</code></pre>
+
+            <p>
+                倒着拼：
+            </p>
+
+<pre><code>111</code></pre>
+
+            <p>
+                所以：
+            </p>
+
+<pre><code>十进制 7 = 二进制 111</code></pre>
+
+            <h3>例 3：十进制 65 转八进制</h3>
+
+            <p>
+                转八进制就不断除以 <code>8</code>：
+            </p>
+
+<pre><code>65 ÷ 8 = 8 余 1
+8 ÷ 8 = 1 余 0
+1 ÷ 8 = 0 余 1</code></pre>
+
+            <p>
+                倒着拼：
+            </p>
+
+<pre><code>101</code></pre>
+
+            <p>
+                所以：
+            </p>
+
+<pre><code>十进制 65 = 八进制 101</code></pre>
+
+            <div class="review-box">
+                <h3>本部分复习重点</h3>
+                <p>
+                    十进制转任意进制，用除基取余法。
+                    转二进制除以 <code>2</code>，转八进制除以 <code>8</code>，
+                    转十六进制除以 <code>16</code>。
+                    一直除到商为 <code>0</code>，再把余数倒着拼。
+                </p>
+            </div>
+
+            <a class="top-link" href="#top">返回顶部</a>
+        </section>
+
+        <section id="code-summary">
+            <h2>十二、几节课的核心代码汇总</h2>
+
+            <h3>1. printf 输出多个数据</h3>
+
+<pre><code class="language-c">#include &lt;stdio.h&gt;
+
+int main()
+{
+    printf("姓名：%s，年龄：%d，身高：%.2f米\n", "张三", 18, 1.75);
+
+    return 0;
+}</code></pre>
+
+            <h3>2. 变量定义、赋值、打印</h3>
+
+<pre><code class="language-c">#include &lt;stdio.h&gt;
+
+int main()
+{
+    int a;
+
+    a = 10;
+
+    printf("%d\n", a);
+
+    return 0;
+}</code></pre>
+
+            <h3>3. 定义变量时直接赋值</h3>
+
+<pre><code class="language-c">#include &lt;stdio.h&gt;
+
+int main()
+{
+    int b = 20;
+
+    printf("%d\n", b);
+
+    return 0;
+}</code></pre>
+
+            <h3>4. 变量参与计算</h3>
+
+<pre><code class="language-c">#include &lt;stdio.h&gt;
+
+int main()
+{
+    int c = 10;
+    int d = 20;
+    int e = c + d;
+
+    printf("%d\n", e);
+
+    return 0;
+}</code></pre>
+
+            <h3>5. 变量值的修改</h3>
+
+<pre><code class="language-c">#include &lt;stdio.h&gt;
+
+int main()
+{
+    int money = 100;
+
+    money = money + 2;
+
+    printf("当前余额：%d元\n", money);
+
+    return 0;
+}</code></pre>
+
+            <h3>6. 字符底层对应数字</h3>
+
+<pre><code class="language-c">#include &lt;stdio.h&gt;
+
+int main()
+{
+    char ch = 'a';
+
+    printf("%c\n", ch);
+    printf("%d\n", ch);
+
+    return 0;
+}</code></pre>
+
+            <h3>7. 四种进制写法</h3>
+
+<pre><code class="language-c">#include &lt;stdio.h&gt;
+
+int main()
+{
+    int a = 0b10;  // 二进制 10，十进制是 2
+    int b = 10;    // 十进制 10
+    int c = 010;   // 八进制 10，十进制是 8
+    int d = 0x10;  // 十六进制 10，十进制是 16
+
+    printf("%d\n", a);
+    printf("%d\n", b);
+    printf("%d\n", c);
+    printf("%d\n", d);
+
+    return 0;
+}</code></pre>
+
+            <p>输出结果：</p>
+
+<pre><code>2
+10
+8
+16</code></pre>
+
+            <div class="review-box">
+                <h3>本部分复习重点</h3>
+                <p>
+                    这些代码分别对应：输出多个数据、变量定义、变量赋值、变量打印、
+                    变量计算、变量修改、字符和数字的底层关系、不同进制在 C 语言中的写法。
+                </p>
+            </div>
+
+            <a class="top-link" href="#top">返回顶部</a>
+        </section>
+
+        <section id="final-review">
+            <h2>最终复习重点</h2>
+
+            <p>
+                这几节课最重要的是把“数据”这条线串起来。
+            </p>
+
+            <p>
+                在 C 语言中，数据可以通过 <code>printf</code> 输出。
+                输出多个数据时要使用占位符，例如 <code>%s</code>、<code>%d</code>、<code>%f</code>。
+                如果想换行，就使用 <code>\n</code>。
+            </p>
+
+            <p>
+                变量是用来保存数据的容器。定义变量的格式是：
+            </p>
+
+<pre><code class="language-c">数据类型 变量名;</code></pre>
+
+            <p>
+                赋值格式是：
+            </p>
+
+<pre><code class="language-c">变量名 = 数据值;</code></pre>
+
+            <p>
+                变量可以被打印、计算、修改。再次赋值会覆盖旧值。
+                变量使用前必须先赋值，同一个范围内变量名不能重复。
+            </p>
+
+            <p>
+                计算机底层不直接保存我们看到的文字、图片、声音，
+                而是统一保存为二进制，也就是 <code>0</code> 和 <code>1</code>。
+                数字可以直接转成二进制；字母和汉字要先查编码表；
+                图片通过像素和 RGB 存储；声音通过采样存储。
+            </p>
+
+            <p>
+                常见进制有四种：
+            </p>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>进制</th>
+                        <th>C 语言写法</th>
+                        <th>例子</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>二进制</td>
+                        <td><code>0b</code> 开头</td>
+                        <td><code>0b10</code></td>
+                    </tr>
+                    <tr>
+                        <td>八进制</td>
+                        <td><code>0</code> 开头</td>
+                        <td><code>010</code></td>
+                    </tr>
+                    <tr>
+                        <td>十进制</td>
+                        <td>无前缀</td>
+                        <td><code>10</code></td>
+                    </tr>
+                    <tr>
+                        <td>十六进制</td>
+                        <td><code>0x</code> 开头</td>
+                        <td><code>0x10</code></td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="danger">
+                <code>010</code> 不是十进制 10，而是八进制 10，等于十进制 8。
+                <br>
+                <code>09</code> 是错误写法，因为以 <code>0</code> 开头会被当成八进制，
+                而八进制不能出现 <code>9</code>。
+            </div>
+
+            <p>
+                进制转换重点记两条：
+            </p>
+
+            <div class="formula">
+                任意进制转十进制：按权展开求和。
+                <br>
+                十进制转任意进制：除基取余，余数倒排。
+            </div>
+
+            <div class="main-line">
+                程序中的变量保存数据；计算机底层用二进制保存数据；
+                不同进制只是同一个数据的不同表示方式。
+            </div>
+
+            <a class="top-link" href="#top">返回顶部</a>
+        </section>
+
+    </div>
+
+    <footer>
+        <p>C语言核心语法与进制复习笔记</p>
+        <p>建议复习顺序：先理解变量和 printf，再理解二进制存储，最后练习进制转换。</p>
+    </footer>
+
+</body>
+</html>
+

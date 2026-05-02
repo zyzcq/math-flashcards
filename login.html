@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+<title>登录</title>
+
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+<style>
+* { box-sizing: border-box; }
+
+html, body {
+    margin: 0; padding: 0;
+    width: 100%; height: 100%;
+    overflow: hidden;
+    background: #040914; /* 深邃的夜蓝色打底 */
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "PingFang SC", sans-serif;
+}
+
+body {
+    display: flex; align-items: center; justify-content: center;
+}
+
+#bg-canvas {
+    position: fixed; inset: 0;
+    width: 100%; height: 100%;
+    display: block; z-index: 0;
+}
+
+/* 屏幕光晕，增强氛围 */
+.scene-glow {
+    position: fixed; inset: 0;
+    pointer-events: none; z-index: 1;
+    background:
+        radial-gradient(circle at 25% 45%, rgba(232, 169, 107, 0.15), transparent 25%),
+        radial-gradient(circle at 80% 20%, rgba(28, 69, 89, 0.15), transparent 30%);
+}
+
+/* ========== 登录卡片：青金质感玻璃 ========== */
+.login-card {
+    position: relative; z-index: 10;
+    width: min(92vw, 400px);
+    padding: 54px 40px 42px;
+    border-radius: 32px;
+    background: linear-gradient(
+        160deg,
+        rgba(20, 35, 55, 0.45) 0%,
+        rgba(10, 20, 35, 0.25) 100%
+    );
+    backdrop-filter: blur(20px) saturate(120%);
+    -webkit-backdrop-filter: blur(20px) saturate(120%);
+    box-shadow:
+        0 40px 80px rgba(0, 0, 0, 0.5),
+        0 0 0 1px rgba(255, 255, 255, 0.06) inset,
+        0 1px 0 rgba(255, 255, 255, 0.12) inset;
+    animation: cardIn 1s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+/* 边缘高光倒角 */
+.login-card::before {
+    content: ""; position: absolute; inset: 0;
+    border-radius: 32px; padding: 1px;
+    background: linear-gradient(
+        135deg,
+        rgba(232, 169, 107, 0.4),
+        rgba(255, 255, 255, 0.02) 30%,
+        rgba(44, 136, 150, 0.3) 70%,
+        rgba(255, 255, 255, 0.02)
+    );
+    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor; mask-composite: exclude;
+    pointer-events: none;
+}
+
+@keyframes cardIn {
+    0%   { opacity: 0; transform: translateY(30px) scale(0.95); }
+    100% { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* ========== 头像 ========== */
+.login-avatar {
+    position: relative;
+    width: 84px; height: 84px;
+    margin: 0 auto 36px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    color: rgba(255, 255, 255, 0.95);
+    font-size: 30px;
+    background:
+        radial-gradient(circle at 30% 30%, rgba(232, 169, 107, 0.25), rgba(255,255,255,0.02) 65%),
+        rgba(20, 35, 55, 0.5);
+    box-shadow:
+        0 10px 30px rgba(0, 0, 0, 0.3),
+        0 0 0 1px rgba(255, 255, 255, 0.1) inset;
+}
+
+.avatar-ring {
+    position: absolute; inset: -8px;
+    border-radius: 50%;
+    border: 1px solid transparent;
+    background: conic-gradient(
+        from 0deg,
+        rgba(232, 169, 107, 0.8),
+        rgba(255, 255, 255, 0.05),
+        rgba(44, 136, 150, 0.6),
+        rgba(255, 255, 255, 0.05),
+        rgba(232, 169, 107, 0.8)
+    ) border-box;
+    -webkit-mask: linear-gradient(#000 0 0) padding-box, linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor; mask-composite: exclude;
+    animation: ringSpin 8s linear infinite;
+    opacity: 0.8;
+}
+@keyframes ringSpin { to { transform: rotate(360deg); } }
+
+/* ========== 输入框 ========== */
+.login-field {
+    position: relative; display: flex; align-items: center; margin-bottom: 24px;
+}
+.login-field input {
+    width: 100%; padding: 15px 40px;
+    background: transparent; border: none; outline: none;
+    color: rgba(255, 255, 255, 0.95); font-size: 15px; letter-spacing: 0.5px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    transition: border-color 0.3s ease;
+}
+.login-field input::placeholder {
+    color: rgba(255, 255, 255, 0.35); font-weight: 300;
+}
+.login-field-icon {
+    position: absolute; left: 8px; color: rgba(255, 255, 255, 0.45);
+    font-size: 14px; transition: color 0.3s ease;
+}
+.toggle-pwd {
+    position: absolute; right: 4px; background: transparent; border: none;
+    color: rgba(255, 255, 255, 0.45); cursor: pointer; font-size: 14px; padding: 8px;
+    transition: color 0.3s ease;
+}
+.toggle-pwd:hover { color: rgba(255, 255, 255, 0.9); }
+
+/* 居中展开的下划线 */
+.field-underline {
+    position: absolute; left: 50%; bottom: 0; width: 0; height: 1px;
+    transform: translateX(-50%);
+    background: linear-gradient(90deg, transparent, rgba(232, 169, 107, 0.9), rgba(44, 136, 150, 0.9), transparent);
+    transition: width 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.login-field:focus-within .field-underline { width: 100%; }
+.login-field:focus-within .login-field-icon { color: rgba(232, 169, 107, 0.95); }
+
+/* ========== 按钮 ========== */
+.login-btn {
+    position: relative; width: 64px; height: 64px; margin: 32px auto 0;
+    border: none; border-radius: 50%; display: flex; align-items: center; justify-content: center;
+    cursor: pointer; color: #040914; font-size: 18px;
+    background: linear-gradient(135deg, #5eead4 0%, #0891b2 100%);
+    box-shadow:
+        0 12px 28px rgba(8, 145, 178, 0.35),
+        0 0 0 1px rgba(255, 255, 255, 0.5) inset;
+    transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.4s ease;
+}
+.login-btn:hover {
+    transform: translateY(-3px);
+    box-shadow:
+        0 18px 36px rgba(8, 145, 178, 0.5),
+        0 0 0 1px rgba(255, 255, 255, 0.8) inset;
+}
+.login-btn i { transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1); }
+.login-btn:hover i { transform: translateX(3px); }
+</style>
+</head>
+
+<body>
+<canvas id="bg-canvas"></canvas>
+<div class="scene-glow"></div>
+
+<div class="login-card">
+    <div class="login-avatar">
+        <span class="avatar-ring"></span>
+        <i class="fa-solid fa-user"></i>
+    </div>
+
+    <div class="login-field">
+        <i class="fa-solid fa-user login-field-icon"></i>
+        <input type="text" id="login-username" placeholder="Username" autocomplete="username">
+        <span class="field-underline"></span>
+    </div>
+
+    <div class="login-field">
+        <i class="fa-solid fa-lock login-field-icon"></i>
+        <input type="password" id="login-password" placeholder="Password" autocomplete="current-password">
+        <button type="button" class="toggle-pwd" onclick="togglePassword('login-password', this)">
+            <i class="fa-solid fa-eye"></i>
+        </button>
+        <span class="field-underline"></span>
+    </div>
+
+    <button onclick="handleLogin()" class="login-btn">
+        <i class="fa-solid fa-arrow-right-to-bracket"></i>
+    </button>
+</div>
+
+<div id="toast" class="fixed top-6 left-1/2 -translate-x-1/2 bg-white/90 backdrop-blur text-slate-800 px-5 py-3 rounded-2xl text-sm font-bold shadow-2xl z-50 opacity-0 pointer-events-none transition-opacity duration-300 border border-white/30"></div>
+
+<script>
+const SESSION_KEY = 'math_flashcard_session';
+const VALID_USER = { username: 'zyz', password: '123' };
+
+function showToast(msg){
+    const t = document.getElementById('toast');
+    t.textContent = msg; t.style.opacity = '1';
+    clearTimeout(window.__toastTimer);
+    window.__toastTimer = setTimeout(() => t.style.opacity = '0', 1800);
+}
+
+function togglePassword(id, btn){
+    const input = document.getElementById(id), icon = btn.querySelector('i');
+    if(input.type === 'password'){ input.type = 'text'; icon.classList.replace('fa-eye', 'fa-eye-slash'); }
+    else { input.type = 'password'; icon.classList.replace('fa-eye-slash', 'fa-eye'); }
+}
+
+function handleLogin(){
+    const u = document.getElementById('login-username').value.trim();
+    const p = document.getElementById('login-password').value;
+    if(!u || !p){ showToast('请输入账号和密码'); return; }
+    if(u !== VALID_USER.username || p !== VALID_USER.password){ showToast('用户名或密码错误'); return; }
+    localStorage.setItem(SESSION_KEY, JSON.stringify({ username: u, loginTime: Date.now() }));
+    showToast('登录成功');
+    setTimeout(() => { window.location.href = 'index.html'; }, 600);
+}
+
+(function(){
+    const s = localStorage.getItem(SESSION_KEY);
+    if(s) window.location.href = 'index.html';
+})();
+
+document.addEventListener('keydown', e => { if(e.key === 'Enter') handleLogin(); });
+</script>
+
+<script type="importmap">
+{ "imports": { "three": "https://unpkg.com/three@0.160.0/build/three.module.js" } }
+</script>
+
+<script type="module">
+import * as THREE from 'three';
+
+const canvas = document.getElementById('bg-canvas');
+const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: false });
+renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+renderer.setSize(window.innerWidth, window.innerHeight);
+
+const scene = new THREE.Scene();
+const camera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 1);
+
+const uniforms = {
+    uTime: { value: 0 },
+    uRes: { value: new THREE.Vector2(window.innerWidth, window.innerHeight) },
+    uMouse: { value: new THREE.Vector2(0, 0) }
+};
+
+const material = new THREE.ShaderMaterial({
+    uniforms,
+    vertexShader: `
+        varying vec2 vUv;
+        void main(){
+            vUv = uv;
+            gl_Position = vec4(position.xy, 0.0, 1.0);
+        }
+    `,
+    fragmentShader: `
+        precision highp float;
+        varying vec2 vUv;
+        uniform float uTime;
+        uniform vec2 uRes;
+        uniform vec2 uMouse;
+
+        // 伪随机数
+        float hash(vec2 p) { return fract(sin(dot(p, vec2(12.9898, 78.233))) * 43758.5453); }
+
+        // 星空生成器（双层叠加，更多星星）
+        float starLayer(vec2 p, float density, float scale) {
+            vec2 grid = floor(p * scale);
+            vec2 local = fract(p * scale) - 0.5;
+            float h = hash(grid);
+            if (h > density) {
+                float size = (h - density) / (1.0 - density);
+                float twinkle = 0.5 + 0.5 * sin(uTime * 3.0 + h * 12.0);
+                return smoothstep(0.15 * size, 0.0, length(local)) * twinkle;
+            }
+            return 0.0;
+        }
+        float starField(vec2 p) {
+            float s = 0.0;
+            s += starLayer(p, 0.92, 45.0);
+            s += starLayer(p + 17.3, 0.94, 80.0) * 0.6;
+            s += starLayer(p + 53.1, 0.95, 120.0) * 0.35;
+            return s;
+        }
+
+        // 胶囊体（用来做扁平的插画云朵）
+        float capsule(vec2 p, vec2 a, vec2 b, float r) {
+            vec2 pa = p - a, ba = b - a;
+            float h = clamp(dot(pa, ba) / dot(ba, ba), 0.0, 1.0);
+            return length(pa - ba * h) - r;
+        }
+
+        // 山脉生成器（加入双重正弦波，形态更自然）
+        float hill(vec2 p, float base, float amp, float freq, float phase) {
+            return base + sin(p.x * freq + phase) * amp + cos(p.x * freq * 1.5 + phase * 1.2) * amp * 0.4;
+        }
+
+        void main(){
+            // 修正屏幕比例，让圆不会被拉伸
+            vec2 uv = vUv;
+            vec2 p = uv;
+            p.x = (p.x - 0.5) * (uRes.x / uRes.y) + 0.5;
+            
+            float t = uTime * 0.1;
+
+            // ================= 1. 天空渐变 (青蓝色调) =================
+            vec3 colorTop = vec3(0.04, 0.08, 0.18); // 极夜蓝
+            vec3 colorMid = vec3(0.11, 0.27, 0.35); // 幽青色
+            vec3 colorLow = vec3(0.91, 0.66, 0.42); // 晨曦金
+
+            vec3 col = mix(colorLow, colorMid, smoothstep(0.25, 0.55, uv.y));
+            col = mix(col, colorTop, smoothstep(0.45, 1.0, uv.y));
+
+            // ================= 2. 星空 (只在天空上半部分显示) =================
+            float stars = starField(p + vec2(t * 0.1, 0.0));
+            col += vec3(0.8, 0.9, 1.0) * stars * smoothstep(0.4, 0.8, uv.y);
+
+            // ================= 3. 太阳与光晕 =================
+            vec2 sunPos = vec2(-0.1, 0.42);
+            float sunDist = length(p - sunPos);
+            
+            vec3 sunColor = vec3(1.0, 0.88, 0.6);
+            float sunCore = smoothstep(0.08, 0.075, sunDist);
+            float sunGlow = smoothstep(0.35, 0.0, sunDist) * 0.7;
+            
+            // 几何插画风的外圈光环
+            float sunRing1 = smoothstep(0.13, 0.125, sunDist) - smoothstep(0.125, 0.12, sunDist);
+            float sunRing2 = smoothstep(0.18, 0.175, sunDist) - smoothstep(0.175, 0.17, sunDist);
+
+            col += sunColor * sunGlow;
+            col = mix(col, sunColor, sunCore);
+            col += sunColor * sunRing1 * 0.4;
+            col += sunColor * sunRing2 * 0.15;
+
+            // ================= 4. 扁平插画云朵 =================
+            float drift = t * 0.2;
+            float c1 = capsule(p, vec2(0.1 + drift*0.8, 0.80), vec2(0.3 + drift*0.8, 0.80), 0.015);
+            float c2 = capsule(p, vec2(0.6 + drift*0.5, 0.86), vec2(0.8 + drift*0.5, 0.86), 0.012);
+            float c3 = capsule(p, vec2(0.4 + drift*0.7, 0.68), vec2(0.55 + drift*0.7, 0.68), 0.010);
+            float c4 = capsule(p, vec2(0.8 + drift*0.6, 0.72), vec2(0.95 + drift*0.6, 0.72), 0.014);
+            
+            // 完美抗锯齿的云层边缘
+            float clouds = smoothstep(0.0, -0.002, c1) + smoothstep(0.0, -0.002, c2) + 
+                           smoothstep(0.0, -0.002, c3) + smoothstep(0.0, -0.002, c4);
+            clouds = clamp(clouds, 0.0, 1.0);
+            
+            vec3 cloudColor = vec3(0.6, 0.5, 0.45); // 被晚霞染色的云
+            col = mix(col, cloudColor, clouds * 0.6);
+
+            // ================= 5. 层叠山脉 (完美抗锯齿) =================
+            float m1 = hill(p, 0.40, 0.05, 3.0, 0.0);
+            float m2 = hill(p, 0.34, 0.035, 4.5, 2.0);
+            float m3 = hill(p, 0.28, 0.025, 6.0, 4.0);
+
+            vec3 colM1 = vec3(0.11, 0.22, 0.30); // 远山：偏青
+            vec3 colM2 = vec3(0.07, 0.15, 0.24); // 中山：深蓝
+            vec3 colM3 = vec3(0.04, 0.09, 0.16); // 近山：极暗
+
+            // 使用 smoothstep(0.002, -0.002) 彻底消除锯齿
+            col = mix(col, colM1, smoothstep(0.002, -0.002, uv.y - m1));
+            col = mix(col, colM2, smoothstep(0.002, -0.002, uv.y - m2));
+            col = mix(col, colM3, smoothstep(0.002, -0.002, uv.y - m3));
+
+            // ================= 6. 干净的插画水面 =================
+            float waterLine = 0.23;
+            if (uv.y < waterLine) {
+                // 水面基础渐变
+                float wy = uv.y / waterLine; 
+                vec3 waterCol = mix(vec3(0.02, 0.05, 0.10), vec3(0.08, 0.16, 0.26), wy);
+
+                // 倒影光柱
+                float reflX = exp(-abs(p.x - sunPos.x) * 16.0);
+                
+                // 风格化的水波纹 (使用干净的 sin，避免马赛克)
+                float ripple = sin(uv.y * 120.0 - uTime * 2.5);
+                float stylizedRipple = smoothstep(0.1, 0.9, ripple); // 柔和的波段
+                
+                float reflection = reflX * stylizedRipple * smoothstep(0.0, 0.8, wy);
+                waterCol += vec3(0.9, 0.75, 0.45) * reflection * 0.6;
+
+                // 岸边白沫线
+                float foam = smoothstep(0.008, 0.0, waterLine - uv.y);
+                waterCol += vec3(0.4, 0.6, 0.7) * foam * 0.3;
+
+                // 覆盖水面（抗锯齿边缘）
+                col = mix(col, waterCol, smoothstep(0.002, -0.002, uv.y - waterLine));
+            }
+
+            // 整体微弱的暗角
+            col *= mix(0.6, 1.0, smoothstep(1.2, 0.2, distance(uv, vec2(0.5))));
+
+            gl_FragColor = vec4(col, 1.0);
+        }
+    `
+});
+
+const mesh = new THREE.Mesh(new THREE.PlaneGeometry(2, 2), material);
+scene.add(mesh);
+
+// 鼠标微小视差
+const mouse = { x: 0, y: 0, tx: 0, ty: 0 };
+window.addEventListener('pointermove', (e) => {
+    mouse.tx = (e.clientX / window.innerWidth) * 2 - 1;
+    mouse.ty = -((e.clientY / window.innerHeight) * 2 - 1);
+});
+
+window.addEventListener('resize', () => {
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    uniforms.uRes.value.set(window.innerWidth, window.innerHeight);
+});
+
+const clock = new THREE.Clock();
+function animate(){
+    uniforms.uTime.value = clock.getElapsedTime();
+    // 平滑缓动
+    mouse.x += (mouse.tx - mouse.x) * 0.04;
+    mouse.y += (mouse.ty - mouse.y) * 0.04;
+    uniforms.uMouse.value.set(mouse.x, mouse.y);
+
+    // 让相机产生微弱的平移，背景会有呼吸感
+    camera.position.x = mouse.x * 0.02;
+    camera.position.y = mouse.y * 0.02;
+
+    renderer.render(scene, camera);
+    requestAnimationFrame(animate);
+}
+animate();
+</script>
+</body>
+</html>

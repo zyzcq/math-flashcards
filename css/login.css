@@ -1,0 +1,115 @@
+.login-bg {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    font-family: 'Noto Sans SC', sans-serif;
+}
+
+.login-card {
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 2rem;
+    padding: 3rem 2rem 2.5rem;
+    animation: fadeIn 0.5s ease-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(16px) scale(0.98); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.login-avatar {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.2);
+    border: 2px solid rgba(255, 255, 255, 0.4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+    color: #fff;
+}
+
+.login-field {
+    position: relative;
+    margin-bottom: 1.25rem;
+}
+
+.login-field input {
+    width: 100%;
+    height: 50px;
+    padding: 0 50px 0 46px;
+    border: none;
+    border-radius: 14px;
+    background: rgba(255, 255, 255, 0.2);
+    color: #fff;
+    font-size: 0.9rem;
+    font-weight: 500;
+    outline: none;
+    transition: background 0.3s, box-shadow 0.3s;
+}
+
+.login-field input::placeholder {
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.login-field input:focus {
+    background: rgba(255, 255, 255, 0.3);
+    box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.15);
+}
+
+.login-field-icon {
+    position: absolute;
+    left: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 0.85rem;
+    pointer-events: none;
+}
+
+.login-field input:focus ~ .login-field-icon,
+.login-field input:focus + .login-field-icon {
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.toggle-pwd {
+    position: absolute;
+    right: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    padding: 6px;
+    color: rgba(255, 255, 255, 0.4);
+    cursor: pointer;
+    transition: color 0.2s;
+}
+
+.toggle-pwd:hover {
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.login-btn {
+    width: 100%;
+    height: 50px;
+    border: none;
+    border-radius: 14px;
+    background: rgba(255, 255, 255, 0.95);
+    color: #764ba2;
+    font-size: 1.1rem;
+    font-weight: 900;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.login-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+.login-btn:active {
+    transform: translateY(0) scale(0.98);
+}

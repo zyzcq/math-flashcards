@@ -1,0 +1,33 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700;900&display=swap');
+
+body {
+    font-family: 'Noto Sans SC', sans-serif;
+    background-color: #f8fafc;
+    overscroll-behavior: none;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.highlight {
+    color: #e11d48;
+    font-weight: 900;
+    background: #ffe4e6;
+    padding: 0 4px;
+    border-radius: 4px;
+}
+
+.math-scroll-wrapper {
+    width: 100%;
+    overflow-x: auto;
+    overflow-y: hidden;
+    padding: 15px 0;
+    margin: 5px 0;
+    display: block;
+    text-align: center;
+    opacity: 0;
+    will-change: opacity;
+    transition: opacity 0.2s ease;
+    -webkit-overflow-scrolling: touch;
+}
+
+.math-scroll-wrapper::-webkit-scrollbar { height: 5px; }
+.math-scroll-wrapper::-webkit-scrollbar-thumb { background-color: #cbd5e1; border-radius: 10px; }

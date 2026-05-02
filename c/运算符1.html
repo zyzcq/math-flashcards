@@ -1,0 +1,800 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>运算符1</title>
+    <style>
+        :root {
+            --blue: #2563eb;
+            --green: #16a34a;
+            --orange: #f97316;
+            --red: #dc2626;
+            --purple: #7c3aed;
+            --gray: #f3f4f6;
+            --dark: #111827;
+            --text: #374151;
+        }
+
+        body {
+            margin: 0;
+            font-family: "Microsoft YaHei", Arial, sans-serif;
+            background: #f8fafc;
+            color: var(--text);
+            line-height: 1.7;
+        }
+
+        header {
+            background: linear-gradient(135deg, #2563eb, #7c3aed);
+            color: white;
+            padding: 28px 40px;
+        }
+
+            header h1 {
+                margin: 0 0 8px;
+                font-size: 30px;
+            }
+
+            header p {
+                margin: 0;
+                opacity: 0.92;
+            }
+
+        .toolbar {
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            background: white;
+            border-bottom: 1px solid #e5e7eb;
+            padding: 12px 40px;
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+            .toolbar button {
+                border: none;
+                background: var(--blue);
+                color: white;
+                padding: 9px 16px;
+                border-radius: 8px;
+                cursor: pointer;
+                font-weight: bold;
+            }
+
+                .toolbar button:hover {
+                    background: #1d4ed8;
+                }
+
+            .toolbar span {
+                color: #6b7280;
+                font-size: 14px;
+            }
+
+        main {
+            max-width: 980px;
+            margin: 28px auto;
+            padding: 0 18px 40px;
+        }
+
+        section {
+            background: white;
+            border-radius: 14px;
+            padding: 24px 28px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 14px rgba(15, 23, 42, 0.06);
+            border-left: 6px solid var(--blue);
+        }
+
+        h2 {
+            margin-top: 0;
+            color: var(--dark);
+            font-size: 22px;
+        }
+
+        h3 {
+            color: var(--dark);
+            margin-bottom: 8px;
+        }
+
+        .tag {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 999px;
+            font-size: 13px;
+            font-weight: bold;
+            margin-right: 6px;
+        }
+
+        .blue {
+            background: #dbeafe;
+            color: #1d4ed8;
+        }
+
+        .green {
+            background: #dcfce7;
+            color: #15803d;
+        }
+
+        .orange {
+            background: #ffedd5;
+            color: #c2410c;
+        }
+
+        .red {
+            background: #fee2e2;
+            color: #b91c1c;
+        }
+
+        .purple {
+            background: #ede9fe;
+            color: #6d28d9;
+        }
+
+        .key {
+            background: #fef3c7;
+            border-left: 4px solid #f59e0b;
+            padding: 10px 14px;
+            border-radius: 8px;
+            margin: 12px 0;
+            color: #78350f;
+        }
+
+        .danger {
+            background: #fee2e2;
+            border-left: 4px solid var(--red);
+            padding: 10px 14px;
+            border-radius: 8px;
+            margin: 12px 0;
+            color: #7f1d1d;
+        }
+
+        .ok {
+            background: #dcfce7;
+            border-left: 4px solid var(--green);
+            padding: 10px 14px;
+            border-radius: 8px;
+            margin: 12px 0;
+            color: #14532d;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 14px 0;
+            font-size: 15px;
+        }
+
+        th {
+            background: #eff6ff;
+            color: #1e40af;
+        }
+
+        th, td {
+            border: 1px solid #e5e7eb;
+            padding: 10px;
+            text-align: left;
+        }
+
+        code {
+            background: #f3f4f6;
+            padding: 2px 5px;
+            border-radius: 5px;
+            color: #111827;
+        }
+
+        pre {
+            background: #0f172a;
+            color: #e5e7eb;
+            padding: 16px;
+            border-radius: 10px;
+            overflow-x: auto;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+            pre code {
+                background: transparent;
+                color: inherit;
+                padding: 0;
+            }
+
+        .two-col {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 14px;
+        }
+
+        .mini-card {
+            background: #f9fafb;
+            border: 1px solid #e5e7eb;
+            border-radius: 10px;
+            padding: 12px 14px;
+        }
+
+        .review-list li {
+            margin-bottom: 6px;
+        }
+
+        @media (max-width: 760px) {
+            .two-col {
+                grid-template-columns: 1fr;
+            }
+
+            header, .toolbar {
+                padding-left: 20px;
+                padding-right: 20px;
+            }
+
+            section {
+                padding: 20px;
+            }
+        }
+
+        @media print {
+            body {
+                background: white;
+            }
+
+            .toolbar {
+                display: none;
+            }
+
+            section {
+                box-shadow: none;
+                page-break-inside: avoid;
+            }
+
+            pre {
+                white-space: pre-wrap;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>C语言算术运算符复习笔记</h1>
+        <p>覆盖：加减乘除取余、数值拆分、隐式转换、强制转换、字符相加、常见细节。</p>
+    </header>
+
+    <div class="toolbar">
+        <span>建议复习顺序：先看黄色重点，再看红色易错，最后跑代码。</span>
+        <button onclick="window.print()">一键导出 PDF</button>
+    </div>
+
+    <main>
+
+        <section>
+            <h2>一、运算符与算术运算符</h2>
+
+            <p>变量能保存数据，运算符让数据发生计算、比较、判断等操作。</p>
+
+            <div class="key">
+                C语言常见运算符类别：算术运算符、自增自减运算符、赋值运算符、关系运算符、逻辑运算符、三元运算符。
+            </div>
+
+            <table>
+                <tr>
+                    <th>运算</th>
+                    <th>符号</th>
+                    <th>说明</th>
+                </tr>
+                <tr>
+                    <td>加法</td>
+                    <td><code>+</code></td>
+                    <td>求和</td>
+                </tr>
+                <tr>
+                    <td>减法</td>
+                    <td><code>-</code></td>
+                    <td>求差</td>
+                </tr>
+                <tr>
+                    <td>乘法</td>
+                    <td><code>*</code></td>
+                    <td>C语言中不用 <code>×</code></td>
+                </tr>
+                <tr>
+                    <td>除法</td>
+                    <td><code>/</code></td>
+                    <td>获取商；键盘上是斜杠</td>
+                </tr>
+                <tr>
+                    <td>取余</td>
+                    <td><code>%</code></td>
+                    <td>获取余数；一般用 Shift + 5 输入</td>
+                </tr>
+            </table>
+
+            <p><span class="tag blue">理解</span><code>10 / 3</code> 获取商，结果是 <code>3</code>；<code>10 % 3</code> 获取余数，结果是 <code>1</code>。</p>
+
+            <h3>本部分重点</h3>
+            <p>算术运算符一共五个：<code>+</code>、<code>-</code>、<code>*</code>、<code>/</code>、<code>%</code>。其中 <code>/</code> 要商，<code>%</code> 要余数。</p>
+        </section>
+
+        <section>
+            <h2>二、整数、小数参与计算的规则</h2>
+
+            <div class="two-col">
+                <div class="mini-card">
+                    <h3><span class="tag green">整数计算</span></h3>
+                    <p>整数和整数计算，结果仍然是整数。</p>
+                    <p><code>10 / 3</code> 的结果是 <code>3</code>，小数部分直接舍弃。</p>
+                </div>
+
+                <div class="mini-card">
+                    <h3><span class="tag purple">小数计算</span></h3>
+                    <p>只要有小数参与，结果通常就是小数。</p>
+                    <p><code>10 / 3.0</code> 的结果是 <code>3.333333</code>。</p>
+                </div>
+            </div>
+
+            <pre><code>#include &lt;stdio.h&gt;
+
+int main()
+{
+    printf("%d\n", 10 / 3);       // 3
+    printf("%lf\n", 10 / 3.0);    // 3.333333
+    printf("%.2lf\n", 10 / 3.0);  // 3.33
+
+    return 0;
+}</code></pre>
+
+            <div class="danger">
+                小数直接参与计算时，结果可能不精确。例如 <code>10.0 / 3.0</code> 显示很多位小数时，后面可能出现误差。这和小数在计算机中的存储方式有关。
+            </div>
+
+            <h3>本部分重点</h3>
+            <p>想得到小数结果，必须让至少一个小数参与计算。只改输出格式不能改变计算结果。</p>
+        </section>
+
+        <section>
+            <h2>三、除法和取余的易错点</h2>
+
+            <table>
+                <tr>
+                    <th>规则</th>
+                    <th>示例</th>
+                    <th>说明</th>
+                </tr>
+                <tr>
+                    <td>不能除以 0</td>
+                    <td><code>10 / 0</code></td>
+                    <td>错误</td>
+                </tr>
+                <tr>
+                    <td>不能对 0 取余</td>
+                    <td><code>10 % 0</code></td>
+                    <td>错误</td>
+                </tr>
+                <tr>
+                    <td>取余两边必须是整数</td>
+                    <td><code>10.0 % 3</code></td>
+                    <td>错误</td>
+                </tr>
+                <tr>
+                    <td>余数正负看第一个数</td>
+                    <td><code>-10 % 3</code></td>
+                    <td>结果是 <code>-1</code></td>
+                </tr>
+            </table>
+
+            <pre><code>#include &lt;stdio.h&gt;
+
+int main()
+{
+    printf("%d\n", 10 % 3);    // 1
+    printf("%d\n", 10 % -3);   // 1
+    printf("%d\n", -10 % 
+    printf("%d\n", -10 % 3);   // -1
+    printf("%d\n", -10 % -3);  // -1
+
+    return 0;
+}</code></pre>
+
+            <div class="danger">
+                <strong>易错：</strong><code>%</code> 只能用于整数，不能写 <code>10.0 % 3</code> 或 <code>10 % 3.0</code>。
+            </div>
+
+            <h3>本部分重点</h3>
+            <p><code>/</code> 和 <code>%</code> 都和除法有关：<code>/</code> 得商，<code>%</code> 得余数。除数不能是 <code>0</code>，取余两边必须是整数。</p>
+        </section>
+
+        <section>
+            <h2>四、练习：三位数拆分</h2>
+
+            <p>需求：键盘录入一个三位数，把它拆成个位、十位、百位并输出。</p>
+
+            <div class="key">
+                核心公式：先用 <code>/</code> 去掉右边不要的数字，再用 <code>% 10</code> 获取当前最后一位。
+            </div>
+
+            <table>
+                <tr>
+                    <th>目标</th>
+                    <th>公式</th>
+                    <th>以 123 为例</th>
+                </tr>
+                <tr>
+                    <td>个位</td>
+                    <td><code>number % 10</code></td>
+                    <td><code>123 % 10 = 3</code></td>
+                </tr>
+                <tr>
+                    <td>十位</td>
+                    <td><code>number / 10 % 10</code></td>
+                    <td><code>123 / 10 = 12</code>，<code>12 % 10 = 2</code></td>
+                </tr>
+                <tr>
+                    <td>百位</td>
+                    <td><code>number / 100 % 10</code></td>
+                    <td><code>123 / 100 = 1</code>，<code>1 % 10 = 1</code></td>
+                </tr>
+            </table>
+
+            <pre><code>#define _CRT_SECURE_NO_WARNINGS
+#include &lt;stdio.h&gt;
+
+int main()
+{
+    int number;
+
+    printf("请输入一个三位数：\n");
+    scanf("%d", &number);
+
+    int ge = number % 10;
+    int shi = number / 10 % 10;
+    int bai = number / 100 % 10;
+
+    printf("个位是：%d\n", ge);
+    printf("十位是：%d\n", shi);
+    printf("百位是：%d\n", bai);
+
+    return 0;
+}</code></pre>
+
+            <div class="ok">
+                <strong>好习惯：</strong>写代码时建议“写一部分，测一部分”。比如先测试 <code>scanf</code> 是否能成功接收输入，再写拆分逻辑。
+            </div>
+
+            <h3>本部分重点</h3>
+            <p>拆数字的通用公式是：<code>某一位 = number / 位权 % 10</code>。例如千位是 <code>number / 1000 % 10</code>。</p>
+        </section>
+
+        <section>
+            <h2>五、隐式转换：小类型自动转大类型</h2>
+
+            <p>不同数据类型参与计算时，C语言通常会先把它们转成同一种类型，再进行计算。</p>
+
+            <div class="key">
+                隐式转换：取值范围小的数据类型，自动转换成取值范围大的数据类型。不需要手写代码。
+            </div>
+
+            <p>常见取值范围关系可以先按下面顺序记：</p>
+
+            <pre><code>double &gt; float &gt; long long &gt; long &gt; int &gt; short &gt; char</code></pre>
+
+            <h3>规则一：小范围类型 + 大范围类型，小的转成大的</h3>
+
+            <pre><code>#include &lt;stdio.h&gt;
+
+int main()
+{
+    int a = 10;
+    double b = 3.14;
+
+    double c = a + b;
+
+    printf("%.2lf\n", c);  // 13.14
+
+    return 0;
+}</code></pre>
+
+            <p>分析：<code>a</code> 是 <code>int</code>，<code>b</code> 是 <code>double</code>。计算时，<code>int</code> 会先转成 <code>double</code>，所以结果是 <code>double</code>。</p>
+
+            <h3>规则二：short 和 char 运算前会先提升为 int</h3>
+
+            <pre><code>#include &lt;stdio.h&gt;
+
+int main()
+{
+    short s1 = 10;
+    short s2 = 20;
+
+    int result = s1 + s2;
+
+    printf("%d\n", result);  // 30
+
+    return 0;
+}</code></pre>
+
+            <p>两个 <code>short</code> 相加，结果不是 <code>short</code>，而是 <code>int</code>。</p>
+
+            <div class="danger">
+                <strong>易错：</strong>不要以为“两个什么类型相加，结果就是什么类型”。<code>short + short</code> 的结果是 <code>int</code>。
+            </div>
+
+            <h3>本部分重点</h3>
+            <p>隐式转换有两个核心：小类型转大类型；<code>short</code> 和 <code>char</code> 运算前会先转成 <code>int</code>。</p>
+        </section>
+
+        <section>
+            <h2>六、强制转换：大类型手动转小类型</h2>
+
+            <p>如果要把取值范围大的数据赋值给取值范围小的变量，就需要强制转换。</p>
+
+            <div class="key">
+                强制转换格式：<code>(目标类型)数据</code>。想转成什么类型，就在前面小括号里写什么类型。
+            </div>
+
+            <pre><code>#include &lt;stdio.h&gt;
+
+int main()
+{
+    int a = 10;
+    short b = (short)a;
+
+    printf("%hd\n", b);
+
+    return 0;
+}</code></pre>
+
+            <p>强制转换的底层可以简单理解为：大空间的数据塞进小空间里，多余部分可能被丢掉。</p>
+
+            <div class="danger">
+                <strong>风险：</strong>强制转换可能导致数据错误。例如把较大的 <code>int</code> 强制转成 <code>short</code>，如果超出 <code>short</code> 的范围，结果可能不是原来的值。
+            </div>
+
+            <h3>short + short 的正确强转</h3>
+
+            <pre><code>#include &lt;stdio.h&gt;
+
+int main()
+{
+    short s1 = 10;
+    short s2 = 20;
+
+    short result = (short)(s1 + s2);
+
+    printf("%hd\n", result);
+
+    return 0;
+}</code></pre>
+
+            <p>重点是这行：</p>
+
+            <pre><code>short result = (short)(s1 + s2);</code></pre>
+
+            <p>它表示先计算 <code>s1 + s2</code>，再把整体结果转成 <code>short</code>。</p>
+
+            <div class="danger">
+                <strong>错误理解：</strong><code>(short)s1 + s2</code> 只是转换了 <code>s1</code>，没有转换整个表达式结果。要强转表达式结果，必须写 <code>(short)(s1 + s2)</code>。
+            </div>
+
+            <h3>本部分重点</h3>
+            <p>强制转换用于“大转小”，必须手动写。格式是 <code>(目标类型)数据</code>。强转表达式结果时，要用括号把表达式整体括起来。</p>
+        </section>
+
+        <section>
+            <h2>七、字符相加：char 如何参与计算</h2>
+
+            <p><code>char</code> 是字符类型，但它可以参与加法运算，因为字符底层会对应一个数字编码。</p>
+
+            <div class="key">
+                字符和数字之间的转换依靠 ASCII 码表。字符参与运算时，会先提升为 <code>int</code>。
+            </div>
+
+            <table>
+                <tr>
+                    <th>字符</th>
+                    <th>ASCII 十进制值</th>
+                    <th>说明</th>
+                </tr>
+                <tr>
+                    <td><code>'a'</code></td>
+                    <td><code>97</code></td>
+                    <td>小写字母 a</td>
+                </tr>
+                <tr>
+                    <td><code>'A'</code></td>
+                    <td><code>65</code></td>
+                    <td>大写字母 A</td>
+                </tr>
+                <tr>
+                    <td><code>'0'</code></td>
+                    <td><code>48</code></td>
+                    <td>字符零，不是数字 0</td>
+                </tr>
+            </table>
+
+            <pre><code>#include &lt;stdio.h&gt;
+
+int main()
+{
+    char c = 'a';
+    int i = c + 1;
+
+    printf("%d\n", i);  // 98
+
+    return 0;
+}</code></pre>
+
+            <p>分析：<code>'a'</code> 对应 <code>97</code>，所以 <code>'a' + 1</code> 实际是 <code>97 + 1</code>，结果是 <code>98</code>。</p>
+
+            <h3>数字和字符的两种打印方式</h3>
+
+            <pre><code>#include &lt;stdio.h&gt;
+
+int main()
+{
+    char c = 97;
+
+    printf("%d\n", c);  // 97，按整数打印
+    printf("%c\n", c);  // a，按字符打印
+
+    return 0;
+}</code></pre>
+
+            <p>同一个数据，用 <code>%d</code> 打印是整数，用 <code>%c</code> 打印是字符。</p>
+
+            <h3>不用死背 ASCII，用代码查</h3>
+
+            <pre><code>#include &lt;stdio.h&gt;
+
+int main()
+{
+    printf("%d\n", 'a');  // 97
+    printf("%d\n", 'A');  // 65
+    printf("%d\n", '0');  // 48
+
+    return 0;
+}</code></pre>
+
+            <h3>本部分重点</h3>
+            <p><code>char</code> 参与运算时会查 ASCII 码并提升为 <code>int</code>。<code>'a'</code> 是 <code>97</code>，<code>'A'</code> 是 <code>65</code>，<code>'0'</code> 是 <code>48</code>。</p>
+        </section>
+
+        <section>
+            <h2>八、格式控制符复习</h2>
+
+            <table>
+                <tr>
+                    <th>格式</th>
+                    <th>用途</th>
+                    <th>示例</th>
+                </tr>
+                <tr>
+                    <td><code>%d</code></td>
+                    <td>输出整数</td>
+                    <td><code>printf("%d\n", 10);</code></td>
+                </tr>
+                <tr>
+                    <td><code>%lf</code></td>
+                    <td>输出 double 小数</td>
+                    <td><code>printf("%lf\n", 3.14);</code></td>
+                </tr>
+                <tr>
+                    <td><code>%.2lf</code></td>
+                    <td>输出 double，保留两位小数</td>
+                    <td><code>printf("%.2lf\n", 3.14159);</code></td>
+                </tr>
+                <tr>
+                    <td><code>%c</code></td>
+                    <td>输出字符</td>
+                    <td><code>printf("%c\n", 'a');</code></td>
+                </tr>
+                <tr>
+                    <td><code>%hd</code></td>
+                    <td>输出 short</td>
+                    <td><code>printf("%hd\n", s);</code></td>
+                </tr>
+                <tr>
+                    <td><code>%lld</code></td>
+                    <td>输出 long long</td>
+                    <td><code>printf("%lld\n", n);</code></td>
+                </tr>
+                <tr>
+                    <td><code>%zu</code></td>
+                    <td>输出 sizeof 的结果</td>
+                    <td><code>printf("%zu\n", sizeof(int));</code></td>
+                </tr>
+                <tr>
+                    <td><code>%%</code></td>
+                    <td>打印百分号本身</td>
+                    <td><code>printf("10 %% 3");</code></td>
+                </tr>
+            </table>
+
+            <h3>本部分重点</h3>
+            <p>输出什么类型，就尽量使用匹配的格式控制符。<code>%</code> 在 <code>printf</code> 中有特殊含义，想打印百分号本身要写 <code>%%</code>。</p>
+        </section>
+
+        <section>
+            <h2>九、最终复习清单</h2>
+
+            <ul class="review-list">
+                <li><span class="tag blue">基础</span>算术运算符有五个：<code>+</code>、<code>-</code>、<code>*</code>、<code>/</code>、<code>%</code>。</li>
+                <li><span class="tag blue">区别</span><code>/</code> 获取商，<code>%</code> 获取余数。</li>
+                <li><span class="tag red">易错</span>整数和整数计算，结果仍然是整数，<code>10 / 3</code> 是 <code>3</code>。</li>
+                <li><span class="tag green">技巧</span>想得到小数结果，至少让一个小数参与计算，如 <code>10 / 3.0</code>。</li>
+                <li><span class="tag red">禁止</span>不能除以 <code>0</code>，也不能对 <code>0</code> 取余。</li>
+                <li><span class="tag red">取余</span><code>%</code> 两边必须都是整数。</li>
+                <li><span class="tag orange">符号</span>取余结果的正负号和第一个数保持一致。</li>
+                <li><span class="tag purple">拆分</span>个位：<code>number % 10</code>；十位：<code>number / 10 % 10</code>；百位：<code>number / 100 % 10</code>。</li>
+                <li><span class="tag purple">隐式转换</span>小范围类型会自动转成大范围类型。</li>
+                <li><span class="tag purple">提升</span><code>short</code> 和 <code>char</code> 运算前会先提升为 <code>int</code>。</li>
+                <li><span class="tag orange">强制转换</span>格式是 <code>(目标类型)数据</code>。</li>
+                <li><span class="tag red">风险</span>强制转换可能造成数据丢失或结果错误。</li>
+                <li><span class="tag green">字符</span>字符参与运算时，会根据 ASCII 码转成整数。</li>
+                <li><span class="tag green">ASCII</span><code>'a' = 97</code>，<code>'A' = 65</code>，<code>'0' = 48</code>。</li>
+                <li><span class="tag blue">习惯</span>写代码时建议“写一部分，测一部分”。</li>
+            </ul>
+        </section>
+
+        <section>
+            <h2>十、综合代码：一份代码复习全部重点</h2>
+
+            <pre><code>#define _CRT_SECURE_NO_WARNINGS
+#include &lt;stdio.h&gt;
+
+int main()
+{
+    // 1. 算术运算符
+    printf("10 + 3 = %d\n", 10 + 3);
+    printf("10 - 3 = %d\n", 10 - 3);
+    printf("10 * 3 = %d\n", 10 * 3);
+    printf("10 / 3 = %d\n", 10 / 3);
+    printf("10 %% 3 = %d\n", 10 % 3);
+
+    // 2. 整数除法与小数除法
+    printf("整数除法：%d\n", 10 / 3);
+    printf("小数除法：%.2lf\n", 10 / 3.0);
+
+    // 3. 三位数拆分
+    int number = 123;
+    int ge = number % 10;
+    int shi = number / 10 % 10;
+    int bai = number / 100 % 10;
+
+    printf("个位：%d\n", ge);
+    printf("十位：%d\n", shi);
+    printf("百位：%d\n", bai);
+
+    // 4. 隐式转换
+    int a = 10;
+    double b = 3.14;
+    double c = a + b;
+    printf("int + double = %.2lf\n", c);
+
+    // 5. short 运算提升为 int
+    short s1 = 10;
+    short s2 = 20;
+    int r1 = s1 + s2;
+    printf("short + short 结果是 int：%d\n", r1);
+
+    // 6. 强制转换
+    short r2 = (short)(s1 + s2);
+    printf("强制转换为 short：%hd\n", r2);
+
+    // 7. 字符相加
+    char ch = 'a';
+    int result = ch + 1;
+    printf("'a' + 1 = %d\n", result);
+
+    // 8. ASCII 查询
+    printf("'a' 对应：%d\n", 'a');
+    printf("'A' 对应：%d\n", 'A');
+    printf("'0' 对应：%d\n", '0');
+
+    return 0;
+}</code></pre>
+
+            <h3>本部分重点</h3>
+            <p>这份综合代码适合最后复习时跑一遍。你不只要看结果，更要能解释每一行为什么得到这个结果。</p>
+        </section>
+
+    </main>
+
+</body>
+</html>

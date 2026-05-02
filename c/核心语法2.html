@@ -1,0 +1,933 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>核心语法2</title>
+    <style>
+        :root {
+            --blue: #2563eb;
+            --green: #16a34a;
+            --orange: #f97316;
+            --red: #dc2626;
+            --purple: #7c3aed;
+            --gray-bg: #f8fafc;
+            --card-bg: #ffffff;
+            --text: #1f2937;
+            --muted: #6b7280;
+            --border: #e5e7eb;
+            --code-bg: #0f172a;
+            --code-text: #e5e7eb;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: "Microsoft YaHei", "PingFang SC", Arial, sans-serif;
+            background: var(--gray-bg);
+            color: var(--text);
+            line-height: 1.75;
+        }
+
+        header {
+            background: linear-gradient(135deg, #2563eb, #7c3aed);
+            color: white;
+            padding: 32px 24px;
+            text-align: center;
+        }
+
+            header h1 {
+                margin: 0;
+                font-size: 30px;
+            }
+
+            header p {
+                margin: 8px 0 0;
+                opacity: 0.9;
+            }
+
+        .toolbar {
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            background: white;
+            border-bottom: 1px solid var(--border);
+            padding: 12px 24px;
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+        }
+
+        button {
+            border: none;
+            background: var(--blue);
+            color: white;
+            padding: 10px 18px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 15px;
+        }
+
+            button:hover {
+                background: #1d4ed8;
+            }
+
+        main {
+            max-width: 980px;
+            margin: 24px auto;
+            padding: 0 16px 40px;
+        }
+
+        section {
+            background: var(--card-bg);
+            margin-bottom: 20px;
+            padding: 24px;
+            border-radius: 14px;
+            border: 1px solid var(--border);
+            box-shadow: 0 6px 18px rgba(15, 23, 42, 0.05);
+        }
+
+        h2 {
+            margin-top: 0;
+            color: var(--blue);
+            border-left: 6px solid var(--blue);
+            padding-left: 12px;
+            font-size: 24px;
+        }
+
+        h3 {
+            color: #111827;
+            margin-top: 24px;
+            font-size: 19px;
+        }
+
+        .plan {
+            background: #eff6ff;
+            border-left: 5px solid var(--blue);
+            padding: 14px 18px;
+            border-radius: 8px;
+        }
+
+        .key {
+            background: #ecfdf5;
+            border-left: 5px solid var(--green);
+            padding: 12px 16px;
+            border-radius: 8px;
+            margin: 14px 0;
+        }
+
+        .warn {
+            background: #fff7ed;
+            border-left: 5px solid var(--orange);
+            padding: 12px 16px;
+            border-radius: 8px;
+            margin: 14px 0;
+        }
+
+        .error {
+            background: #fef2f2;
+            border-left: 5px solid var(--red);
+            padding: 12px 16px;
+            border-radius: 8px;
+            margin: 14px 0;
+        }
+
+        .exam {
+            background: #f5f3ff;
+            border-left: 5px solid var(--purple);
+            padding: 12px 16px;
+            border-radius: 8px;
+            margin: 14px 0;
+        }
+
+        code {
+            font-family: Consolas, Monaco, monospace;
+            color: #b91c1c;
+            background: #fee2e2;
+            padding: 2px 5px;
+            border-radius: 4px;
+        }
+
+        pre {
+            background: var(--code-bg);
+            color: var(--code-text);
+            padding: 16px;
+            border-radius: 10px;
+            overflow-x: auto;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+            pre code {
+                background: transparent;
+                color: var(--code-text);
+                padding: 0;
+            }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 12px 0;
+            font-size: 15px;
+        }
+
+        th, td {
+            border: 1px solid var(--border);
+            padding: 10px;
+            text-align: left;
+        }
+
+        th {
+            background: #eff6ff;
+            color: #1e40af;
+        }
+
+        .small {
+            color: var(--muted);
+            font-size: 14px;
+        }
+
+        .tag {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 999px;
+            font-size: 13px;
+            margin-right: 6px;
+            background: #dbeafe;
+            color: #1d4ed8;
+        }
+
+        ul {
+            padding-left: 22px;
+        }
+
+        @media print {
+            body {
+                background: white;
+            }
+
+            .toolbar {
+                display: none;
+            }
+
+            section {
+                box-shadow: none;
+                page-break-inside: avoid;
+            }
+
+            header {
+                background: white;
+                color: black;
+                border-bottom: 2px solid #000;
+            }
+
+            h2 {
+                color: black;
+                border-left-color: black;
+            }
+
+            pre {
+                white-space: pre-wrap;
+                word-break: break-word;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>C语言核心语法2复习笔记</h1>
+        <p>标识符、scanf键盘录入、字符串输入、多个数据录入、考试真题</p>
+    </header>
+
+    <div class="toolbar">
+        <button onclick="window.print()">一键导出 PDF</button>
+    </div>
+
+    <main>
+
+        <section>
+            <h2>课程结构</h2>
+            <div class="plan">
+                <p><span class="tag">01</span>标识符：程序员自己起的名字</p>
+                <p><span class="tag">02</span>scanf：键盘录入基本使用</p>
+                <p><span class="tag">03</span>字符串：char数组、%s、字符串大小</p>
+                <p><span class="tag">04</span>练习：录入年龄并打印</p>
+                <p><span class="tag">05</span>scanf一次录入多个数据</p>
+                <p><span class="tag">06</span>考试真题：scanf判断题、长方体面积和体积</p>
+            </div>
+        </section>
+
+        <section>
+            <h2>一、标识符</h2>
+
+            <p><strong>标识符</strong>就是程序员自己起的名字。变量名、函数名、数组名等，只要是自己命名的，都属于标识符。</p>
+
+            <div class="key">
+                <strong>一句话：</strong>标识符是一个统称，变量名只是标识符的一种。
+            </div>
+
+            <h3>1. 标识符的硬性规则</h3>
+
+            <table>
+                <tr>
+                    <th>规则</th>
+                    <th>说明</th>
+                    <th>示例</th>
+                </tr>
+                <tr>
+                    <td>只能由字母、数字、下划线组成</td>
+                    <td>不能有空格、点、美元符号、减号等</td>
+                    <td><code>age</code>、<code>age2</code>、<code>user_name</code></td>
+                </tr>
+                <tr>
+                    <td>不能以数字开头</td>
+                    <td>数字可以出现在后面，但不能放第一位</td>
+                    <td><code>a2</code>正确，<code>2a</code>错误</td>
+                </tr>
+                <tr>
+                    <td>不能是关键字</td>
+                    <td>C语言已经使用的单词不能再当名字</td>
+                    <td><code>if</code>、<code>return</code>、<code>void</code>不能用</td>
+                </tr>
+                <tr>
+                    <td>区分大小写</td>
+                    <td><code>a</code>和<code>A</code>是两个不同变量</td>
+                    <td><code>if</code>是关键字，<code>If</code>不是关键字</td>
+                </tr>
+            </table>
+
+            <div class="warn">
+                <strong>考试小坑：</strong><code>if</code>不能作为标识符，但<code>If</code>可以，因为C语言严格区分大小写。不过实际开发中不建议用这种容易混淆的名字。
+            </div>
+
+            <h3>2. 标识符命名建议</h3>
+
+            <p>命名建议不是语法强制要求，不遵守也可能不报错，但会让代码难读。</p>
+
+            <ul>
+                <li>变量名尽量使用英文单词。</li>
+                <li>做到见名知意。</li>
+                <li>普通变量名尽量小写。</li>
+                <li>多个单词可以用下划线连接，例如 <code>student_age</code>。</li>
+            </ul>
+
+            <pre><code>int age;          // 推荐
+int student_age;  // 推荐
+int aaa;          // 不推荐，看不出含义
+int AGE;          // 普通变量不推荐全大写</code></pre>
+
+            <h3>3. 文件名命名建议</h3>
+
+            <ul>
+                <li>C语言源文件一般是 <code>xxx.c</code>。</li>
+                <li>文件名建议全部小写。</li>
+                <li>多个单词之间用下划线连接。</li>
+                <li>文件名可以数字开头，例如 <code>01_variable_demo.c</code>。</li>
+            </ul>
+
+            <div class="key">
+                <strong>本节重点：</strong>标识符只能由字母、数字、下划线组成；不能数字开头；不能是关键字；严格区分大小写。
+            </div>
+        </section>
+
+        <section>
+            <h2>二、scanf键盘录入基础</h2>
+
+            <p>直接给变量赋值时，数据是写死的：</p>
+
+            <pre><code>int a = 10;</code></pre>
+
+            <p>如果想让变量的值由用户输入决定，就要使用键盘录入。</p>
+
+            <h3>1. scanf的作用</h3>
+
+            <p><code>scanf</code>是C语言提供好的输入函数，用来接收用户从键盘输入的数据，并赋值给对应变量。</p>
+
+            <table>
+                <tr>
+                    <th>函数</th>
+                    <th>作用</th>
+                    <th>示例</th>
+                </tr>
+                <tr>
+                    <td><code>printf</code></td>
+                    <td>输出数据</td>
+                    <td><code>printf("%d", a);</code></td>
+                </tr>
+                <tr>
+                    <td><code>scanf</code></td>
+                    <td>输入数据</td>
+                    <td><code>scanf("%d", &a);</code></td>
+                </tr>
+            </table>
+
+            <h3>2. 输入整数的基本格式</h3>
+
+            <pre><code>int a;
+scanf("%d", &a);</code></pre>
+
+            <p>这里的含义是：从键盘输入一个整数，并把这个整数存入变量 <code>a</code>。</p>
+
+            <ul>
+                <li><code>%d</code>：表示输入整数。</li>
+                <li><code>&a</code>：表示把输入的数据存到变量 <code>a</code> 中。</li>
+            </ul>
+
+            <div class="warn">
+                <strong>注意：</strong>普通变量使用 <code>scanf</code> 输入时，变量名前面要加 <code>&</code>。至于为什么，后面学习指针和地址时再深入理解。
+            </div>
+
+            <h3>3. 推荐写法：加提示信息</h3>
+
+            <pre><code>#define _CRT_SECURE_NO_WARNINGS
+#include &lt;stdio.h&gt;
+
+int main()
+{
+    int a;
+
+    printf("请输入一个整数：");
+    scanf("%d", &a);
+
+    printf("变量a里面的值为：%d\n", a);
+
+    return 0;
+}</code></pre>
+
+            <p><code>printf</code>提示信息不是必须的，但可以让用户知道程序需要输入什么。</p>
+
+            <h3>4. VS中scanf安全警告</h3>
+
+            <p>在Visual Studio中，直接使用 <code>scanf</code> 可能出现 <code>C4996</code> 警告。解决方式是在代码最上方添加：</p>
+
+            <pre><code>#define _CRT_SECURE_NO_WARNINGS</code></pre>
+
+            <p>注意它要写在 <code>#include &lt;stdio.h&gt;</code> 前面。</p>
+
+            <div class="key">
+                <strong>本节重点：</strong>输入整数的核心代码是 <code>scanf("%d", &变量名);</code>。
+            </div>
+        </section>
+
+        <section>
+            <h2>三、字符串输入输出</h2>
+
+            <p>名字、文本等不是整数，也不是小数，而是字符串。C语言中通常用 <code>char数组</code> 保存字符串。</p>
+
+            <h3>1. 字符和字符串</h3>
+
+            <table>
+                <tr>
+                    <th>类型</th>
+                    <th>写法</th>
+                    <th>说明</th>
+                </tr>
+                <tr>
+                    <td>字符</td>
+                    <td><code>char ch = 'a';</code></td>
+                    <td>单个字符，用单引号</td>
+                </tr>
+                <tr>
+                    <td>字符串</td>
+                    <td><code>char name[100];</code></td>
+                    <td>多个字符组成，用字符数组</td>
+                </tr>
+            </table>
+
+            <h3>2. 字符串变量定义</h3>
+
+            <pre><code>char name[100];</code></pre>
+
+            <p>这表示定义一个字符数组 <code>name</code>，用来保存字符串。</p>
+
+            <p>如果定义时已经知道内容，也可以写：</p>
+
+            <pre><code>char str[4] = "aaa";</code></pre>
+
+            <h3>3. 字符串大小计算</h3>
+
+            <p>字符串末尾有一个隐藏的结束标记：</p>
+
+            <pre><code>'\0'</code></pre>
+
+            <p>所以 <code>"aaa"</code> 表面上是3个字符，实际需要4个字节位置：</p>
+
+            <pre><code>'a'  'a'  'a'  '\0'</code></pre>
+
+            <table>
+                <tr>
+                    <th>内容</th>
+                    <th>课程环境下大小</th>
+                    <th>原因</th>
+                </tr>
+                <tr>
+                    <td><code>"aaa"</code></td>
+                    <td>4字节</td>
+                    <td>3个英文字符 + 1个结束标记</td>
+                </tr>
+                <tr>
+                    <td><code>"aaa你"</code></td>
+                    <td>6字节</td>
+                    <td>3个英文字符 + 1个中文字符2字节 + 1个结束标记</td>
+                </tr>
+            </table>
+
+            <div class="warn">
+                <strong>补充：</strong>中文占几个字节和编码有关。课程环境中按VS/VC默认情况，一个中文通常按2字节理解。实际写程序时，可以把数组开大一些，例如 <code>char name[100];</code>。
+            </div>
+
+            <h3>4. 字符串输入输出</h3>
+
+            <p>字符串输入输出使用 <code>%s</code>。</p>
+
+            <pre><code>#define _CRT_SECURE_NO_WARNINGS
+#include &lt;stdio.h&gt;
+
+int main()
+{
+    char name[100];
+
+    printf("请输入一个名字：");
+    scanf("%s", name);
+
+    printf("你输入的名字是：%s\n", name);
+
+    return 0;
+}</code></pre>
+
+            <div class="warn">
+                <strong>注意：</strong>输入普通整数变量要写 <code>&a</code>，但输入字符数组时一般写 <code>name</code>，不写 <code>&name</code>。
+            </div>
+
+            <div class="error">
+                <strong>限制：</strong><code>scanf("%s", name);</code>默认遇到空格会停止。例如输入 <code>zhang san</code>，通常只会读到 <code>zhang</code>。
+            </div>
+
+            <h3>5. sizeof查看大小</h3>
+
+            <pre><code>#include &lt;stdio.h&gt;
+
+int main()
+{
+    char str[4] = "aaa";
+
+    printf("%s\n", str);
+    printf("%zu\n", sizeof(str));
+    printf("%zu\n", sizeof("aaa"));
+
+    return 0;
+}</code></pre>
+
+            <div class="key">
+                <strong>本节重点：</strong>C语言保存字符串用 <code>char数组</code>，输入输出字符串用 <code>%s</code>，字符串结尾有隐藏的 <code>'\0'</code>。
+            </div>
+        </section>
+
+        <section>
+            <h2>四、练习：录入年龄并打印</h2>
+
+            <p>需求：键盘录入自己的年龄，并按照格式输出：</p>
+
+            <pre><code>我的年龄为18岁</code></pre>
+
+            <h3>完整代码</h3>
+
+            <pre><code>#define _CRT_SECURE_NO_WARNINGS
+#include &lt;stdio.h&gt;
+
+int main()
+{
+    int age;
+
+    printf("请输入您的年龄：");
+    scanf("%d", &age);
+
+    printf("我的年龄为%d岁\n", age);
+
+    return 0;
+}</code></pre>
+
+            <h3>scanf格式字符串不要乱写</h3>
+
+            <p><code>scanf</code>的第一个参数规定了用户输入的格式。一般只写占位符，不要乱加其他内容。</p>
+
+            <p>不推荐：</p>
+
+            <pre><code>scanf("aaa%d", &age);</code></pre>
+
+            <p>这样要求用户必须输入类似：</p>
+
+            <pre><code>aaa18</code></pre>
+
+            <h3>scanf里不要随便写\n</h3>
+
+            <p>不推荐：</p>
+
+            <pre><code>scanf("%d\n", &age);</code></pre>
+
+            <p>这样可能导致程序继续等待输入，看起来像卡住。</p>
+
+            <p>推荐：</p>
+
+            <pre><code>scanf("%d", &age);</code></pre>
+
+            <div class="key">
+                <strong>本节重点：</strong><code>scanf</code>第一个参数里一般只写占位符，例如 <code>%d</code>，不要随便写 <code>\n</code> 或普通字符。
+            </div>
+        </section>
+
+        <section>
+            <h2>五、一次录入多个数据</h2>
+
+            <p>如果要输入两个整数，可以写两个 <code>scanf</code>，但更推荐一次录入：</p>
+
+            <pre><code>scanf("%d %d", &number1, &number2);</code></pre>
+
+            <h3>1. 完整示例：录入两个整数并求和</h3>
+
+            <pre><code>#define _CRT_SECURE_NO_WARNINGS
+#include &lt;stdio.h&gt;
+
+int main()
+{
+    int number1;
+    int number2;
+
+    printf("请输入两个整数：");
+    scanf("%d %d", &number1, &number2);
+
+    printf("两个整数的和为：%d\n", number1 + number2);
+
+    return 0;
+}</code></pre>
+
+            <h3>2. 占位符和变量一一对应</h3>
+
+            <table>
+                <tr>
+                    <th>要求</th>
+                    <th>说明</th>
+                </tr>
+                <tr>
+                    <td>数量一致</td>
+                    <td>几个占位符，就要有几个变量接收</td>
+                </tr>
+                <tr>
+                    <td>类型一致</td>
+                    <td><code>%d</code>对应<code>int</code>，<code>%lf</code>对应<code>double</code></td>
+                </tr>
+                <tr>
+                    <td>顺序一致</td>
+                    <td>第一个占位符对应第一个变量，第二个对应第二个变量</td>
+                </tr>
+            </table>
+
+            <h3>3. 分隔符建议用空格</h3>
+
+            <p>推荐：</p>
+
+            <pre><code>scanf("%d %d", &a, &b);</code></pre>
+
+            <p>输入时可以写：</p>
+
+            <pre><code>10 20</code></pre>
+
+            <p>也可以分两行输入：</p>
+
+            <pre><code>10
+20</code></pre>
+
+            <p>如果写逗号：</p>
+
+            <pre><code>scanf("%d,%d", &a, &b);</code></pre>
+
+            <p>那用户必须输入：</p>
+
+            <pre><code>10,20</code></pre>
+
+            <div class="error">
+                <strong>不要用数字当分隔符。</strong>因为 <code>%d</code> 会尽可能多地读取连续数字，容易导致读取结果不符合预期。
+            </div>
+
+            <div class="key">
+                <strong>本节重点：</strong>一次输入多个整数，写多个 <code>%d</code>，后面按顺序写多个 <code>&变量名</code>。
+            </div>
+        </section>
+
+        <section>
+            <h2>六、考试真题：scanf判断题</h2>
+
+            <div class="exam">
+                <strong>题目：</strong>已知整数变量 <code>a</code>、<code>b</code>、<code>c</code>，要从键盘输入数据并正确赋值，正确语句是什么？
+            </div>
+
+            <p>正确写法：</p>
+
+            <pre><code>scanf("%d %d %d", &a, &b, &c);</code></pre>
+
+            <h3>错误点总结</h3>
+
+            <table>
+                <tr>
+                    <th>错误类型</th>
+                    <th>错误原因</th>
+                    <th>正确写法</th>
+                </tr>
+                <tr>
+                    <td>函数名写错</td>
+                    <td>写成了 <code>read</code> 等</td>
+                    <td><code>scanf</code></td>
+                </tr>
+                <tr>
+                    <td>变量前少了 <code>&</code></td>
+                    <td>普通变量接收输入需要地址</td>
+                    <td><code>&a</code>、<code>&b</code>、<code>&c</code></td>
+                </tr>
+                <tr>
+                    <td>占位符大小写错</td>
+                    <td>C语言区分大小写，<code>%D</code>不是<code>%d</code></td>
+                    <td><code>%d</code></td>
+                </tr>
+            </table>
+
+            <div class="key">
+                <strong>考试记忆：</strong>函数名 <code>scanf</code>，整数 <code>%d</code>，普通变量前加 <code>&</code>。
+            </div>
+        </section>
+
+        <section>
+            <h2>七、考试真题：长方体面积和体积</h2>
+
+            <div class="exam">
+                <strong>题目：</strong>键盘录入三个小数，分别表示长方体的长、宽、高。求A面、B面、C面的面积以及长方体体积，结果保留两位小数。
+            </div>
+
+            <h3>1. 公式</h3>
+
+            <table>
+                <tr>
+                    <th>项目</th>
+                    <th>公式</th>
+                </tr>
+                <tr>
+                    <td>A面面积</td>
+                    <td>长 × 宽</td>
+                </tr>
+                <tr>
+                    <td>B面面积</td>
+                    <td>宽 × 高</td>
+                </tr>
+                <tr>
+                    <td>C面面积</td>
+                    <td>长 × 高</td>
+                </tr>
+                <tr>
+                    <td>体积</td>
+                    <td>长 × 宽 × 高</td>
+                </tr>
+            </table>
+
+            <h3>2. double输入和输出</h3>
+
+            <table>
+                <tr>
+                    <th>场景</th>
+                    <th>写法</th>
+                </tr>
+                <tr>
+                    <td>scanf输入double</td>
+                    <td><code>%lf</code></td>
+                </tr>
+                <tr>
+                    <td>printf保留两位小数</td>
+                    <td><code>%.2lf</code></td>
+                </tr>
+            </table>
+
+            <h3>3. 完整代码</h3>
+
+            <pre><code>#define _CRT_SECURE_NO_WARNINGS
+#include &lt;stdio.h&gt;
+
+int main()
+{
+    double length;
+    double width;
+    double height;
+
+    printf("请输入三个小数，分别表示长、宽、高：");
+    scanf("%lf %lf %lf", &length, &width, &height);
+
+    double areaA = length * width;
+    double areaB = width * height;
+    double areaC = length * height;
+    double volume = length * width * height;
+
+    printf("A面的面积为：%.2lf\n", areaA);
+    printf("B面的面积为：%.2lf\n", areaB);
+    printf("C面的面积为：%.2lf\n", areaC);
+    printf("长方体的体积为：%.2lf\n", volume);
+
+    return 0;
+}</code></pre>
+
+            <h3>4. 示例</h3>
+
+            <pre><code>输入：
+5.2 2.5 3.1
+
+输出：
+A面的面积为：13.00
+B面的面积为：7.75
+C面的面积为：16.12
+长方体的体积为：40.30</code></pre>
+
+            <div class="key">
+                <strong>本节重点：</strong>输入 <code>double</code> 用 <code>%lf</code>；输出保留两位小数用 <code>%.2lf</code>。
+            </div>
+        </section>
+
+        <section>
+            <h2>八、总复习速记</h2>
+
+            <table>
+                <tr>
+                    <th>知识点</th>
+                    <th>必须记住</th>
+                </tr>
+                <tr>
+                    <td>标识符</td>
+                    <td>字母、数字、下划线；不能数字开头；不能是关键字；区分大小写</td>
+                </tr>
+                <tr>
+                    <td>输入整数</td>
+                    <td><code>scanf("%d", &a);</code></td>
+                </tr>
+                <tr>
+                    <td>输入字符串</td>
+                    <td><code>scanf("%s", name);</code></td>
+                </tr>
+                <tr>
+                    <td>输入多个整数</td>
+                    <td><code>scanf("%d %d", &a, &b);</code></td>
+                </tr>
+                <tr>
+                    <td>输入double</td>
+                    <td><code>scanf("%lf", &x);</code></td>
+                </tr>
+                <tr>
+                    <td>输出两位小数</td>
+                    <td><code>printf("%.2lf", x);</code></td>
+                </tr>
+                <tr>
+                    <td>字符串结尾</td>
+                    <td>隐藏结束标记 <code>'\0'</code>，数组大小要多留1位</td>
+                </tr>
+                <tr>
+                    <td>scanf注意</td>
+                    <td>格式字符串一般只写占位符，不要乱写 <code>\n</code> 或其他字符</td>
+                </tr>
+            </table>
+
+            <div class="error">
+                <strong>高频错误：</strong>
+                <ul>
+                    <li><code>scanf("%d", a);</code>：少了 <code>&</code>。</li>
+                    <li><code>scanf("%d\n", &a);</code>：不建议在 <code>scanf</code> 里写 <code>\n</code>。</li>
+                    <li><code>scanf("%D", &a);</code>：<code>%D</code>错误，整数是 <code>%d</code>。</li>
+                    <li><code>char name;</code>：只能存一个字符，不能存字符串。</li>
+                    <li><code>char str[3] = "aaa";</code>：没给 <code>'\0'</code> 留位置。</li>
+                </ul>
+            </div>
+        </section>
+
+        <section>
+            <h2>九、最终掌握代码合集</h2>
+
+            <h3>1. 输入一个整数</h3>
+
+            <pre><code>#define _CRT_SECURE_NO_WARNINGS
+#include &lt;stdio.h&gt;
+
+int main()
+{
+    int a;
+
+    printf("请输入一个整数：");
+    scanf("%d", &a);
+
+    printf("你输入的是：%d\n", a);
+
+    return 0;
+}</code></pre>
+
+            <h3>2. 输入一个字符串</h3>
+
+            <pre><code>#define _CRT_SECURE_NO_WARNINGS
+#include &lt;stdio.h&gt;
+
+int main()
+{
+    char name[100];
+
+    printf("请输入一个名字：");
+    scanf("%s", name);
+
+    printf("你输入的名字是：%s\n", name);
+
+    return 0;
+}</code></pre>
+
+            <h3>3. 输入两个整数并求和</h3>
+
+            <pre><code>#define _CRT_SECURE_NO_WARNINGS
+#include &lt;stdio.h&gt;
+
+int main()
+{
+    int number1;
+    int number2;
+
+    printf("请输入两个整数：");
+    scanf("%d %d", &number1, &number2);
+
+    printf("两个整数的和为：%d\n", number1 + number2);
+
+    return 0;
+}</code></pre>
+
+            <h3>4. 长方体面积和体积</h3>
+
+            <pre><code>#define _CRT_SECURE_NO_WARNINGS
+#include &lt;stdio.h&gt;
+
+int main()
+{
+    double length;
+    double width;
+    double height;
+
+    printf("请输入三个小数，分别表示长、宽、高：");
+    scanf("%lf %lf %lf", &length, &width, &height);
+
+    double areaA = length * width;
+    double areaB = width * height;
+    double areaC = length * height;
+    double volume = length * width * height;
+
+    printf("A面的面积为：%.2lf\n", areaA);
+    printf("B面的面积为：%.2lf\n", areaB);
+    printf("C面的面积为：%.2lf\n", areaC);
+    printf("长方体的体积为：%.2lf\n", volume);
+
+    return 0;
+}</code></pre>
+        </section>
+
+    </main>
+
+</body>
+</html>

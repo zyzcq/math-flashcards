@@ -1,0 +1,1370 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>核心语法1</title>
+    <style>
+        :root {
+            --blue: #2563eb;
+            --blue-light: #eff6ff;
+            --green: #16a34a;
+            --green-light: #f0fdf4;
+            --orange: #f97316;
+            --orange-light: #fff7ed;
+            --red: #dc2626;
+            --red-light: #fef2f2;
+            --purple: #7c3aed;
+            --purple-light: #f5f3ff;
+            --gray: #4b5563;
+            --gray-light: #f9fafb;
+            --border: #e5e7eb;
+            --text: #111827;
+            --muted: #6b7280;
+            --bg: #f3f4f6;
+            --card: #ffffff;
+            --code-bg: #111827;
+            --code-text: #f9fafb;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Microsoft YaHei", Arial, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.75;
+        }
+
+        header {
+            background: linear-gradient(135deg, #1d4ed8, #312e81);
+            color: white;
+            padding: 34px 22px;
+            text-align: center;
+        }
+
+            header h1 {
+                margin: 0;
+                font-size: 30px;
+                letter-spacing: 1px;
+            }
+
+            header p {
+                margin: 10px 0 0;
+                color: #dbeafe;
+                font-size: 15px;
+            }
+
+        .toolbar {
+            position: sticky;
+            top: 0;
+            z-index: 20;
+            background: rgba(255,255,255,0.96);
+            border-bottom: 1px solid var(--border);
+            padding: 12px;
+            text-align: center;
+            backdrop-filter: blur(8px);
+        }
+
+        button {
+            background: var(--blue);
+            color: white;
+            border: 0;
+            border-radius: 8px;
+            padding: 10px 18px;
+            font-size: 15px;
+            cursor: pointer;
+        }
+
+            button:hover {
+                background: #1d4ed8;
+            }
+
+        main {
+            max-width: 1080px;
+            margin: 24px auto 56px;
+            padding: 0 16px;
+            display: grid;
+            grid-template-columns: 230px 1fr;
+            gap: 20px;
+        }
+
+        nav {
+            position: sticky;
+            top: 70px;
+            align-self: start;
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 16px;
+        }
+
+            nav h3 {
+                margin: 0 0 10px;
+                font-size: 16px;
+            }
+
+            nav a {
+                display: block;
+                color: var(--gray);
+                text-decoration: none;
+                padding: 6px 0;
+                font-size: 14px;
+            }
+
+                nav a:hover {
+                    color: var(--blue);
+                }
+
+        .content {
+            min-width: 0;
+        }
+
+        section {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 24px;
+            margin-bottom: 20px;
+            box-shadow: 0 8px 24px rgba(15, 23, 42, 0.04);
+        }
+
+        h2 {
+            margin: 0 0 18px;
+            font-size: 24px;
+            border-left: 6px solid var(--blue);
+            padding-left: 12px;
+        }
+
+        h3 {
+            margin-top: 24px;
+            font-size: 19px;
+        }
+
+        p {
+            margin: 10px 0;
+        }
+
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 12px;
+            margin: 16px 0;
+        }
+
+        .card {
+            border-radius: 12px;
+            padding: 14px 16px;
+            border: 1px solid var(--border);
+            background: var(--gray-light);
+        }
+
+            .card strong {
+                display: block;
+                margin-bottom: 6px;
+            }
+
+        .blue {
+            background: var(--blue-light);
+            border-color: #bfdbfe;
+        }
+
+        .green {
+            background: var(--green-light);
+            border-color: #bbf7d0;
+        }
+
+        .orange {
+            background: var(--orange-light);
+            border-color: #fed7aa;
+        }
+
+        .red {
+            background: var(--red-light);
+            border-color: #fecaca;
+        }
+
+        .purple {
+            background: var(--purple-light);
+            border-color: #ddd6fe;
+        }
+
+        .tag {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 999px;
+            font-size: 13px;
+            font-weight: 600;
+            margin-right: 6px;
+        }
+
+        .tag-blue {
+            color: var(--blue);
+            background: var(--blue-light);
+        }
+
+        .tag-green {
+            color: var(--green);
+            background: var(--green-light);
+        }
+
+        .tag-orange {
+            color: var(--orange);
+            background: var(--orange-light);
+        }
+
+        .tag-red {
+            color: var(--red);
+            background: var(--red-light);
+        }
+
+        .tag-purple {
+            color: var(--purple);
+            background: var(--purple-light);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 16px 0;
+            font-size: 15px;
+        }
+
+        th, td {
+            border: 1px solid var(--border);
+            padding: 10px 12px;
+            text-align: left;
+            vertical-align: top;
+        }
+
+        th {
+            background: #f3f4f6;
+            color: #111827;
+        }
+
+        code {
+            font-family: Consolas, Monaco, "Courier New", monospace;
+            background: #eef2ff;
+            color: #1e3a8a;
+            padding: 2px 6px;
+            border-radius: 5px;
+        }
+
+        pre {
+            background: var(--code-bg);
+            color: var(--code-text);
+            border-radius: 12px;
+            padding: 16px;
+            overflow-x: auto;
+            line-height: 1.55;
+            font-size: 14px;
+        }
+
+            pre code {
+                background: transparent;
+                color: inherit;
+                padding: 0;
+            }
+
+        .check {
+            border-left: 5px solid var(--green);
+            background: var(--green-light);
+            padding: 12px 16px;
+            border-radius: 10px;
+            margin: 14px 0;
+        }
+
+        .note {
+            border-left: 5px solid var(--blue);
+            background: var(--blue-light);
+            padding: 12px 16px;
+            border-radius: 10px;
+            margin: 14px 0;
+        }
+
+        .warn {
+            border-left: 5px solid var(--orange);
+            background: var(--orange-light);
+            padding: 12px 16px;
+            border-radius: 10px;
+            margin: 14px 0;
+        }
+
+        .error {
+            border-left: 5px solid var(--red);
+            background: var(--red-light);
+            padding: 12px 16px;
+            border-radius: 10px;
+            margin: 14px 0;
+        }
+
+        .memory {
+            border-left: 5px solid var(--purple);
+            background: var(--purple-light);
+            padding: 12px 16px;
+            border-radius: 10px;
+            margin: 14px 0;
+        }
+
+        .small {
+            color: var(--muted);
+            font-size: 14px;
+        }
+
+        .two-col {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 14px;
+        }
+
+        @media (max-width: 860px) {
+            main {
+                grid-template-columns: 1fr;
+            }
+
+            nav {
+                position: static;
+            }
+
+            .two-col {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media print {
+            body {
+                background: white;
+            }
+
+            header {
+                background: white;
+                color: black;
+                border-bottom: 2px solid #ddd;
+            }
+
+                header p {
+                    color: #333;
+                }
+
+            .toolbar,
+            nav {
+                display: none;
+            }
+
+            main {
+                display: block;
+                max-width: none;
+                margin: 0;
+                padding: 0;
+            }
+
+            section {
+                box-shadow: none;
+                border: 1px solid #ddd;
+                break-inside: avoid;
+                page-break-inside: avoid;
+            }
+
+            button {
+                display: none;
+            }
+
+            pre {
+                white-space: pre-wrap;
+                word-break: break-word;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <h1>C语言数据类型复习笔记</h1>
+        <p>覆盖：数据类型作用、整数、小数、字符、sizeof、后缀、signed / unsigned、易错点</p>
+    </header>
+
+    <div class="toolbar">
+        <button onclick="exportPDF()">导出 PDF / 打印</button>
+    </div>
+
+    <main>
+        <nav>
+            <h3>复习目录</h3>
+            <a href="#s1">1. 数据类型作用</a>
+            <a href="#s2">2. 类型总览</a>
+            <a href="#s3">3. 整数类型</a>
+            <a href="#s4">4. sizeof</a>
+            <a href="#s5">5. signed / unsigned</a>
+            <a href="#s6">6. 小数类型</a>
+            <a href="#s7">7. 字符类型</a>
+            <a href="#s8">8. 速查表</a>
+            <a href="#s9">9. 完整练习代码</a>
+            <a href="#s10">10. 易错点</a>
+        </nav>
+
+        <div class="content">
+
+            <section id="s1">
+                <h2>1. 数据类型的作用</h2>
+
+                <p>C语言定义变量的基本格式：</p>
+
+                <pre><code>数据类型 变量名 = 数据值;</code></pre>
+
+                <p>例如：</p>
+
+                <pre><code>int num = 56;</code></pre>
+
+                <div class="cards">
+                    <div class="card blue">
+                        <strong>作用一：决定能存什么</strong>
+                        <p><code>int</code> 存整数，<code>float / double</code> 存小数，<code>char</code> 存字符。</p>
+                    </div>
+
+                    <div class="card green">
+                        <strong>作用二：决定占多大空间</strong>
+                        <p>变量是内存空间，空间大小由数据类型决定。</p>
+                    </div>
+                </div>
+
+                <h3>bit、Byte 和常见单位</h3>
+
+                <table>
+                    <tr>
+                        <th>单位</th>
+                        <th>含义</th>
+                    </tr>
+                    <tr>
+                        <td><code>bit</code></td>
+                        <td>一个二进制位，只能是 <code>0</code> 或 <code>1</code></td>
+                    </tr>
+                    <tr>
+                        <td><code>Byte</code></td>
+                        <td><code>1 Byte = 8 bit</code></td>
+                    </tr>
+                    <tr>
+                        <td><code>KB / MB / GB</code></td>
+                        <td>相邻单位通常按 <code>1024</code> 换算</td>
+                    </tr>
+                </table>
+
+                <div class="note">
+                    课程中还提到更大的单位，如 TB、PB、EB、ZB、YB。YB 非常大，初学阶段了解即可。
+                </div>
+
+                <h3>例子：int 存储 56</h3>
+
+                <p><code>56</code> 的二进制可以写成：</p>
+
+                <pre><code>111000</code></pre>
+
+                <p>但如果使用 <code>int</code> 保存，在常见 Windows 环境中，<code>int</code> 通常占 <code>4</code> 字节，也就是 <code>32</code> bit，所以会补齐为：</p>
+
+                <pre><code>00000000 00000000 00000000 00111000</code></pre>
+
+                <div class="memory">
+                    记忆：数据类型不是摆设，它决定变量“存什么”和“占多大”。
+                </div>
+            </section>
+
+            <section id="s2">
+                <h2>2. C语言常见数据类型总览</h2>
+
+                <p>本阶段围绕变量继续学习：数据类型、标识符、键盘录入。其中这几节课重点是数据类型。</p>
+
+                <table>
+                    <tr>
+                        <th>分类</th>
+                        <th>类型</th>
+                        <th>用途</th>
+                    </tr>
+                    <tr>
+                        <td>整数</td>
+                        <td><code>short</code>、<code>int</code>、<code>long</code>、<code>long long</code></td>
+                        <td>保存整数</td>
+                    </tr>
+                    <tr>
+                        <td>小数</td>
+                        <td><code>float</code>、<code>double</code>、<code>long double</code></td>
+                        <td>保存小数，也叫实数或浮点数</td>
+                    </tr>
+                    <tr>
+                        <td>字符</td>
+                        <td><code>char</code></td>
+                        <td>保存单个字符</td>
+                    </tr>
+                </table>
+
+                <div class="check">
+                    <span class="tag tag-green">默认规则</span>
+                    普通整数默认用 <code>int</code>；普通小数默认用 <code>double</code>。
+                </div>
+            </section>
+
+            <section id="s3">
+                <h2>3. 整数类型</h2>
+
+                <p>整数类型有四种：</p>
+
+                <pre><code>short
+int
+long
+long long</code></pre>
+
+                <table>
+                    <tr>
+                        <th>类型</th>
+                        <th>名称</th>
+                        <th>Windows 常见大小</th>
+                        <th>重点</th>
+                    </tr>
+                    <tr>
+                        <td><code>short</code></td>
+                        <td>短整型</td>
+                        <td>2 字节</td>
+                        <td>常见范围：<code>-32768 到 32767</code></td>
+                    </tr>
+                    <tr>
+                        <td><code>int</code></td>
+                        <td>整型</td>
+                        <td>4 字节</td>
+                        <td>整数默认类型，常见范围约正负 21 亿</td>
+                    </tr>
+                    <tr>
+                        <td><code>long</code></td>
+                        <td>长整型</td>
+                        <td>Windows 常见 4 字节</td>
+                        <td>范围要求大于等于 <code>int</code></td>
+                    </tr>
+                    <tr>
+                        <td><code>long long</code></td>
+                        <td>超长整型</td>
+                        <td>8 字节</td>
+                        <td>C99 才有，C89 / C90 没有</td>
+                    </tr>
+                </table>
+
+                <div class="warn">
+                    类型大小不是 C 语言完全固定死的，和操作系统、编译器、平台位数有关。具体大小用 <code>sizeof</code> 测。
+                </div>
+
+                <h3>整数大小原则</h3>
+
+                <pre><code>short <= int <= long <= long long</code></pre>
+
+                <p>课程中也提到：Windows 下 <code>long</code> 通常是 4 字节；Linux 中，32 位常见 4 字节，64 位可能是 8 字节。</p>
+
+                <h3>定义与打印</h3>
+
+                <pre><code>#include &lt;stdio.h&gt;
+
+int main()
+{
+    short a = 10;
+    int b = 100;
+    long c = 1000L;
+    long long d = 10000LL;
+
+    printf("%d\n", a);
+    printf("%d\n", b);
+    printf("%ld\n", c);
+    printf("%lld\n", d);
+
+    return 0;
+}</code></pre>
+
+                <div class="cards">
+                    <div class="card green">
+                        <strong>long 后缀</strong>
+                        <p><code>long c = 1000L;</code></p>
+                    </div>
+                    <div class="card green">
+                        <strong>long long 后缀</strong>
+                        <p><code>long long d = 10000LL;</code></p>
+                    </div>
+                    <div class="card orange">
+                        <strong>推荐大写</strong>
+                        <p>用 <code>L</code>、<code>LL</code>，不要用小写 <code>l</code>，避免和数字 <code>1</code> 混淆。</p>
+                    </div>
+                </div>
+
+                <h3>完整写法</h3>
+
+                <table>
+                    <tr>
+                        <th>常用写法</th>
+                        <th>完整写法</th>
+                    </tr>
+                    <tr>
+                        <td><code>short</code></td>
+                        <td><code>short int</code></td>
+                    </tr>
+                    <tr>
+                        <td><code>long</code></td>
+                        <td><code>long int</code></td>
+                    </tr>
+                    <tr>
+                        <td><code>long long</code></td>
+                        <td><code>long long int</code></td>
+                    </tr>
+                </table>
+
+                <div class="error">
+                    错误写法：<code>int int a = 10;</code>。<code>int</code> 本身就是完整类型，不能再加一个 <code>int</code>。
+                </div>
+
+                <h3>超出范围会出错</h3>
+
+                <p>例如常见 Windows 环境下：</p>
+
+                <pre><code>short a = 32768;       // 超过 short 常见最大值 32767，可能出错
+int b = 2147483648;    // 超过 int 常见最大值，可能出错</code></pre>
+
+                <p>具体为什么会变成其他数字，后面学整数溢出、补码时再深入。</p>
+            </section>
+
+            <section id="s4">
+                <h2>4. sizeof：测量类型大小</h2>
+
+                <p><code>sizeof</code> 是 C 语言关键字，用来测量变量或数据类型占几个字节。</p>
+
+                <div class="cards">
+                    <div class="card purple">
+                        <strong>测类型</strong>
+                        <p><code>sizeof(int)</code></p>
+                    </div>
+                    <div class="card purple">
+                        <strong>测变量</strong>
+                        <p><code>sizeof(a)</code></p>
+                    </div>
+                    <div class="card purple">
+                        <strong>打印格式</strong>
+                        <p><code>%zu</code></p>
+                    </div>
+                </div>
+
+                <pre><code>#include &lt;stdio.h&gt;
+
+int main()
+{
+    int a = 10;
+
+    printf("%zu\n", sizeof(int));
+    printf("%zu\n", sizeof(a));
+
+    return 0;
+}</code></pre>
+
+                <div class="memory">
+                    记忆：类型大小不要死背，想知道当前电脑上占几个字节，就用 <code>sizeof</code>。
+                </div>
+            </section>
+
+            <section id="s5">
+                <h2>5. signed 和 unsigned</h2>
+
+                <div class="two-col">
+                    <div class="card blue">
+                        <strong>signed：有符号</strong>
+                        <p>可以表示正数、负数和 0。</p>
+                        <p><code>signed int e = -100;</code></p>
+                    </div>
+
+                    <div class="card green">
+                        <strong>unsigned：无符号</strong>
+                        <p>只能表示 0 和正数。</p>
+                        <p><code>unsigned int f = 999;</code></p>
+                    </div>
+                </div>
+
+                <p>普通整数默认就是有符号，所以：</p>
+
+                <pre><code>int e = -100;</code></pre>
+
+                <p>等价于：</p>
+
+                <pre><code>signed int e = -100;</code></pre>
+
+                <h3>unsigned 打印</h3>
+
+                <pre><code>unsigned int f = 999;
+printf("%u\n", f);</code></pre>
+
+                <h3>unsigned short 范围变化</h3>
+
+                <table>
+                    <tr>
+                        <th>类型</th>
+                        <th>常见范围</th>
+                    </tr>
+                    <tr>
+                        <td><code>short</code></td>
+                        <td><code>-32768 到 32767</code></td>
+                    </tr>
+                    <tr>
+                        <td><code>unsigned short</code></td>
+                        <td><code>0 到 65535</code></td>
+                    </tr>
+                </table>
+
+                <p>理解方式：无符号类型不再表示负数，原来负数那部分范围挪到了正数范围。</p>
+
+                <pre><code>32767 + 32768 = 65535</code></pre>
+
+                <div class="warn">
+                    不要给 <code>unsigned</code> 强行赋负数，例如 <code>unsigned int f = -100;</code>，结果会变成一个不符合直觉的正数。
+                </div>
+
+                <h3>unsigned 可以和整数类型组合</h3>
+
+                <pre><code>unsigned short
+unsigned int
+unsigned long
+unsigned long long</code></pre>
+
+                <div class="error">
+                    <code>unsigned</code> 不能和小数类型组合。错误：<code>unsigned double a = 3.14;</code>
+                </div>
+            </section>
+
+            <section id="s6">
+                <h2>6. 小数类型</h2>
+
+                <p>C语言中的小数也叫实数或浮点数。常用小数类型：</p>
+
+                <pre><code>float
+double</code></pre>
+
+                <p>还有一个不常用的高精度小数：</p>
+
+                <pre><code>long double</code></pre>
+
+                <table>
+                    <tr>
+                        <th>类型</th>
+                        <th>名称</th>
+                        <th>Windows 常见大小</th>
+                        <th>课程重点</th>
+                    </tr>
+                    <tr>
+                        <td><code>float</code></td>
+                        <td>单精度小数</td>
+                        <td>4 字节</td>
+                        <td>最多约 38 位数量级，精度约小数点后 6 位</td>
+                    </tr>
+                    <tr>
+                        <td><code>double</code></td>
+                        <td>双精度小数</td>
+                        <td>8 字节</td>
+                        <td>最多约 308 位数量级，精度约小数点后 15 位</td>
+                    </tr>
+                    <tr>
+                        <td><code>long double</code></td>
+                        <td>高精度小数</td>
+                        <td>Windows 常见 8 字节</td>
+                        <td>其他平台可能 12 或 16 字节，精度约 18 到 19 位</td>
+                    </tr>
+                </table>
+
+                <div class="note">
+                    小数取值范围通常比整数大，因为小数底层类似科学计数法存储。范围大不代表完全精确，小数可能存在精度误差。
+                </div>
+
+                <h3>float</h3>
+
+                <pre><code>float a = 3.14F;
+
+printf("%f\n", a);     // 默认保留 6 位小数
+printf("%.2f\n", a);   // 保留 2 位小数</code></pre>
+
+                <div class="check">
+                    因为 C 语言中小数默认是 <code>double</code>，所以给 <code>float</code> 赋值时建议加 <code>F</code> 后缀。
+                </div>
+
+                <h3>double</h3>
+
+                <pre><code>double b = 1.78;
+
+printf("%f\n", b);
+printf("%.2f\n", b);</code></pre>
+
+                <div class="check">
+                    如果题目没有特殊要求，小数优先使用 <code>double</code>。
+                </div>
+
+                <div class="warn">
+                    课程演示中提到 <code>%lf</code>。实际在 <code>printf</code> 中，打印 <code>double</code> 通常用 <code>%f</code> 即可；以后学习 <code>scanf</code> 输入时，读取 <code>double</code> 才重点使用 <code>%lf</code>。
+                </div>
+
+                <h3>long double</h3>
+
+                <pre><code>long double c = 3.141592653589793238L;
+
+printf("%Lf\n", c);
+printf("%.2Lf\n", c);</code></pre>
+
+                <div class="error">
+                    小数不能和 <code>unsigned</code> 组合。错误：<code>unsigned float</code>、<code>unsigned double</code>、<code>unsigned long double</code>。
+                </div>
+            </section>
+
+            <section id="s7">
+                <h2>7. 字符类型 char</h2>
+
+                <p>字符类型只有一个：</p>
+
+                <pre><code>char</code></pre>
+
+                <p><code>char</code> 用来存储单个字符。字符要用单引号。</p>
+
+                <pre><code>char c = 'a';</code></pre>
+
+                <h3>char 能保存什么</h3>
+
+                <table>
+                    <tr>
+                        <th>类别</th>
+                        <th>例子</th>
+                    </tr>
+                    <tr>
+                        <td>小写英文字母</td>
+                        <td><code>'a'</code>、<code>'b'</code></td>
+                    </tr>
+                    <tr>
+                        <td>大写英文字母</td>
+                        <td><code>'A'</code>、<code>'B'</code></td>
+                    </tr>
+                    <tr>
+                        <td>数字字符</td>
+                        <td><code>'0'</code>、<code>'1'</code></td>
+                    </tr>
+                    <tr>
+                        <td>英文标点</td>
+                        <td><code>'.'</code>、<code>','</code>、<code>'!'</code></td>
+                    </tr>
+                </table>
+
+                <div class="warn">
+                    课程中说 <code>char</code> 的取值范围是 ASCII 码表中的内容。普通 <code>char</code> 不适合直接保存中文汉字，也不适合直接保存中文标点。
+                </div>
+
+                <h3>定义与打印</h3>
+
+                <pre><code>#include &lt;stdio.h&gt;
+
+int main()
+{
+    char c1 = 'a';
+    char c2 = '1';
+    char c3 = 'A';
+    char c4 = '.';
+
+    printf("%c\n", c1);
+    printf("%c\n", c2);
+    printf("%c\n", c3);
+    printf("%c\n", c4);
+
+    return 0;
+}</code></pre>
+
+                <h3>字符 1 和数字 1 不一样</h3>
+
+                <pre><code>char c = '1'; // 字符 1
+int n = 1;    // 整数 1</code></pre>
+
+                <h3>char 的大小</h3>
+
+                <p>在 Windows 操作系统中，<code>char</code> 通常占 1 个字节。</p>
+
+                <pre><code>printf("%zu\n", sizeof(char));</code></pre>
+
+                <div class="error">
+                    不推荐：<code>char c = '你';</code>。普通 <code>char</code> 通常只占 1 字节，中文字符通常不止 1 字节，可能输出问号或乱码。
+                </div>
+            </section>
+
+            <section id="s8">
+                <h2>8. 复习速查表</h2>
+
+                <h3>打印格式</h3>
+
+                <table>
+                    <tr>
+                        <th>类型 / 用途</th>
+                        <th>格式符</th>
+                    </tr>
+                    <tr>
+                        <td><code>short</code>、<code>int</code></td>
+                        <td><code>%d</code></td>
+                    </tr>
+                    <tr>
+                        <td><code>long</code></td>
+                        <td><code>%ld</code></td>
+                    </tr>
+                    <tr>
+                        <td><code>long long</code></td>
+                        <td><code>%lld</code></td>
+                    </tr>
+                    <tr>
+                        <td><code>unsigned int</code></td>
+                        <td><code>%u</code></td>
+                    </tr>
+                    <tr>
+                        <td><code>float</code>、<code>double</code></td>
+                        <td><code>%f</code></td>
+                    </tr>
+                    <tr>
+                        <td><code>long double</code></td>
+                        <td><code>%Lf</code></td>
+                    </tr>
+                    <tr>
+                        <td><code>char</code></td>
+                        <td><code>%c</code></td>
+                    </tr>
+                    <tr>
+                        <td><code>sizeof</code> 结果</td>
+                        <td><code>%zu</code></td>
+                    </tr>
+                </table>
+
+                <h3>后缀规则</h3>
+
+                <table>
+                    <tr>
+                        <th>类型</th>
+                        <th>后缀</th>
+                        <th>例子</th>
+                    </tr>
+                    <tr>
+                        <td><code>long</code></td>
+                        <td><code>L</code></td>
+                        <td><code>long a = 1000L;</code></td>
+                    </tr>
+                    <tr>
+                        <td><code>long long</code></td>
+                        <td><code>LL</code></td>
+                        <td>
+                            <code>long long b = 10000LL;</code>
+                        </td>
+                    <tr>
+                        <td><code>float</code></td>
+                        <td><code>F</code></td>
+                        <td><code>float c = 3.14F;</code></td>
+                    </tr>
+                    <tr>
+                        <td><code>long double</code></td>
+                        <td><code>L</code></td>
+                        <td><code>long double d = 3.14L;</code></td>
+                    </tr>
+                    <tr>
+                        <td><code>int</code></td>
+                        <td>一般不需要</td>
+                        <td><code>int e = 100;</code></td>
+                    </tr>
+                    <tr>
+                        <td><code>double</code></td>
+                        <td>一般不需要</td>
+                        <td><code>double f = 3.14;</code></td>
+                    </tr>
+                    <tr>
+                        <td><code>char</code></td>
+                        <td>一般不需要</td>
+                        <td><code>char g = 'A';</code></td>
+                    </tr>
+                </table>
+
+                <h3>Windows 常见字节大小</h3>
+
+                <table>
+                    <tr>
+                        <th>类型</th>
+                        <th>Windows 常见大小</th>
+                        <th>备注</th>
+                    </tr>
+                    <tr>
+                        <td><code>char</code></td>
+                        <td>1 字节</td>
+                        <td>字符类型</td>
+                    </tr>
+                    <tr>
+                        <td><code>short</code></td>
+                        <td>2 字节</td>
+                        <td>短整型</td>
+                    </tr>
+                    <tr>
+                        <td><code>int</code></td>
+                        <td>4 字节</td>
+                        <td>整数默认类型</td>
+                    </tr>
+                    <tr>
+                        <td><code>long</code></td>
+                        <td>4 字节</td>
+                        <td>Windows 下 32 位和 64 位通常都是 4 字节</td>
+                    </tr>
+                    <tr>
+                        <td><code>long long</code></td>
+                        <td>8 字节</td>
+                        <td>C99 才有</td>
+                    </tr>
+                    <tr>
+                        <td><code>float</code></td>
+                        <td>4 字节</td>
+                        <td>单精度小数</td>
+                    </tr>
+                    <tr>
+                        <td><code>double</code></td>
+                        <td>8 字节</td>
+                        <td>小数默认类型</td>
+                    </tr>
+                    <tr>
+                        <td><code>long double</code></td>
+                        <td>Windows 常见 8 字节</td>
+                        <td>其他系统可能是 12 或 16 字节</td>
+                    </tr>
+                </table>
+
+                <div class="warn">
+                    这些大小不是所有环境都固定。不同操作系统、不同编译器可能不同。最准确的方式永远是 <code>sizeof</code>。
+                </div>
+
+                <h3>取值范围关系</h3>
+
+                <p>课程中给出的常见取值范围关系：</p>
+
+                <pre><code>double > float > long long > long > int > short</code></pre>
+
+                <div class="note">
+                    小数的取值范围通常比整数大，因为小数底层类似科学计数法存储。但范围大不代表完全精确，小数可能存在精度误差。
+                </div>
+
+                <h3>默认类型</h3>
+
+                <div class="cards">
+                    <div class="card green">
+                        <strong>整数默认类型</strong>
+                        <p><code>int</code></p>
+                    </div>
+                    <div class="card green">
+                        <strong>小数默认类型</strong>
+                        <p><code>double</code></p>
+                    </div>
+                    <div class="card blue">
+                        <strong>字符类型</strong>
+                        <p><code>char</code></p>
+                    </div>
+                </div>
+
+                <h3>unsigned 规则</h3>
+
+                <table>
+                    <tr>
+                        <th>规则</th>
+                        <th>说明</th>
+                    </tr>
+                    <tr>
+                        <td><code>signed</code></td>
+                        <td>有符号，可以表示正数、负数和 0</td>
+                    </tr>
+                    <tr>
+                        <td><code>unsigned</code></td>
+                        <td>无符号，只能表示 0 和正数</td>
+                    </tr>
+                    <tr>
+                        <td>整数默认</td>
+                        <td>默认是 <code>signed</code></td>
+                    </tr>
+                    <tr>
+                        <td>无符号打印</td>
+                        <td>使用 <code>%u</code></td>
+                    </tr>
+                    <tr>
+                        <td>组合限制</td>
+                        <td><code>unsigned</code> 只能和整数类型组合，不能和小数类型组合</td>
+                    </tr>
+                </table>
+
+                <div class="memory">
+                    复习时优先记这句话：整数默认 <code>int</code>，小数默认 <code>double</code>，字符用 <code>char</code>，大小用 <code>sizeof</code> 测。
+                </div>
+            </section>
+
+            <section id="s9">
+                <h2>9. 完整练习代码</h2>
+
+                <p>这份代码覆盖这几节课的核心知识点，适合复习时直接运行。</p>
+
+                <pre><code>#include &lt;stdio.h&gt;
+
+int main()
+{
+    // 一、整数类型
+    short a = 10;
+    int b = 100;
+    long c = 1000L;
+    long long d = 10000LL;
+
+    printf("short a = %d
+", a);
+    printf("int b = %d
+", b);
+    printf("long c = %ld
+", c);
+    printf("long long d = %lld
+", d);
+
+    // 二、sizeof 测量整数类型大小
+    printf("sizeof(short) = %zu
+", sizeof(short));
+    printf("sizeof(int) = %zu
+", sizeof(int));
+    printf("sizeof(long) = %zu
+", sizeof(long));
+    printf("sizeof(long long) = %zu
+", sizeof(long long));
+
+    // 三、整数类型的完整写法
+    short int e = 20;
+    long int f = 2000L;
+    long long int g = 30000LL;
+
+    printf("short int e = %d
+", e);
+    printf("long int f = %ld
+", f);
+    printf("long long int g = %lld
+", g);
+
+    // 错误写法：int 后面不能再加 int
+    // int int x = 10;
+
+    // 四、有符号整数和无符号整数
+    signed int h = -100;
+    unsigned int i = 999;
+    unsigned short j = 65535;
+
+    printf("signed int h = %d
+", h);
+    printf("unsigned int i = %u
+", i);
+    printf("unsigned short j = %u
+", j);
+
+    // 五、小数类型
+    float k = 3.14F;
+    double l = 1.78;
+    long double m = 3.141592653589793238L;
+
+    printf("float k = %f
+", k);
+    printf("float k 保留两位 = %.2f
+", k);
+
+    printf("double l = %f
+", l);
+    printf("double l 保留两位 = %.2f
+", l);
+
+    printf("long double m = %Lf
+", m);
+    printf("long double m 保留两位 = %.2Lf
+", m);
+
+    // 六、sizeof 测量小数类型大小
+    printf("sizeof(float) = %zu
+", sizeof(float));
+    printf("sizeof(double) = %zu
+", sizeof(double));
+    printf("sizeof(long double) = %zu
+", sizeof(long double));
+
+    // 七、字符类型
+    char n1 = 'a';
+    char n2 = '1';
+    char n3 = 'A';
+    char n4 = '.';
+
+    printf("char n1 = %c
+", n1);
+    printf("char n2 = %c
+", n2);
+    printf("char n3 = %c
+", n3);
+    printf("char n4 = %c
+", n4);
+
+    // 八、sizeof 测量 char 大小
+    printf("sizeof(char) = %zu
+", sizeof(char));
+    printf("sizeof(n1) = %zu
+", sizeof(n1));
+
+    // 九、错误示例：unsigned 不能和小数类型组合
+    // unsigned double wrong1 = 3.14;  // 错误
+    // unsigned float wrong2 = 3.14F;  // 错误
+
+    return 0;
+}</code></pre>
+
+                <div class="check">
+                    这段代码重点看三类内容：变量怎么定义、<code>printf</code> 怎么打印、<code>sizeof</code> 怎么测大小。
+                </div>
+            </section>
+
+            <section id="s10">
+                <h2>10. 易错点集中复习</h2>
+
+                <h3>1. 字符和字符串不要混淆</h3>
+
+                <div class="two-col">
+                    <div class="card green">
+                        <strong>正确：字符</strong>
+                        <p><code>char c = 'A';</code></p>
+                        <p>单引号，表示一个字符。</p>
+                    </div>
+                    <div class="card red">
+                        <strong>错误：字符串</strong>
+                        <p><code>char c = "A";</code></p>
+                        <p>双引号表示字符串，不是本节的字符类型。</p>
+                    </div>
+                </div>
+
+                <h3>2. 字符数字和整数数字不同</h3>
+
+                <pre><code>char c = '1'; // 字符 1
+int n = 1;    // 整数 1</code></pre>
+
+                <p>它们显示出来可能都像 1，但类型不同。</p>
+
+                <h3>3. 不要直接用普通 char 保存中文</h3>
+
+                <div class="error">
+                    不推荐：<code>char c = '你';</code>。普通 <code>char</code> 通常只有 1 字节，中文字符通常不止 1 字节，可能输出问号或乱码。
+                </div>
+
+                <h3>4. 不要把 unsigned 和小数混用</h3>
+
+                <div class="two-col">
+                    <div class="card red">
+                        <strong>错误</strong>
+                        <p><code>unsigned double a = 3.14;</code></p>
+                        <p><code>unsigned float b = 3.14F;</code></p>
+                    </div>
+                    <div class="card green">
+                        <strong>正确</strong>
+                        <p><code>double a = 3.14;</code></p>
+                        <p><code>float b = 3.14F;</code></p>
+                    </div>
+                </div>
+
+                <h3>5. 不要忘记常见后缀</h3>
+
+                <pre><code>long a = 1000L;
+long long b = 10000LL;
+float c = 3.14F;
+long double d = 3.14L;</code></pre>
+
+                <h3>6. 不要超出类型范围</h3>
+
+                <p>常见 Windows 环境下：</p>
+
+                <pre><code>short a = 32768;      // 可能出错，因为 short 常见最大值是 32767
+int b = 2147483648;   // 可能出错，因为超过 int 常见最大值</code></pre>
+
+                <p>具体原因后面会通过整数溢出、二进制、补码继续解释。</p>
+
+                <h3>7. 不要死背所有类型大小</h3>
+
+                <div class="note">
+                    类型大小会受操作系统、编译器、平台位数影响。复习时记常见情况即可，真正准确的结果用 <code>sizeof</code> 测。
+                </div>
+
+                <h3>8. 代码报错时怎么排查</h3>
+
+                <table>
+                    <tr>
+                        <th>问题表现</th>
+                        <th>优先检查</th>
+                    </tr>
+                    <tr>
+                        <td>类型说明符组合无效</td>
+                        <td>是不是写了 <code>unsigned double</code>、<code>unsigned float</code> 这类错误组合</td>
+                    </tr>
+                    <tr>
+                        <td>打印结果奇怪</td>
+                        <td>格式符是否匹配，例如 <code>long</code> 是否用了 <code>%ld</code></td>
+                    </tr>
+                    <tr>
+                        <td>数值变成异常结果</td>
+                        <td>是否超出了类型的取值范围</td>
+                    </tr>
+                    <tr>
+                        <td>小数输出很多 0</td>
+                        <td><code>%f</code> 默认保留 6 位小数，可以用 <code>%.2f</code> 控制</td>
+                    </tr>
+                    <tr>
+                        <td>中文字符输出问号</td>
+                        <td>是否误用普通 <code>char</code> 保存中文</td>
+                    </tr>
+                </table>
+
+                <div class="memory">
+                    复习目标不是一次性背完所有细节，而是写代码时知道：类型怎么选、格式符怎么写、大小怎么测、报错怎么改。
+                </div>
+            </section>
+
+            <section id="s11">
+                <h2>11. 最终记忆版</h2>
+
+                <div class="cards">
+                    <div class="card blue">
+                        <strong>数据类型两个作用</strong>
+                        <p>决定能存什么；决定占多大内存。</p>
+                    </div>
+
+                    <div class="card green">
+                        <strong>默认选择</strong>
+                        <p>整数用 <code>int</code>，小数用 <code>double</code>。</p>
+                    </div>
+
+                    <div class="card purple">
+                        <strong>测大小</strong>
+                        <p><code>sizeof(类型)</code> 或 <code>sizeof(变量)</code>，打印用 <code>%zu</code>。</p>
+                    </div>
+
+                    <div class="card orange">
+                        <strong>后缀</strong>
+                        <p><code>long</code> 加 <code>L</code>，<code>long long</code> 加 <code>LL</code>，<code>float</code> 加 <code>F</code>。</p>
+                    </div>
+
+                    <div class="card red">
+                        <strong>限制</strong>
+                        <p><code>unsigned</code> 只能修饰整数，不能修饰小数。</p>
+                    </div>
+
+                    <div class="card blue">
+                        <strong>字符</strong>
+                        <p><code>char</code> 存单个字符，用单引号，打印用 <code>%c</code>。</p>
+                    </div>
+                </div>
+
+                <h3>一句话复习</h3>
+
+                <div class="memory">
+                    C语言数据类型分为整数、小数、字符；整数默认 <code>int</code>，小数默认 <code>double</code>，字符用 <code>char</code>；不同类型大小不同，用 <code>sizeof</code> 测；打印时格式符必须匹配。
+                </div>
+            </section>
+
+        </div>
+    </main>
+
+    <script>
+        function exportPDF() {
+        window.print();
+        }
+    </script>
+
+</body>
+</html>

@@ -1,5 +1,5 @@
 // data.js
-// 统一定义所有闪卡数据
+// 统一定义所有知识模块和闪卡数据
 
 const appData = {
     // === 模块 1：导数公式 ===
@@ -83,7 +83,7 @@ const appData = {
         id: "equivalent",
         title: "等价无穷小记忆卡",
         subtitle: "x → 0 数二专用",
-        themeColor: "indigo", 
+        themeColor: "sky", 
         cards: [
             { title: "基础三角", q: "$$\\sin x \\sim ?$$", a: "$$\\sin x \\sim x$$", tip: "<b>最基础的起点：</b><ul><li>在单位圆中，$x \\to 0$ 时弧长约等于弦长。</li><li>这是所有三角函数等价的母式。</li></ul>" },
             { title: "基础三角", q: "$$\\tan x \\sim ?$$", a: "$$\\tan x \\sim x$$", tip: "<b>切线斜率：</b><ul><li>$\\tan x$ 在原点处的切线斜率为 1。</li><li>注意：虽然 $\\sin x$ 和 $\\tan x$ 都等价于 $x$，但它们的<span class='highlight'>三阶差值</span>不同。</li></ul>" },
@@ -218,7 +218,7 @@ const appData = {
         id: "high_order_derivatives",
         title: "常用高阶导数",
         subtitle: "n为正整数 · 核心推导与记忆",
-        themeColor: "rose", // 新的主题色
+        themeColor: "rose", 
         cards: [
             {
                 title: "🚀 复合指数高阶",
@@ -257,7 +257,7 @@ const appData = {
         id: "rolle_auxiliary",
         title: "罗尔定理辅助函数",
         subtitle: "微分中值定理核心构造法",
-        themeColor: "emerald", // 翠绿色主题
+        themeColor: "emerald", 
         cards: [
             {
                 title: "🔄 乘积法则逆用 I",
@@ -290,5 +290,176 @@ const appData = {
                 a: "当 $$f(x) \\neq 0$$ 时，<br>令 $$F(x) = \\frac{f'(x)}{f(x)}$$ <hr class='my-2 border-slate-200'> 当 $$f(x) > 0$$ 时，<br>亦可令 $$F(x) = \\ln f(x)$$"
             }
         ]
+    },
+    
+    // ==========================================
+    // ============ 新增独立页面模块 ============
+    // ==========================================
+
+    // === 模块 7：英语语法 ===
+    english_grammar: {
+        id: "english_grammar",
+        title: "英语语法：简单句",
+        subtitle: "考研英语句句真研",
+        themeColor: "indigo",
+        type: "article",
+        url: "english/简单句.html",
+        cards: []
+    },
+
+    // === 模块 8：C语言 - for循环 ===
+    c_for_loop: {
+        id: "c_for_loop",
+        title: "C语言：for循环",
+        subtitle: "for/while及循环算法",
+        themeColor: "emerald",
+        type: "article",
+        url: "c/for循环.html",
+        cards: []
+    },
+
+    c_branching: {
+        id: "c_branching",
+        title: "顺序与分支结构",
+        subtitle: "if/else/switch语句",
+        themeColor: "emerald",
+        type: "article",
+        url: "c/1_顺序_分支结构.html",
+        cards: []
+    },
+
+    c_loop: {
+        id: "c_loop",
+        title: "C语言：循环基础",
+        subtitle: "while/do-while基础",
+        themeColor: "emerald",
+        type: "article",
+        url: "c/循环.html",
+        cards: []
+    },
+
+    c_loop_advanced: {
+        id: "c_loop_advanced",
+        title: "C语言：循环高级",
+        subtitle: "嵌套循环与算法优化",
+        themeColor: "emerald",
+        type: "article",
+        url: "c/循环高级.html",
+        cards: []
+    },
+
+    c_syntax_core1: {
+        id: "c_syntax_core1",
+        title: "C语言：核心语法（上）",
+        subtitle: "变量/数据类型/输入输出",
+        themeColor: "emerald",
+        type: "article",
+        url: "c/核心语法1.html",
+        cards: []
+    },
+
+    c_syntax_core2: {
+        id: "c_syntax_core2",
+        title: "C语言：核心语法（下）",
+        subtitle: "数组/函数/指针基础",
+        themeColor: "emerald",
+        type: "article",
+        url: "c/核心语法2.html",
+        cards: []
+    },
+
+    c_syntax_basics1: {
+        id: "c_syntax_basics1",
+        title: "C语言：语法基础上",
+        subtitle: "程序基本结构",
+        themeColor: "emerald",
+        type: "article",
+        url: "c/语法基础上.html",
+        cards: []
+    },
+
+    c_syntax_basics2: {
+        id: "c_syntax_basics2",
+        title: "C语言：语法基础下",
+        subtitle: "控制流与函数",
+        themeColor: "emerald",
+        type: "article",
+        url: "c/语法基础下.html",
+        cards: []
+    },
+
+    c_operator1: {
+        id: "c_operator1",
+        title: "C语言：运算符（一）",
+        subtitle: "算术与赋值运算符",
+        themeColor: "emerald",
+        type: "article",
+        url: "c/运算符1.html",
+        cards: []
+    },
+
+    c_operator2: {
+        id: "c_operator2",
+        title: "C语言：运算符（二）",
+        subtitle: "关系与逻辑运算符",
+        themeColor: "emerald",
+        type: "article",
+        url: "c/运算符2.html",
+        cards: []
+    },
+
+    c_operator3: {
+        id: "c_operator3",
+        title: "C语言：运算符（三）",
+        subtitle: "位运算与条件运算符",
+        themeColor: "emerald",
+        type: "article",
+        url: "c/运算符3.html",
+        cards: []
     }
 };
+
+// ====================================================
+// 首页分类展示数据（index.html 使用 siteData 渲染）
+// ====================================================
+const siteData = [
+    {
+        categoryTitle: "📐 考研数学",
+        categoryId: "math",
+        categoryBorder: "border-sky-500",
+        items: [
+            appData.derivatives,
+            appData.equivalent,
+            appData.taylor,
+            appData.trig_special,
+            appData.high_order_derivatives,
+            appData.rolle_auxiliary
+        ]
+    },
+    {
+        categoryTitle: "💻 C语言程序设计",
+        categoryId: "c-language",
+        categoryBorder: "border-emerald-500",
+        items: [
+            appData.c_syntax_basics1,
+            appData.c_syntax_basics2,
+            appData.c_syntax_core1,
+            appData.c_syntax_core2,
+            appData.c_operator1,
+            appData.c_operator2,
+            appData.c_operator3,
+            appData.c_branching,
+            appData.c_loop,
+            appData.c_for_loop,
+            appData.c_loop_advanced
+        ]
+    },
+    {
+        categoryTitle: "📝 考研英语",
+        categoryId: "english",
+        categoryBorder: "border-indigo-500",
+        items: [
+            appData.english_grammar
+        ]
+    }
+];

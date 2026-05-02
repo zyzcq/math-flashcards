@@ -1,0 +1,1149 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>C语言循环高级复习笔记</title>
+    <style>
+        :root {
+            --blue: #2563eb;
+            --blue-light: #eff6ff;
+            --green: #16a34a;
+            --green-light: #f0fdf4;
+            --yellow: #ca8a04;
+            --yellow-light: #fefce8;
+            --red: #dc2626;
+            --red-light: #fef2f2;
+            --purple: #7c3aed;
+            --purple-light: #f5f3ff;
+            --gray: #475569;
+            --bg: #f8fafc;
+            --card: #ffffff;
+            --border: #e2e8f0;
+            --code-bg: #0f172a;
+            --code-text: #e2e8f0;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Microsoft YaHei", Arial, sans-serif;
+            background: var(--bg);
+            color: #1e293b;
+            line-height: 1.75;
+        }
+
+        header {
+            background: linear-gradient(135deg, #1d4ed8, #7c3aed);
+            color: white;
+            padding: 28px 36px;
+        }
+
+            header h1 {
+                margin: 0;
+                font-size: 30px;
+            }
+
+            header p {
+                margin: 8px 0 0;
+                opacity: 0.9;
+            }
+
+        .print-btn {
+            position: fixed;
+            right: 24px;
+            top: 20px;
+            z-index: 999;
+            border: none;
+            background: #16a34a;
+            color: white;
+            padding: 10px 18px;
+            border-radius: 999px;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.18);
+        }
+
+            .print-btn:hover {
+                background: #15803d;
+            }
+
+        .layout {
+            display: grid;
+            grid-template-columns: 260px 1fr;
+            gap: 24px;
+            padding: 24px;
+            max-width: 1320px;
+            margin: 0 auto;
+        }
+
+        nav {
+            position: sticky;
+            top: 76px;
+            align-self: start;
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 18px;
+            box-shadow: 0 4px 14px rgba(15,23,42,0.06);
+        }
+
+            nav h2 {
+                font-size: 18px;
+                margin: 0 0 12px;
+                color: var(--blue);
+            }
+
+            nav a {
+                display: block;
+                color: #334155;
+                text-decoration: none;
+                padding: 7px 0;
+                font-size: 14px;
+                border-bottom: 1px dashed #e5e7eb;
+            }
+
+                nav a:hover {
+                    color: var(--blue);
+                    font-weight: 700;
+                }
+
+        main {
+            min-width: 0;
+        }
+
+        section {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 18px;
+            padding: 24px;
+            margin-bottom: 22px;
+            box-shadow: 0 4px 14px rgba(15,23,42,0.05);
+        }
+
+        h2 {
+            margin-top: 0;
+            color: var(--blue);
+            border-left: 6px solid var(--blue);
+            padding-left: 12px;
+            font-size: 24px;
+        }
+
+        h3 {
+            color: #334155;
+            margin-top: 22px;
+            font-size: 19px;
+        }
+
+        .tag {
+            display: inline-block;
+            padding: 2px 10px;
+            border-radius: 999px;
+            font-size: 13px;
+            font-weight: 700;
+            margin-right: 6px;
+        }
+
+        .tag-blue {
+            background: var(--blue-light);
+            color: var(--blue);
+        }
+
+        .tag-green {
+            background: var(--green-light);
+            color: var(--green);
+        }
+
+        .tag-yellow {
+            background: var(--yellow-light);
+            color: var(--yellow);
+        }
+
+        .tag-red {
+            background: var(--red-light);
+            color: var(--red);
+        }
+
+        .note, .key, .warn, .example {
+            border-radius: 12px;
+            padding: 12px 16px;
+            margin: 14px 0;
+        }
+
+        .note {
+            background: var(--blue-light);
+            border-left: 5px solid var(--blue);
+        }
+
+        .key {
+            background: var(--yellow-light);
+            border-left: 5px solid var(--yellow);
+        }
+
+        .warn {
+            background: var(--red-light);
+            border-left: 5px solid var(--red);
+        }
+
+        .example {
+            background: var(--green-light);
+            border-left: 5px solid var(--green);
+        }
+
+        .compact-list {
+            margin-top: 8px;
+        }
+
+            .compact-list li {
+                margin-bottom: 4px;
+            }
+
+        code.inline {
+            background: #e2e8f0;
+            color: #0f172a;
+            padding: 2px 6px;
+            border-radius: 6px;
+            font-family: Consolas, Monaco, monospace;
+        }
+
+        pre {
+            background: var(--code-bg);
+            color: var(--code-text);
+            padding: 16px;
+            border-radius: 14px;
+            overflow-x: auto;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 14px 0;
+            font-size: 14px;
+        }
+
+        th, td {
+            border: 1px solid var(--border);
+            padding: 10px;
+            text-align: left;
+        }
+
+        th {
+            background: var(--blue-light);
+            color: var(--blue);
+        }
+
+        details {
+            background: #f8fafc;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 12px 16px;
+            margin: 14px 0;
+        }
+
+        summary {
+            cursor: pointer;
+            font-weight: 700;
+            color: var(--purple);
+        }
+
+        .review-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 12px;
+        }
+
+        .review-card {
+            background: #f8fafc;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 12px;
+        }
+
+        footer {
+            text-align: center;
+            color: var(--gray);
+            padding: 24px;
+        }
+
+        @media (max-width: 900px) {
+            .layout {
+                grid-template-columns: 1fr;
+            }
+
+            nav {
+                position: static;
+            }
+
+            .review-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media print {
+            body {
+                background: white;
+            }
+
+            .print-btn, nav {
+                display: none;
+            }
+
+            .layout {
+                display: block;
+                padding: 0;
+            }
+
+            section {
+                box-shadow: none;
+                page-break-inside: avoid;
+                border: 1px solid #ddd;
+            }
+
+            header {
+                background: white;
+                color: black;
+                border-bottom: 2px solid #ddd;
+            }
+
+            pre {
+                white-space: pre-wrap;
+                word-break: break-word;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <button class="print-btn" onclick="window.print()">一键导出 PDF</button>
+
+    <header>
+        <h1>C语言循环高级复习笔记</h1>
+        <p>覆盖：无限循环、break、continue、循环嵌套、图形打印、九九乘法表、制表符、质数、幂级数列、特殊数字、goto。</p>
+    </header>
+
+    <div class="layout">
+        <nav>
+            <h2>目录</h2>
+            <a href="#s1">1. 无限循环</a>
+            <a href="#s2">2. break</a>
+            <a href="#s3">3. continue</a>
+            <a href="#s4">4. 循环嵌套与矩形</a>
+            <a href="#s5">5. 打印直角三角形</a>
+            <a href="#s6">6. 九九乘法表</a>
+            <a href="#s7">7. 制表符 \t</a>
+            <a href="#s8">8. 统计质数</a>
+            <a href="#s9">9. 幂级数列</a>
+            <a href="#s10">10. 特殊数字</a>
+            <a href="#s11">11. 跳出多层循环与 goto</a>
+            <a href="#check">知识点核对清单</a>
+        </nav>
+
+        <main>
+
+            <section id="s1">
+                <h2>1. 无限循环</h2>
+                <p><span class="tag tag-blue">概念</span>无限循环就是循环条件一直成立，循环会持续执行，不会自动停止。</p>
+
+                <table>
+                    <tr>
+                        <th>写法</th>
+                        <th>格式</th>
+                        <th>特点</th>
+                    </tr>
+                    <tr>
+                        <td>for 无限循环</td>
+                        <td><code class="inline">for (;;)</code></td>
+                        <td>三个部分都省略，但两个分号不能省略。</td>
+                    </tr>
+                    <tr>
+                        <td>while 无限循环</td>
+                        <td><code class="inline">while (1)</code></td>
+                        <td>最常用。C 语言中 0 为假，非 0 为真。</td>
+                    </tr>
+                    <tr>
+                        <td>do while 无限循环</td>
+                        <td><code class="inline">do { } while (1);</code></td>
+                        <td>也能实现，但实际开发中较少用。</td>
+                    </tr>
+                </table>
+
+                <div class="key">
+                    <strong>重点：</strong>无限循环通常不会单独使用，而是配合 <code class="inline">if + break</code>，在满足条件时退出。
+                </div>
+
+<pre><code>#include &lt;stdio.h&gt;
+
+int main()
+{
+    while (1)
+    {
+        printf("正在循环\n");
+
+        if (/* 结束条件 */)
+        {
+            break;
+        }
+    }
+
+    printf("循环结束\n");
+    return 0;
+}</code></pre>
+
+                <div class="warn">
+                    <strong>注意：</strong>如果无限循环中没有退出逻辑，那么循环后面的代码永远执行不到。手动停止程序可以关闭窗口或按 Ctrl + C。
+                </div>
+
+                <details>
+                    <summary>本节精炼总结</summary>
+                    <p>无限循环有三种写法，最常用的是 <code class="inline">while(1)</code>。它的价值不是让程序卡死，而是让程序“先一直执行，满足结束条件时再退出”。</p>
+                </details>
+            </section>
+
+            <section id="s2">
+                <h2>2. break</h2>
+                <p><span class="tag tag-red">跳出</span><code class="inline">break</code> 表示结束或跳出。它只能写在 <code class="inline">switch</code> 或循环中。</p>
+
+                <div class="key">
+                    在循环中遇到 <code class="inline">break</code>，会立刻结束当前循环，然后继续执行循环后面的代码。
+                </div>
+
+<pre><code>#include &lt;stdio.h&gt;
+
+int main()
+{
+    for (int i = 1; i &lt;= 100; i++)
+    {
+        if (i == 15)
+        {
+            break;
+        }
+
+        printf("%d\n", i);
+    }
+
+    printf("循环结束\n");
+    return 0;
+}</code></pre>
+
+                <h3>例题：找 1 到 100 中第一个既能被 3 又能被 5 整除的数</h3>
+
+<pre><code>#include &lt;stdio.h&gt;
+
+int main()
+{
+    for (int i = 1; i &lt;= 100; i++)
+    {
+        if (i % 3 == 0 &amp;&amp; i % 5 == 0)
+        {
+            printf("%d\n", i);
+            break;
+        }
+    }
+
+    return 0;
+}</code></pre>
+
+                <div class="example">
+                    有 <code class="inline">break</code>：只输出第一个满足条件的数 15。<br>
+                    没有 <code class="inline">break</code>：会输出 15、30、45、60、75、90。
+                </div>
+
+                <details>
+                    <summary>本节精炼总结</summary>
+                    <p>题目出现“第一个”“找到就停止”“后面不用继续”，优先想到 <code class="inline">break</code>。</p>
+                </details>
+            </section>
+
+            <section id="s3">
+                <h2>3. continue</h2>
+                <p><span class="tag tag-yellow">跳过本次</span><code class="inline">continue</code> 表示结束本次循环，继续下一次循环。</p>
+
+                <table>
+                    <tr>
+                        <th>关键字</th>
+                        <th>作用</th>
+                        <th>使用范围</th>
+                    </tr>
+                    <tr>
+                        <td><code class="inline">break</code></td>
+                        <td>结束整个当前循环</td>
+                        <td>switch 或循环</td>
+                    </tr>
+                    <tr>
+                        <td><code class="inline">continue</code></td>
+                        <td>跳过本次循环，继续下一次</td>
+                        <td>只能用于循环</td>
+                    </tr>
+                </table>
+
+                <h3>例题：吃 5 个包子，跳过第 3 个</h3>
+
+<pre><code>#include &lt;stdio.h&gt;
+
+int main()
+{
+    for (int i = 1; i &lt;= 5; i++)
+    {
+        if (i == 3)
+        {
+            continue;
+        }
+
+        printf("正在吃第%d个包子\n", i);
+    }
+
+    return 0;
+}</code></pre>
+
+                <div class="warn">
+                    <strong>while 中使用 continue 要小心：</strong>如果 <code class="inline">continue</code> 跳过了变量更新，可能死循环。
+                </div>
+
+<pre><code>// 错误示例：i == 3 时会一直 continue，i 无法增加
+int i = 1;
+while (i &lt;= 5)
+{
+    if (i == 3)
+    {
+        continue;
+    }
+
+    printf("%d\n", i);
+    i++;
+}</code></pre>
+
+                <details>
+                    <summary>本节精炼总结</summary>
+                    <p><code class="inline">break</code> 是“彻底不循环了”，<code class="inline">continue</code> 是“这一次跳过，下一次继续”。</p>
+                </details>
+            </section>
+
+            <section id="s4">
+                <h2>4. 循环嵌套与打印矩形</h2>
+                <p><span class="tag tag-blue">结构</span>循环嵌套就是循环里面还有循环。外面的叫外循环，里面的叫内循环。</p>
+
+                <div class="key">
+                    打印图形时，一般：外循环控制行数，内循环控制每一行打印多少个。
+                </div>
+
+                <h3>打印三行五列矩形</h3>
+
+<pre><code>#include &lt;stdio.h&gt;
+
+int main()
+{
+    for (int i = 1; i &lt;= 3; i++)
+    {
+        for (int j = 1; j &lt;= 5; j++)
+        {
+            printf("*");
+        }
+
+        printf("\n");
+    }
+
+    return 0;
+}</code></pre>
+
+                <h3>打印七行八列矩形</h3>
+
+<pre><code>#include &lt;stdio.h&gt;
+
+int main()
+{
+    for (int i = 1; i &lt;= 7; i++)
+    {
+        for (int j = 1; j &lt;= 8; j++)
+        {
+            printf("*");
+        }
+
+        printf("\n");
+    }
+
+    return 0;
+}</code></pre>
+
+                <div class="note">
+                    阅读嵌套循环的技巧：先看内循环做什么，再看外循环让这件事重复几次。
+                </div>
+
+                <details>
+                    <summary>本节精炼总结</summary>
+                    <p>矩形公式：外循环写行数，内循环写列数，内循环结束后换行。</p>
+                </details>
+            </section>
+
+            <section id="s5">
+                <h2>5. 打印直角三角形</h2>
+                <p>三角形与矩形的区别在于：每一行星号数量不同。所以通常改内循环。</p>
+
+                <h3>倒着的五行直角三角形</h3>
+                <p>每行星号数量：5、4、3、2、1。</p>
+
+<pre><code>#include &lt;stdio.h&gt;
+
+int main()
+{
+    for (int i = 1; i &lt;= 5; i++)
+    {
+        for (int j = i; j &lt;= 5; j++)
+        {
+            printf("*");
+        }
+
+        printf("\n");
+    }
+
+    return 0;
+}</code></pre>
+
+                <h3>正着的五行直角三角形</h3>
+                <p>每行星号数量：1、2、3、4、5。</p>
+
+<pre><code>#include &lt;stdio.h&gt;
+
+int main()
+{
+    for (int i = 1; i &lt;= 5; i++)
+    {
+        for (int j = 1; j &lt;= i; j++)
+        {
+            printf("*");
+        }
+
+        printf("\n");
+    }
+
+    return 0;
+}</code></pre>
+
+                <table>
+                    <tr>
+                        <th>图形</th>
+                        <th>行数</th>
+                        <th>内循环规律</th>
+                    </tr>
+                    <tr>
+                        <td>矩形</td>
+                        <td>固定</td>
+                        <td><code class="inline">j &lt;= 固定列数</code></td>
+                    </tr>
+                    <tr>
+                        <td>倒三角</td>
+                        <td>固定</td>
+                        <td><code class="inline">j = i; j &lt;= 5</code></td>
+                    </tr>
+                    <tr>
+                        <td>正三角</td>
+                        <td>固定</td>
+                        <td><code class="inline">j = 1; j &lt;= i</code></td>
+                    </tr>
+                </table>
+
+                <details>
+                    <summary>本节精炼总结</summary>
+                    <p>图形题先看“一共几行”，再看“第几行有几个”。外循环管行，内循环管每行数量。</p>
+                </details>
+            </section>
+
+            <section id="s6">
+                <h2>6. 九九乘法表</h2>
+                <p><span class="tag tag-green">应用</span>九九乘法表本质是“正直角三角形 + 每个位置打印乘法表达式”。</p>
+
+                <div class="note">
+                    写法三步：先打印九行九列矩形，再改成正三角形，最后把星号改成乘法表达式。
+                </div>
+
+<pre><code>#include &lt;stdio.h&gt;
+
+int main()
+{
+    for (int i = 1; i &lt;= 9; i++)
+    {
+        for (int j = 1; j &lt;= i; j++)
+        {
+            printf("%d*%d=%d\t", j, i, j * i);
+        }
+
+        printf("\n");
+    }
+
+    return 0;
+}</code></pre>
+
+                <div class="key">
+                    <code class="inline">i</code> 控制当前第几行，<code class="inline">j</code> 控制当前行中的第几个表达式。常见格式是 <code class="inline">j * i = j * i</code>。
+                </div>
+
+                <div class="warn">
+                    如果写成 <code class="inline">i, j, i * j</code>，乘积没错，但显示顺序可能不是常见九九乘法表。运行后可根据结果调整 <code class="inline">i</code> 和 <code class="inline">j</code> 的位置。
+                </div>
+
+                <details>
+                    <summary>本节精炼总结</summary>
+                    <p>九九乘法表核心：外循环 1 到 9，内循环 <code class="inline">j &lt;= i</code>，每次打印 <code class="inline">%d*%d=%d\t</code>。</p>
+                </details>
+            </section>
+
+            <section id="s7">
+                <h2>7. 制表符 \t</h2>
+                <p><span class="tag tag-purple">格式对齐</span><code class="inline">\t</code> 是制表符，可以理解成长度可变的大空格。</p>
+
+                <div class="key">
+                    它会根据前面内容长度补空格，让整体长度达到 8 或 8 的倍数。最少补 1 个，最多补 8 个。
+                </div>
+
+                <table>
+                    <tr>
+                        <th>内容</th>
+                        <th>前面长度</th>
+                        <th>\t 补空格结果</th>
+                    </tr>
+                    <tr>
+                        <td>ABC\t</td>
+                        <td>3</td>
+                        <td>补 5 个，到 8</td>
+                    </tr>
+                    <tr>
+                        <td>长度刚好 8 后接 \t</td>
+                        <td>8</td>
+                        <td>补 8 个，到 16</td>
+                    </tr>
+                    <tr>
+                        <td>一个中文后接 \t</td>
+                        <td>通常可理解为 2</td>
+                        <td>补到 8，具体显示受环境影响</td>
+                    </tr>
+                </table>
+
+                <h3>表格对齐示例</h3>
+
+<pre><code>#include &lt;stdio.h&gt;
+
+int main()
+{
+    printf("name\t\tage\n");
+    printf("张三\t23\n");
+
+    return 0;
+}</code></pre>
+
+                <div class="warn">
+                    <code class="inline">\t</code> 不是永远自动完美对齐。如果不同内容长度差距较大，可能需要增加或减少制表符数量。
+                </div>
+
+                <details>
+                    <summary>本节精炼总结</summary>
+                    <p><code class="inline">\n</code> 是换行，<code class="inline">\t</code> 是横向对齐。打印九九乘法表、姓名年龄表等表格数据时常用。</p>
+                </details>
+            </section>
+
+            <section id="s8">
+                <h2>8. 统计质数</h2>
+                <p><span class="tag tag-blue">算法</span>质数是只能被 1 和自身整除的整数。1 不是质数，所以统计时通常从 2 开始。</p>
+
+                <div class="note">
+                    复杂题拆解：先判断一个数是不是质数，再扩大到范围，最后统计数量。
+                </div>
+
+                <h3>判断一个数是否为质数</h3>
+
+<pre><code>#include &lt;stdio.h&gt;
+
+int main()
+{
+    int number = 17;
+    int count = 0;
+
+    for (int i = 2; i &lt; number; i++)
+    {
+        if (number % i == 0)
+        {
+            count++;
+            break;
+        }
+    }
+
+    if (count == 0)
+    {
+        printf("%d是质数\n", number);
+    }
+    else
+    {
+        printf("%d不是质数\n", number);
+    }
+
+    return 0;
+}</code></pre>
+
+                <h3>统计小于等于 n 的质数数量</h3>
+
+<pre><code>#include &lt;stdio.h&gt;
+
+int main()
+{
+    int n = 100;
+    int countA = 0;
+
+    for (int i = 2; i &lt;= n; i++)
+    {
+        int count = 0;
+
+        for (int j = 2; j &lt; i; j++)
+        {
+            if (i % j == 0)
+            {
+                count++;
+                break;
+            }
+        }
+
+        if (count == 0)
+        {
+            countA++;
+        }
+    }
+
+    printf("小于等于%d的质数数量是：%d\n", n, countA);
+
+    return 0;
+}</code></pre>
+
+                <div class="key">
+                    <code class="inline">count</code> 判断当前数字是否有因数；<code class="inline">countA</code> 统计一共有多少个质数。
+                </div>
+
+                <div class="warn">
+                    内循环条件写 <code class="inline">j &lt; i</code>，不要写 <code class="inline">j &lt;= i</code>，因为任何数都能被自己整除。
+                </div>
+
+                <details>
+                    <summary>本节精炼总结</summary>
+                    <p>外循环拿数字，内循环判断是否质数，外部计数器统计总数。找到一个因数后立刻 <code class="inline">break</code>，提高效率。</p>
+                </details>
+            </section>
+
+            <section id="s9">
+                <h2>9. 幂级数列</h2>
+                <p><span class="tag tag-green">累乘 + 累加</span>题目：计算 1 的 1 次方加 2 的 2 次方，一直加到 10 的 10 次方。</p>
+
+                <p>也就是计算：</p>
+                <p><strong>1^1 + 2^2 + 3^3 + ... + 10^10</strong></p>
+
+                <div class="key">
+                    结果较大，变量不要用 int，要用 <code class="inline">long long</code>。打印时用 <code class="inline">%lld</code>。
+                </div>
+
+<pre><code>#include &lt;stdio.h&gt;
+
+int main()
+{
+    long long res = 0;
+
+    for (int i = 1; i &lt;= 10; i++)
+    {
+        long long power = 1;
+
+        for (int j = 1; j &lt;= i; j++)
+        {
+            power *= i;
+        }
+
+        res += power;
+    }
+
+    printf("%lld\n", res);
+
+    return 0;
+}</code></pre>
+
+                <table>
+                    <tr>
+                        <th>变量</th>
+                        <th>作用</th>
+                        <th>初始值原因</th>
+                    </tr>
+                    <tr>
+                        <td><code class="inline">power</code></td>
+                        <td>保存当前项，比如 3^3</td>
+                        <td>乘法累积从 1 开始</td>
+                    </tr>
+                    <tr>
+                        <td><code class="inline">res</code></td>
+                        <td>保存最终总和</td>
+                        <td>加法累积从 0 开始</td>
+                    </tr>
+                </table>
+
+                <div class="warn">
+                    <code class="inline">res += power</code> 必须写在内循环结束后。否则会把中间结果也累加进去。
+                </div>
+
+                <details>
+                    <summary>本节精炼总结</summary>
+                    <p>外循环决定算哪一项，内循环计算这一项的幂，内循环结束后再把这一项加到总结果中。</p>
+                </details>
+            </section>
+
+            <section id="s10">
+                <h2>10. 特殊数字：各位数字之和等于 15</h2>
+                <p><span class="tag tag-yellow">拆数字</span>题目：找出范围内每一位数字之和等于 15 的所有数字。</p>
+
+                <div class="example">
+                    78：7 + 8 = 15，满足。<br>
+                    168：1 + 6 + 8 = 15，满足。<br>
+                    1167：1 + 1 + 6 + 7 = 15，满足。
+                </div>
+
+                <div class="key">
+                    通用套路：外循环获取范围中的每个数字；内循环拆出这个数字的每一位并累加；最后判断是否等于 15。
+                </div>
+
+                <h3>拆数字核心</h3>
+
+<pre><code>int temp = number % 10;  // 获取最后一位
+number = number / 10;   // 去掉最后一位</code></pre>
+
+                <h3>完整代码</h3>
+
+<pre><code>#include &lt;stdio.h&gt;
+
+int main()
+{
+    int n = 1000;
+
+    for (int i = 0; i &lt;= n; i++)
+    {
+        int number = i;
+        int sum = 0;
+
+        while (number != 0)
+        {
+            int temp = number % 10;
+            sum += temp;
+
+            number /= 10;
+        }
+
+        if (sum == 15)
+        {
+            printf("%d\n", i);
+        }
+    }
+
+    return 0;
+}</code></pre>
+
+                <div class="warn">
+                    不要直接修改外循环变量 <code class="inline">i</code>。要先复制一份：<code class="inline">int number = i;</code>，再用 <code class="inline">number</code> 去拆位。
+                </div>
+
+                <div class="note">
+                    文稿中范围出现过 0 到 100、0 到 1000，例子又出现 1167。实际写法是通用的，想包含更大数字，只需要修改 <code class="inline">n</code>。
+                </div>
+
+                <details>
+                    <summary>本节精炼总结</summary>
+                    <p>拆数字靠 <code class="inline">% 10</code> 和 <code class="inline">/ 10</code>。外循环取数，内循环拆位求和，最后判断 <code class="inline">sum == 15</code>。</p>
+                </details>
+            </section>
+
+            <section id="s11">
+                <h2>11. 跳出多层循环与 goto</h2>
+                <p><span class="tag tag-red">控制流程</span>嵌套循环中，如果 <code class="inline">break</code> 写在内循环里，它默认只跳出内循环。</p>
+
+                <h3>break 只跳出当前层循环</h3>
+
+<pre><code>#include &lt;stdio.h&gt;
+
+int main()
+{
+    for (int i = 1; i &lt;= 3; i++)
+    {
+        for (int j = 1; j &lt;= 5; j++)
+        {
+            printf("内循环执行%d\n", j);
+            break;
+        }
+
+        printf("内循环结束\n");
+        printf("----------\n");
+    }
+
+    return 0;
+}</code></pre>
+
+                <div class="key">
+                    结果会出现 3 组，每组只打印一次“内循环执行1”。说明 <code class="inline">break</code> 只跳出了内循环，外循环仍然继续。
+                </div>
+
+                <h3>goto + 标号：跳出多层循环</h3>
+
+<pre><code>#include &lt;stdio.h&gt;
+
+int main()
+{
+    for (int i = 1; i &lt;= 3; i++)
+    {
+        for (int j = 1; j &lt;= 5; j++)
+        {
+            printf("内循环执行%d\n", j);
+            goto end;
+        }
+
+        printf("内循环结束\n");
+        printf("----------\n");
+    }
+
+end:
+    printf("所有循环都结束了\n");
+
+    return 0;
+}</code></pre>
+
+                <p>标号格式：</p>
+
+<pre><code>标号名:</code></pre>
+
+                <p>跳转格式：</p>
+
+<pre><code>goto 标号名;</code></pre>
+
+                <div class="warn">
+                    <code class="inline">goto</code> 可以跳到代码中任意位置，非常灵活，但会降低代码可读性。一般不要乱用。
+                </div>
+
+                <h3>不推荐：用 goto 写无限循环</h3>
+
+<pre><code>#include &lt;stdio.h&gt;
+
+int main()
+{
+    int i = 1;
+
+a:
+    printf("你好%d\n", i);
+    i++;
+
+    goto a;
+
+    return 0;
+}</code></pre>
+
+                <h3>更推荐：while(1) + if + break</h3>
+
+<pre><code>#include &lt;stdio.h&gt;
+
+int main()
+{
+    int i = 1;
+
+    while (1)
+    {
+        printf("你好%d\n", i);
+        i++;
+
+        if (i == 15)
+        {
+            break;
+        }
+    }
+
+    printf("看看我执行了吗？\n");
+
+    return 0;
+}</code></pre>
+
+                <details>
+                    <summary>本节精炼总结</summary>
+                    <p><code class="inline">break</code> 只能跳出当前循环。跳出多层循环可以使用 <code class="inline">goto + 标号</code>，但普通循环退出优先用 <code class="inline">break</code>。</p>
+                </details>
+            </section>
+
+            <section id="check">
+                <h2>知识点核对清单</h2>
+                <p>下面是按课程逐项检查后的知识点覆盖情况。</p>
+
+                <div class="review-grid">
+                    <div class="review-card">
+                        <strong>无限循环</strong>
+                        <ul class="compact-list">
+                            <li>for、while、do while 三种写法</li>
+                            <li>while(1) 最常用</li>
+                            <li>0 为假，非 0 为真</li>
+                            <li>无限循环后代码可能执行不到</li>
+                            <li>配合 if + break 使用</li>
+                        </ul>
+                    </div>
+
+                    <div class="review-card">
+                        <strong>break / continue</strong>
+                        <ul class="compact-list">
+                            <li>break 结束当前循环或 switch</li>
+                            <li>continue 跳过本次循环</li>
+                            <li>二者区别已对比</li>
+                            <li>while 中 continue 可能导致死循环</li>
+                        </ul>
+                    </div>
+
+                    <div class="review-card">
+                        <strong>循环嵌套与图形</strong>
+                        <ul class="compact-list">
+                            <li>外循环控制行</li>
+                            <li>内循环控制列</li>
+                            <li>矩形、正三角、倒三角</li>
+                            <li>内循环结束后换行</li>
+                        </ul>
+                    </div>
+
+                    <div class="review-card">
+                        <strong>九九乘法表与制表符</strong>
+                        <ul class="compact-list">
+                            <li>九行正三角结构</li>
+                            <li>j * i = j * i</li>
+                            <li>\t 用于对齐</li>
+                            <li>\t 补到 8 或 8 的倍数</li>
+                        </ul>
+                    </div>
+
+                    <div class="review-card">
+                        <strong>算法练习</strong>
+                        <ul class="compact-list">
+                            <li>质数定义与统计</li>
+                            <li>找到因数后 break 优化</li>
+                            <li>幂级数列：累乘 + 累加</li>
+                            <li>long long 与 %lld</li>
+                        </ul>
+                    </div>
+
+                    <div class="review-card">
+                        <strong>特殊数字与 goto</strong>
+                        <ul class="compact-list">
+                            <li>%10 获取最后一位</li>
+                            <li>/10 去掉最后一位</li>
+                            <li>break 只跳出单层循环</li>
+                            <li>goto + 标号可跳出多层循环</li>
+                            <li>goto 不建议乱用</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="key">
+                    <strong>最终复习主线：</strong>这一章的核心不是死背代码，而是掌握“循环控制”和“拆解复杂问题”。复杂题先拆小问题，再逐步套外循环、内循环、计数器或累加器。
+                </div>
+            </section>
+
+            <footer>
+                C语言循环高级复习笔记｜生成日期：2026-05-02｜建议打印为 PDF 后反复看代码结构。
+            </footer>
+
+        </main>
+    </div>
+
+</body>
+</html>
