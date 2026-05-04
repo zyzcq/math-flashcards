@@ -1,0 +1,980 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>C语言函数、常见函数与随机数复习笔记</title>
+<style>
+    :root {
+        --blue: #2563eb;
+        --blue-light: #eff6ff;
+        --green: #16a34a;
+        --green-light: #f0fdf4;
+        --orange: #f59e0b;
+        --orange-light: #fffbeb;
+        --red: #dc2626;
+        --red-light: #fef2f2;
+        --purple: #7c3aed;
+        --purple-light: #f5f3ff;
+        --gray: #374151;
+        --gray-light: #f3f4f6;
+        --dark: #111827;
+    }
+
+    body {
+        margin: 0;
+        font-family: "Microsoft YaHei", Arial, sans-serif;
+        background: #f8fafc;
+        color: var(--dark);
+        line-height: 1.75;
+    }
+
+    header {
+        background: linear-gradient(135deg, #1d4ed8, #7c3aed);
+        color: white;
+        padding: 34px 24px;
+        text-align: center;
+    }
+
+    header h1 {
+        margin: 0;
+        font-size: 30px;
+    }
+
+    header p {
+        margin: 10px 0 0;
+        opacity: 0.95;
+    }
+
+    .toolbar {
+        position: sticky;
+        top: 0;
+        z-index: 999;
+        background: white;
+        border-bottom: 1px solid #e5e7eb;
+        padding: 12px 20px;
+        display: flex;
+        justify-content: center;
+        gap: 12px;
+    }
+
+    button {
+        border: none;
+        border-radius: 8px;
+        padding: 10px 18px;
+        cursor: pointer;
+        font-weight: bold;
+        color: white;
+        background: var(--blue);
+    }
+
+    button:hover {
+        background: #1e40af;
+    }
+
+    main {
+        max-width: 1050px;
+        margin: 24px auto;
+        padding: 0 18px 60px;
+    }
+
+    .card {
+        background: white;
+        border-radius: 16px;
+        padding: 24px;
+        margin-bottom: 22px;
+        box-shadow: 0 8px 24px rgba(15, 23, 42, 0.06);
+        border: 1px solid #e5e7eb;
+    }
+
+    h2 {
+        margin-top: 0;
+        color: var(--blue);
+        border-left: 6px solid var(--blue);
+        padding-left: 12px;
+    }
+
+    h3 {
+        color: var(--dark);
+        margin-top: 24px;
+    }
+
+    .tag {
+        display: inline-block;
+        padding: 3px 9px;
+        border-radius: 999px;
+        font-size: 13px;
+        font-weight: bold;
+        margin-right: 6px;
+    }
+
+    .concept {
+        background: var(--blue-light);
+        color: var(--blue);
+    }
+
+    .good {
+        background: var(--green-light);
+        color: var(--green);
+    }
+
+    .warn {
+        background: var(--orange-light);
+        color: #b45309;
+    }
+
+    .danger {
+        background: var(--red-light);
+        color: var(--red);
+    }
+
+    .formula {
+        background: var(--purple-light);
+        color: var(--purple);
+    }
+
+    .box {
+        border-radius: 12px;
+        padding: 14px 16px;
+        margin: 14px 0;
+    }
+
+    .blue-box {
+        background: var(--blue-light);
+        border-left: 5px solid var(--blue);
+    }
+
+    .green-box {
+        background: var(--green-light);
+        border-left: 5px solid var(--green);
+    }
+
+    .orange-box {
+        background: var(--orange-light);
+        border-left: 5px solid var(--orange);
+    }
+
+    .red-box {
+        background: var(--red-light);
+        border-left: 5px solid var(--red);
+    }
+
+    .purple-box {
+        background: var(--purple-light);
+        border-left: 5px solid var(--purple);
+    }
+
+    pre {
+        background: #111827;
+        color: #e5e7eb;
+        padding: 16px;
+        border-radius: 12px;
+        overflow-x: auto;
+        font-size: 14px;
+        line-height: 1.6;
+    }
+
+    code {
+        font-family: Consolas, Menlo, monospace;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 14px 0;
+        background: white;
+    }
+
+    th, td {
+        border: 1px solid #e5e7eb;
+        padding: 10px;
+        text-align: left;
+    }
+
+    th {
+        background: var(--gray-light);
+    }
+
+    details {
+        background: #ffffff;
+        border: 1px solid #e5e7eb;
+        border-radius: 12px;
+        padding: 12px 16px;
+        margin: 12px 0;
+    }
+
+    summary {
+        cursor: pointer;
+        font-weight: bold;
+        color: var(--blue);
+    }
+
+    .review-list li {
+        margin: 6px 0;
+    }
+
+    .mini {
+        color: #4b5563;
+        font-size: 14px;
+    }
+
+    @media print {
+        .toolbar {
+            display: none;
+        }
+
+        body {
+            background: white;
+        }
+
+        .card {
+            box-shadow: none;
+            break-inside: avoid;
+        }
+
+        details {
+            break-inside: avoid;
+        }
+
+        details[open] {
+            display: block;
+        }
+    }
+</style>
+</head>
+<body>
+
+<header>
+    <h1>C语言函数、常见函数与随机数复习笔记</h1>
+    <p>覆盖：定义函数、函数注意事项、math.h、time.h、随机数、猜数字小游戏</p>
+</header>
+
+<div class="toolbar">
+    <button onclick="openAll()">展开全部</button>
+    <button onclick="closeAll()">收起全部</button>
+    <button onclick="window.print()">一键导出 PDF</button>
+</div>
+
+<main>
+
+<section class="card">
+    <h2>一、定义函数的核心方法</h2>
+
+    <div class="blue-box box">
+        <span class="tag concept">核心方法</span>
+        写函数前先问三个问题：我要干什么？需要什么？结果还要不要继续用？
+    </div>
+
+    <table>
+        <tr>
+            <th>问题</th>
+            <th>决定什么</th>
+            <th>理解</th>
+        </tr>
+        <tr>
+            <td>我定义函数是为了干什么？</td>
+            <td>函数体、函数名</td>
+            <td>函数里面真正要做的事</td>
+        </tr>
+        <tr>
+            <td>干这件事需要什么？</td>
+            <td>形参</td>
+            <td>外部需要传给函数的数据</td>
+        </tr>
+        <tr>
+            <td>干完后调用处还要不要用结果？</td>
+            <td>返回值类型</td>
+            <td>需要继续使用就返回，不需要就用 void</td>
+        </tr>
+    </table>
+
+    <details open>
+        <summary>例子 1：求长方形面积并比较大小</summary>
+        <p>求长方形面积需要长和宽，所以形参有两个。面积要继续用于比较，所以函数要返回面积。</p>
+
+<pre><code>#include &lt;stdio.h&gt;
+
+double getArea(double len, double width)
+{
+    double area = len * width;
+    return area;
+}
+
+int main()
+{
+    double area1 = getArea(5.3, 2.7);
+    double area2 = getArea(1.5, 0.8);
+
+    if (area1 &gt; area2)
+    {
+        printf("第一个长方形更大\n");
+    }
+    else if (area1 &lt; area2)
+    {
+        printf("第二个长方形更大\n");
+    }
+    else
+    {
+        printf("两个长方形一样大\n");
+    }
+
+    return 0;
+}</code></pre>
+    </details>
+
+    <details>
+        <summary>例子 2：求圆面积并比较大小</summary>
+        <p>求圆面积真正需要外部提供的是半径。圆周率是固定值，不建议作为形参传入。</p>
+
+<pre><code>#include &lt;stdio.h&gt;
+
+#define PI 3.14
+
+double getCircleArea(double r)
+{
+    return PI * r * r;
+}
+
+int main()
+{
+    double area1 = getCircleArea(3.0);
+    double area2 = getCircleArea(5.0);
+
+    if (area1 &gt; area2)
+    {
+        printf("第一个圆更大\n");
+    }
+    else if (area1 &lt; area2)
+    {
+        printf("第二个圆更大\n");
+    }
+    else
+    {
+        printf("两个圆一样大\n");
+    }
+
+    return 0;
+}</code></pre>
+    </details>
+
+    <div class="green-box box">
+        <strong>本节重点：</strong>形参不是越多越好，只写真正需要外部传入、会变化的数据。固定值可以写在函数内部或定义成常量。
+    </div>
+</section>
+
+<section class="card">
+    <h2>二、函数的注意事项</h2>
+
+    <table>
+        <tr>
+            <th>注意点</th>
+            <th>说明</th>
+            <th>常见错误</th>
+        </tr>
+        <tr>
+            <td>函数不调用就不执行</td>
+            <td>程序从 main 开始执行，其他函数必须被调用才执行</td>
+            <td>只定义函数，不调用</td>
+        </tr>
+        <tr>
+            <td>函数名不能重复</td>
+            <td>C 语言不支持普通函数重名</td>
+            <td>写两个 sum 函数</td>
+        </tr>
+        <tr>
+            <td>函数不能嵌套定义</td>
+            <td>函数之间是平级关系</td>
+            <td>在 main 里面定义 fun</td>
+        </tr>
+        <tr>
+            <td>函数写在 main 后面要声明</td>
+            <td>提前告诉编译器后面有这个函数</td>
+            <td>main 先调用，后面才定义，但没声明</td>
+        </tr>
+        <tr>
+            <td>return 后面不要写代码</td>
+            <td>return 会结束当前函数</td>
+            <td>return 后继续 printf</td>
+        </tr>
+        <tr>
+            <td>void 函数可以省略 return</td>
+            <td>也可以写 return; 用来结束函数</td>
+            <td>void 函数 return 100;</td>
+        </tr>
+    </table>
+
+    <details open>
+        <summary>函数声明、定义、调用的区别</summary>
+
+<pre><code>// 函数声明：只有函数头，后面有分号
+void fun();
+int sum(int a, int b);
+
+// 函数定义：有函数体
+void fun()
+{
+    printf("fun函数被执行了\n");
+}
+
+int sum(int a, int b)
+{
+    return a + b;
+}
+
+// 函数调用
+fun();
+int result = sum(10, 20);</code></pre>
+    </details>
+
+    <details>
+        <summary>return、break、continue 的区别</summary>
+        <table>
+            <tr>
+                <th>关键字</th>
+                <th>作用范围</th>
+                <th>作用</th>
+            </tr>
+            <tr>
+                <td>return</td>
+                <td>整个函数</td>
+                <td>结束当前函数，可返回结果</td>
+            </tr>
+            <tr>
+                <td>break</td>
+                <td>循环或 switch</td>
+                <td>结束当前循环或 switch</td>
+            </tr>
+            <tr>
+                <td>continue</td>
+                <td>循环</td>
+                <td>跳过本轮循环，进入下一轮</td>
+            </tr>
+        </table>
+    </details>
+
+    <div class="orange-box box">
+        <strong>本节重点：</strong>函数相关报错优先检查：有没有调用、函数名是否重复、是否嵌套定义、是否提前声明、return 用法是否正确。
+    </div>
+</section>
+
+<section class="card">
+    <h2>三、C 语言常见函数与头文件</h2>
+
+    <div class="blue-box box">
+        <span class="tag concept">头文件</span>
+        C 语言把很多现成函数放在不同头文件里。使用函数前，要导入对应头文件。
+    </div>
+
+    <table>
+        <tr>
+            <th>头文件</th>
+            <th>常见函数</th>
+            <th>作用</th>
+        </tr>
+        <tr>
+            <td>stdio.h</td>
+            <td>printf、scanf</td>
+            <td>输入输出</td>
+        </tr>
+        <tr>
+            <td>math.h</td>
+            <td>pow、sqrt、ceil、floor、fabs</td>
+            <td>数学计算</td>
+        </tr>
+        <tr>
+            <td>stdlib.h</td>
+            <td>abs、labs、llabs、srand、rand</td>
+            <td>标准库、绝对值、随机数</td>
+        </tr>
+        <tr>
+            <td>time.h</td>
+            <td>time</td>
+            <td>时间相关</td>
+        </tr>
+    </table>
+
+    <div class="green-box box">
+        <strong>学习函数不用死背：</strong>重点看函数的参数和返回值。可以查参考手册、问 AI、看 VS 鼠标悬停提示。
+    </div>
+</section>
+
+<section class="card">
+    <h2>四、math.h 常见数学函数</h2>
+
+    <table>
+        <tr>
+            <th>函数</th>
+            <th>作用</th>
+            <th>例子</th>
+        </tr>
+        <tr>
+            <td>pow(a, b)</td>
+            <td>求 a 的 b 次幂</td>
+            <td>pow(2, 3) 得到 8</td>
+        </tr>
+        <tr>
+            <td>sqrt(x)</td>
+            <td>求平方根</td>
+            <td>sqrt(9) 得到 3</td>
+        </tr>
+        <tr>
+            <td>ceil(x)</td>
+            <td>向上取整，进一法</td>
+            <td>ceil(12.3) 得到 13</td>
+        </tr>
+        <tr>
+            <td>floor(x)</td>
+            <td>向下取整，去尾法</td>
+            <td>floor(12.7) 得到 12</td>
+        </tr>
+        <tr>
+            <td>abs(x)</td>
+            <td>求 int 绝对值</td>
+            <td>abs(-13) 得到 13</td>
+        </tr>
+    </table>
+
+    <details open>
+        <summary>数学函数示例代码</summary>
+
+<pre><code>#include &lt;stdio.h&gt;
+#include &lt;math.h&gt;
+#include &lt;stdlib.h&gt;
+
+int main()
+{
+    double res1 = pow(2, 3);
+    printf("2的3次幂：%lf\n", res1);
+
+    double res2 = sqrt(9);
+    printf("9的平方根：%lf\n", res2);
+
+    double res3 = ceil(12.3);
+    printf("12.3向上取整：%lf\n", res3);
+
+    double res4 = floor(12.7);
+    printf("12.7向下取整：%lf\n", res4);
+
+    int res5 = abs(-13);
+    printf("-13的绝对值：%d\n", res5);
+
+    return 0;
+}</code></pre>
+    </details>
+
+    <details>
+        <summary>不同类型的绝对值函数</summary>
+        <table>
+            <tr>
+                <th>类型</th>
+                <th>函数</th>
+                <th>格式控制符</th>
+            </tr>
+            <tr>
+                <td>int</td>
+                <td>abs</td>
+                <td>%d</td>
+            </tr>
+            <tr>
+                <td>long</td>
+                <td>labs</td>
+                <td>%ld</td>
+            </tr>
+            <tr>
+                <td>long long</td>
+                <td>llabs</td>
+                <td>%lld</td>
+            </tr>
+            <tr>
+                <td>double</td>
+                <td>fabs</td>
+                <td>%lf</td>
+            </tr>
+        </table>
+        <p class="mini">注意：小数绝对值用 fabs，不要用 abs。llabs 是 C99 之后的函数。</p>
+    </details>
+
+    <div class="red-box box">
+        <strong>易错点：</strong>函数名必须写准确：pow 不是 power，ceil 不是 cell，floor 不是 flow，rand 不是 round。
+    </div>
+</section>
+
+<section class="card">
+    <h2>五、time.h 与 time 函数</h2>
+
+    <div class="purple-box box">
+        <span class="tag formula">时间戳</span>
+        time(NULL) 获取的是当前时间戳：从 1970年1月1日 00:00:00 到当前时间经过的秒数。
+    </div>
+
+    <table>
+        <tr>
+            <th>知识点</th>
+            <th>说明</th>
+        </tr>
+        <tr>
+            <td>头文件</td>
+            <td>#include &lt;time.h&gt;</td>
+        </tr>
+        <tr>
+            <td>常用写法</td>
+            <td>time(NULL)</td>
+        </tr>
+        <tr>
+            <td>NULL</td>
+            <td>必须大写，表示不额外存储时间</td>
+        </tr>
+        <tr>
+            <td>返回值类型</td>
+            <td>time_t，很多环境底层可理解成整数类型</td>
+        </tr>
+        <tr>
+            <td>打印方式</td>
+            <td>可强转 long long 后用 %lld 打印</td>
+        </tr>
+    </table>
+
+<pre><code>#include &lt;stdio.h&gt;
+#include &lt;time.h&gt;
+
+int main()
+{
+    time_t res = time(NULL);
+
+    printf("当前时间戳是：%lld\n", (long long)res);
+
+    return 0;
+}</code></pre>
+
+    <div class="green-box box">
+        <strong>本节重点：</strong>time(NULL) 返回的是时间戳，不是直接显示年月日。时间戳适合程序计算时间差。
+    </div>
+</section>
+
+<section class="card">
+    <h2>六、随机数基础：srand 与 rand</h2>
+
+    <div class="blue-box box">
+        <span class="tag concept">伪随机数</span>
+        C 语言的随机数不是真正随机，而是通过数学公式计算出来的。后一个随机数依赖前一个数。
+    </div>
+
+    <p>随机数计算思想可以理解为：</p>
+
+    <div class="purple-box box">
+        当前随机数 = 根据前一个数、参数和取余运算计算出来的结果。第一个数需要一个初始值，这个初始值叫种子。
+    </div>
+
+    <table>
+        <tr>
+            <th>函数</th>
+            <th>头文件</th>
+            <th>作用</th>
+        </tr>
+        <tr>
+            <td>srand(seed)</td>
+            <td>stdlib.h</td>
+            <td>设置随机数种子</td>
+        </tr>
+        <tr>
+            <td>rand()</td>
+            <td>stdlib.h</td>
+            <td>获取随机数，无参数，有 int 返回值</td>
+        </tr>
+    </table>
+
+    <details open>
+        <summary>获取 10 个随机数的基础代码</summary>
+
+<pre><code>#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+
+int main()
+{
+    srand(1);
+
+    for (int i = 1; i &lt;= 10; i++)
+    {
+        int num = rand();
+        printf("%d\n", num);
+    }
+
+    return 0;
+}</code></pre>
+    </details>
+
+    <div class="orange-box box">
+        <strong>注意：</strong>srand 一般只设置一次，放在循环外面。rand 才是生成随机数的函数。
+    </div>
+</section>
+
+<section class="card">
+    <h2>七、随机数的两个弊端与解决方法</h2>
+
+    <h3>弊端 1：种子不变，结果固定</h3>
+
+    <p>如果一直写 srand(1)，每次运行得到的随机数序列通常一样。如果忘记写 srand，很多环境会默认使用种子 1。</p>
+
+    <div class="green-box box">
+        <strong>解决：</strong>用当前时间作为种子。
+    </div>
+
+<pre><code>#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;time.h&gt;
+
+int main()
+{
+    srand((unsigned int)time(NULL));
+
+    for (int i = 1; i &lt;= 10; i++)
+    {
+        int num = rand();
+        printf("%d\n", num);
+    }
+
+    return 0;
+}</code></pre>
+
+    <h3>弊端 2：rand 默认范围不可控</h3>
+
+    <p>rand 默认范围是 0 到 RAND_MAX。文稿环境中 RAND_MAX 是 32767，但不同环境可能不同。</p>
+
+    <div class="purple-box box">
+        <strong>生成 min 到 max 之间的随机数，包含 min 和 max：</strong><br>
+        rand() % (max - min + 1) + min
+    </div>
+
+    <table>
+        <tr>
+            <th>需求</th>
+            <th>代码</th>
+        </tr>
+        <tr>
+            <td>1 到 100</td>
+            <td>rand() % 100 + 1</td>
+        </tr>
+        <tr>
+            <td>7 到 23</td>
+            <td>rand() % 17 + 7</td>
+        </tr>
+        <tr>
+            <td>8 到 49</td>
+            <td>rand() % 42 + 8</td>
+        </tr>
+        <tr>
+            <td>12 到 87</td>
+            <td>rand() % 76 + 12</td>
+        </tr>
+        <tr>
+            <td>17 到 39，不包含 39</td>
+            <td>rand() % 22 + 17</td>
+        </tr>
+    </table>
+
+    <div class="blue-box box">
+        <strong>理解：</strong>rand() % 100 的结果是 0 到 99，再加 1 就变成 1 到 100。
+    </div>
+</section>
+
+<section class="card">
+    <h2>八、综合练习：猜数字小游戏</h2>
+
+    <p>这个小游戏综合使用了随机数、时间种子、键盘录入、while 循环、if 判断和 break。</p>
+
+    <table>
+        <tr>
+            <th>步骤</th>
+            <th>代码思路</th>
+        </tr>
+        <tr>
+            <td>生成答案</td>
+            <td>rand() % 100 + 1</td>
+        </tr>
+        <tr>
+            <td>反复猜</td>
+            <td>while(1)</td>
+        </tr>
+        <tr>
+            <td>读取输入</td>
+            <td>scanf("%d", &guess)</td>
+        </tr>
+        <tr>
+            <td>判断大小</td>
+            <td>if / else if / else</td>
+        </tr>
+        <tr>
+            <td>猜中结束</td>
+            <td>break</td>
+        </tr>
+    </table>
+
+    <details open>
+        <summary>猜数字完整代码</summary>
+
+<pre><code>#define _CRT_SECURE_NO_WARNINGS
+#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;time.h&gt;
+
+int main()
+{
+    srand((unsigned int)time(NULL));
+
+    int number = rand() % 100 + 1;
+    int guess;
+
+    while (1)
+    {
+        printf("请输入您要猜的数字：\n");
+        scanf("%d", &guess);
+
+        if (guess &lt; number)
+        {
+            printf("小了\n");
+        }
+        else if (guess &gt; number)
+        {
+            printf("大了\n");
+        }
+        else
+        {
+            printf("中了\n");
+            break;
+        }
+    }
+
+    return 0;
+}</code></pre>
+    </details>
+
+    <div class="orange-box box">
+        <strong>VS 注意：</strong>如果 scanf 报不安全，可以在代码最上方加 #define _CRT_SECURE_NO_WARNINGS，或者在项目属性里配置预处理器定义。
+    </div>
+
+    <div class="green-box box">
+        <strong>猜数字技巧：</strong>不要从 1 开始一个个猜。可以先猜 50，根据“大了”或“小了”不断缩小范围，这就是折半思想。
+    </div>
+</section>
+
+<section class="card">
+    <h2>九、最终复习清单</h2>
+
+    <ul class="review-list">
+        <li><span class="tag concept">函数定义</span> 写函数前问：干什么、需要什么、结果是否继续用。</li>
+        <li><span class="tag concept">形参</span> 只写真正需要外部传入的数据，固定值不要乱写成形参。</li>
+        <li><span class="tag concept">返回值</span> 调用处需要继续用结果，就写具体返回值类型；不需要就写 void。</li>
+        <li><span class="tag warn">函数规则</span> 不调用不执行，函数名不能重复，函数不能嵌套定义。</li>
+        <li><span class="tag warn">声明</span> 函数定义在 main 后面时，要在 main 前面先声明。</li>
+        <li><span class="tag danger">return</span> return 会结束函数，return 后面的代码不会执行。</li>
+        <li><span class="tag concept">头文件</span> 用函数前要导入对应头文件。</li>
+        <li><span class="tag concept">math.h</span> 掌握 pow、sqrt、ceil、floor、fabs。</li>
+        <li><span class="tag concept">stdlib.h</span> 掌握 abs、labs、llabs、srand、rand。</li>
+        <li><span class="tag concept">time.h</span> 掌握 time(NULL)，它返回时间戳。</li>
+        <li><span class="tag formula">随机数</span> srand 设置种子，rand 生成随机数。</li>
+        <li><span class="tag formula">时间种子</span> srand((unsigned int)time(NULL)) 可以让结果更随机。</li>
+        <li><span class="tag formula">范围公式</span> rand() % (max - min + 1) + min。</li>
+        <li><span class="tag good">小游戏</span> 猜数字 = 随机数 + scanf + while + if + break。</li>
+    </ul>
+</section>
+
+<section class="card">
+    <h2>十、遗漏检查</h2>
+
+    <table>
+        <tr>
+            <th>课程内容</th>
+            <th>是否已覆盖</th>
+        </tr>
+        <tr>
+            <td>定义函数的三个问题</td>
+            <td>已覆盖</td>
+        </tr>
+        <tr>
+            <td>长方形面积与圆面积案例</td>
+            <td>已覆盖</td>
+        </tr>
+        <tr>
+            <td>函数不调用不执行</td>
+            <td>已覆盖</td>
+        </tr>
+        <tr>
+            <td>函数名不能重复</td>
+            <td>已覆盖</td>
+        </tr>
+        <tr>
+            <td>函数不能嵌套定义</td>
+            <td>已覆盖</td>
+        </tr>
+        <tr>
+            <td>函数声明与 main 后定义</td>
+            <td>已覆盖</td>
+        </tr>
+        <tr>
+            <td>return 后代码无效</td>
+            <td>已覆盖</td>
+        </tr>
+        <tr>
+            <td>void 函数中的 return</td>
+            <td>已覆盖</td>
+        </tr>
+        <tr>
+            <td>头文件与函数查询方法</td>
+            <td>已覆盖</td>
+        </tr>
+        <tr>
+            <td>math.h 五个函数</td>
+            <td>已覆盖</td>
+        </tr>
+        <tr>
+            <td>不同类型绝对值函数</td>
+            <td>已覆盖</td>
+        </tr>
+        <tr>
+            <td>time 函数、NULL、time_t、时间戳</td>
+            <td>已覆盖</td>
+        </tr>
+        <tr>
+            <td>伪随机数、种子、srand、rand</td>
+            <td>已覆盖</td>
+        </tr>
+        <tr>
+            <td>随机数两个弊端及解决</td>
+            <td>已覆盖</td>
+        </tr>
+        <tr>
+            <td>指定随机范围公式与练习</td>
+            <td>已覆盖</td>
+        </tr>
+        <tr>
+            <td>猜数字小游戏完整代码</td>
+            <td>已覆盖</td>
+        </tr>
+        <tr>
+            <td>VS 中 scanf 配置问题</td>
+            <td>已覆盖</td>
+        </tr>
+    </table>
+
+    <div class="green-box box">
+        <strong>检查结果：</strong>当前几节课的主线知识点、代码案例、易错点、课堂练习和补充说明均已整理，没有跳过文稿中的核心知识点。
+    </div>
+</section>
+
+</main>
+
+<script>
+function openAll() {
+    document.querySelectorAll("details").forEach(function(item) {
+        item.open = true;
+    });
+}
+
+function closeAll() {
+    document.querySelectorAll("details").forEach(function(item) {
+        item.open = false;
+    });
+}
+</script>
+
+</body>
+</html>

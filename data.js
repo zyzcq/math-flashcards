@@ -416,6 +416,56 @@ const appData = {
         type: "article",
         url: "c/运算符3.html",
         cards: []
+    },
+
+    c_array1: {
+        id: "c_array1",
+        title: "C语言：数组与算法（上）",
+        subtitle: "一维数组与遍历",
+        themeColor: "emerald",
+        type: "article",
+        url: "c/数组1.html",
+        cards: []
+    },
+
+    c_array2: {
+        id: "c_array2",
+        title: "C语言：数组与算法（下）",
+        subtitle: "二维数组与排序算法",
+        themeColor: "emerald",
+        type: "article",
+        url: "c/数组2.html",
+        cards: []
+    },
+
+    c_func1: {
+        id: "c_func1",
+        title: "C语言：函数（上）",
+        subtitle: "函数定义与调用",
+        themeColor: "emerald",
+        type: "article",
+        url: "c/函数1.html",
+        cards: []
+    },
+
+    c_func2: {
+        id: "c_func2",
+        title: "C语言：函数（下）",
+        subtitle: "递归与常见函数",
+        themeColor: "emerald",
+        type: "article",
+        url: "c/函数2.html",
+        cards: []
+    },
+
+    english_grammar_ext: {
+        id: "english_grammar_ext",
+        title: "英语语法：简单句的扩展",
+        subtitle: "定语从句与修饰结构",
+        themeColor: "indigo",
+        type: "article",
+        url: "english/简单句的拓展.html",
+        cards: []
     }
 };
 
@@ -451,7 +501,11 @@ const siteData = [
             appData.c_branching,
             appData.c_loop,
             appData.c_for_loop,
-            appData.c_loop_advanced
+            appData.c_loop_advanced,
+            appData.c_array1,
+            appData.c_array2,
+            appData.c_func1,
+            appData.c_func2
         ]
     },
     {
@@ -459,7 +513,8 @@ const siteData = [
         categoryId: "english",
         categoryBorder: "border-indigo-500",
         items: [
-            appData.english_grammar
+            appData.english_grammar,
+            appData.english_grammar_ext
         ]
     }
 ];

@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>C语言数组与内存复习笔记</title>
+<style>
+    :root {
+        --blue: #2563eb;
+        --blue-light: #eff6ff;
+        --green: #16a34a;
+        --green-light: #f0fdf4;
+        --yellow: #ca8a04;
+        --yellow-light: #fefce8;
+        --red: #dc2626;
+        --red-light: #fef2f2;
+        --purple: #7c3aed;
+        --purple-light: #f5f3ff;
+        --gray: #374151;
+        --gray-light: #f9fafb;
+        --border: #e5e7eb;
+    }
+
+    * {
+        box-sizing: border-box;
+    }
+
+    body {
+        margin: 0;
+        font-family: "Microsoft YaHei", "PingFang SC", Arial, sans-serif;
+        line-height: 1.75;
+        color: #1f2937;
+        background: #f3f4f6;
+    }
+
+    .toolbar {
+        position: sticky;
+        top: 0;
+        z-index: 10;
+        background: rgba(255,255,255,0.94);
+        border-bottom: 1px solid var(--border);
+        padding: 12px 24px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        backdrop-filter: blur(8px);
+    }
+
+    .toolbar h1 {
+        font-size: 20px;
+        margin: 0;
+        color: var(--blue);
+    }
+
+    button {
+        border: none;
+        background: var(--blue);
+        color: white;
+        padding: 9px 16px;
+        border-radius: 8px;
+        font-size: 14px;
+        cursor: pointer;
+    }
+
+    button:hover {
+        background: #1d4ed8;
+    }
+
+    main {
+        max-width: 960px;
+        margin: 28px auto;
+        background: white;
+        padding: 34px;
+        border-radius: 18px;
+        box-shadow: 0 12px 35px rgba(0,0,0,0.08);
+    }
+
+    h2 {
+        margin-top: 34px;
+        padding-left: 12px;
+        border-left: 6px solid var(--blue);
+        color: #111827;
+        font-size: 24px;
+    }
+
+    h3 {
+        margin-top: 24px;
+        color: #111827;
+        font-size: 19px;
+    }
+
+    p {
+        margin: 10px 0;
+    }
+
+    code {
+        background: #f3f4f6;
+        color: #111827;
+        padding: 2px 6px;
+        border-radius: 5px;
+        font-family: Consolas, Monaco, monospace;
+    }
+
+    pre {
+        background: #111827;
+        color: #e5e7eb;
+        padding: 16px;
+        border-radius: 12px;
+        overflow-x: auto;
+        font-size: 14px;
+        line-height: 1.6;
+    }
+
+    pre code {
+        background: transparent;
+        color: inherit;
+        padding: 0;
+    }
+
+    .card {
+        border: 1px solid var(--border);
+        border-radius: 14px;
+        padding: 16px 18px;
+        margin: 16px 0;
+        background: var(--gray-light);
+    }
+
+    .core {
+        background: var(--blue-light);
+        border-left: 6px solid var(--blue);
+    }
+
+    .practice {
+        background: var(--green-light);
+        border-left: 6px solid var(--green);
+    }
+
+    .warn {
+        background: var(--yellow-light);
+        border-left: 6px solid var(--yellow);
+    }
+
+    .danger {
+        background: var(--red-light);
+        border-left: 6px solid var(--red);
+    }
+
+    .memory {
+        background: var(--purple-light);
+        border-left: 6px solid var(--purple);
+    }
+
+    .tag {
+        display: inline-block;
+        font-size: 13px;
+        padding: 2px 8px;
+        border-radius: 999px;
+        color: white;
+        margin-right: 6px;
+    }
+
+    .tag-blue { background: var(--blue); }
+    .tag-green { background: var(--green); }
+    .tag-yellow { background: var(--yellow); }
+    .tag-red { background: var(--red); }
+    .tag-purple { background: var(--purple); }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 14px 0;
+        font-size: 15px;
+    }
+
+    th, td {
+        border: 1px solid var(--border);
+        padding: 9px 10px;
+        text-align: left;
+    }
+
+    th {
+        background: #f3f4f6;
+    }
+
+    .checklist li {
+        margin: 6px 0;
+    }
+
+    .small {
+        color: #6b7280;
+        font-size: 14px;
+    }
+
+    @media print {
+        body {
+            background: white;
+        }
+
+        .toolbar {
+            display: none;
+        }
+
+        main {
+            margin: 0;
+            max-width: none;
+            box-shadow: none;
+            border-radius: 0;
+            padding: 20px;
+        }
+
+        h2 {
+            page-break-before: auto;
+        }
+
+        pre {
+            white-space: pre-wrap;
+            word-break: break-word;
+        }
+
+        * {
+            -webkit-print-color-adjust: exact;
+            print-color-adjust: exact;
+        }
+    }
+</style>
+</head>
+
+<body>
+<div class="toolbar">
+    <h1>C语言数组与内存复习笔记</h1>
+    <button onclick="window.print()">导出 PDF</button>
+</div>
+
+<main>
+    <section class="card core">
+        <p><span class="tag tag-blue">复习定位</span>本笔记整理第 1 到第 6 节：数组概念、数组定义、数组初始化、数组元素访问、数组遍历、内存与内存地址。</p>
+        <p>目标不是背概念，而是能理解：数组为什么能存多个数据，为什么用下标访问，为什么下标从 0 开始，以及数组和内存地址之间的关系。</p>
+    </section>
+
+    <h2>一、什么是数组</h2>
+
+    <div class="card core">
+        <p><strong>数组是一个容器，可以用来存储同种数据类型的多个值。</strong></p>
+        <p>如果只存一个数据，用变量即可；如果要存很多个同类型数据，用很多变量会很麻烦，这时就应该使用数组。</p>
+    </div>
+
+    <pre><code>int score = 90; // 一个变量只能存一个值
+
+int scores[5] = {90, 85, 76, 92, 88}; // 一个数组可以存多个值</code></pre>
+
+    <h3>数组的核心作用</h3>
+
+    <p>数组可以用一个名字管理一组数据。比如 5 个学生的成绩，可以用 <code>scores</code> 这个数组统一管理，而不是写 <code>score1</code>、<code>score2</code>、<code>score3</code>。</p>
+
+    <div class="card warn">
+        <p><span class="tag tag-yellow">注意</span>数组通常要求存储同一种数据类型。</p>
+        <p>比如 <code>int</code> 数组主要存整数，<code>double</code> 数组主要存小数。</p>
+    </div>
+
+    <pre><code>int nums[3] = {10, 20, 30};
+double prices[3] = {9.9, 15.5, 20.0};</code></pre>
+
+    <h3>关于隐式转换</h3>
+
+    <p>C 语言中存在隐式转换。比如 <code>double</code> 数组可以存整数，因为整数会自动转成小数。</p>
+
+    <pre><code>double arr[3] = {1, 2, 3}; 
+// 实际理解为：1.0, 2.0, 3.0</code></pre>
+
+    <div class="card danger">
+        <p><span class="tag tag-red">易错</span>如果把小数放进 <code>int</code> 数组，小数部分可能会丢失。</p>
+    </div>
+
+    <pre><code>int arr[3] = {1.5, 2.8, 3.9};
+// 可能变成：1, 2, 3</code></pre>
+
+    <div class="card core">
+        <p><strong>本节重点：</strong>数组就是用一个名字，管理一组相同类型的数据。</p>
+    </div>
+
+    <h2>二、数组的定义</h2>
+
+    <div class="card core">
+        <p><strong>数组定义格式：</strong></p>
+        <pre><code>数据类型 数组名[数组长度];</code></pre>
+    </div>
+
+    <p>例如：</p>
+
+    <pre><code>int arr[3];</code></pre>
+
+    <p>这句话表示：定义了一个名叫 <code>arr</code> 的数组，它最多可以存储 3 个 <code>int</code> 类型的整数。</p>
+
+    <table>
+        <tr>
+            <th>组成部分</th>
+            <th>含义</th>
+        </tr>
+        <tr>
+            <td><code>int</code></td>
+            <td>数组中存放的数据类型是整数</td>
+        </tr>
+        <tr>
+            <td><code>arr</code></td>
+            <td>数组名，以后访问和修改数组都要用它</td>
+        </tr>
+        <tr>
+            <td><code>[3]</code></td>
+            <td>数组长度，表示最多存 3 个数据</td>
+        </tr>
+    </table>
+
+    <div class="card danger">
+        <p><span class="tag tag-red">区分</span><code>int arr;</code> 是普通变量，不是数组。</p>
+        <p><code>int arr[3];</code> 才是数组，因为后面有方括号和长度。</p>
+    </div>
+
+    <h3>数组的两个重要特点</h3>
+
+    <div class="card memory">
+        <p><span class="tag tag-purple">内存特点</span>数组在内存中是一块连续空间。长度是多少，就有多少个连续的小格子。</p>
+    </div>
+
+    <div class="card warn">
+        <p><span class="tag tag-yellow">长度固定</span>普通数组一旦定义，长度不能改变。</p>
+        <p>例如 <code>int arr[3];</code> 定义后，它只能存 3 个整数，不能自动变长，也不能自动变短。</p>
+    </div>
+
+    <h3>定义数组练习</h3>
+
+    <pre><code>// 存储全班80位同学的年龄，年龄是整数
+int ages[80];
+
+// 存储全班50位同学的身高，身高可能是小数
+double heights[50];
+
+// 存储3件衣服的价格，价格可能是小数
+double prices[3];</code></pre>
+
+    <div class="card core">
+        <p><strong>本节重点：</strong>定义数组，就是在内存中创建一块连续空间，用来存放多个相同类型的数据。</p>
+    </div>
+
+    <h2>三、数组的初始化</h2>
+
+    <div class="card core">
+        <p><strong>初始化：</strong>定义数组的时候，第一次给数组赋值。</p>
+    </div>
+
+    <pre><code>int ages[5] = {17, 18, 19, 20, 21};</code></pre>
+
+    <p>左边是数组定义，右边大括号中是要放进数组的数据。数据之间要用英文逗号隔开。</p>
+
+    <h3>基本格式</h3>
+
+    <pre><code>数据类型 数组名[数组长度] = {数据1, 数据2, 数据3};</code></pre>
+
+    <h3>规则 1：可以省略数组长度</h3>
+
+    <p>如果初始化时省略数组长度，那么右边有几个数据，数组长度就是几。</p>
+
+    <pre><code>int ages[] = {17, 18, 19, 20, 21};
+// 数组长度自动确定为5</code></pre>
+
+    <h3>规则 2：写了长度时，数据个数不能超过长度</h3>
+
+    <pre><code>int nums[5] = {1, 2, 3}; // 正确，数据个数小于长度
+
+int nums2[2] = {1, 2, 3}; // 错误，数据个数超过长度</code></pre>
+
+    <h3>规则 3：没给满的位置会补默认值</h3>
+
+    <pre><code>int nums[5] = {1, 2, 3};
+// 实际效果：1, 2, 3, 0, 0
+
+double arr[3] = {1.5};
+// 实际效果：1.5, 0.0, 0.0</code></pre>
+
+    <table>
+        <tr>
+            <th>类型</th>
+            <th>未赋值时的默认补值</th>
+        </tr>
+        <tr>
+            <td><code>int</code></td>
+            <td><code>0</code></td>
+        </tr>
+        <tr>
+            <td><code>double</code></td>
+            <td><code>0.0</code></td>
+        </tr>
+        <tr>
+            <td><code>char</code></td>
+            <td><code>'\0'</code>，空字符</td>
+        </tr>
+    </table>
+
+    <div class="card warn">
+        <p><span class="tag tag-yellow">补充纠正</span>字符串相关的空值概念后面会专门学习。当前阶段先记住：字符数组未填的位置常补 <code>'\0'</code>。</p>
+    </div>
+
+    <h3>初始化练习</h3>
+
+    <pre><code>// 存储5个学生年龄
+int ages1[5] = {17, 18, 19, 20, 21};
+
+// 省略长度
+int ages2[] = {17, 18, 19, 20, 21};
+
+// 存储2个身高
+double heights1[2] = {1.68, 1.

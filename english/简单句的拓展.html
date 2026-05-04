@@ -1,0 +1,2336 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>考研英语二 · 简单句的扩展复习系统</title>
+
+  <style>
+    :root {
+      --bg: #f6f8fb;
+      --surface: #ffffff;
+      --surface-soft: #f9fafb;
+      --text: #172033;
+      --muted: #667085;
+      --line: #e4e7ec;
+
+      --blue: #2563eb;
+      --blue-soft: #eff6ff;
+      --blue-line: #bfdbfe;
+
+      --green: #059669;
+      --green-soft: #ecfdf5;
+      --green-line: #a7f3d0;
+
+      --amber: #d97706;
+      --amber-soft: #fffbeb;
+      --amber-line: #fde68a;
+
+      --purple: #7c3aed;
+      --purple-soft: #f5f3ff;
+      --purple-line: #ddd6fe;
+
+      --red: #dc2626;
+      --red-soft: #fef2f2;
+      --red-line: #fecaca;
+
+      --shadow: 0 12px 30px rgba(15, 23, 42, 0.07);
+      --radius-xl: 24px;
+      --radius-lg: 18px;
+      --radius-md: 12px;
+      --content: 1080px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        "PingFang SC",
+        "Hiragino Sans GB",
+        "Microsoft YaHei",
+        sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at top left, rgba(37, 99, 235, 0.10), transparent 32%),
+        radial-gradient(circle at top right, rgba(124, 58, 237, 0.08), transparent 28%),
+        var(--bg);
+      line-height: 1.75;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    code {
+      padding: 0.12rem 0.36rem;
+      border-radius: 8px;
+      color: #1e293b;
+      background: #eef2f7;
+      font-family:
+        "SFMono-Regular",
+        Consolas,
+        "Liberation Mono",
+        Menlo,
+        monospace;
+      font-size: 0.94em;
+    }
+
+    .page {
+      width: min(var(--content), calc(100% - 32px));
+      margin: 0 auto;
+      padding: 28px 0 56px;
+    }
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+      padding: 42px;
+      border: 1px solid rgba(255, 255, 255, 0.9);
+      border-radius: var(--radius-xl);
+      background:
+        linear-gradient(135deg, rgba(255,255,255,0.96), rgba(255,255,255,0.86)),
+        linear-gradient(135deg, rgba(37, 99, 235, 0.12), rgba(124, 58, 237, 0.10));
+      box-shadow: var(--shadow);
+    }
+
+    .hero::after {
+      content: "";
+      position: absolute;
+      right: -90px;
+      top: -100px;
+      width: 260px;
+      height: 260px;
+      border-radius: 999px;
+      background: rgba(37, 99, 235, 0.09);
+    }
+
+    .hero-kicker {
+      position: relative;
+      z-index: 1;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 14px;
+      padding: 6px 12px;
+      border: 1px solid var(--blue-line);
+      border-radius: 999px;
+      color: var(--blue);
+      background: var(--blue-soft);
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .hero h1 {
+      position: relative;
+      z-index: 1;
+      margin: 0;
+      font-size: clamp(30px, 5vw, 48px);
+      line-height: 1.15;
+      letter-spacing: -0.04em;
+    }
+
+    .hero p {
+      position: relative;
+      z-index: 1;
+      max-width: 760px;
+      margin: 18px 0 0;
+      color: var(--muted);
+      font-size: 17px;
+    }
+
+    .hero-meta {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 24px;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      padding: 7px 12px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      color: #344054;
+      background: rgba(255, 255, 255, 0.76);
+      font-size: 13px;
+      font-weight: 650;
+    }
+
+    .toolbar {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin: 18px 0;
+      padding: 12px;
+      border: 1px solid rgba(228, 231, 236, 0.92);
+      border-radius: 18px;
+      background: rgba(255, 255, 255, 0.88);
+      backdrop-filter: blur(14px);
+      box-shadow: 0 10px 24px rgba(15, 23, 42, 0.05);
+    }
+
+    .btn {
+      border: 0;
+      border-radius: 12px;
+      padding: 9px 14px;
+      color: #344054;
+      background: #f2f4f7;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 750;
+      transition: transform 0.15s ease, background 0.15s ease, color 0.15s ease;
+    }
+
+    .btn:hover {
+      transform: translateY(-1px);
+      color: #1d2939;
+      background: #e4e7ec;
+    }
+
+    .btn-primary {
+      color: #ffffff;
+      background: var(--blue);
+    }
+
+    .btn-primary:hover {
+      color: #ffffff;
+      background: #1d4ed8;
+    }
+
+    .nav {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin: 0 0 18px;
+      padding: 12px;
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      background: rgba(255, 255, 255, 0.74);
+    }
+
+    .nav a {
+      padding: 8px 12px;
+      border-radius: 999px;
+      color: #475467;
+      background: #ffffff;
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .nav a:hover {
+      color: var(--blue);
+      background: var(--blue-soft);
+    }
+
+    main {
+      display: grid;
+      gap: 18px;
+    }
+
+    .card {
+      padding: 30px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius-xl);
+      background: rgba(255, 255, 255, 0.92);
+      box-shadow: 0 10px 26px rgba(15, 23, 42, 0.045);
+    }
+
+    .card h2 {
+      margin: 0 0 14px;
+      font-size: 25px;
+      line-height: 1.35;
+      letter-spacing: -0.02em;
+    }
+
+    .card h3 {
+      margin: 26px 0 12px;
+      font-size: 20px;
+      line-height: 1.35;
+    }
+
+    .card h4 {
+      margin: 20px 0 10px;
+      font-size: 17px;
+    }
+
+    .lead {
+      margin: 0;
+      color: var(--muted);
+      font-size: 16px;
+    }
+
+    .section-label {
+      display: inline-flex;
+      align-items: center;
+      margin-bottom: 12px;
+      padding: 5px 10px;
+      border-radius: 999px;
+      color: var(--blue);
+      background: var(--blue-soft);
+      font-size: 13px;
+      font-weight: 800;
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 16px;
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 16px;
+    }
+
+    .mini-card {
+      padding: 18px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius-lg);
+      background: var(--surface);
+    }
+
+    .mini-card h4 {
+      margin: 0 0 8px;
+      font-size: 16px;
+    }
+
+    .mini-card p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .note {
+      margin: 18px 0;
+      padding: 16px 18px;
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--line);
+      background: var(--surface-soft);
+    }
+
+    .note strong {
+      color: var(--text);
+    }
+
+    .note-blue {
+      border-color: var(--blue-line);
+      background: var(--blue-soft);
+    }
+
+    .note-green {
+      border-color: var(--green-line);
+      background: var(--green-soft);
+    }
+
+    .note-amber {
+      border-color: var(--amber-line);
+      background: var(--amber-soft);
+    }
+
+    .note-purple {
+      border-color: var(--purple-line);
+      background: var(--purple-soft);
+    }
+
+    .note-red {
+      border-color: var(--red-line);
+      background: var(--red-soft);
+    }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      margin-right: 6px;
+      padding: 3px 8px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 850;
+      vertical-align: middle;
+    }
+
+    .tag-green {
+      color: var(--green);
+      background: var(--green-soft);
+      border: 1px solid var(--green-line);
+    }
+
+    .tag-amber {
+      color: var(--amber);
+      background: var(--amber-soft);
+      border: 1px solid var(--amber-line);
+    }
+
+    .tag-red {
+      color: var(--red);
+      background: var(--red-soft);
+      border: 1px solid var(--red-line);
+    }
+
+    .tag-purple {
+      color: var(--purple);
+      background: var(--purple-soft);
+      border: 1px solid var(--purple-line);
+    }
+
+    .rule {
+      margin: 18px 0;
+      padding: 18px;
+      border: 1px solid var(--green-line);
+      border-radius: var(--radius-lg);
+      background: var(--green-soft);
+    }
+
+    .rule-title {
+      margin: 0 0 8px;
+      color: var(--green);
+      font-weight: 900;
+    }
+
+    .rule p {
+      margin: 0;
+    }
+
+    .example {
+      margin: 18px 0;
+      padding: 18px;
+      border: 1px solid var(--purple-line);
+      border-radius: var(--radius-lg);
+      background: var(--purple-soft);
+    }
+
+    .example-title {
+      margin: 0 0 8px;
+      color: var(--purple);
+      font-weight: 900;
+    }
+
+    .example p {
+      margin: 8px 0 0;
+    }
+
+    .analysis {
+      margin-top: 10px;
+      color: #475467;
+    }
+
+    details {
+      margin: 14px 0;
+      border: 1px solid var(--line);
+      border-radius: var(--radius-lg);
+      background: #ffffff;
+      overflow: hidden;
+    }
+
+    summary {
+      list-style: none;
+      cursor: pointer;
+      padding: 16px 18px;
+      font-weight: 850;
+      color: #1d2939;
+      background: #ffffff;
+    }
+
+    summary::-webkit-details-marker {
+      display: none;
+    }
+
+    summary::after {
+      content: "展开";
+      float: right;
+      padding: 2px 8px;
+      border-radius: 999px;
+      color: var(--blue);
+      background: var(--blue-soft);
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+    details[open] summary::after {
+      content: "收起";
+    }
+
+    .details-body {
+      padding: 0 18px 18px;
+      color: #344054;
+      border-top: 1px solid var(--line);
+      background: #ffffff;
+    }
+
+    .practice {
+      margin: 16px 0;
+      padding: 18px;
+      border: 1px solid var(--purple-line);
+      border-radius: var(--radius-lg);
+      background: var(--purple-soft);
+    }
+
+    .practice-title {
+      margin-bottom: 10px;
+      color: var(--purple);
+      font-weight: 900;
+    }
+
+    .question {
+      padding: 14px;
+      border-radius: var(--radius-md);
+      background: rgba(255, 255, 255, 0.78);
+    }
+
+    .answer details {
+      margin-bottom: 0;
+      border-color: var(--purple-line);
+    }
+
+    .answer summary {
+      color: var(--purple);
+      background: #ffffff;
+    }
+
+    .answer-content {
+      padding: 14px 18px 18px;
+      border-top: 1px solid var(--purple-line);
+      background: #ffffff;
+    }
+
+    .translation {
+      color: #475467;
+    }
+
+    .checklist {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+      margin-top: 16px;
+    }
+
+    .check-item {
+      padding: 14px 16px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius-md);
+      background: #ffffff;
+      font-weight: 650;
+    }
+
+    .check-item::before {
+      content: "✓";
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 20px;
+      height: 20px;
+      margin-right: 8px;
+      border-radius: 999px;
+      color: #ffffff;
+      background: var(--green);
+      font-size: 12px;
+      font-weight: 900;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 16px 0;
+      overflow: hidden;
+      border-radius: var(--radius-lg);
+      background: #ffffff;
+    }
+
+    th,
+    td {
+      padding: 13px 14px;
+      border: 1px solid var(--line);
+      text-align: left;
+      vertical-align: top;
+    }
+
+    th {
+      color: #344054;
+      background: #f8fafc;
+      font-weight: 900;
+    }
+
+    .footer {
+      margin-top: 22px;
+      padding: 26px;
+      text-align: center;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .focus-mode .non-key {
+      display: none !important;
+    }
+
+    @media (max-width: 820px) {
+      .page {
+        width: min(100% - 22px, var(--content));
+        padding-top: 16px;
+      }
+
+      .hero {
+        padding: 28px;
+      }
+
+      .toolbar {
+        position: static;
+      }
+
+      .card {
+        padding: 22px;
+      }
+
+      .grid-2,
+      .grid-3,
+      .checklist {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media print {
+      body {
+        background: #ffffff;
+      }
+
+      .page {
+        width: 100%;
+        padding: 0;
+      }
+
+      .toolbar,
+      .nav {
+        display: none !important;
+      }
+
+      .hero,
+      .card {
+        box-shadow: none;
+        border-color: #d0d5dd;
+        page-break-inside: avoid;
+      }
+
+      .card {
+        margin-bottom: 16px;
+      }
+
+      details {
+        page-break-inside: avoid;
+      }
+
+      summary::after {
+        display: none;
+      }
+
+      .footer {
+        color: #667085;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="page">
+
+    <!-- START: 首页 -->
+    <header class="hero" id="top">
+      <div class="hero-kicker">考研英语二 · 语法复习系统</div>
+      <h1>简单句的扩展</h1>
+      <p>
+        这份笔记把 8 节课程重新整理成一个可学习、可自测、可导出 PDF 的复习系统。
+        核心目标不是背术语，而是掌握两件事：写句时由短到长，读句时由长到短。
+      </p>
+
+      <div class="hero-meta">
+        <span class="pill">限定词</span>
+        <span class="pill">形容词与副词</span>
+        <span class="pill">介词短语</span>
+        <span class="pill">同位语</span>
+        <span class="pill">插入语</span>
+        <span class="pill">真题演练</span>
+        <span class="pill">考场攻略</span>
+      </div>
+    </header>
+
+    <div class="toolbar">
+      <button class="btn" onclick="expandAll()">全部展开</button>
+      <button class="btn" onclick="collapseAll()">全部收起</button>
+      <button class="btn" onclick="toggleFocusMode()">只看重点</button>
+      <button class="btn" onclick="showAnswers()">显示答案</button>
+      <button class="btn" onclick="hideAnswers()">隐藏答案</button>
+      <button class="btn btn-primary" onclick="printPage()">导出 PDF</button>
+    </div>
+
+    <nav class="nav">
+      <a href="#overview">总纲</a>
+      <a href="#determiners">限定词</a>
+      <a href="#adjectives-adverbs">形容词副词</a>
+      <a href="#prepositions">介词短语</a>
+      <a href="#appositive-parenthesis">同位语插入语</a>
+      <a href="#practice-center">真题演练</a>
+      <a href="#exam-strategy">考场攻略</a>
+      <a href="#checklist">检查清单</a>
+    </nav>
+    <!-- END: 首页 -->
+
+    <main>
+
+      <!-- START: 总方法论 -->
+      <section class="card" id="overview">
+        <span class="section-label">一、总纲</span>
+        <h2>简单句的扩展逻辑：核心不变，细节变多</h2>
+        <p class="lead">
+          一个简单句最重要的是核心结构，例如主谓、主谓宾、主系表。所谓“扩展”，就是在核心之外加入补充说明，让句子更具体、更完整。
+        </p>
+
+        <div class="rule">
+          <div class="rule-title">核心方法</div>
+          <p>
+            <span class="tag tag-green">写句</span>先写核心，再逐步加入限定词、形容词、副词、介词短语等扩展成分。
+            <br />
+            <span class="tag tag-green">读句</span>先去掉扩展，抓住核心，再把细节还原回来。
+          </p>
+        </div>
+
+        <div class="grid-2">
+          <div class="mini-card">
+            <h4>词性角度的扩展</h4>
+            <p>限定词、形容词、副词、介词短语，主要用来修饰名词、动作、程度、时间、地点、方式等。</p>
+          </div>
+
+          <div class="mini-card">
+            <h4>成分角度的扩展</h4>
+            <p>同位语和插入语常常出现在长难句中，作用是解释说明或补充信息。</p>
+          </div>
+        </div>
+
+        <details open>
+          <summary>简单句扩展的整体框架</summary>
+          <div class="details-body">
+            <p>
+              简单句的核心可以非常短，例如 <code>girls play games</code>。但考研英语里的句子通常会在这个核心上不断添加扩展成分：
+              名词前面可以加限定词和形容词，动词周围可以加副词，句子中还可以加多个介词短语，甚至再插入同位语和插入语。
+            </p>
+
+            <div class="note note-blue">
+              <strong>阅读长难句时不要慌：</strong>句子看起来长，往往不是因为核心复杂，而是因为扩展成分多。先找谓语动词，再找核心结构，句子会立刻变短。
+            </div>
+          </div>
+        </details>
+      </section>
+      <!-- END: 总方法论 -->
+
+
+      <!-- START: 限定词模块 -->
+      <section class="card" id="determiners">
+        <span class="section-label">二、词性扩展之一</span>
+        <h2>限定词：放在名词前，限定名词范围</h2>
+        <p class="lead">
+          限定词不是考研语法中最难的部分，但它是理解名词结构的基础。看到名词前面的词，要知道它们往往是在说明“哪一个、多少个、谁的、什么类型”。
+        </p>
+
+        <div class="rule">
+          <div class="rule-title">一句话规则</div>
+          <p>
+            限定词就是放在名词前面对名词进行限定的词或结构。考研中重点不是死背名称，而是看懂它限定了哪个名词。
+          </p>
+        </div>
+
+        <div class="grid-2">
+          <div class="mini-card">
+            <h4>1. 冠词</h4>
+            <p><code>a</code>、<code>an</code>、<code>the</code>，表示一个、某个或特指。</p>
+          </div>
+
+          <div class="mini-card">
+            <h4>2. 数词</h4>
+            <p>包括基数词、序数词、分数、百分数等，例如 <code>three million</code>、<code>one third</code>。</p>
+          </div>
+
+          <div class="mini-card">
+            <h4>3. 名词所有格</h4>
+            <p>表示“谁的”，例如 <code>America's Federal Trade Commission</code>。</p>
+          </div>
+
+          <div class="mini-card">
+            <h4>4. 名词限定名词</h4>
+            <p>一个名词放在另一个名词前，说明类别，例如 <code>flu experts</code>、<code>woman teacher</code>。</p>
+          </div>
+        </div>
+
+        <div class="note note-amber">
+          <strong>考研处理方式：</strong>限定词通常不是单独考点。做阅读和翻译时，只要判断它限定哪个名词，并把名词词组整体看懂即可。
+        </div>
+
+        <details open>
+          <summary>例句拆解 1：名词所有格限定名词</summary>
+          <div class="details-body">
+            <div class="example">
+              <div class="example-title">真题例句</div>
+              <p>
+                <code>America's Federal Trade Commission launched a round of talks about how to save newspapers.</code>
+              </p>
+              <p class="analysis">
+                <code>America's</code> 是名词所有格，限定后面的 <code>Federal Trade Commission</code>，
+                表示“美国的联邦贸易委员会”。句子核心是 <code>Commission launched talks</code>。
+              </p>
+              <p class="translation">
+                <strong>参考翻译：</strong>美国联邦贸易委员会发起了一轮关于如何拯救报纸的讨论。
+              </p>
+            </div>
+          </div>
+        </details>
+
+        <details>
+          <summary>例句拆解 2：冠词和名词共同限定名词</summary>
+          <div class="details-body">
+            <div class="example">
+              <div class="example-title">真题例句</div>
+              <p>
+                <code>The heightened alert followed an emergency meeting with flu experts in Geneva.</code>
+              </p>
+              <p class="analysis">
+                <code>an</code> 限定 <code>meeting</code>；<code>emergency</code> 作为名词放在 <code>meeting</code> 前，
+                表示“紧急会议”；<code>flu experts</code> 中 <code>flu</code> 限定 <code>experts</code>，表示“流感专家”。
+              </p>
+              <p class="translation">
+                <strong>参考翻译：</strong>在日内瓦与流感专家召开紧急会议后，警报随之升级。
+              </p>
+            </div>
+          </div>
+        </details>
+
+        <details>
+          <summary>例句拆解 3：数词限定名词</summary>
+          <div class="details-body">
+            <div class="example">
+              <div class="example-title">真题例句</div>
+              <p>
+                <code>More than three million doses were to be made available in early October, 2009.</code>
+              </p>
+              <p class="analysis">
+                <code>more than three million</code> 是数量限定，修饰 <code>doses</code>。
+                <code>available</code> 表示“可获得的、可使用的”。
+              </p>
+              <p class="translation">
+                <strong>参考翻译：</strong>到 2009 年 10 月初，将有超过 300 万剂疫苗可以投入使用。
+              </p>
+            </div>
+          </div>
+        </details>
+
+        <details>
+          <summary>例句拆解 4：序数词、分数、百分数</summary>
+          <div class="details-body">
+            <div class="example">
+              <div class="example-title">真题例句</div>
+              <p>
+                <code>By the third generation, one third of Hispanic women were married to non-Hispanics and forty-one percent of Asian American women were married to non-Asians.</code>
+              </p>
+              <p class="analysis">
+                <code>the third generation</code> 中 <code>third</code> 是序数词；
+                <code>one third</code> 是分数；
+                <code>forty-one percent</code> 是百分数。它们都在限定后面的名词或名词结构。
+              </p>
+              <p class="translation">
+                <strong>参考翻译：</strong>到第三代时，三分之一的西班牙裔女性嫁给了非西班牙裔，41% 的亚裔美国女性嫁给了非亚裔。
+              </p>
+            </div>
+          </div>
+        </details>
+
+        <div class="note note-green">
+          <strong>本模块记忆点：</strong>限定词只需要掌握四类：冠词、数词、名词所有格、名词限定名词。考试时重点看它们和后面的名词组成什么整体意思。
+        </div>
+      </section>
+      <!-- END: 限定词模块 -->
+
+      <!-- START: 形容词副词模块 -->
+      <section class="card" id="adjectives-adverbs">
+        <span class="section-label">三、词性扩展之二</span>
+        <h2>形容词和副词：一个修饰名词，一个修饰名词以外</h2>
+        <p class="lead">
+          形容词和副词是简单句扩展中最常见的修饰成分。理解它们的关键，不是背定义，而是判断：它修饰谁？它在句子里是不是核心？
+        </p>
+
+        <div class="rule">
+          <div class="rule-title">核心规则</div>
+          <p>
+            <span class="tag tag-green">形容词</span>主要修饰名词，也可以放在系动词后作表语。
+            <br />
+            <span class="tag tag-green">副词</span>主要修饰名词以外的成分，例如动词、句子、形容词、其他副词。
+          </p>
+        </div>
+
+        <div class="grid-2">
+          <div class="mini-card">
+            <h4>形容词作定语</h4>
+            <p>放在名词附近，修饰名词。例如 <code>happy people</code> 中，<code>happy</code> 修饰 <code>people</code>。</p>
+          </div>
+
+          <div class="mini-card">
+            <h4>形容词作表语</h4>
+            <p>放在系动词后，构成主系表结构。例如 <code>They are concerned.</code> 中，<code>concerned</code> 是核心表语。</p>
+          </div>
+
+          <div class="mini-card">
+            <h4>副词修饰动词</h4>
+            <p>说明动作如何发生。例如 <code>work differently</code> 中，<code>differently</code> 修饰 <code>work</code>。</p>
+          </div>
+
+          <div class="mini-card">
+            <h4>副词修饰形容词或句子</h4>
+            <p>例如 <code>highly unusual</code> 中，<code>highly</code> 修饰形容词；<code>Conversely</code> 可修饰整句话。</p>
+          </div>
+        </div>
+
+        <div class="note note-amber">
+          <strong>易错提醒：</strong>读长难句时，很多形容词和副词可以先暂时拿掉；但如果形容词在系动词后作表语，它就是句子核心，不能随便删掉。
+        </div>
+
+        <details open>
+          <summary>形容词副词的判断步骤</summary>
+          <div class="details-body">
+            <p>
+              做形容词副词题时，先不要急着翻译整句。第一步先找形容词和副词，第二步判断它修饰谁，第三步再看它有没有比较级别。
+            </p>
+
+            <div class="note note-blue">
+              <strong>判断顺序：</strong>先找词，再看修饰对象，最后判断原级、比较级或最高级。
+            </div>
+          </div>
+        </details>
+
+        <details open>
+          <summary>例句拆解 1：形容词修饰名词，副词修饰动词</summary>
+          <div class="details-body">
+            <div class="example">
+              <div class="example-title">真题例句</div>
+              <p><code>Happy people work differently.</code></p>
+              <p class="analysis">
+                句子核心是 <code>people work</code>。<code>Happy</code> 是形容词，修饰名词 <code>people</code>；
+                <code>differently</code> 是副词，修饰动词 <code>work</code>。
+              </p>
+              <p class="translation">
+                <strong>参考翻译：</strong>快乐的人工作方式不同。
+              </p>
+            </div>
+          </div>
+        </details>
+
+        <details>
+          <summary>例句拆解 2：多个形容词同时修饰名词</summary>
+          <div class="details-body">
+            <div class="example">
+              <div class="example-title">真题例句</div>
+              <p>
+                <code>Google has to maintain vast data centers around the world packed with powerful computers.</code>
+              </p>
+              <p class="analysis">
+                <code>vast</code> 修饰 <code>data centers</code>，表示“巨大的数据中心”；
+                <code>powerful</code> 修饰 <code>computers</code>，表示“强大的计算机”。
+                句子核心是 <code>Google has to maintain data centers</code>。
+              </p>
+              <p class="translation">
+                <strong>参考翻译：</strong>谷歌必须维护遍布世界、装配有强大计算机的大型数据中心。
+              </p>
+            </div>
+          </div>
+        </details>
+
+        <details>
+          <summary>例句拆解 3：副词修饰形容词</summary>
+          <div class="details-body">
+            <div class="example">
+              <div class="example-title">真题例句</div>
+              <p>
+                <code>American papers have long been highly unusual in their reliance on ads.</code>
+              </p>
+              <p class="analysis">
+                <code>American</code> 是形容词，修饰 <code>papers</code>；
+                <code>long</code> 修饰谓语结构 <code>have been</code>；
+                <code>highly</code> 是副词，修饰形容词 <code>unusual</code>。
+                <code>unusual</code> 位于系动词后，是表语，属于核心成分。
+              </p>
+              <p class="translation">
+                <strong>参考翻译：</strong>美国报纸长期以来在依赖广告方面都非常不寻常。
+              </p>
+            </div>
+          </div>
+        </details>
+
+        <h3>比较级别：原级、比较级、最高级</h3>
+        <p>
+          形容词和副词除了修饰成分外，还常常出现比较结构。考研中不一定直接考语法名称，但阅读和翻译经常需要识别比较对象。
+        </p>
+
+        <table>
+          <thead>
+            <tr>
+              <th>级别</th>
+              <th>常见形式</th>
+              <th>理解重点</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>原级比较</td>
+              <td><code>as...as</code></td>
+              <td>表示“和……一样”，难点是比较对象可能很长。</td>
+            </tr>
+            <tr>
+              <td>比较级</td>
+              <td><code>-er</code> / <code>more</code> / <code>less</code></td>
+              <td>表示“更……”或“没那么……”，常与 <code>than</code> 搭配。</td>
+            </tr>
+            <tr>
+              <td>最高级</td>
+              <td><code>-est</code> / <code>most</code> / <code>least</code></td>
+              <td>表示“最……”，通常会有范围限定。</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <details open>
+          <summary>比较结构例句 1：原级比较 as...as</summary>
+          <div class="details-body">
+            <div class="example">
+              <div class="example-title">真题例句</div>
+              <p>
+                <code>The consumption of unhealthy food should be seen to be just as damaging as smoking or excessive drinking.</code>
+              </p>
+              <p class="analysis">
+                <code>as damaging as</code> 是原级比较，表示“和……一样有害”。
+                比较对象是 <code>smoking or excessive drinking</code>。
+              </p>
+              <p class="translation">
+                <strong>参考翻译：</strong>不健康食品的消费应被视为和吸烟或过度饮酒一样有害。
+              </p>
+            </div>
+          </div>
+        </details>
+
+        <details>
+          <summary>比较结构例句 2：比较级</summary>
+          <div class="details-body">
+            <div class="example">
+              <div class="example-title">真题例句</div>
+              <p><code>It is less important for me to check my weight each week.</code></p>
+              <p class="analysis">
+                <code>less important</code> 是比较级，表示“没那么重要”。这里没有明确写出比较对象，需要根据上下文理解。
+              </p>
+              <p class="translation">
+                <strong>参考翻译：</strong>每周查看体重对我来说没那么重要。
+              </p>
+            </div>
+
+            <div class="example">
+              <div class="example-title">真题例句</div>
+              <p><code>There is a deeper conceptual problem, too.</code></p>
+              <p class="analysis">
+                <code>deeper</code> 是比较级，修饰 <code>conceptual problem</code>，表示“更深层的概念问题”。
+              </p>
+              <p class="translation">
+                <strong>参考翻译：</strong>此外，还有一个更深层的概念问题。
+              </p>
+            </div>
+          </div>
+        </details>
+
+        <details>
+          <summary>比较结构例句 3：最高级</summary>
+          <div class="details-body">
+            <div class="example">
+              <div class="example-title">真题例句</div>
+              <p><code>It remains the world's largest trading block.</code></p>
+              <p class="analysis">
+                <code>largest</code> 是最高级，前面的 <code>the world's</code> 给出范围，表示“世界上最大的”。
+              </p>
+              <p class="translation">
+                <strong>参考翻译：</strong>它仍然是世界上最大的贸易集团。
+              </p>
+            </div>
+          </div>
+        </details>
+
+        <div class="note note-green">
+          <strong>本模块记忆点：</strong>形容词修饰名词，副词修饰名词以外；比较结构重点看比较对象，尤其注意 <code>as...as</code> 中间和后面的内容。
+        </div>
+      </section>
+      <!-- END: 形容词副词模块 -->
+
+
+      <!-- START: 介词短语模块 -->
+      <section class="card" id="prepositions">
+        <span class="section-label">四、词性扩展之三</span>
+        <h2>介词短语：长难句中最常见的扩展成分</h2>
+        <p class="lead">
+          介词短语是考研英语长难句中非常高频的补充说明成分。一个句子里可能连续出现多个介词短语，用来说明时间、地点、方向、范围、原因、方式、对象等。
+        </p>
+
+        <div class="rule">
+          <div class="rule-title">最重要规则</div>
+          <p>
+            介词不能单独使用，后面必须接成分。介词后通常只能接三类：
+            <span class="tag tag-green">名词</span>
+            <span class="tag tag-green">代词</span>
+            <span class="tag tag-green">doing</span>
+            <span class="tag tag-red">不能接 do / to do</span>
+          </p>
+        </div>
+
+        <div class="note note-blue">
+          <strong>术语提示：</strong>介词加后面的宾语构成介词短语，也可以叫“介宾结构”。如果介词后接代词，要用宾格，例如 <code>about him</code>，不能说 <code>about he</code>。
+        </div>
+
+        <details open>
+          <summary>介词短语为什么重要</summary>
+          <div class="details-body">
+            <p>
+              介词短语虽然通常不是句子核心，但它能补充大量细节。读长难句时，可以先把介词短语用括号圈起来，暂时拿掉，先找主干；等核心看懂之后，再还原这些介词短语。
+            </p>
+
+            <div class="example">
+              <div class="example-title">例句</div>
+              <p>
+                <code>Two years before graduating from secondary school, I took a sewing and design course.</code>
+              </p>
+              <p class="analysis">
+                <code>before graduating</code> 是介词短语，介词 <code>before</code> 后接 <code>doing</code>；
+                <code>from secondary school</code> 也是介词短语。两个介词短语叠加，整体说明时间背景。
+              </p>
+              <p class="translation">
+                <strong>参考翻译：</strong>中学毕业前两年，我上了一门缝纫和设计课程。
+              </p>
+            </div>
+          </div>
+        </details>
+
+        <h3>时间介词：看时间范围</h3>
+        <p>
+          表示时间时，<code>at</code>、<code>on</code>、<code>in</code> 是最常用的一组。三者区别主要看后面接的时间范围大小。
+        </p>
+
+        <table>
+          <thead>
+            <tr>
+              <th>介词</th>
+              <th>核心含义</th>
+              <th>常见搭配</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>at</code></td>
+              <td>时间点</td>
+              <td><code>at eight o'clock</code>、<code>at noon</code></td>
+            </tr>
+            <tr>
+              <td><code>on</code></td>
+              <td>某一天</td>
+              <td><code>on Monday</code>、<code>on July 29th</code></td>
+            </tr>
+            <tr>
+              <td><code>in</code></td>
+              <td>较大时间范围</td>
+              <td><code>in 2010</code>、<code>in March</code>、<code>in spring</code></td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="grid-2">
+          <div class="mini-card">
+            <h4><code>before</code> / <code>after</code></h4>
+            <p>表示“在……之前 / 之后”。后面可以接名词或 doing。</p>
+          </div>
+
+          <div class="mini-card">
+            <h4><code>from</code> / <code>since</code></h4>
+            <p>都可表示时间起点；<code>from</code> 范围更广，也可表示地点来源。</p>
+          </div>
+
+          <div class="mini-card">
+            <h4><code>by</code> / <code>until</code></h4>
+            <p>表示截止到某个时间点。阅读时注意它们强调时间结束点。</p>
+          </div>
+
+          <div class="mini-card">
+            <h4><code>for</code> / <code>during</code></h4>
+            <p><code>for + 时间段</code> 表示持续；<code>during</code> 表示在某段时间期间。</p>
+          </div>
+        </div>
+
+        <details open>
+          <summary>时间介词例句拆解</summary>
+          <div class="details-body">
+            <div class="example">
+              <div class="example-title">例句 1：on + 具体某一天</div>
+              <p><code>On July 29th, they were relieved, at least temporarily.</code></p>
+              <p class="analysis">
+                <code>on July 29th</code> 表示具体某一天，所以用 <code>on</code>。如果只有月份 <code>July</code>，通常用 <code>in July</code>。
+              </p>
+              <p class="translation">
+                <strong>参考翻译：</strong>在 7 月 29 日，他们至少暂时松了一口气。
+              </p>
+            </div>
+
+            <div class="example">
+              <div class="example-title">例句 2：in + 年月</div>
+              <p><code>In March 2010, a judge ruled that genes were unpatentable.</code></p>
+              <p class="analysis">
+                <code>in March 2010</code> 表示较大的时间范围，即某年某月，所以用 <code>in</code>。
+              </p>
+              <p class="translation">
+                <strong>参考翻译：</strong>2010 年 3 月，一名法官裁定基因不能被授予专利。
+              </p>
+            </div>
+
+            <div class="example">
+              <div class="example-title">例句 3：since + 时间起点</div>
+              <p><code>Since 1914, scientists have known that birds flying in formation expend less energy.</code></p>
+              <p class="analysis">
+                <code>Since 1914</code> 表示“自 1914 年以来”。句子使用现在完成时 <code>have known</code>，与 <code>since</code> 搭配常见。
+              </p>
+              <p class="translation">
+                <strong>参考翻译：</strong>自 1914 年以来，科学家就已经知道编队飞行的鸟会消耗更少能量。
+              </p>
+            </div>
+          </div>
+        </details>
+
+        <h3>地点和方位介词：点、面、体</h3>
+        <p>
+          地点介词也可以用空间感来理解。<code>at</code> 偏向“点”，<code>on</code> 偏向“面”，<code>in</code> 偏向“体”或范围内部。
+        </p>
+
+        <table>
+          <thead>
+            <tr>
+              <th>介词</th>
+              <th>空间感</th>
+              <th>例子</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>at</code></td>
+              <td>点</td>
+              <td><code>at the station</code>、<code>at school</code></td>
+            </tr>
+            <tr>
+              <td><code>on</code></td>
+              <td>面</td>
+              <td><code>on the table</code>、<code>on the wall</code></td>
+            </tr>
+            <tr>
+              <td><code>in</code></td>
+              <td>体 / 内部范围</td>
+              <td><code>in the room</code>、<code>in China</code></td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="grid-3">
+          <div class="mini-card">
+            <h4><code>from</code></h4>
+            <p>表示来源、起点，可以是时间起点，也可以是地点来源。</p>
+          </div>
+
+          <div class="mini-card">
+            <h4><code>to</code></h4>
+            <p>表示方向、去向、对象，例如 <code>to Silicon Valley</code>。</p>
+          </div>
+
+          <div class="mini-card">
+            <h4><code>into</code> / <code>out of</code></h4>
+            <p>分别表示“进入”和“从……出来”。</p>
+          </div>
+        </div>
+
+        <details>
+          <summary>地点方位介词例句拆解</summary>
+          <div class="details-body">
+            <div class="example">
+              <div class="example-title">例句</div>
+              <p>
+                <code>They are usually concerned at the prospect of their best and brightest departure to Silicon Valley or to hospitals and universities in the developed world.</code>
+              </p>
+              <p class="analysis">
+                句子核心是 <code>They are concerned</code>。后面多个介词短语连续叠加：
+                <code>at the prospect</code> 表示担忧的方面；
+                <code>of their best and brightest departure</code> 说明前景内容；
+                <code>to Silicon Valley</code> 和 <code>to hospitals and universities</code> 表示去向；
+                <code>in the developed world</code> 表示范围。
+              </p>
+              <p class="translation">
+                <strong>参考翻译：</strong>他们通常担忧最优秀、最聪明的人才流向硅谷，或流向发达国家的医院和大学。
+              </p>
+            </div>
+          </div>
+        </details>
+
+        <h3>其他高频介词：重点看 of 和 by</h3>
+        <p>
+          除了时间和地点，考研中还有一些介词经常用于表达所属、方式、原因、对象、身份或比较关系。其中 <code>of</code> 和 <code>by</code> 尤其重要。
+        </p>
+
+        <div class="rule">
+          <div class="rule-title">of 的翻译规则</div>
+          <p>
+            <span class="tag tag-green">A of B</span> 通常翻译为“B 的 A”。
+            <br />
+            <span class="tag tag-green">A of B of C</span> 通常可以顺着往前翻译为“C 的 B 的 A”。
+          </p>
+        </div>
+
+        <details open>
+          <summary>of 例句拆解</summary>
+          <div class="details-body">
+            <div class="example">
+              <div class="example-title">例句</div>
+              <p><code>the prospect of communicating with a stranger</code></p>
+              <p class="analysis">
+                根据 <code>A of B</code> 的规则，可以理解为“与陌生人交流的前景”。
+                <code>with a stranger</code> 又是一个介词短语，说明交流对象。
+              </p>
+            </div>
+
+            <div class="example">
+              <div class="example-title">例句</div>
+              <p><code>the consumption of unhealthy food</code></p>
+              <p class="analysis">
+                <code>consumption of unhealthy food</code> 可以理解为“不健康食品的消费”。
+                阅读时先整体识别名词词组，再放回句子。
+              </p>
+            </div>
+          </div>
+        </details>
+
+        <div class="rule">
+          <div class="rule-title">by 的五种常见用法</div>
+          <p>
+            <span class="tag tag-green">截止到</span>
+            <span class="tag tag-green">在旁边</span>
+            <span class="tag tag-green">通过某种方式</span>
+            <span class="tag tag-green">被动语态动作发出者</span>
+            <span class="tag tag-green">变化幅度</span>
+          </p>
+        </div>
+
+        <table>
+          <thead>
+            <tr>
+              <th>用法</th>
+              <th>含义</th>
+              <th>例子</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>时间截止</td>
+              <td>到……为止</td>
+              <td><code>by 2005</code></td>
+            </tr>
+            <tr>
+              <td>地点旁边</td>
+              <td>在……旁边</td>
+              <td><code>by the window</code></td>
+            </tr>
+            <tr>
+              <td>方式方法</td>
+              <td>通过……方式</td>
+              <td><code>by doing research</code></td>
+            </tr>
+            <tr>
+              <td>被动发出者</td>
+              <td>被……</td>
+              <td><code>was written by him</code></td>
+            </tr>
+            <tr>
+              <td>变化幅度</td>
+              <td>增加或减少了多少</td>
+              <td><code>increase by 20 percent</code></td>
+            </tr>
+          </tbody>
+        </table>
+
+        <details open>
+          <summary>by 例句拆解</summary>
+          <div class="details-body">
+            <div class="example">
+              <div class="example-title">例句：时间截止</div>
+              <p><code>By 2005, some 20 percent of human genes were patented.</code></p>
+              <p class="analysis">
+                <code>By 2005</code> 表示“到 2005 年为止”。<code>some</code> 在这里表示“大约”；
+                <code>20 percent of human genes</code> 表示“约 20% 的人类基因”。
+              </p>
+              <p class="translation">
+                <strong>参考翻译：</strong>到 2005 年为止，大约 20% 的人类基因已经被授予专利。
+              </p>
+            </div>
+          </div>
+        </details>
+
+        <h3>介词短语读句方法</h3>
+        <p>
+          长难句中的介词短语常常一个接一个出现。不要试图一口气把所有细节翻译完，应该先把它们标出来，再回到主干。
+        </p>
+
+        <div class="note note-blue">
+          <strong>读句步骤：</strong>先找谓语动词，确定句子核心；再把介词短语圈出来，判断它们分别说明时间、地点、对象、范围、方式还是原因。
+        </div>
+
+        <details>
+          <summary>综合例句：多个介词短语叠加</summary>
+          <div class="details-body">
+            <div class="example">
+              <div class="example-title">例句</div>
+              <p>
+                <code>In a series of four experiments, behavioral scientists at the University of Chicago and a Wisconsin school of business tested students' willingness to expose themselves to unpleasant stimuli in an effort to satisfy curiosity.</code>
+              </p>
+              <p class="analysis">
+                句子核心是 <code>scientists tested willingness</code>。
+                <code>In a series of four experiments</code> 表示实验范围；
+                <code>at the University of Chicago and a Wisconsin school of business</code> 说明科学家来源；
+                <code>to unpleasant stimuli</code> 表示暴露对象；
+                <code>in an effort to satisfy curiosity</code> 表示目的。
+              </p>
+              <p class="translation">
+                <strong>参考翻译：</strong>在四个系列实验中，来自芝加哥大学和威斯康星一所商学院的行为科学家测试了学生为了满足好奇心而让自己接触不愉快刺激的意愿。
+              </p>
+            </div>
+          </div>
+        </details>
+
+        <div class="note note-green">
+          <strong>本模块记忆点：</strong>介词短语是长难句里最常见的扩展。介词后接名词、代词、doing；读句时先圈出介词短语，再找主干。
+        </div>
+      </section>
+      <!-- END: 介词短语模块 -->
+
+      <!-- START: 同位语插入语模块 -->
+      <section class="card" id="appositive-parenthesis">
+        <span class="section-label">五、成分角度的扩展</span>
+        <h2>同位语和插入语：长难句中的解释与打断</h2>
+        <p class="lead">
+          限定词、形容词、副词、介词短语是从词性角度扩展句子；同位语和插入语则是从成分角度扩展句子。二者都常出现在长难句中，但判断标准不同。
+        </p>
+
+        <div class="rule">
+          <div class="rule-title">核心区别</div>
+          <p>
+            <span class="tag tag-green">同位语</span>看内容：解释前面的名词，并且说的是同一回事。
+            <br />
+            <span class="tag tag-green">插入语</span>看位置：插入句子中间，造成句子结构被打断。
+          </p>
+        </div>
+
+        <div class="grid-2">
+          <div class="mini-card">
+            <h4>同位语的判断</h4>
+            <p>如果后面的名词、名词短语或解释说明是在说明前面的名词“具体是谁、是什么”，它通常就是同位语。</p>
+          </div>
+
+          <div class="mini-card">
+            <h4>插入语的判断</h4>
+            <p>如果某个成分插在主谓之间、谓宾之间或句子中间，拿掉后主干仍然完整，它通常就是插入语。</p>
+          </div>
+        </div>
+
+        <div class="note note-amber">
+          <strong>重要提醒：</strong>同位语和插入语不是完全互斥的。有些成分从内容上看是同位语，从位置上看又插入句中，因此可以既是同位语，又是插入语。
+        </div>
+
+        <details open>
+          <summary>同位语：内容上解释前面的名词</summary>
+          <div class="details-body">
+            <p>
+              同位语的本质是“同一个对象的不同说法”。它不是另起一个新对象，而是在解释前面的名词。
+            </p>
+
+            <div class="example">
+              <div class="example-title">例句</div>
+              <p>
+                <code>The world's two biggest auction houses, Sotheby's and Christie's, had to pay up nearly 200 million dollars in guarantees to clients.</code>
+              </p>
+              <p class="analysis">
+                <code>Sotheby's and Christie's</code> 解释说明前面的 <code>the world's two biggest auction houses</code>，
+                两者说的是同一回事，所以内容上是同位语。同时它插在主语和谓语 <code>had to pay</code> 之间，位置上也是插入语。
+              </p>
+              <p class="translation">
+                <strong>参考翻译：</strong>世界两大拍卖行——苏富比和佳士得——不得不向客户支付近 2 亿美元的保证金。
+              </p>
+            </div>
+          </div>
+        </details>
+
+        <details open>
+          <summary>插入语：位置上打断句子主干</summary>
+          <div class="details-body">
+            <p>
+              插入语通常可以先拿掉，拿掉之后主干仍然成立。常见插入语包括介词短语、副词、主谓结构、破折号中的补充说明等。
+            </p>
+
+            <div class="example">
+              <div class="example-title">例句</div>
+              <p>
+                <code>Jealousy and anger, for example, may have evolved to alert us to important inequalities.</code>
+              </p>
+              <p class="analysis">
+                <code>for example</code> 是介词短语，插在主语 <code>Jealousy and anger</code> 和谓语 <code>may have evolved</code> 之间，
+                是典型插入语。拿掉后，主干是 <code>Jealousy and anger may have evolved...</code>。
+              </p>
+              <p class="translation">
+                <strong>参考翻译：</strong>例如，嫉妒和愤怒可能已经演变为提醒我们注意重要的不平等。
+              </p>
+            </div>
+          </div>
+        </details>
+
+        <h3>常见插入语类型</h3>
+
+        <table>
+          <thead>
+            <tr>
+              <th>类型</th>
+              <th>常见形式</th>
+              <th>处理方法</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>介词短语</td>
+              <td><code>for example</code>、<code>in contrast</code>、<code>according to...</code></td>
+              <td>先拿掉找主干，再翻译为“例如、相比之下、根据……”</td>
+            </tr>
+            <tr>
+              <td>副词</td>
+              <td><code>however</code>、<code>therefore</code>、<code>conversely</code></td>
+              <td>表示逻辑关系，通常放到句首或句中翻译</td>
+            </tr>
+            <tr>
+              <td>主谓结构</td>
+              <td><code>says...</code>、<code>researchers believe</code></td>
+              <td>表示“某人说、某人认为”，先识别说话来源</td>
+            </tr>
+            <tr>
+              <td>标点插入</td>
+              <td>逗号、破折号、括号中的补充信息</td>
+              <td>先拿掉，再判断是否解释说明核心名词</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <details>
+          <summary>插入语例句：in contrast</summary>
+          <div class="details-body">
+            <div class="example">
+              <div class="example-title">例句</div>
+              <p><code>Cargo aircraft, in contrast, might be easier to reschedule.</code></p>
+              <p class="analysis">
+                <code>in contrast</code> 表示“相比之下、反过来说”，插在主语 <code>Cargo aircraft</code> 和谓语之间，是插入语。
+              </p>
+              <p class="translation">
+                <strong>参考翻译：</strong>相比之下，货运飞机可能更容易重新安排。
+              </p>
+            </div>
+          </div>
+        </details>
+
+        <details>
+          <summary>插入语例句：某人说</summary>
+          <div class="details-body">
+            <div class="example">
+              <div class="example-title">例句</div>
+              <p><code>It is far better to spend the money on experiences, says Ms. Dunn and Mr. Norton.</code></p>
+              <p class="analysis">
+                <code>says Ms. Dunn and Mr. Norton</code> 是插入性的信息来源，表示“邓恩女士和诺顿先生说”。
+              </p>
+              <p class="translation">
+                <strong>参考翻译：</strong>邓恩女士和诺顿先生说，把钱花在体验上要好得多。
+              </p>
+            </div>
+          </div>
+        </details>
+
+        <div class="note note-green">
+          <strong>本模块记忆点：</strong>同位语看内容，插入语看位置。遇到逗号、破折号、括号中的补充说明，先拿掉找主干，再判断它解释谁。
+        </div>
+      </section>
+      <!-- END: 同位语插入语模块 -->
+
+
+      <!-- START: 真题演练中心 -->
+      <section class="card" id="practice-center">
+        <span class="section-label">六、真题演练中心</span>
+        <h2>先做题，再看答案：把规则转成读句能力</h2>
+        <p class="lead">
+          真题演练的目的不是机械翻译，而是训练你在句子中快速识别扩展成分：形容词副词修饰谁，介词短语说明什么，同位语和插入语如何影响主干。
+        </p>
+
+        <div class="note note-blue">
+          <strong>练习方法：</strong>先只看题目，自己找核心和扩展；再点击答案解析。每道题都尽量先说出“主干是什么”，再看细节。
+        </div>
+
+        <details open>
+          <summary>真题组 A：形容词、副词与比较结构</summary>
+          <div class="details-body">
+
+            <div class="practice">
+              <div class="practice-title">练习 A1：找出形容词和副词</div>
+              <div class="question">
+                <code>Happy people work differently.</code>
+              </div>
+              <div class="answer">
+                <details class="answer-toggle">
+                  <summary>点击查看答案解析</summary>
+                  <div class="answer-content">
+                    <p><strong>主干：</strong><code>people work</code></p>
+                    <p><strong>答案：</strong><code>Happy</code> 是形容词，修饰 <code>people</code>；<code>differently</code> 是副词，修饰 <code>work</code>。</p>
+                    <p class="translation"><strong>参考翻译：</strong>快乐的人工作方式不同。</p>
+                  </div>
+                </details>
+              </div>
+            </div>
+
+            <div class="practice">
+              <div class="practice-title">练习 A2：判断多个形容词</div>
+              <div class="question">
+                <code>Google has to maintain vast data centers around the world packed with powerful computers.</code>
+              </div>
+              <div class="answer">
+                <details class="answer-toggle">
+                  <summary>点击查看答案解析</summary>
+                  <div class="answer-content">
+                    <p><strong>主干：</strong><code>Google has to maintain data centers</code></p>
+                    <p><strong>答案：</strong><code>vast</code> 修饰 <code>data centers</code>；<code>powerful</code> 修饰 <code>computers</code>。</p>
+                    <p><strong>扩展：</strong><code>around the world</code> 是介词短语，说明范围；<code>packed with powerful computers</code> 补充说明数据中心的状态。</p>
+                    <p class="translation"><strong>参考翻译：</strong>谷歌必须维护遍布世界、装配有强大计算机的大型数据中心。</p>
+                  </div>
+                </details>
+              </div>
+            </div>
+
+            <div class="practice">
+              <div class="practice-title">练习 A3：找副词修饰对象</div>
+              <div class="question">
+                <code>A century ago, few people regularly brushed their teeth multiple times a day.</code>
+              </div>
+              <div class="answer">
+                <details class="answer-toggle">
+                  <summary>点击查看答案解析</summary>
+                  <div class="answer-content">
+                    <p><strong>主干：</strong><code>people brushed their teeth</code></p>
+                    <p><strong>答案：</strong><code>few</code> 修饰 <code>people</code>；<code>regularly</code> 修饰 <code>brushed</code>；<code>multiple</code> 修饰 <code>times</code>。</p>
+                    <p class="translation"><strong>参考翻译：</strong>一个世纪以前，很少有人会规律地一天刷多次牙。</p>
+                  </div>
+                </details>
+              </div>
+            </div>
+
+            <div class="practice">
+              <div class="practice-title">练习 A4：副词修饰整句</div>
+              <div class="question">
+                <code>Conversely, it should account for a significant portion of the grade.</code>
+              </div>
+              <div class="answer">
+                <details class="answer-toggle">
+                  <summary>点击查看答案解析</summary>
+                  <div class="answer-content">
+                    <p><strong>主干：</strong><code>it should account for a portion</code></p>
+                    <p><strong>答案：</strong><code>Conversely</code> 修饰整句话，表示“相反地”；<code>significant</code> 修饰 <code>portion</code>。</p>
+                    <p class="translation"><strong>参考翻译：</strong>相反，它也应该占成绩中相当大的一部分。</p>
+                  </div>
+                </details>
+              </div>
+            </div>
+
+            <div class="practice">
+              <div class="practice-title">练习 A5：副词修饰形容词</div>
+              <div class="question">
+                <code>American papers have long been highly unusual in their reliance on ads.</code>
+              </div>
+              <div class="answer">
+                <details class="answer-toggle">
+                  <summary>点击查看答案解析</summary>
+                  <div class="answer-content">
+                    <p><strong>主干：</strong><code>papers have been unusual</code></p>
+                    <p><strong>答案：</strong><code>American</code> 修饰 <code>papers</code>；<code>long</code> 修饰谓语结构；<code>highly</code> 修饰形容词 <code>unusual</code>。</p>
+                    <p><strong>提醒：</strong><code>unusual</code> 是表语，是主系表核心成分，不能当普通扩展删掉。</p>
+                    <p class="translation"><strong>参考翻译：</strong>美国报纸长期以来在依赖广告方面都非常不寻常。</p>
+                  </div>
+                </details>
+              </div>
+            </div>
+
+            <div class="practice">
+              <div class="practice-title">练习 A6：判断原级比较</div>
+              <div class="question">
+                <code>That's about as effective as brushing dirt under a carpet.</code>
+              </div>
+              <div class="answer">
+                <details class="answer-toggle">
+                  <summary>点击查看答案解析</summary>
+                  <div class="answer-content">
+                    <p><strong>比较结构：</strong><code>as effective as</code></p>
+                    <p><strong>答案：</strong>这是原级比较，表示“和……一样有效”。比较对象是 <code>brushing dirt under a carpet</code>。</p>
+                    <p class="translation"><strong>参考翻译：</strong>那大约就和把灰尘扫到地毯下面一样有效。</p>
+                  </div>
+                </details>
+              </div>
+            </div>
+
+            <div class="practice">
+              <div class="practice-title">练习 A7：判断比较级</div>
+              <div class="question">
+                <code>Their dropout rates are higher.</code>
+              </div>
+              <div class="answer">
+                <details class="answer-toggle">
+                  <summary>点击查看答案解析</summary>
+                  <div class="answer-content">
+                    <p><strong>主干：</strong><code>rates are higher</code></p>
+                    <p><strong>答案：</strong><code>higher</code> 是比较级，表示“更高”。句中没有直接写出比较对象，需要根据上下文判断。</p>
+                    <p class="translation"><strong>参考翻译：</strong>他们的辍学率更高。</p>
+                  </div>
+                </details>
+              </div>
+            </div>
+
+            <div class="practice">
+              <div class="practice-title">练习 A8：判断最高级</div>
+              <div class="question">
+                <code>The current downturn in the art market is the worst.</code>
+              </div>
+              <div class="answer">
+                <details class="answer-toggle">
+                  <summary>点击查看答案解析</summary>
+                  <div class="answer-content">
+                    <p><strong>主干：</strong><code>downturn is the worst</code></p>
+                    <p><strong>答案：</strong><code>the worst</code> 是最高级，表示“最糟糕”。</p>
+                    <p><strong>扩展：</strong><code>current</code> 修饰 <code>downturn</code>；<code>in the art market</code> 是介词短语，说明范围。</p>
+                    <p class="translation"><strong>参考翻译：</strong>当前艺术品市场的下滑是最糟糕的。</p>
+                  </div>
+                </details>
+              </div>
+            </div>
+
+            <div class="practice">
+              <div class="practice-title">练习 A9：判断 as...as 长比较</div>
+              <div class="question">
+                <code>The consumption of unhealthy food should be seen to be just as damaging as smoking or excessive drinking.</code>
+              </div>
+              <div class="answer">
+                <details class="answer-toggle">
+                  <summary>点击查看答案解析</summary>
+                  <div class="answer-content">
+                    <p><strong>主干：</strong><code>consumption should be seen to be damaging</code></p>
+                    <p><strong>答案：</strong><code>as damaging as</code> 是原级比较，比较对象是 <code>smoking or excessive drinking</code>。</p>
+                    <p><strong>扩展：</strong><code>of unhealthy food</code> 修饰 <code>consumption</code>，表示“不健康食品的消费”。</p>
+                    <p class="translation"><strong>参考翻译：</strong>不健康食品的消费应被视为和吸烟或过度饮酒一样有害。</p>
+                  </div>
+                </details>
+              </div>
+            </div>
+
+            <div class="practice">
+              <div class="practice-title">练习 A10：多个比较结构</div>
+              <div class="question">
+                <code>The best jobs will require workers to have more and better education to make themselves above average.</code>
+              </div>
+              <div class="answer">
+                <details class="answer-toggle">
+                  <summary>点击查看答案解析</summary>
+                  <div class="answer-content">
+                    <p><strong>主干：</strong><code>jobs will require workers</code></p>
+                    <p><strong>答案：</strong><code>best</code> 是最高级；<code>more</code> 和 <code>better</code> 是比较级，都修饰 <code>education</code>。</p>
+                    <p class="translation"><strong>参考翻译：</strong>最好的工作将要求工人接受更多且更好的教育，使自己高于平均水平。</p>
+                  </div>
+                </details>
+              </div>
+            </div>
+
+          </div>
+        </details>
+
+        <details open>
+          <summary>真题组 B：介词短语</summary>
+          <div class="details-body">
+
+            <div class="practice">
+              <div class="practice-title">练习 B1：时间介词 on</div>
+              <div class="question">
+                <code>On July 29th, they were relieved, at least temporarily.</code>
+              </div>
+              <div class="answer">
+                <details class="answer-toggle">
+                  <summary>点击查看答案解析</summary>
+                  <div class="answer-content">
+                    <p><strong>主干：</strong><code>they were relieved</code></p>
+                    <p><strong>介词短语：</strong><code>On July 29th</code> 表示具体某一天；<code>at least</code> 表示“至少”。</p>
+                    <p class="translation"><strong>参考翻译：</strong>在 7 月 29 日，他们至少暂时松了一口气。</p>
+                  </div>
+                </details>
+              </div>
+            </div>
+
+            <div class="practice">
+              <div class="practice-title">练习 B2：时间介词 in</div>
+              <div class="question">
+                <code>In March 2010, a judge ruled that genes were unpatentable.</code>
+              </div>
+              <div class="answer">
+                <details class="answer-toggle">
+                  <summary>点击查看答案解析</summary>
+                  <div class="answer-content">
+                    <p><strong>主干：</strong><code>a judge ruled that...</code></p>
+                    <p><strong>介词短语：</strong><code>In March 2010</code> 表示较大时间范围，使用 <code>in</code>。</p>
+                    <p class="translation"><strong>参考翻译：</strong>2010 年 3 月，一名法官裁定基因不能被授予专利。</p>
+                  </div>
+                </details>
+              </div>
+            </div>
+
+            <div class="practice">
+              <div class="practice-title">练习 B3：介词后接 doing</div>
+              <div class="question">
+                <code>Two years before graduating from secondary school, I took a sewing and design course.</code>
+              </div>
+              <div class="answer">
+                <details class="answer-toggle">
+                  <summary>点击查看答案解析</summary>
+                  <div class="answer-content">
+                    <p><strong>主干：</strong><code>I took a course</code></p>
+                    <p><strong>介词短语：</strong><code>before graduating</code> 中介词 <code>before</code> 后接 <code>doing</code>；<code>from secondary school</code> 表示“从中学毕业”。</p>
+                    <p class="translation"><strong>参考翻译：</strong>中学毕业前两年，我上了一门缝纫和设计课程。</p>
+                  </div>
+                </details>
+              </div>
+            </div>
+
+            <div class="practice">
+              <div class="practice-title">练习 B4：since 表示时间起点</div>
+              <div class="question">
+                <code>Since 1914, scientists have known that birds flying in formation expend less energy.</code>
+              </div>
+              <div class="answer">
+                <details class="answer-toggle">
+                  <summary>点击查看答案解析</summary>
+                  <div class="answer-content">
+                    <p><strong>主干：</strong><code>scientists have known that...</code></p>
+                    <p><strong>介词短语：</strong><code>Since 1914</code> 表示“自 1914 年以来”；<code>in formation</code> 表示“以队形”。</p>
+                    <p class="translation"><strong>参考翻译：</strong>自 1914 年以来，科学家就已经知道编队飞行的鸟会消耗更少能量。</p>
+                  </div>
+                </details>
+              </div>
+            </div>
+
+            <div class="practice">
+              <div class="practice-title">练习 B5：by 表示截止</div>
+              <div class="question">
+                <code>By 2005, some 20 percent of human genes were patented.</code>
+              </div>
+              <div class="answer">
+                <details class="answer-toggle">
+                  <summary>点击查看答案解析</summary>
+                  <div class="answer-content">
+                    <p><strong>主干：</strong><code>genes were patented</code></p>
+                    <p><strong>介词短语：</strong><code>By 2005</code> 表示“到 2005 年为止”；<code>of human genes</code> 修饰 <code>20 percent</code>。</p>
+                    <p class="translation"><strong>参考翻译：</strong>到 2005 年为止，大约 20% 的人类基因已经被授予专利。</p>
+                  </div>
+                </details>
+              </div>
+            </div>
+
+            <div class="practice">
+              <div class="practice-title">练习 B6：多个介词短语叠加</div>
+              <div class="question">
+                <code>They are usually concerned at the prospect of their best and brightest departure to Silicon Valley or to hospitals and universities in the developed world.</code>
+              </div>
+              <div class="answer">
+                <details class="answer-toggle">
+                  <summary>点击查看答案解析</summary>
+                  <div class="answer-content">
+                    <p><strong>主干：</strong><code>They are concerned</code></p>
+                    <p><strong>介词短语：</strong><code>at the prospect</code> 表担忧方面；<code>of their best and brightest departure</code> 说明前景内容；<code>to Silicon Valley</code> 和 <code>to hospitals and universities</code> 表去向；<code>in the developed world</code> 表范围。</p>
+                    <p class="translation"><strong>参考翻译：</strong>他们通常担忧最优秀、最聪明的人才流向硅谷，或流向发达国家的医院和大学。</p>
+                  </div>
+                </details>
+              </div>
+            </div>
+
+            <div class="practice">
+              <div class="practice-title">练习 B7：of 翻译规则</div>
+              <div class="question">
+                <code>The prospect of communicating with a stranger is virtually unbearable.</code>
+              </div>
+              <div class="answer">
+                <details class="answer-toggle">
+                  <summary>点击查看答案解析</summary>
+                  <div class="answer-content">
+                    <p><strong>主干：</strong><code>The prospect is unbearable</code></p>
+                    <p><strong>介词短语：</strong><code>of communicating with a stranger</code> 修饰 <code>prospect</code>，表示“与陌生人交流的前景”；<code>with a stranger</code> 表交流对象。</p>
+                    <p><strong>副词：</strong><code>virtually</code> 修饰 <code>unbearable</code>，表示“几乎、事实上”。</p>
+                    <p class="translation"><strong>参考翻译：</strong>与陌生人交流这件事，在当代文化中几乎令人无法忍受。</p>
+                  </div>
+                </details>
+              </div>
+            </div>
+
+            <div class="practice">
+              <div class="practice-title">练习 B8：实验句中的介词短语</div>
+              <div class="question">
+                <code>In a series of four experiments, behavioral scientists at the University of Chicago and a Wisconsin school of business tested students' willingness to expose themselves to unpleasant stimuli in an effort to satisfy curiosity.</code>
+              </div>
+              <div class="answer">
+                <details class="answer-toggle">
+                  <summary>点击查看答案解析</summary>
+                  <div class="answer-content">
+                    <p><strong>主干：</strong><code>scientists tested willingness</code></p>
+                    <p><strong>介词短语：</strong><code>In a series of four experiments</code> 表实验范围；<code>at the University...</code> 说明科学家来源；<code>to unpleasant stimuli</code> 表暴露对象；<code>in an effort to satisfy curiosity</code> 表目的。</p>
+                    <p class="translation"><strong>参考翻译：</strong>在四个系列实验中，来自芝加哥大学和威斯康星一所商学院的行为科学家测试了学生为了满足好奇心而让自己接触不愉快刺激的意愿。</p>
+                  </div>
+                </details>
+              </div>
+            </div>
+
+          </div>
+        </details>
+
+        <details open>
+          <summary>真题组 C：同位语、插入语</summary>
+          <div class="details-body">
+
+            <div class="practice">
+              <div class="practice-title">练习 C1：判断介词短语插入语</div>
+              <div class="question">
+                <code>Jealousy and anger, for example, may have evolved to alert us to important inequalities.</code>
+              </div>
+              <div class="answer">
+                <details class="answer-toggle">
+                  <summary>点击查看答案解析</summary>
+                  <div class="answer-content">
+                    <p><strong>主干：</strong><code>Jealousy and anger may have evolved</code></p>
+                    <p><strong>插入语：</strong><code>for example</code> 插在主语和谓语之间，表示“例如”。</p>
+                    <p class="translation"><strong>参考翻译：</strong>例如，嫉妒和愤怒可能已经演变为提醒我们注意重要的不平等。</p>
+                  </div>
+                </details>
+              </div>
+            </div>
+
+            <div class="practice">
+              <div class="practice-title">练习 C2：破折号引出同位语</div>
+              <div class="question">
+                <code>There will always be change — new jobs, new products, new services.</code>
+              </div>
+              <div class="answer">
+                <details class="answer-toggle">
+                  <summary>点击查看答案解析</summary>
+                  <div class="answer-content">
+                    <p><strong>主干：</strong><code>There will always be change</code></p>
+                    <p><strong>同位语：</strong><code>new jobs, new products, new services</code> 解释说明 <code>change</code> 的具体内容。</p>
+                    <p class="translation"><strong>参考翻译：</strong>变化将总是存在——新的工作、新的产品、新的服务。</p>
+                  </div>
+                </details>
+              </div>
+            </div>
+
+            <div class="practice">
+              <div class="practice-title">练习 C3：判断 in contrast</div>
+              <div class="question">
+                <code>Cargo aircraft, in contrast, might be easier to reschedule.</code>
+              </div>
+              <div class="answer">
+                <details class="answer-toggle">
+                  <summary>点击查看答案解析</summary>
+                  <div class="answer-content">
+                    <p><strong>主干：</strong><code>Cargo aircraft might be easier</code></p>
+                    <p><strong>插入语：</strong><code>in contrast</code> 插在主语和谓语之间，表示“相比之下”。</p>
+                    <p class="translation"><strong>参考翻译：</strong>相比之下，货运飞机可能更容易重新安排。</p>
+                  </div>
+                </details>
+              </div>
+            </div>
+
+            <div class="practice">
+              <div class="practice-title">练习 C4：既是同位语又是插入语</div>
+              <div class="question">
+                <code>Within weeks, the world's two biggest auction houses, Sotheby's and Christie's, had to pay up nearly 200 million dollars in guarantees to clients.</code>
+              </div>
+              <div class="answer">
+                <details class="answer-toggle">
+                  <summary>点击查看答案解析</summary>
+                  <div class="answer-content">
+                    <p><strong>主干：</strong><code>auction houses had to pay</code></p>
+                    <p><strong>同位语：</strong><code>Sotheby's and Christie's</code> 解释说明 <code>the world's two biggest auction houses</code>。</p>
+                    <p><strong>插入语：</strong>它位于主语和谓语之间，也造成结构插入。</p>
+                    <p class="translation"><strong>参考翻译：</strong>几周之内，世界两大拍卖行——苏富比和佳士得——不得不向客户支付近 2 亿美元的保证金。</p>
+                  </div>
+                </details>
+              </div>
+            </div>
+
+            <div class="practice">
+              <div class="practice-title">练习 C5：某人说作插入语</div>
+              <div class="question">
+                <code>It is far better to spend the money on experiences, says Ms. Dunn and Mr. Norton.</code>
+              </div>
+              <div class="answer">
+                <details class="answer-toggle">
+                  <summary>点击查看答案解析</summary>
+                  <div class="answer-content">
+                    <p><strong>主干：</strong><code>It is far better to spend the money on experiences</code></p>
+                    <p><strong>插入语：</strong><code>says Ms. Dunn and Mr. Norton</code> 表示信息来源，可以理解为“邓恩女士和诺顿先生说”。</p>
+                    <p class="translation"><strong>参考翻译：</strong>邓恩女士和诺顿先生说，把钱花在体验上要好得多。</p>
+                  </div>
+                </details>
+              </div>
+            </div>
+
+            <div class="practice">
+              <div class="practice-title">练习 C6：身份类同位语</div>
+              <div class="question">
+                <code>The demands follow comments made last week by the Health Secretary Andrew Lansley.</code>
+              </div>
+              <div class="answer">
+                <details class="answer-toggle">
+                  <summary>点击查看答案解析</summary>
+                  <div class="answer-content">
+                    <p><strong>主干：</strong><code>The demands follow comments</code></p>
+                    <p><strong>同位语：</strong><code>Andrew Lansley</code> 解释说明 <code>the Health Secretary</code> 是谁。</p>
+                    <p><strong>介词短语：</strong><code>by the Health Secretary Andrew Lansley</code> 表示评论的发出者。</p>
+                    <p class="translation"><strong>参考翻译：</strong>这些要求是在卫生大臣安德鲁·兰斯利上周发表评论之后提出的。</p>
+                  </div>
+                </details>
+              </div>
+            </div>
+
+            <div class="practice">
+              <div class="practice-title">练习 C7：according to 与身份同位语</div>
+              <div class="question">
+                <code>The epidemic is moderate in severity, according to Margaret Chan, the organization's director general.</code>
+              </div>
+              <div class="answer">
+                <details class="answer-toggle">
+                  <summary>点击查看答案解析</summary>
+                  <div class="answer-content">
+                    <p><strong>主干：</strong><code>The epidemic is moderate</code></p>
+                    <p><strong>插入语：</strong><code>according to Margaret Chan</code> 表示信息来源。</p>
+                    <p><strong>同位语：</strong><code>the organization's director general</code> 解释说明 <code>Margaret Chan</code> 的身份。</p>
+                    <p class="translation"><strong>参考翻译：</strong>据该组织总干事玛格丽特·陈所说，这种流行病的严重程度为中等。</p>
+                  </div>
+                </details>
+              </div>
+            </div>
+
+            <div class="practice">
+              <div class="practice-title">练习 C8：判断多个插入语</div>
+              <div class="question">
+                <code>The apartments in the elegant towers on Chicago's Lake Shore Drive, for example, were smaller — two-bedroom units under 1,000 square feet — than those in older neighborhoods along the city's Gold Coast.</code>
+              </div>
+              <div class="answer">
+                <details class="answer-toggle">
+                  <summary>点击查看答案解析</summary>
+                  <div class="answer-content">
+                    <p><strong>主干：</strong><code>The apartments were smaller than those...</code></p>
+                    <p><strong>插入语：</strong><code>for example</code> 是插入语；破折号中的 <code>two-bedroom units under 1,000 square feet</code> 也是插入性解释说明。</p>
+                    <p><strong>介词短语：</strong><code>in the elegant towers</code>、<code>on Chicago's Lake Shore Drive</code>、<code>in older neighborhoods</code>、<code>along the city's Gold Coast</code> 都是地点或范围信息。</p>
+                    <p class="translation"><strong>参考翻译：</strong>例如，芝加哥湖滨大道上那些典雅高楼里的公寓更小——两居室面积不到 1000 平方英尺——比城市黄金海岸沿线旧街区的公寓更小。</p>
+                  </div>
+                </details>
+              </div>
+            </div>
+
+          </div>
+        </details>
+
+        <div class="note note-green">
+          <strong>真题训练结论：</strong>长句并不一定难在核心，而是难在扩展多。做题时坚持“先主干，后细节”，就能避免被介词短语、同位语和插入语带乱。
+        </div>
+      </section>
+      <!-- END: 真题演练中心 -->
+
+      <!-- START: 考场攻略 -->
+      <section class="card" id="exam-strategy">
+        <span class="section-label">七、考场攻略</span>
+        <h2>写句由短到长，读句由长到短</h2>
+        <p class="lead">
+          简单句扩展这部分最终要服务考试。写作时，要学会把短句逐步扩展成长句；阅读和翻译时，要学会把长句压缩回核心。
+        </p>
+
+        <div class="rule">
+          <div class="rule-title">考场核心方法论</div>
+          <p>
+            <span class="tag tag-green">写作</span>先核心，再扩展。
+            <br />
+            <span class="tag tag-green">阅读</span>先去扩展，找核心，再还原细节。
+          </p>
+        </div>
+
+        <details open>
+          <summary>写句子：从核心一步步扩展</summary>
+          <div class="details-body">
+            <p>
+              写作时不要一开始就强迫自己写复杂长句。更稳定的方法是先写出最简单的核心，再逐步添加时态、限定词、形容词、副词和介词短语。
+            </p>
+
+            <div class="example">
+              <div class="example-title">由短到长示范</div>
+              <p><strong>第一步：写核心</strong></p>
+              <p><code>Girls play games.</code></p>
+
+              <p><strong>第二步：加时态</strong></p>
+              <p><code>Girls are playing games.</code></p>
+
+              <p><strong>第三步：加形容词和副词</strong></p>
+              <p><code>Cute girls are playing games happily.</code></p>
+
+              <p><strong>第四步：加数词和程度副词</strong></p>
+              <p><code>Thousands of cute girls are playing games very happily.</code></p>
+
+              <p><strong>第五步：加介词短语</strong></p>
+              <p><code>Thousands of cute girls are playing games very happily after class on the playground.</code></p>
+            </div>
+
+            <div class="note note-blue">
+              <strong>写作启发：</strong>考研写作中的句子不一定要一口气写得很长。先保证主干正确，再增加修饰和补充，句子会更稳。
+            </div>
+          </div>
+        </details>
+
+        <details open>
+          <summary>读句子：把长句压缩回核心</summary>
+          <div class="details-body">
+            <p>
+              阅读长难句时，最怕被一连串修饰语带走。正确做法是先判断这句话到底在说几件事，再找出每件事的核心。
+            </p>
+
+            <div class="note note-green">
+              <strong>读句四步：</strong>
+              <ol>
+                <li><strong>找谓语动词：</strong>先判断句子中有几个真正的谓语动词，从而判断有几件事。</li>
+                <li><strong>去扩展：</strong>暂时拿掉限定词、形容词、副词、介词短语、同位语、插入语等补充成分。</li>
+                <li><strong>找核心：</strong>抓住主谓、主谓宾或主系表结构。</li>
+                <li><strong>还原细节：</strong>在核心理解清楚之后，再把扩展成分逐一放回来。</li>
+              </ol>
+            </div>
+
+            <div class="example">
+              <div class="example-title">长句压缩示范</div>
+              <p>
+                <code>They are usually concerned at the prospect of their best and brightest departure to Silicon Valley or to hospitals and universities in the developed world.</code>
+              </p>
+              <p><strong>第一步：找核心</strong></p>
+              <p><code>They are concerned.</code></p>
+              <p><strong>第二步：还原扩展</strong></p>
+              <p>
+                <code>usually</code> 是副词；
+                <code>at the prospect</code> 表示担忧的方面；
+                <code>of their best and brightest departure</code> 说明前景内容；
+                <code>to Silicon Valley</code> 和 <code>to hospitals and universities</code> 表示去向；
+                <code>in the developed world</code> 表示范围。
+              </p>
+              <p class="translation">
+                <strong>参考翻译：</strong>他们通常担忧最优秀、最聪明的人才流向硅谷，或流向发达国家的医院和大学。
+              </p>
+            </div>
+
+            <div class="example">
+              <div class="example-title">综合长句压缩示范</div>
+              <p>
+                <code>In a series of four experiments, behavioral scientists at the University of Chicago and a Wisconsin school of business tested students' willingness to expose themselves to unpleasant stimuli in an effort to satisfy curiosity.</code>
+              </p>
+              <p><strong>核心：</strong><code>scientists tested willingness.</code></p>
+              <p>
+                <strong>扩展：</strong>
+                <code>In a series of four experiments</code> 表实验范围；
+                <code>behavioral</code> 修饰 <code>scientists</code>；
+                <code>at the University of Chicago and a Wisconsin school of business</code> 说明科学家来源；
+                <code>students'</code> 是名词所有格；
+                <code>to expose themselves</code> 说明意愿内容；
+                <code>to unpleasant stimuli</code> 表暴露对象；
+                <code>in an effort to satisfy curiosity</code> 表目的。
+              </p>
+              <p class="translation">
+                <strong>参考翻译：</strong>在四个系列实验中，来自芝加哥大学和威斯康星一所商学院的行为科学家测试了学生为了满足好奇心而让自己接触不愉快刺激的意愿。
+              </p>
+            </div>
+
+            <div class="note note-amber">
+              <strong>易错提醒：</strong>不是所有形容词都能拿掉。如果形容词在系动词后作表语，例如 <code>They are concerned.</code> 中的 <code>concerned</code>，它就是核心成分，不能当普通修饰语删掉。
+            </div>
+          </div>
+        </details>
+
+        <details>
+          <summary>考研英语五大题型中的语法作用</summary>
+          <div class="details-body">
+            <table>
+              <thead>
+                <tr>
+                  <th>题型</th>
+                  <th>分值</th>
+                  <th>语法能力应用</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>完形填空</td>
+                  <td>10 分</td>
+                  <td>判断词性、搭配、逻辑关系和句内结构。</td>
+                </tr>
+                <tr>
+                  <td>阅读理解</td>
+                  <td>40 分</td>
+                  <td>读懂长难句，定位核心信息，避免被修饰成分干扰。</td>
+                </tr>
+                <tr>
+                  <td>新题型</td>
+                  <td>10 分</td>
+                  <td>识别句间逻辑、段落衔接和信息指代。</td>
+                </tr>
+                <tr>
+                  <td>翻译</td>
+                  <td>15 分</td>
+                  <td>拆分结构，先翻核心，再处理扩展成分。</td>
+                </tr>
+                <tr>
+                  <td>写作</td>
+                  <td>25 分</td>
+                  <td>由核心句出发，逐步增加修饰和补充说明。</td>
+                </tr>
+              </tbody>
+            </table>
+
+            <div class="note note-blue">
+              <strong>备考启发：</strong>除写作外，大部分分数都依赖读句能力。简单句扩展不是孤立语法点，而是长难句理解的基础。
+            </div>
+          </div>
+        </details>
+
+        <div class="note note-green">
+          <strong>本模块记忆点：</strong>写作要敢于先写短句，再扩展；阅读要敢于先删扩展，再找核心。一个方向是加法，一个方向是减法。
+        </div>
+      </section>
+      <!-- END: 考场攻略 -->
+
+
+      <!-- START: 检查清单 -->
+      <section class="card" id="checklist">
+        <span class="section-label">八、考前检查清单</span>
+        <h2>最后一遍复习：用清单检查是否真正掌握</h2>
+        <p class="lead">
+          这一部分用于考前快速回顾。不要只看自己会不会背术语，而要检查自己能不能在句子里快速识别它们。
+        </p>
+
+        <h3>词性扩展检查</h3>
+        <div class="checklist">
+          <div class="check-item">限定词四类：冠词、数词、名词所有格、名词限定名词。</div>
+          <div class="check-item">形容词主要修饰名词，也可以在系动词后作表语。</div>
+          <div class="check-item">副词主要修饰动词、句子、形容词和其他副词。</div>
+          <div class="check-item">比较级别三种：原级、比较级、最高级。</div>
+        </div>
+
+        <h3>介词短语检查</h3>
+        <div class="checklist">
+          <div class="check-item">介词后接名词、代词、doing，不能接 do 或 to do。</div>
+          <div class="check-item">时间介词：at 接点，on 接天，in 接大范围。</div>
+          <div class="check-item">地点介词：at 偏点，on 偏面，in 偏内部范围。</div>
+          <div class="check-item">of 常按 A of B → B 的 A 理解。</div>
+          <div class="check-item">by 常见五义：截止、旁边、方式、被动发出者、变化幅度。</div>
+          <div class="check-item">多个介词短语可以连续叠加，读句时先圈出再还原。</div>
+        </div>
+
+        <h3>成分扩展检查</h3>
+        <div class="checklist">
+          <div class="check-item">同位语看内容：解释前面的名词，说的是同一回事。</div>
+          <div class="check-item">插入语看位置：插入句中，打断原本结构。</div>
+          <div class="check-item">逗号、破折号、括号中的内容常常是补充说明。</div>
+          <div class="check-item">身份类同位语通常帮助理解人物身份，阅读中可快速处理。</div>
+        </div>
+
+        <h3>考场方法检查</h3>
+        <div class="checklist">
+          <div class="check-item">写句子：核心 → 时态 → 限定 → 修饰 → 介词短语。</div>
+          <div class="check-item">读句子：找谓语 → 去扩展 → 找核心 → 还原细节。</div>
+          <div class="check-item">遇到长句时，先判断主干，不要先翻所有修饰语。</div>
+          <div class="check-item">表语属于核心成分，不能被误删。</div>
+        </div>
+
+        <div class="note note-purple">
+          <strong>自测建议：</strong>打开真题演练中心，先隐藏所有答案。每做一道题，都先写出主干，再写扩展成分，最后查看解析。
+        </div>
+      </section>
+      <!-- END: 检查清单 -->
+
+    </main>
+
+    <footer class="footer">
+      <p>考研英语二 · 简单句的扩展复习系统</p>
+      <p>覆盖：限定词、形容词副词、介词短语、同位语、插入语、真题演练、考场攻略</p>
+      <p>最后更新：2026 年 5 月 3 日</p>
+    </footer>
+
+  </div>
+
+  <script>
+    function expandAll() {
+      document.querySelectorAll("details").forEach(function(detail) {
+        detail.open = true;
+      });
+    }
+
+    function collapseAll() {
+      document.querySelectorAll("details").forEach(function(detail) {
+        detail.open = false;
+      });
+    }
+
+    function showAnswers() {
+      document.querySelectorAll(".answer-toggle").forEach(function(detail) {
+        detail.open = true;
+      });
+    }
+
+    function hideAnswers() {
+      document.querySelectorAll(".answer-toggle").forEach(function(detail) {
+        detail.open = false;
+      });
+    }
+
+    function toggleFocusMode() {
+      document.body.classList.toggle("focus-mode");
+
+      var button = event.currentTarget;
+      if (document.body.classList.contains("focus-mode")) {
+        button.textContent = "显示全部";
+      } else {
+        button.textContent = "只看重点";
+      }
+    }
+
+    function printPage() {
+      expandAll();
+      window.print();
+    }
+  </script>
+</body>
+</html>

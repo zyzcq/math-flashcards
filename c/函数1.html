@@ -1,0 +1,887 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>C语言函数系统笔记</title>
+    <style>
+        :root {
+            --blue: #2563eb;
+            --blue-light: #eff6ff;
+            --green: #16a34a;
+            --green-light: #f0fdf4;
+            --orange: #f97316;
+            --orange-light: #fff7ed;
+            --red: #dc2626;
+            --red-light: #fef2f2;
+            --purple: #7c3aed;
+            --purple-light: #f5f3ff;
+            --gray: #374151;
+            --light: #f9fafb;
+            --border: #e5e7eb;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: "Microsoft YaHei", Arial, sans-serif;
+            background: #f3f4f6;
+            color: #1f2937;
+            line-height: 1.75;
+        }
+
+        .topbar {
+            position: sticky;
+            top: 0;
+            z-index: 99;
+            background: white;
+            border-bottom: 1px solid var(--border);
+            padding: 12px 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+            .topbar h1 {
+                font-size: 20px;
+                margin: 0;
+                color: var(--blue);
+            }
+
+        button {
+            border: none;
+            background: var(--blue);
+            color: white;
+            padding: 9px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+            button:hover {
+                background: #1d4ed8;
+            }
+
+        .container {
+            max-width: 980px;
+            margin: 24px auto;
+            padding: 0 18px 40px;
+        }
+
+        .card {
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 22px;
+            margin-bottom: 18px;
+            box-shadow: 0 4px 14px rgba(0,0,0,0.04);
+        }
+
+        h2 {
+            margin-top: 0;
+            color: var(--blue);
+            font-size: 22px;
+            border-left: 6px solid var(--blue);
+            padding-left: 12px;
+        }
+
+        h3 {
+            color: #111827;
+            margin-top: 26px;
+            font-size: 18px;
+        }
+
+        .tag {
+            display: inline-block;
+            padding: 3px 9px;
+            border-radius: 999px;
+            font-size: 13px;
+            margin-right: 6px;
+            font-weight: bold;
+        }
+
+        .concept {
+            background: var(--blue-light);
+            color: var(--blue);
+        }
+
+        .rule {
+            background: var(--green-light);
+            color: var(--green);
+        }
+
+        .warn {
+            background: var(--orange-light);
+            color: var(--orange);
+        }
+
+        .danger {
+            background: var(--red-light);
+            color: var(--red);
+        }
+
+        .example {
+            background: var(--purple-light);
+            color: var(--purple);
+        }
+
+        .note {
+            padding: 12px 14px;
+            border-radius: 10px;
+            margin: 12px 0;
+        }
+
+            .note.blue {
+                background: var(--blue-light);
+                border-left: 5px solid var(--blue);
+            }
+
+            .note.green {
+                background: var(--green-light);
+                border-left: 5px solid var(--green);
+            }
+
+            .note.orange {
+                background: var(--orange-light);
+                border-left: 5px solid var(--orange);
+            }
+
+            .note.red {
+                background: var(--red-light);
+                border-left: 5px solid var(--red);
+            }
+
+        pre {
+            background: #111827;
+            color: #e5e7eb;
+            padding: 14px;
+            border-radius: 10px;
+            overflow-x: auto;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        code {
+            font-family: Consolas, Monaco, monospace;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 12px 0;
+            font-size: 15px;
+        }
+
+        th, td {
+            border: 1px solid var(--border);
+            padding: 9px 10px;
+            text-align: left;
+        }
+
+        th {
+            background: var(--blue-light);
+            color: var(--blue);
+        }
+
+        ul {
+            padding-left: 22px;
+        }
+
+        .quick {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 12px;
+        }
+
+            .quick div {
+                border-radius: 12px;
+                padding: 14px;
+                background: var(--light);
+                border: 1px solid var(--border);
+            }
+
+        .checklist li {
+            margin: 6px 0;
+        }
+
+        .footer {
+            text-align: center;
+            color: #6b7280;
+            font-size: 13px;
+            margin-top: 30px;
+        }
+
+        @media print {
+            body {
+                background: white;
+            }
+
+            .topbar {
+                position: static;
+            }
+
+            button {
+                display: none;
+            }
+
+            .card {
+                box-shadow: none;
+                page-break-inside: avoid;
+            }
+
+            pre {
+                white-space: pre-wrap;
+                word-break: break-word;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="topbar">
+        <h1>C语言函数系统笔记</h1>
+        <button onclick="window.print()">一键导出 PDF</button>
+    </div>
+
+    <div class="container">
+
+        <div class="card">
+            <h2>一、函数是什么</h2>
+
+            <p>
+                <span class="tag concept">概念</span>
+                函数就是把一段代码打包成一个独立功能，并给它起一个名字。以后想使用这段代码时，直接调用函数名即可。
+            </p>
+
+            <div class="note blue">
+                函数的核心价值：减少重复代码，让程序结构更清晰，让代码更容易维护。
+            </div>
+
+            <h3>为什么需要函数</h3>
+            <p>
+                如果一段代码要反复使用，直接复制粘贴会导致代码重复、修改麻烦、容易出错。
+                函数可以把重复代码集中管理，需要时调用一次即可。
+            </p>
+
+            <h3>函数和循环的区别</h3>
+            <table>
+                <tr>
+                    <th>对比</th>
+                    <th>函数</th>
+                    <th>循环</th>
+                </tr>
+                <tr>
+                    <td>重点</td>
+                    <td>功能打包</td>
+                    <td>连续重复执行</td>
+                </tr>
+                <tr>
+                    <td>适合场景</td>
+                    <td>某个功能在不同位置复用</td>
+                    <td>同一段代码连续执行多次</td>
+                </tr>
+            </table>
+
+            <div class="note green">
+                函数不是定义了就自动执行，必须调用才执行。
+            </div>
+        </div>
+
+        <div class="card">
+            <h2>二、函数的基本格式</h2>
+
+            <p>
+                <span class="tag rule">格式</span>
+                最简单的函数格式如下：
+            </p>
+
+<pre><code>void 函数名()
+{
+    函数体;
+}</code></pre>
+
+            <table>
+                <tr>
+                    <th>组成</th>
+                    <th>作用</th>
+                </tr>
+                <tr>
+                    <td>void</td>
+                    <td>暂时理解为没有返回值</td>
+                </tr>
+                <tr>
+                    <td>函数名</td>
+                    <td>给函数起的名字，方便以后调用</td>
+                </tr>
+                <tr>
+                    <td>()</td>
+                    <td>函数名后必须写，小括号不能省略</td>
+                </tr>
+                <tr>
+                    <td>{}</td>
+                    <td>包住函数体，表示哪些代码属于这个函数</td>
+                </tr>
+                <tr>
+                    <td>函数体</td>
+                    <td>函数真正要执行的代码</td>
+                </tr>
+            </table>
+
+            <h3>函数应该写在哪里</h3>
+            <div class="note red">
+                C语言中不能在一个函数里面再定义另一个函数。main 本身也是函数，所以自定义函数不能写在 main 里面。
+            </div>
+
+            <p>推荐初学者先把自定义函数写在 <code>main</code> 上面：</p>
+
+<pre><code>#include &lt;stdio.h&gt;
+
+void play_game()
+{
+    printf("选择人物\n");
+    printf("准备开局\n");
+    printf("游戏开始\n");
+}
+
+int main()
+{
+    play_game();
+
+    return 0;
+}</code></pre>
+
+            <h3>函数调用</h3>
+            <p>
+                调用函数的格式：
+            </p>
+
+<pre><code>函数名();</code></pre>
+
+            <div class="note orange">
+                注意：调用函数时，函数名后面的小括号必须写。<code>play_game();</code> 是调用函数，<code>play_game;</code> 不是调用函数。
+            </div>
+        </div>
+
+        <div class="card">
+            <h2>三、无参数函数练习：求 10 和 20 的和</h2>
+
+            <p>
+                这一节的重点不是加法，而是练习：把求和逻辑写进函数，再在 main 中调用。
+            </p>
+
+<pre><code>#include &lt;stdio.h&gt;
+
+void sum()
+{
+    int num1 = 10;
+    int num2 = 20;
+    int result = num1 + num2;
+
+    printf("%d\n", result);
+}
+
+int main()
+{
+    sum();
+
+    return 0;
+}</code></pre>
+
+            <div class="note green">
+                运行结果是 30。函数定义只是准备功能，<code>sum();</code> 才会真正执行函数。
+            </div>
+
+            <div class="note orange">
+                当前写法的缺点：只能求 10 和 20 的和。如果想求别的数，需要修改函数内部代码，所以后面要学习带参数函数。
+            </div>
+        </div>
+
+        <div class="card">
+            <h2>四、带参数的函数</h2>
+
+            <h3>为什么需要参数</h3>
+            <p>
+                如果函数中要处理的数据不固定，就应该把这些不确定的数据设计成参数。
+                例如求两个数的和，两个数每次可能不同，所以要通过参数传入。
+            </p>
+
+            <h3>带参数函数格式</h3>
+
+<pre><code>void 函数名(参数类型 参数名1, 参数类型 参数名2)
+{
+    函数体;
+}</code></pre>
+
+            <p>例如：</p>
+
+<pre><code>void sum(int num1, int num2)
+{
+    int result = num1 + num2;
+    printf("%d\n", result);
+}</code></pre>
+
+            <h3>形参和实参</h3>
+
+            <table>
+                <tr>
+                    <th>名称</th>
+                    <th>位置</th>
+                    <th>含义</th>
+                </tr>
+                <tr>
+                    <td>形参</td>
+                    <td>函数定义的小括号里</td>
+                    <td>用来接收数据的变量</td>
+                </tr>
+                <tr>
+                    <td>实参</td>
+                    <td>函数调用的小括号里</td>
+                    <td>真正传进去的数据</td>
+                </tr>
+            </table>
+
+<pre><code>void sum(int num1, int num2) // num1、num2 是形参
+{
+    int result = num1 + num2;
+    printf("%d\n", result);
+}
+
+int main()
+{
+    sum(10, 20); // 10、20 是实参
+    sum(30, 40); // 30、40 是实参
+
+    return 0;
+}</code></pre>
+
+            <div class="note green">
+                调用 <code>sum(10, 20);</code> 时，相当于把 10 赋值给 num1，把 20 赋值给 num2。
+            </div>
+
+            <h3>形参和实参必须一一对应</h3>
+
+            <ul>
+                <li>形参有几个，实参就要传几个。</li>
+                <li>少传不行，多传也不行。</li>
+                <li>多个形参之间用英文逗号隔开。</li>
+                <li>顺序要对应，尤其是减法、除法等对顺序敏感的运算。</li>
+            </ul>
+
+            <div class="note red">
+                错误示例：函数定义有两个形参，却只传一个实参。
+            </div>
+
+<pre><code>void sum(int num1, int num2)
+{
+    printf("%d\n", num1 + num2);
+}
+
+int main()
+{
+    sum(10);       // 错误：少传一个
+    sum(10,20,30); // 错误：多传一个
+
+    return 0;
+}</code></pre>
+        </div>
+
+        <div class="card">
+            <h2>五、带参数练习：打印多次内容</h2>
+
+            <p>
+                题目：定义一个函数，打印多次内容，打印次数由传入的参数决定。
+            </p>
+
+            <div class="note blue">
+                这个函数只需要知道“打印几次”，所以只需要一个形参。
+            </div>
+
+<pre><code>#include &lt;stdio.h&gt;
+
+void print_text(int count)
+{
+    for (int i = 1; i &lt;= count; i++)
+    {
+        printf("I love C\n");
+    }
+}
+
+int main()
+{
+    print_text(3);
+    print_text(5);
+
+    return 0;
+}</code></pre>
+
+            <div class="note green">
+                形参数量由需求决定。需要几个不确定的数据，就定义几个形参。
+            </div>
+        </div>
+
+        <div class="card">
+            <h2>六、带返回值的函数</h2>
+
+            <h3>为什么需要返回值</h3>
+
+            <p>
+                如果函数只是把结果打印到控制台，调用处拿不到结果。
+                但有些题目中，调用处还要继续使用这个结果，例如比较大小、继续计算、做判断。
+                这时就必须让函数把结果返回给调用处。
+            </p>
+
+            <h3>return 的两个作用</h3>
+
+            <div class="quick">
+                <div>
+                    <span class="tag warn">作用 1</span>
+                    <p>结束函数。执行到 return 后，函数结束，后面的代码不会再执行。</p>
+                </div>
+                <div>
+                    <span class="tag rule">作用 2</span>
+                    <p>把 return 后面的数据返回给调用处。哪里调用，就返回到哪里。</p>
+                </div>
+            </div>
+
+            <h3>带返回值函数格式</h3>
+
+<pre><code>返回值类型 函数名(形参列表)
+{
+    函数体;
+
+    return 返回值;
+}</code></pre>
+
+            <p>例如：</p>
+
+<pre><code>int sum(int num1, int num2)
+{
+    int result = num1 + num2;
+    return result;
+}</code></pre>
+
+            <div class="note orange">
+                返回值类型必须和 return 后面的值类型对应。返回整数写 int，返回小数写 double。
+            </div>
+
+            <h3>带返回值函数的调用方式</h3>
+
+            <p>方式一：用变量接收，最常用。</p>
+
+<pre><code>int result = sum(10, 20);</code></pre>
+
+            <p>方式二：直接放进 printf 中打印。</p>
+
+<pre><code>printf("%d\n", sum(10, 20));</code></pre>
+
+            <div class="note green">
+                如果后面还要继续判断或计算，推荐用变量接收返回值。
+            </div>
+        </div>
+
+        <div class="card">
+            <h2>七、返回值案例：比较两个人考试总分</h2>
+
+            <p>
+                小慧慧基础题 93 分，附加题 10 分；小丹丹基础题 87 分，附加题 9 分。判断谁的总分更高。
+            </p>
+
+<pre><code>#include &lt;stdio.h&gt;
+
+int sum(int base, int additional)
+{
+    int result = base + additional;
+    return result;
+}
+
+int main()
+{
+    int score1 = sum(93, 10);
+    int score2 = sum(87, 9);
+
+    if (score1 &gt; score2)
+    {
+        printf("小慧慧的考试成绩更高\n");
+    }
+    else if (score1 &lt; score2)
+    {
+        printf("小丹丹的考试成绩更高\n");
+    }
+    else
+    {
+        printf("两个人的考试成绩是一样的\n");
+    }
+
+    return 0;
+}</code></pre>
+
+            <div class="note blue">
+                这个例子的关键：函数负责计算总分，main 拿到返回值后继续判断。
+            </div>
+        </div>
+
+        <div class="card">
+            <h2>八、函数的两个好处</h2>
+
+            <div class="quick">
+                <div>
+                    <span class="tag rule">复用性</span>
+                    <p>同一个函数可以调用多次，不用重复写相同代码。</p>
+                </div>
+                <div>
+                    <span class="tag concept">可维护性</span>
+                    <p>代码出问题时，可以集中检查对应函数，不用从头到尾乱找。</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <h2>九、定义函数的“三问法”</h2>
+
+            <p>
+                很多初学者不会定义函数，主要卡在两个问题：
+                形参到底写几个？返回值类型到底写 void 还是具体类型？
+                解决方法就是定义函数前问自己三个问题。
+            </p>
+
+            <table>
+                <tr>
+                    <th>问题</th>
+                    <th>决定什么</th>
+                </tr>
+                <tr>
+                    <td>我定义函数是为了干什么？</td>
+                    <td>决定函数体</td>
+                </tr>
+                <tr>
+                    <td>我干这件事需要什么数据？</td>
+                    <td>决定形参</td>
+                </tr>
+                <tr>
+                    <td>做完后，调用处还要不要继续使用结果？</td>
+                    <td>决定返回值类型</td>
+                </tr>
+            </table>
+
+            <div class="note green">
+                如果调用处还要继续使用结果，就写具体返回值类型，并 return 结果。
+                如果调用处不需要结果，只是执行动作，可以写 void。
+            </div>
+        </div>
+
+        <div class="card">
+            <h2>十、三问法案例：比较两个长方形面积</h2>
+
+            <h3>分析</h3>
+            <ul>
+                <li>函数要做什么：求长方形面积。</li>
+                <li>需要什么数据：长和宽。</li>
+                <li>调用处是否继续使用结果：需要，因为要比较哪个面积更大。</li>
+                <li>面积可能是小数，所以返回值类型用 double。</li>
+            </ul>
+
+<pre><code>#include &lt;stdio.h&gt;
+
+double get_area(double length, double width)
+{
+    double area = length * width;
+    return area;
+}
+
+int main()
+{
+    double area1 = get_area(5.3, 2.7);
+    double area2 = get_area(1.5, 0.8);
+
+    if (area1 &gt; area2)
+    {
+        printf("第一个长方形更大\n");
+    }
+    else if (area1 &lt; area2)
+    {
+        printf("第二个长方形更大\n");
+    }
+    else
+    {
+        printf("两个长方形一样大\n");
+    }
+
+    return 0;
+}</code></pre>
+
+            <div class="note blue">
+                <code>get_area</code> 表示“获取面积”。函数名最好表达功能，不要随便起名。
+            </div>
+        </div>
+
+        <div class="card">
+            <h2>十一、三问法练习：比较两个圆面积</h2>
+
+            <h3>关键点</h3>
+            <p>
+                圆面积公式是：
+            </p>
+
+<pre><code>面积 = 3.14 * 半径 * 半径</code></pre>
+
+            <div class="note orange">
+                易错点：圆周率 3.14 不需要作为形参。因为它是固定值，不是每次调用都变化的数据。
+            </div>
+
+            <p>
+                真正需要从外部传入的是半径，所以形参只需要一个：
+            </p>
+
+<pre><code>double radius</code></pre>
+
+            <p>完整代码：</p>
+
+<pre><code>#include &lt;stdio.h&gt;
+
+double get_circle_area(double radius)
+{
+    double area = 3.14 * radius * radius;
+    return area;
+}
+
+int main()
+{
+    double area1 = get_circle_area(3.5);
+    double area2 = get_circle_area(2.8);
+
+    if (area1 &gt; area2)
+    {
+        printf("第一个圆更大\n");
+    }
+    else if (area1 &lt; area2)
+    {
+        printf("第二个圆更大\n");
+    }
+    else
+    {
+        printf("两个圆一样大\n");
+    }
+
+    return 0;
+}</code></pre>
+
+            <div class="note green">
+                形参不是“公式里出现什么就写什么”，而是“外部不确定、需要传进来的数据”。
+            </div>
+        </div>
+
+        <div class="card">
+            <h2>十二、易错点速记</h2>
+
+            <ul>
+                <li><span class="tag danger">易错</span> 函数定义了不会自动执行，必须调用。</li>
+                <li><span class="tag danger">易错</span> 函数调用必须写小括号，例如 <code>sum();</code>。</li>
+                <li><span class="tag danger">易错</span> 自定义函数不能写在 <code>main</code> 函数里面。</li>
+                <li><span class="tag danger">易错</span> 形参和实参必须一一对应，数量不能多也不能少。</li>
+                <li><span class="tag danger">易错</span> 多个形参之间用英文逗号隔开。</li>
+                <li><span class="tag danger">易错</span> <code>void</code> 表示没有返回值；要返回结果就不能写 <code>void</code>。</li>
+                <li><span class="tag danger">易错</span> <code>return</code> 后面的值类型要和函数返回值类型对应。</li>
+                <li><span class="tag danger">易错</span> <code>return</code> 会结束函数，后面的代码不会再执行。</li>
+                <li><span class="tag danger">易错</span> 固定值通常不用当形参，比如圆周率 3.14。</li>
+            </ul>
+        </div>
+
+        <div class="card">
+            <h2>十三、最重要的代码模板</h2>
+
+            <h3>1. 无参数无返回值</h3>
+
+<pre><code>void 函数名()
+{
+    函数体;
+}</code></pre>
+
+            <h3>2. 有参数无返回值</h3>
+
+<pre><code>void 函数名(类型 参数1, 类型 参数2)
+{
+    函数体;
+}</code></pre>
+
+            <h3>3. 有参数有返回值</h3>
+
+<pre><code>返回值类型 函数名(类型 参数1, 类型 参数2)
+{
+    函数体;
+
+    return 返回值;
+}</code></pre>
+
+            <h3>4. 调用函数</h3>
+
+<pre><code>函数名();
+
+函数名(实参1, 实参2);
+
+变量 = 函数名(实参1, 实参2);</code></pre>
+        </div>
+
+        <div class="card">
+            <h2>十四、知识点遗漏检查表</h2>
+
+            <ul class="checklist">
+                <li>✅ 已包含：函数的概念——代码打包成独立功能。</li>
+                <li>✅ 已包含：函数的作用——减少重复代码。</li>
+                <li>✅ 已包含：函数和循环的区别。</li>
+                <li>✅ 已包含：函数名、函数体、大括号、小括号。</li>
+                <li>✅ 已包含：最基本函数格式 <code>void 函数名()</code>。</li>
+                <li>✅ 已包含：函数不能定义在 main 里面。</li>
+                <li>✅ 已包含：main 是程序入口。</li>
+                <li>✅ 已包含：函数定义了不会自动执行。</li>
+                <li>✅ 已包含：函数调用格式 <code>函数名();</code>。</li>
+                <li>✅ 已包含：调用一次执行一次，调用多次执行多次。</li>
+                <li>✅ 已包含：无参数函数求 10 和 20 的和。</li>
+                <li>✅ 已包含：为什么需要带参数函数。</li>
+                <li>✅ 已包含：形参和实参的区别。</li>
+                <li>✅ 已包含：形参和实参必须一一对应。</li>
+                <li>✅ 已包含：多个参数用逗号隔开。</li>
+                <li>✅ 已包含：打印多次内容的参数练习。</li>
+                <li>✅ 已包含：为什么需要返回值。</li>
+                <li>✅ 已包含：<code>return</code> 的两个作用。</li>
+                <li>✅ 已包含：<code>void</code> 和具体返回值类型的区别。</li>
+                <li>✅ 已包含：返回值类型要和返回值匹配。</li>
+                <li>✅ 已包含：用变量接收返回值。</li>
+                <li>✅ 已包含：直接在 printf 中调用有返回值函数。</li>
+                <li>✅ 已包含：考试总分比较案例。</li>
+                <li>✅ 已包含：函数提高复用性和可维护性。</li>
+                <li>✅ 已包含：定义函数三问法。</li>
+                <li>✅ 已包含：长方形面积比较案例。</li>
+                <li>✅ 已包含：圆面积比较案例。</li>
+                <li>✅ 已包含：圆周率是固定值，不需要作为形参。</li>
+            </ul>
+        </div>
+
+        <div class="card">
+            <h2>十五、最终速记</h2>
+
+            <div class="note blue">
+                函数就是把代码打包成一个功能，以后通过函数名重复使用。
+            </div>
+
+            <div class="note green">
+                形参是定义函数时用来接收数据的变量；实参是调用函数时真正传进去的数据。
+            </div>
+
+            <div class="note orange">
+                如果调用处还要继续使用函数计算出来的结果，就必须使用返回值。
+            </div>
+
+            <div class="note red">
+                定义函数前先问三句话：我要做什么？需要什么数据？结果还要不要继续用？
+            </div>
+        </div>
+
+        <div class="footer">
+            C语言函数复习笔记 · 点击右上角按钮可导出 PDF
+        </div>
+
+    </div>
+</body>
+</html>
