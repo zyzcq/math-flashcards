@@ -458,6 +458,26 @@ const appData = {
         cards: []
     },
 
+    c_pointer1: {
+        id: "c_pointer1",
+        title: "C语言：指针（上）",
+        subtitle: "指针基础与地址运算",
+        themeColor: "emerald",
+        type: "article",
+        url: "c/指针1.html",
+        cards: []
+    },
+
+    c_pointer_adv1: {
+        id: "c_pointer_adv1",
+        title: "C语言：指针（下）",
+        subtitle: "指针进阶与复杂类型",
+        themeColor: "emerald",
+        type: "article",
+        url: "c/指针高级1.html",
+        cards: []
+    },
+
     english_grammar_ext: {
         id: "english_grammar_ext",
         title: "英语语法：简单句的扩展",
@@ -505,7 +525,9 @@ const siteData = [
             appData.c_array1,
             appData.c_array2,
             appData.c_func1,
-            appData.c_func2
+            appData.c_func2,
+            appData.c_pointer1,
+            appData.c_pointer_adv1
         ]
     },
     {
