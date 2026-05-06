@@ -486,6 +486,25 @@ const appData = {
         type: "article",
         url: "english/简单句的拓展.html",
         cards: []
+    },
+
+    english_grammar_upgrade: {
+        id: "english_grammar_upgrade",
+        title: "英语语法：简单句的提升",
+        subtitle: "进阶句式与写作应用",
+        themeColor: "indigo",
+        type: "article",
+        url: "english/简单句的提升.html",
+        cards: []
+    },
+    c_pointer_adv1: {
+        id: "c_pointer_adv1",
+        title: "C语言：指针3",
+        subtitle: "指针进阶与复杂类型",
+        themeColor: "emerald",
+        type: "article",
+        url: "c/指针高级2.html",
+        cards: []
     }
 };
 
@@ -536,7 +555,8 @@ const siteData = [
         categoryBorder: "border-indigo-500",
         items: [
             appData.english_grammar,
-            appData.english_grammar_ext
+            appData.english_grammar_ext,
+            appData.english_grammar_upgrade
         ]
     }
 ];
