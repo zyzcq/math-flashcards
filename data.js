@@ -470,11 +470,31 @@ const appData = {
 
     c_pointer_adv1: {
         id: "c_pointer_adv1",
-        title: "C语言：指针（下）",
-        subtitle: "指针进阶与复杂类型",
+        title: "C语言：指针进阶（上）",
+        subtitle: "指针与数组/函数",
         themeColor: "emerald",
         type: "article",
         url: "c/指针高级1.html",
+        cards: []
+    },
+
+    c_pointer_adv2: {
+        id: "c_pointer_adv2",
+        title: "C语言：指针进阶（下）",
+        subtitle: "多级指针与动态内存",
+        themeColor: "emerald",
+        type: "article",
+        url: "c/指针高级2.html",
+        cards: []
+    },
+
+    c_string: {
+        id: "c_string",
+        title: "C语言：字符串",
+        subtitle: "字符串处理与常用函数",
+        themeColor: "emerald",
+        type: "article",
+        url: "c/字符串.html",
         cards: []
     },
 
@@ -546,7 +566,9 @@ const siteData = [
             appData.c_func1,
             appData.c_func2,
             appData.c_pointer1,
-            appData.c_pointer_adv1
+            appData.c_pointer_adv1,
+            appData.c_pointer_adv2,
+            appData.c_string
         ]
     },
     {
