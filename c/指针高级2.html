@@ -1,0 +1,1435 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>C语言指针高级复习系统：二维数组、数组指针、函数指针</title>
+  <style>
+    :root {
+      --bg: #f5f7fb;
+      --bg-grad: linear-gradient(135deg, #f7f9fc 0%, #edf4ff 45%, #f7f4ff 100%);
+      --card: #ffffff;
+      --text: #172033;
+      --muted: #667085;
+      --border: #e5e7eb;
+
+      --blue: #2563eb;
+      --blue-soft: #eff6ff;
+      --green: #16a34a;
+      --green-soft: #ecfdf3;
+      --amber: #d97706;
+      --amber-soft: #fffbeb;
+      --purple: #7c3aed;
+      --purple-soft: #f5f3ff;
+      --red: #dc2626;
+      --red-soft: #fef2f2;
+      --gray-soft: #f8fafc;
+
+      --radius: 18px;
+      --radius-sm: 12px;
+      --shadow: 0 12px 30px rgba(15, 23, 42, 0.08);
+      --max-width: 1080px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Microsoft YaHei", "PingFang SC", Arial, sans-serif;
+      background: var(--bg-grad);
+      color: var(--text);
+      line-height: 1.75;
+      font-size: 16px;
+    }
+
+    a {
+      color: var(--blue);
+      text-decoration: none;
+    }
+
+    code {
+      font-family: Consolas, Monaco, "Courier New", monospace;
+      background: #f1f5f9;
+      color: #0f172a;
+      padding: 2px 6px;
+      border-radius: 6px;
+      font-size: 0.95em;
+    }
+
+    pre {
+      margin: 14px 0 0;
+      padding: 16px;
+      background: #0f172a;
+      color: #e5e7eb;
+      border-radius: 14px;
+      overflow-x: auto;
+      line-height: 1.65;
+      font-size: 14px;
+    }
+
+    pre code {
+      background: transparent;
+      color: inherit;
+      padding: 0;
+      border-radius: 0;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 12px;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+    }
+
+    th,
+    td {
+      padding: 12px;
+      border-bottom: 1px solid var(--border);
+      text-align: left;
+      vertical-align: top;
+    }
+
+    th {
+      background: #f8fafc;
+      color: #334155;
+    }
+
+    tr:last-child td {
+      border-bottom: none;
+    }
+
+    .page {
+      width: min(100% - 32px, var(--max-width));
+      margin: 0 auto;
+      padding: 28px 0 56px;
+    }
+
+    .hero {
+      padding: 34px;
+      border-radius: 26px;
+      background:
+        radial-gradient(circle at top right, rgba(37, 99, 235, 0.14), transparent 32%),
+        radial-gradient(circle at bottom left, rgba(124, 58, 237, 0.12), transparent 28%),
+        var(--card);
+      border: 1px solid rgba(226, 232, 240, 0.9);
+      box-shadow: var(--shadow);
+    }
+
+    .hero h1 {
+      margin: 0;
+      font-size: clamp(28px, 4vw, 42px);
+      line-height: 1.2;
+      letter-spacing: -0.04em;
+    }
+
+    .hero p {
+      margin: 14px 0 0;
+      max-width: 820px;
+      color: var(--muted);
+    }
+
+    .tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 18px;
+    }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      padding: 6px 10px;
+      border-radius: 999px;
+      font-size: 13px;
+      font-weight: 800;
+      border: 1px solid transparent;
+    }
+
+    .tag-blue {
+      color: var(--blue);
+      background: var(--blue-soft);
+      border-color: #bfdbfe;
+    }
+
+    .tag-green {
+      color: var(--green);
+      background: var(--green-soft);
+      border-color: #bbf7d0;
+    }
+
+    .tag-amber {
+      color: var(--amber);
+      background: var(--amber-soft);
+      border-color: #fde68a;
+    }
+
+    .tag-red {
+      color: var(--red);
+      background: var(--red-soft);
+      border-color: #fecaca;
+    }
+
+    .tag-purple {
+      color: var(--purple);
+      background: var(--purple-soft);
+      border-color: #ddd6fe;
+    }
+
+    .toolbar {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin: 18px 0;
+      padding: 12px;
+      background: rgba(255, 255, 255, 0.9);
+      backdrop-filter: blur(10px);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      box-shadow: 0 8px 24px rgba(15, 23, 42, 0.06);
+    }
+
+    .toolbar button {
+      border: 1px solid var(--border);
+      background: #fff;
+      color: #334155;
+      padding: 9px 12px;
+      border-radius: 999px;
+      cursor: pointer;
+      font-weight: 800;
+      transition: 0.18s ease;
+    }
+
+    .toolbar button:hover {
+      transform: translateY(-1px);
+      border-color: #bfdbfe;
+      background: var(--blue-soft);
+      color: var(--blue);
+    }
+
+    .toolbar .primary {
+      background: var(--blue);
+      color: #fff;
+      border-color: var(--blue);
+    }
+
+    .toolbar .primary:hover {
+      background: #1d4ed8;
+      color: #fff;
+    }
+
+    .nav {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 18px;
+      padding: 14px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      box-shadow: 0 8px 22px rgba(15, 23, 42, 0.05);
+    }
+
+    .nav a {
+      padding: 8px 10px;
+      border-radius: 999px;
+      color: #475569;
+      background: #f8fafc;
+      font-weight: 800;
+      font-size: 14px;
+    }
+
+    .nav a:hover {
+      background: var(--blue-soft);
+      color: var(--blue);
+    }
+
+    .card {
+      margin: 18px 0;
+      padding: 24px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+    }
+
+    .card h2 {
+      margin: 0 0 14px;
+      font-size: 25px;
+      letter-spacing: -0.03em;
+    }
+
+    .card h3 {
+      margin: 20px 0 10px;
+      font-size: 19px;
+    }
+
+    .grid-2,
+    .grid-3 {
+      display: grid;
+      gap: 14px;
+      margin-top: 14px;
+    }
+
+    .grid-2 {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .grid-3 {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .mini-card {
+      padding: 16px;
+      border-radius: 14px;
+      border: 1px solid var(--border);
+      background: #fff;
+    }
+
+    .mini-card h3,
+    .mini-card h4 {
+      margin-top: 0;
+      margin-bottom: 8px;
+    }
+
+    .rule,
+    .note,
+    .example,
+    .practice,
+    .checklist {
+      margin: 14px 0;
+      padding: 15px 16px;
+      border-radius: 14px;
+      border: 1px solid var(--border);
+    }
+
+    .rule {
+      background: var(--blue-soft);
+      border-color: #bfdbfe;
+    }
+
+    .rule strong {
+      color: var(--blue);
+    }
+
+    .note {
+      background: var(--gray-soft);
+    }
+
+    .note-blue {
+      background: var(--blue-soft);
+      border-color: #bfdbfe;
+    }
+
+    .note-green {
+      background: var(--green-soft);
+      border-color: #bbf7d0;
+    }
+
+    .note-amber {
+      background: var(--amber-soft);
+      border-color: #fde68a;
+    }
+
+    .note-purple {
+      background: var(--purple-soft);
+      border-color: #ddd6fe;
+    }
+
+    .note-red {
+      background: var(--red-soft);
+      border-color: #fecaca;
+    }
+
+    .example {
+      background: #f8fafc;
+      border-left: 5px solid var(--blue);
+    }
+
+    .practice {
+      background: var(--purple-soft);
+      border-color: #ddd6fe;
+    }
+
+    .practice-title {
+      margin-bottom: 8px;
+      color: var(--purple);
+      font-weight: 900;
+      font-size: 17px;
+    }
+
+    .question {
+      margin-top: 10px;
+      padding: 12px;
+      background: #fff;
+      border: 1px solid #e9d5ff;
+      border-radius: 12px;
+    }
+
+    .answer-content {
+      margin-top: 12px;
+      padding: 14px;
+      background: #fff;
+      border: 1px solid #ddd6fe;
+      border-radius: 12px;
+    }
+
+    .checklist {
+      background: #fff;
+    }
+
+    .check-item {
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+      padding: 10px 0;
+      border-bottom: 1px dashed var(--border);
+    }
+
+    .check-item:last-child {
+      border-bottom: none;
+    }
+
+    .check-item input {
+      margin-top: 7px;
+      accent-color: var(--green);
+    }
+
+    details {
+      margin: 14px 0;
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      overflow: hidden;
+    }
+
+    summary {
+      position: relative;
+      padding: 15px 52px 15px 16px;
+      list-style: none;
+      cursor: pointer;
+      font-weight: 900;
+      color: #1e293b;
+      background: #f8fafc;
+    }
+
+    summary::-webkit-details-marker {
+      display: none;
+    }
+
+    summary::after {
+      content: "展开";
+      position: absolute;
+      right: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      padding: 3px 7px;
+      border-radius: 999px;
+      border: 1px solid #bfdbfe;
+      background: var(--blue-soft);
+      color: var(--blue);
+      font-size: 12px;
+    }
+
+    details[open] > summary::after {
+      content: "收起";
+      color: var(--amber);
+      background: var(--amber-soft);
+      border-color: #fde68a;
+    }
+
+    .details-body {
+      padding: 16px;
+    }
+
+    .answer-toggle {
+      border-color: #ddd6fe;
+    }
+
+    .answer-toggle summary {
+      background: #faf5ff;
+      color: var(--purple);
+    }
+
+    .focus-mode .non-key {
+      display: none !important;
+    }
+
+    .muted {
+      color: var(--muted);
+    }
+
+    .danger {
+      color: var(--red);
+      font-weight: 900;
+    }
+
+    .ok {
+      color: var(--green);
+      font-weight: 900;
+    }
+
+    footer {
+      margin-top: 22px;
+      padding: 24px 0;
+      color: var(--muted);
+      text-align: center;
+      font-size: 14px;
+    }
+
+    @media (max-width: 760px) {
+      .page {
+        width: min(100% - 20px, var(--max-width));
+        padding-top: 16px;
+      }
+
+      .hero,
+      .card {
+        padding: 20px;
+        border-radius: 18px;
+      }
+
+      .grid-2,
+      .grid-3 {
+        grid-template-columns: 1fr;
+      }
+
+      .toolbar {
+        position: static;
+      }
+
+      .toolbar button {
+        flex: 1 1 auto;
+      }
+
+      pre {
+        font-size: 13px;
+      }
+    }
+
+    @media print {
+      body {
+        background: #fff;
+        color: #000;
+        font-size: 13px;
+      }
+
+      .page {
+        width: 100%;
+        padding: 0;
+      }
+
+      .toolbar,
+      .nav {
+        display: none !important;
+      }
+
+      .hero,
+      .card,
+      .mini-card,
+      .rule,
+      .note,
+      .example,
+      .practice,
+      .checklist,
+      details {
+        box-shadow: none !important;
+        break-inside: avoid;
+        page-break-inside: avoid;
+      }
+
+      .hero,
+      .card {
+        border: 1px solid #ddd;
+      }
+
+      summary::after {
+        display: none;
+      }
+
+      pre {
+        white-space: pre-wrap;
+        background: #f5f5f5;
+        color: #000;
+        border: 1px solid #ddd;
+      }
+
+      a {
+        color: #000;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="page">
+
+    <!-- START: 首页 -->
+    <header class="hero" id="top">
+      <h1>C语言指针高级复习系统</h1>
+      <p>
+        覆盖课程：二维数组两种定义格式、索引遍历、指针遍历、数组指针与指针数组、函数指针、函数指针数组练习。
+        本页不是普通笔记，而是按“理解结构 → 掌握写法 → 避开易错点 → 自测巩固”的方式整理。
+      </p>
+      <div class="tags">
+        <span class="tag tag-blue">二维数组</span>
+        <span class="tag tag-green">数组指针</span>
+        <span class="tag tag-amber">指针数组</span>
+        <span class="tag tag-purple">函数指针</span>
+        <span class="tag tag-red">易错点集中突破</span>
+      </div>
+      <p class="muted">
+        使用方法：先看总纲，再展开每个模块；练习题默认隐藏答案，适合自测；导出 PDF 前会自动展开全部内容和答案。
+      </p>
+    </header>
+    <!-- END: 首页 -->
+
+    <!-- START: 顶部工具栏 -->
+    <div class="toolbar">
+      <button onclick="expandAll()">全部展开</button>
+      <button onclick="collapseAll()">全部收起</button>
+      <button onclick="toggleFocusMode()" id="focusBtn">只看重点</button>
+      <button onclick="showAnswers()">显示答案</button>
+      <button onclick="hideAnswers()">隐藏答案</button>
+      <button class="primary" onclick="printPage()">导出 PDF</button>
+    </div>
+    <!-- END: 顶部工具栏 -->
+
+    <!-- START: 导航栏 -->
+    <nav class="nav">
+      <a href="#outline">总纲</a>
+      <a href="#array-format-1">二维数组格式一</a>
+      <a href="#array-format-2">二维数组格式二</a>
+      <a href="#pointer-format-1">指针遍历格式一</a>
+      <a href="#pointer-format-2">指针遍历格式二</a>
+      <a href="#array-pointer">数组指针与指针数组</a>
+      <a href="#function-pointer">函数指针</a>
+      <a href="#function-pointer-array">函数指针数组</a>
+      <a href="#practice">演练中心</a>
+      <a href="#strategy">实战策略</a>
+      <a href="#checklist">检查清单</a>
+    </nav>
+    <!-- END: 导航栏 -->
+
+    <main>
+
+      <!-- START: 总方法论 -->
+      <section class="card" id="outline">
+        <h2>总纲：这几节课到底在讲什么</h2>
+        <div class="rule">
+          <strong>核心逻辑：</strong>
+          这几节课都围绕一个问题：不同数据结构在内存里到底存的是什么？只要看清“里面装的是数据、数组整体、还是地址”，指针类型就能推出来。
+        </div>
+
+        <div class="grid-3">
+          <div class="mini-card">
+            <h3>二维数组格式一</h3>
+            <p><code>int arr[3][5]</code></p>
+            <p>真正的二维数组，数据连续，每一行长度固定。</p>
+          </div>
+          <div class="mini-card">
+            <h3>二维数组格式二</h3>
+            <p><code>int *arr[3]</code></p>
+            <p>本质是指针数组，里面存多个一维数组地址。</p>
+          </div>
+          <div class="mini-card">
+            <h3>函数指针数组</h3>
+            <p><code>int (*arr[4])(int, int)</code></p>
+            <p>数组里存函数地址，用下标动态调用函数。</p>
+          </div>
+        </div>
+
+        <div class="note note-green">
+          <strong>必须掌握：</strong>
+          判断一个复杂指针声明时，先问：“变量名先和谁结合？”再问：“它里面存的元素是什么类型？”
+        </div>
+
+        <details class="non-key">
+          <summary>本章最重要的四组对比</summary>
+          <div class="details-body">
+            <table>
+              <thead>
+                <tr>
+                  <th>对比项</th>
+                  <th>写法</th>
+                  <th>本质</th>
+                  <th>重点</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>规则二维数组</td>
+                  <td><code>int arr[3][5]</code></td>
+                  <td>二维数组</td>
+                  <td>每行长度固定，连续存储</td>
+                </tr>
+                <tr>
+                  <td>不规则二维结构</td>
+                  <td><code>int *arr[3]</code></td>
+                  <td>指针数组</td>
+                  <td>每行可不同长，但要额外保存长度</td>
+                </tr>
+                <tr>
+                  <td>数组指针</td>
+                  <td><code>int (*p)[5]</code></td>
+                  <td>指针</td>
+                  <td>指向一个长度为 5 的数组</td>
+                </tr>
+                <tr>
+                  <td>指针数组</td>
+                  <td><code>int *p[5]</code></td>
+                  <td>数组</td>
+                  <td>数组里每个元素都是指针</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </details>
+      </section>
+      <!-- END: 总方法论 -->
+
+      <!-- START: 模块 1 二维数组第一种格式 -->
+      <section class="card" id="array-format-1">
+        <h2>模块 1：二维数组第一种格式与索引遍历</h2>
+        <div class="rule">
+          <strong>一句话规则：</strong>
+          <code>int arr[m][n]</code> 表示有 <code>m</code> 个一维数组，每个一维数组有 <code>n</code> 个元素。
+        </div>
+
+        <p>第一种二维数组定义方式：</p>
+        <pre><code>int arr[3][5] = {
+    {1, 2, 3, 4, 5},
+    {11, 22, 33, 44, 55},
+    {111, 222, 333, 444, 555}
+};</code></pre>
+
+        <div class="grid-2">
+          <div class="mini-card">
+            <h3><code>3</code> 的含义</h3>
+            <p>二维数组中有 3 个一维数组，也可以理解为 3 行。</p>
+          </div>
+          <div class="mini-card">
+            <h3><code>5</code> 的含义</h3>
+            <p>每个一维数组里有 5 个元素，也可以理解为每行 5 列。</p>
+          </div>
+        </div>
+
+        <div class="note note-amber">
+          <strong>易错提醒：</strong>
+          <code>arr[0]</code> 不是第一个整数，而是第一个一维数组整体；<code>arr[0][0]</code> 才是第 0 行第 0 列的整数。
+        </div>
+
+        <details open>
+          <summary>用索引遍历第一种格式</summary>
+          <div class="details-body">
+            <pre><code>#include &lt;stdio.h&gt;
+
+int main() {
+    int arr[3][5] = {
+        {1, 2, 3, 4, 5},
+        {11, 22, 33, 44, 55},
+        {111, 222, 333, 444, 555}
+    };
+
+    for (int i = 0; i &lt; 3; i++) {
+        for (int j = 0; j &lt; 5; j++) {
+            printf("%d ", arr[i][j]);
+        }
+        printf("\n");
+    }
+
+    return 0;
+}</code></pre>
+          </div>
+        </details>
+
+        <p><strong>本模块记忆点：</strong>二维数组索引遍历用双层循环，外层控制行，内层控制列。</p>
+      </section>
+      <!-- END: 模块 1 二维数组第一种格式 -->
+
+      <!-- START: 模块 2 二维数组第二种格式 -->
+      <section class="card" id="array-format-2">
+        <h2>模块 2：二维数组第二种格式与索引遍历</h2>
+        <div class="rule">
+          <strong>一句话规则：</strong>
+          第二种格式先定义多个一维数组，再用 <code>int *arr[3]</code> 保存这些一维数组的地址。
+        </div>
+
+        <p>这种写法适合每个一维数组长度不一样的情况：</p>
+        <pre><code>int arr1[3] = {1, 2, 3};
+int arr2[5] = {1, 2, 3, 4, 5};
+int arr3[9] = {1, 2, 3, 4, 5, 6, 7, 8, 9};
+
+int *arr[3] = {arr1, arr2, arr3};</code></pre>
+
+        <div class="note note-blue">
+          <strong>理解：</strong>
+          <code>arr</code> 不是传统二维数组，而是指针数组。它里面存的是 <code>arr1</code>、<code>arr2</code>、<code>arr3</code> 的首地址。
+        </div>
+
+        <div class="note note-red">
+          <strong>关键坑：</strong>
+          不能用 <code>sizeof(arr[i]) / sizeof(int)</code> 求每个一维数组长度，因为 <code>arr[i]</code> 是指针，不是数组整体。
+        </div>
+
+        <details open>
+          <summary>错误长度计算为什么会出问题</summary>
+          <div class="details-body">
+            <p>在 64 位系统中，指针通常占 8 字节，<code>int</code> 通常占 4 字节。</p>
+            <pre><code>sizeof(arr[i]) / sizeof(int)</code></pre>
+            <p>得到的往往是：</p>
+            <pre><code>8 / 4 = 2</code></pre>
+            <p>所以程序会误以为每个一维数组长度都是 2。</p>
+          </div>
+        </details>
+
+        <details open>
+          <summary>正确做法：提前保存每个数组长度</summary>
+          <div class="details-body">
+            <pre><code>#include &lt;stdio.h&gt;
+
+int main() {
+    int arr1[3] = {1, 2, 3};
+    int arr2[5] = {1, 2, 3, 4, 5};
+    int arr3[9] = {1, 2, 3, 4, 5, 6, 7, 8, 9};
+
+    int len1 = sizeof(arr1) / sizeof(arr1[0]);
+    int len2 = sizeof(arr2) / sizeof(arr2[0]);
+    int len3 = sizeof(arr3) / sizeof(arr3[0]);
+
+    int lenArr[3] = {len1, len2, len3};
+    int *arr[3] = {arr1, arr2, arr3};
+
+    for (int i = 0; i &lt; 3; i++) {
+        for (int j = 0; j &lt; lenArr[i]; j++) {
+            printf("%d ", arr[i][j]);
+        }
+        printf("\n");
+    }
+
+    return 0;
+}</code></pre>
+          </div>
+        </details>
+
+        <p><strong>本模块记忆点：</strong><code>int *arr[3]</code> 只保存地址，不保存每个数组的长度；长度要额外保存。</p>
+      </section>
+      <!-- END: 模块 2 二维数组第二种格式 -->
+
+      <!-- START: 模块 3 指针遍历第一种格式 -->
+      <section class="card" id="pointer-format-1">
+        <h2>模块 3：用指针遍历第一种格式二维数组</h2>
+        <div class="rule">
+          <strong>一句话规则：</strong>
+          对于 <code>int arr[3][5]</code>，<code>arr</code> 退化后指向的是“一行”，所以指针类型是 <code>int (*p)[5]</code>。
+        </div>
+
+        <p>正确指针定义：</p>
+        <pre><code>int (*p)[5] = arr;</code></pre>
+
+        <div class="grid-3">
+          <div class="mini-card">
+            <h3><code>p</code></h3>
+            <p>指向当前一行，也就是一个长度为 5 的 <code>int</code> 数组。</p>
+          </div>
+          <div class="mini-card">
+            <h3><code>*p</code></h3>
+            <p>得到当前这一行。</p>
+          </div>
+          <div class="mini-card">
+            <h3><code>*(*p + j)</code></h3>
+            <p>得到当前行第 <code>j</code> 个元素的值。</p>
+          </div>
+        </div>
+
+        <div class="note note-green">
+          <strong>必须掌握：</strong>
+          <code>p + 1</code> 会跳过一整行。若一行有 5 个 <code>int</code>，一个 <code>int</code> 占 4 字节，则移动 20 字节。
+        </div>
+
+        <details open>
+          <summary>完整代码：用数组指针遍历二维数组</summary>
+          <div class="details-body">
+            <pre><code>#include &lt;stdio.h&gt;
+
+int main() {
+    int arr[3][5] = {
+        {1, 2, 3, 4, 5},
+        {11, 22, 33, 44, 55},
+        {111, 222, 333, 444, 555}
+    };
+
+    int (*p)[5] = arr;
+
+    for (int i = 0; i &lt; 3; i++) {
+        for (int j = 0; j &lt; 5; j++) {
+            printf("%d ", *(*p + j));
+        }
+        printf("\n");
+        p++;
+    }
+
+    return 0;
+}</code></pre>
+          </div>
+        </details>
+
+        <div class="example">
+          <strong>等价写法：</strong>
+          <code>*(*p + j)</code> 可以写成 <code>(*p)[j]</code>，后者更容易读。
+        </div>
+
+        <div class="note note-red">
+          <strong>易错提醒：</strong>
+          如果内层循环结束后忘记 <code>p++</code>，程序会一直打印第一行。
+        </div>
+
+        <p><strong>本模块记忆点：</strong><code>int (*p)[5]</code> 是数组指针，<code>p++</code> 移动到下一行。</p>
+      </section>
+      <!-- END: 模块 3 指针遍历第一种格式 -->
+
+      <!-- START: 模块 4 指针遍历第二种格式 -->
+      <section class="card" id="pointer-format-2">
+        <h2>模块 4：用指针遍历第二种格式二维数组</h2>
+        <div class="rule">
+          <strong>一句话规则：</strong>
+          第二种格式 <code>int *arr[3]</code> 里面存的是 <code>int *</code>，所以获取它的指针要写 <code>int **p = arr;</code>。
+        </div>
+
+        <pre><code>int arr1[5] = {1, 2, 3, 4, 5};
+int arr2[5] = {11, 22, 33, 44, 55};
+int arr3[5] = {111, 222, 333, 444, 555};
+
+int *arr[3] = {arr1, arr2, arr3};
+int **p = arr;</code></pre>
+
+        <div class="grid-3">
+          <div class="mini-card">
+            <h3><code>p</code></h3>
+            <p>指向 <code>arr</code> 指针数组中的某个元素。</p>
+          </div>
+          <div class="mini-card">
+            <h3><code>*p</code></h3>
+            <p>得到某个一维数组的首地址。</p>
+          </div>
+          <div class="mini-card">
+            <h3><code>*(*p + j)</code></h3>
+            <p>得到当前一维数组第 <code>j</code> 个元素。</p>
+          </div>
+        </div>
+
+        <details open>
+          <summary>完整代码：用二级指针遍历指针数组</summary>
+          <div class="details-body">
+            <pre><code>#include &lt;stdio.h&gt;
+
+int main() {
+    int arr1[5] = {1, 2, 3, 4, 5};
+    int arr2[5] = {11, 22, 33, 44, 55};
+    int arr3[5] = {111, 222, 333, 444, 555};
+
+    int *arr[3] = {arr1, arr2, arr3};
+    int **p = arr;
+
+    for (int i = 0; i &lt; 3; i++) {
+        for (int j = 0; j &lt; 5; j++) {
+            printf("%d ", *(*p + j));
+        }
+        printf("\n");
+        p++;
+    }
+
+    return 0;
+}</code></pre>
+          </div>
+        </details>
+
+        <div class="note note-amber">
+          <strong>和第一种格式区别：</strong>
+          第一种的 <code>p++</code> 是跳到下一整行；第二种的 <code>p++</code> 是移动到指针数组的下一个地址元素。
+        </div>
+
+        <p><strong>本模块记忆点：</strong><code>int *arr[3]</code> 搭配 <code>int **p</code>；访问元素用 <code>*(*p + j)</code> 或 <code>(*p)[j]</code>。</p>
+      </section>
+      <!-- END: 模块 4 指针遍历第二种格式 -->
+
+      <!-- START: 模块 5 数组指针和指针数组 -->
+      <section class="card" id="array-pointer">
+        <h2>模块 5：数组指针和指针数组</h2>
+        <div class="rule">
+          <strong>一句话规则：</strong>
+          数组指针本质是指针；指针数组本质是数组。关键看变量名先和谁结合。
+        </div>
+
+        <table>
+          <thead>
+            <tr>
+              <th>概念</th>
+              <th>写法</th>
+              <th>本质</th>
+              <th>含义</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>数组指针</td>
+              <td><code>int (*p)[5]</code></td>
+              <td>指针</td>
+              <td><code>p</code> 指向一个长度为 5 的 <code>int</code> 数组</td>
+            </tr>
+            <tr>
+              <td>指针数组</td>
+              <td><code>int *p[5]</code></td>
+              <td>数组</td>
+              <td><code>p</code> 是数组，数组里有 5 个 <code>int *</code></td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="note note-red">
+          <strong>关键禁忌：</strong>
+          <code>int (*p)[5]</code> 的小括号不能省。省掉就变成 <code>int *p[5]</code>，含义完全不同。
+        </div>
+
+        <details open>
+          <summary><code>arr</code> 和 <code>&amp;arr</code> 的区别</summary>
+          <div class="details-body">
+            <pre><code>int arr[5] = {1, 2, 3, 4, 5};</code></pre>
+            <p><code>arr</code> 通常表示第一个元素的地址，类型可理解为 <code>int *</code>，所以 <code>arr + 1</code> 跳过一个 <code>int</code>。</p>
+            <p><code>&amp;arr</code> 表示整个数组的地址，类型是 <code>int (*)[5]</code>，所以 <code>&amp;arr + 1</code> 跳过整个数组。</p>
+          </div>
+        </details>
+
+        <p><strong>本模块记忆点：</strong><code>int (*p)[5]</code> 是数组指针；<code>int *p[5]</code> 是指针数组。</p>
+      </section>
+      <!-- END: 模块 5 数组指针和指针数组 -->
+
+      <!-- START: 模块 6 函数指针 -->
+      <section class="card" id="function-pointer">
+        <h2>模块 6：函数指针</h2>
+        <div class="rule">
+          <strong>一句话规则：</strong>
+          函数指针就是指向函数的指针，可以通过指针调用函数。
+        </div>
+
+        <p>函数指针格式：</p>
+        <pre><code>返回值类型 (*指针名)(参数列表);</code></pre>
+
+        <div class="note note-blue">
+          <strong>不要死背：</strong>
+          先写函数声明，再把函数名替换成 <code>(*指针名)</code>。
+        </div>
+
+        <details open>
+          <summary>无参无返回值函数指针</summary>
+          <div class="details-body">
+            <pre><code>#include &lt;stdio.h&gt;
+
+void method1();
+
+int main() {
+    void (*p1)() = method1;
+    p1();
+
+    return 0;
+}
+
+void method1() {
+    printf("method1\n");
+}</code></pre>
+          </div>
+        </details>
+
+        <details open>
+          <summary>有参有返回值函数指针</summary>
+          <div class="details-body">
+            <pre><code>#include &lt;stdio.h&gt;
+
+int method2(int number1, int number2);
+
+int main() {
+    int (*p2)(int, int) = method2;
+
+    int num = p2(10, 20);
+    printf("%d\n", num);
+
+    return 0;
+}
+
+int method2(int number1, int number2) {
+    printf("method2\n");
+    return number1 + number2;
+}</code></pre>
+          </div>
+        </details>
+
+        <div class="note note-green">
+          <strong>必须掌握：</strong>
+          函数指针的返回值类型和参数列表，必须和它指向的函数一致。
+        </div>
+
+        <p><strong>本模块记忆点：</strong><code>int (*p)(int, int) = method2;</code>，然后可以用 <code>p(10, 20)</code> 调用函数。</p>
+      </section>
+      <!-- END: 模块 6 函数指针 -->
+
+      <!-- START: 模块 7 函数指针数组 -->
+      <section class="card" id="function-pointer-array">
+        <h2>模块 7：函数指针数组练习</h2>
+        <div class="rule">
+          <strong>一句话规则：</strong>
+          函数指针数组就是存放函数指针的数组，可以用数组下标动态选择要调用的函数。
+        </div>
+
+        <p>题目需求：定义加、减、乘、除四个函数，用户输入两个参与计算的数字，再输入一个选择编号：</p>
+        <div class="grid-2">
+          <div class="mini-card">
+            <h3>选择编号</h3>
+            <p><code>1</code> 加法，<code>2</code> 减法，<code>3</code> 乘法，<code>4</code> 除法。</p>
+          </div>
+          <div class="mini-card">
+            <h3>核心调用</h3>
+            <p><code>arr[choose - 1](number1, number2)</code></p>
+          </div>
+        </div>
+
+        <div class="note note-amber">
+          <strong>为什么不用一堆 if：</strong>
+          函数少时 <code>if-else</code> 可以，函数很多时会非常臃肿。函数指针数组能把“选择函数”变成“按下标取函数”。
+        </div>
+
+        <details open>
+          <summary>完整代码：函数指针数组实现四则运算</summary>
+          <div class="details-body">
+            <pre><code>#include &lt;stdio.h&gt;
+
+int add(int number1, int number2);
+int subtract(int number1, int number2);
+int multiply(int number1, int number2);
+int divide(int number1, int number2);
+
+int main() {
+    int (*arr[4])(int, int) = {add, subtract, multiply, divide};
+
+    int number1;
+    int number2;
+    int choose;
+
+    printf("请录入两个数字，参与计算：\n");
+    scanf("%d %d", &amp;number1, &amp;number2);
+
+    printf("请录入一个数字，表示要进行的计算：\n");
+    printf("1. 加法  2. 减法  3. 乘法  4. 除法\n");
+    scanf("%d", &amp;choose);
+
+    if (choose &lt; 1 || choose &gt; 4) {
+        printf("没有这个操作。\n");
+        return 0;
+    }
+
+    if (choose == 4 &amp;&amp; number2 == 0) {
+        printf("除数不能为 0。\n");
+        return 0;
+    }
+
+    int result = arr[choose - 1](number1, number2);
+    printf("结果是：%d\n", result);
+
+    return 0;
+}
+
+int add(int number1, int number2) {
+    return number1 + number2;
+}
+
+int subtract(int number1, int number2) {
+    return number1 - number2;
+}
+
+int multiply(int number1, int number2) {
+    return number1 * number2;
+}
+
+int divide(int number1, int number2) {
+    return number1 / number2;
+}</code></pre>
+          </div>
+        </details>
+
+        <div class="note note-green">
+          <strong>必须掌握：</strong>
+          只有形参完全相同、返回值也相同的函数，才能放到同一个函数指针数组里。
+        </div>
+
+        <p><strong>本模块记忆点：</strong><code>int (*arr[4])(int, int)</code> 表示数组里有 4 个函数指针。</p>
+      </section>
+      <!-- END: 模块 7 函数指针数组 -->
+
+      <!-- START: 真题演练中心 -->
+      <section class="card" id="practice">
+        <h2>练习 / 案例演练中心</h2>
+
+        <div class="practice">
+          <div class="practice-title">练习 1：判断 <code>arr[0]</code> 的含义</div>
+          <div class="question">
+            <p>已知：</p>
+            <pre><code>int arr[3][5] = {
+    {1, 2, 3, 4, 5},
+    {11, 22, 33, 44, 55},
+    {111, 222, 333, 444, 555}
+};</code></pre>
+            <p><code>arr[0]</code> 和 <code>arr[0][0]</code> 分别表示什么？</p>
+          </div>
+          <div class="answer">
+            <details class="answer-toggle">
+              <summary>点击查看答案解析</summary>
+              <div class="answer-content">
+                <p><strong>答案：</strong><code>arr[0]</code> 表示第一个一维数组整体；<code>arr[0][0]</code> 表示第 0 行第 0 列的元素，也就是 <code>1</code>。</p>
+                <p><strong>解析：</strong>二维数组可以理解为数组里面放数组。第一个下标先找到某一行，第二个下标才找到该行中的具体元素。</p>
+              </div>
+            </details>
+          </div>
+        </div>
+
+        <div class="practice">
+          <div class="practice-title">练习 2：为什么 <code>sizeof(arr[i]) / sizeof(int)</code> 错</div>
+          <div class="question">
+            <p>已知：</p>
+            <pre><code>int arr1[3] = {1, 2, 3};
+int arr2[5] = {1, 2, 3, 4, 5};
+int *arr[2] = {arr1, arr2};</code></pre>
+            <p>为什么不能用 <code>sizeof(arr[i]) / sizeof(int)</code> 求当前一维数组长度？</p>
+          </div>
+          <div class="answer">
+            <details class="answer-toggle">
+              <summary>点击查看答案解析</summary>
+              <div class="answer-content">
+                <p><strong>答案：</strong>因为 <code>arr[i]</code> 是 <code>int *</code> 指针，不是完整数组。</p>
+                <p><strong>解析：</strong><code>sizeof(arr[i])</code> 求的是指针大小。64 位系统下指针通常是 8 字节，<code>int</code> 通常是 4 字节，所以结果常常是 <code>2</code>，而不是真实数组长度。</p>
+              </div>
+            </details>
+          </div>
+        </div>
+
+        <div class="practice">
+          <div class="practice-title">练习 3：选择正确的数组指针写法</div>
+          <div class="question">
+            <p>要定义一个指针 <code>p</code>，指向 <code>int arr[3][5]</code> 的某一行，应该怎么写？</p>
+            <p>A. <code>int *p[5] = arr;</code></p>
+            <p>B. <code>int (*p)[5] = arr;</code></p>
+            <p>C. <code>int **p = arr;</code></p>
+            <p>D. <code>int *p = arr;</code></p>
+          </div>
+          <div class="answer">
+            <details class="answer-toggle">
+              <summary>点击查看答案解析</summary>
+              <div class="answer-content">
+                <p><strong>答案：</strong>B</p>
+                <p><strong>解析：</strong><code>arr</code> 退化后指向第一行，而一行的类型是 <code>int[5]</code>，所以指针类型是 <code>int (*)[5]</code>。</p>
+              </div>
+            </details>
+          </div>
+        </div>
+
+        <div class="practice">
+          <div class="practice-title">练习 4：区分数组指针和指针数组</div>
+          <div class="question">
+            <p>请判断下面两个声明分别是什么：</p>
+            <pre><code>int (*p1)[5];
+int *p2[5];</code></pre>
+          </div>
+          <div class="answer">
+            <details class="answer-toggle">
+              <summary>点击查看答案解析</summary>
+              <div class="answer-content">
+                <p><strong>答案：</strong><code>p1</code> 是数组指针；<code>p2</code> 是指针数组。</p>
+                <p><strong>解析：</strong><code>int (*p1)[5]</code> 中，<code>p1</code> 先和 <code>*</code> 结合，所以它是指针；<code>int *p2[5]</code> 中，<code>p2</code> 先和 <code>[5]</code> 结合，所以它是数组。</p>
+              </div>
+            </details>
+          </div>
+        </div>
+
+        <div class="practice">
+          <div class="practice-title">练习 5：函数指针写法</div>
+          <div class="question">
+            <p>有函数声明：</p>
+            <pre><code>int method2(int number1, int number2);</code></pre>
+            <p>定义一个函数指针 <code>p2</code> 指向它，应该怎么写？</p>
+          </div>
+          <div class="answer">
+            <details class="answer-toggle">
+              <summary>点击查看答案解析</summary>
+              <div class="answer-content">
+                <p><strong>答案：</strong><code>int (*p2)(int, int) = method2;</code></p>
+                <p><strong>解析：</strong>把函数声明中的函数名 <code>method2</code> 替换成 <code>(*p2)</code>，参数列表保留类型即可。</p>
+              </div>
+            </details>
+          </div>
+        </div>
+
+        <div class="practice">
+          <div class="practice-title">练习 6：函数指针数组调用</div>
+          <div class="question">
+            <p>已知：</p>
+            <pre><code>int (*arr[4])(int, int) = {add, subtract, multiply, divide};
+
+int number1 = 10;
+int number2 = 3;
+int choose = 3;</code></pre>
+            <p>调用对应函数并保存结果，应该怎么写？调用的是哪个函数？</p>
+          </div>
+          <div class="answer">
+            <details class="answer-toggle">
+              <summary>点击查看答案解析</summary>
+              <div class="answer-content">
+                <p><strong>答案：</strong><code>int result = arr[choose - 1](number1, number2);</code>，调用的是 <code>multiply</code>。</p>
+                <p><strong>解析：</strong><code>choose = 3</code>，所以 <code>choose - 1 = 2</code>，<code>arr[2]</code> 对应 <code>multiply</code>。</p>
+              </div>
+            </details>
+          </div>
+        </div>
+      </section>
+      <!-- END: 真题演练中心 -->
+
+      <!-- START: 考场攻略 -->
+      <section class="card" id="strategy">
+        <h2>考场攻略 / 应用方法</h2>
+
+        <div class="grid-2">
+          <div class="mini-card">
+            <h3>1. 看二维数组格式</h3>
+            <p><code>int arr[3][5]</code> 是规则二维数组；<code>int *arr[3]</code> 是指针数组。</p>
+          </div>
+          <div class="mini-card">
+            <h3>2. 推指针类型</h3>
+            <p>数组里面放什么，指针就要指向什么。二维数组格式一里面放的是一行，所以是 <code>int (*)[5]</code>。</p>
+          </div>
+          <div class="mini-card">
+            <h3>3. 遍历时看 p++</h3>
+            <p>格式一的 <code>p++</code> 跳到下一行；格式二的 <code>p++</code> 跳到下一个地址元素。</p>
+          </div>
+          <div class="mini-card">
+            <h3>4. 函数指针数组</h3>
+            <p>看到“根据编号调用不同函数”，优先想到函数指针数组。</p>
+          </div>
+        </div>
+
+        <div class="note note-red">
+          <strong>高频错误：</strong>
+          把 <code>int (*p)[5]</code> 写成 <code>int *p[5]</code>；用 <code>sizeof(arr[i])</code> 求指针数组中每行长度；函数指针数组忘记 <code>choose - 1</code>。
+        </div>
+      </section>
+      <!-- END: 考场攻略 -->
+
+      <!-- START: 检查清单 -->
+      <section class="card" id="checklist">
+        <h2>最终检查清单</h2>
+
+        <div class="checklist">
+          <h3>二维数组</h3>
+          <label class="check-item"><input type="checkbox" /> 我知道 <code>int arr[3][5]</code> 表示 3 行 5 列。</label>
+          <label class="check-item"><input type="checkbox" /> 我知道 <code>arr[i]</code> 表示第 <code>i</code> 行，<code>arr[i][j]</code> 才是具体元素。</label>
+          <label class="check-item"><input type="checkbox" /> 我知道 <code>int *arr[3]</code> 本质是指针数组，不是严格意义上的二维数组。</label>
+          <label class="check-item"><input type="checkbox" /> 我知道不规则二维结构需要额外保存每行长度。</label>
+        </div>
+
+        <div class="checklist">
+          <h3>数组指针与指针数组</h3>
+          <label class="check-item"><input type="checkbox" /> 我能解释 <code>int (*p)[5]</code> 是数组指针。</label>
+          <label class="check-item"><input type="checkbox" /> 我能解释 <code>int *p[5]</code> 是指针数组。</label>
+          <label class="check-item"><input type="checkbox" /> 我知道 <code>arr</code> 和 <code>&amp;arr</code> 地址值可能一样，但类型和步长不同。</label>
+          <label class="check-item"><input type="checkbox" /> 我知道小括号不能乱省。</label>
+        </div>
+
+        <div class="checklist">
+          <h3>指针遍历</h3>
+          <label class="check-item"><input type="checkbox" /> 我能写出 <code>int (*p)[5] = arr;</code> 遍历规则二维数组。</label>
+          <label class="check-item"><input type="checkbox" /> 我能写出 <code>int **p = arr;</code> 遍历指针数组。</label>
+          <label class="check-item"><input type="checkbox" /> 我知道 <code>*(*p + j)</code> 和 <code>(*p)[j]</code> 等价。</label>
+          <label class="check-item"><input type="checkbox" /> 我知道每遍历完一行后要移动 <code>p++</code>。</label>
+        </div>
+
+        <div class="checklist">
+          <h3>函数指针</h3>
+          <label class="check-item"><input type="checkbox" /> 我知道函数指针格式是 <code>返回值类型 (*指针名)(参数列表)</code>。</label>
+          <label class="check-item"><input type="checkbox" /> 我能把函数声明改写成函数指针声明。</label>
+          <label class="check-item"><input type="checkbox" /> 我能写出 <code>int (*p)(int, int)</code>。</label>
+          <label class="check-item"><input type="checkbox" /> 我知道函数指针可以像函数名一样调用。</label>
+        </div>
+
+        <div class="checklist">
+          <h3>函数指针数组</h3>
+          <label class="check-item"><input type="checkbox" /> 我能写出 <code>int (*arr[4])(int, int)</code>。</label>
+          <label class="check-item"><input type="checkbox" /> 我知道同一个函数指针数组里的函数必须类型一致。</label>
+          <label class="check-item"><input type="checkbox" /> 我知道用户输入 1 到 4 时，调用要写 <code>arr[choose - 1]</code>。</label>
+          <label class="check-item"><input type="checkbox" /> 我知道除法要判断除数不能为 0。</label>
+        </div>
+      </section>
+      <!-- END: 检查清单 -->
+
+    </main>
+
+    <!-- START: 页脚 -->
+    <footer>
+      <p><strong>资料主题：</strong>C语言指针高级复习系统</p>
+      <p><strong>覆盖范围：</strong>二维数组两种定义格式、索引遍历、指针遍历、数组指针、指针数组、函数指针、函数指针数组练习</p>
+      <p><strong>最后更新时间：</strong>2026-05-06</p>
+    </footer>
+    <!-- END: 页脚 -->
+
+  </div>
+
+  <script>
+    function expandAll() {
+      document.querySelectorAll("details").forEach(function(detail) {
+        detail.open = true;
+      });
+    }
+
+    function collapseAll() {
+      document.querySelectorAll("details").forEach(function(detail) {
+        detail.open = false;
+      });
+    }
+
+    function showAnswers() {
+      document.querySelectorAll("details.answer-toggle").forEach(function(detail) {
+        detail.open = true;
+      });
+    }
+
+    function hideAnswers() {
+      document.querySelectorAll("details.answer-toggle").forEach(function(detail) {
+        detail.open = false;
+      });
+    }
+
+    function toggleFocusMode() {
+      document.body.classList.toggle("focus-mode");
+      var btn = document.getElementById("focusBtn");
+      if (document.body.classList.contains("focus-mode")) {
+        btn.textContent = "显示全部";
+      } else {
+        btn.textContent = "只看重点";
+      }
+    }
+
+    function printPage() {
+      expandAll();
+      showAnswers();
+      setTimeout(function() {
+        window.print();
+      }, 120);
+    }
+  </script>
+</body>
+</html>

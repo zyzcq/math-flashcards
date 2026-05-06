@@ -1,0 +1,1289 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>C语言字符串复习系统</title>
+  <style>
+    :root {
+      --bg: #f4f7fb;
+      --bg-gradient: linear-gradient(135deg, #f4f7fb 0%, #eef5f1 50%, #f7f3ff 100%);
+      --card: #ffffff;
+      --text: #1f2937;
+      --muted: #6b7280;
+      --border: #e5e7eb;
+
+      --blue: #2563eb;
+      --blue-bg: #eff6ff;
+      --green: #16a34a;
+      --green-bg: #ecfdf5;
+      --amber: #d97706;
+      --amber-bg: #fffbeb;
+      --purple: #7c3aed;
+      --purple-bg: #f5f3ff;
+      --red: #dc2626;
+      --red-bg: #fef2f2;
+      --gray-bg: #f9fafb;
+
+      --radius: 16px;
+      --radius-sm: 10px;
+      --shadow: 0 10px 30px rgba(15, 23, 42, 0.08);
+      --max-width: 1080px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Microsoft YaHei", Arial, sans-serif;
+      color: var(--text);
+      background: var(--bg-gradient);
+      line-height: 1.75;
+    }
+
+    a {
+      color: var(--blue);
+      text-decoration: none;
+    }
+
+    code {
+      font-family: Consolas, Monaco, "Courier New", monospace;
+      background: #f3f4f6;
+      color: #111827;
+      padding: 2px 6px;
+      border-radius: 6px;
+      font-size: 0.95em;
+    }
+
+    pre {
+      overflow-x: auto;
+      background: #0f172a;
+      color: #e5e7eb;
+      padding: 18px;
+      border-radius: 14px;
+      line-height: 1.6;
+      font-size: 14px;
+    }
+
+    pre code {
+      background: transparent;
+      color: inherit;
+      padding: 0;
+      border-radius: 0;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 14px 0;
+      overflow: hidden;
+      border-radius: 12px;
+      font-size: 14px;
+    }
+
+    th,
+    td {
+      border: 1px solid var(--border);
+      padding: 10px 12px;
+      text-align: left;
+      vertical-align: top;
+    }
+
+    th {
+      background: #f8fafc;
+      color: #111827;
+    }
+
+    .page {
+      width: min(100% - 32px, var(--max-width));
+      margin: 0 auto;
+      padding: 28px 0 56px;
+    }
+
+    .hero {
+      background: rgba(255, 255, 255, 0.82);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(229, 231, 235, 0.8);
+      box-shadow: var(--shadow);
+      border-radius: 24px;
+      padding: 36px;
+      margin-bottom: 18px;
+    }
+
+    .hero h1 {
+      margin: 0 0 10px;
+      font-size: clamp(30px, 5vw, 48px);
+      line-height: 1.15;
+      letter-spacing: -0.04em;
+    }
+
+    .hero p {
+      margin: 8px 0;
+      color: var(--muted);
+      max-width: 820px;
+    }
+
+    .tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 18px;
+    }
+
+    .tag,
+    .tag-green,
+    .tag-amber,
+    .tag-red,
+    .tag-purple {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 5px 10px;
+      border-radius: 999px;
+      font-size: 13px;
+      font-weight: 650;
+      border: 1px solid transparent;
+    }
+
+    .tag {
+      color: var(--blue);
+      background: var(--blue-bg);
+      border-color: #dbeafe;
+    }
+
+    .tag-green {
+      color: var(--green);
+      background: var(--green-bg);
+      border-color: #bbf7d0;
+    }
+
+    .tag-amber {
+      color: var(--amber);
+      background: var(--amber-bg);
+      border-color: #fde68a;
+    }
+
+    .tag-red {
+      color: var(--red);
+      background: var(--red-bg);
+      border-color: #fecaca;
+    }
+
+    .tag-purple {
+      color: var(--purple);
+      background: var(--purple-bg);
+      border-color: #ddd6fe;
+    }
+
+    .toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+      justify-content: center;
+      background: rgba(255, 255, 255, 0.92);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 12px;
+      margin: 18px 0;
+      box-shadow: var(--shadow);
+      position: sticky;
+      top: 12px;
+      z-index: 10;
+    }
+
+    .toolbar button {
+      border: 1px solid var(--border);
+      background: #ffffff;
+      color: #111827;
+      padding: 8px 12px;
+      border-radius: 999px;
+      cursor: pointer;
+      font-weight: 650;
+      transition: 0.2s ease;
+    }
+
+    .toolbar button:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 6px 16px rgba(15, 23, 42, 0.08);
+    }
+
+    .toolbar .primary {
+      background: var(--blue);
+      color: #ffffff;
+      border-color: var(--blue);
+    }
+
+    .nav {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin: 18px 0 24px;
+      justify-content: center;
+    }
+
+    .nav a {
+      background: rgba(255, 255, 255, 0.75);
+      border: 1px solid var(--border);
+      color: #374151;
+      padding: 8px 12px;
+      border-radius: 999px;
+      font-size: 14px;
+      font-weight: 650;
+    }
+
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 24px;
+      margin: 18px 0;
+    }
+
+    .card h2 {
+      margin: 0 0 12px;
+      font-size: 24px;
+      letter-spacing: -0.02em;
+    }
+
+    .card h3 {
+      margin-top: 20px;
+      margin-bottom: 8px;
+      font-size: 18px;
+    }
+
+    .grid-2,
+    .grid-3 {
+      display: grid;
+      gap: 14px;
+      margin: 16px 0;
+    }
+
+    .grid-2 {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .grid-3 {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .mini-card {
+      background: var(--gray-bg);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 16px;
+    }
+
+    .mini-card h3,
+    .mini-card h4 {
+      margin: 0 0 8px;
+    }
+
+    .rule {
+      padding: 14px 16px;
+      border-radius: 14px;
+      background: var(--blue-bg);
+      border-left: 5px solid var(--blue);
+      font-weight: 700;
+      margin: 14px 0;
+    }
+
+    .note,
+    .example,
+    .practice,
+    .checklist {
+      border-radius: 14px;
+      padding: 16px;
+      margin: 14px 0;
+      border: 1px solid var(--border);
+    }
+
+    .example {
+      background: #f8fafc;
+    }
+
+    .note-blue {
+      background: var(--blue-bg);
+      border-color: #bfdbfe;
+    }
+
+    .note-green {
+      background: var(--green-bg);
+      border-color: #bbf7d0;
+    }
+
+    .note-amber {
+      background: var(--amber-bg);
+      border-color: #fde68a;
+    }
+
+    .note-purple {
+      background: var(--purple-bg);
+      border-color: #ddd6fe;
+    }
+
+    .note-red {
+      background: var(--red-bg);
+      border-color: #fecaca;
+    }
+
+    .muted {
+      color: var(--muted);
+    }
+
+    .practice {
+      background: var(--purple-bg);
+      border-color: #ddd6fe;
+    }
+
+    .practice-title {
+      font-weight: 800;
+      color: var(--purple);
+      margin-bottom: 8px;
+    }
+
+    .question {
+      background: rgba(255, 255, 255, 0.75);
+      border: 1px solid #ddd6fe;
+      border-radius: 12px;
+      padding: 12px;
+      margin: 10px 0;
+    }
+
+    .answer-content {
+      background: #ffffff;
+      border-left: 4px solid var(--purple);
+      padding: 12px 14px;
+      margin-top: 10px;
+      border-radius: 12px;
+    }
+
+    .translation {
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    details {
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      background: #ffffff;
+      margin: 12px 0;
+      overflow: hidden;
+    }
+
+    summary {
+      cursor: pointer;
+      padding: 13px 16px;
+      font-weight: 800;
+      list-style: none;
+      background: #f8fafc;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+    }
+
+    summary::-webkit-details-marker {
+      display: none;
+    }
+
+    summary::after {
+      content: "展开";
+      color: var(--blue);
+      font-size: 13px;
+      font-weight: 800;
+    }
+
+    details[open] summary::after {
+      content: "收起";
+    }
+
+    details > div {
+      padding: 0 16px 16px;
+    }
+
+    details.answer-toggle {
+      border-color: #c4b5fd;
+    }
+
+    details.answer-toggle summary {
+      color: var(--purple);
+      background: #faf5ff;
+    }
+
+    .checklist {
+      background: #ffffff;
+    }
+
+    .check-item {
+      display: flex;
+      gap: 10px;
+      padding: 9px 0;
+      border-bottom: 1px dashed var(--border);
+    }
+
+    .check-item:last-child {
+      border-bottom: none;
+    }
+
+    .check-item input {
+      margin-top: 7px;
+    }
+
+    .section-label {
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      font-size: 12px;
+      font-weight: 800;
+      margin-bottom: 6px;
+    }
+
+    .focus-mode .non-key {
+      display: none !important;
+    }
+
+    footer {
+      color: var(--muted);
+      text-align: center;
+      padding: 28px 0 0;
+      font-size: 14px;
+    }
+
+    @media (max-width: 760px) {
+      .page {
+        width: min(100% - 20px, var(--max-width));
+        padding-top: 14px;
+      }
+
+      .hero {
+        padding: 24px;
+      }
+
+      .toolbar {
+        position: static;
+        justify-content: flex-start;
+      }
+
+      .toolbar button {
+        flex: 1 1 auto;
+      }
+
+      .grid-2,
+      .grid-3 {
+        grid-template-columns: 1fr;
+      }
+
+      .card {
+        padding: 18px;
+      }
+    }
+
+    @media print {
+      body {
+        background: #ffffff;
+      }
+
+      .page {
+        width: 100%;
+        padding: 0;
+      }
+
+      .toolbar,
+      .nav,
+      .no-print {
+        display: none !important;
+      }
+
+      .hero,
+      .card,
+      .mini-card,
+      .note,
+      .example,
+      .practice,
+      .checklist,
+      details {
+        box-shadow: none !important;
+        break-inside: avoid;
+        page-break-inside: avoid;
+      }
+
+      .hero,
+      .card {
+        border: 1px solid #dddddd;
+      }
+
+      summary::after {
+        display: none;
+      }
+
+      pre {
+        white-space: pre-wrap;
+        background: #f5f5f5;
+        color: #111111;
+        border: 1px solid #dddddd;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="page">
+
+    <!-- START: 首页 -->
+    <header class="hero" id="top">
+      <div class="section-label">C Language Review System</div>
+      <h1>C语言字符串复习系统</h1>
+      <p>
+        本页面整合“字符串两种定义方式、键盘录入与遍历、字符串数组、常见字符串函数、登录练习、统计次数练习”等内容，
+        适合课后复盘、考前检查和代码自测。
+      </p>
+      <p>
+        使用方法：先看“总纲”建立框架，再逐个复习核心模块；练习区先自己判断，再点击查看答案解析。
+      </p>
+      <div class="tags">
+        <span class="tag">字符串底层</span>
+        <span class="tag-green">必须掌握：'\0'</span>
+        <span class="tag-green">字符数组</span>
+        <span class="tag-amber">易错：指针接收输入</span>
+        <span class="tag-purple">练习：登录与统计</span>
+        <span class="tag-red">禁忌：修改字符串常量</span>
+      </div>
+    </header>
+    <!-- END: 首页 -->
+
+    <!-- START: 顶部工具栏 -->
+    <div class="toolbar no-print">
+      <button onclick="expandAll()">全部展开</button>
+      <button onclick="collapseAll()">全部收起</button>
+      <button id="focusBtn" onclick="toggleFocusMode()">只看重点</button>
+      <button onclick="showAnswers()">显示答案</button>
+      <button onclick="hideAnswers()">隐藏答案</button>
+      <button class="primary" onclick="printPage()">导出 PDF</button>
+    </div>
+    <!-- END: 顶部工具栏 -->
+
+    <!-- START: 导航栏 -->
+    <nav class="nav no-print">
+      <a href="#method">总纲</a>
+      <a href="#module-1">字符串本质</a>
+      <a href="#module-2">输入与遍历</a>
+      <a href="#module-3">字符串数组</a>
+      <a href="#module-4">常见函数</a>
+      <a href="#module-5">登录练习</a>
+      <a href="#module-6">统计次数</a>
+      <a href="#practice-center">演练中心</a>
+      <a href="#exam-strategy">实战策略</a>
+      <a href="#final-checklist">检查清单</a>
+    </nav>
+    <!-- END: 导航栏 -->
+
+    <main>
+
+      <!-- START: 总方法论 -->
+      <section class="card" id="method">
+        <div class="section-label">Core Framework</div>
+        <h2>总方法论：学字符串，抓住三件事</h2>
+
+        <div class="grid-3">
+          <div class="mini-card">
+            <h3>1. 底层</h3>
+            <p>字符串不是 C 语言的独立基本类型，本质是以 <code>'\0'</code> 结尾的字符数组。</p>
+          </div>
+          <div class="mini-card">
+            <h3>2. 空间</h3>
+            <p>凡是要写入、拼接、复制的字符串，都必须有可写空间，不能写进字符串常量。</p>
+          </div>
+          <div class="mini-card">
+            <h3>3. 处理</h3>
+            <p>字符串处理通常是“遍历字符”或“调用 <code>string.h</code> 函数”。</p>
+          </div>
+        </div>
+
+        <div class="rule">
+          总规则：判断一段字符串代码能不能运行，先问三个问题：有没有 <code>'\0'</code>？空间够不够？内容能不能被修改？
+        </div>
+      </section>
+      <!-- END: 总方法论 -->
+
+      <!-- START: 模块 1 字符串本质与定义方式 -->
+      <section class="card" id="module-1">
+        <div class="section-label">Module 1</div>
+        <h2>模块 1：字符串本质与两种定义方式</h2>
+
+        <p class="rule">
+          C 语言字符串的本质是字符数组，末尾必须有 <code>'\0'</code> 作为结束标记。
+        </p>
+
+        <div class="grid-2">
+          <div class="mini-card">
+            <h3>字符数组方式</h3>
+            <pre><code>char str1[] = "abc";</code></pre>
+            <p>底层内容是 <code>'a'</code>、<code>'b'</code>、<code>'c'</code>、<code>'\0'</code>。数组中的内容可以修改。</p>
+          </div>
+
+          <div class="mini-card">
+            <h3>字符指针方式</h3>
+            <pre><code>const char *str2 = "abc";</code></pre>
+            <p>指针保存字符串常量的首地址。字符串常量通常在只读常量区，不应该修改。</p>
+          </div>
+        </div>
+
+        <details open>
+          <summary>核心解释：为什么 C 语言没有专门的 string 类型？</summary>
+          <div>
+            <p>
+              C 语言有 <code>int</code>、<code>char</code>、<code>float</code>、<code>double</code> 等基本类型，
+              但没有原生的 <code>string</code> 类型。字符串在底层会拆成多个字符保存，所以 C 语言用字符数组表示字符串。
+            </p>
+            <p>
+              例如 <code>"abc"</code> 看起来是一个整体，但底层实际是：
+            </p>
+            <pre><code>'a'  'b'  'c'  '\0'</code></pre>
+          </div>
+        </details>
+
+        <div class="note note-green">
+          <strong>必须掌握：</strong><code>'\0'</code> 是字符串结束标记，不是字符 <code>'0'</code>。
+          <code>printf("%s", str)</code> 会一直打印，直到遇到 <code>'\0'</code> 才停止。
+        </div>
+
+        <div class="note note-amber">
+          <strong>易错提醒：</strong><code>char str[3] = "abc";</code> 没有给 <code>'\0'</code> 留空间，打印时可能读出乱码。
+          推荐写 <code>char str[] = "abc";</code> 或 <code>char str[4] = "abc";</code>。
+        </div>
+
+        <div class="note note-red">
+          <strong>严重禁忌：</strong>不要修改字符串常量，例如 <code>char *p = "abc"; p[0] = 'Q';</code>。
+          这可能导致程序崩溃。更规范的写法是 <code>const char *p = "abc";</code>。
+        </div>
+
+        <div class="non-key note note-blue">
+          <strong>了解即可：</strong>相同的字符串常量可能被复用。例如两个指针都指向 <code>"abcd"</code>，
+          它们的地址可能相同。是否复用与编译器有关，但结论不变：不要修改字符串常量。
+        </div>
+      </section>
+      <!-- END: 模块 1 字符串本质与定义方式 -->
+
+      <!-- START: 模块 2 键盘录入与遍历字符串 -->
+      <section class="card" id="module-2">
+        <div class="section-label">Module 2</div>
+        <h2>模块 2：键盘录入字符串并遍历</h2>
+
+        <p class="rule">
+          键盘录入字符串时，要准备可写的字符数组；遍历字符串时，遍历到 <code>'\0'</code> 为止。
+        </p>
+
+        <h3>1. 正确接收输入</h3>
+        <pre><code>char str[100];
+
+printf("请输入字符串：\n");
+scanf("%99s", str);</code></pre>
+
+        <div class="note note-green">
+          <strong>为什么 <code>str</code> 前面不用加 <code>&amp;</code>？</strong>
+          数组名 <code>str</code> 在这里可以表示数组首地址，<code>scanf</code> 需要的正是这个地址。
+        </div>
+
+        <div class="note note-red">
+          <strong>不能这样写：</strong>
+          <pre><code>char *str;
+scanf("%s", str);</code></pre>
+          <p>原因：<code>str</code> 没有指向有效的可写内存。</p>
+        </div>
+
+        <h3>2. 遍历字符串</h3>
+        <pre><code>char *p = str;
+
+while (*p != '\0')
+{
+    printf("%c\n", *p);
+    p++;
+}</code></pre>
+
+        <p>
+          指针 <code>p</code> 一开始指向第一个字符。每打印一个字符，<code>p++</code> 向后移动一格。
+          遇到 <code>'\0'</code>，说明字符串结束。
+        </p>
+
+        <div class="example">
+          <strong>输入：</strong><code>abc</code><br />
+          <strong>底层：</strong><code>'a' 'b' 'c' '\0'</code><br />
+          <strong>输出：</strong><code>a</code>、<code>b</code>、<code>c</code>
+        </div>
+
+        <div class="non-key note note-amber">
+          <strong>补充：</strong><code>scanf("%s", str)</code> 遇到空格会停止读取。
+          本课程当前练习不处理带空格字符串。
+        </div>
+      </section>
+      <!-- END: 模块 2 键盘录入与遍历字符串 -->
+
+      <!-- START: 模块 3 字符串数组 -->
+      <section class="card" id="module-3">
+        <div class="section-label">Module 3</div>
+        <h2>模块 3：保存多个字符串</h2>
+
+        <p class="rule">
+          一个字符串是一个字符数组；多个字符串可以用二维字符数组，也可以用指针数组。
+        </p>
+
+        <div class="grid-2">
+          <div class="mini-card">
+            <h3>方式一：二维字符数组</h3>
+            <pre><code>char names[5][20] = {
+    "张三",
+    "李四",
+    "王五",
+    "赵六",
+    "钱七"
+};</code></pre>
+            <p>数组本身保存字符串内容。每一行是一个字符串。</p>
+          </div>
+
+          <div class="mini-card">
+            <h3>方式二：指针数组</h3>
+            <pre><code>const char *names2[5] = {
+    "张三",
+    "李四",
+    "王五",
+    "赵六",
+    "钱七"
+};</code></pre>
+            <p>数组保存的是字符串常量的地址，不是把内容复制进数组。</p>
+          </div>
+        </div>
+
+        <h3>遍历写法</h3>
+        <pre><code>for (int i = 0; i &lt; 5; i++)
+{
+    printf("%s\n", names[i]);
+}</code></pre>
+
+        <div class="note note-amber">
+          <strong>易错：</strong>不能写 <code>char str[100] = names[i];</code>。
+          数组不能这样直接接收另一个数组。若只是临时访问，写 <code>char *str = names[i];</code> 即可。
+        </div>
+
+        <table>
+          <thead>
+            <tr>
+              <th>对比项</th>
+              <th>二维字符数组</th>
+              <th>指针数组</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>保存内容</td>
+              <td>直接保存字符串内容</td>
+              <td>保存字符串地址</td>
+            </tr>
+            <tr>
+              <td>是否可改</td>
+              <td>通常可以修改数组内容</td>
+              <td>字符串常量不应该修改</td>
+            </tr>
+            <tr>
+              <td>适合场景</td>
+              <td>需要修改姓名内容</td>
+              <td>只读展示多个固定字符串</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+      <!-- END: 模块 3 字符串数组 -->
+
+      <!-- START: 模块 4 字符串常见函数 -->
+      <section class="card" id="module-4">
+        <div class="section-label">Module 4</div>
+        <h2>模块 4：字符串常见函数</h2>
+
+        <p class="rule">
+          使用字符串函数前，先导入 <code>#include &lt;string.h&gt;</code>。
+        </p>
+
+        <table>
+          <thead>
+            <tr>
+              <th>函数</th>
+              <th>作用</th>
+              <th>关键规则</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>strlen</code></td>
+              <td>获取字符串长度</td>
+              <td>不统计 <code>'\0'</code>，统计的是字节数</td>
+            </tr>
+            <tr>
+              <td><code>strcat</code></td>
+              <td>拼接字符串</td>
+              <td>把第二个字符串拼到第一个字符串末尾</td>
+            </tr>
+            <tr>
+              <td><code>strcpy</code></td>
+              <td>复制字符串</td>
+              <td>用第二个字符串覆盖第一个字符串</td>
+            </tr>
+            <tr>
+              <td><code>strcmp</code></td>
+              <td>比较字符串内容</td>
+              <td>返回 0 表示相同，非 0 表示不同</td>
+            </tr>
+            <tr>
+              <td><code>_strlwr</code></td>
+              <td>转小写</td>
+              <td>VS 中常见写法，只处理英文大小写</td>
+            </tr>
+            <tr>
+              <td><code>_strupr</code></td>
+              <td>转大写</td>
+              <td>VS 中常见写法，只处理英文大小写</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <details open>
+          <summary>函数细节与例子</summary>
+          <div>
+            <h3><code>strlen</code>：长度</h3>
+            <pre><code>strlen("abc")  // 结果是 3，不是 4</code></pre>
+            <p>它不计算结束标记 <code>'\0'</code>。对于中文，它统计的是字节数，不一定等于汉字个数。</p>
+
+            <h3><code>strcat</code>：拼接</h3>
+            <pre><code>char str2[100] = "abc";
+char str3[] = "qwer";
+
+strcat(str2, str3);
+// str2 变成 "abcqwer"
+// str3 仍然是 "qwer"</code></pre>
+
+            <h3><code>strcpy</code>：复制覆盖</h3>
+            <pre><code>char str2[100] = "abc";
+char str3[] = "qwer";
+
+strcpy(str2, str3);
+// str2 变成 "qwer"</code></pre>
+
+            <h3><code>strcmp</code>：比较内容</h3>
+            <pre><code>strcmp("abc", "abc")   // 返回 0
+strcmp("abc", "acb")   // 返回非 0
+strcmp("abc", "abc ")  // 返回非 0，因为多了空格</code></pre>
+          </div>
+        </details>
+
+        <div class="note note-red">
+          <strong>重要禁忌：</strong><code>strcat</code>、<code>strcpy</code>、<code>_strlwr</code>、<code>_strupr</code>
+          都会修改传入字符串，所以目标字符串必须是可修改数组，并且空间必须足够。
+        </div>
+
+        <div class="non-key note note-gray">
+          <strong>了解即可：</strong><code>strlwr</code> 和 <code>strupr</code> 不是标准 C 的通用函数。
+          在 VS 中可能提示旧函数过时，使用 <code>_strlwr</code>、<code>_strupr</code>。
+        </div>
+      </section>
+      <!-- END: 模块 4 字符串常见函数 -->
+
+      <!-- START: 模块 5 用户登录练习 -->
+      <section class="card" id="module-5">
+        <div class="section-label">Module 5</div>
+        <h2>模块 5：练习 1——用户登录</h2>
+
+        <p class="rule">
+          登录练习的核心：用字符数组接收输入，用 <code>strcmp</code> 比较用户名和密码，用循环控制三次机会。
+        </p>
+
+        <pre><code>#include &lt;stdio.h&gt;
+#include &lt;string.h&gt;
+
+int main()
+{
+    const char *rightUsername = "张三";
+    const char *rightPassword = "1234qwer";
+
+    for (int i = 1; i &lt;= 3; i++)
+    {
+        char username[100];
+        char password[100];
+
+        printf("请输入用户名：\n");
+        scanf("%99s", username);
+
+        printf("请输入密码：\n");
+        scanf("%99s", password);
+
+        if (strcmp(username, rightUsername) == 0 &&
+            strcmp(password, rightPassword) == 0)
+        {
+            printf("登录成功\n");
+            break;
+        }
+        else
+        {
+            if (i == 3)
+            {
+                printf("登录失败次数过多，账号已被锁定，请联系管理员\n");
+            }
+            else
+            {
+                printf("登录失败，还剩下%d次机会\n", 3 - i);
+            }
+        }
+    }
+
+    return 0;
+}</code></pre>
+
+        <div class="note note-green">
+          <strong>必须掌握：</strong>字符串内容比较用 <code>strcmp(a, b) == 0</code>，
+          不要用 <code>a == b</code>。
+        </div>
+
+        <div class="note note-amber">
+          <strong>老师强调的调试思想：</strong>代码要“一段一段写，一段一段测”。
+          先测试输入是否成功，再测试比较是否正确，最后加循环。
+        </div>
+
+        <div class="note note-red">
+          <strong>易错：</strong>输入用户名和密码的代码必须放在循环里面。
+          如果放在循环外面，用户只输入一次，程序会拿同一份数据比较三次。
+        </div>
+
+        <div class="non-key note note-blue">
+          <strong>补充：</strong>课程中提到一个现阶段无法彻底解决的小 bug：
+          如果最后一次输入了另一个用户名，提示“某某被锁定”可能不准确。
+          真正的账号系统需要数据库或本地文件记录用户状态。当前阶段掌握模拟登录逻辑即可。
+        </div>
+      </section>
+      <!-- END: 模块 5 用户登录练习 -->
+
+      <!-- START: 模块 6 统计次数练习 -->
+      <section class="card" id="module-6">
+        <div class="section-label">Module 6</div>
+        <h2>模块 6：练习 2——统计字符次数</h2>
+
+        <p class="rule">
+          看到“统计”，先想到计数器；统计字符串中的字符，就要遍历字符串并判断字符范围。
+        </p>
+
+        <pre><code>#include &lt;stdio.h&gt;
+#include &lt;string.h&gt;
+
+int main()
+{
+    char str[100];
+
+    printf("请输入一个字符串：\n");
+    scanf("%99s", str);
+
+    int bigCount = 0;
+    int smallCount = 0;
+    int numberCount = 0;
+
+    int len = strlen(str);
+
+    for (int i = 0; i &lt; len; i++)
+    {
+        char c = str[i];
+
+        if (c &gt;= 'a' && c &lt;= 'z')
+        {
+            smallCount++;
+        }
+        else if (c &gt;= 'A' && c &lt;= 'Z')
+        {
+            bigCount++;
+        }
+        else if (c &gt;= '0' && c &lt;= '9')
+        {
+            numberCount++;
+        }
+    }
+
+    printf("大写字符出现了%d次\n", bigCount);
+    printf("小写字符出现了%d次\n", smallCount);
+    printf("数字字符出现了%d次\n", numberCount);
+
+    return 0;
+}</code></pre>
+
+        <div class="note note-green">
+          <strong>必须掌握：</strong>数字字符是 <code>'0'</code> 到 <code>'9'</code>，
+          不是整数 <code>0</code> 到 <code>9</code>。
+        </div>
+
+        <div class="note note-amber">
+          <strong>易错修正：</strong>大写字母范围应是 <code>'A'</code> 到 <code>'Z'</code>。
+        </div>
+
+        <details>
+          <summary>另一种遍历写法：不使用 strlen</summary>
+          <div>
+            <pre><code>for (int i = 0; str[i] != '\0'; i++)
+{
+    char c = str[i];
+    // 判断 c 的类型
+}</code></pre>
+            <p>这种写法直接利用字符串结束标记 <code>'\0'</code>，不需要 <code>#include &lt;string.h&gt;</code>。</p>
+          </div>
+        </details>
+
+        <div class="note note-purple">
+          <strong>测试技巧：</strong>不要靠眼睛数长字符串。
+          可以在原输入后面额外加一个小写、一个大写、一个数字，看三个计数是否都加 1。
+        </div>
+      </section>
+      <!-- END: 模块 6 统计次数练习 -->
+
+      <!-- START: 真题演练中心 -->
+      <section class="card" id="practice-center">
+        <div class="section-label">Practice Center</div>
+        <h2>练习 / 案例演练中心</h2>
+
+        <div class="practice">
+          <div class="practice-title">练习 1：判断数组长度是否足够</div>
+          <div class="question">
+            <code>char str[3] = "abc"; printf("%s\n", str);</code>
+            <p>这段代码有什么风险？</p>
+          </div>
+          <div class="answer">
+            <details class="answer-toggle">
+              <summary>点击查看答案解析</summary>
+              <div class="answer-content">
+                <p><strong>答案：</strong>数组空间不够，可能打印乱码或产生未定义行为。</p>
+                <p><strong>解析：</strong><code>"abc"</code> 底层需要保存 <code>'a'</code>、<code>'b'</code>、<code>'c'</code>、<code>'\0'</code>，至少需要 4 个位置。</p>
+                <p><strong>正确写法：</strong><code>char str[4] = "abc";</code> 或 <code>char str[] = "abc";</code></p>
+              </div>
+            </details>
+          </div>
+        </div>
+
+        <div class="practice">
+          <div class="practice-title">练习 2：为什么不能用字符指针接收输入？</div>
+          <div class="question">
+            <pre><code>char *str;
+scanf("%s", str);</code></pre>
+            <p>这段代码为什么不安全？</p>
+          </div>
+          <div class="answer">
+            <details class="answer-toggle">
+              <summary>点击查看答案解析</summary>
+              <div class="answer-content">
+                <p><strong>答案：</strong><code>str</code> 没有指向有效的可写内存。</p>
+                <p><strong>解析：</strong><code>scanf</code> 会把输入内容写入 <code>str</code> 指向的位置，但这个指针没有初始化，程序不知道该写到哪里。</p>
+                <p><strong>正确写法：</strong><code>char str[100]; scanf("%99s", str);</code></p>
+              </div>
+            </details>
+          </div>
+        </div>
+
+        <div class="practice">
+          <div class="practice-title">练习 3：比较字符串内容</div>
+          <div class="question">
+            <pre><code>char username[100] = "张三";
+const char *rightUsername = "张三";
+
+if (username == rightUsername)
+{
+    printf("相同");
+}</code></pre>
+            <p>这段代码能正确比较字符串内容吗？</p>
+          </div>
+          <div class="answer">
+            <details class="answer-toggle">
+              <summary>点击查看答案解析</summary>
+              <div class="answer-content">
+                <p><strong>答案：</strong>不能。</p>
+                <p><strong>解析：</strong><code>==</code> 比较的是地址，不是字符串内容。两个字符串内容相同，但地址可能不同。</p>
+                <p><strong>正确写法：</strong><code>strcmp(username, rightUsername) == 0</code></p>
+              </div>
+            </details>
+          </div>
+        </div>
+
+        <div class="practice">
+          <div class="practice-title">练习 4：strcat 和 strcpy 的区别</div>
+          <div class="question">
+            <pre><code>char a[100] = "abc";
+char b[] = "qwer";
+
+strcat(a, b);</code></pre>
+            <p>执行后 <code>a</code> 的内容是什么？如果换成 <code>strcpy(a, b)</code> 呢？</p>
+          </div>
+          <div class="answer">
+            <details class="answer-toggle">
+              <summary>点击查看答案解析</summary>
+              <div class="answer-content">
+                <p><strong>答案：</strong><code>strcat(a, b)</code> 后，<code>a</code> 是 <code>"abcqwer"</code>；<code>strcpy(a, b)</code> 后，<code>a</code> 是 <code>"qwer"</code>。</p>
+                <p><strong>解析：</strong><code>strcat</code> 是追加，保留原内容；<code>strcpy</code> 是覆盖，原内容会被替换。</p>
+              </div>
+            </details>
+          </div>
+        </div>
+
+        <div class="practice">
+          <div class="practice-title">练习 5：统计字符次数</div>
+          <div class="question">
+            <code>输入：abcdABCD1234aA1</code>
+            <p>大写、小写、数字字符分别出现多少次？</p>
+          </div>
+          <div class="answer">
+            <details class="answer-toggle">
+              <summary>点击查看答案解析</summary>
+              <div class="answer-content">
+                <p><strong>答案：</strong>大写 5 次，小写 5 次，数字 5 次。</p>
+                <p><strong>解析：</strong><code>abcd</code> 是 4 个小写，后面的 <code>a</code> 又加 1；<code>ABCD</code> 是 4 个大写，后面的 <code>A</code> 又加 1；<code>1234</code> 是 4 个数字字符，后面的 <code>1</code> 又加 1。</p>
+              </div>
+            </details>
+          </div>
+        </div>
+      </section>
+      <!-- END: 真题演练中心 -->
+
+      <!-- START: 考场攻略 -->
+      <section class="card" id="exam-strategy">
+        <div class="section-label">Strategy</div>
+        <h2>考场攻略 / 实战策略</h2>
+
+        <div class="grid-2">
+          <div class="mini-card">
+            <h3>看到字符串定义题</h3>
+            <p>先判断是字符数组还是字符指针；再判断是否要修改内容；最后检查有没有给 <code>'\0'</code> 留空间。</p>
+          </div>
+
+          <div class="mini-card">
+            <h3>看到输入题</h3>
+            <p>优先写 <code>char str[容量];</code>，再用 <code>scanf("%限定长度s", str)</code> 接收。</p>
+          </div>
+
+          <div class="mini-card">
+            <h3>看到比较题</h3>
+            <p>字符串内容比较用 <code>strcmp</code>。返回 0 才是相同。</p>
+          </div>
+
+          <div class="mini-card">
+            <h3>看到统计题</h3>
+            <p>马上想到计数器：初始化为 0，满足条件就 <code>++</code>，最后输出。</p>
+          </div>
+        </div>
+
+        <div class="note note-amber">
+          <strong>快速判断步骤：</strong>
+          <ol>
+            <li>这段字符串是否需要被修改？需要就必须用可写字符数组。</li>
+            <li>是否涉及字符串结束？检查 <code>'\0'</code>。</li>
+            <li>是否涉及字符串内容比较？使用 <code>strcmp</code>。</li>
+            <li>是否涉及拼接或复制？检查目标空间是否足够。</li>
+            <li>是否统计字符？遍历字符串并用字符范围判断。</li>
+          </ol>
+        </div>
+      </section>
+      <!-- END: 考场攻略 -->
+
+      <!-- START: 检查清单 -->
+      <section class="card" id="final-checklist">
+        <div class="section-label">Final Checklist</div>
+        <h2>最终检查清单</h2>
+
+        <div class="grid-2">
+          <div class="checklist">
+            <h3>基础概念</h3>
+            <label class="check-item"><input type="checkbox" /> 我知道 C 语言没有原生字符串类型。</label>
+            <label class="check-item"><input type="checkbox" /> 我知道字符串底层是字符数组。</label>
+            <label class="check-item"><input type="checkbox" /> 我知道字符串末尾必须有 <code>'\0'</code>。</label>
+            <label class="check-item"><input type="checkbox" /> 我能区分 <code>'\0'</code> 和 <code>'0'</code>。</label>
+          </div>
+
+          <div class="checklist">
+            <h3>定义与存储</h3>
+            <label class="check-item"><input type="checkbox" /> 我能写出 <code>char str[] = "abc";</code>。</label>
+            <label class="check-item"><input type="checkbox" /> 我知道字符数组内容可以修改。</label>
+            <label class="check-item"><input type="checkbox" /> 我知道 <code>char *p = "abc";</code> 指向字符串常量。</label>
+            <label class="check-item"><input type="checkbox" /> 我不会修改字符串常量。</label>
+          </div>
+
+          <div class="checklist">
+            <h3>输入与遍历</h3>
+            <label class="check-item"><input type="checkbox" /> 我会用字符数组接收输入。</label>
+            <label class="check-item"><input type="checkbox" /> 我知道 <code>scanf</code> 中数组名不加 <code>&amp;</code>。</label>
+            <label class="check-item"><input type="checkbox" /> 我不会用未初始化指针接收输入。</label>
+            <label class="check-item"><input type="checkbox" /> 我会遍历到 <code>'\0'</code>。</label>
+          </div>
+
+          <div class="checklist">
+            <h3>函数与练习</h3>
+            <label class="check-item"><input type="checkbox" /> 我会使用 <code>strlen</code>、<code>strcat</code>、<code>strcpy</code>、<code>strcmp</code>。</label>
+            <label class="check-item"><input type="checkbox" /> 我知道 <code>strcmp</code> 返回 0 表示相同。</label>
+            <label class="check-item"><input type="checkbox" /> 我会写三次登录机会的循环。</label>
+            <label class="check-item"><input type="checkbox" /> 我会统计大写、小写、数字字符次数。</label>
+          </div>
+        </div>
+      </section>
+      <!-- END: 检查清单 -->
+
+    </main>
+
+    <!-- START: 页脚 -->
+    <footer>
+      <p><strong>资料主题：</strong>C语言第 11 章字符串复习系统</p>
+      <p><strong>覆盖范围：</strong>字符串定义、底层存储、键盘录入、遍历、字符串数组、常见函数、登录练习、统计次数练习</p>
+      <p><strong>最后更新时间：</strong>2026-05-06</p>
+    </footer>
+    <!-- END: 页脚 -->
+
+  </div>
+
+  <script>
+    function expandAll() {
+      document.querySelectorAll("details").forEach(function (detail) {
+        detail.open = true;
+      });
+    }
+
+    function collapseAll() {
+      document.querySelectorAll("details").forEach(function (detail) {
+        detail.open = false;
+      });
+    }
+
+    function showAnswers() {
+      document.querySelectorAll("details.answer-toggle").forEach(function (detail) {
+        detail.open = true;
+      });
+    }
+
+    function hideAnswers() {
+      document.querySelectorAll("details.answer-toggle").forEach(function (detail) {
+        detail.open = false;
+      });
+    }
+
+    function toggleFocusMode() {
+      document.body.classList.toggle("focus-mode");
+      var btn = document.getElementById("focusBtn");
+      if (document.body.classList.contains("focus-mode")) {
+        btn.textContent = "显示全部";
+      } else {
+        btn.textContent = "只看重点";
+      }
+    }
+
+    function printPage() {
+      expandAll();
+      showAnswers();
+      setTimeout(function () {
+        window.print();
+      }, 120);
+    }
+  </script>
+</body>
+</html>

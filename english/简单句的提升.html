@@ -1,0 +1,1343 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>考研英语非谓语动词复习系统</title>
+  <style>
+    :root {
+      --bg: #f5f7fb;
+      --bg-soft: linear-gradient(135deg, #f5f7fb 0%, #eef4ff 45%, #f7f4ff 100%);
+      --card: #ffffff;
+      --text: #1f2937;
+      --muted: #6b7280;
+      --border: #e5e7eb;
+      --blue: #2563eb;
+      --blue-bg: #eff6ff;
+      --green: #16a34a;
+      --green-bg: #ecfdf5;
+      --amber: #d97706;
+      --amber-bg: #fffbeb;
+      --purple: #7c3aed;
+      --purple-bg: #f5f3ff;
+      --red: #dc2626;
+      --red-bg: #fef2f2;
+      --gray-bg: #f8fafc;
+      --radius: 18px;
+      --radius-sm: 12px;
+      --shadow: 0 14px 36px rgba(15, 23, 42, 0.08);
+      --shadow-sm: 0 8px 20px rgba(15, 23, 42, 0.06);
+      --max-width: 1080px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Microsoft YaHei", "PingFang SC", Arial, sans-serif;
+      color: var(--text);
+      background: var(--bg-soft);
+      line-height: 1.75;
+      font-size: 16px;
+    }
+
+    a {
+      color: var(--blue);
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    code {
+      display: inline-block;
+      max-width: 100%;
+      padding: 0.14rem 0.38rem;
+      border-radius: 8px;
+      background: #f3f4f6;
+      color: #111827;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+      line-height: 1.7;
+      white-space: normal;
+      word-break: break-word;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      overflow: hidden;
+      border-radius: var(--radius-sm);
+      background: var(--card);
+      margin: 1rem 0;
+      font-size: 0.95rem;
+    }
+
+    th,
+    td {
+      border: 1px solid var(--border);
+      padding: 0.8rem;
+      vertical-align: top;
+      text-align: left;
+    }
+
+    th {
+      background: #f8fafc;
+      color: #334155;
+    }
+
+    .page {
+      width: min(var(--max-width), calc(100% - 32px));
+      margin: 0 auto;
+      padding: 32px 0 56px;
+    }
+
+    .hero {
+      background: rgba(255, 255, 255, 0.82);
+      border: 1px solid rgba(255, 255, 255, 0.8);
+      border-radius: 28px;
+      padding: 42px;
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(12px);
+      margin-bottom: 18px;
+    }
+
+    .hero h1 {
+      margin: 0 0 12px;
+      font-size: clamp(2rem, 5vw, 3.4rem);
+      letter-spacing: -0.06em;
+      line-height: 1.1;
+    }
+
+    .hero p {
+      max-width: 820px;
+      margin: 0.7rem 0;
+      color: var(--muted);
+    }
+
+    .hero-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin: 20px 0 0;
+    }
+
+    .toolbar {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+      margin: 18px 0;
+      padding: 12px;
+      border: 1px solid rgba(229, 231, 235, 0.92);
+      border-radius: 18px;
+      background: rgba(255, 255, 255, 0.88);
+      box-shadow: var(--shadow-sm);
+      backdrop-filter: blur(10px);
+    }
+
+    button {
+      border: 1px solid var(--border);
+      background: #fff;
+      color: #374151;
+      border-radius: 999px;
+      padding: 0.58rem 0.9rem;
+      cursor: pointer;
+      font-weight: 650;
+      transition: 0.18s ease;
+    }
+
+    button:hover {
+      transform: translateY(-1px);
+      border-color: #cbd5e1;
+      box-shadow: 0 8px 16px rgba(15, 23, 42, 0.08);
+    }
+
+    .btn-primary {
+      background: var(--blue);
+      border-color: var(--blue);
+      color: #fff;
+    }
+
+    .nav {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin: 18px 0 24px;
+      padding: 12px;
+      border-radius: 18px;
+      background: rgba(255, 255, 255, 0.66);
+      border: 1px solid rgba(229, 231, 235, 0.9);
+    }
+
+    .nav a {
+      display: inline-flex;
+      align-items: center;
+      padding: 0.48rem 0.76rem;
+      border-radius: 999px;
+      color: #334155;
+      background: #fff;
+      border: 1px solid var(--border);
+      font-size: 0.93rem;
+      font-weight: 650;
+    }
+
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 28px;
+      box-shadow: var(--shadow-sm);
+      margin: 22px 0;
+    }
+
+    .card h2 {
+      margin: 0 0 16px;
+      font-size: 1.65rem;
+      letter-spacing: -0.03em;
+    }
+
+    .card h3 {
+      margin: 1.4rem 0 0.75rem;
+      font-size: 1.18rem;
+    }
+
+    .grid-2,
+    .grid-3 {
+      display: grid;
+      gap: 16px;
+      margin-top: 16px;
+    }
+
+    .grid-2 {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .grid-3 {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .mini-card {
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 18px;
+      background: #fff;
+    }
+
+    .mini-card h3,
+    .mini-card h4 {
+      margin-top: 0;
+      margin-bottom: 0.5rem;
+    }
+
+    .rule {
+      padding: 16px 18px;
+      border-left: 5px solid var(--green);
+      background: var(--green-bg);
+      border-radius: 14px;
+      margin: 16px 0;
+      font-weight: 680;
+    }
+
+    .note,
+    .example,
+    .practice,
+    .checklist {
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border);
+      padding: 16px 18px;
+      margin: 16px 0;
+      background: var(--gray-bg);
+    }
+
+    .example {
+      background: var(--purple-bg);
+      border-color: #ddd6fe;
+    }
+
+    .practice {
+      background: #fff;
+      border-color: #ddd6fe;
+      box-shadow: 0 6px 18px rgba(124, 58, 237, 0.05);
+    }
+
+    .practice-title {
+      font-weight: 800;
+      color: var(--purple);
+      margin-bottom: 8px;
+    }
+
+    .question {
+      margin: 10px 0 12px;
+    }
+
+    .translation {
+      color: #4b5563;
+      background: #f8fafc;
+      padding: 10px 12px;
+      border-radius: 10px;
+    }
+
+    .checklist {
+      background: #fff;
+    }
+
+    .check-item {
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+      padding: 10px 0;
+      border-bottom: 1px dashed var(--border);
+    }
+
+    .check-item:last-child {
+      border-bottom: 0;
+    }
+
+    .check-item::before {
+      content: "✓";
+      display: inline-grid;
+      place-items: center;
+      flex: 0 0 22px;
+      height: 22px;
+      border-radius: 999px;
+      background: var(--green-bg);
+      color: var(--green);
+      font-weight: 900;
+      margin-top: 2px;
+    }
+
+    .note-blue {
+      background: var(--blue-bg);
+      border-color: #bfdbfe;
+    }
+
+    .note-green {
+      background: var(--green-bg);
+      border-color: #bbf7d0;
+    }
+
+    .note-amber {
+      background: var(--amber-bg);
+      border-color: #fde68a;
+    }
+
+    .note-purple {
+      background: var(--purple-bg);
+      border-color: #ddd6fe;
+    }
+
+    .note-red {
+      background: var(--red-bg);
+      border-color: #fecaca;
+    }
+
+    .tag,
+    .tag-green,
+    .tag-amber,
+    .tag-red,
+    .tag-purple,
+    .tag-blue,
+    .tag-gray {
+      display: inline-flex;
+      align-items: center;
+      padding: 0.28rem 0.62rem;
+      border-radius: 999px;
+      font-size: 0.84rem;
+      font-weight: 750;
+      border: 1px solid transparent;
+    }
+
+    .tag-green {
+      color: #166534;
+      background: var(--green-bg);
+      border-color: #bbf7d0;
+    }
+
+    .tag-amber {
+      color: #92400e;
+      background: var(--amber-bg);
+      border-color: #fde68a;
+    }
+
+    .tag-red {
+      color: #991b1b;
+      background: var(--red-bg);
+      border-color: #fecaca;
+    }
+
+    .tag-purple {
+      color: #5b21b6;
+      background: var(--purple-bg);
+      border-color: #ddd6fe;
+    }
+
+    .tag-blue {
+      color: #1d4ed8;
+      background: var(--blue-bg);
+      border-color: #bfdbfe;
+    }
+
+    .tag-gray {
+      color: #475569;
+      background: #f8fafc;
+      border-color: var(--border);
+    }
+
+    details {
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      background: #fff;
+      margin: 14px 0;
+      overflow: hidden;
+    }
+
+    summary {
+      cursor: pointer;
+      list-style: none;
+      padding: 14px 46px 14px 16px;
+      font-weight: 800;
+      position: relative;
+      color: #334155;
+      background: #f8fafc;
+    }
+
+    summary::-webkit-details-marker {
+      display: none;
+    }
+
+    summary::after {
+      content: "展开";
+      position: absolute;
+      right: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--blue);
+      font-size: 0.84rem;
+      font-weight: 800;
+    }
+
+    details[open] > summary::after {
+      content: "收起";
+      color: var(--muted);
+    }
+
+    details > div,
+    .answer-content {
+      padding: 14px 16px 16px;
+    }
+
+    .answer-toggle {
+      border-color: #ddd6fe;
+      background: #fff;
+    }
+
+    .answer-toggle summary {
+      background: var(--purple-bg);
+      color: #5b21b6;
+    }
+
+    .answer-content {
+      border-top: 1px solid #ede9fe;
+      background: #fff;
+    }
+
+    .focus-mode .non-key {
+      display: none !important;
+    }
+
+    .focus-mode .card {
+      border-color: #c7d2fe;
+    }
+
+    .two-step {
+      counter-reset: step;
+      padding-left: 0;
+      list-style: none;
+    }
+
+    .two-step li {
+      counter-increment: step;
+      position: relative;
+      margin: 12px 0;
+      padding: 12px 12px 12px 46px;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      background: #fff;
+    }
+
+    .two-step li::before {
+      content: counter(step);
+      position: absolute;
+      left: 14px;
+      top: 13px;
+      width: 24px;
+      height: 24px;
+      border-radius: 999px;
+      display: grid;
+      place-items: center;
+      background: var(--blue-bg);
+      color: var(--blue);
+      font-weight: 900;
+      font-size: 0.86rem;
+    }
+
+    footer {
+      color: var(--muted);
+      text-align: center;
+      padding: 26px 0 8px;
+      font-size: 0.94rem;
+    }
+
+    @media (max-width: 760px) {
+      .page {
+        width: min(100% - 22px, var(--max-width));
+        padding-top: 16px;
+      }
+
+      .hero {
+        padding: 26px 20px;
+        border-radius: 22px;
+      }
+
+      .card {
+        padding: 20px;
+      }
+
+      .grid-2,
+      .grid-3 {
+        grid-template-columns: 1fr;
+      }
+
+      .toolbar {
+        position: static;
+      }
+
+      button,
+      .nav a {
+        width: 100%;
+        justify-content: center;
+      }
+    }
+
+    @media print {
+      body {
+        background: #fff;
+        color: #111827;
+      }
+
+      .page {
+        width: 100%;
+        padding: 0;
+      }
+
+      .toolbar,
+      .nav {
+        display: none !important;
+      }
+
+      .hero,
+      .card,
+      .mini-card,
+      .practice,
+      .note,
+      .example,
+      details {
+        box-shadow: none !important;
+      }
+
+      .hero,
+      .card {
+        border: 1px solid #d1d5db;
+        break-inside: avoid;
+        page-break-inside: avoid;
+      }
+
+      .practice,
+      .mini-card,
+      details {
+        break-inside: avoid;
+        page-break-inside: avoid;
+      }
+
+      summary::after {
+        display: none;
+      }
+
+      a {
+        color: #111827;
+      }
+    }
+  </style>
+</head>
+
+<body>
+<!-- START: 文档 -->
+  <div class="page">
+    <!-- START: 首页 -->
+    <header class="hero" id="top">
+      <h1>考研英语非谓语动词复习系统</h1>
+      <p>把“非谓语动词作主语、宾语、表语、定语、状语”整合成一套可复习、可自测、可导出 PDF 的单文件学习工具。</p>
+      <p>使用建议：先看总纲建立框架，再按模块掌握规则，最后进入真题演练中心。导出 PDF 前点击“导出 PDF”，系统会自动展开全部内容和答案。</p>
+      <div class="hero-meta">
+        <span class="tag-blue">结构逻辑</span>
+        <span class="tag-green">必考规则</span>
+        <span class="tag-amber">易错提醒</span>
+        <span class="tag-purple">真题演练</span>
+        <span class="tag-red">禁忌辨析</span>
+        <span class="tag-gray">英二基础阶段</span>
+      </div>
+    </header>
+    <!-- END: 首页 -->
+
+    <!-- START: 顶部工具栏 -->
+    <div class="toolbar" aria-label="复习工具栏">
+      <button onclick="expandAll()">全部展开</button>
+      <button onclick="collapseAll()">全部收起</button>
+      <button id="focusBtn" onclick="toggleFocusMode()">只看重点</button>
+      <button onclick="showAnswers()">显示答案</button>
+      <button onclick="hideAnswers()">隐藏答案</button>
+      <button class="btn-primary" onclick="printPage()">导出 PDF</button>
+    </div>
+    <!-- END: 顶部工具栏 -->
+
+    <!-- START: 导航栏 -->
+    <nav class="nav">
+      <a href="#method">总方法论</a>
+      <a href="#concept">基础概念</a>
+      <a href="#core">主宾表</a>
+      <a href="#modifier">定状语</a>
+      <a href="#judge">判断流程</a>
+      <a href="#practice">演练中心</a>
+      <a href="#strategy">考场攻略</a>
+      <a href="#checklist">检查清单</a>
+    </nav>
+    <!-- END: 导航栏 -->
+
+    <main>
+      <!-- START: 总方法论 -->
+      <section class="card" id="method">
+        <h2>总方法论：先找谓语，再处理多余动词</h2>
+        <div class="rule">非谓语动词的核心逻辑：一个简单句中“一主一谓”先搭好，多余的动词不能再做谓语，就降级变成 <code>doing</code>、<code>done</code> 或 <code>to do</code>。</div>
+
+        <p>这套课程最强调的不是背术语，而是看懂句子。非谓语动词仍然是动词，但它不做谓语；它可以像名词一样做主语、宾语、表语，也可以像修饰语一样修饰名词或整个句子。考研长难句中，非谓语动词常常不是一个词，而是一整支“队伍”：后面可能接宾语、形容词、副词、介词短语，形成很长的词组。</p>
+
+        <div class="grid-3">
+          <div class="mini-card">
+            <h3>第一问：要不要变非谓语？</h3>
+            <p>看句子是否已有一组主语和谓语。如果已有谓语，多余动词通常要变成非谓语。</p>
+          </div>
+          <div class="mini-card">
+            <h3>第二问：它做什么？</h3>
+            <p>看它是在谓语前后做主宾表，还是挨着名词修饰名词，或用逗号隔开修饰整句。</p>
+          </div>
+          <div class="mini-card">
+            <h3>第三问：主动、被动还是目的？</h3>
+            <p>修饰谁，就以谁为逻辑主语；主动用 <code>doing</code>，被动用 <code>done</code>，目的用 <code>to do</code>。</p>
+          </div>
+        </div>
+
+        <details class="non-key">
+          <summary>了解即可：术语不用过度纠结</summary>
+          <div>
+            <p>课程中反复提醒：不用纠结 <code>doing</code> 到底叫“动名词”还是“现在分词”，也不用执着于定语、状语的术语名称。真正重要的是它在句中修饰谁、表达什么关系、如何帮助你看懂句子。</p>
+          </div>
+        </details>
+      </section>
+      <!-- END: 总方法论 -->
+
+      <!-- START: 基础概念 -->
+      <section class="card" id="concept">
+        <h2>模块 1：非谓语动词的基础概念</h2>
+        <div class="rule">非谓语动词有三种：<code>doing</code>、<code>done</code>、<code>to do</code>。其中 <code>to do</code> 出现时一定是非谓语；<code>doing</code> 和 <code>done</code> 必须单独出现时才是非谓语。</div>
+
+        <table>
+          <thead>
+            <tr>
+              <th>形式</th>
+              <th>核心含义</th>
+              <th>能否作主宾表</th>
+              <th>能否作定状语</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>doing</code></td>
+              <td>主动；有时含正在进行</td>
+              <td>可以</td>
+              <td>可以</td>
+            </tr>
+            <tr>
+              <td><code>done</code></td>
+              <td>被动；有时含已完成</td>
+              <td><strong>不可以</strong></td>
+              <td>可以</td>
+            </tr>
+            <tr>
+              <td><code>to do</code></td>
+              <td>目的；即将去做</td>
+              <td>可以</td>
+              <td>可以</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="note note-amber">
+          <strong>易错提醒：</strong><code>be doing</code> 是进行时，属于谓语；<code>have/has/had done</code> 是完成时，属于谓语；<code>be done</code> 是被动语态，属于谓语。只有单独出现的 <code>doing</code> 或 <code>done</code>，才可能是非谓语。
+        </div>
+
+        <div class="example">
+          <strong>例：</strong><code>The system may use a digital credential linked to a specific computer.</code><br />
+          <span>这里 <code>linked to a specific computer</code> 是单独出现的过去分词词组，表示“被连接到特定电脑的”，修饰 <code>credential</code>。</span>
+        </div>
+
+        <details>
+          <summary>本模块记忆点</summary>
+          <div>
+            <p><span class="tag-green">必须掌握</span> 非谓语动词不是“不是动词”，而是“还是动词，但不做谓语”。句子里已有谓语时，多余动词要降级。</p>
+            <p><span class="tag-red">不能这样做</span> 看到 <code>doing</code> 或 <code>done</code> 就立刻判定为非谓语。必须看前面有没有 <code>be</code>、<code>have</code>、情态动词等与它构成谓语结构。</p>
+          </div>
+        </details>
+      </section>
+      <!-- END: 基础概念 -->
+
+      <!-- START: 主语宾语表语模块 -->
+      <section class="card" id="core">
+        <h2>模块 2：非谓语动词作主语、宾语、表语</h2>
+        <div class="rule">三种非谓语动词中，只有 <code>doing</code> 和 <code>to do</code> 可以相当于名词使用，作主语、宾语、表语；<code>done</code> 不能作主宾表。</div>
+
+        <div class="grid-2">
+          <div class="mini-card">
+            <h3>作主语</h3>
+            <p>位置通常在谓语动词前。单个 <code>doing</code> 或 <code>to do</code> 表达一件事，谓语动词用单数。</p>
+            <p><code>Monitoring is the first step on the road to reduction.</code></p>
+          </div>
+          <div class="mini-card">
+            <h3>形式主语 it</h3>
+            <p><code>to do</code> 作主语太长时，常挪到句尾，句首用 <code>it</code> 占位。</p>
+            <p><code>It is easy for parents to forget about their own screen use.</code></p>
+          </div>
+          <div class="mini-card">
+            <h3>作宾语</h3>
+            <p>放在及物动词后作动宾，<code>doing</code> 或 <code>to do</code> 由前面的动词决定。</p>
+            <p><code>I stopped weighing myself every day.</code></p>
+          </div>
+          <div class="mini-card">
+            <h3>作表语</h3>
+            <p>放在系动词后。考研中 <code>to do</code> 作表语更常见；<code>doing</code> 作表语了解即可。</p>
+            <p><code>The idea is to create a federation of private online identity systems.</code></p>
+          </div>
+        </div>
+
+        <h3>主语：<code>doing</code> 与 <code>to do</code> 的位置区别</h3>
+        <p><code>doing</code> 和 <code>to do</code> 作主语，意思区别不大，通常可互换。考研真题里，<code>doing</code> 多放句首；<code>to do</code> 可放句首，也常放句尾，由形式主语 <code>it</code> 占位。</p>
+
+        <div class="note note-blue">
+          <strong>写作句型：</strong><code>It is + adj. + for sb. + to do sth.</code> 表示“对某人来说，做某事是……的”。例如：<code>It is important for students to learn English.</code>
+        </div>
+
+        <h3>宾语：动宾与介宾要分清</h3>
+        <table>
+          <thead>
+            <tr>
+              <th>宾语类型</th>
+              <th>位置</th>
+              <th>可用形式</th>
+              <th>例句</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>动宾</td>
+              <td>及物动词后</td>
+              <td><code>doing</code> / <code>to do</code></td>
+              <td><code>want to talk</code>；<code>stop weighing</code></td>
+            </tr>
+            <tr>
+              <td>介宾</td>
+              <td>介词后</td>
+              <td><strong>只能用 <code>doing</code></strong></td>
+              <td><code>a process of making connections</code></td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="note note-red">
+          <strong>严重错误：</strong>介词后不能接 <code>to do</code> 作宾语。介词后通常接名词、代词、<code>doing</code>。
+        </div>
+
+        <h3>形式宾语 it</h3>
+        <p>当 <code>to do</code> 作宾语太长，并且句子是“主谓宾补”结构时，可以把真正宾语后移，用 <code>it</code> 作形式宾语。</p>
+        <div class="example">
+          <code>Today many people find it difficult to trust their own opinions and seek balance by gaining objectivity from external sources.</code>
+          <p><strong>结构：</strong><code>many people</code> 主语；<code>find</code> 谓语；<code>it</code> 形式宾语；<code>difficult</code> 宾补；真正宾语是后面的 <code>to trust... and seek...</code>。</p>
+        </div>
+
+        <h3>A is B：前后形式要统一</h3>
+        <p>如果主语和表语都是非谓语，且句子表达“A 就是 B”的对等关系，前后形式要统一：要么都用 <code>doing</code>，要么都用 <code>to do</code>。</p>
+        <div class="note note-green">
+          <code>Seeing is believing.</code> 可以。<br />
+          <code>To see is to believe.</code> 可以。<br />
+          <code>Seeing is to believe.</code> 在该对等结构中不推荐。
+        </div>
+      </section>
+      <!-- END: 主语宾语表语模块 -->
+
+      <!-- START: 定语状语模块 -->
+      <section class="card" id="modifier">
+        <h2>模块 3：非谓语动词作定语、状语</h2>
+        <div class="rule">非谓语动词作定语、状语时，三种形式都能用：<code>doing</code> 表主动，<code>done</code> 表被动，<code>to do</code> 表目的。</div>
+
+        <div class="grid-3">
+          <div class="mini-card">
+            <h3><code>doing</code>：主动</h3>
+            <p>修饰对象主动发出动作。</p>
+            <p><code>adults doing weekly sport</code></p>
+          </div>
+          <div class="mini-card">
+            <h3><code>done</code>：被动</h3>
+            <p>修饰对象承受动作。</p>
+            <p><code>patents related to genetic tests</code></p>
+          </div>
+          <div class="mini-card">
+            <h3><code>to do</code>：目的</h3>
+            <p>表示目的、用途、将要去做。</p>
+            <p><code>beacons to guide the working man</code></p>
+          </div>
+        </div>
+
+        <h3>作定语：修饰名词</h3>
+        <p>非谓语动词修饰名词时，这个名词就是它的逻辑主语。判断 <code>doing</code>、<code>done</code>、<code>to do</code>，就看非谓语与该名词之间是主动、被动还是目的关系。</p>
+
+        <div class="example">
+          <p><code>This proposed mandate was born of frustration.</code></p>
+          <p><strong>解析：</strong><code>proposed</code> 修饰 <code>mandate</code>，指“被提议的指令”，表示被动，所以用 <code>done</code>。</p>
+        </div>
+
+        <div class="example">
+          <p><code>It is the first worldwide epidemic designated by the World Health Organization in 41 years.</code></p>
+          <p><strong>解析：</strong><code>designated by...</code> 修饰 <code>epidemic</code>，表示“被世卫组织命名的流行病”，是一个较长的过去分词词组。</p>
+        </div>
+
+        <div class="note note-amber">
+          <strong>翻译考点：</strong>英语中修饰名词时，短的非谓语可放名前，长的词组常放名后；但翻译成中文时，通常都往前翻，译成“……的名词”。
+        </div>
+
+        <h3>作状语：修饰整个句子</h3>
+        <p>非谓语词组用逗号与主句隔开时，常修饰整个句子。此时逻辑主语通常看句子主语：句子主语主动做，就用 <code>doing</code>；句子主语被做，就用 <code>done</code>；表示目的就用 <code>to do</code>。</p>
+
+        <div class="example">
+          <p><code>Looking around, I despaired at the singular lack of imagination about girls' lives and interests.</code></p>
+          <p><strong>解析：</strong><code>Looking around</code> 修饰整句，逻辑主语是 <code>I</code>，表示“我主动环顾四周”，所以用 <code>doing</code>。</p>
+        </div>
+
+        <div class="example">
+          <p><code>Viewed in this light, guilt is an opportunity.</code></p>
+          <p><strong>解析：</strong><code>Viewed in this light</code> 修饰整句，逻辑主语是 <code>guilt</code>，表示“内疚被从这个角度看待”，所以用 <code>done</code>。</p>
+        </div>
+
+        <details>
+          <summary>连接词 + 非谓语：强调逻辑关系</summary>
+          <div>
+            <p>非谓语作状语时，可以在前面加 <code>when</code>、<code>while</code>、<code>if</code> 等词，强调时间、条件等逻辑关系。</p>
+            <p><code>While producing large quantities of carbon dioxide, these computers emit a great deal of heat.</code></p>
+            <p><code>When applied to aircraft, the principles are not substantially different.</code></p>
+          </div>
+        </details>
+
+        <h3><code>be done</code> 与 <code>done</code> 的区别</h3>
+        <div class="note note-red">
+          <strong>关键辨析：</strong><code>be done</code> 是被动语态，做谓语；单独的 <code>done</code> 是过去分词，做非谓语。判断标准不是“是否被动”，而是句子是否缺谓语。
+        </div>
+        <table>
+          <thead>
+            <tr>
+              <th>形式</th>
+              <th>成分</th>
+              <th>使用条件</th>
+              <th>例子</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>was designated</code></td>
+              <td>谓语</td>
+              <td>句子缺谓语</td>
+              <td><code>The epidemic was designated...</code></td>
+            </tr>
+            <tr>
+              <td><code>designated</code></td>
+              <td>非谓语</td>
+              <td>句子已有谓语</td>
+              <td><code>the epidemic designated by...</code></td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+      <!-- END: 定语状语模块 -->
+
+      <!-- START: 判断流程 -->
+      <section class="card" id="judge">
+        <h2>模块 4：考场快速判断流程</h2>
+        <div class="rule">遇到长难句，不要先翻译每个词。先找谓语，再定位非谓语词组，最后判断它修饰谁。</div>
+
+        <ol class="two-step">
+          <li><strong>先找谓语动词。</strong>谓语是句子的核心。看到时态、语态、情态、否定，优先判断它是不是谓语。</li>
+          <li><strong>判断多余动词是否变非谓语。</strong>如果一主一谓已经搭好，多余动词通常变为 <code>doing</code>、<code>done</code>、<code>to do</code>。</li>
+          <li><strong>找完整词组。</strong>不要只圈开头。看后面是否接宾语、形容词、副词、介词短语。</li>
+          <li><strong>判断成分。</strong>谓语前后可能是主宾表；挨着名词是定语；逗号隔开多为状语。</li>
+          <li><strong>判断逻辑关系。</strong>修饰名词看名词；修饰整句看句子主语。主动 <code>doing</code>，被动 <code>done</code>，目的 <code>to do</code>。</li>
+        </ol>
+
+        <div class="note note-amber">
+          <strong>ED 结尾高频坑：</strong>以 <code>-ed</code> 结尾的动词可能是过去式谓语，也可能是过去分词非谓语。课程给出的实用结论：意思主动，多为谓语；意思被动，多为非谓语。
+        </div>
+
+        <div class="example">
+          <p><code>Last year, a federal task force urged reform for patents related to genetic tests.</code></p>
+          <p><strong>判断：</strong><code>urged</code> 是“工作小组主动敦促”，所以是谓语；<code>related to genetic tests</code> 是“专利被关联到基因测试”，所以是非谓语词组，修饰 <code>patents</code>。</p>
+        </div>
+      </section>
+      <!-- END: 判断流程 -->
+
+      <!-- START: 真题演练中心 -->
+      <section class="card" id="practice">
+        <h2>真题 / 例句演练中心</h2>
+        <p>题目默认可见，答案解析默认隐藏。建议先自己判断：非谓语词组在哪里？作什么成分？修饰谁？主动、被动还是目的？</p>
+
+        <div class="practice">
+          <div class="practice-title">练习 1：doing 作主语</div>
+          <div class="question"><code>Planning ahead should eliminate waste.</code></div>
+          <div class="answer">
+            <details class="answer-toggle">
+              <summary>点击查看答案解析</summary>
+              <div class="answer-content">
+                <p><strong>答案：</strong><code>Planning ahead</code> 是 <code>doing</code> 词组作主语。</p>
+                <p><strong>解析：</strong>谓语是 <code>should eliminate</code>，谓语前是主语。<code>Planning</code> 后接副词 <code>ahead</code>，构成完整非谓语词组。</p>
+                <p class="translation"><strong>参考翻译：</strong>提前计划应该能消除浪费。</p>
+              </div>
+            </details>
+          </div>
+        </div>
+
+        <div class="practice">
+          <div class="practice-title">练习 2：形式主语 it</div>
+          <div class="question"><code>It is far better to spend money on experiences.</code></div>
+          <div class="answer">
+            <details class="answer-toggle">
+              <summary>点击查看答案解析</summary>
+              <div class="answer-content">
+                <p><strong>答案：</strong><code>it</code> 是形式主语；真正主语是 <code>to spend money on experiences</code>。</p>
+                <p><strong>解析：</strong><code>to spend</code> 后接宾语 <code>money</code>，再接介词短语 <code>on experiences</code>，构成长主语，放在句尾避免头重脚轻。</p>
+                <p class="translation"><strong>参考翻译：</strong>把钱花在体验上要好得多。</p>
+              </div>
+            </details>
+          </div>
+        </div>
+
+        <div class="practice">
+          <div class="practice-title">练习 3：doing 作宾语</div>
+          <div class="question"><code>For these reasons, I stopped weighing myself every day.</code></div>
+          <div class="answer">
+            <details class="answer-toggle">
+              <summary>点击查看答案解析</summary>
+              <div class="answer-content">
+                <p><strong>答案：</strong><code>weighing myself every day</code> 作 <code>stopped</code> 的宾语。</p>
+                <p><strong>解析：</strong><code>stop</code> 后接 <code>doing</code> 表示“停止做某事”。<code>weighing</code> 接宾语 <code>myself</code>，再接时间状语 <code>every day</code>。</p>
+                <p class="translation"><strong>参考翻译：</strong>由于这些原因，我停止了每天称体重。</p>
+              </div>
+            </details>
+          </div>
+        </div>
+
+        <div class="practice">
+          <div class="practice-title">练习 4：to do 作宾语</div>
+          <div class="question"><code>I want to talk with this person.</code></div>
+          <div class="answer">
+            <details class="answer-toggle">
+              <summary>点击查看答案解析</summary>
+              <div class="answer-content">
+                <p><strong>答案：</strong><code>to talk with this person</code> 作 <code>want</code> 的宾语。</p>
+                <p><strong>解析：</strong><code>want to do</code> 是常见搭配。<code>to talk</code> 后接介词短语 <code>with this person</code>，构成完整词组。</p>
+                <p class="translation"><strong>参考翻译：</strong>我想和这个人谈谈。</p>
+              </div>
+            </details>
+          </div>
+        </div>
+
+        <div class="practice">
+          <div class="practice-title">练习 5：一个句子多个 doing</div>
+          <div class="question"><code>Creating positive habits is a huge part of improving our consumers' lives.</code></div>
+          <div class="answer">
+            <details class="answer-toggle">
+              <summary>点击查看答案解析</summary>
+              <div class="answer-content">
+                <p><strong>答案：</strong><code>Creating positive habits</code> 作主语；<code>improving our consumers' lives</code> 作介词 <code>of</code> 的宾语。</p>
+                <p><strong>解析：</strong>谓语是 <code>is</code>。前面的 <code>Creating...</code> 是主语；<code>of</code> 是介词，后面只能接名词、代词或 <code>doing</code>。</p>
+                <p class="translation"><strong>参考翻译：</strong>创造积极习惯是改善消费者生活的重要组成部分。</p>
+              </div>
+            </details>
+          </div>
+        </div>
+
+        <div class="practice">
+          <div class="practice-title">练习 6：A is B 前后统一</div>
+          <div class="question"><code>To read such books today is to marvel at the fact.</code></div>
+          <div class="answer">
+            <details class="answer-toggle">
+              <summary>点击查看答案解析</summary>
+              <div class="answer-content">
+                <p><strong>答案：</strong>主语和表语都用 <code>to do</code>，形式统一。</p>
+                <p><strong>解析：</strong>这是 <code>A is B</code> 对等结构，前后最好保持一致。<code>To read...</code> 作主语，<code>to marvel...</code> 作表语。</p>
+                <p class="translation"><strong>参考翻译：</strong>今天读这些书，就是对这一事实感到惊叹。</p>
+              </div>
+            </details>
+          </div>
+        </div>
+
+        <div class="practice">
+          <div class="practice-title">练习 7：to do 作目的状语</div>
+          <div class="question"><code>I use my bi-monthly weigh-in results to get information about my nutrition as well.</code></div>
+          <div class="answer">
+            <details class="answer-toggle">
+              <summary>点击查看答案解析</summary>
+              <div class="answer-content">
+                <p><strong>答案：</strong><code>to get information about my nutrition as well</code> 作目的状语。</p>
+                <p><strong>主干：</strong><code>I use my bi-monthly weigh-in results</code>。</p>
+                <p><strong>解析：</strong>不是“结果为了获取信息”，而是“我使用结果，目的是获取信息”。所以 <code>to get...</code> 修饰整句。</p>
+                <p class="translation"><strong>参考翻译：</strong>我也利用每月两次的称重结果来获取有关营养的信息。</p>
+              </div>
+            </details>
+          </div>
+        </div>
+
+        <div class="practice">
+          <div class="practice-title">练习 8：doing 作定语</div>
+          <div class="question"><code>The number of adults doing weekly sport did rise by nearly two million.</code></div>
+          <div class="answer">
+            <details class="answer-toggle">
+              <summary>点击查看答案解析</summary>
+              <div class="answer-content">
+                <p><strong>答案：</strong><code>doing weekly sport</code> 修饰 <code>adults</code>，作定语。</p>
+                <p><strong>主干：</strong><code>The number ... did rise</code>。</p>
+                <p><strong>解析：</strong><code>adults</code> 主动做每周运动，所以用 <code>doing</code>。<code>did rise</code> 中 <code>did</code> 表强调。</p>
+                <p class="translation"><strong>参考翻译：</strong>每周运动的成年人数量确实增加了近 200 万。</p>
+              </div>
+            </details>
+          </div>
+        </div>
+
+        <div class="practice">
+          <div class="practice-title">练习 9：ED 结尾辨析</div>
+          <div class="question"><code>Last year, a federal task force urged reform for patents related to genetic tests.</code></div>
+          <div class="answer">
+            <details class="answer-toggle">
+              <summary>点击查看答案解析</summary>
+              <div class="answer-content">
+                <p><strong>答案：</strong><code>urged</code> 是谓语；<code>related to genetic tests</code> 是非谓语词组作定语。</p>
+                <p><strong>解析：</strong>工作小组主动敦促改革，所以 <code>urged</code> 是过去式谓语。专利是“被关联到基因测试”，所以 <code>related</code> 是过去分词非谓语。</p>
+                <p class="translation"><strong>参考翻译：</strong>去年，一个联邦专项小组敦促改革与基因测试有关的专利。</p>
+              </div>
+            </details>
+          </div>
+        </div>
+
+        <div class="practice">
+          <div class="practice-title">练习 10：doing 作状语</div>
+          <div class="question"><code>Often they trade up, leaving riskier smaller firms for larger and more stable firms.</code></div>
+          <div class="answer">
+            <details class="answer-toggle">
+              <summary>点击查看答案解析</summary>
+              <div class="answer-content">
+                <p><strong>答案：</strong><code>leaving riskier smaller firms for larger and more stable firms</code> 作状语。</p>
+                <p><strong>解析：</strong>逗号隔开，修饰整句。逻辑主语是 <code>they</code>，他们主动离开较小、风险较高的公司，所以用 <code>doing</code>。</p>
+                <p class="translation"><strong>参考翻译：</strong>他们常常跳槽高就，离开风险更高的小公司，去更大、更稳定的公司。</p>
+              </div>
+            </details>
+          </div>
+        </div>
+
+        <div class="practice">
+          <div class="practice-title">练习 11：to do 作定语表目的</div>
+          <div class="question"><code>His biographies were held up as beacons to guide the working man through his difficult life.</code></div>
+          <div class="answer">
+            <details class="answer-toggle">
+              <summary>点击查看答案解析</summary>
+              <div class="answer-content">
+                <p><strong>答案：</strong><code>to guide the working man through his difficult life</code> 修饰 <code>beacons</code>。</p>
+                <p><strong>解析：</strong>这些传记被奉为“灯塔”，什么样的灯塔？目的是指引劳动者穿过艰难生活的灯塔。所以 <code>to do</code> 作定语，表目的。</p>
+                <p class="translation"><strong>参考翻译：</strong>他的传记被奉为灯塔，用来指引劳动者走过艰难的人生。</p>
+              </div>
+            </details>
+          </div>
+        </div>
+
+        <div class="practice">
+          <div class="practice-title">练习 12：done 作定语</div>
+          <div class="question"><code>The system may use a smart identity card, a digital credential linked to a specific computer.</code></div>
+          <div class="answer">
+            <details class="answer-toggle">
+              <summary>点击查看答案解析</summary>
+              <div class="answer-content">
+                <p><strong>答案：</strong><code>linked to a specific computer</code> 修饰 <code>credential</code>。</p>
+                <p><strong>解析：</strong>数字证书不是主动连接电脑，而是被连接到特定电脑，所以用过去分词 <code>linked</code>。</p>
+                <p class="translation"><strong>参考翻译：</strong>该系统可能会使用智能身份证，或使用一种与特定电脑相连接的数字证书。</p>
+              </div>
+            </details>
+          </div>
+        </div>
+
+        <div class="practice">
+          <div class="practice-title">练习 13：to do 作状语</div>
+          <div class="question"><code>A new field of computer science is developing to cope with security issues.</code></div>
+          <div class="answer">
+            <details class="answer-toggle">
+              <summary>点击查看答案解析</summary>
+              <div class="answer-content">
+                <p><strong>答案：</strong><code>to cope with security issues</code> 作目的状语，修饰整句。</p>
+                <p><strong>主干：</strong><code>A new field of computer science is developing</code>。</p>
+                <p><strong>解析：</strong>计算机科学的新领域正在发展，目的是什么？为了应对安全问题。</p>
+                <p class="translation"><strong>参考翻译：</strong>计算机科学的一个新领域正在发展，以应对安全问题。</p>
+              </div>
+            </details>
+          </div>
+        </div>
+
+        <div class="practice">
+          <div class="practice-title">练习 14：连接词 + doing</div>
+          <div class="question"><code>While producing large quantities of carbon dioxide, these computers emit a great deal of heat.</code></div>
+          <div class="answer">
+            <details class="answer-toggle">
+              <summary>点击查看答案解析</summary>
+              <div class="answer-content">
+                <p><strong>答案：</strong><code>While producing large quantities of carbon dioxide</code> 作状语。</p>
+                <p><strong>解析：</strong><code>while</code> 强调时间关系。逻辑主语是 <code>these computers</code>，电脑主动产生二氧化碳，所以用 <code>producing</code>。</p>
+                <p class="translation"><strong>参考翻译：</strong>这些电脑在产生大量二氧化碳的同时，也释放出大量热量。</p>
+              </div>
+            </details>
+          </div>
+        </div>
+
+        <div class="practice">
+          <div class="practice-title">练习 15：复杂定语与不规则 done</div>
+          <div class="question"><code>The image is the stereotypical cartoon scene of a man sitting at the breakfast table with a newspaper held up in front of his face.</code></div>
+          <div class="answer">
+            <details class="answer-toggle">
+              <summary>点击查看答案解析</summary>
+              <div class="answer-content">
+                <p><strong>答案：</strong><code>sitting at the breakfast table</code> 修饰 <code>man</code>；<code>held up in front of his face</code> 修饰 <code>newspaper</code>。</p>
+                <p><strong>解析：</strong>人主动坐在早餐桌前，所以用 <code>sitting</code>。报纸是被举在脸前，<code>held</code> 是 <code>hold</code> 的过去分词，表示被动。</p>
+                <p class="translation"><strong>参考翻译：</strong>简而言之，这幅图是一个典型漫画场景：一个男人坐在早餐桌前，脸前举着一张报纸。</p>
+              </div>
+            </details>
+          </div>
+        </div>
+
+        <div class="practice">
+          <div class="practice-title">练习 16：一个句子两个非谓语</div>
+          <div class="question"><code>To deliver results to its users quickly, Google has to maintain vast data centers around the world packed with powerful computers.</code></div>
+          <div class="answer">
+            <details class="answer-toggle">
+              <summary>点击查看答案解析</summary>
+              <div class="answer-content">
+                <p><strong>答案：</strong><code>To deliver results to its users quickly</code> 作目的状语；<code>packed with powerful computers</code> 修饰 <code>data centers</code>。</p>
+                <p><strong>主干：</strong><code>Google has to maintain vast data centers</code>。</p>
+                <p><strong>解析：</strong>前面的 <code>to do</code> 说明目的；后面的 <code>packed with...</code> 表示数据中心“被配备了强大的电脑”，是过去分词词组作定语。</p>
+                <p class="translation"><strong>参考翻译：</strong>为了快速向用户传递结果，谷歌必须在全球维持配备强大电脑的大型数据中心。</p>
+              </div>
+            </details>
+          </div>
+        </div>
+
+        <div class="practice non-key">
+          <div class="practice-title">补充练习：介词后只能接 doing</div>
+          <div class="question"><code>Thinking is essentially a process of making connections in the brain.</code></div>
+          <div class="answer">
+            <details class="answer-toggle">
+              <summary>点击查看答案解析</summary>
+              <div class="answer-content">
+                <p><strong>答案：</strong><code>Thinking</code> 作主语；<code>making connections in the brain</code> 作介词 <code>of</code> 的宾语。</p>
+                <p><strong>解析：</strong><code>of</code> 是介词，后面不能用 <code>to make</code>，只能用 <code>making</code>。</p>
+                <p class="translation"><strong>参考翻译：</strong>思考本质上是在大脑中建立联系的过程。</p>
+              </div>
+            </details>
+          </div>
+        </div>
+      </section>
+      <!-- END: 真题演练中心 -->
+
+      <!-- START: 考场攻略 -->
+      <section class="card" id="strategy">
+        <h2>考场攻略：如何用非谓语动词拿分</h2>
+
+        <details open>
+          <summary>攻略一：必须找到完整非谓语词组</summary>
+          <div>
+            <p>非谓语词组经常从 <code>doing</code>、<code>done</code>、<code>to do</code> 开始，但不会只停在这个词上。要继续向后看：是否接宾语？是否有形容词修饰宾语？是否有副词修饰动作？是否有介词短语补充时间、地点、对象、方式？</p>
+            <div class="example">
+              <code>stressing the uniqueness of the artist's personal experience rather than public glory</code>
+              <p>这是一个完整的 <code>doing</code> 词组，不只是 <code>stressing</code> 一个词。</p>
+            </div>
+          </div>
+        </details>
+
+        <details open>
+          <summary>攻略二：准确判断修饰对象</summary>
+          <div>
+            <p>判断修饰谁，主要看三个信号：位置、逗号、代入法。挨着名词通常修饰名词；逗号隔开通常修饰整句；句尾 <code>to do</code> 不好判断时，把它分别代入前面名词和句子主语，看哪个意思更通。</p>
+            <div class="example">
+              <code>Archaeologists commonly use computers to map sites and the landscapes around sites.</code>
+              <p>不是“电脑的目的是画地图”，而是“考古学家使用电脑的目的是画地图”，所以 <code>to map...</code> 修饰整句。</p>
+            </div>
+          </div>
+        </details>
+
+        <details open>
+          <summary>攻略三：找主宾表，先找谓语</summary>
+          <div>
+            <p>非谓语作主语、宾语、表语时，词组可能很长。最稳的方法是先找谓语动词，以谓语为分界线：谓语前通常是主语，谓语后通常是宾语或表语。</p>
+            <div class="example">
+              <code>Accommodating this new world of people in motion will require new attitudes on both sides of the immigration battle.</code>
+              <p><strong>谓语：</strong><code>will require</code>。谓语前整个 <code>Accommodating...</code> 是主语。</p>
+            </div>
+          </div>
+        </details>
+
+        <details>
+          <summary>攻略四：长难句中“去留”处理</summary>
+          <div>
+            <p>如果非谓语作主语、宾语、表语，它是核心成分，不能随便删；如果作定语、状语，它是扩展成分，句子太长时可以先暂时跳过，先抓主干，再补回修饰信息。</p>
+            <div class="note note-blue">
+              <strong>实战顺序：</strong>先读主干，再读修饰；先读核心，再读扩展；先判断结构，再润色翻译。
+            </div>
+          </div>
+        </details>
+
+        <details>
+          <summary>常见错误集中处理</summary>
+          <div>
+            <div class="checklist">
+              <div class="check-item"><span>把 <code>be doing</code> 当成非谓语。实际上它是进行时谓语。</span></div>
+              <div class="check-item"><span>把所有 <code>-ed</code> 都当成非谓语。要看主动还是被动。</span></div>
+              <div class="check-item"><span>介词后误用 <code>to do</code>。介词后应接 <code>doing</code>。</span></div>
+              <div class="check-item"><span>只圈一个 <code>doing</code>，漏掉后面的宾语和介词短语。</span></div>
+              <div class="check-item"><span>看见逗号就绝对判断修饰整句。逗号是重要信号，但最终仍要服从语义。</span></div>
+            </div>
+          </div>
+        </details>
+      </section>
+      <!-- END: 考场攻略 -->
+
+      <!-- START: 检查清单 -->
+      <section class="card" id="checklist">
+        <h2>最终检查清单</h2>
+        <p>考前或复习最后一遍时，只看这一页即可快速回忆全章。</p>
+
+        <div class="grid-2">
+          <div class="mini-card checklist">
+            <h3>概念与形式</h3>
+            <div class="check-item"><span>非谓语动词还是动词，只是不做谓语。</span></div>
+            <div class="check-item"><span>一主一谓搭好后，多余动词降级为非谓语。</span></div>
+            <div class="check-item"><span>三种形式：<code>doing</code>、<code>done</code>、<code>to do</code>。</span></div>
+            <div class="check-item"><span><code>doing</code> 和 <code>done</code> 单独出现时才可能是非谓语。</span></div>
+          </div>
+
+          <div class="mini-card checklist">
+            <h3>主宾表</h3>
+            <div class="check-item"><span>只有 <code>doing</code> 和 <code>to do</code> 可作主语、宾语、表语。</span></div>
+            <div class="check-item"><span><code>done</code> 不能作主宾表。</span></div>
+            <div class="check-item"><span>介词后只能接 <code>doing</code>，不能接 <code>to do</code>。</span></div>
+            <div class="check-item"><span><code>to do</code> 作主语太长时，用形式主语 <code>it</code>。</span></div>
+          </div>
+
+          <div class="mini-card checklist">
+            <h3>定状语</h3>
+            <div class="check-item"><span>修饰名词是定语；修饰整句或动词是状语。</span></div>
+            <div class="check-item"><span><code>doing</code> 表主动，<code>done</code> 表被动，<code>to do</code> 表目的。</span></div>
+            <div class="check-item"><span>修饰名词时，以该名词为逻辑主语。</span></div>
+            <div class="check-item"><span>修饰整句时，通常以句子主语为逻辑主语。</span></div>
+          </div>
+
+          <div class="mini-card checklist">
+            <h3>长难句实战</h3>
+            <div class="check-item"><span>先找谓语，再找主干。</span></div>
+            <div class="check-item"><span>再找非谓语词组完整范围。</span></div>
+            <div class="check-item"><span>ED 结尾要判断：主动多为谓语，被动多为非谓语。</span></div>
+            <div class="check-item"><span>翻译定语时，中文通常往前翻成“……的名词”。</span></div>
+          </div>
+        </div>
+
+        <div class="note note-green">
+          <strong>一页口诀：</strong>一主一谓先配好，多余动词变非谓；主宾表只用 doing / to do，done 不可当名词；定状语三者都能用，主动 doing，被动 done，目的 to do；看不懂时先抓谓语，再抓完整词组。
+        </div>
+      </section>
+      <!-- END: 检查清单 -->
+    </main>
+
+    <!-- START: 页脚 -->
+    <footer>
+      <p><strong>资料主题：</strong>考研英语二基础阶段——非谓语动词</p>
+      <p><strong>覆盖范围：</strong>非谓语动词作主语、宾语、表语、定语、状语；真题演练；考场攻略；易错辨析。</p>
+      <p><strong>最后更新时间：</strong>2026-05-06 17:47</p>
+      <p class="non-key">完整性检查：已包含 <!-- END: 首页 -->、<!-- END: 总方法论 -->、<!-- END: 基础概念 -->、<!-- END: 主语宾语表语模块 -->、<!-- END: 定语状语模块 -->、<!-- END: 真题演练中心 -->、<!-- END: 考场攻略 -->、<!-- END: 检查清单 -->、footer、script、&lt;/body&gt;、&lt;/html&gt;。</p>
+    </footer>
+    <!-- END: 页脚 -->
+  </div>
+
+  <!-- START: 脚本 -->
+  <script>
+    function expandAll() {
+      document.querySelectorAll("details").forEach(function (detail) {
+        detail.open = true;
+      });
+    }
+
+    function collapseAll() {
+      document.querySelectorAll("details").forEach(function (detail) {
+        detail.open = false;
+      });
+    }
+
+    function showAnswers() {
+      document.querySelectorAll("details.answer-toggle").forEach(function (detail) {
+        detail.open = true;
+      });
+    }
+
+    function hideAnswers() {
+      document.querySelectorAll("details.answer-toggle").forEach(function (detail) {
+        detail.open = false;
+      });
+    }
+
+    function toggleFocusMode() {
+      document.body.classList.toggle("focus-mode");
+      var btn = document.getElementById("focusBtn");
+      if (document.body.classList.contains("focus-mode")) {
+        btn.textContent = "显示全部";
+      } else {
+        btn.textContent = "只看重点";
+      }
+    }
+
+    function printPage() {
+      expandAll();
+      showAnswers();
+      setTimeout(function () {
+        window.print();
+      }, 120);
+    }
+  </script>
+  <!-- END: 脚本 -->
+<!-- END: 文档 -->
+</body>
+</html>
