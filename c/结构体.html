@@ -1,0 +1,1578 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>C语言结构体复习系统</title>
+  <style>
+    :root {
+      --bg: #f4f7fb;
+      --bg-gradient: linear-gradient(135deg, #f4f7fb 0%, #eef4f8 45%, #f7f5fb 100%);
+      --card: #ffffff;
+      --text: #1f2937;
+      --muted: #667085;
+      --border: #e5e7eb;
+
+      --blue: #2563eb;
+      --blue-bg: #eff6ff;
+      --green: #16a34a;
+      --green-bg: #ecfdf3;
+      --amber: #d97706;
+      --amber-bg: #fffbeb;
+      --purple: #7c3aed;
+      --purple-bg: #f5f3ff;
+      --red: #dc2626;
+      --red-bg: #fef2f2;
+      --gray-bg: #f8fafc;
+
+      --radius: 18px;
+      --radius-sm: 12px;
+      --shadow: 0 12px 30px rgba(15, 23, 42, 0.08);
+      --shadow-sm: 0 6px 16px rgba(15, 23, 42, 0.06);
+      --max-width: 1080px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Microsoft YaHei", Arial, sans-serif;
+      background: var(--bg-gradient);
+      color: var(--text);
+      line-height: 1.75;
+      font-size: 16px;
+    }
+
+    a {
+      color: var(--blue);
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    code {
+      padding: 0.12em 0.35em;
+      border-radius: 7px;
+      background: #f1f5f9;
+      color: #0f172a;
+      font-family: Consolas, Menlo, Monaco, "Courier New", monospace;
+      font-size: 0.92em;
+    }
+
+    pre {
+      margin: 14px 0 0;
+      padding: 16px;
+      overflow-x: auto;
+      border-radius: 14px;
+      background: #0f172a;
+      color: #e5e7eb;
+      font-size: 14px;
+      line-height: 1.65;
+    }
+
+    pre code {
+      padding: 0;
+      background: transparent;
+      color: inherit;
+      font-size: inherit;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 14px 0;
+      overflow: hidden;
+      border-radius: 12px;
+      font-size: 14px;
+    }
+
+    th, td {
+      border: 1px solid var(--border);
+      padding: 10px 12px;
+      text-align: left;
+      vertical-align: top;
+    }
+
+    th {
+      background: #f8fafc;
+      color: #111827;
+      font-weight: 700;
+    }
+
+    .page {
+      max-width: var(--max-width);
+      margin: 0 auto;
+      padding: 28px 20px 56px;
+    }
+
+    .hero {
+      padding: 36px;
+      border: 1px solid rgba(226, 232, 240, 0.9);
+      border-radius: 28px;
+      background: rgba(255, 255, 255, 0.86);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(10px);
+    }
+
+    .hero h1 {
+      margin: 0 0 10px;
+      font-size: clamp(30px, 5vw, 48px);
+      line-height: 1.15;
+      letter-spacing: -0.04em;
+    }
+
+    .hero p {
+      max-width: 820px;
+      margin: 10px 0 0;
+      color: var(--muted);
+    }
+
+    .tag-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 20px;
+    }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      padding: 6px 10px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: #fff;
+      color: #344054;
+      font-size: 13px;
+      font-weight: 600;
+    }
+
+    .tag-blue {
+      color: var(--blue);
+      background: var(--blue-bg);
+      border-color: #bfdbfe;
+    }
+
+    .tag-green {
+      color: var(--green);
+      background: var(--green-bg);
+      border-color: #bbf7d0;
+    }
+
+    .tag-amber {
+      color: var(--amber);
+      background: var(--amber-bg);
+      border-color: #fde68a;
+    }
+
+    .tag-red {
+      color: var(--red);
+      background: var(--red-bg);
+      border-color: #fecaca;
+    }
+
+    .tag-purple {
+      color: var(--purple);
+      background: var(--purple-bg);
+      border-color: #ddd6fe;
+    }
+
+    .toolbar {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin: 18px 0;
+      padding: 14px;
+      border: 1px solid rgba(226, 232, 240, 0.9);
+      border-radius: 18px;
+      background: rgba(255, 255, 255, 0.92);
+      box-shadow: var(--shadow-sm);
+      backdrop-filter: blur(10px);
+    }
+
+    button {
+      border: 0;
+      border-radius: 999px;
+      padding: 9px 14px;
+      background: #eef2ff;
+      color: #3730a3;
+      font-weight: 700;
+      cursor: pointer;
+      transition: transform 0.15s ease, background 0.15s ease;
+    }
+
+    button:hover {
+      transform: translateY(-1px);
+      background: #e0e7ff;
+    }
+
+    button.primary {
+      background: var(--blue);
+      color: #fff;
+    }
+
+    button.primary:hover {
+      background: #1d4ed8;
+    }
+
+    .nav {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin: 0 0 18px;
+      padding: 14px;
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      background: rgba(255, 255, 255, 0.76);
+    }
+
+    .nav a {
+      padding: 7px 10px;
+      border-radius: 999px;
+      color: #475467;
+      background: #f8fafc;
+      font-size: 14px;
+      font-weight: 650;
+    }
+
+    .nav a:hover {
+      color: var(--blue);
+      background: var(--blue-bg);
+      text-decoration: none;
+    }
+
+    main {
+      display: grid;
+      gap: 18px;
+    }
+
+    .card {
+      padding: 24px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: var(--card);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .card h2 {
+      margin: 0 0 14px;
+      font-size: 26px;
+      line-height: 1.25;
+      letter-spacing: -0.02em;
+    }
+
+    .card h3 {
+      margin: 20px 0 10px;
+      font-size: 20px;
+    }
+
+    .card p {
+      margin: 10px 0;
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .mini-card {
+      padding: 16px;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      background: #fff;
+    }
+
+    .mini-card h3,
+    .mini-card h4 {
+      margin: 0 0 8px;
+    }
+
+    .rule,
+    .note,
+    .example,
+    .practice,
+    .checklist {
+      margin: 14px 0;
+      padding: 16px;
+      border-radius: 16px;
+      border: 1px solid var(--border);
+      background: var(--gray-bg);
+    }
+
+    .rule {
+      border-left: 5px solid var(--green);
+      background: var(--green-bg);
+      font-weight: 700;
+    }
+
+    .note-blue {
+      border-left: 5px solid var(--blue);
+      background: var(--blue-bg);
+    }
+
+    .note-green {
+      border-left: 5px solid var(--green);
+      background: var(--green-bg);
+    }
+
+    .note-amber {
+      border-left: 5px solid var(--amber);
+      background: var(--amber-bg);
+    }
+
+    .note-purple {
+      border-left: 5px solid var(--purple);
+      background: var(--purple-bg);
+    }
+
+    .note-red {
+      border-left: 5px solid var(--red);
+      background: var(--red-bg);
+    }
+
+    .example {
+      border-left: 5px solid var(--blue);
+      background: #f8fbff;
+    }
+
+    .practice {
+      border-left: 5px solid var(--purple);
+      background: var(--purple-bg);
+    }
+
+    .practice-title {
+      margin-bottom: 8px;
+      color: var(--purple);
+      font-weight: 800;
+    }
+
+    .question {
+      padding: 12px;
+      border-radius: 12px;
+      background: #fff;
+      border: 1px solid #e9d5ff;
+    }
+
+    .answer {
+      margin-top: 12px;
+    }
+
+    .answer-content {
+      margin-top: 10px;
+      padding: 14px;
+      border-radius: 12px;
+      border: 1px solid #ddd6fe;
+      background: #fff;
+    }
+
+    .translation {
+      color: var(--muted);
+    }
+
+    .checklist {
+      background: #fff;
+    }
+
+    .check-item {
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+      padding: 10px 0;
+      border-bottom: 1px dashed var(--border);
+    }
+
+    .check-item:last-child {
+      border-bottom: 0;
+    }
+
+    .check-item::before {
+      content: "✓";
+      flex: 0 0 auto;
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      background: var(--green-bg);
+      color: var(--green);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 900;
+      margin-top: 2px;
+    }
+
+    details {
+      margin: 12px 0;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      background: #fff;
+      overflow: hidden;
+    }
+
+    summary {
+      position: relative;
+      list-style: none;
+      cursor: pointer;
+      padding: 13px 46px 13px 14px;
+      font-weight: 800;
+      color: #243047;
+      background: #f8fafc;
+    }
+
+    summary::-webkit-details-marker {
+      display: none;
+    }
+
+    summary::after {
+      content: "展开";
+      position: absolute;
+      right: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      padding: 3px 8px;
+      border-radius: 999px;
+      background: #eef2ff;
+      color: #4338ca;
+      font-size: 12px;
+    }
+
+    details[open] > summary::after {
+      content: "收起";
+      background: #e0f2fe;
+      color: #0369a1;
+    }
+
+    details > div {
+      padding: 14px;
+    }
+
+    .answer-toggle summary {
+      background: #faf5ff;
+      color: var(--purple);
+    }
+
+    .muted {
+      color: var(--muted);
+    }
+
+    .danger {
+      color: var(--red);
+      font-weight: 800;
+    }
+
+    .non-key {
+      transition: opacity 0.2s ease;
+    }
+
+    body.focus-mode .non-key {
+      display: none !important;
+    }
+
+    body.focus-mode .toolbar button#focusBtn {
+      background: var(--green);
+      color: #fff;
+    }
+
+    footer {
+      margin-top: 22px;
+      padding: 24px;
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      background: rgba(255, 255, 255, 0.82);
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    @media (max-width: 760px) {
+      .page {
+        padding: 18px 12px 42px;
+      }
+
+      .hero {
+        padding: 24px;
+        border-radius: 22px;
+      }
+
+      .toolbar {
+        position: static;
+      }
+
+      .grid-2,
+      .grid-3 {
+        grid-template-columns: 1fr;
+      }
+
+      .card {
+        padding: 18px;
+      }
+    }
+
+    @media print {
+      body {
+        background: #fff;
+        color: #000;
+      }
+
+      .page {
+        max-width: none;
+        padding: 0;
+      }
+
+      .toolbar,
+      .nav {
+        display: none !important;
+      }
+
+      .hero,
+      .card,
+      footer,
+      .mini-card,
+      .rule,
+      .note,
+      .example,
+      .practice,
+      .checklist {
+        box-shadow: none !important;
+        background: #fff !important;
+      }
+
+      .card,
+      .mini-card,
+      .practice,
+      .rule,
+      .note,
+      .example,
+      .checklist,
+      details {
+        break-inside: avoid;
+        page-break-inside: avoid;
+      }
+
+      summary::after {
+        display: none;
+      }
+
+      a {
+        color: #000;
+        text-decoration: none;
+      }
+
+      pre {
+        white-space: pre-wrap;
+        background: #f5f5f5;
+        color: #000;
+        border: 1px solid #ddd;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+
+    <!-- START: 首页 -->
+    <header class="hero" id="top">
+      <h1>C语言结构体复习系统</h1>
+      <p>
+        这是一份把“结构体定义、结构体数组、typedef 起别名、结构体作为函数参数、结构体嵌套、投票选举综合练习、内存对齐”整合在一起的复习工具。
+        学习时建议先看总纲，再逐个展开模块，最后用演练中心自测。
+      </p>
+      <div class="tag-row">
+        <span class="tag tag-blue">结构体总纲</span>
+        <span class="tag tag-green">必须掌握规则</span>
+        <span class="tag tag-purple">案例演练</span>
+        <span class="tag tag-amber">易错提醒</span>
+        <span class="tag tag-red">严重错误</span>
+      </div>
+    </header>
+    <!-- END: 首页 -->
+
+    <!-- START: 顶部工具栏 -->
+    <div class="toolbar" aria-label="复习工具栏">
+      <button onclick="expandAll()">全部展开</button>
+      <button onclick="collapseAll()">全部收起</button>
+      <button id="focusBtn" onclick="toggleFocusMode()">只看重点 / 显示全部</button>
+      <button onclick="showAnswers()">显示答案</button>
+      <button onclick="hideAnswers()">隐藏答案</button>
+      <button class="primary" onclick="printPage()">导出 PDF</button>
+    </div>
+    <!-- END: 顶部工具栏 -->
+
+    <!-- START: 导航栏 -->
+    <nav class="nav" aria-label="页面导航">
+      <a href="#overview">总方法论</a>
+      <a href="#struct-basic">结构体基础</a>
+      <a href="#struct-array">结构体数组</a>
+      <a href="#typedef">typedef 起别名</a>
+      <a href="#function-param">函数参数传递</a>
+      <a href="#nested">结构体嵌套</a>
+      <a href="#vote">投票选举案例</a>
+      <a href="#align">内存对齐</a>
+      <a href="#practice-center">演练中心</a>
+      <a href="#exam-strategy">实战策略</a>
+      <a href="#checklist">最终清单</a>
+    </nav>
+    <!-- END: 导航栏 -->
+
+    <main>
+
+      <!-- START: 总方法论 -->
+      <section class="card" id="overview">
+        <h2>总方法论：结构体到底在学什么？</h2>
+        <div class="rule">
+          结构体的核心思想：把“属于同一个对象的多种数据”组合成一个整体，再用变量、数组、函数、指针去管理它。
+        </div>
+
+        <div class="grid-3">
+          <div class="mini-card">
+            <h3>1. 建类型</h3>
+            <p>用 <code>struct</code> 自定义一种新类型，例如学生、景点、联系方式、游戏人物。</p>
+          </div>
+          <div class="mini-card">
+            <h3>2. 建变量 / 数组</h3>
+            <p>一个结构体变量表示一个对象；结构体数组表示多个同类对象。</p>
+          </div>
+          <div class="mini-card">
+            <h3>3. 访问和修改</h3>
+            <p>普通结构体用 <code>.</code>，结构体指针推荐用 <code>-&gt;</code>。</p>
+          </div>
+        </div>
+
+        <div class="note note-blue">
+          <strong>学习顺序：</strong>先理解“结构体是自定义类型”，再掌握“数组批量管理对象”，之后学习“函数传值和传地址”，最后理解“嵌套与内存对齐”。
+        </div>
+
+        <div class="note note-amber non-key">
+          <strong>了解即可：</strong>不同系统、编译器、编译选项可能影响结构体内存对齐细节。当前资料主要按常见 Windows 64 位环境讲解：<code>char</code> 1 字节，<code>int</code> 4 字节，<code>double</code> 8 字节。
+        </div>
+      </section>
+      <!-- END: 总方法论 -->
+
+      <!-- START: 模块 1 结构体基础 -->
+      <section class="card" id="struct-basic">
+        <h2>模块 1：结构体基础</h2>
+        <div class="rule">
+          当一个对象需要多个不同类型的数据共同描述时，就应该考虑使用结构体。
+        </div>
+
+        <p>
+          例如一个学生可能有姓名、年龄、性别、身高。用普通变量可以写，但如果有很多学生，变量会迅速变得混乱。
+          结构体可以把这些信息组合成一个新的自定义类型。
+        </p>
+
+        <pre><code>struct Student
+{
+    char name[100];
+    int age;
+    char gender;
+    double height;
+};</code></pre>
+
+        <details>
+          <summary>结构体定义位置</summary>
+          <div>
+            <p>结构体可以定义在函数里面，也可以定义在函数外面。</p>
+            <table>
+              <tr>
+                <th>位置</th>
+                <th>特点</th>
+              </tr>
+              <tr>
+                <td>函数里面</td>
+                <td>局部定义，只能在当前函数中使用。</td>
+              </tr>
+              <tr>
+                <td>函数外面</td>
+                <td>全局定义，多个函数都可以使用，实际学习和开发中更常见。</td>
+              </tr>
+            </table>
+          </div>
+        </details>
+
+        <details>
+          <summary>结构体变量创建与成员访问</summary>
+          <div>
+            <p>未起别名时，创建变量要写完整类型：</p>
+            <pre><code>struct Student stu;</code></pre>
+            <p>访问成员使用点号：</p>
+            <pre><code>stu.age = 18;
+stu.gender = 'M';
+stu.height = 1.75;</code></pre>
+          </div>
+        </details>
+
+        <div class="note note-red">
+          <strong>严重易错：</strong>字符数组不能在定义后直接用等号整体赋值。
+          <pre><code>stu.name = "张三";  // 错误</code></pre>
+          应该使用 <code>strcpy</code>：
+          <pre><code>#include &lt;string.h&gt;
+
+strcpy(stu.name, "张三");</code></pre>
+        </div>
+
+        <div class="example">
+          <strong>基础完整代码：</strong>
+          <pre><code>#include &lt;stdio.h&gt;
+#include &lt;string.h&gt;
+
+struct Student
+{
+    char name[100];
+    int age;
+    char gender;
+    double height;
+};
+
+int main()
+{
+    struct Student stu;
+
+    strcpy(stu.name, "张三");
+    stu.age = 18;
+    stu.gender = 'M';
+    stu.height = 1.75;
+
+    printf("姓名：%s\n", stu.name);
+    printf("年龄：%d\n", stu.age);
+    printf("性别：%c\n", stu.gender);
+    printf("身高：%.2f\n", stu.height);
+
+    return 0;
+}</code></pre>
+        </div>
+
+        <div class="note note-green">
+          <strong>本模块记忆点：</strong>结构体是自定义数据类型；成员可以是不同类型；创建变量时未起别名要写 <code>struct 结构体名 变量名</code>；访问成员用点号。
+        </div>
+      </section>
+      <!-- END: 模块 1 结构体基础 -->
+
+      <!-- START: 模块 2 结构体数组 -->
+      <section class="card" id="struct-array">
+        <h2>模块 2：结构体数组</h2>
+        <div class="rule">
+          如果一个结构体变量表示一个对象，那么结构体数组就表示多个同类对象。
+        </div>
+
+        <p>
+          例如一个学生结构体可以表示一个学生。如果有三个学生，就可以用结构体数组统一管理，而不是写很多零散变量。
+        </p>
+
+        <pre><code>struct Student
+{
+    char name[100];
+    int age;
+};
+
+struct Student stuArr[3] = {
+    {"张三", 23},
+    {"李四", 24},
+    {"王五", 25}
+};</code></pre>
+
+        <details>
+          <summary>结构体数组如何遍历？</summary>
+          <div>
+            <p><code>stuArr[i]</code> 表示当前遍历到的学生，访问其成员仍然用点号。</p>
+            <pre><code>for (int i = 0; i &lt; 3; i++)
+{
+    printf("姓名：%s，年龄：%d\n", stuArr[i].name, stuArr[i].age);
+}</code></pre>
+          </div>
+        </details>
+
+        <div class="note note-amber">
+          <strong>易错提醒：</strong>不能写 <code>stuArr.name</code>。因为 <code>stuArr</code> 是数组，不是某一个学生。必须先通过下标取出具体元素：<code>stuArr[i].name</code>。
+        </div>
+
+        <div class="note note-green">
+          <strong>本模块记忆点：</strong>结构体数组的格式是 <code>struct 结构体名 数组名[长度]</code>；数组元素是结构体；访问成员要先取下标，再点成员。
+        </div>
+      </section>
+      <!-- END: 模块 2 结构体数组 -->
+
+      <!-- START: 模块 3 typedef 起别名 -->
+      <section class="card" id="typedef">
+        <h2>模块 3：typedef 起别名</h2>
+        <div class="rule">
+          <code>typedef</code> 的作用是给已有类型起一个新名字，让结构体用起来更简洁。
+        </div>
+
+        <p>
+          未起别名时，每次定义结构体变量都要写 <code>struct Student</code>。如果结构体名字很长，代码会显得啰嗦。
+          使用 <code>typedef</code> 后，可以像使用普通类型一样使用结构体。
+        </p>
+
+        <pre><code>typedef struct Student
+{
+    char name[100];
+    int age;
+} Student;
+
+Student stu = {"张三", 23};</code></pre>
+
+        <details>
+          <summary>正式名字可以省略吗？</summary>
+          <div>
+            <p>可以。下面这种写法只保留别名，也能正常创建变量：</p>
+            <pre><code>typedef struct
+{
+    char name[100];
+    int age;
+} Student;</code></pre>
+            <p class="muted">初学时建议保留正式名字，便于理解：<code>struct Student</code> 是原名，最后的 <code>Student</code> 是别名。</p>
+          </div>
+        </details>
+
+        <div class="example">
+          <strong>游戏人物示例：</strong>
+          <pre><code>#include &lt;stdio.h&gt;
+
+typedef struct GameRole
+{
+    char name[100];
+    int attack;
+    int defense;
+    int blood;
+} GameRole;
+
+int main()
+{
+    GameRole arr[3] = {
+        {"泰罗", 100, 90, 500},
+        {"雷欧", 90, 80, 450},
+        {"艾迪", 120, 70, 600}
+    };
+
+    for (int i = 0; i &lt; 3; i++)
+    {
+        printf("名字：%s，攻击力：%d，防御力：%d，血量：%d\n",
+               arr[i].name, arr[i].attack, arr[i].defense, arr[i].blood);
+    }
+
+    return 0;
+}</code></pre>
+        </div>
+
+        <div class="note note-amber">
+          <strong>易错提醒：</strong>别名可以起得很短，例如 <code>S</code>、<code>M</code>，但更推荐 <code>Student</code>、<code>GameRole</code> 这种见名知意的名字。
+        </div>
+
+        <div class="note note-green">
+          <strong>本模块记忆点：</strong><code>typedef struct 原结构体名 { 成员列表; } 别名;</code>。起别名后，创建变量可以直接写 <code>别名 变量名</code>。
+        </div>
+      </section>
+      <!-- END: 模块 3 typedef 起别名 -->
+
+      <!-- START: 模块 4 结构体作为函数参数 -->
+      <section class="card" id="function-param">
+        <h2>模块 4：结构体作为函数参数</h2>
+        <div class="rule">
+          结构体作为函数参数有两种传法：传值改副本，传地址改原数据。
+        </div>
+
+        <div class="grid-2">
+          <div class="mini-card">
+            <h3>传值</h3>
+            <pre><code>method(stu);</code></pre>
+            <p>函数接收到的是一份复制品。函数里修改，不影响 <code>main</code> 中的原变量。</p>
+          </div>
+          <div class="mini-card">
+            <h3>传地址</h3>
+            <pre><code>method2(&amp;stu);</code></pre>
+            <p>函数接收到的是原变量地址。通过指针修改，会影响 <code>main</code> 中的原变量。</p>
+          </div>
+        </div>
+
+        <details>
+          <summary>为什么传值修改失败？</summary>
+          <div>
+            <p>当函数形参写成 <code>S st</code> 时，<code>st</code> 是新变量，相当于把 <code>stu</code> 的数据复制给它。</p>
+            <pre><code>void method(S st)
+{
+    strcpy(st.name, "张三");
+    st.age = 23;
+}</code></pre>
+            <p>这里修改的是 <code>st</code>，不是 <code>main</code> 中的 <code>stu</code>。</p>
+          </div>
+        </details>
+
+        <details>
+          <summary>如何通过地址修改原结构体？</summary>
+          <div>
+            <p>函数参数写成结构体指针：</p>
+            <pre><code>void method2(S *p)
+{
+    scanf("%s", p-&gt;name);
+    scanf("%d", &amp;(p-&gt;age));
+}</code></pre>
+            <p><code>p-&gt;name</code> 等价于 <code>(*p).name</code>，更简洁。</p>
+          </div>
+        </details>
+
+        <div class="note note-blue">
+          <strong>scanf 细节：</strong>输入字符串数组不用加 <code>&amp;</code>，因为数组名通常会退化为首元素地址；输入普通 <code>int</code> 要加 <code>&amp;</code>。
+          <pre><code>scanf("%s", p-&gt;name);
+scanf("%d", &amp;(p-&gt;age));</code></pre>
+        </div>
+
+        <div class="note note-amber">
+          <strong>声明位置：</strong>如果函数声明用到了结构体别名，函数声明必须写在结构体定义之后，否则编译器还不知道这个类型是什么。
+        </div>
+
+        <div class="example">
+          <strong>完整对比代码：</strong>
+          <pre><code>#include &lt;stdio.h&gt;
+#include &lt;string.h&gt;
+
+typedef struct Student
+{
+    char name[100];
+    int age;
+} S;
+
+void method(S st);
+void method2(S *p);
+
+int main()
+{
+    S stu;
+    strcpy(stu.name, "aaa");
+    stu.age = 0;
+
+    method(stu);
+    printf("传值后：%s，%d\n", stu.name, stu.age);
+
+    method2(&amp;stu);
+    printf("传地址后：%s，%d\n", stu.name, stu.age);
+
+    return 0;
+}
+
+void method(S st)
+{
+    strcpy(st.name, "张三");
+    st.age = 23;
+}
+
+void method2(S *p)
+{
+    strcpy(p-&gt;name, "李四");
+    p-&gt;age = 24;
+}</code></pre>
+        </div>
+
+        <div class="note note-green">
+          <strong>本模块记忆点：</strong>想让函数修改原结构体，就传地址；结构体指针访问成员推荐使用 <code>-&gt;</code>。
+        </div>
+      </section>
+      <!-- END: 模块 4 结构体作为函数参数 -->
+
+      <!-- START: 模块 5 结构体嵌套 -->
+      <section class="card" id="nested">
+        <h2>模块 5：结构体嵌套</h2>
+        <div class="rule">
+          如果结构体的某个成员本身也是复杂对象，就可以让这个成员成为另一个结构体。
+        </div>
+
+        <p>
+          例如学生有姓名、年龄、性别、身高，这些是普通成员；但“联系方式”本身又包含手机号和邮箱，所以可以单独定义为结构体。
+        </p>
+
+        <pre><code>struct Message
+{
+    char phone[12];
+    char mail[100];
+};
+
+struct Student
+{
+    char name[100];
+    int age;
+    char gender;
+    double height;
+    struct Message msg;
+};</code></pre>
+
+        <div class="note note-blue">
+          <strong>定义顺序：</strong><code>Student</code> 里面用到了 <code>Message</code>，所以必须先定义 <code>Message</code>，再定义 <code>Student</code>。
+        </div>
+
+        <details>
+          <summary>嵌套成员如何赋值？</summary>
+          <div>
+            <p>访问嵌套成员要一层一层点下去：</p>
+            <pre><code>strcpy(stu.msg.phone, "13112345678");
+strcpy(stu.msg.mail, "12345678@qq.com");</code></pre>
+            <p><code>stu.msg.phone</code> 的含义是：学生 <code>stu</code> 的联系方式 <code>msg</code> 里的手机号 <code>phone</code>。</p>
+          </div>
+        </details>
+
+        <details>
+          <summary>嵌套结构体如何批量初始化？</summary>
+          <div>
+            <p>结构体嵌套了，大括号也最好嵌套。</p>
+            <pre><code>struct Student stu = {
+    "李四",
+    24,
+    'F',
+    1.65,
+    {"13112347890", "5678@qq.com"}
+};</code></pre>
+            <p>外层大括号对应 <code>Student</code>，内层大括号对应 <code>Message</code>。</p>
+          </div>
+        </details>
+
+        <div class="note note-amber">
+          <strong>易错提醒：</strong>不要写 <code>stu.phone</code>。手机号不是直接属于学生，而是属于学生里面的联系方式：<code>stu.msg.phone</code>。
+        </div>
+
+        <div class="note note-green">
+          <strong>本模块记忆点：</strong>谁被嵌套，谁先定义；访问嵌套成员连续点；嵌套初始化时大括号也嵌套。
+        </div>
+      </section>
+      <!-- END: 模块 5 结构体嵌套 -->
+
+      <!-- START: 模块 6 综合练习 投票选举 -->
+      <section class="card" id="vote">
+        <h2>模块 6：综合练习——投票选举</h2>
+        <div class="rule">
+          用结构体数组管理多个景点，用随机数模拟 80 名学生投票，再找出票数最多的景点。
+        </div>
+
+        <p>
+          题目要求：班级从 A、B、C、D 四个景点中选择一个，80 名学生投票，随机数模拟投票。
+          如果多个景点票数相同，优先级为 <code>A &gt; B &gt; C &gt; D</code>。
+        </p>
+
+        <div class="grid-2">
+          <div class="mini-card">
+            <h3>景点结构体</h3>
+            <pre><code>struct Spot
+{
+    char name[100];
+    int count;
+};</code></pre>
+          </div>
+          <div class="mini-card">
+            <h3>景点数组</h3>
+            <pre><code>struct Spot arr[4] = {
+    {"A", 0},
+    {"B", 0},
+    {"C", 0},
+    {"D", 0}
+};</code></pre>
+          </div>
+        </div>
+
+        <details>
+          <summary>choose 为什么有两层含义？</summary>
+          <div>
+            <p><code>rand() % 4</code> 得到 <code>0、1、2、3</code>。它既表示投票结果，也刚好表示数组下标。</p>
+            <pre><code>int choose = rand() % 4;
+arr[choose].count++;</code></pre>
+            <p>如果 <code>choose == 2</code>，表示投给 C，同时 <code>arr[2]</code> 也是 C 景点，所以给 C 加一票。</p>
+          </div>
+        </details>
+
+        <details>
+          <summary>并列时如何处理优先级？</summary>
+          <div>
+            <p>先找到最大票数 <code>max</code>，再从数组开头找第一个票数等于 <code>max</code> 的景点。</p>
+            <pre><code>for (int i = 0; i &lt; 4; i++)
+{
+    if (arr[i].count == max)
+    {
+        printf("投票最多的景点为：%s\n", arr[i].name);
+        break;
+    }
+}</code></pre>
+            <p>数组顺序是 A、B、C、D，从前往后找，第一个最大值自然就是优先级最高的。</p>
+          </div>
+        </details>
+
+        <div class="example">
+          <strong>完整代码：</strong>
+          <pre><code>#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;time.h&gt;
+
+struct Spot
+{
+    char name[100];
+    int count;
+};
+
+int main()
+{
+    struct Spot arr[4] = {
+        {"A", 0},
+        {"B", 0},
+        {"C", 0},
+        {"D", 0}
+    };
+
+    srand((unsigned int)time(NULL));
+
+    for (int i = 0; i &lt; 80; i++)
+    {
+        int choose = rand() % 4;
+        arr[choose].count++;
+    }
+
+    printf("四个景点的投票情况：\n");
+    for (int i = 0; i &lt; 4; i++)
+    {
+        printf("%s：%d票\n", arr[i].name, arr[i].count);
+    }
+
+    int max = arr[0].count;
+    for (int i = 1; i &lt; 4; i++)
+    {
+        if (arr[i].count &gt; max)
+        {
+            max = arr[i].count;
+        }
+    }
+
+    for (int i = 0; i &lt; 4; i++)
+    {
+        if (arr[i].count == max)
+        {
+            printf("投票最多的景点为：%s，共计%d张票\n", arr[i].name, arr[i].count);
+            break;
+        }
+    }
+
+    return 0;
+}</code></pre>
+        </div>
+
+        <div class="note note-green">
+          <strong>本模块记忆点：</strong>本题核心是 <code>arr[choose].count++</code>；并列优先级通过“数组顺序 + 找到后 break”实现。
+        </div>
+      </section>
+      <!-- END: 模块 6 综合练习 投票选举 -->
+
+      <!-- START: 模块 7 内存对齐 -->
+      <section class="card" id="align">
+        <h2>模块 7：结构体内存对齐</h2>
+        <div class="rule">
+          结构体大小不是成员大小简单相加；成员之间和结构体末尾可能会自动填充空白字节。
+        </div>
+
+        <p>
+          在常见 Windows 64 位环境中，<code>double</code> 占 8 字节，<code>char</code> 占 1 字节，<code>int</code> 占 4 字节。
+          但下面这个结构体通常不是 14 字节，而是 24 字节。
+        </p>
+
+        <pre><code>struct Num
+{
+    double a;
+    char b;
+    int c;
+    char d;
+};</code></pre>
+
+        <div class="note note-blue">
+          <strong>基本规则：</strong>变量的首地址要尽量是自身类型大小的整数倍。结构体总大小还要是最大成员类型大小的整数倍。
+        </div>
+
+        <details>
+          <summary>为什么 double + char + int + char 是 24 字节？</summary>
+          <div>
+            <table>
+              <tr>
+                <th>地址范围</th>
+                <th>内容</th>
+                <th>说明</th>
+              </tr>
+              <tr>
+                <td>0 至 7</td>
+                <td><code>double a</code></td>
+                <td>0 能被 8 整除，占 8 字节。</td>
+              </tr>
+              <tr>
+                <td>8</td>
+                <td><code>char b</code></td>
+                <td>8 能被 1 整除，占 1 字节。</td>
+              </tr>
+              <tr>
+                <td>9 至 11</td>
+                <td>空白填充</td>
+                <td><code>int c</code> 不能从 9 开始，因为 9 不能被 4 整除。</td>
+              </tr>
+              <tr>
+                <td>12 至 15</td>
+                <td><code>int c</code></td>
+                <td>12 能被 4 整除，占 4 字节。</td>
+              </tr>
+              <tr>
+                <td>16</td>
+                <td><code>char d</code></td>
+                <td>16 能被 1 整除，占 1 字节。</td>
+              </tr>
+              <tr>
+                <td>17 至 23</td>
+                <td>空白填充</td>
+                <td>总大小要是最大成员 <code>double</code> 的 8 的整数倍，所以补到 24。</td>
+              </tr>
+            </table>
+          </div>
+        </details>
+
+        <details>
+          <summary>调整成员顺序为什么可能变成 16 字节？</summary>
+          <div>
+            <pre><code>struct Num
+{
+    double a;
+    char b;
+    char d;
+    int c;
+};</code></pre>
+            <p>
+              <code>double a</code> 占 0 至 7，<code>char b</code> 占 8，<code>char d</code> 占 9。
+              <code>int c</code> 不能从 10 开始，所以补 10、11，从 12 开始放到 15。总大小刚好 16，是 8 的整数倍。
+            </p>
+          </div>
+        </details>
+
+        <div class="note note-amber">
+          <strong>老师强调的细节：</strong>补空白字节不会改变成员本身大小。比如 <code>char b</code> 后面补了 3 个空白字节，<code>b</code> 本身仍然只占 1 字节。
+        </div>
+
+        <div class="note note-green">
+          <strong>写结构体的小心得：</strong>把小类型尽量放在一起，把大类型放在一起，通常能减少填充字节，节约空间。
+        </div>
+
+        <div class="example">
+          <strong>验证代码：</strong>
+          <pre><code>#include &lt;stdio.h&gt;
+
+struct Num1
+{
+    double a;
+    char b;
+    int c;
+    char d;
+};
+
+struct Num2
+{
+    double a;
+    char b;
+    char d;
+    int c;
+};
+
+int main()
+{
+    printf("Num1大小：%zu\n", sizeof(struct Num1));
+    printf("Num2大小：%zu\n", sizeof(struct Num2));
+
+    return 0;
+}</code></pre>
+        </div>
+
+        <div class="note note-green">
+          <strong>本模块记忆点：</strong>成员按自身大小对齐；结构体总大小按最大成员大小对齐；成员顺序会影响总大小。
+        </div>
+      </section>
+      <!-- END: 模块 7 内存对齐 -->
+
+      <!-- START: 真题演练中心 -->
+      <section class="card" id="practice-center">
+        <h2>练习 / 案例演练中心</h2>
+
+        <div class="practice">
+          <div class="practice-title">练习 1：结构体基础定义</div>
+          <div class="question">
+            <p>定义一个学生结构体，包含姓名、年龄、性别、身高，并创建一个学生变量输出。</p>
+          </div>
+          <div class="answer">
+            <details class="answer-toggle">
+              <summary>点击查看答案解析</summary>
+              <div class="answer-content">
+                <p><strong>答案：</strong>使用 <code>struct Student</code> 定义类型，用 <code>strcpy</code> 给姓名赋值，用点号访问成员。</p>
+                <pre><code>#include &lt;stdio.h&gt;
+#include &lt;string.h&gt;
+
+struct Student
+{
+    char name[100];
+    int age;
+    char gender;
+    double height;
+};
+
+int main()
+{
+    struct Student stu;
+    strcpy(stu.name, "张三");
+    stu.age = 18;
+    stu.gender = 'M';
+    stu.height = 1.75;
+
+    printf("%s %d %c %.2f\n", stu.name, stu.age, stu.gender, stu.height);
+    return 0;
+}</code></pre>
+                <p><strong>解析：</strong>姓名是字符数组，定义后不能用 <code>=</code> 直接赋字符串，必须用 <code>strcpy</code>。其他基本类型成员可以直接赋值。</p>
+              </div>
+            </details>
+          </div>
+        </div>
+
+        <div class="practice">
+          <div class="practice-title">练习 2：结构体数组遍历</div>
+          <div class="question">
+            <p>下面代码中，如何输出三个学生的信息？</p>
+            <pre><code>struct Student arr[3] = {
+    {"张三", 23},
+    {"李四", 24},
+    {"王五", 25}
+};</code></pre>
+          </div>
+          <div class="answer">
+            <details class="answer-toggle">
+              <summary>点击查看答案解析</summary>
+              <div class="answer-content">
+                <p><strong>答案：</strong></p>
+                <pre><code>for (int i = 0; i &lt; 3; i++)
+{
+    printf("姓名：%s，年龄：%d\n", arr[i].name, arr[i].age);
+}</code></pre>
+                <p><strong>解析：</strong><code>arr[i]</code> 表示当前学生，<code>arr[i].name</code> 才是当前学生的姓名。不能写 <code>arr.name</code>。</p>
+              </div>
+            </details>
+          </div>
+        </div>
+
+        <div class="practice">
+          <div class="practice-title">练习 3：传值和传地址判断</div>
+          <div class="question">
+            <p>如果函数写成 <code>void change(S st)</code>，在函数里修改 <code>st.age</code>，会不会影响 <code>main</code> 里的 <code>stu.age</code>？如果想影响，应该怎么写？</p>
+          </div>
+          <div class="answer">
+            <details class="answer-toggle">
+              <summary>点击查看答案解析</summary>
+              <div class="answer-content">
+                <p><strong>答案：</strong>不会影响。传值时函数接收的是副本。想修改原数据，应传地址：<code>change(&amp;stu)</code>，函数参数写成 <code>void change(S *p)</code>。</p>
+                <pre><code>void change(S *p)
+{
+    p-&gt;age = 23;
+}</code></pre>
+                <p><strong>解析：</strong>传值是复制数据；传地址是把原变量的位置交给函数。通过指针找到原变量，修改才会保留下来。</p>
+              </div>
+            </details>
+          </div>
+        </div>
+
+        <div class="practice">
+          <div class="practice-title">练习 4：结构体嵌套访问</div>
+          <div class="question">
+            <p>已知学生结构体里有 <code>struct Message msg;</code>，联系方式中有 <code>phone</code> 和 <code>mail</code>，如何输出手机号？</p>
+          </div>
+          <div class="answer">
+            <details class="answer-toggle">
+              <summary>点击查看答案解析</summary>
+              <div class="answer-content">
+                <p><strong>答案：</strong></p>
+                <pre><code>printf("%s\n", stu.msg.phone);</code></pre>
+                <p><strong>解析：</strong><code>phone</code> 不直接属于 <code>stu</code>，而是属于 <code>stu</code> 里面的 <code>msg</code>，所以要连续使用点号。</p>
+              </div>
+            </details>
+          </div>
+        </div>
+
+        <div class="practice">
+          <div class="practice-title">练习 5：投票选举核心代码</div>
+          <div class="question">
+            <p>四个景点保存在 <code>arr[4]</code> 中，如何用随机数模拟 80 人投票？</p>
+          </div>
+          <div class="answer">
+            <details class="answer-toggle">
+              <summary>点击查看答案解析</summary>
+              <div class="answer-content">
+                <p><strong>答案：</strong></p>
+                <pre><code>srand((unsigned int)time(NULL));
+
+for (int i = 0; i &lt; 80; i++)
+{
+    int choose = rand() % 4;
+    arr[choose].count++;
+}</code></pre>
+                <p><strong>解析：</strong><code>choose</code> 的值是 0 到 3，既代表投给哪个景点，也代表数组下标。<code>arr[choose].count++</code> 表示给对应景点加一票。</p>
+              </div>
+            </details>
+          </div>
+        </div>
+
+        <div class="practice">
+          <div class="practice-title">练习 6：结构体内存对齐</div>
+          <div class="question">
+            <p>在常见 64 位环境下，下面结构体为什么通常是 24 字节，而不是 14 字节？</p>
+            <pre><code>struct Num
+{
+    double a;
+    char b;
+    int c;
+    char d;
+};</code></pre>
+          </div>
+          <div class="answer">
+            <details class="answer-toggle">
+              <summary>点击查看答案解析</summary>
+              <div class="answer-content">
+                <p><strong>答案：</strong>因为结构体存在内存对齐。<code>double</code> 放 0 至 7，<code>char b</code> 放 8，<code>int c</code> 不能从 9 开始，要补到 12；<code>char d</code> 放 16；最后总大小要是最大成员 <code>double</code> 的 8 的整数倍，所以补到 24。</p>
+                <p><strong>解析：</strong>成员之间和结构体末尾都可能补空白字节。补空白字节不会让 <code>char</code> 自己变大，它仍然是 1 字节。</p>
+              </div>
+            </details>
+          </div>
+        </div>
+      </section>
+      <!-- END: 真题演练中心 -->
+
+      <!-- START: 考场攻略 -->
+      <section class="card" id="exam-strategy">
+        <h2>考场攻略 / 实战策略</h2>
+
+        <div class="grid-2">
+          <div class="mini-card">
+            <h3>看到结构体题，先判断类型</h3>
+            <p>题目是让你定义一个对象，还是让你管理多个对象？一个对象用结构体变量，多个对象优先考虑结构体数组。</p>
+          </div>
+          <div class="mini-card">
+            <h3>看到函数修改结构体，先问能不能改原数据</h3>
+            <p>如果要求函数修改原结构体，一般要传地址，用结构体指针接收。</p>
+          </div>
+          <div class="mini-card">
+            <h3>看到嵌套结构体，先画层级</h3>
+            <p>例如 <code>stu.msg.phone</code>，不要跨层访问。谁包含谁，就一层一层点下去。</p>
+          </div>
+          <div class="mini-card">
+            <h3>看到 sizeof 结构体，别直接相加</h3>
+            <p>先按成员顺序摆放，再考虑末尾补齐。成员顺序不同，大小可能不同。</p>
+          </div>
+        </div>
+
+        <div class="note note-red">
+          <strong>常见错误集中处理：</strong>
+          <p><span class="danger">错误 1：</span><code>stu.name = "张三";</code>。字符数组定义后不能这样赋值。</p>
+          <p><span class="danger">错误 2：</span><code>Student stu;</code>。如果没有 <code>typedef</code>，应该写 <code>struct Student stu;</code>。</p>
+          <p><span class="danger">错误 3：</span><code>arr.name</code>。结构体数组要先取元素：<code>arr[i].name</code>。</p>
+          <p><span class="danger">错误 4：</span><code>*p.age</code>。结构体指针访问成员推荐写 <code>p-&gt;age</code>。</p>
+        </div>
+      </section>
+      <!-- END: 考场攻略 -->
+
+      <!-- START: 检查清单 -->
+      <section class="card" id="checklist">
+        <h2>最终检查清单</h2>
+
+        <div class="grid-2">
+          <div class="checklist">
+            <h3>结构体基础</h3>
+            <div class="check-item">我知道结构体是自定义数据类型。</div>
+            <div class="check-item">我会用 <code>struct</code> 定义结构体。</div>
+            <div class="check-item">我知道未起别名时要写 <code>struct Student stu;</code>。</div>
+            <div class="check-item">我知道访问成员用点号。</div>
+            <div class="check-item">我知道字符数组赋值要用 <code>strcpy</code>。</div>
+          </div>
+
+          <div class="checklist">
+            <h3>数组与别名</h3>
+            <div class="check-item">我会定义结构体数组。</div>
+            <div class="check-item">我知道 <code>arr[i]</code> 才是某个具体结构体元素。</div>
+            <div class="check-item">我会用 <code>typedef struct</code> 起别名。</div>
+            <div class="check-item">我知道别名要见名知意。</div>
+          </div>
+
+          <div class="checklist">
+            <h3>函数与嵌套</h3>
+            <div class="check-item">我能区分传值和传地址。</div>
+            <div class="check-item">我知道传值修改副本，不影响原变量。</div>
+            <div class="check-item">我知道传地址要用结构体指针接收。</div>
+            <div class="check-item">我会用 <code>p-&gt;成员名</code> 访问结构体指针成员。</div>
+            <div class="check-item">我知道嵌套结构体要先定义被嵌套的结构体。</div>
+          </div>
+
+          <div class="checklist">
+            <h3>综合与内存对齐</h3>
+            <div class="check-item">我理解投票案例中的 <code>arr[choose].count++</code>。</div>
+            <div class="check-item">我会用数组顺序和 <code>break</code> 处理并列优先级。</div>
+            <div class="check-item">我知道结构体大小不是成员大小简单相加。</div>
+            <div class="check-item">我知道成员首地址要按自身大小对齐。</div>
+            <div class="check-item">我知道结构体总大小要按最大成员大小对齐。</div>
+          </div>
+        </div>
+      </section>
+      <!-- END: 检查清单 -->
+
+    </main>
+
+    <!-- START: 页脚 -->
+    <footer>
+      <p><strong>资料主题：</strong>C语言结构体章节复习系统</p>
+      <p><strong>覆盖范围：</strong>结构体定义与使用、结构体数组、typedef 起别名、结构体作为函数参数、结构体嵌套、投票选举综合练习、结构体内存对齐。</p>
+      <p><strong>最后更新时间：</strong>2026-05-07</p>
+    </footer>
+    <!-- END: 页脚 -->
+
+  </div>
+
+  <!-- START: 脚本 -->
+  <script>
+    function expandAll() {
+      document.querySelectorAll("details").forEach(function(detail) {
+        detail.open = true;
+      });
+    }
+
+    function collapseAll() {
+      document.querySelectorAll("details").forEach(function(detail) {
+        detail.open = false;
+      });
+    }
+
+    function showAnswers() {
+      document.querySelectorAll("details.answer-toggle").forEach(function(detail) {
+        detail.open = true;
+      });
+    }
+
+    function hideAnswers() {
+      document.querySelectorAll("details.answer-toggle").forEach(function(detail) {
+        detail.open = false;
+      });
+    }
+
+    function toggleFocusMode() {
+      document.body.classList.toggle("focus-mode");
+    }
+
+    function printPage() {
+      expandAll();
+      showAnswers();
+      window.print();
+    }
+  </script>
+  <!-- END: 脚本 -->
+
+</body>
+</html>

@@ -498,6 +498,16 @@ const appData = {
         cards: []
     },
 
+    c_struct: {
+        id: "c_struct",
+        title: "C语言：结构体",
+        subtitle: "struct定义与应用",
+        themeColor: "emerald",
+        type: "article",
+        url: "c/结构体.html",
+        cards: []
+    },
+
     english_grammar_ext: {
         id: "english_grammar_ext",
         title: "英语语法：简单句的扩展",
@@ -568,7 +578,8 @@ const siteData = [
             appData.c_pointer1,
             appData.c_pointer_adv1,
             appData.c_pointer_adv2,
-            appData.c_string
+            appData.c_string,
+            appData.c_struct
         ]
     },
     {
