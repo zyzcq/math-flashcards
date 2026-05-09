@@ -1,0 +1,2258 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>C语言 · 第14章 · 动态内存分配 复习系统</title>
+<style>
+/* ========== CSS 变量 ========== */
+:root {
+    --bg: #f5f6f8;
+    --card: #ffffff;
+    --text: #1f2937;
+    --text-weak: #6b7280;
+    --border: #e5e7eb;
+
+    --blue: #2563eb;
+    --blue-bg: #eff6ff;
+    --green: #16a34a;
+    --green-bg: #f0fdf4;
+    --amber: #d97706;
+    --amber-bg: #fffbeb;
+    --purple: #7c3aed;
+    --purple-bg: #f5f3ff;
+    --red: #dc2626;
+    --red-bg: #fef2f2;
+    --gray: #6b7280;
+    --gray-bg: #f3f4f6;
+
+    --radius: 10px;
+    --radius-sm: 6px;
+    --shadow: 0 1px 3px rgba(0,0,0,0.04), 0 1px 2px rgba(0,0,0,0.03);
+    --shadow-hover: 0 4px 12px rgba(0,0,0,0.06);
+    --max-w: 1060px;
+}
+
+/* ========== 全局样式 ========== */
+* { box-sizing: border-box; }
+
+html, body {
+    margin: 0;
+    padding: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", "Segoe UI", Roboto, sans-serif;
+    font-size: 15px;
+    line-height: 1.7;
+}
+
+a {
+    color: var(--blue);
+    text-decoration: none;
+}
+a:hover { text-decoration: underline; }
+
+code {
+    font-family: Consolas, Monaco, "Courier New", monospace;
+    background: #eef1f5;
+    color: #c7254e;
+    padding: 1px 5px;
+    border-radius: 4px;
+    font-size: 0.92em;
+}
+
+pre {
+    background: #1e293b;
+    color: #e2e8f0;
+    padding: 14px 16px;
+    border-radius: var(--radius-sm);
+    overflow-x: auto;
+    font-size: 13.5px;
+    line-height: 1.65;
+    margin: 10px 0;
+}
+
+pre code {
+    background: transparent;
+    color: inherit;
+    padding: 0;
+    font-size: inherit;
+}
+
+h1, h2, h3, h4 { margin: 0; font-weight: 600; }
+
+/* ========== 布局 ========== */
+.page {
+    max-width: var(--max-w);
+    margin: 0 auto;
+    padding: 20px 20px 60px;
+}
+
+/* ========== Hero ========== */
+.hero {
+    background: linear-gradient(135deg, #eef4ff 0%, #f5f3ff 100%);
+    border-radius: var(--radius);
+    padding: 32px 28px;
+    margin-bottom: 20px;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+}
+.hero h1 {
+    font-size: 24px;
+    margin-bottom: 6px;
+    color: #1e3a8a;
+}
+.hero .subtitle {
+    color: var(--text-weak);
+    font-size: 14px;
+    margin-bottom: 16px;
+}
+.hero .tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-bottom: 14px;
+}
+.hero .tag {
+    background: white;
+    border: 1px solid var(--border);
+    color: var(--text);
+    padding: 3px 10px;
+    border-radius: 999px;
+    font-size: 12.5px;
+}
+.hero .usage {
+    font-size: 13px;
+    color: var(--text-weak);
+    background: rgba(255,255,255,0.6);
+    padding: 10px 14px;
+    border-radius: var(--radius-sm);
+    border-left: 3px solid var(--blue);
+}
+
+/* ========== 工具栏 ========== */
+.toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 12px;
+    margin-bottom: 16px;
+    box-shadow: var(--shadow);
+}
+.toolbar button {
+    background: white;
+    border: 1px solid var(--border);
+    color: var(--text);
+    padding: 6px 12px;
+    border-radius: var(--radius-sm);
+    font-size: 13px;
+    cursor: pointer;
+    transition: all 0.15s;
+}
+.toolbar button:hover {
+    background: var(--blue-bg);
+    border-color: var(--blue);
+    color: var(--blue);
+}
+.toolbar .primary {
+    background: var(--blue);
+    color: white;
+    border-color: var(--blue);
+}
+.toolbar .primary:hover {
+    background: #1d4ed8;
+    color: white;
+}
+
+/* ========== 导航栏 ========== */
+.nav {
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 14px 18px;
+    margin-bottom: 20px;
+    box-shadow: var(--shadow);
+}
+.nav h3 {
+    font-size: 13px;
+    color: var(--text-weak);
+    font-weight: 500;
+    margin-bottom: 8px;
+}
+.nav .nav-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px 14px;
+    font-size: 13.5px;
+}
+
+/* ========== 卡片 ========== */
+.card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 22px 24px;
+    margin-bottom: 18px;
+    box-shadow: var(--shadow);
+}
+.card h2 {
+    font-size: 19px;
+    margin-bottom: 4px;
+    color: var(--text);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.card h2 .idx {
+    display: inline-block;
+    min-width: 26px;
+    height: 26px;
+    line-height: 26px;
+    text-align: center;
+    background: var(--blue);
+    color: white;
+    border-radius: 6px;
+    font-size: 13px;
+    font-weight: 600;
+}
+.card h3 {
+    font-size: 15.5px;
+    color: var(--text);
+    margin-top: 16px;
+    margin-bottom: 6px;
+}
+.card h4 {
+    font-size: 14px;
+    color: var(--text-weak);
+    margin-top: 12px;
+    margin-bottom: 4px;
+}
+.card .sub {
+    color: var(--text-weak);
+    font-size: 13.5px;
+    margin-bottom: 10px;
+}
+
+/* ========== 网格 ========== */
+.grid-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+    margin: 12px 0;
+}
+.grid-3 {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin: 12px 0;
+}
+.mini-card {
+    background: var(--gray-bg);
+    border-radius: var(--radius-sm);
+    padding: 12px 14px;
+    font-size: 13.5px;
+}
+.mini-card strong { color: var(--text); }
+
+/* ========== 知识卡样式 ========== */
+.rule, .note, .example, .practice {
+    border-radius: var(--radius-sm);
+    padding: 12px 16px;
+    margin: 10px 0;
+    font-size: 14px;
+    border-left: 3px solid;
+}
+.rule {
+    background: var(--green-bg);
+    border-color: var(--green);
+}
+.rule strong { color: var(--green); }
+
+.note-blue   { background: var(--blue-bg);   border-left: 3px solid var(--blue);   border-radius: var(--radius-sm); padding: 12px 16px; margin: 10px 0; }
+.note-green  { background: var(--green-bg);  border-left: 3px solid var(--green);  border-radius: var(--radius-sm); padding: 12px 16px; margin: 10px 0; }
+.note-amber  { background: var(--amber-bg);  border-left: 3px solid var(--amber);  border-radius: var(--radius-sm); padding: 12px 16px; margin: 10px 0; }
+.note-purple { background: var(--purple-bg); border-left: 3px solid var(--purple); border-radius: var(--radius-sm); padding: 12px 16px; margin: 10px 0; }
+.note-red    { background: var(--red-bg);    border-left: 3px solid var(--red);    border-radius: var(--radius-sm); padding: 12px 16px; margin: 10px 0; }
+.note-gray   { background: var(--gray-bg);   border-left: 3px solid var(--gray);   border-radius: var(--radius-sm); padding: 12px 16px; margin: 10px 0; }
+
+.note-blue strong   { color: var(--blue); }
+.note-green strong  { color: var(--green); }
+.note-amber strong  { color: var(--amber); }
+.note-purple strong { color: var(--purple); }
+.note-red strong    { color: var(--red); }
+
+/* ========== 标签 ========== */
+.tag-blue, .tag-green, .tag-amber, .tag-purple, .tag-red, .tag-gray {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-size: 12px;
+    margin-right: 4px;
+    font-weight: 500;
+}
+.tag-blue   { background: var(--blue-bg);   color: var(--blue); }
+.tag-green  { background: var(--green-bg);  color: var(--green); }
+.tag-amber  { background: var(--amber-bg);  color: var(--amber); }
+.tag-purple { background: var(--purple-bg); color: var(--purple); }
+.tag-red    { background: var(--red-bg);    color: var(--red); }
+.tag-gray   { background: var(--gray-bg);   color: var(--gray); }
+
+/* ========== details ========== */
+details {
+    margin: 10px 0;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 10px 14px;
+    background: white;
+}
+details[open] {
+    background: #fafbfc;
+}
+summary {
+    cursor: pointer;
+    font-weight: 500;
+    color: var(--text);
+    outline: none;
+    user-select: none;
+    font-size: 14px;
+}
+summary::marker { color: var(--blue); }
+
+/* ========== 练习 ========== */
+.practice {
+    background: var(--purple-bg);
+    border-left: 3px solid var(--purple);
+    padding: 14px 16px;
+    border-radius: var(--radius-sm);
+    margin: 14px 0;
+}
+.practice-title {
+    font-weight: 600;
+    color: var(--purple);
+    margin-bottom: 8px;
+    font-size: 14.5px;
+}
+.practice .question p { margin: 6px 0; }
+.answer-toggle {
+    margin-top: 8px;
+    background: white;
+    border: 1px solid #ddd6fe;
+}
+.answer-toggle summary {
+    color: var(--purple);
+    font-size: 13.5px;
+}
+.answer-content {
+    margin-top: 10px;
+    padding-top: 10px;
+    border-top: 1px dashed #ddd6fe;
+    font-size: 13.8px;
+}
+.answer-content p { margin: 6px 0; }
+
+/* ========== 清单 ========== */
+.checklist { margin: 10px 0; }
+.checklist h4 {
+    font-size: 13.5px;
+    color: var(--text-weak);
+    margin: 14px 0 6px;
+    font-weight: 500;
+}
+.check-item {
+    padding: 6px 10px;
+    background: var(--gray-bg);
+    border-radius: 5px;
+    margin: 4px 0;
+    font-size: 13.5px;
+}
+.check-item::before {
+    content: "☐ ";
+    color: var(--text-weak);
+    margin-right: 4px;
+}
+
+
+
+/* ========== 通用表格 ========== */
+.data-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13.5px;
+    margin-top: 8px;
+}
+.data-table th,
+.data-table td {
+    text-align: left;
+    padding: 8px;
+    border: 1px solid var(--border);
+    vertical-align: top;
+}
+.data-table thead tr,
+.data-table .table-head {
+    background: #f3f4f6;
+}
+
+/* ========== SVG 内存图 ========== */
+.svg-diagram {
+    background: #0f172a;
+    border: 1px solid #1e293b;
+    border-radius: var(--radius-sm);
+    margin: 10px 0;
+    padding: 12px;
+    overflow-x: auto;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+}
+.svg-diagram svg {
+    display: block;
+    width: 100%;
+    min-width: 620px;
+    height: auto;
+}
+.svg-diagram text {
+    font-family: Consolas, Monaco, "Courier New", "PingFang SC", "Microsoft YaHei", monospace;
+    font-size: 14px;
+    fill: #dbeafe;
+}
+.svg-diagram .label-muted { fill: #94a3b8; }
+.svg-diagram .label-stack { fill: #93c5fd; }
+.svg-diagram .label-heap { fill: #fcd34d; }
+.svg-diagram .label-static { fill: #86efac; }
+.svg-diagram .label-const { fill: #f0abfc; }
+.svg-diagram .label-code { fill: #fda4af; }
+.svg-diagram .box { fill: #111827; stroke: #334155; stroke-width: 1.2; rx: 8; }
+.svg-diagram .box-stack { fill: rgba(37, 99, 235, 0.12); stroke: #3b82f6; }
+.svg-diagram .box-heap { fill: rgba(217, 119, 6, 0.14); stroke: #f59e0b; }
+.svg-diagram .box-static { fill: rgba(22, 163, 74, 0.12); stroke: #22c55e; }
+.svg-diagram .box-const { fill: rgba(124, 58, 237, 0.13); stroke: #a78bfa; }
+.svg-diagram .box-code { fill: rgba(220, 38, 38, 0.12); stroke: #fb7185; }
+.svg-diagram .arrow { stroke: #94a3b8; stroke-width: 1.8; fill: none }
+.svg-diagram .dash { stroke-dasharray: 5 5; }
+.svg-diagram .cell { fill: #1e293b; stroke: #475569; stroke-width: 1; rx: 4; }
+.svg-diagram .bad { fill: #fecaca; }
+.svg-diagram .ok { fill: #bbf7d0; }
+
+@media (max-width: 768px) {
+    .svg-diagram { padding: 8px; }
+    .svg-diagram svg { min-width: 560px; }
+}
+
+/* ========== 旧 ASCII 内存图样式已替换为 SVG ========== */
+
+/* ========== 响应式 ========== */
+@media (max-width: 768px) {
+    .grid-2, .grid-3 { grid-template-columns: 1fr; }
+    .page { padding: 12px; }
+    .hero { padding: 22px 18px; }
+    .card { padding: 16px 18px; }
+    .toolbar { overflow-x: auto; }
+}
+
+/* ========== 专注模式 ========== */
+body.focus-mode .non-key {
+    display: none !important;
+}
+
+/* ========== 打印样式 ========== */
+@media print {
+    body { background: white !important; }
+    .toolbar, .nav { display: none !important; }
+    .card {
+        box-shadow: none !important;
+        border: 1px solid #ddd !important;
+        break-inside: avoid;
+        page-break-inside: avoid;
+    }
+    .hero {
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+    }
+    details { background: white !important; }
+    details:not([open]) > *:not(summary) { display: none; }
+    .answer-toggle[open] .answer-content { display: block !important; }
+    pre {
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+    }
+    a { color: var(--text) !important; text-decoration: none; }
+}
+</style>
+    <link rel="stylesheet" href="../css/lecture.css">
+</head>
+<body>
+<div class="page">
+
+<!-- START: 首页 Hero -->
+<header class="hero">
+    <h1>C语言 · 第14章 · 动态内存分配 复习系统</h1>
+    <p class="subtitle">覆盖：四大函数 · 十个细节 · C语言内存结构 · 五种数据的内存运行过程</p>
+    <div class="tags">
+        <span class="tag">malloc</span>
+        <span class="tag">calloc</span>
+        <span class="tag">realloc</span>
+        <span class="tag">free</span>
+        <span class="tag">堆区</span>
+        <span class="tag">栈区</span>
+        <span class="tag">静态区</span>
+        <span class="tag">常量区</span>
+        <span class="tag">代码区</span>
+        <span class="tag">内存泄漏</span>
+        <span class="tag">脏数据</span>
+        <span class="tag">野指针</span>
+        <span class="tag">虚拟内存</span>
+        <span class="tag">字符串常量</span>
+    </div>
+    <div class="usage">
+        <strong>使用说明：</strong>
+        点击模块展开/收起；练习题默认隐藏答案，点击"点击查看答案解析"展开；
+        顶部工具栏可一键展开/收起、显示答案、切换"只看重点"、导出 PDF。
+    </div>
+</header>
+<!-- END: 首页 Hero -->
+
+<!-- START: 工具栏 -->
+<div class="toolbar">
+    <button onclick="expandAll()">全部展开</button>
+    <button onclick="collapseAll()">全部收起</button>
+    <button onclick="showAnswers()">显示答案</button>
+    <button onclick="hideAnswers()">隐藏答案</button>
+    <button onclick="toggleFocusMode()" id="focusBtn">只看重点</button>
+    <button class="primary" onclick="printPage()">导出 PDF</button>
+</div>
+<!-- END: 工具栏 -->
+
+<!-- START: 导航栏 -->
+<nav class="nav">
+    <h3>本章目录</h3>
+    <div class="nav-links">
+        <a href="#overview">总纲</a>
+        <a href="#m1">①四大函数</a>
+        <a href="#m2">②malloc细节</a>
+        <a href="#m3">③free与脏数据</a>
+        <a href="#m4">④calloc与realloc</a>
+        <a href="#m5">⑤内存结构总览</a>
+        <a href="#m6">⑥变量与数组运行</a>
+        <a href="#m7">⑦全局与static</a>
+        <a href="#m8">⑧字符串运行</a>
+        <a href="#m9">⑨malloc内存运行</a>
+        <a href="#code">代码整理区</a>
+        <a href="#practice">练习中心</a>
+        <a href="#strategy">实战策略</a>
+        <a href="#checklist">检查清单</a>
+    </div>
+</nav>
+<!-- END: 导航栏 -->
+
+<!-- START: 总纲 -->
+<main>
+<section class="card" id="overview">
+    <h2><span class="idx">0</span>总纲：一句话看懂动态内存分配</h2>
+    <p class="sub">先建框架，再填细节。</p>
+
+    <div class="rule">
+        <strong>一句话核心：</strong>
+        动态内存分配 = 运行时向系统申请一块堆区空间，用完必须手动释放。
+    </div>
+
+    <h3>学习抓手（三句话）</h3>
+    <div class="grid-3">
+        <div class="mini-card">
+            <strong>抓手 1 · 函数</strong><br>
+            记住 4 个函数：<code>malloc</code>、<code>calloc</code>、<code>realloc</code>、<code>free</code>，
+            头文件统一 <code>&lt;stdlib.h&gt;</code>。
+        </div>
+        <div class="mini-card">
+            <strong>抓手 2 · 流程</strong><br>
+            固定三步：<strong>申请 → 判断是否为 NULL → 使用 → 释放 → 置空</strong>。
+        </div>
+        <div class="mini-card">
+            <strong>抓手 3 · 内存</strong><br>
+            代码区 / 栈 / 堆 / 静态区 / 常量区，
+            <strong>malloc 的空间在堆，普通局部变量在栈</strong>。
+        </div>
+    </div>
+
+    <h3>本章核心对比</h3>
+    <table class="data-table">
+        <thead>
+            <tr >
+                <th>维度</th>
+                <th>栈区（普通数组）</th>
+                <th>堆区（malloc 申请）</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>位置</td>
+                <td>栈</td>
+                <td>堆</td>
+            </tr>
+            <tr>
+                <td>空间大小</td>
+                <td>较小（通常几MB）</td>
+                <td>较大（受内存限制）</td>
+            </tr>
+            <tr>
+                <td>生命周期</td>
+                <td>随函数结束自动销毁</td>
+                <td>不 free 则一直存在</td>
+            </tr>
+            <tr>
+                <td>跨函数使用</td>
+                <td>不行（指针会失效）</td>
+                <td>可以</td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+<!-- END: 总纲 -->
+
+<!-- START: 核心模块1：四大函数 -->
+<section class="card" id="m1">
+    <h2><span class="idx">1</span>动态内存分配的四大函数</h2>
+    <p class="sub">统一头文件：<code>#include &lt;stdlib.h&gt;</code></p>
+
+    <div class="rule">
+        <strong>核心规则：</strong>
+        <code>malloc</code> 和 <code>free</code> 必须掌握，<code>calloc</code> 和 <code>realloc</code> 了解即可。
+    </div>
+
+    <h3>四个函数总览</h3>
+    <table class="data-table">
+        <thead>
+            <tr >
+                <th>函数</th>
+                <th>英文全称</th>
+                <th>作用</th>
+                <th>掌握程度</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><code>malloc</code></td>
+                <td>memory allocation</td>
+                <td>申请一块连续空间（不初始化）</td>
+                <td><span class="tag-green">必须掌握</span></td>
+            </tr>
+            <tr>
+                <td><code>calloc</code></td>
+                <td>contiguous allocation</td>
+                <td>申请连续空间 + 初始化为 0</td>
+                <td><span class="tag-gray">了解即可</span></td>
+            </tr>
+            <tr>
+                <td><code>realloc</code></td>
+                <td>re-allocation</td>
+                <td>修改已申请空间的大小</td>
+                <td><span class="tag-gray">了解即可</span></td>
+            </tr>
+            <tr>
+                <td><code>free</code></td>
+                <td>free</td>
+                <td>释放空间</td>
+                <td><span class="tag-green">必须掌握</span></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h3>语法格式</h3>
+<pre><code>// malloc：参数是"字节数"
+void *malloc(size_t size);
+
+// calloc：参数是"元素个数"和"每个元素大小"
+void *calloc(size_t num, size_t size);
+
+// realloc：指针 + 新的总字节数
+void *realloc(void *ptr, size_t new_size);
+
+// free：只接受 malloc / calloc / realloc 返回的指针
+void free(void *ptr);</code></pre>
+
+    <h3>标准使用流程（必背）</h3>
+<pre><code>#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+
+int main() {
+    int size = 10;
+
+    // 1. 申请空间
+    int *p = (int *)malloc(size * sizeof(int));
+
+    // 2. 判断是否申请成功
+    if (p == NULL) {
+        printf("内存申请失败\n");
+        return 1;
+    }
+
+    // 3. 赋值
+    for (int i = 0; i &lt; size; i++) {
+        p[i] = (i + 1) * 10;
+    }
+
+    // 4. 使用
+    for (int i = 0; i &lt; size; i++) {
+        printf("%d ", p[i]);
+    }
+
+    // 5. 释放
+    free(p);
+    p = NULL;   // 防止野指针
+
+    return 0;
+}</code></pre>
+
+    <div class="note-amber">
+        <strong>易错提醒：</strong>
+        <ul style="margin:6px 0; padding-left:22px;">
+            <li><code>malloc(100)</code> 表示申请 <strong>100 个字节</strong>，不是 100 个 <code>int</code>。</li>
+            <li>不要写死 <code>malloc(400)</code>，要写 <code>malloc(100 * sizeof(int))</code>，保证跨平台。</li>
+            <li>申请出来的空间 <strong>没有默认值</strong>，必须先赋值再读取。</li>
+            <li>用完 <strong>必须 <code>free</code></strong>，否则内存泄漏。</li>
+        </ul>
+    </div>
+
+    <h3>访问方式：三种等价写法</h3>
+<pre><code>int *p = malloc(10 * sizeof(int));
+
+// 方式一：指针解引用
+*(p + i) = 100;
+
+// 方式二：下标（推荐）
+p[i] = 100;
+
+// 方式三：i[p]（合法但不要用）
+i[p] = 100;</code></pre>
+
+    <div class="note-blue">
+        <strong>原理：</strong><code>p[i]</code> 在底层会被编译器解析为 <code>*(p + i)</code>。
+        由于加法交换律 <code>p + i == i + p</code>，所以 <code>i[p]</code> 也合法。
+        <br><strong>实际开发只用 <code>p[i]</code>。</strong>
+    </div>
+
+    <h3 class="non-key">本模块记忆点（非重点背诵）</h3>
+    <div class="note-gray non-key">
+        <ul style="margin:4px 0; padding-left:22px;">
+            <li><code>malloc</code> 读作 "em-a-lock"，不是 "mail-lock"。</li>
+            <li>英文读音不影响代码，读错不代表技术差。</li>
+        </ul>
+    </div>
+</section>
+<!-- END: 核心模块1：四大函数 -->
+
+<!-- START: 核心模块2：malloc 细节 -->
+<section class="card" id="m2">
+    <h2><span class="idx">2</span>malloc 的 6 个核心细节</h2>
+    <p class="sub">不需要死记，但代码出 bug 时要知道怎么改。</p>
+
+    <h3>细节 1：单位是字节</h3>
+    <div class="note-blue">
+        <code>malloc(100)</code> = 申请 <strong>100 个字节</strong>。
+        不同类型能存的数量不同：
+        <ul style="margin:6px 0; padding-left:22px;">
+            <li><code>char</code>（1 字节）→ 存 100 个</li>
+            <li><code>short</code>（2 字节）→ 存 50 个</li>
+            <li><code>int</code>（4 字节）→ 存 25 个</li>
+        </ul>
+    </div>
+<pre><code>// 推荐写法
+int *p = malloc(25 * sizeof(int));</code></pre>
+
+    <h3>细节 2：返回值是 <code>void *</code></h3>
+<pre><code>void *malloc(size_t size);
+
+// 严格写法（加强制转换）
+int *p = (int *)malloc(25 * sizeof(int));
+
+// C 语言可以不写强转，底层自动转换
+int *p = malloc(25 * sizeof(int));</code></pre>
+    <div class="note-blue">
+        <strong>为什么返回 <code>void *</code>？</strong>
+        因为 <code>void *</code> 是通用指针，可以转成 <code>int *</code>、<code>char *</code>、<code>double *</code> 等任意类型，
+        这样 <code>malloc</code> 就具备通用性，可以被任何类型使用。
+    </div>
+    <div class="note-amber">
+        <strong>注意：</strong><code>void *</code> 本身<strong>没有步长</strong>，
+        既不能做指针加减运算，也不能解引用取值。必须转成具体类型后才能用。
+    </div>
+
+    <h3>细节 3：只返回首地址，不记录总大小</h3>
+    <div class="svg-diagram" role="img" aria-label="malloc 返回首地址但不记录总长度">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 230" preserveAspectRatio="xMidYMid meet">
+<defs><marker id="arrow-1" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L0,6 L9,3 z" fill="#94a3b8"/></marker></defs>
+
+<text x="40" y="38" class="label-stack" font-size="18">p</text>
+<rect x="30" y="52" width="70" height="42" class="box-stack"/>
+<text x="65" y="78" class="label-stack" text-anchor="middle">首地址</text>
+<line x1="100" y1="73" x2="165" y2="73" class="arrow" marker-end="url(#arrow-1)"/>
+<rect x="170" y="54" width="72" height="42" class="cell"/>
+<rect x="242" y="54" width="72" height="42" class="cell"/>
+<rect x="314" y="54" width="72" height="42" class="cell"/>
+<rect x="386" y="54" width="72" height="42" class="cell"/>
+<rect x="458" y="54" width="72" height="42" class="cell"/>
+<text x="544" y="79" class="label-muted">... 共 25 个 int</text>
+<text x="180" y="80" class="label-heap">int</text><text x="252" y="80" class="label-heap">int</text><text x="324" y="80" class="label-heap">int</text><text x="396" y="80" class="label-heap">int</text><text x="468" y="80" class="label-heap">int</text>
+<text x="170" y="135" class="label-muted">p 只知道：堆区起点地址</text>
+<text x="170" y="163" class="label-muted">p 不知道：后面一共有 25 个元素</text>
+<text x="170" y="193" class="label-heap">因此动态数组长度必须由 size 变量另行记录</text>
+
+</svg>
+</div>
+<pre><code>int *p = malloc(25 * sizeof(int));
+
+sizeof(p);        // 测的是指针本身的大小（64位系统为 8 字节）
+// 不是动态空间的总大小！
+
+// 所以必须自己用变量记录长度
+int size = 25;
+int *p = malloc(size * sizeof(int));</code></pre>
+
+    <div class="note-amber">
+        <strong>传参注意：</strong>把动态数组传给函数时，要把 <strong>指针 + 长度</strong> 一起传，
+        因为函数无法从指针反推出数组长度。
+    </div>
+<pre><code>void printArray(int *p, int size) {
+    for (int i = 0; i &lt; size; i++) {
+        printf("%d ", p[i]);
+    }
+}
+
+// 调用
+printArray(p, size);   // 注意是 p，不是 *p</code></pre>
+
+    <h3>细节 4：不会自动消失（内存泄漏）</h3>
+    <div class="note-red">
+        <strong>严重错误示范：</strong>
+<pre><code>while (1) {
+    int *p = malloc(1000 * sizeof(int));
+    // 从不 free，每次循环都泄漏
+}</code></pre>
+        不断申请不释放，最终内存被耗尽，程序崩溃。
+    </div>
+    <div class="rule">
+        <strong>正确做法：</strong>空间不用了，立刻 <code>free(p);</code> 释放。
+    </div>
+
+    <h3>细节 5：申请过多时产生"虚拟内存"</h3>
+    <div class="note-blue">
+        <strong>现象：</strong>一台 32GB 内存的电脑，用循环申请 1GB × N，居然能成功申请到 80 多次。
+        <br><br>
+        <strong>原因：</strong>
+        系统只在你<strong>真正写入数据时</strong>，才把内存真正分配给你。
+        <code>malloc</code> 成功只是给你一个"承诺地址"，不代表物理内存立刻被占用。
+    </div>
+    <div class="svg-diagram" role="img" aria-label="malloc 大块空间时的虚拟内存承诺与实际写入">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 230" preserveAspectRatio="xMidYMid meet">
+<defs><marker id="arrow-2" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L0,6 L9,3 z" fill="#94a3b8"/></marker></defs>
+
+<rect x="40" y="40" width="220" height="52" class="box"/>
+<text x="60" y="72" class="label-muted">malloc(1GB) 成功</text>
+<line x1="260" y1="66" x2="335" y2="66" class="arrow" marker-end="url(#arrow-2)"/>
+<rect x="340" y="40" width="210" height="52" class="box-heap"/>
+<text x="360" y="72" class="label-heap">获得虚拟地址范围</text>
+<line x1="445" y1="92" x2="445" y2="138" class="arrow" marker-end="url(#arrow-2)"/>
+<rect x="300" y="140" width="300" height="54" class="box-stack"/>
+<text x="325" y="174" class="label-stack">p[0] = 100：首次写入触发真实物理页分配</text>
+<text x="80" y="204" class="label-muted">要点：malloc 成功是“地址承诺”，不是全部物理内存立即占用。</text>
+
+</svg>
+</div>
+
+    <h3>细节 6：空间没有初始化</h3>
+    <div class="note-red">
+        <strong>错误：</strong>
+<pre><code>int *p = malloc(10 * sizeof(int));
+printf("%d", p[0]);   // 输出垃圾值</code></pre>
+    </div>
+    <div class="rule">
+        <strong>规则：</strong><code>malloc</code> 只申请空间，不清空。
+        使用前必须<strong>先赋值</strong>：
+<pre><code>for (int i = 0; i &lt; 10; i++) {
+    p[i] = 0;    // 或其他有效值
+}</code></pre>
+    </div>
+
+    <h3>细节汇总（6 条一句话）</h3>
+    <div class="note-green">
+        <ol style="margin:4px 0; padding-left:22px;">
+            <li>单位是字节，不是元素个数。</li>
+            <li>返回 <code>void *</code>，需要转成具体类型。</li>
+            <li>只返回首地址，不记录大小，要自己存 <code>size</code>。</li>
+            <li>不会自动释放，必须 <code>free</code>。</li>
+            <li>大量申请会出现虚拟内存现象（承诺≠实际分配）。</li>
+            <li>空间无默认值，必须先赋值再使用。</li>
+        </ol>
+    </div>
+</section>
+<!-- END: 核心模块2：malloc 细节 -->
+<!-- START: 核心模块3：free 与脏数据 -->
+<section class="card" id="m3">
+    <h2><span class="idx">3</span>free 与"脏数据"</h2>
+    <p class="sub">释放之后 ≠ 数据被清零，而是"不能再用"。</p>
+
+    <div class="rule">
+        <strong>核心规则：</strong>
+        <code>free(p)</code> 之后，<code>p</code> 指向的空间里的数据叫<strong>脏数据</strong>，
+        可能是旧值、0 或乱码，结果<strong>不可预测</strong>，一律不能再访问。
+    </div>
+
+    <h3>为什么叫"脏数据"？</h3>
+    <div class="note-blue">
+        <code>free</code> 做的事情是 <strong>"把这块空间还给系统"</strong>，
+        而不是"清空内容"。空间归还后，系统可以自由处置：
+        <ul style="margin:6px 0; padding-left:22px;">
+            <li>可能还是原来的值（系统还没来得及改）</li>
+            <li>可能被清零</li>
+            <li>可能被改成别的值</li>
+        </ul>
+        所以这块数据 <strong>"权限上已经失效"</strong>，叫做脏数据。
+    </div>
+
+    <h3>典型现象</h3>
+<pre><code>int *p = malloc(10 * sizeof(int));
+for (int i = 0; i &lt; 10; i++) p[i] = (i + 1) * 10;
+
+printf("%d ", p[0]);   // 10（正常）
+
+free(p);
+
+printf("%d ", p[0]);   // 可能还是 10，也可能是 0 或乱码</code></pre>
+
+    <div class="note-amber">
+        <strong>常见误区：</strong>
+        有时候 <code>free</code> 后还能打印出原来的值，以为这样能继续用 —— 这是<strong>碰巧</strong>，
+        换个编译器、换次运行，结果就可能不同，属于"未定义行为"。
+    </div>
+
+    <h3>野指针与正确习惯</h3>
+    <div class="svg-diagram" role="img" aria-label="free 前后：脏数据与野指针">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 360" preserveAspectRatio="xMidYMid meet">
+<defs><marker id="arrow-3" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L0,6 L9,3 z" fill="#94a3b8"/></marker></defs>
+
+<text x="40" y="34" class="label-muted" font-size="16">free 之前</text>
+<rect x="40" y="50" width="170" height="48" class="box-stack"/><text x="58" y="80" class="label-stack">栈：p = 0x00AA</text>
+<line x1="210" y1="74" x2="315" y2="74" class="arrow" marker-end="url(#arrow-3)"/>
+<rect x="320" y="50" width="300" height="48" class="box-heap"/><text x="340" y="80" class="label-heap">堆：[10][20][30] ... [100]</text>
+<text x="40" y="135" class="label-muted" font-size="16">free 之后（不置空）</text>
+<rect x="40" y="150" width="170" height="48" class="box-stack"/><text x="58" y="180" class="label-stack">栈：p = 0x00AA</text>
+<path d="M210 174 C260 174,270 174,315 174" class="arrow dash" marker-end="url(#arrow-3)"/>
+<rect x="320" y="150" width="300" height="48" class="box-heap"/><text x="340" y="180" class="label-muted">堆：[ ? ][ ? ][ ? ] ...</text>
+<text x="635" y="180" class="label-code">野指针 / 内容不可信</text>
+<text x="40" y="235" class="label-muted" font-size="16">free 之后（置空）</text>
+<rect x="40" y="250" width="170" height="48" class="box-stack"/><text x="62" y="280" class="label-stack">栈：p = NULL</text>
+<rect x="320" y="250" width="300" height="48" class="box"/><text x="340" y="280" class="label-muted">不再保存失效地址</text>
+<text x="40" y="330" class="label-heap">规则：free(p) 释放权限，不保证清零；随后 p = NULL 可避免继续误用。</text>
+
+</svg>
+</div>
+
+<pre><code>// 推荐写法
+free(p);
+p = NULL;   // 防止野指针</code></pre>
+
+    <div class="rule">
+        <strong>黄金搭档：</strong><code>free(p); p = NULL;</code> 一定要配套写。
+    </div>
+</section>
+<!-- END: 核心模块3：free 与脏数据 -->
+
+<!-- START: 核心模块4：calloc 与 realloc -->
+<section class="card" id="m4">
+    <h2><span class="idx">4</span>calloc 与 realloc（了解即可）</h2>
+    <p class="sub">考试和工作中不常用，但要能看懂别人的代码。</p>
+
+    <h3>calloc：malloc + 初始化</h3>
+<pre><code>int *p = calloc(10, sizeof(int));
+// 申请 10 个 int 的空间，全部初始化为 0</code></pre>
+
+    <div class="note-blue">
+        <strong>本质：</strong><code>calloc</code> = <code>malloc</code> + 清零。
+        <ul style="margin:6px 0; padding-left:22px;">
+            <li>整数初始化为 <code>0</code></li>
+            <li>浮点数初始化为 <code>0.0</code></li>
+            <li>字符初始化为 <code>'\0'</code></li>
+        </ul>
+        其他行为（堆区、返回首地址、失败返 NULL、要 <code>free</code>）完全和 <code>malloc</code> 一样。
+    </div>
+
+    <h3>为什么实际更多用 malloc？</h3>
+    <div class="note-amber">
+        <ol style="margin:4px 0; padding-left:22px;">
+            <li><code>malloc</code> 效率更高（不做额外清零操作）。</li>
+            <li>大多数场景申请完后都会立刻覆盖赋值，<code>calloc</code> 的清零是多余工作。</li>
+        </ol>
+    </div>
+
+    <h3>realloc 的两个关键细节</h3>
+
+    <h4>细节 ① 扩容后地址"可能变，也可能不变"</h4>
+    <div class="svg-diagram" role="img" aria-label="realloc 两种结果：原地扩容或迁移复制">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 360" preserveAspectRatio="xMidYMid meet">
+<defs><marker id="arrow-4" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L0,6 L9,3 z" fill="#94a3b8"/></marker></defs>
+
+<text x="40" y="32" class="label-muted" font-size="16">情况 A：原地扩容，地址不变</text>
+<rect x="40" y="52" width="52" height="34" class="cell"/>
+<rect x="92" y="52" width="52" height="34" class="cell"/>
+<rect x="144" y="52" width="52" height="34" class="cell"/>
+<rect x="196" y="52" width="52" height="34" class="cell"/>
+<rect x="248" y="52" width="52" height="34" class="cell"/><rect x="300" y="52" width="150" height="34" class="box-heap"/><text x="66" y="75" class="label-heap">10</text><text x="118" y="75" class="label-heap">20</text><text x="170" y="75" class="label-heap">30</text><text x="222" y="75" class="label-heap">40</text><text x="274" y="75" class="label-heap">50</text><text x="318" y="75" class="label-heap">空闲空间</text>
+<line x1="245" y1="95" x2="245" y2="132" class="arrow" marker-end="url(#arrow-4)"/>
+<rect x="40" y="138" width="52" height="34" class="cell"/>
+<rect x="92" y="138" width="52" height="34" class="cell"/>
+<rect x="144" y="138" width="52" height="34" class="cell"/>
+<rect x="196" y="138" width="52" height="34" class="cell"/>
+<rect x="248" y="138" width="52" height="34" class="cell"/>
+<rect x="300" y="138" width="52" height="34" class="cell"/>
+<rect x="352" y="138" width="52" height="34" class="cell"/>
+<rect x="404" y="138" width="52" height="34" class="cell"/>
+<rect x="456" y="138" width="52" height="34" class="cell"/>
+<rect x="508" y="138" width="52" height="34" class="cell"/>
+<text x="574" y="163" class="label-muted">扩容后仍在原地址</text><text x="66" y="161" class="label-heap">10</text><text x="118" y="161" class="label-heap">20</text><text x="170" y="161" class="label-heap">30</text><text x="222" y="161" class="label-heap">40</text><text x="274" y="161" class="label-heap">50</text><text x="326" y="161" class="label-muted">?</text><text x="378" y="161" class="label-muted">?</text><text x="430" y="161" class="label-muted">?</text><text x="482" y="161" class="label-muted">?</text><text x="534" y="161" class="label-muted">?</text>
+<text x="40" y="218" class="label-muted" font-size="16">情况 B：原位置后方不够，地址改变</text>
+<rect x="40" y="238" width="52" height="34" class="cell"/>
+<rect x="92" y="238" width="52" height="34" class="cell"/>
+<rect x="144" y="238" width="52" height="34" class="cell"/>
+<rect x="196" y="238" width="52" height="34" class="cell"/>
+<rect x="248" y="238" width="52" height="34" class="cell"/><rect x="300" y="238" width="105" height="34" class="box-code"/><text x="315" y="261" class="label-code">别人占用</text>
+<line x1="450" y1="255" x2="520" y2="255" class="arrow" marker-end="url(#arrow-4)"/>
+<rect x="520" y="238" width="52" height="34" class="cell"/>
+<rect x="572" y="238" width="52" height="34" class="cell"/>
+<rect x="624" y="238" width="52" height="34" class="cell"/>
+<rect x="676" y="238" width="52" height="34" class="cell"/>
+<text x="742" y="263" class="label-muted">新地址</text>
+<text x="40" y="322" class="label-heap">规则：前半旧数据保留；新增部分未初始化；最终只 free realloc 成功后的指针。</text>
+
+</svg>
+</div>
+
+    <h4>细节 ② 原数据保留，原空间无需手动 free</h4>
+<pre><code>int *p1 = malloc(10 * sizeof(int));
+// 赋值 10, 20, 30 ... 100
+
+int *p2 = realloc(p1, 20 * sizeof(int));
+// ✅ 前 10 个元素依然是 10~100
+// ✅ 后 10 个位置是垃圾值（没赋过值）
+// ✅ 不用再 free(p1)，realloc 内部已处理
+
+free(p2);    // 最后只释放新指针</code></pre>
+
+    <div class="note-red">
+        <strong>禁忌：</strong>扩容后不要再 <code>free(p1)</code>，
+        因为 <code>p1</code> 对应的旧空间已经被 <code>realloc</code> 内部释放或复用。
+    </div>
+
+    <h3>更安全的 realloc 写法</h3>
+<pre><code>int *temp = realloc(p, new_size);
+if (temp != NULL) {
+    p = temp;        // 扩容成功才覆盖 p
+} else {
+    // 扩容失败，p 仍指向原空间，可继续使用或 free
+}</code></pre>
+    <div class="note-amber">
+        直接 <code>p = realloc(p, size);</code> 的问题：
+        如果扩容失败返回 <code>NULL</code>，<code>p</code> 原来保存的旧地址就丢了，造成内存泄漏。
+    </div>
+</section>
+<!-- END: 核心模块4：calloc 与 realloc -->
+
+<!-- START: 核心模块5：C语言内存结构 -->
+<section class="card" id="m5">
+    <h2><span class="idx">5</span>C 语言的内存结构总览</h2>
+    <p class="sub">理解了内存结构，后面所有"变量在哪里"的问题都能画图解决。</p>
+
+    <div class="rule">
+        <strong>核心规则：</strong>
+        C 程序运行时的内存被分为 <strong>6 个区域</strong>，不同数据按规则放入不同区域。
+    </div>
+
+    <div class="svg-diagram" role="img" aria-label="C 程序运行时六大内存区域">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 410" preserveAspectRatio="xMidYMid meet">
+<defs><marker id="arrow-5" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L0,6 L9,3 z" fill="#94a3b8"/></marker></defs>
+<text x="56" y="30" class="label-muted" font-size="14">高地址</text><rect x="170" y="36" width="420" height="48" class="box-stack"/><text x="330" y="66" class="label-stack" text-anchor="middle">栈区 Stack：函数调用、局部变量、普通数组</text><rect x="170" y="90" width="420" height="48" class="box-heap"/><text x="330" y="120" class="label-heap" text-anchor="middle">堆区 Heap：malloc / calloc / realloc 申请</text><rect x="170" y="144" width="420" height="48" class="box-code"/><text x="330" y="174" class="label-code" text-anchor="middle">代码区 Text：程序指令</text><rect x="170" y="198" width="420" height="48" class="box-static"/><text x="330" y="228" class="label-static" text-anchor="middle">初始化静态区 .data：已赋值全局 / static</text><rect x="170" y="252" width="420" height="48" class="box-static"/><text x="330" y="282" class="label-static" text-anchor="middle">未初始化静态区 .bss：未赋值全局 / static</text><rect x="170" y="306" width="420" height="48" class="box-const"/><text x="330" y="336" class="label-const" text-anchor="middle">常量区 .rodata：字符串字面量</text><text x="56" y="374" class="label-muted" font-size="14">低地址</text><text x="170" y="392" class="label-muted" font-size="13">提示：这是教学模型，实际平台的段名和地址布局可能有差异。</text>
+</svg>
+</div>
+
+    <h3>六大区域各放什么</h3>
+    <table class="data-table">
+        <thead>
+            <tr >
+                <th>区域</th>
+                <th>存放内容</th>
+                <th>生命周期</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><span class="tag-red">代码区</span></td>
+                <td>程序指令（函数代码）</td>
+                <td>程序运行期间</td>
+            </tr>
+            <tr>
+                <td><span class="tag-blue">栈区</span></td>
+                <td>函数调用栈帧、局部变量、普通数组、指针变量本身</td>
+                <td>函数调用期间</td>
+            </tr>
+            <tr>
+                <td><span class="tag-amber">堆区</span></td>
+                <td><code>malloc/calloc/realloc</code> 申请的空间</td>
+                <td><code>free</code> 之前一直存在</td>
+            </tr>
+            <tr>
+                <td><span class="tag-green">初始化静态区</span></td>
+                <td>已赋值的全局变量、<code>static</code> 变量</td>
+                <td>程序运行期间</td>
+            </tr>
+            <tr>
+                <td><span class="tag-green">未初始化静态区</span></td>
+                <td>未赋值的全局变量、<code>static</code> 变量</td>
+                <td>程序运行期间</td>
+            </tr>
+            <tr>
+                <td><span class="tag-purple">常量区</span></td>
+                <td><code>char *s = "abc"</code> 的 <code>"abc"</code> 字面量</td>
+                <td>程序运行期间（不可修改）</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h3>综合代码 · 六区对照</h3>
+<pre><code>#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+
+int g1;           // 未初始化静态区
+int g2 = 10;      // 初始化静态区
+
+int main() {
+    int a = 1;                 // 栈区
+    int arr[3] = {1, 2, 3};    // 栈区
+
+    static int s1;             // 未初始化静态区
+    static int s2 = 20;        // 初始化静态区
+
+    char *str = "abc";         // str 在栈区，"abc" 在常量区
+    char buf[] = "abc";        // buf 数组在栈区（可修改）
+
+    int *p = malloc(10 * sizeof(int));   // p 在栈区，空间在堆区
+
+    free(p);
+    p = NULL;
+    return 0;
+}</code></pre>
+</section>
+<!-- END: 核心模块5：C语言内存结构 -->
+
+<!-- START: 核心模块6：变量与数组的内存运行 -->
+<section class="card" id="m6">
+    <h2><span class="idx">6</span>变量和数组在内存中的运行过程</h2>
+    <p class="sub">以一个最简单的 main 函数为例，看看栈区怎么工作。</p>
+
+    <h3>示例代码</h3>
+<pre><code>#include &lt;stdio.h&gt;
+
+int main() {
+    int a = 10;
+    int b = 20;
+    int arr[3] = {1, 2, 3};
+    return 0;
+}</code></pre>
+
+    <h3>运行过程（四步）</h3>
+    <div class="grid-2">
+        <div class="mini-card">
+            <strong>① 代码加载</strong><br>
+            整个程序代码被加载到 <span class="tag-red">代码区</span>，仅作临时存储，不在这里执行。
+        </div>
+        <div class="mini-card">
+            <strong>② main 进栈</strong><br>
+            程序运行时，<code>main</code> 函数被调用，进入 <span class="tag-blue">栈区</span> 执行。
+        </div>
+        <div class="mini-card">
+            <strong>③ 变量/数组创建</strong><br>
+            <code>a</code>、<code>b</code>、<code>arr</code> 都在 main 的栈帧中分配空间。
+        </div>
+        <div class="mini-card">
+            <strong>④ main 出栈</strong><br>
+            <code>main</code> 结束后出栈，栈帧回收，<code>a</code>、<code>b</code>、<code>arr</code> 全部消失。
+        </div>
+    </div>
+
+    <h3>内存示意</h3>
+    <div class="svg-diagram" role="img" aria-label="main 栈帧中的普通变量与数组">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 320" preserveAspectRatio="xMidYMid meet">
+<defs><marker id="arrow-6" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L0,6 L9,3 z" fill="#94a3b8"/></marker></defs>
+
+<text x="50" y="35" class="label-muted" font-size="16">main 执行中：创建栈帧</text>
+<rect x="110" y="55" width="460" height="150" class="box-stack"/>
+<text x="135" y="88" class="label-stack" font-size="16">main 函数栈帧</text>
+<rect x="140" y="105" width="100" height="34" class="box"/><text x="163" y="128" class="label-muted">a = 10</text>
+<rect x="260" y="105" width="100" height="34" class="box"/><text x="283" y="128" class="label-muted">b = 20</text>
+<rect x="140" y="153" width="70" height="34" class="box"/><rect x="210" y="153" width="70" height="34" class="box"/><rect x="280" y="153" width="70" height="34" class="box"/>
+<text x="162" y="176" class="label-stack">1</text><text x="232" y="176" class="label-stack">2</text><text x="302" y="176" class="label-stack">3</text><text x="365" y="176" class="label-muted">arr[3] 连续存放</text>
+<line x1="340" y1="210" x2="340" y2="246" class="arrow" marker-end="url(#arrow-6)"/>
+<rect x="110" y="252" width="460" height="44" class="box"/>
+<text x="135" y="280" class="label-muted">main 结束：栈帧出栈，a / b / arr 全部失效</text>
+
+</svg>
+</div>
+
+    <h3>关于数组名 arr 的两层含义（重要）</h3>
+    <div class="note-blue">
+        <strong>内存里没有"单独的变量 arr"，<code>arr</code> 代表整个数组空间。</strong>
+        <ul style="margin:6px 0; padding-left:22px;">
+            <li>在 <code>sizeof(arr)</code> 中：<code>arr</code> 表示<strong>整个数组</strong>，结果 = 12（3×4 字节）</li>
+            <li>在其他表达式中：<code>arr</code> <strong>退化为首元素地址</strong>，等价于 <code>&arr[0]</code></li>
+        </ul>
+    </div>
+
+<pre><code>int arr[3] = {1, 2, 3};
+
+sizeof(arr);          // 12  ← 整个数组
+sizeof(arr[0]);       // 4   ← 单个元素
+sizeof(arr)/sizeof(arr[0]);   // 3  ← 元素个数
+
+arr == &arr[0];       // true（地址相同）
+*(arr + 1) == arr[1]; // true（等价访问）</code></pre>
+
+    <div class="note-amber">
+        <strong>易错提醒：</strong>
+        不要返回栈上局部数组的地址：
+<pre><code>int *bad() {
+    int arr[3] = {1, 2, 3};
+    return arr;        // ❌ 函数结束 arr 消失，地址失效
+}</code></pre>
+    </div>
+
+    <div class="rule">
+        <strong>记忆点：</strong>函数内部的普通变量和普通数组 → <strong>都在栈区</strong>，
+        <strong>生命周期跟函数绑定</strong>。
+    </div>
+</section>
+<!-- END: 核心模块6 -->
+
+<!-- START: 核心模块7：全局 与 static -->
+<section class="card" id="m7">
+    <h2><span class="idx">7</span>全局变量 与 static 变量的内存运行</h2>
+    <p class="sub">它们不是栈变量，生命周期跟整个程序绑定。</p>
+
+    <h3>示例代码</h3>
+<pre><code>#include &lt;stdio.h&gt;
+
+int a = 10;   // 全局变量 → 初始化静态区
+
+int *method() {
+    static int b = 20;   // static 局部变量 → 初始化静态区
+    return &b;           // 返回 b 的地址（合法）
+}
+
+int main() {
+    int *p = method();
+    printf("%d\n", *p);  // 输出 20
+    return 0;
+}</code></pre>
+
+    <h3>运行过程</h3>
+    <div class="svg-diagram" role="img" aria-label="全局变量与 static 局部变量位于静态区">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 330" preserveAspectRatio="xMidYMid meet">
+<defs><marker id="arrow-7" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L0,6 L9,3 z" fill="#94a3b8"/></marker></defs>
+
+<rect x="70" y="40" width="300" height="120" class="box-static"/><text x="95" y="72" class="label-static" font-size="16">初始化静态区</text><text x="95" y="104" class="label-static">a = 10（全局变量）</text><text x="95" y="132" class="label-static">b = 20，地址 0x01</text>
+<rect x="410" y="40" width="280" height="230" class="box-stack"/><text x="435" y="72" class="label-stack" font-size="16">栈区</text>
+<rect x="440" y="92" width="210" height="52" class="box"/><text x="460" y="123" class="label-muted">method 栈帧（临时）</text>
+<rect x="440" y="170" width="210" height="72" class="box"/><text x="460" y="201" class="label-muted">main 栈帧</text><text x="460" y="226" class="label-stack">p = 0x01</text>
+<path d="M500 226 C430 226,415 130,372 130" class="arrow" marker-end="url(#arrow-7)"/>
+<text x="70" y="300" class="label-heap">规则：static 局部变量不随函数返回销毁，返回其地址合法；普通局部变量地址不可返回。</text>
+
+</svg>
+</div>
+
+    <h3>规则对照</h3>
+    <table class="data-table">
+        <thead>
+            <tr >
+                <th>变量形式</th>
+                <th>位置</th>
+                <th>生命周期</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><code>int a = 10;</code>（函数内）</td>
+                <td>栈区</td>
+                <td>函数期间</td>
+            </tr>
+            <tr>
+                <td><code>int a = 10;</code>（函数外）</td>
+                <td>初始化静态区</td>
+                <td>程序期间</td>
+            </tr>
+            <tr>
+                <td><code>int a;</code>（函数外）</td>
+                <td>未初始化静态区</td>
+                <td>程序期间</td>
+            </tr>
+            <tr>
+                <td><code>static int a = 10;</code></td>
+                <td>初始化静态区</td>
+                <td>程序期间</td>
+            </tr>
+            <tr>
+                <td><code>static int a;</code></td>
+                <td>未初始化静态区</td>
+                <td>程序期间</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h3>延长变量生命周期的两种方式</h3>
+    <div class="rule">
+        <ol style="margin:4px 0; padding-left:22px;">
+            <li>把变量定义在函数外面（全局变量）</li>
+            <li>在变量前加 <code>static</code>（静态局部变量）</li>
+        </ol>
+        两者都进入<strong>静态区</strong>，直到程序结束才销毁。
+    </div>
+
+    <div class="note-red">
+        <strong>对比反例（危险代码）：</strong>
+<pre><code>int *method() {
+    int b = 20;      // 普通局部变量，在栈
+    return &b;       // ❌ method 结束后 b 消失
+}</code></pre>
+        main 拿到的地址已经失效，属于<strong>返回野指针</strong>。
+    </div>
+</section>
+<!-- END: 核心模块7 -->
+
+<!-- START: 核心模块8：字符串在内存中的运行 -->
+<section class="card" id="m8">
+    <h2><span class="idx">8</span>字符串在内存中的运行情况</h2>
+    <p class="sub">两种字符串定义方式，内存位置完全不同。</p>
+
+    <h3>两种写法对比</h3>
+    <div class="grid-2">
+        <div class="mini-card">
+            <strong><code>char *str = "abc";</code></strong><br>
+            <span class="tag-purple">字符串在常量区</span><br>
+            ❌ 内容不能修改<br>
+            ✅ 有复用机制
+        </div>
+        <div class="mini-card">
+            <strong><code>char str[] = "abc";</code></strong><br>
+            <span class="tag-blue">字符数组在栈区</span><br>
+            ✅ 内容可以修改<br>
+            ❌ 每次独立创建（无复用）
+        </div>
+    </div>
+
+    <h3>写法一：<code>char *str = "abc"</code></h3>
+    <div class="svg-diagram" role="img" aria-label="char *str 指向常量区字符串字面量">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 280" preserveAspectRatio="xMidYMid meet">
+<defs><marker id="arrow-8" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L0,6 L9,3 z" fill="#94a3b8"/></marker></defs>
+
+<rect x="80" y="50" width="230" height="70" class="box-stack"/><text x="105" y="82" class="label-stack" font-size="16">栈区</text><text x="105" y="108" class="label-stack">str = 0xAA</text>
+<line x1="310" y1="96" x2="440" y2="96" class="arrow" marker-end="url(#arrow-8)"/>
+<rect x="440" y="50" width="230" height="70" class="box-const"/><text x="465" y="82" class="label-const" font-size="16">常量区 0xAA</text><text x="465" y="108" class="label-const">&#x27;a&#x27; &#x27;b&#x27; &#x27;c&#x27; &#x27;\0&#x27;</text>
+<text x="80" y="174" class="label-muted">结论：str 变量本身在栈；字符串字面量在常量区。</text>
+<text x="80" y="208" class="label-code">禁忌：str[0] = &#x27;A&#x27; 试图修改常量区，行为未定义。</text>
+
+</svg>
+</div>
+
+    <div class="note-red">
+        <strong>禁忌：</strong>
+<pre><code>char *str = "abc";
+str[0] = 'A';    // ❌ 修改常量区，运行时可能崩溃</code></pre>
+    </div>
+
+    <h3>常量区的复用机制</h3>
+<pre><code>char *s1 = "abc";
+char *s2 = "abc";
+printf("%p\n", s1);   // 输出地址
+printf("%p\n", s2);   // 输出地址（通常与 s1 相同）</code></pre>
+    <div class="note-blue">
+        <strong>复用逻辑：</strong>
+        创建 <code>"abc"</code> 时，系统先在常量区查找 —
+        有 → 直接复用已有地址；没有 → 创建新的字符数组。
+    </div>
+
+    <h3>修改指针 ≠ 修改字符串内容</h3>
+<pre><code>char *str = "abc";
+str = "aaa";     // ✅ 合法：让 str 指向新字符串</code></pre>
+    <div class="svg-diagram" role="img" aria-label="修改指针指向不等于修改字符串内容">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 300" preserveAspectRatio="xMidYMid meet">
+<defs><marker id="arrow-9" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L0,6 L9,3 z" fill="#94a3b8"/></marker></defs>
+
+<text x="70" y="38" class="label-muted" font-size="16">str = &quot;abc&quot; 之后</text>
+<rect x="70" y="58" width="170" height="46" class="box-stack"/><text x="95" y="88" class="label-stack">str = 0xAA</text><line x1="240" y1="81" x2="365" y2="81" class="arrow" marker-end="url(#arrow-9)"/><rect x="365" y="58" width="160" height="46" class="box-const"/><text x="410" y="88" class="label-const">&quot;abc&quot;</text>
+<text x="70" y="148" class="label-muted" font-size="16">str = &quot;aaa&quot; 之后</text>
+<rect x="70" y="168" width="170" height="46" class="box-stack"/><text x="95" y="198" class="label-stack">str = 0xBB</text><line x1="240" y1="191" x2="365" y2="191" class="arrow" marker-end="url(#arrow-9)"/><rect x="365" y="168" width="160" height="46" class="box-const"/><text x="410" y="198" class="label-const">&quot;aaa&quot;</text>
+<rect x="365" y="226" width="160" height="42" class="box-const"/><text x="410" y="253" class="label-muted">&quot;abc&quot; 仍在常量区</text>
+<text x="70" y="283" class="label-heap">结论：赋新字面量只是改变 str 保存的地址，不会改写原字符串内容。</text>
+
+</svg>
+</div>
+
+    <h3>写法二：<code>char str[] = "abc"</code></h3>
+    <div class="note-blue">
+        此时 <code>str</code> 是真正的字符数组，在<strong>栈区</strong>，
+        <code>"abc"</code> 只是初始化数据，内容会被<strong>拷贝一份</strong>到栈上的数组里。
+    </div>
+<pre><code>char str[] = "abc";
+str[0] = 'A';    // ✅ 合法：栈区数组，可修改
+printf("%s\n", str);   // 输出 Abc</code></pre>
+
+    <div class="rule">
+        <strong>选择规则：</strong>
+        <ul style="margin:6px 0; padding-left:22px;">
+            <li>只读、只打印 → 用 <code>char *str = "abc";</code></li>
+            <li>需要修改内容 → 用 <code>char str[] = "abc";</code></li>
+        </ul>
+    </div>
+</section>
+<!-- END: 核心模块8 -->
+
+<!-- START: 核心模块9：malloc 的内存运行 -->
+<section class="card" id="m9">
+    <h2><span class="idx">9</span>malloc 申请的空间在内存中的运行</h2>
+    <p class="sub">第 14 章内存结构部分的收尾：动态空间在堆区。</p>
+
+    <h3>示例代码</h3>
+<pre><code>#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+
+int main() {
+    int *p = malloc(10 * sizeof(int));
+    // ... 使用 p
+    free(p);
+    p = NULL;
+    return 0;
+}</code></pre>
+
+    <h3>内存运行示意</h3>
+    <div class="svg-diagram" role="img" aria-label="malloc 指针变量在栈，申请空间在堆">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 300" preserveAspectRatio="xMidYMid meet">
+<defs><marker id="arrow-10" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L0,6 L9,3 z" fill="#94a3b8"/></marker></defs>
+
+<rect x="80" y="42" width="250" height="105" class="box-stack"/><text x="105" y="74" class="label-stack" font-size="16">栈区：main 栈帧</text><text x="105" y="108" class="label-stack">p = 0x0011</text>
+<path d="M210 110 C300 110,360 180,430 180" class="arrow" marker-end="url(#arrow-10)"/>
+<rect x="430" y="140" width="260" height="92" class="box-heap"/><text x="455" y="172" class="label-heap" font-size="16">堆区：0x0011</text>
+<rect x="455" y="188" width="54" height="30" class="cell"/>
+<rect x="509" y="188" width="54" height="30" class="cell"/>
+<rect x="563" y="188" width="54" height="30" class="cell"/>
+<text x="631" y="213" class="label-muted">... 共 10 个 int 空间</text>
+<text x="80" y="270" class="label-muted">规则：p 本身是局部指针变量，存在栈；p 指向的动态数组存在堆，需 free。</text>
+
+</svg>
+</div>
+
+    <div class="rule">
+        <strong>核心规则：</strong>
+        <code>p</code> 本身（指针变量）在<strong>栈</strong>；
+        <code>malloc</code> 申请的那块空间在<strong>堆</strong>。
+    </div>
+
+    <h3>通过 p 能知道什么，不能知道什么</h3>
+    <div class="grid-2">
+        <div class="mini-card">
+            <strong>✅ 能知道</strong>
+            <ul style="margin:4px 0; padding-left:22px;">
+                <li>堆区首地址（<code>p</code> 本身的值）</li>
+                <li>步长（由 <code>int *</code> 类型决定 = 4 字节）</li>
+            </ul>
+        </div>
+        <div class="mini-card">
+            <strong>❌ 不能知道</strong>
+            <ul style="margin:4px 0; padding-left:22px;">
+                <li>堆区空间总大小</li>
+                <li>能存多少个元素</li>
+            </ul>
+            <em style="color:var(--text-weak)">→ 必须自己用变量记录 size</em>
+        </div>
+    </div>
+
+    <h3>堆 vs 栈 的两大核心区别</h3>
+    <table class="data-table">
+        <thead>
+            <tr >
+                <th>维度</th>
+                <th>栈（普通数组）</th>
+                <th>堆（malloc）</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>空间大小</td>
+                <td>较小（几 MB），大数组会栈溢出</td>
+                <td>很大（受总内存限制）</td>
+            </tr>
+            <tr>
+                <td>生命周期</td>
+                <td>函数结束自动销毁</td>
+                <td>不 <code>free</code> 则一直存在</td>
+            </tr>
+            <tr>
+                <td>跨函数使用</td>
+                <td>不行</td>
+                <td>可以（传指针即可）</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h3>跨函数使用堆空间的例子</h3>
+<pre><code>#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+
+int *createArray(int size) {
+    int *p = malloc(size * sizeof(int));
+    if (p == NULL) return NULL;
+
+    for (int i = 0; i &lt; size; i++) {
+        p[i] = (i + 1) * 10;
+    }
+    return p;   // ✅ 可以返回堆指针
+}
+
+int main() {
+    int size = 5;
+    int *arr = createArray(size);
+    if (arr == NULL) return 1;
+
+    for (int i = 0; i &lt; size; i++) {
+        printf("%d ", arr[i]);   // 10 20 30 40 50
+    }
+
+    free(arr);
+    arr = NULL;
+    return 0;
+}</code></pre>
+
+    <div class="note-green">
+        <strong>为什么以后更推荐 <code>malloc</code> 定义数组？</strong>
+        <ol style="margin:4px 0; padding-left:22px;">
+            <li>空间大：大数组不会栈溢出。</li>
+            <li>生命周期长：可跨函数使用。</li>
+            <li>大小灵活：长度可以运行时决定。</li>
+        </ol>
+    </div>
+</section>
+<!-- END: 核心模块9 -->
+<!-- START: 代码整理区 -->
+<section class="card" id="code">
+    <h2><span class="idx">C</span>代码整理区</h2>
+    <p class="sub">本章所有重要代码的规范版本，可直接复制到 IDE 运行。</p>
+
+    <h3>代码 1 · malloc 标准使用流程（必背）</h3>
+<pre><code>#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+
+int main() {
+    int size = 10;
+
+    // 1. 申请堆区空间
+    int *p = (int *)malloc(size * sizeof(int));
+
+    // 2. 判断申请是否成功
+    if (p == NULL) {
+        printf("内存申请失败\n");
+        return 1;
+    }
+
+    // 3. 赋值
+    for (int i = 0; i &lt; size; i++) {
+        p[i] = (i + 1) * 10;
+    }
+
+    // 4. 使用
+    for (int i = 0; i &lt; size; i++) {
+        printf("%d ", p[i]);
+    }
+    printf("\n");
+
+    // 5. 释放 + 置空
+    free(p);
+    p = NULL;
+
+    return 0;
+}</code></pre>
+
+    <h3>代码 2 · 动态数组传参给函数</h3>
+<pre><code>#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+
+void printArray(int *p, int size) {
+    for (int i = 0; i &lt; size; i++) {
+        printf("%d ", p[i]);
+    }
+    printf("\n");
+}
+
+int main() {
+    int size = 25;
+    int *p = (int *)malloc(size * sizeof(int));
+    if (p == NULL) return 1;
+
+    for (int i = 0; i &lt; size; i++) {
+        p[i] = i + 1;
+    }
+
+    printArray(p, size);   // 指针 + 长度一起传
+
+    free(p);
+    p = NULL;
+    return 0;
+}</code></pre>
+
+    <h3>代码 3 · calloc 自动初始化为 0</h3>
+<pre><code>#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+
+int main() {
+    int size = 10;
+    int *p = (int *)calloc(size, sizeof(int));
+    if (p == NULL) return 1;
+
+    for (int i = 0; i &lt; size; i++) {
+        printf("%d ", p[i]);   // 输出 0 0 0 ... 0
+    }
+    printf("\n");
+
+    free(p);
+    p = NULL;
+    return 0;
+}</code></pre>
+
+    <h3>代码 4 · realloc 安全扩容</h3>
+<pre><code>#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+
+int main() {
+    int size = 10;
+    int *p = (int *)malloc(size * sizeof(int));
+    if (p == NULL) return 1;
+
+    for (int i = 0; i &lt; size; i++) {
+        p[i] = (i + 1) * 10;
+    }
+
+    // 安全扩容：用临时指针接收
+    int *temp = (int *)realloc(p, 20 * sizeof(int));
+    if (temp == NULL) {
+        printf("扩容失败\n");
+        free(p);
+        return 1;
+    }
+    p = temp;
+    size = 20;
+
+    // 给新增部分赋值
+    for (int i = 10; i &lt; 20; i++) {
+        p[i] = (i + 1) * 10;
+    }
+
+    for (int i = 0; i &lt; size; i++) {
+        printf("%d ", p[i]);
+    }
+    printf("\n");
+
+    free(p);
+    p = NULL;
+    return 0;
+}</code></pre>
+
+    <h3>代码 5 · 跨函数使用堆空间</h3>
+<pre><code>#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+
+int *createArray(int size) {
+    int *p = (int *)malloc(size * sizeof(int));
+    if (p == NULL) return NULL;
+
+    for (int i = 0; i &lt; size; i++) {
+        p[i] = (i + 1) * 10;
+    }
+    return p;   // 堆空间可以跨函数返回
+}
+
+int main() {
+    int size = 5;
+    int *arr = createArray(size);
+    if (arr == NULL) return 1;
+
+    for (int i = 0; i &lt; size; i++) {
+        printf("%d ", arr[i]);
+    }
+
+    free(arr);
+    arr = NULL;
+    return 0;
+}</code></pre>
+
+    <h3>代码 6 · 六大区域综合对照</h3>
+<pre><code>#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+
+int g1;              // 未初始化静态区
+int g2 = 10;         // 初始化静态区
+
+int main() {
+    int a = 1;                    // 栈区
+    int arr[3] = {1, 2, 3};       // 栈区
+
+    static int s1;                // 未初始化静态区
+    static int s2 = 20;           // 初始化静态区
+
+    char *str = "abc";            // str 在栈，"abc" 在常量区
+    char buf[] = "abc";           // buf 数组在栈（可改）
+
+    int *p = malloc(10 * sizeof(int));  // p 在栈，空间在堆
+
+    buf[0] = 'A';                 // ✅ OK
+    // str[0] = 'A';              // ❌ 不能改常量区
+
+    free(p);
+    p = NULL;
+    return 0;
+}</code></pre>
+
+    <h3>代码 7 · 返回 static 变量地址（合法）</h3>
+<pre><code>#include &lt;stdio.h&gt;
+
+int *getNum() {
+    static int b = 20;   // 静态区，不随函数销毁
+    return &b;           // ✅ 合法
+}
+
+int main() {
+    int *p = getNum();
+    printf("%d\n", *p);   // 输出 20
+    return 0;
+}</code></pre>
+</section>
+<!-- END: 代码整理区 -->
+
+<!-- START: 练习中心 -->
+<section class="card" id="practice">
+    <h2><span class="idx">P</span>练习 / 自测中心</h2>
+    <p class="sub">题目默认可见，答案默认隐藏，点击展开。</p>
+
+    <!-- 题1 -->
+    <div class="practice">
+        <div class="practice-title">练习 1 · 概念辨析：malloc 单位</div>
+        <div class="question">
+            <p>以下代码申请的是多少个 <code>int</code> 的空间？</p>
+<pre><code>int *p = malloc(100);</code></pre>
+        </div>
+        <div class="answer">
+            <details class="answer-toggle">
+                <summary>点击查看答案解析</summary>
+                <div class="answer-content">
+                    <p><strong>答案：</strong>25 个（在 <code>int</code> 为 4 字节的系统上）。</p>
+                    <p><strong>解析：</strong><code>malloc</code> 的参数单位是<strong>字节</strong>，不是元素个数。
+                    100 字节 ÷ 4 字节 = 25 个 <code>int</code>。</p>
+                    <p><strong>结论：</strong>正确写法应该是 <code>malloc(100 * sizeof(int))</code>，保证跨平台通用性。</p>
+                </div>
+            </details>
+        </div>
+    </div>
+
+    <!-- 题2 -->
+    <div class="practice">
+        <div class="practice-title">练习 2 · 判断输出：sizeof 陷阱</div>
+        <div class="question">
+            <p>以下代码输出是多少？（64 位系统，<code>int</code> 为 4 字节）</p>
+<pre><code>int arr[10];
+int *p = malloc(10 * sizeof(int));
+
+printf("%zu\n", sizeof(arr));
+printf("%zu\n", sizeof(p));</code></pre>
+        </div>
+        <div class="answer">
+            <details class="answer-toggle">
+                <summary>点击查看答案解析</summary>
+                <div class="answer-content">
+                    <p><strong>答案：</strong></p>
+                    <pre><code>40
+8</code></pre>
+                    <p><strong>解析：</strong></p>
+                    <ul style="margin:4px 0; padding-left:22px;">
+                        <li><code>arr</code> 在 <code>sizeof</code> 中表示整个数组，10 × 4 = 40。</li>
+                        <li><code>p</code> 是指针变量，<code>sizeof(p)</code> 测的是<strong>指针本身的大小</strong>，
+                        64 位系统固定为 8 字节。</li>
+                    </ul>
+                    <p><strong>结论：</strong>动态数组无法通过 <code>sizeof(p)</code> 获取空间大小，必须用单独的变量记录长度。</p>
+                </div>
+            </details>
+        </div>
+    </div>
+
+    <!-- 题3 -->
+    <div class="practice">
+        <div class="practice-title">练习 3 · 找错：危险代码</div>
+        <div class="question">
+            <p>下面的函数有什么问题？</p>
+<pre><code>int *getData() {
+    int arr[3] = {1, 2, 3};
+    return arr;
+}</code></pre>
+        </div>
+        <div class="answer">
+            <details class="answer-toggle">
+                <summary>点击查看答案解析</summary>
+                <div class="answer-content">
+                    <p><strong>答案：</strong>返回了栈区局部数组的地址，属于<strong>野指针</strong>。</p>
+                    <p><strong>解析：</strong></p>
+                    <pre><code>栈区：
+┌──────────────────┐
+│ getData 栈帧     │
+│   arr[3]         │  ← 函数结束后出栈，消失
+└──────────────────┘
+
+调用方拿到的地址已指向"不存在的空间"。</code></pre>
+                    <p><strong>结论：</strong>修复方案二选一：</p>
+                    <ol style="margin:4px 0; padding-left:22px;">
+                        <li>改为 <code>static int arr[3] = {1,2,3};</code>（静态区）</li>
+                        <li>改为 <code>int *arr = malloc(3 * sizeof(int))</code>（堆区），由调用方 <code>free</code></li>
+                    </ol>
+                </div>
+            </details>
+        </div>
+    </div>
+
+    <!-- 题4 -->
+    <div class="practice">
+        <div class="practice-title">练习 4 · 内存推理：字符串在哪里</div>
+        <div class="question">
+            <p>下列哪些操作是合法的？</p>
+<pre><code>char *s1 = "abc";
+char s2[] = "abc";
+
+s1[0] = 'A';   // A
+s2[0] = 'A';   // B
+s1 = "xyz";    // C
+s2 = "xyz";    // D</code></pre>
+        </div>
+        <div class="answer">
+            <details class="answer-toggle">
+                <summary>点击查看答案解析</summary>
+                <div class="answer-content">
+                    <p><strong>答案：</strong>B 和 C 合法，A 和 D 非法。</p>
+                    <p><strong>解析：</strong></p>
+                    <ul style="margin:4px 0; padding-left:22px;">
+                        <li><strong>A 错：</strong><code>s1</code> 指向<strong>常量区</strong>，内容不能修改。</li>
+                        <li><strong>B 对：</strong><code>s2</code> 是栈区的字符数组，拷贝自 <code>"abc"</code>，可修改。</li>
+                        <li><strong>C 对：</strong>让指针 <code>s1</code> 指向新的常量字符串 <code>"xyz"</code>，改变的是指针的值。</li>
+                        <li><strong>D 错：</strong>数组名不是可修改的左值，不能对数组整体赋值。</li>
+                    </ul>
+                </div>
+            </details>
+        </div>
+    </div>
+
+    <!-- 题5 -->
+    <div class="practice">
+        <div class="practice-title">练习 5 · 场景判断：用 malloc 还是普通数组</div>
+        <div class="question">
+            <p>以下三种场景，应该用普通数组还是 <code>malloc</code>？</p>
+            <ol>
+                <li>函数内部临时用一个 10 个 <code>int</code> 的数组</li>
+                <li>用户运行时才知道要存多少个数据</li>
+                <li>函数内部创建一个数组，返回给调用方使用</li>
+            </ol>
+        </div>
+        <div class="answer">
+            <details class="answer-toggle">
+                <summary>点击查看答案解析</summary>
+                <div class="answer-content">
+                    <p><strong>答案：</strong></p>
+                    <ol style="margin:4px 0; padding-left:22px;">
+                        <li>普通数组（栈）—— 数量固定、函数内用、自动回收。</li>
+                        <li><code>malloc</code>（堆）—— 长度运行时才能决定。</li>
+                        <li><code>malloc</code>（堆）—— 栈数组函数结束会消失，无法跨函数使用。</li>
+                    </ol>
+                    <p><strong>规则：</strong>
+                    <span class="tag-blue">数量固定 + 函数内用</span> 选栈；
+                    <span class="tag-amber">运行时决定大小 / 跨函数 / 大数组</span> 选堆。</p>
+                </div>
+            </details>
+        </div>
+    </div>
+
+    <!-- 题6 -->
+    <div class="practice">
+        <div class="practice-title">练习 6 · 代码纠错：内存泄漏</div>
+        <div class="question">
+            <p>找出下面代码的两个问题：</p>
+<pre><code>int main() {
+    int *p = malloc(10 * sizeof(int));
+    p = malloc(20 * sizeof(int));
+
+    printf("%d\n", *p);
+
+    return 0;
+}</code></pre>
+        </div>
+        <div class="answer">
+            <details class="answer-toggle">
+                <summary>点击查看答案解析</summary>
+                <div class="answer-content">
+                    <p><strong>问题 1：</strong>第二次 <code>malloc</code> 把 <code>p</code> 覆盖了，
+                    第一次申请的 10 × 4 字节再也无法释放 ——<strong>内存泄漏</strong>。</p>
+                    <p><strong>问题 2：</strong><code>malloc</code> 申请的空间没有初始化，
+                    <code>*p</code> 打印的是<strong>垃圾值</strong>。</p>
+                    <p><strong>正确写法：</strong></p>
+<pre><code>int *p = malloc(10 * sizeof(int));
+if (p == NULL) return 1;
+
+// 用完再申请新的就要先释放
+free(p);
+p = malloc(20 * sizeof(int));
+if (p == NULL) return 1;
+
+for (int i = 0; i &lt; 20; i++) p[i] = 0;   // 先赋值
+printf("%d\n", p[0]);
+
+free(p);
+p = NULL;</code></pre>
+                </div>
+            </details>
+        </div>
+    </div>
+
+    <!-- 题7 -->
+    <div class="practice">
+        <div class="practice-title">练习 7 · 内存区域判断</div>
+        <div class="question">
+            <p>指出以下每个变量所在的内存区域：</p>
+<pre><code>int g1;
+int g2 = 100;
+
+int main() {
+    int a = 10;
+    static int b = 20;
+    char *s = "hello";
+    int *p = malloc(5 * sizeof(int));
+    return 0;
+}</code></pre>
+        </div>
+        <div class="answer">
+            <details class="answer-toggle">
+                <summary>点击查看答案解析</summary>
+                <div class="answer-content">
+                    <table style="width:100%; border-collapse:collapse; font-size:13px;">
+                        <thead><tr >
+                            <th style="padding:6px; border:1px solid var(--border);">变量</th>
+                            <th style="padding:6px; border:1px solid var(--border);">位置</th>
+                        </tr></thead>
+                        <tbody>
+                            <tr><td style="padding:6px; border:1px solid var(--border);"><code>g1</code></td><td style="padding:6px; border:1px solid var(--border);">未初始化静态区</td></tr>
+                            <tr><td style="padding:6px; border:1px solid var(--border);"><code>g2</code></td><td style="padding:6px; border:1px solid var(--border);">初始化静态区</td></tr>
+                            <tr><td style="padding:6px; border:1px solid var(--border);"><code>a</code></td><td style="padding:6px; border:1px solid var(--border);">栈区</td></tr>
+                            <tr><td style="padding:6px; border:1px solid var(--border);"><code>b</code></td><td style="padding:6px; border:1px solid var(--border);">初始化静态区</td></tr>
+                            <tr><td style="padding:6px; border:1px solid var(--border);"><code>s</code>（指针本身）</td><td style="padding:6px; border:1px solid var(--border);">栈区</td></tr>
+                            <tr><td style="padding:6px; border:1px solid var(--border);"><code>"hello"</code> 字面量</td><td style="padding:6px; border:1px solid var(--border);">常量区</td></tr>
+                            <tr><td style="padding:6px; border:1px solid var(--border);"><code>p</code>（指针本身）</td><td style="padding:6px; border:1px solid var(--border);">栈区</td></tr>
+                            <tr><td style="padding:6px; border:1px solid var(--border);">malloc 申请的 5 个 int</td><td style="padding:6px; border:1px solid var(--border);">堆区</td></tr>
+                        </tbody>
+                    </table>
+                    <p><strong>关键记忆：</strong>"指针在哪里"和"指针指向哪里"是两件事。</p>
+                </div>
+            </details>
+        </div>
+    </div>
+
+    <!-- 题8 -->
+    <div class="practice">
+        <div class="practice-title">练习 8 · realloc 地址推理</div>
+        <div class="question">
+            <p>以下两次 <code>printf</code> 输出的地址一定相同吗？</p>
+<pre><code>int *p = malloc(10 * sizeof(int));
+printf("%p\n", p);
+
+p = realloc(p, 1000 * sizeof(int));
+printf("%p\n", p);</code></pre>
+        </div>
+        <div class="answer">
+            <details class="answer-toggle">
+                <summary>点击查看答案解析</summary>
+                <div class="answer-content">
+                    <p><strong>答案：</strong>不一定。可能相同，也可能不同。</p>
+                    <p><strong>解析：</strong></p>
+                    <ul style="margin:4px 0; padding-left:22px;">
+                        <li>如果原空间后面还有连续空闲 → 原地扩容，<strong>地址不变</strong>。</li>
+                        <li>如果原空间后面被占用 → 系统新找一块空间，拷贝旧数据，<strong>地址改变</strong>。</li>
+                    </ul>
+                    <p><strong>结论：</strong>不能假设 <code>realloc</code> 返回的地址与原地址相同，
+                    所以要用临时指针接收并判断 <code>NULL</code>。</p>
+                </div>
+            </details>
+        </div>
+    </div>
+
+    <!-- 题9 -->
+    <div class="practice">
+        <div class="practice-title">练习 9 · 脏数据推理</div>
+        <div class="question">
+            <p>以下代码的输出一定是 "10 20" 吗？</p>
+<pre><code>int *p = malloc(2 * sizeof(int));
+p[0] = 10; p[1] = 20;
+
+free(p);
+
+printf("%d %d\n", p[0], p[1]);</code></pre>
+        </div>
+        <div class="answer">
+            <details class="answer-toggle">
+                <summary>点击查看答案解析</summary>
+                <div class="answer-content">
+                    <p><strong>答案：</strong>不一定。属于"脏数据"，结果未定义。</p>
+                    <p><strong>解析：</strong></p>
+                    <p><code>free</code> 之后空间归还系统，里面的值可能：</p>
+                    <ul style="margin:4px 0; padding-left:22px;">
+                        <li>恰好还是 10 和 20（系统没来得及改）</li>
+                        <li>变成 0</li>
+                        <li>变成其他随机值</li>
+                        <li>甚至程序直接崩溃</li>
+                    </ul>
+                    <p><strong>结论：</strong><code>free</code> 之后的空间<strong>一律不能访问</strong>。
+                    建议配合 <code>p = NULL;</code> 防御野指针。</p>
+                </div>
+            </details>
+        </div>
+    </div>
+
+    <!-- 题10 -->
+    <div class="practice">
+        <div class="practice-title">练习 10 · 面试题：堆 vs 栈</div>
+        <div class="question">
+            <p>用一句话说清楚"普通数组"和"malloc 数组"的两大核心区别。</p>
+        </div>
+        <div class="answer">
+            <details class="answer-toggle">
+                <summary>点击查看答案解析</summary>
+                <div class="answer-content">
+                    <p><strong>参考答案：</strong></p>
+                    <ol style="margin:4px 0; padding-left:22px;">
+                        <li><strong>位置不同</strong>：普通数组在栈，<code>malloc</code> 数组在堆；
+                        栈空间小（几 MB），堆空间大（受内存限制）。</li>
+                        <li><strong>生命周期不同</strong>：普通数组随函数结束自动销毁，
+                        堆数组只要不 <code>free</code> 就一直存在，所以可以跨函数使用。</li>
+                    </ol>
+                </div>
+            </details>
+        </div>
+    </div>
+</section>
+<!-- END: 练习中心 -->
+
+<!-- START: 实战策略 -->
+<section class="card" id="strategy">
+    <h2><span class="idx">S</span>实战策略（考试 / 笔试 / 面试）</h2>
+    <p class="sub">遇到问题的快速判断流程。</p>
+
+    <h3>策略 1 · 看到 malloc，立刻想到五步</h3>
+    <div class="note-blue">
+        <strong>固定五步：</strong>
+        <ol style="margin:4px 0; padding-left:22px;">
+            <li>申请：<code>int *p = malloc(n * sizeof(T));</code></li>
+            <li>判空：<code>if (p == NULL) return ...;</code></li>
+            <li>赋值：使用前必须先写入</li>
+            <li>使用：<code>p[i]</code></li>
+            <li>释放：<code>free(p); p = NULL;</code></li>
+        </ol>
+    </div>
+
+    <h3>策略 2 · 判断"变量在哪里"的口诀</h3>
+    <div class="note-green">
+        <ol style="margin:4px 0; padding-left:22px;">
+            <li>函数外 / <code>static</code> → <strong>静态区</strong>（看有没有赋值分两种）</li>
+            <li><code>char *s = "xxx"</code> 的 <code>"xxx"</code> → <strong>常量区</strong></li>
+            <li><code>malloc/calloc/realloc</code> 申请的 → <strong>堆区</strong></li>
+            <li>其他函数内的普通变量、数组、指针本身 → <strong>栈区</strong></li>
+        </ol>
+    </div>
+
+    <h3>策略 3 · 常见陷阱清单</h3>
+    <div class="grid-2">
+        <div class="note-red">
+            <strong>陷阱 1：返回局部变量地址</strong>
+<pre><code>int *f() {
+    int x = 10;
+    return &x;   // ❌
+}</code></pre>
+            → 改成 <code>static</code> 或 <code>malloc</code>。
+        </div>
+        <div class="note-red">
+            <strong>陷阱 2：内存泄漏</strong>
+<pre><code>p = malloc(...);
+p = malloc(...);   // ❌ 丢失第一块</code></pre>
+            → 重新赋值前先 <code>free</code>。
+        </div>
+        <div class="note-red">
+            <strong>陷阱 3：修改常量区</strong>
+<pre><code>char *s = "abc";
+s[0] = 'A';   // ❌</code></pre>
+            → 改成 <code>char s[] = "abc";</code>。
+        </div>
+        <div class="note-red">
+            <strong>陷阱 4：访问脏数据</strong>
+<pre><code>free(p);
+printf("%d", p[0]);   // ❌</code></pre>
+            → <code>free</code> 后立刻 <code>p = NULL;</code>。
+        </div>
+        <div class="note-red">
+            <strong>陷阱 5：用 sizeof 求动态数组大小</strong>
+<pre><code>int *p = malloc(10 * sizeof(int));
+sizeof(p);   // ❌ 只是 8</code></pre>
+            → 自己用 <code>int size</code> 记录。
+        </div>
+        <div class="note-red">
+            <strong>陷阱 6：realloc 直接赋给原指针</strong>
+<pre><code>p = realloc(p, new);   // ❌ 失败就丢指针</code></pre>
+            → 用临时指针 <code>temp</code> 接。
+        </div>
+    </div>
+
+    <h3>策略 4 · 常考概念辨析</h3>
+    <table class="data-table">
+        <thead>
+            <tr >
+                <th>对比项</th>
+                <th>A</th>
+                <th>B</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>malloc vs calloc</td>
+                <td>仅申请</td>
+                <td>申请 + 清零</td>
+            </tr>
+            <tr>
+                <td>普通数组 vs malloc 数组</td>
+                <td>栈 / 随函数销毁</td>
+                <td>堆 / 手动 free</td>
+            </tr>
+            <tr>
+                <td><code>char *s = "abc"</code> vs <code>char s[] = "abc"</code></td>
+                <td>常量区 / 不可改</td>
+                <td>栈 / 可改</td>
+            </tr>
+            <tr>
+                <td>局部 vs 全局 vs static 局部</td>
+                <td>栈 / 函数期间</td>
+                <td>静态区 / 程序期间</td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+<!-- END: 实战策略 -->
+
+<!-- START: 检查清单 -->
+<section class="card" id="checklist">
+    <h2><span class="idx">✓</span>考前检查清单</h2>
+    <p class="sub">考前 10 分钟扫一遍。</p>
+
+    <div class="checklist">
+        <h4>【A】四大函数</h4>
+        <div class="check-item">能说出 malloc / calloc / realloc / free 的头文件 <code>&lt;stdlib.h&gt;</code></div>
+        <div class="check-item">记住 malloc 参数单位是字节，写法 <code>n * sizeof(T)</code></div>
+        <div class="check-item">知道 malloc 返回 <code>void *</code>，可强转也可不强转</div>
+        <div class="check-item">知道 calloc 会初始化为 0，malloc 不会</div>
+        <div class="check-item">知道 realloc 地址可能变、旧数据保留、旧空间无需 free</div>
+        <div class="check-item">记住 free 后要 <code>p = NULL;</code></div>
+
+        <h4>【B】内存结构</h4>
+        <div class="check-item">能画出六大区域示意图</div>
+        <div class="check-item">能判断任意变量所在区域</div>
+        <div class="check-item">区分"指针在哪里"和"指针指向哪里"</div>
+        <div class="check-item">普通数组 / malloc 数组的两大区别</div>
+        <div class="check-item">全局变量 / static 变量生命周期和程序一样</div>
+
+        <h4>【C】字符串</h4>
+        <div class="check-item"><code>char *s = "abc"</code> 的 <code>"abc"</code> 在常量区，不可改</div>
+        <div class="check-item"><code>char s[] = "abc"</code> 在栈区，可改</div>
+        <div class="check-item">常量区有复用机制</div>
+        <div class="check-item">修改指针 ≠ 修改字符串内容</div>
+
+        <h4>【D】易错点</h4>
+        <div class="check-item">不返回局部变量地址</div>
+        <div class="check-item">不重复赋值 malloc 前忘记 free</div>
+        <div class="check-item">不在 free 后继续访问空间（脏数据）</div>
+        <div class="check-item">不用 sizeof(p) 求动态数组大小</div>
+        <div class="check-item">realloc 用临时指针接收</div>
+        <div class="check-item">使用前先赋值，malloc 空间默认值是垃圾值</div>
+    </div>
+</section>
+<!-- END: 检查清单 -->
+</main>
+
+<!-- START: 页脚 -->
+<footer class="card" style="text-align:center; color:var(--text-weak); font-size:13px;">
+    <p><strong>C 语言一套通关 · 第 14 章 · 动态内存分配</strong></p>
+    <p>覆盖范围：14-01 常用函数 · 14-02 malloc 细节 · 14-03 其他三个函数细节 ·
+       14-04 内存结构 · 14-05 变量与数组 · 14-06 全局与 static ·
+       14-07 字符串 · 14-08 malloc 内存运行</p>
+    <p>最后更新：2026-05-09</p>
+</footer>
+<!-- END: 页脚 -->
+
+</div>
+
+<!-- START: JavaScript -->
+<script>
+(function () {
+    function setDetails(selector, open) {
+        document.querySelectorAll(selector).forEach(function (node) {
+            node.open = open;
+        });
+    }
+
+    window.expandAll = function () {
+        setDetails('details', true);
+    };
+
+    window.collapseAll = function () {
+        setDetails('details', false);
+    };
+
+    window.showAnswers = function () {
+        setDetails('details.answer-toggle', true);
+    };
+
+    window.hideAnswers = function () {
+        setDetails('details.answer-toggle', false);
+    };
+
+    window.toggleFocusMode = function () {
+        var btn = document.getElementById('focusBtn');
+        var focused = document.body.classList.toggle('focus-mode');
+        if (btn) btn.textContent = focused ? '显示全部' : '只看重点';
+    };
+
+    window.printPage = function () {
+        window.expandAll();
+        window.showAnswers();
+        window.setTimeout(function () { window.print(); }, 200);
+    };
+
+    document.addEventListener('DOMContentLoaded', function () {
+        document.querySelectorAll('.nav a[href^="#"]').forEach(function (a) {
+            a.addEventListener('click', function (e) {
+                var target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    e.preventDefault();
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+    });
+}());
+</script>
+<!-- END: JavaScript -->
+
+    <script src="../data.js"></script>
+    <script src="../js/lecture.js"></script>
+</body>
+</html>

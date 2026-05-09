@@ -1,0 +1,371 @@
+/* Unified lecture study layer. It intentionally avoids rewriting each page's
+   original visual system; these rules add a stable review shell around it. */
+:root {
+    --lecture-blue: #2563eb;
+    --lecture-blue-soft: #eff6ff;
+    --lecture-green: #059669;
+    --lecture-green-soft: #ecfdf5;
+    --lecture-amber: #d97706;
+    --lecture-amber-soft: #fffbeb;
+    --lecture-red: #dc2626;
+    --lecture-red-soft: #fef2f2;
+    --lecture-purple: #7c3aed;
+    --lecture-purple-soft: #f5f3ff;
+    --lecture-text: #172033;
+    --lecture-muted: #64748b;
+    --lecture-border: #e2e8f0;
+    --lecture-card: #ffffff;
+}
+
+html {
+    scroll-padding-top: 84px;
+}
+
+body {
+    overflow-x: hidden;
+}
+
+body.lecture-enhanced {
+    color: var(--lecture-text);
+}
+
+body.lecture-enhanced img,
+body.lecture-enhanced table,
+body.lecture-enhanced iframe,
+body.lecture-enhanced video {
+    max-width: 100%;
+}
+
+body.lecture-enhanced pre {
+    max-width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+.lecture-progress {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 4px;
+    z-index: 9999;
+    background: rgba(226, 232, 240, 0.75);
+}
+
+.lecture-progress__bar {
+    display: block;
+    width: 0;
+    height: 100%;
+    background: linear-gradient(90deg, var(--lecture-blue), var(--lecture-green));
+}
+
+.lecture-topbar {
+    position: sticky;
+    top: 0;
+    z-index: 9998;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    min-height: 56px;
+    padding: 8px max(16px, env(safe-area-inset-left)) 8px max(16px, env(safe-area-inset-right));
+    border-bottom: 1px solid var(--lecture-border);
+    background: rgba(255, 255, 255, 0.94);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+}
+
+.lecture-topbar__title {
+    min-width: 0;
+    color: var(--lecture-text);
+    font-size: 0.9rem;
+    font-weight: 900;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.lecture-nav {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-shrink: 0;
+}
+
+.lecture-link,
+.lecture-copy-btn {
+    min-height: 36px;
+    border: 1px solid var(--lecture-border);
+    border-radius: 999px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    padding: 0 12px;
+    color: #334155;
+    background: #ffffff;
+    font-size: 0.78rem;
+    font-weight: 900;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.lecture-link:hover,
+.lecture-link:focus-visible,
+.lecture-copy-btn:hover,
+.lecture-copy-btn:focus-visible {
+    color: var(--lecture-blue);
+    border-color: #bfdbfe;
+    text-decoration: none;
+}
+
+.lecture-study-shell {
+    width: min(1120px, calc(100% - 28px));
+    margin: 16px auto 20px;
+}
+
+.lecture-study-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.12fr) minmax(260px, 0.88fr);
+    gap: 14px;
+    align-items: stretch;
+}
+
+.lecture-review-card {
+    padding: 18px;
+    border: 1px solid var(--lecture-border);
+    border-radius: 16px;
+    background: var(--lecture-card);
+    box-shadow: 0 8px 22px rgba(15, 23, 42, 0.05);
+}
+
+.lecture-review-card h2,
+.lecture-review-card h3 {
+    margin: 0;
+    color: var(--lecture-text);
+    line-height: 1.25;
+}
+
+.lecture-review-card h2 {
+    font-size: 1.2rem;
+    font-weight: 900;
+}
+
+.lecture-review-card h3 {
+    margin-bottom: 10px;
+    font-size: 0.92rem;
+    font-weight: 900;
+}
+
+.lecture-review-card p {
+    margin: 8px 0 0;
+    color: var(--lecture-muted);
+    font-size: 0.88rem;
+    line-height: 1.7;
+}
+
+.lecture-pill-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 7px;
+    margin-top: 14px;
+}
+
+.lecture-pill {
+    min-height: 26px;
+    border-radius: 999px;
+    display: inline-flex;
+    align-items: center;
+    padding: 0 10px;
+    font-size: 0.72rem;
+    font-weight: 900;
+}
+
+.lecture-pill--blue { color: var(--lecture-blue); background: var(--lecture-blue-soft); }
+.lecture-pill--green { color: var(--lecture-green); background: var(--lecture-green-soft); }
+.lecture-pill--amber { color: var(--lecture-amber); background: var(--lecture-amber-soft); }
+.lecture-pill--red { color: var(--lecture-red); background: var(--lecture-red-soft); }
+.lecture-pill--purple { color: var(--lecture-purple); background: var(--lecture-purple-soft); }
+
+.lecture-focus-list,
+.lecture-check-list,
+.lecture-recall-list,
+.lecture-toc-list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.lecture-focus-list {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+    margin-top: 12px;
+}
+
+.lecture-focus-list li {
+    padding: 12px;
+    border-radius: 12px;
+    background: #f8fafc;
+    color: var(--lecture-text);
+    font-size: 0.86rem;
+    font-weight: 800;
+    line-height: 1.55;
+}
+
+.lecture-toc-card {
+    max-height: 420px;
+    overflow-y: auto;
+}
+
+.lecture-toc-list {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.lecture-toc-list a {
+    display: block;
+    padding: 7px 9px;
+    border-radius: 9px;
+    color: #334155;
+    font-size: 0.8rem;
+    font-weight: 800;
+    line-height: 1.4;
+    text-decoration: none;
+}
+
+.lecture-toc-list a:hover,
+.lecture-toc-list a:focus-visible {
+    color: var(--lecture-blue);
+    background: var(--lecture-blue-soft);
+    text-decoration: none;
+}
+
+.lecture-toc-list .level-3 {
+    margin-left: 14px;
+    color: var(--lecture-muted);
+    font-size: 0.76rem;
+}
+
+.lecture-review-footer {
+    width: min(1120px, calc(100% - 28px));
+    margin: 24px auto 44px;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 14px;
+}
+
+.lecture-recall-list,
+.lecture-check-list {
+    display: flex;
+    flex-direction: column;
+    gap: 9px;
+}
+
+.lecture-recall-list li,
+.lecture-check-list li {
+    padding: 10px 11px;
+    border-radius: 11px;
+    color: var(--lecture-text);
+    background: #f8fafc;
+    font-size: 0.84rem;
+    font-weight: 800;
+    line-height: 1.55;
+}
+
+.lecture-card--concept { border-top: 4px solid var(--lecture-blue); }
+.lecture-card--practice { border-top: 4px solid var(--lecture-green); }
+.lecture-card--warning { border-top: 4px solid var(--lecture-red); }
+.lecture-card--memory { border-top: 4px solid var(--lecture-purple); }
+
+.lecture-code-wrap {
+    position: relative;
+    margin: 10px 0;
+}
+
+.lecture-code-wrap pre {
+    margin: 0;
+}
+
+.lecture-copy-btn {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    min-height: 30px;
+    padding: 0 9px;
+    color: #e2e8f0;
+    background: rgba(15, 23, 42, 0.82);
+    border-color: rgba(148, 163, 184, 0.45);
+    font-size: 0.72rem;
+}
+
+.lecture-copy-btn:hover,
+.lecture-copy-btn:focus-visible {
+    color: #ffffff;
+    border-color: #ffffff;
+}
+
+.lecture-link:focus-visible,
+.lecture-copy-btn:focus-visible,
+.lecture-toc-list a:focus-visible {
+    outline: 3px solid rgba(37, 99, 235, 0.32);
+    outline-offset: 2px;
+}
+
+@media (max-width: 860px) {
+    .lecture-study-grid,
+    .lecture-review-footer {
+        grid-template-columns: 1fr;
+    }
+
+    .lecture-toc-card {
+        max-height: none;
+    }
+}
+
+@media (max-width: 560px) {
+    html {
+        scroll-padding-top: 118px;
+    }
+
+    .lecture-topbar {
+        align-items: stretch;
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .lecture-topbar__title {
+        white-space: normal;
+    }
+
+    .lecture-nav {
+        width: 100%;
+        overflow-x: auto;
+        padding-bottom: 2px;
+    }
+
+    .lecture-link {
+        flex-shrink: 0;
+    }
+
+    .lecture-study-shell,
+    .lecture-review-footer {
+        width: calc(100% - 20px);
+        margin-top: 12px;
+    }
+
+    .lecture-focus-list {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+}

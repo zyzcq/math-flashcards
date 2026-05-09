@@ -9,46 +9,31 @@
     <link rel="stylesheet" href="css/common.css">
     <link rel="stylesheet" href="css/index.css">
 </head>
-<body class="min-h-screen p-6 md:p-10 max-w-4xl mx-auto">
-
-    <header class="mb-10 mt-4 flex justify-between items-start">
-        <div>
-            <h1 class="text-3xl font-black text-slate-800 tracking-tight">知识库与记忆闪卡</h1>
-            <p class="text-sm text-slate-500 mt-2 font-medium">高效复习 · 核心考点突破</p>
+<body class="home-page">
+    <header class="home-header">
+        <div class="home-title">
+            <p class="home-kicker">复习入口</p>
+            <h1>知识库与记忆闪卡</h1>
+            <p>少一点干扰，多一点回忆。选择一个主题，马上开始。</p>
         </div>
-        <div class="flex items-center gap-3 mt-1">
-            <span id="user-display" class="text-sm font-bold text-slate-600" aria-live="polite"></span>
-            <button type="button" onclick="handleLogout()" class="h-9 px-4 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-600 text-xs font-bold transition-colors active:scale-95">
-                <i class="fa-solid fa-right-from-bracket mr-1"></i>退出
+        <div class="home-session">
+            <span id="user-display" class="user-chip" aria-live="polite"></span>
+            <button type="button" id="logout-btn" class="logout-button" aria-label="退出登录">
+                <i class="fa-solid fa-right-from-bracket" aria-hidden="true"></i>
+                <span>退出</span>
             </button>
         </div>
     </header>
 
-    <div id="main-container"></div>
+    <main id="main-container" class="home-main"></main>
+
+    <noscript>
+        <div class="empty-state">
+            <p>请启用 JavaScript 后继续学习。</p>
+        </div>
+    </noscript>
 
     <script src="data.js"></script>
     <script src="js/index.js"></script>
-    <script>
-        (function checkLogin() {
-            const session = localStorage.getItem('math_flashcard_session');
-            if (!session) {
-                window.location.href = 'login.html';
-                return;
-            }
-            try {
-                const { username } = JSON.parse(session);
-                if (!username) throw new Error('Missing username');
-                document.getElementById('user-display').textContent = username;
-            } catch (error) {
-                localStorage.removeItem('math_flashcard_session');
-                window.location.href = 'login.html';
-            }
-        })();
-
-        function handleLogout() {
-            localStorage.removeItem('math_flashcard_session');
-            window.location.href = 'login.html';
-        }
-    </script>
 </body>
 </html>

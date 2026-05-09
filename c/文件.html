@@ -1,0 +1,1956 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>C语言 · 第15章 · 文件操作 复习系统</title>
+<style>
+/* ============ :root 变量 ============ */
+:root {
+  --bg: #f5f6f8;
+  --card: #ffffff;
+  --text: #1f2937;
+  --text-weak: #6b7280;
+  --border: #e5e7eb;
+
+  --blue: #2563eb;
+  --blue-bg: #eff6ff;
+  --green: #16a34a;
+  --green-bg: #f0fdf4;
+  --amber: #d97706;
+  --amber-bg: #fffbeb;
+  --purple: #7c3aed;
+  --purple-bg: #f5f3ff;
+  --red: #dc2626;
+  --red-bg: #fef2f2;
+  --gray: #6b7280;
+  --gray-bg: #f3f4f6;
+
+  --radius: 10px;
+  --radius-sm: 6px;
+  --shadow: 0 1px 3px rgba(0,0,0,0.04), 0 1px 2px rgba(0,0,0,0.06);
+  --shadow-hover: 0 4px 12px rgba(0,0,0,0.06);
+  --max-width: 1080px;
+
+  --code-bg: #1e293b;
+  --code-text: #e2e8f0;
+  --code-comment: #94a3b8;
+  --code-keyword: #93c5fd;
+  --code-string: #fca5a5;
+}
+
+/* ============ 全局样式 ============ */
+* { box-sizing: border-box; }
+html, body {
+  margin: 0; padding: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", "Segoe UI", Roboto, sans-serif;
+  font-size: 15px;
+  line-height: 1.75;
+}
+a { color: var(--blue); text-decoration: none; }
+a:hover { text-decoration: underline; }
+h1, h2, h3, h4 { margin: 0 0 12px 0; line-height: 1.4; }
+p { margin: 8px 0; }
+ul, ol { margin: 8px 0; padding-left: 22px; }
+li { margin: 4px 0; }
+code {
+  font-family: Consolas, Monaco, "Courier New", monospace;
+  background: var(--gray-bg);
+  color: #be185d;
+  padding: 1px 6px;
+  border-radius: 4px;
+  font-size: 0.9em;
+}
+pre {
+  background: var(--code-bg);
+  color: var(--code-text);
+  padding: 16px 18px;
+  border-radius: var(--radius-sm);
+  overflow-x: auto;
+  margin: 10px 0;
+  font-size: 13.5px;
+  line-height: 1.65;
+}
+pre code {
+  background: transparent;
+  color: var(--code-text);
+  padding: 0;
+  font-size: 13.5px;
+}
+
+/* ============ 页面布局 ============ */
+.page {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 24px 20px 60px;
+}
+
+/* ============ Hero 区 ============ */
+.hero {
+  background: linear-gradient(135deg, #eef2ff 0%, #f0f9ff 100%);
+  border-radius: var(--radius);
+  padding: 36px 32px;
+  margin-bottom: 24px;
+  border: 1px solid var(--border);
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+.hero h1 {
+  font-size: 26px;
+  color: #1e3a8a;
+  margin-bottom: 8px;
+}
+.hero .subtitle {
+  color: var(--text-weak);
+  font-size: 15px;
+  margin-bottom: 16px;
+}
+.hero .tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 14px 0;
+}
+.hero .tag {
+  background: #ffffff;
+  border: 1px solid var(--border);
+  padding: 4px 12px;
+  border-radius: 999px;
+  font-size: 13px;
+  color: #334155;
+}
+.hero .usage {
+  margin-top: 14px;
+  font-size: 13.5px;
+  color: var(--text-weak);
+  background: rgba(255,255,255,0.6);
+  padding: 10px 14px;
+  border-radius: var(--radius-sm);
+  border-left: 3px solid var(--blue);
+}
+
+/* ============ 工具栏 ============ */
+.toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 12px 14px;
+  margin-bottom: 16px;
+  box-shadow: var(--shadow);
+}
+.toolbar button {
+  background: #ffffff;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 6px 14px;
+  font-size: 13.5px;
+  cursor: pointer;
+  color: #334155;
+  transition: all .15s;
+  font-family: inherit;
+}
+.toolbar button:hover {
+  background: var(--blue-bg);
+  border-color: var(--blue);
+  color: var(--blue);
+}
+.toolbar button.primary {
+  background: var(--blue);
+  color: #ffffff;
+  border-color: var(--blue);
+}
+.toolbar button.primary:hover {
+  background: #1d4ed8;
+  color: #ffffff;
+}
+
+/* ============ 导航栏 ============ */
+.nav {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 12px 16px;
+  margin-bottom: 20px;
+  box-shadow: var(--shadow);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.nav a {
+  padding: 4px 10px;
+  border-radius: var(--radius-sm);
+  font-size: 13.5px;
+  color: #475569;
+  border: 1px solid transparent;
+}
+.nav a:hover {
+  background: var(--blue-bg);
+  color: var(--blue);
+  text-decoration: none;
+}
+
+/* ============ 卡片 ============ */
+.card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 24px 26px;
+  margin-bottom: 20px;
+  box-shadow: var(--shadow);
+}
+.card h2 {
+  font-size: 20px;
+  color: #1e40af;
+  padding-bottom: 10px;
+  border-bottom: 2px solid var(--blue-bg);
+  margin-bottom: 16px;
+}
+.card h3 {
+  font-size: 16px;
+  color: #334155;
+  margin-top: 18px;
+  margin-bottom: 8px;
+}
+.card h4 {
+  font-size: 14.5px;
+  color: #475569;
+  margin-top: 14px;
+  margin-bottom: 6px;
+}
+
+/* ============ 网格布局 ============ */
+.grid-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin: 12px 0;
+}
+.grid-3 {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+  margin: 12px 0;
+}
+.mini-card {
+  background: #fafbfc;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 14px 16px;
+}
+.mini-card .mc-title {
+  font-weight: 600;
+  font-size: 14px;
+  color: #334155;
+  margin-bottom: 6px;
+}
+.mini-card .mc-desc {
+  font-size: 13px;
+  color: var(--text-weak);
+}
+
+/* ============ 提示框样式 ============ */
+.rule, .note, .example {
+  border-left: 4px solid;
+  padding: 12px 16px;
+  border-radius: var(--radius-sm);
+  margin: 12px 0;
+  font-size: 14px;
+}
+.note-blue   { background: var(--blue-bg);   border-color: var(--blue);   color: #1e3a8a; }
+.note-green  { background: var(--green-bg);  border-color: var(--green);  color: #14532d; }
+.note-amber  { background: var(--amber-bg);  border-color: var(--amber);  color: #78350f; }
+.note-purple { background: var(--purple-bg); border-color: var(--purple); color: #4c1d95; }
+.note-red    { background: var(--red-bg);    border-color: var(--red);    color: #7f1d1d; }
+.note-gray   { background: var(--gray-bg);   border-color: var(--gray);   color: #374151; }
+
+.note-title {
+  font-weight: 600;
+  margin-bottom: 4px;
+  display: block;
+}
+
+/* ============ 标签 ============ */
+.tag-inline {
+  display: inline-block;
+  padding: 1px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+  margin-right: 4px;
+  font-weight: 500;
+}
+.tag-blue   { background: var(--blue-bg);   color: var(--blue); }
+.tag-green  { background: var(--green-bg);  color: var(--green); }
+.tag-amber  { background: var(--amber-bg);  color: var(--amber); }
+.tag-purple { background: var(--purple-bg); color: var(--purple); }
+.tag-red    { background: var(--red-bg);    color: var(--red); }
+
+/* ============ 表格 ============ */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 12px 0;
+  font-size: 13.5px;
+}
+th, td {
+  border: 1px solid var(--border);
+  padding: 8px 12px;
+  text-align: left;
+}
+th {
+  background: #f8fafc;
+  font-weight: 600;
+  color: #334155;
+}
+tbody tr:nth-child(even) {
+  background: #fafbfc;
+}
+
+/* ============ 练习卡 ============ */
+.practice {
+  background: var(--purple-bg);
+  border: 1px solid #ddd6fe;
+  border-radius: var(--radius-sm);
+  padding: 16px 18px;
+  margin: 14px 0;
+}
+.practice-title {
+  font-weight: 600;
+  color: var(--purple);
+  margin-bottom: 8px;
+  font-size: 14.5px;
+}
+.practice .question p {
+  margin: 6px 0;
+}
+.answer-toggle {
+  margin-top: 10px;
+  background: #ffffff;
+  border: 1px solid #ddd6fe;
+  border-radius: var(--radius-sm);
+  padding: 8px 12px;
+}
+.answer-toggle summary {
+  cursor: pointer;
+  font-weight: 500;
+  color: var(--purple);
+  font-size: 13.5px;
+  user-select: none;
+  outline: none;
+}
+.answer-toggle[open] summary {
+  margin-bottom: 8px;
+  border-bottom: 1px dashed #ddd6fe;
+  padding-bottom: 6px;
+}
+.answer-content {
+  font-size: 13.5px;
+  color: #334155;
+  padding-top: 4px;
+}
+.answer-content p { margin: 6px 0; }
+
+/* ============ 检查清单 ============ */
+.checklist {
+  background: var(--green-bg);
+  border: 1px solid #bbf7d0;
+  border-radius: var(--radius-sm);
+  padding: 14px 18px;
+  margin: 10px 0;
+}
+.checklist-group-title {
+  font-weight: 600;
+  color: #166534;
+  margin: 6px 0;
+  font-size: 14px;
+}
+.check-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  padding: 3px 0;
+  font-size: 13.5px;
+  color: #14532d;
+}
+.check-item::before {
+  content: "✓";
+  color: var(--green);
+  font-weight: bold;
+  flex-shrink: 0;
+}
+
+/* ============ SVG 图 ============ */
+.diagram {
+  background: #fafbfc;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 16px;
+  margin: 14px 0;
+  text-align: center;
+  overflow-x: auto;
+}
+.diagram svg {
+  max-width: 100%;
+  height: auto;
+}
+
+/* ============ 页脚 ============ */
+footer {
+  text-align: center;
+  padding: 30px 20px;
+  color: var(--text-weak);
+  font-size: 13px;
+  border-top: 1px solid var(--border);
+  margin-top: 30px;
+}
+
+/* ============ 聚焦模式 ============ */
+body.focus-mode .non-key {
+  display: none !important;
+}
+
+/* ============ 响应式 ============ */
+@media (max-width: 768px) {
+  .grid-2, .grid-3 { grid-template-columns: 1fr; }
+  .hero { padding: 24px 20px; }
+  .hero h1 { font-size: 21px; }
+  .card { padding: 18px 18px; }
+  .nav { gap: 4px; }
+  .nav a { font-size: 12.5px; padding: 3px 8px; }
+  pre { font-size: 12.5px; padding: 12px 14px; }
+}
+
+/* ============ 打印样式 ============ */
+@media print {
+  body {
+    background: #ffffff;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+  .toolbar, .nav { display: none !important; }
+  .card, .hero, .practice, .checklist, .mini-card {
+    box-shadow: none !important;
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+  .hero { background: linear-gradient(135deg, #eef2ff 0%, #f0f9ff 100%) !important; }
+  .answer-toggle[open] summary { border-bottom: 1px dashed #ddd6fe; }
+  .answer-toggle { page-break-inside: avoid; }
+  pre {
+    background: #1e293b !important;
+    color: #e2e8f0 !important;
+    font-size: 11.5px;
+  }
+  a { color: #1e3a8a; text-decoration: none; }
+  .page { max-width: 100%; padding: 10px; }
+}
+</style>
+    <link rel="stylesheet" href="../css/lecture.css">
+</head>
+<body>
+
+<div class="page">
+
+<!-- START: 首页 Hero -->
+<header class="hero">
+  <h1>C语言 · 第15章 · 文件操作 复习系统</h1>
+  <p class="subtitle">覆盖范围：文件路径、转义字符、文件读写(fgetc/fgets/fread/fputc/fputs/fwrite)、读写模式、文件拷贝实战</p>
+  <div class="tags">
+    <span class="tag">输入流/输出流</span>
+    <span class="tag">绝对路径/相对路径</span>
+    <span class="tag">转义字符</span>
+    <span class="tag">fopen / fclose</span>
+    <span class="tag">fgetc / fgets / fread</span>
+    <span class="tag">fputc / fputs / fwrite</span>
+    <span class="tag">r / w / a / rb / wb</span>
+    <span class="tag">文件拷贝</span>
+  </div>
+  <div class="usage">
+    使用说明：点击"全部展开/收起"查看所有模块；点击"显示/隐藏答案"控制练习题解析；点击"导出 PDF"一键打印保存。
+  </div>
+</header>
+<!-- END: 首页 Hero -->
+
+<!-- START: 工具栏 -->
+<div class="toolbar">
+  <button onclick="expandAll()">全部展开</button>
+  <button onclick="collapseAll()">全部收起</button>
+  <button onclick="showAnswers()">显示答案</button>
+  <button onclick="hideAnswers()">隐藏答案</button>
+  <button onclick="toggleFocusMode()">只看重点 / 显示全部</button>
+  <button class="primary" onclick="printPage()">导出 PDF</button>
+</div>
+<!-- END: 工具栏 -->
+
+<!-- START: 导航栏 -->
+<nav class="nav">
+  <a href="#overview">① 总纲</a>
+  <a href="#stream">② 流与方向</a>
+  <a href="#path">③ 路径</a>
+  <a href="#escape">④ 转义字符</a>
+  <a href="#fopen">⑤ fopen/fclose</a>
+  <a href="#read">⑥ 读取三函数</a>
+  <a href="#write">⑦ 写出三函数</a>
+  <a href="#mode">⑧ 读写模式</a>
+  <a href="#copy">⑨ 文件拷贝实战</a>
+  <a href="#code">⑩ 代码整理区</a>
+  <a href="#practice">⑪ 练习中心</a>
+  <a href="#strategy">⑫ 实战策略</a>
+  <a href="#checklist">⑬ 检查清单</a>
+</nav>
+<!-- END: 导航栏 -->
+
+<!-- START: 总纲 -->
+<section class="card" id="overview">
+  <h2>① 总纲 · 一眼看懂文件操作</h2>
+  <div class="note note-blue">
+    <span class="note-title">核心一句话</span>
+    <strong>C 语言操作文件，本质就是在"程序内存"和"硬盘文件"之间搬运数据，模板永远是三步：打开 → 读或写 → 关闭。</strong>
+  </div>
+
+  <h3>三大学习抓手</h3>
+  <div class="grid-3">
+    <div class="mini-card">
+      <div class="mc-title">🧭 抓手1：方向</div>
+      <div class="mc-desc">站在程序角度看：读入是输入流，写出是输出流。参照物永远是程序本身。</div>
+    </div>
+    <div class="mini-card">
+      <div class="mc-title">📂 抓手2：三步模板</div>
+      <div class="mc-desc">fopen 打开 → 读/写函数处理数据 → fclose 关闭。不管什么函数都逃不开这三步。</div>
+    </div>
+    <div class="mini-card">
+      <div class="mc-title">⚙️ 抓手3：模式</div>
+      <div class="mc-desc">r/w/a 控制读写行为，rb/wb/ab 操作二进制，+ 表示加强读写能力。</div>
+    </div>
+  </div>
+
+  <h3>整章结构图</h3>
+  <div class="diagram">
+    <svg viewBox="0 0 760 260" xmlns="http://www.w3.org/2000/svg">
+      <!-- 程序 -->
+      <rect x="30" y="90" width="160" height="80" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="2"/>
+      <text x="110" y="120" text-anchor="middle" font-size="15" fill="#1e3a8a" font-weight="bold">程序(内存)</text>
+      <text x="110" y="145" text-anchor="middle" font-size="12" fill="#475569">变量 / 数组 / 缓冲区</text>
+
+      <!-- 文件 -->
+      <rect x="570" y="90" width="160" height="80" rx="8" fill="#f0fdf4" stroke="#16a34a" stroke-width="2"/>
+      <text x="650" y="120" text-anchor="middle" font-size="15" fill="#14532d" font-weight="bold">文件(硬盘)</text>
+      <text x="650" y="145" text-anchor="middle" font-size="12" fill="#475569">a.txt / 图片 / 视频</text>
+
+      <!-- 输入流（读）箭头 -->
+      <path d="M 565 115 L 200 115" stroke="#16a34a" stroke-width="2" fill="none" marker-end="url(#arrG)"/>
+      <text x="380" y="105" text-anchor="middle" font-size="13" fill="#16a34a" font-weight="bold">输入流（读）fgetc / fgets / fread</text>
+
+      <!-- 输出流（写）箭头 -->
+      <path d="M 195 155 L 565 155" stroke="#d97706" stroke-width="2" fill="none" marker-end="url(#arrA)"/>
+      <text x="380" y="175" text-anchor="middle" font-size="13" fill="#d97706" font-weight="bold">输出流（写）fputc / fputs / fwrite</text>
+
+      <!-- 通道 fopen/fclose -->
+      <text x="380" y="210" text-anchor="middle" font-size="12" fill="#6b7280">通道由 fopen 打开，用完由 fclose 关闭</text>
+      <text x="380" y="230" text-anchor="middle" font-size="11" fill="#6b7280">（参照物：程序。读入 = 输入，写出 = 输出）</text>
+
+      <defs>
+        <marker id="arrG" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto">
+          <path d="M 0 0 L 10 5 L 0 10 z" fill="#16a34a"/>
+        </marker>
+        <marker id="arrA" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto">
+          <path d="M 0 0 L 10 5 L 0 10 z" fill="#d97706"/>
+        </marker>
+      </defs>
+    </svg>
+  </div>
+</section>
+<!-- END: 总纲 -->
+
+<!-- START: 核心模块2：流与方向 -->
+<section class="card" id="stream">
+  <h2>② 流与方向 · 判断输入输出的唯一标准</h2>
+
+  <div class="note note-green">
+    <span class="note-title">核心规则</span>
+    站在<strong>程序</strong>这一侧看方向：数据<strong>进</strong>程序 = 输入流（读）；数据<strong>出</strong>程序 = 输出流（写）。
+  </div>
+
+  <h3>"流"是一种比喻</h3>
+  <p>程序和文件之间传输数据时，字节是一个接一个连续流动的，就像水流，所以叫"流"（stream）。</p>
+
+  <h3>方向对照</h3>
+  <table>
+    <thead>
+      <tr><th>操作</th><th>数据方向</th><th>名称</th><th>常用函数</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>读文件</td><td>文件 → 程序</td><td>输入流 (input)</td><td>fgetc / fgets / fread</td></tr>
+      <tr><td>写文件</td><td>程序 → 文件</td><td>输出流 (output)</td><td>fputc / fputs / fwrite</td></tr>
+    </tbody>
+  </table>
+
+  <div class="note note-red">
+    <span class="note-title">🚫 常见误区</span>
+    很多新手以为"我把数据写到文件里，就是'输入'到文件里"——<strong>错！</strong>参照物是"程序"，不是"文件"。
+  </div>
+
+  <div class="note note-amber">
+    <span class="note-title">💡 记忆口诀</span>
+    读进程序 = 输入；写出程序 = 输出。参照物永远是程序。
+  </div>
+</section>
+<!-- END: 核心模块2：流与方向 -->
+
+<!-- START: 核心模块3：路径 -->
+<section class="card" id="path">
+  <h2>③ 文件路径 · 程序找到文件的地图</h2>
+
+  <div class="note note-green">
+    <span class="note-title">核心规则</span>
+    <strong>操作文件前必须先定位文件。</strong>路径就是"文件在电脑中的位置"，分为绝对路径和相对路径。
+  </div>
+
+  <h3>什么是路径</h3>
+  <p>路径描述文件在电脑中的层级位置，就像"中国 → 北京 → 某小区 → 3号楼 → 502室"的寻人路线。</p>
+  <p>例如：<code>C:\Users\admin\Desktop\a.txt</code> 表示 C 盘下 Users 文件夹下 admin 下 Desktop 下的 a.txt。</p>
+
+  <div class="note note-blue">
+    <span class="note-title">🖥️ 小知识</span>
+    <strong>桌面（Desktop）本质也是一个文件夹</strong>，位置通常在 <code>C:\Users\用户名\Desktop</code>。
+  </div>
+
+  <h3>两种路径对比</h3>
+  <table>
+    <thead>
+      <tr><th>类型</th><th>是否以盘符开始</th><th>参照物</th><th>是否固定</th><th>示例</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>绝对路径</strong></td>
+        <td>是（C:、D:、E:）</td>
+        <td>无需参照物</td>
+        <td>固定，永不变动</td>
+        <td><code>C:\aaa\a.txt</code></td>
+      </tr>
+      <tr>
+        <td><strong>相对路径</strong></td>
+        <td>否</td>
+        <td>当前项目</td>
+        <td>随项目变化</td>
+        <td><code>aaa\a.txt</code></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="diagram">
+    <svg viewBox="0 0 760 220" xmlns="http://www.w3.org/2000/svg">
+      <!-- 绝对路径 -->
+      <text x="20" y="25" font-size="14" fill="#1e3a8a" font-weight="bold">绝对路径：位置固定，哪个项目都找同一个</text>
+      <rect x="20" y="35" width="80" height="30" rx="4" fill="#dbeafe" stroke="#2563eb"/>
+      <text x="60" y="55" text-anchor="middle" font-size="12">projectA</text>
+      <rect x="110" y="35" width="80" height="30" rx="4" fill="#dbeafe" stroke="#2563eb"/>
+      <text x="150" y="55" text-anchor="middle" font-size="12">projectB</text>
+      <rect x="200" y="35" width="80" height="30" rx="4" fill="#dbeafe" stroke="#2563eb"/>
+      <text x="240" y="55" text-anchor="middle" font-size="12">projectC</text>
+      <path d="M 60 65 L 380 95" stroke="#2563eb" fill="none" stroke-width="1.5"/>
+      <path d="M 150 65 L 380 95" stroke="#2563eb" fill="none" stroke-width="1.5"/>
+      <path d="M 240 65 L 380 95" stroke="#2563eb" fill="none" stroke-width="1.5"/>
+      <rect x="300" y="95" width="180" height="30" rx="4" fill="#bfdbfe" stroke="#1e40af"/>
+      <text x="390" y="115" text-anchor="middle" font-size="12" font-weight="bold">C:\aaa\a.txt（同一个文件）</text>
+
+      <!-- 相对路径 -->
+      <text x="20" y="160" font-size="14" fill="#78350f" font-weight="bold">相对路径：随当前项目变化</text>
+      <rect x="20" y="170" width="120" height="30" rx="4" fill="#fef3c7" stroke="#d97706"/>
+      <text x="80" y="190" text-anchor="middle" font-size="12">projectA/aaa/a.txt</text>
+      <rect x="320" y="170" width="120" height="30" rx="4" fill="#fef3c7" stroke="#d97706"/>
+      <text x="380" y="190" text-anchor="middle" font-size="12">projectB/aaa/a.txt</text>
+      <text x="220" y="190" text-anchor="middle" font-size="13" fill="#d97706" font-weight="bold">aaa\a.txt</text>
+      <text x="480" y="190" text-anchor="middle" font-size="13" fill="#d97706" font-weight="bold">aaa\a.txt</text>
+      <text x="220" y="210" text-anchor="middle" font-size="11" fill="#78350f">写法相同 → 结果不同</text>
+    </svg>
+  </div>
+
+  <div class="note note-amber">
+    <span class="note-title">⚠️ 易错点</span>
+    在 C 代码字符串里写 Windows 路径时，所有 <code>\</code> 必须写成 <code>\\</code>（下一节转义字符会讲）。
+  </div>
+</section>
+<!-- END: 核心模块3：路径 -->
+
+<!-- START: 核心模块4：转义字符 -->
+<section class="card" id="escape">
+  <h2>④ 转义字符 · 反斜杠不是斜杠</h2>
+
+  <div class="note note-green">
+    <span class="note-title">核心规则</span>
+    <strong>反斜杠 <code>\</code> + 一个字符 = 转义字符。</strong>作用是<strong>改变</strong>后面那个字符的原本含义。
+  </div>
+
+  <h3>为什么需要转义</h3>
+  <p>字符串中有些字符有特殊含义，比如：</p>
+  <ul>
+    <li><code>"</code> 是字符串的开头/结尾标志</li>
+    <li><code>\</code> 是转义字符的标志</li>
+  </ul>
+  <p>如果想打印它们本身，就必须用转义方式告诉编译器"我要用它的原始样子"。</p>
+
+  <h3>两大经典需求</h3>
+
+  <h4>需求一：打印一个双引号 <code>"</code></h4>
+<pre><code>#include &lt;stdio.h&gt;
+
+int main() {
+    printf("\"\n");   // 打印一个双引号
+    return 0;
+}</code></pre>
+
+  <h4>需求二：打印一个反斜杠 <code>\</code></h4>
+<pre><code>#include &lt;stdio.h&gt;
+
+int main() {
+    printf("\\\n");   // 打印一个反斜杠
+    return 0;
+}</code></pre>
+  <p>理解：第一个 <code>\</code> 是"改造器"，第二个 <code>\</code> 才是真正被打印的普通反斜杠。</p>
+
+  <h3>常用转义字符表</h3>
+  <table>
+    <thead>
+      <tr><th>转义字符</th><th>含义</th><th>说明</th></tr>
+    </thead>
+    <tbody>
+      <tr><td><code>\n</code></td><td>换行</td><td>n 被改造成"换行"</td></tr>
+      <tr><td><code>\t</code></td><td>制表符 Tab</td><td>t 被改造成"Tab"</td></tr>
+      <tr><td><code>\\</code></td><td>反斜杠 <code>\</code></td><td>路径写法的关键</td></tr>
+      <tr><td><code>\"</code></td><td>双引号 <code>"</code></td><td>打印引号用</td></tr>
+      <tr><td><code>\'</code></td><td>单引号 <code>'</code></td><td>字符里用</td></tr>
+      <tr><td><code>\0</code></td><td>空字符</td><td>字符串结束标志</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Windows 路径正确写法</h3>
+<pre><code>#include &lt;stdio.h&gt;
+
+int main() {
+    // 所有单 \ 都要写成 \\
+    char* path = "C:\\Users\\admin\\Desktop\\a.txt";
+    printf("%s\n", path);
+    return 0;
+}</code></pre>
+
+  <div class="note note-amber">
+    <span class="note-title">⚠️ 易错提醒</span>
+    看到 <code>\</code> 要警惕，它不是普通斜杠，是"改造器"。想打印真正的 <code>\</code>，就写 <code>\\</code>。
+  </div>
+</section>
+<!-- END: 核心模块4：转义字符 -->
+<!-- START: 核心模块5：fopen/fclose -->
+<section class="card" id="fopen">
+  <h2>⑤ fopen / fclose · 文件操作的入口和出口</h2>
+
+  <div class="note note-green">
+    <span class="note-title">核心规则</span>
+    文件操作必须先用 <code>fopen</code> 打开文件，得到 <code>FILE*</code> 文件指针；用完后必须用 <code>fclose</code> 关闭文件。
+  </div>
+
+  <h3>标准三步</h3>
+  <div class="grid-3">
+    <div class="mini-card">
+      <div class="mc-title">1. 打开文件</div>
+      <div class="mc-desc"><code>FILE* fp = fopen(路径, 模式);</code></div>
+    </div>
+    <div class="mini-card">
+      <div class="mc-title">2. 读 / 写数据</div>
+      <div class="mc-desc">根据需求选择 <code>fgetc</code>、<code>fgets</code>、<code>fread</code> 或写入函数。</div>
+    </div>
+    <div class="mini-card">
+      <div class="mc-title">3. 关闭文件</div>
+      <div class="mc-desc"><code>fclose(fp);</code> 释放资源，确保数据落盘。</div>
+    </div>
+  </div>
+
+  <h3>fopen 的两个参数</h3>
+  <table>
+    <thead>
+      <tr><th>参数</th><th>含义</th><th>示例</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>第1个参数</td>
+        <td>文件路径，字符串形式</td>
+        <td><code>"C:\\Users\\admin\\Desktop\\a.txt"</code></td>
+      </tr>
+      <tr>
+        <td>第2个参数</td>
+        <td>操作模式，决定读/写/追加/二进制</td>
+        <td><code>"r"</code>、<code>"w"</code>、<code>"rb"</code></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3>基础模板</h3>
+<pre><code>#include &lt;stdio.h&gt;
+
+int main() {
+    FILE* file = fopen("C:\\Users\\admin\\Desktop\\a.txt", "r");
+
+    if (file == NULL) {
+        printf("文件打开失败\\n");
+        return 1;
+    }
+
+    // 这里进行读或写操作
+
+    fclose(file);
+    return 0;
+}</code></pre>
+
+  <div class="note note-amber">
+    <span class="note-title">⚠️ 易错提醒</span>
+    <code>FILE</code> 必须大写；路径中的 <code>\</code> 要写成 <code>\\</code>；<code>fopen</code> 可能失败，所以建议判断 <code>file == NULL</code>。
+  </div>
+
+  <div class="note note-green">
+    <span class="note-title">记忆点</span>
+    有几个 <code>fopen</code>，通常就应该有几个 <code>fclose</code>。
+  </div>
+</section>
+<!-- END: 核心模块5：fopen/fclose -->
+
+<!-- START: 核心模块6：读取三函数 -->
+<section class="card" id="read">
+  <h2>⑥ 读取三函数 · fgetc / fgets / fread</h2>
+
+  <div class="note note-blue">
+    <span class="note-title">核心逻辑</span>
+    读取文件就是把本地文件中的数据搬到程序内存中。三种读取函数的区别在于"每次读多少"。
+  </div>
+
+  <h3>三种读取方式总览</h3>
+  <table>
+    <thead>
+      <tr><th>函数</th><th>读取单位</th><th>结束标志</th><th>适合场景</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><code>fgetc</code></td>
+        <td>一次读一个字符</td>
+        <td>读不到返回 <code>EOF</code>，通常是 <code>-1</code></td>
+        <td>逐字符处理</td>
+      </tr>
+      <tr>
+        <td><code>fgets</code></td>
+        <td>一次读一行字符串</td>
+        <td>读不到返回 <code>NULL</code></td>
+        <td>按行读取文本</td>
+      </tr>
+      <tr>
+        <td><code>fread</code></td>
+        <td>一次读多个字节</td>
+        <td>读不到返回 <code>0</code></td>
+        <td>批量读取、二进制文件</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <details open>
+    <summary><strong>6.1 fgetc：一次读一个字符</strong></summary>
+
+    <div class="note note-green">
+      <span class="note-title">核心规则</span>
+      <code>fgetc(file)</code> 每调用一次，就从文件中读取一个字符；读到文件末尾返回 <code>EOF</code>。
+    </div>
+
+    <h4>标准写法</h4>
+<pre><code>#include &lt;stdio.h&gt;
+
+int main() {
+    FILE* file = fopen("C:\\Users\\admin\\Desktop\\a.txt", "r");
+
+    if (file == NULL) {
+        printf("文件打开失败\\n");
+        return 1;
+    }
+
+    int ch;
+    while ((ch = fgetc(file)) != EOF) {
+        printf("%c", ch);
+    }
+
+    fclose(file);
+    return 0;
+}</code></pre>
+
+    <div class="note note-amber">
+      <span class="note-title">为什么接收变量用 int，不用 char？</span>
+      因为 <code>fgetc</code> 读到末尾会返回 <code>EOF</code>，通常是 <code>-1</code>。如果用 <code>char</code> 接收，可能无法正确判断文件结束。
+    </div>
+
+    <h4>读取过程示意</h4>
+    <div class="diagram">
+      <svg viewBox="0 0 720 150" xmlns="http://www.w3.org/2000/svg">
+        <text x="20" y="30" font-size="14" fill="#334155" font-weight="bold">文件内容：ABC</text>
+        <rect x="160" y="50" width="60" height="40" rx="6" fill="#dbeafe" stroke="#2563eb"/>
+        <text x="190" y="75" text-anchor="middle" font-size="15">A</text>
+        <rect x="230" y="50" width="60" height="40" rx="6" fill="#dbeafe" stroke="#2563eb"/>
+        <text x="260" y="75" text-anchor="middle" font-size="15">B</text>
+        <rect x="300" y="50" width="60" height="40" rx="6" fill="#dbeafe" stroke="#2563eb"/>
+        <text x="330" y="75" text-anchor="middle" font-size="15">C</text>
+        <rect x="370" y="50" width="90" height="40" rx="6" fill="#fee2e2" stroke="#dc2626"/>
+        <text x="415" y="75" text-anchor="middle" font-size="13">EOF(-1)</text>
+        <text x="160" y="120" font-size="12" fill="#6b7280">第1次</text>
+        <text x="230" y="120" font-size="12" fill="#6b7280">第2次</text>
+        <text x="300" y="120" font-size="12" fill="#6b7280">第3次</text>
+        <text x="370" y="120" font-size="12" fill="#6b7280">第4次读不到</text>
+      </svg>
+    </div>
+
+    <div class="note note-gray non-key">
+      <span class="note-title">了解即可：中文乱码</span>
+      如果读中文出现乱码，常见原因是文件编码和控制台编码不一致。文稿中的处理方式是把 txt 文件另存为 ANSI 编码。
+    </div>
+  </details>
+
+  <details open>
+    <summary><strong>6.2 fgets：一次读一行数据</strong></summary>
+
+    <div class="note note-green">
+      <span class="note-title">核心规则</span>
+      <code>fgets</code> 一次读取一行内容，读到的数据放进字符数组；读不到时返回 <code>NULL</code>。
+    </div>
+
+    <h4>函数格式</h4>
+<pre><code>fgets(数组名, 数组长度, 文件指针);</code></pre>
+
+    <table>
+      <thead>
+        <tr><th>参数</th><th>含义</th><th>示例</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>第1个参数</td><td>字符数组，用来装一行数据</td><td><code>line</code></td></tr>
+        <tr><td>第2个参数</td><td>数组长度，最多读取多少字符</td><td><code>sizeof(line)</code></td></tr>
+        <tr><td>第3个参数</td><td>文件指针</td><td><code>file</code></td></tr>
+      </tbody>
+    </table>
+
+    <h4>标准写法</h4>
+<pre><code>#include &lt;stdio.h&gt;
+
+int main() {
+    FILE* file = fopen("C:\\Users\\admin\\Desktop\\a.txt", "r");
+
+    if (file == NULL) {
+        printf("文件打开失败\\n");
+        return 1;
+    }
+
+    char line[1024];
+
+    while (fgets(line, sizeof(line), file) != NULL) {
+        printf("%s", line);
+    }
+
+    fclose(file);
+    return 0;
+}</code></pre>
+
+    <div class="note note-amber">
+      <span class="note-title">⚠️ "一行"的真正含义</span>
+      <code>fgets</code> 的"一行"是以换行符 <code>\n</code> 为准，不是以屏幕显示的一行为准。编辑器窗口太窄导致的自动换行，不算真正换行。
+    </div>
+
+    <div class="note note-amber">
+      <span class="note-title">⚠️ 打印时不要多加换行</span>
+      <code>fgets</code> 通常会把行尾的 <code>\n</code> 一起读入，所以打印时常用 <code>printf("%s", line);</code>，不要随手写成 <code>printf("%s\n", line);</code>，否则可能多空一行。
+    </div>
+  </details>
+
+  <details open>
+    <summary><strong>6.3 fread：一次读多个字节</strong></summary>
+
+    <div class="note note-green">
+      <span class="note-title">核心规则</span>
+      <code>fread</code> 按字节块读取，返回本次实际读到的元素个数；如果第二个参数是 <code>1</code>，返回值就是本次读到的字节数。
+    </div>
+
+    <h4>函数格式</h4>
+<pre><code>fread(buffer, 每个元素字节数, 元素个数, 文件指针);</code></pre>
+
+    <h4>标准写法</h4>
+<pre><code>#include &lt;stdio.h&gt;
+
+int main() {
+    FILE* file = fopen("C:\\Users\\admin\\Desktop\\a.txt", "rb");
+
+    if (file == NULL) {
+        printf("文件打开失败\\n");
+        return 1;
+    }
+
+    char buffer[1024];
+    size_t bytesRead;
+
+    while ((bytesRead = fread(buffer, 1, sizeof(buffer), file)) > 0) {
+        for (size_t i = 0; i < bytesRead; i++) {
+            printf("%c", buffer[i]);
+        }
+    }
+
+    fclose(file);
+    return 0;
+}</code></pre>
+
+    <h4>读取 100 字节文件，缓冲区 30 字节</h4>
+    <div class="diagram">
+      <svg viewBox="0 0 760 170" xmlns="http://www.w3.org/2000/svg">
+        <text x="20" y="28" font-size="14" fill="#334155" font-weight="bold">文件总数据：100 字节</text>
+        <rect x="20" y="50" width="160" height="42" rx="6" fill="#dbeafe" stroke="#2563eb"/>
+        <text x="100" y="75" text-anchor="middle" font-size="13">30字节 → 返回30</text>
+        <rect x="190" y="50" width="160" height="42" rx="6" fill="#dbeafe" stroke="#2563eb"/>
+        <text x="270" y="75" text-anchor="middle" font-size="13">30字节 → 返回30</text>
+        <rect x="360" y="50" width="160" height="42" rx="6" fill="#dbeafe" stroke="#2563eb"/>
+        <text x="440" y="75" text-anchor="middle" font-size="13">30字节 → 返回30</text>
+        <rect x="530" y="50" width="110" height="42" rx="6" fill="#fef3c7" stroke="#d97706"/>
+        <text x="585" y="75" text-anchor="middle" font-size="13">10字节 → 返回10</text>
+        <rect x="650" y="50" width="80" height="42" rx="6" fill="#fee2e2" stroke="#dc2626"/>
+        <text x="690" y="75" text-anchor="middle" font-size="13">无 → 返回0</text>
+        <text x="20" y="125" font-size="12" fill="#6b7280">fread 每次尽可能读满数组，最后一次可能读不满；再次读取无数据时返回 0。</text>
+      </svg>
+    </div>
+
+    <div class="note note-red">
+      <span class="note-title">🚫 不能直接把 fread 读到的数组当字符串打印</span>
+      <code>fread</code> 不会自动添加字符串结束符 <code>\0</code>。如果直接 <code>printf("%s", buffer)</code>，可能把无效残留数据也打印出来。
+    </div>
+
+    <div class="note note-amber">
+      <span class="note-title">中文被拆开的问题</span>
+      在 ANSI 编码下，一个中文通常占 2 个字节。<code>fread</code> 按字节读，可能读到"半个中文"。如果逐字节原样输出，控制台可能拼回正常中文；但如果在每个字节后加 <code>---</code> 之类的额外内容，就会导致两半无法拼接，产生乱码。
+    </div>
+  </details>
+</section>
+<!-- END: 核心模块6：读取三函数 -->
+
+<!-- START: 核心模块7：写出三函数 -->
+<section class="card" id="write">
+  <h2>⑦ 写出三函数 · fputc / fputs / fwrite</h2>
+
+  <div class="note note-blue">
+    <span class="note-title">核心逻辑</span>
+    写文件就是把程序中的数据写到本地文件中，进行永久存储。读是 <code>get/read</code>，写是 <code>put/write</code>。
+  </div>
+
+  <h3>三种写出方式总览</h3>
+  <table>
+    <thead>
+      <tr><th>函数</th><th>写出单位</th><th>返回值</th><th>适合场景</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><code>fputc</code></td>
+        <td>一个字符</td>
+        <td>成功返回写出的字符；失败返回 EOF</td>
+        <td>单字符写入</td>
+      </tr>
+      <tr>
+        <td><code>fputs</code></td>
+        <td>一个字符串</td>
+        <td>成功返回非负数；失败返回 EOF</td>
+        <td>写普通文本</td>
+      </tr>
+      <tr>
+        <td><code>fwrite</code></td>
+        <td>多个字节</td>
+        <td>返回实际写出的元素个数</td>
+        <td>批量写入、二进制写入</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3>完整示例：三种写法一起使用</h3>
+<pre><code>#include &lt;stdio.h&gt;
+
+int main() {
+    FILE* file = fopen("C:\\Users\\admin\\Desktop\\a.txt", "w");
+
+    if (file == NULL) {
+        printf("文件打开失败\\n");
+        return 1;
+    }
+
+    // 1. 一次写一个字符：97 对应字符 'a'
+    int writtenChar = fputc(97, file);
+    printf("fputc 写出的字符：%c\\n", writtenChar);
+
+    // 2. 一次写一个字符串
+    int putStringResult = fputs("你好你好", file);
+    printf("fputs 返回值：%d\\n", putStringResult);
+
+    // 3. 一次写多个字节
+    char data[] = { 'a', 'b', 'c', 'd', 'e' };
+    size_t writtenCount = fwrite(data, sizeof(char), 5, file);
+    printf("fwrite 写出的元素个数：%zu\\n", writtenCount);
+
+    fclose(file);
+    return 0;
+}</code></pre>
+
+  <div class="note note-amber">
+    <span class="note-title">⚠️ 不会自动换行</span>
+    文件写入不会自动帮你换行。想换行要自己写 <code>\n</code>，例如 <code>fputs("hello\\n", file);</code>。
+  </div>
+
+  <div class="note note-red">
+    <span class="note-title">🚫 小心 w 模式</span>
+    <code>"w"</code> 模式打开已有文件时，会先清空原内容，再写入新内容。不要用它打开重要文件做测试。
+  </div>
+</section>
+<!-- END: 核心模块7：写出三函数 -->
+
+<!-- START: 核心模块8：读写模式 -->
+<section class="card" id="mode">
+  <h2>⑧ 多种读写模式 · fopen 第二个参数决定一切</h2>
+
+  <div class="note note-green">
+    <span class="note-title">核心规则</span>
+    <code>fopen</code> 的模式决定：能不能读、能不能写、是否清空文件、文件不存在时是否创建、是否按二进制处理。
+  </div>
+
+  <h3>基础模式</h3>
+  <table>
+    <thead>
+      <tr><th>模式</th><th>英文含义</th><th>能力</th><th>文件不存在</th><th>文件已存在</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><code>"r"</code></td>
+        <td>read</td>
+        <td>只读，不能写</td>
+        <td>打开失败</td>
+        <td>保留原内容</td>
+      </tr>
+      <tr>
+        <td><code>"w"</code></td>
+        <td>write</td>
+        <td>只写，不能读</td>
+        <td>创建文件</td>
+        <td>清空原内容</td>
+      </tr>
+      <tr>
+        <td><code>"a"</code></td>
+        <td>append</td>
+        <td>追加写</td>
+        <td>创建文件</td>
+        <td>不清空，接着写</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3>r 模式下强行写入会怎样</h3>
+  <p>在 <code>"r"</code> 只读模式下，如果强行调用写函数，写入会失败。</p>
+  <ul>
+    <li><code>fputc</code> 失败通常返回 <code>-1</code></li>
+    <li><code>fputs</code> 失败通常返回 <code>-1</code></li>
+    <li><code>fwrite</code> 没写出任何内容时返回 <code>0</code></li>
+  </ul>
+
+  <h3>w 模式三个细节</h3>
+  <div class="grid-3">
+    <div class="mini-card">
+      <div class="mc-title">文件不存在</div>
+      <div class="mc-desc">会创建目标文件。</div>
+    </div>
+    <div class="mini-card">
+      <div class="mc-title">文件已存在</div>
+      <div class="mc-desc">会清空文件原内容。</div>
+    </div>
+    <div class="mini-card">
+      <div class="mc-title">文件夹不存在</div>
+      <div class="mc-desc">不会自动创建文件夹，<code>fopen</code> 会失败。</div>
+    </div>
+  </div>
+
+  <div class="note note-amber">
+    <span class="note-title">重要细节</span>
+    文件的创建、清空、追加控制，都是 <code>fopen</code> 底层完成的，不是 <code>fputc</code>、<code>fputs</code>、<code>fwrite</code> 完成的。
+  </div>
+
+  <h3>a 模式：追加写出</h3>
+  <p><code>"a"</code> 表示 append，追加写出，也叫续写模式。它不会清空原内容，而是在文件末尾继续写。</p>
+
+  <h3>文本模式 vs 二进制模式</h3>
+  <table>
+    <thead>
+      <tr><th>文件类型</th><th>判断方式</th><th>常用模式</th><th>示例</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>文本文件</td>
+        <td>用记事本打开能看懂</td>
+        <td><code>r / w / a</code></td>
+        <td>txt、md、c、h</td>
+      </tr>
+      <tr>
+        <td>二进制文件</td>
+        <td>用记事本打开是乱码</td>
+        <td><code>rb / wb / ab</code></td>
+        <td>图片、音频、视频、压缩包</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3>扩展模式（了解即可）</h3>
+  <table class="non-key">
+    <thead>
+      <tr><th>模式</th><th>含义</th><th>理解方式</th></tr>
+    </thead>
+    <tbody>
+      <tr><td><code>"r+"</code></td><td>可读可写</td><td>在 <code>r</code> 的基础上增加写</td></tr>
+      <tr><td><code>"w+"</code></td><td>可写可读</td><td>在 <code>w</code> 的基础上增加读，仍会清空已有文件</td></tr>
+      <tr><td><code>"a+"</code></td><td>可追加写，也可读</td><td>在 <code>a</code> 的基础上增加读，不清空原内容</td></tr>
+    </tbody>
+  </table>
+
+  <div class="note note-green">
+    <span class="note-title">记忆口诀</span>
+    <code>r</code> 是读，<code>w</code> 是重写，<code>a</code> 是追加；带 <code>b</code> 操作二进制，带 <code>+</code> 增加读写能力。
+  </div>
+</section>
+<!-- END: 核心模块8：读写模式 -->
+
+<!-- START: 核心模块9：文件拷贝实战 -->
+<section class="card" id="copy">
+  <h2>⑨ 文件拷贝实战 · fread + fwrite</h2>
+
+  <div class="note note-green">
+    <span class="note-title">核心规则</span>
+    文件拷贝 = 从源文件读一块，再写到目标文件；读多少，就写多少，直到读完。
+  </div>
+
+  <h3>为什么用 fread + fwrite</h3>
+  <p>拷贝文件不应该关心它是文本、图片、音频还是视频。最通用的方法是使用二进制模式：</p>
+  <ul>
+    <li><code>"rb"</code>：以二进制方式读取源文件。</li>
+    <li><code>"wb"</code>：以二进制方式写入目标文件。</li>
+    <li><code>fread</code>：每次读一块字节。</li>
+    <li><code>fwrite</code>：把读到的这块字节原样写出去。</li>
+  </ul>
+
+  <h3>拷贝流程图</h3>
+  <div class="diagram">
+    <svg viewBox="0 0 760 210" xmlns="http://www.w3.org/2000/svg">
+      <rect x="40" y="70" width="160" height="70" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="2"/>
+      <text x="120" y="98" text-anchor="middle" font-size="15" fill="#1e3a8a" font-weight="bold">源文件</text>
+      <text x="120" y="122" text-anchor="middle" font-size="12" fill="#475569">source / rb</text>
+
+      <rect x="300" y="70" width="160" height="70" rx="8" fill="#fef3c7" stroke="#d97706" stroke-width="2"/>
+      <text x="380" y="98" text-anchor="middle" font-size="15" fill="#78350f" font-weight="bold">缓冲区 buffer</text>
+      <text x="380" y="122" text-anchor="middle" font-size="12" fill="#475569">char buffer[1024]</text>
+
+      <rect x="560" y="70" width="160" height="70" rx="8" fill="#f0fdf4" stroke="#16a34a" stroke-width="2"/>
+      <text x="640" y="98" text-anchor="middle" font-size="15" fill="#14532d" font-weight="bold">目标文件</text>
+      <text x="640" y="122" text-anchor="middle" font-size="12" fill="#475569">target / wb</text>
+
+      <path d="M 205 105 L 295 105" stroke="#2563eb" stroke-width="2" marker-end="url(#copyA)"/>
+      <text x="250" y="92" text-anchor="middle" font-size="12" fill="#2563eb">fread</text>
+
+      <path d="M 465 105 L 555 105" stroke="#16a34a" stroke-width="2" marker-end="url(#copyB)"/>
+      <text x="510" y="92" text-anchor="middle" font-size="12" fill="#16a34a">fwrite</text>
+
+      <text x="380" y="170" text-anchor="middle" font-size="13" fill="#6b7280">循环执行：读一块 → 写一块 → 直到 fread 返回 0</text>
+
+      <defs>
+        <marker id="copyA" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto">
+          <path d="M 0 0 L 10 5 L 0 10 z" fill="#2563eb"/>
+        </marker>
+        <marker id="copyB" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto">
+          <path d="M 0 0 L 10 5 L 0 10 z" fill="#16a34a"/>
+        </marker>
+      </defs>
+    </svg>
+  </div>
+
+  <h3>完整代码</h3>
+<pre><code>#include &lt;stdio.h&gt;
+
+int main() {
+    FILE* sourceFile = fopen("C:\\Users\\admin\\Desktop\\source.txt", "rb");
+
+    if (sourceFile == NULL) {
+        printf("源文件打开失败\\n");
+        return 1;
+    }
+
+    FILE* targetFile = fopen("C:\\Users\\admin\\Desktop\\target.txt", "wb");
+
+    if (targetFile == NULL) {
+        printf("目标文件打开失败\\n");
+        fclose(sourceFile);
+        return 1;
+    }
+
+    char buffer[1024];
+    size_t bytesRead;
+
+    while ((bytesRead = fread(buffer, 1, sizeof(buffer), sourceFile)) > 0) {
+        size_t bytesWritten = fwrite(buffer, 1, bytesRead, targetFile);
+
+        if (bytesWritten != bytesRead) {
+            printf("写入失败\\n");
+            fclose(sourceFile);
+            fclose(targetFile);
+            return 1;
+        }
+    }
+
+    fclose(sourceFile);
+    fclose(targetFile);
+
+    printf("文件拷贝完成\\n");
+    return 0;
+}</code></pre>
+
+  <div class="note note-red">
+    <span class="note-title">🚫 最关键错误</span>
+    <code>fwrite(buffer, 1, bytesRead, targetFile);</code> 第三个参数必须是 <code>bytesRead</code>，不能写成 <code>sizeof(buffer)</code>。最后一次读取可能没有读满整个数组。
+  </div>
+
+  <div class="note note-amber">
+    <span class="note-title">文件夹不存在时会怎样？</span>
+    <code>"wb"</code> 可以创建目标文件，但不能创建中间文件夹。如果目标路径中的文件夹不存在，<code>fopen</code> 会失败，返回 <code>NULL</code>。
+  </div>
+</section>
+<!-- END: 核心模块9：文件拷贝实战 -->
+
+<!-- START: 代码整理区 -->
+<section class="card" id="code">
+  <h2>⑩ 代码整理区 · 本章重要代码模板</h2>
+
+  <details open>
+    <summary><strong>代码1：打印路径字符串</strong></summary>
+    <p>用途：理解路径在 C 语言中以字符串形式表示，Windows 反斜杠要写成 <code>\\</code>。</p>
+<pre><code>#include &lt;stdio.h&gt;
+
+int main() {
+    char* filePath = "C:\\Users\\admin\\Desktop\\a.txt";
+
+    printf("%s\\n", filePath);
+
+    return 0;
+}</code></pre>
+  </details>
+
+  <details open>
+    <summary><strong>代码2：使用 fgetc 逐字符读取文件</strong></summary>
+    <p>用途：一次读取一个字符，直到 <code>EOF</code>。</p>
+<pre><code>#include &lt;stdio.h&gt;
+
+int main() {
+    FILE* file = fopen("C:\\Users\\admin\\Desktop\\a.txt", "r");
+
+    if (file == NULL) {
+        printf("文件打开失败\\n");
+        return 1;
+    }
+
+    int ch;
+
+    while ((ch = fgetc(file)) != EOF) {
+        printf("%c", ch);
+    }
+
+    fclose(file);
+    return 0;
+}</code></pre>
+  </details>
+
+  <details open>
+    <summary><strong>代码3：使用 fgets 按行读取文件</strong></summary>
+    <p>用途：一次读取一行文本，适合普通文本文件。</p>
+<pre><code>#include &lt;stdio.h&gt;
+
+int main() {
+    FILE* file = fopen("C:\\Users\\admin\\Desktop\\a.txt", "r");
+
+    if (file == NULL) {
+        printf("文件打开失败\\n");
+        return 1;
+    }
+
+    char line[1024];
+
+    while (fgets(line, sizeof(line), file) != NULL) {
+        printf("%s", line);
+    }
+
+    fclose(file);
+    return 0;
+}</code></pre>
+  </details>
+
+  <details open>
+    <summary><strong>代码4：使用 fread 批量读取文件</strong></summary>
+    <p>用途：一次读取多个字节，适合批量读取，也适合二进制文件。</p>
+<pre><code>#include &lt;stdio.h&gt;
+
+int main() {
+    FILE* file = fopen("C:\\Users\\admin\\Desktop\\a.txt", "rb");
+
+    if (file == NULL) {
+        printf("文件打开失败\\n");
+        return 1;
+    }
+
+    char buffer[1024];
+    size_t bytesRead;
+
+    while ((bytesRead = fread(buffer, 1, sizeof(buffer), file)) > 0) {
+        for (size_t i = 0; i < bytesRead; i++) {
+            printf("%c", buffer[i]);
+        }
+    }
+
+    fclose(file);
+    return 0;
+}</code></pre>
+  </details>
+
+  <details open>
+    <summary><strong>代码5：三种写出方式</strong></summary>
+    <p>用途：演示 <code>fputc</code>、<code>fputs</code>、<code>fwrite</code>。</p>
+<pre><code>#include &lt;stdio.h&gt;
+
+int main() {
+    FILE* file = fopen("C:\\Users\\admin\\Desktop\\a.txt", "w");
+
+    if (file == NULL) {
+        printf("文件打开失败\\n");
+        return 1;
+    }
+
+    fputc('a', file);
+    fputc('\\n', file);
+
+    fputs("你好你好\\n", file);
+
+    char data[] = { 'a', 'b', 'c', 'd', 'e' };
+    fwrite(data, sizeof(char), 5, file);
+
+    fclose(file);
+    return 0;
+}</code></pre>
+  </details>
+
+  <details open>
+    <summary><strong>代码6：追加写出</strong></summary>
+    <p>用途：使用 <code>"a"</code> 模式在原文件末尾继续写入，不清空原内容。</p>
+<pre><code>#include &lt;stdio.h&gt;
+
+int main() {
+    FILE* file = fopen("C:\\Users\\admin\\Desktop\\a.txt", "a");
+
+    if (file == NULL) {
+        printf("文件打开失败\\n");
+        return 1;
+    }
+
+    fputs("\\n追加的新内容", file);
+
+    fclose(file);
+    return 0;
+}</code></pre>
+  </details>
+
+  <details open>
+    <summary><strong>代码7：通用文件拷贝</strong></summary>
+    <p>用途：使用 <code>rb + fread</code> 和 <code>wb + fwrite</code> 复制文件。</p>
+<pre><code>#include &lt;stdio.h&gt;
+
+int main() {
+    FILE* sourceFile = fopen("C:\\Users\\admin\\Desktop\\source.txt", "rb");
+
+    if (sourceFile == NULL) {
+        printf("源文件打开失败\\n");
+        return 1;
+    }
+
+    FILE* targetFile = fopen("C:\\Users\\admin\\Desktop\\target.txt", "wb");
+
+    if (targetFile == NULL) {
+        printf("目标文件打开失败\\n");
+        fclose(sourceFile);
+        return 1;
+    }
+
+    char buffer[1024];
+    size_t bytesRead;
+
+    while ((bytesRead = fread(buffer, 1, sizeof(buffer), sourceFile)) > 0) {
+        size_t bytesWritten = fwrite(buffer, 1, bytesRead, targetFile);
+
+        if (bytesWritten != bytesRead) {
+            printf("写入失败\\n");
+            fclose(sourceFile);
+            fclose(targetFile);
+            return 1;
+        }
+    }
+
+    fclose(sourceFile);
+    fclose(targetFile);
+
+    printf("文件拷贝完成\\n");
+    return 0;
+}</code></pre>
+  </details>
+</section>
+<!-- END: 代码整理区 -->
+<!-- START: 练习中心 -->
+<section class="card" id="practice">
+  <h2>⑪ 练习中心 · 自测与纠错</h2>
+
+  <div class="note note-purple">
+    <span class="note-title">练习目标</span>
+    重点训练：路径写法、读写模式、返回值判断、按字节读写、文件拷贝时"读多少写多少"。
+  </div>
+
+  <div class="practice">
+    <div class="practice-title">练习1：判断路径字符串是否正确</div>
+    <div class="question">
+      <p>下面代码想打印路径 <code>C:\aaa\a.txt</code>，请判断是否正确。</p>
+      <pre><code>#include &lt;stdio.h&gt;
+
+int main() {
+    char* path = "C:\aaa\a.txt";
+    printf("%s\n", path);
+    return 0;
+}</code></pre>
+    </div>
+    <div class="answer">
+      <details class="answer-toggle">
+        <summary>点击查看答案解析</summary>
+        <div class="answer-content">
+          <p><strong>答案：</strong>不正确。</p>
+          <p><strong>解析：</strong>在 C 字符串中，反斜杠 <code>\</code> 是转义字符标志，不能直接当普通路径分隔符使用。代码里的 <code>\a</code> 会被解释成转义字符，而不是普通的 <code>\</code> 加 <code>a</code>。</p>
+          <p><strong>正确写法：</strong></p>
+          <pre><code>char* path = "C:\\aaa\\a.txt";</code></pre>
+          <p><strong>结论：</strong>Windows 路径放进 C 字符串时，所有 <code>\</code> 都要写成 <code>\\</code>。</p>
+        </div>
+      </details>
+    </div>
+  </div>
+
+  <div class="practice">
+    <div class="practice-title">练习2：fgetc 的返回值为什么用 int 接收？</div>
+    <div class="question">
+      <p>下面代码能否稳定判断文件结束？为什么？</p>
+      <pre><code>#include &lt;stdio.h&gt;
+
+int main() {
+    FILE* file = fopen("C:\\Users\\admin\\Desktop\\a.txt", "r");
+
+    char ch;
+    while ((ch = fgetc(file)) != EOF) {
+        printf("%c", ch);
+    }
+
+    fclose(file);
+    return 0;
+}</code></pre>
+    </div>
+    <div class="answer">
+      <details class="answer-toggle">
+        <summary>点击查看答案解析</summary>
+        <div class="answer-content">
+          <p><strong>答案：</strong>不推荐，可能不稳定。</p>
+          <p><strong>解析：</strong><code>fgetc</code> 读取成功时返回字符，读到文件末尾时返回 <code>EOF</code>，通常是 <code>-1</code>。如果用 <code>char</code> 接收，某些环境下可能无法正确保存 <code>-1</code>，导致判断错误。</p>
+          <p><strong>正确写法：</strong></p>
+          <pre><code>int ch;
+while ((ch = fgetc(file)) != EOF) {
+    printf("%c", ch);
+}</code></pre>
+          <p><strong>结论：</strong><code>fgetc</code> 的返回值应该用 <code>int</code> 接收。</p>
+        </div>
+      </details>
+    </div>
+  </div>
+
+  <div class="practice">
+    <div class="practice-title">练习3：fgets 读取的"一行"到底是什么？</div>
+    <div class="question">
+      <p>如果记事本窗口很窄，一段很长的文本在屏幕上显示成了多行，但你没有按回车。<code>fgets</code> 会把它当成几行？</p>
+    </div>
+    <div class="answer">
+      <details class="answer-toggle">
+        <summary>点击查看答案解析</summary>
+        <div class="answer-content">
+          <p><strong>答案：</strong>仍然是一行。</p>
+          <p><strong>解析：</strong><code>fgets</code> 判断"一行"不是看屏幕显示，而是看文件数据里有没有真正的换行符 <code>\n</code>。窗口太窄导致的自动折行，只是显示效果，不是数据换行。</p>
+          <p><strong>内存/文件示意：</strong></p>
+          <pre><code>真实文件数据：
+hello hello hello hello hello\n
+world\n
+
+第一次 fgets 读取：
+hello hello hello hello hello\n
+
+第二次 fgets 读取：
+world\n</code></pre>
+          <p><strong>结论：</strong><code>fgets</code> 的一行以 <code>\n</code> 为准。</p>
+        </div>
+      </details>
+    </div>
+  </div>
+
+  <div class="practice">
+    <div class="practice-title">练习4：为什么 fread 不能直接用 %s 打印？</div>
+    <div class="question">
+      <p>下面代码有什么问题？</p>
+      <pre><code>#include &lt;stdio.h&gt;
+
+int main() {
+    FILE* file = fopen("C:\\Users\\admin\\Desktop\\a.txt", "rb");
+
+    char buffer[1024];
+    size_t n = fread(buffer, 1, sizeof(buffer), file);
+
+    printf("%s", buffer);
+
+    fclose(file);
+    return 0;
+}</code></pre>
+    </div>
+    <div class="answer">
+      <details class="answer-toggle">
+        <summary>点击查看答案解析</summary>
+        <div class="answer-content">
+          <p><strong>答案：</strong>问题在于 <code>fread</code> 读到的是字节块，不保证是 C 字符串。</p>
+          <p><strong>解析：</strong>C 字符串必须以 <code>\0</code> 结尾，但 <code>fread</code> 不会自动在数据末尾添加 <code>\0</code>。如果用 <code>%s</code> 打印，<code>printf</code> 会一直向后找 <code>\0</code>，可能把无效数据也打印出来。</p>
+          <p><strong>正确处理：</strong></p>
+          <pre><code>for (size_t i = 0; i &lt; n; i++) {
+    printf("%c", buffer[i]);
+}</code></pre>
+          <p><strong>内存示意：</strong></p>
+          <pre><code>buffer:
+[有效数据][有效数据][有效数据][未知残留][未知残留]...
+ fread 返回 n，说明只有前 n 个字节有效</code></pre>
+          <p><strong>结论：</strong><code>fread</code> 返回多少，就只处理多少。</p>
+        </div>
+      </details>
+    </div>
+  </div>
+
+  <div class="practice">
+    <div class="practice-title">练习5：w 模式会不会保留原内容？</div>
+    <div class="question">
+      <p>假设 <code>a.txt</code> 原内容是 <code>old data</code>，运行下面代码后文件内容是什么？</p>
+      <pre><code>#include &lt;stdio.h&gt;
+
+int main() {
+    FILE* file = fopen("C:\\Users\\admin\\Desktop\\a.txt", "w");
+
+    fputs("new data", file);
+
+    fclose(file);
+    return 0;
+}</code></pre>
+    </div>
+    <div class="answer">
+      <details class="answer-toggle">
+        <summary>点击查看答案解析</summary>
+        <div class="answer-content">
+          <p><strong>答案：</strong>文件内容变成 <code>new data</code>，原来的 <code>old data</code> 被清空。</p>
+          <p><strong>解析：</strong><code>"w"</code> 是只写模式。如果文件已经存在，<code>fopen</code> 会先清空原文件内容，再进行后续写入。</p>
+          <p><strong>结论：</strong>想保留原内容并接着写，应使用 <code>"a"</code> 追加模式。</p>
+        </div>
+      </details>
+    </div>
+  </div>
+
+  <div class="practice">
+    <div class="practice-title">练习6：文件夹不存在时会怎样？</div>
+    <div class="question">
+      <p>假设桌面上没有 <code>aaa</code> 文件夹，下面代码会成功创建 <code>a.txt</code> 吗？</p>
+      <pre><code>#include &lt;stdio.h&gt;
+
+int main() {
+    FILE* file = fopen("C:\\Users\\admin\\Desktop\\aaa\\a.txt", "w");
+
+    if (file == NULL) {
+        printf("文件打开失败\n");
+        return 1;
+    }
+
+    fputs("hello", file);
+    fclose(file);
+
+    return 0;
+}</code></pre>
+    </div>
+    <div class="answer">
+      <details class="answer-toggle">
+        <summary>点击查看答案解析</summary>
+        <div class="answer-content">
+          <p><strong>答案：</strong>不会成功。</p>
+          <p><strong>解析：</strong><code>"w"</code> 可以在目标文件不存在时创建文件，但前提是目标文件所在的文件夹已经存在。它不会自动创建中间文件夹 <code>aaa</code>。</p>
+          <p><strong>结论：</strong>文件可以不存在，但前面的文件夹路径必须存在。</p>
+        </div>
+      </details>
+    </div>
+  </div>
+
+  <div class="practice">
+    <div class="practice-title">练习7：文件拷贝为什么写 bytesRead？</div>
+    <div class="question">
+      <p>下面文件拷贝代码中，<code>fwrite</code> 的第三个参数写成 <code>sizeof(buffer)</code> 有什么问题？</p>
+      <pre><code>char buffer[1024];
+size_t bytesRead;
+
+while ((bytesRead = fread(buffer, 1, sizeof(buffer), sourceFile)) &gt; 0) {
+    fwrite(buffer, 1, sizeof(buffer), targetFile);
+}</code></pre>
+    </div>
+    <div class="answer">
+      <details class="answer-toggle">
+        <summary>点击查看答案解析</summary>
+        <div class="answer-content">
+          <p><strong>答案：</strong>最后一次可能会多写无效数据。</p>
+          <p><strong>解析：</strong>如果文件大小不是 1024 的整数倍，最后一次读取通常读不满整个数组。比如最后一次只读到 452 字节，<code>bytesRead</code> 就是 452。如果还写 <code>sizeof(buffer)</code>，就会把后面未更新的残留数据也写进目标文件。</p>
+          <p><strong>正确写法：</strong></p>
+          <pre><code>while ((bytesRead = fread(buffer, 1, sizeof(buffer), sourceFile)) &gt; 0) {
+    fwrite(buffer, 1, bytesRead, targetFile);
+}</code></pre>
+          <p><strong>结论：</strong>文件拷贝必须遵守：读多少，写多少。</p>
+        </div>
+      </details>
+    </div>
+  </div>
+
+  <div class="practice">
+    <div class="practice-title">练习8：模式辨析</div>
+    <div class="question">
+      <p>请判断下面场景应该使用什么模式：</p>
+      <ol>
+        <li>只读取一个普通文本文件。</li>
+        <li>把新内容写入文本文件，并清空旧内容。</li>
+        <li>在旧内容后面继续追加文本。</li>
+        <li>复制一张图片。</li>
+      </ol>
+    </div>
+    <div class="answer">
+      <details class="answer-toggle">
+        <summary>点击查看答案解析</summary>
+        <div class="answer-content">
+          <p><strong>答案：</strong></p>
+          <ol>
+            <li>只读取普通文本文件：<code>"r"</code></li>
+            <li>写入并清空旧内容：<code>"w"</code></li>
+            <li>追加文本：<code>"a"</code></li>
+            <li>复制图片：源文件用 <code>"rb"</code>，目标文件用 <code>"wb"</code></li>
+          </ol>
+          <p><strong>解析：</strong>文本文件可用 <code>r/w/a</code>；图片属于二进制文件，应该使用带 <code>b</code> 的二进制模式。</p>
+          <p><strong>结论：</strong><code>r</code> 读，<code>w</code> 重写，<code>a</code> 追加，<code>b</code> 表示二进制。</p>
+        </div>
+      </details>
+    </div>
+  </div>
+</section>
+<!-- END: 练习中心 -->
+
+<!-- START: 实战策略 -->
+<section class="card" id="strategy">
+  <h2>⑫ 实战策略 · 写题和写代码时怎么判断</h2>
+
+  <h3>看到"读文件"，按这个流程</h3>
+  <div class="note note-blue">
+    <span class="note-title">快速判断流程</span>
+    先确定文件类型，再确定读取单位，最后选择函数。
+  </div>
+
+  <div class="grid-3">
+    <div class="mini-card">
+      <div class="mc-title">普通文本，逐字符处理</div>
+      <div class="mc-desc">用 <code>fgetc</code>，例如统计字符数量。</div>
+    </div>
+    <div class="mini-card">
+      <div class="mc-title">普通文本，按行处理</div>
+      <div class="mc-desc">用 <code>fgets</code>，例如逐行读取配置、日志。</div>
+    </div>
+    <div class="mini-card">
+      <div class="mc-title">批量处理或二进制</div>
+      <div class="mc-desc">用 <code>fread</code>，例如复制图片、视频、压缩包。</div>
+    </div>
+  </div>
+
+  <h3>看到"写文件"，按这个流程</h3>
+  <table>
+    <thead>
+      <tr><th>需求</th><th>模式</th><th>函数</th><th>注意事项</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>写一个字符</td>
+        <td><code>"w"</code> 或 <code>"a"</code></td>
+        <td><code>fputc</code></td>
+        <td>字符可用 <code>'a'</code> 或 ASCII 值</td>
+      </tr>
+      <tr>
+        <td>写字符串</td>
+        <td><code>"w"</code> 或 <code>"a"</code></td>
+        <td><code>fputs</code></td>
+        <td>不会自动换行</td>
+      </tr>
+      <tr>
+        <td>写多个字节</td>
+        <td><code>"wb"</code> 常用</td>
+        <td><code>fwrite</code></td>
+        <td>第三个参数是元素个数</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3>常见考点</h3>
+  <ul>
+    <li><code>fopen</code> 第二个参数的含义：<code>r</code>、<code>w</code>、<code>a</code>、<code>rb</code>、<code>wb</code>。</li>
+    <li><code>fgetc</code> 到末尾返回 <code>EOF</code>，接收变量用 <code>int</code>。</li>
+    <li><code>fgets</code> 读不到返回 <code>NULL</code>，并且一行以 <code>\n</code> 为准。</li>
+    <li><code>fread</code> 返回实际读到的元素个数，不能直接按字符串打印。</li>
+    <li><code>fwrite</code> 返回实际写出的元素个数，文件拷贝时写入数量必须等于本次读取数量。</li>
+    <li><code>"w"</code> 会清空已有文件；<code>"a"</code> 不清空，接着写。</li>
+    <li><code>"w"</code> 和 <code>"wb"</code> 能创建文件，但不能创建不存在的文件夹。</li>
+  </ul>
+
+  <h3>常见错误代码模式</h3>
+
+  <div class="note note-red">
+    <span class="note-title">错误1：Windows 路径只写单反斜杠</span>
+    <code>"C:\aaa\a.txt"</code> 是错误写法，应该写成 <code>"C:\\aaa\\a.txt"</code>。
+  </div>
+
+  <div class="note note-red">
+    <span class="note-title">错误2：用 char 接收 fgetc 返回值</span>
+    <code>char ch = fgetc(file);</code> 不推荐。应使用 <code>int ch</code>，因为要判断 <code>EOF</code>。
+  </div>
+
+  <div class="note note-red">
+    <span class="note-title">错误3：fread 后直接 printf("%s", buffer)</span>
+    <code>fread</code> 不保证读到的是字符串，也不会自动加 <code>\0</code>。
+  </div>
+
+  <div class="note note-red">
+    <span class="note-title">错误4：文件拷贝时 fwrite 写 sizeof(buffer)</span>
+    最后一次读不满时会多写垃圾数据。必须写 <code>bytesRead</code>。
+  </div>
+</section>
+<!-- END: 实战策略 -->
+
+<!-- START: 检查清单 -->
+<section class="card" id="checklist">
+  <h2>⑬ 检查清单 · 考前快速过一遍</h2>
+
+  <div class="checklist">
+    <div class="checklist-group-title">A. 概念方向</div>
+    <div class="check-item">我知道文件操作的本质是程序内存和硬盘文件之间搬数据。</div>
+    <div class="check-item">我知道输入/输出的参照物是程序。</div>
+    <div class="check-item">我知道读文件是输入流，写文件是输出流。</div>
+  </div>
+
+  <div class="checklist">
+    <div class="checklist-group-title">B. 路径和转义</div>
+    <div class="check-item">我能区分绝对路径和相对路径。</div>
+    <div class="check-item">我知道桌面 Desktop 本质上也是文件夹。</div>
+    <div class="check-item">我知道 C 字符串里路径的 <code>\</code> 要写成 <code>\\</code>。</div>
+    <div class="check-item">我知道 <code>\"</code> 表示普通双引号，<code>\\</code> 表示普通反斜杠。</div>
+  </div>
+
+  <div class="checklist">
+    <div class="checklist-group-title">C. 打开和关闭</div>
+    <div class="check-item">我会写 <code>FILE* file = fopen(路径, 模式);</code>。</div>
+    <div class="check-item">我会判断 <code>file == NULL</code>。</div>
+    <div class="check-item">我知道有几个 <code>fopen</code>，通常就要有几个 <code>fclose</code>。</div>
+  </div>
+
+  <div class="checklist">
+    <div class="checklist-group-title">D. 读取函数</div>
+    <div class="check-item"><code>fgetc</code> 一次读一个字符，末尾返回 <code>EOF</code>。</div>
+    <div class="check-item"><code>fgets</code> 一次读一行，读不到返回 <code>NULL</code>。</div>
+    <div class="check-item"><code>fread</code> 一次读多个字节，返回实际读到的元素个数。</div>
+    <div class="check-item"><code>fread</code> 不能直接把数组当字符串打印。</div>
+  </div>
+
+  <div class="checklist">
+    <div class="checklist-group-title">E. 写入函数和模式</div>
+    <div class="check-item"><code>fputc</code> 写一个字符。</div>
+    <div class="check-item"><code>fputs</code> 写一个字符串。</div>
+    <div class="check-item"><code>fwrite</code> 写多个字节。</div>
+    <div class="check-item"><code>"r"</code> 只读，<code>"w"</code> 重写，<code>"a"</code> 追加。</div>
+    <div class="check-item"><code>"w"</code> 会清空已有文件，<code>"a"</code> 不会清空。</div>
+    <div class="check-item"><code>"rb"</code>、<code>"wb"</code> 用于二进制文件。</div>
+  </div>
+
+  <div class="checklist">
+    <div class="checklist-group-title">F. 文件拷贝</div>
+    <div class="check-item">我知道文件拷贝推荐用 <code>rb + fread</code> 和 <code>wb + fwrite</code>。</div>
+    <div class="check-item">我知道核心循环是：读一块，写一块。</div>
+    <div class="check-item">我知道 <code>fwrite</code> 第三个参数必须写本次读取到的数量。</div>
+    <div class="check-item">我知道目标文件可以不存在，但目标文件所在文件夹必须存在。</div>
+  </div>
+</section>
+<!-- END: 检查清单 -->
+
+<!-- START: 页脚 -->
+<footer>
+  <p><strong>资料主题：</strong>C语言第15章 · 文件操作</p>
+  <p><strong>覆盖范围：</strong>路径、转义字符、文件读取、文件写入、读写模式、文件拷贝实战</p>
+  <p><strong>最后更新时间：</strong>2026-05-09</p>
+</footer>
+<!-- END: 页脚 -->
+
+</div>
+
+<!-- START: JavaScript -->
+<script>
+function expandAll() {
+  document.querySelectorAll("details").forEach(function(detail) {
+    detail.open = true;
+  });
+}
+
+function collapseAll() {
+  document.querySelectorAll("details").forEach(function(detail) {
+    detail.open = false;
+  });
+}
+
+function showAnswers() {
+  document.querySelectorAll(".answer-toggle").forEach(function(detail) {
+    detail.open = true;
+  });
+}
+
+function hideAnswers() {
+  document.querySelectorAll(".answer-toggle").forEach(function(detail) {
+    detail.open = false;
+  });
+}
+
+function toggleFocusMode() {
+  document.body.classList.toggle("focus-mode");
+}
+
+function printPage() {
+  expandAll();
+  showAnswers();
+
+  setTimeout(function() {
+    window.print();
+  }, 150);
+}
+</script>
+<!-- END: JavaScript -->
+
+<!-- END: 各模块 -->
+    <script src="../data.js"></script>
+    <script src="../js/lecture.js"></script>
+</body>
+</html>

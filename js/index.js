@@ -1,14 +1,18 @@
+const SESSION_KEY = 'math_flashcard_session';
+const STUDY_PROGRESS_KEY = 'math_flashcard_progress';
+
 const themeStyles = {
-    sky: { bg: 'bg-sky-500', text: 'text-sky-600', lightBg: 'bg-sky-50', border: 'border-sky-100', icon: 'fa-square-root-variable' },
-    indigo: { bg: 'bg-indigo-500', text: 'text-indigo-600', lightBg: 'bg-indigo-50', border: 'border-indigo-100', icon: 'fa-language' },
-    violet: { bg: 'bg-violet-500', text: 'text-violet-600', lightBg: 'bg-violet-50', border: 'border-violet-100', icon: 'fa-chart-line' },
-    emerald: { bg: 'bg-emerald-500', text: 'text-emerald-600', lightBg: 'bg-emerald-50', border: 'border-emerald-100', icon: 'fa-code' },
-    rose: { bg: 'bg-rose-500', text: 'text-rose-600', lightBg: 'bg-rose-50', border: 'border-rose-100', icon: 'fa-rocket' },
-    default: { bg: 'bg-slate-500', text: 'text-slate-600', lightBg: 'bg-slate-50', border: 'border-slate-100', icon: 'fa-book' }
+    sky: { tone: 'tone-sky', icon: 'fa-square-root-variable' },
+    indigo: { tone: 'tone-indigo', icon: 'fa-language' },
+    violet: { tone: 'tone-violet', icon: 'fa-chart-line' },
+    emerald: { tone: 'tone-emerald', icon: 'fa-code' },
+    rose: { tone: 'tone-rose', icon: 'fa-rocket' },
+    default: { tone: 'tone-slate', icon: 'fa-book' }
 };
 
-const STUDY_PROGRESS_KEY = 'math_flashcard_progress';
 const mainContainer = document.getElementById('main-container');
+const userDisplay = document.getElementById('user-display');
+const logoutBtn = document.getElementById('logout-btn');
 
 function escapeHtml(value) {
     return String(value ?? '').replace(/[&<>"']/g, char => ({
@@ -24,21 +28,43 @@ function escapeAttribute(value) {
     return escapeHtml(value).replace(/`/g, '&#96;');
 }
 
-function readProgressStore() {
+function readJson(key) {
     try {
-        return JSON.parse(localStorage.getItem(STUDY_PROGRESS_KEY)) || {};
+        const raw = localStorage.getItem(key);
+        return raw ? JSON.parse(raw) : null;
     } catch (error) {
-        localStorage.removeItem(STUDY_PROGRESS_KEY);
-        return {};
+        localStorage.removeItem(key);
+        return null;
     }
 }
 
-function getTheme(themeColor) {
-    return themeStyles[themeColor] || themeStyles.default;
+function getDataSource() {
+    return {
+        appData: typeof appData === 'undefined' ? {} : appData,
+        siteData: typeof siteData === 'undefined' ? [] : siteData
+    };
 }
 
-function getCardsCount(item) {
-    return Array.isArray(item.cards) ? item.cards.length : 0;
+function requireSession() {
+    const session = readJson(SESSION_KEY);
+
+    if (!session?.username) {
+        localStorage.removeItem(SESSION_KEY);
+        window.location.href = 'login.html';
+        return false;
+    }
+
+    userDisplay.textContent = session.username;
+    return true;
+}
+
+function handleLogout() {
+    localStorage.removeItem(SESSION_KEY);
+    window.location.href = 'login.html';
+}
+
+function getTheme(item) {
+    return themeStyles[item.themeColor] || themeStyles.default;
 }
 
 function getTargetUrl(item) {
@@ -56,129 +82,177 @@ function getTargetUrl(item) {
     return rawUrl;
 }
 
+function getCardsCount(item) {
+    return Array.isArray(item.cards) ? item.cards.length : 0;
+}
+
 function getProgress(item, progressStore) {
     const total = getCardsCount(item);
-    const saved = progressStore[item.id];
+    const saved = progressStore?.[item.id];
 
-    if (!total || !saved || saved.total !== total) {
-        return { current: 0, seen: 0, total, percent: 0 };
+    if (!total || !saved || Number(saved.total) !== total) {
+        return { total, seen: 0, current: 0, percent: 0, updatedAt: 0 };
     }
 
-    const activeIndex = Math.min(Math.max(Number(saved.index) + 1 || 0, 0), total);
     const seen = Math.min(Array.isArray(saved.seen) ? saved.seen.length : 0, total);
-    const current = Math.max(activeIndex, seen);
+    const current = Math.min(Math.max(Number(saved.index) + 1 || 0, seen), total);
 
     return {
-        current,
-        seen,
         total,
-        percent: Math.round((current / total) * 100)
+        seen,
+        current,
+        percent: Math.round((Math.max(seen, current) / total) * 100),
+        updatedAt: Number(saved.updatedAt) || 0
     };
 }
 
-function renderProgressBar(progress, theme) {
-    if (!progress.total || progress.current === 0) return '';
+function getFlatModules(categories, progressStore) {
+    return categories.flatMap((category, categoryIndex) => {
+        const items = Array.isArray(category.items) ? category.items : [];
+        return items.filter(Boolean).map(item => ({
+            item,
+            category,
+            categoryIndex,
+            progress: getProgress(item, progressStore)
+        }));
+    });
+}
+
+function getResumeModule(modules) {
+    const flashcards = modules.filter(module => module.item.type !== 'article' && getCardsCount(module.item) > 0);
+    return flashcards
+        .filter(module => module.progress.updatedAt > 0)
+        .sort((a, b) => b.progress.updatedAt - a.progress.updatedAt)[0] || flashcards[0] || null;
+}
+
+function renderResume(modules) {
+    const resume = getResumeModule(modules);
+
+    if (!resume) {
+        return '';
+    }
+
+    const item = resume.item;
+    const action = resume.progress.updatedAt ? '继续复习' : '开始复习';
+    const detail = resume.progress.total
+        ? `已看 ${resume.progress.seen}/${resume.progress.total} 张`
+        : '讲义阅读';
 
     return `
-        <div class="mt-4" aria-label="学习进度 ${progress.current} / ${progress.total}">
-            <div class="flex items-center justify-between text-[10px] font-bold text-slate-400 mb-1">
-                <span>已学 ${progress.current}/${progress.total}</span>
-                <span>${progress.percent}%</span>
+        <section class="resume-card" aria-label="${action}">
+            <div>
+                <span class="section-label">${action}</span>
+                <h2>${escapeHtml(item.title)}</h2>
+                <p>${escapeHtml(item.subtitle || resume.category.categoryTitle)} · ${detail}</p>
             </div>
-            <div class="h-1.5 rounded-full bg-slate-100 overflow-hidden">
-                <div class="h-full ${theme.bg}" style="width: ${progress.percent}%"></div>
-            </div>
-        </div>
+            <a class="primary-action" href="${escapeAttribute(getTargetUrl(item))}">
+                <span>${action}</span>
+                <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
+            </a>
+        </section>
     `;
 }
 
-function renderBadge(item, theme, progress) {
+function renderProgress(item, progress) {
     if (item.type === 'article') {
-        return `<span class="module-badge ${theme.lightBg} ${theme.text}">独立讲义</span>`;
+        return '<span class="item-meta">讲义</span>';
     }
 
-    const total = getCardsCount(item);
-    const progressLabel = progress.current > 0
-        ? ` · ${progress.seen ? `已看 ${progress.seen} 张` : `已到第 ${progress.current} 张`}`
-        : '';
-
-    return `<span class="module-badge ${theme.lightBg} ${theme.text}">共 ${total} 张卡片${progressLabel}</span>`;
+    const label = progress.total ? `已看 ${progress.seen}/${progress.total}` : '闪卡';
+    return `
+        <span class="item-meta">${label}</span>
+        <span class="mini-progress" aria-label="学习进度 ${progress.percent}%">
+            <span style="width: ${progress.percent}%"></span>
+        </span>
+    `;
 }
 
-function renderModuleCard(item, progressStore) {
-    const theme = getTheme(item.themeColor);
-    const targetUrl = getTargetUrl(item);
-    const progress = getProgress(item, progressStore);
+function renderModule(module) {
+    const { item, progress } = module;
+    const theme = getTheme(item);
     const title = escapeHtml(item.title);
-    const subtitle = escapeHtml(item.subtitle);
+    const subtitle = escapeHtml(item.subtitle || '');
     const ariaLabel = item.type === 'article'
-        ? `${item.title}，打开独立讲义`
-        : `${item.title}，${progress.total} 张卡片`;
+        ? `${item.title}，打开讲义`
+        : `${item.title}，${progress.total} 张闪卡`;
 
     return `
-        <a href="${escapeAttribute(targetUrl)}"
-           class="module-card snap-start shrink-0 w-72 bg-white rounded-2xl p-6 border ${theme.border} cursor-pointer shadow-sm relative overflow-hidden group"
-           aria-label="${escapeAttribute(ariaLabel)}">
-            <div class="absolute -right-4 -top-4 opacity-5 transform group-hover:scale-110 transition-transform duration-500" aria-hidden="true">
-                <i class="fa-solid ${theme.icon} text-9xl ${theme.text}"></i>
-            </div>
-            <div class="relative z-10 flex flex-col h-full">
-                <div class="w-12 h-12 rounded-xl ${theme.lightBg} ${theme.text} flex items-center justify-center text-xl mb-4 shadow-sm" aria-hidden="true">
-                    <i class="fa-solid ${theme.icon}"></i>
-                </div>
-                <h3 class="text-xl font-bold text-slate-800 mb-1">${title}</h3>
-                <p class="text-xs font-bold text-slate-400 mb-2">${subtitle}</p>
-                ${renderProgressBar(progress, theme)}
-                <div class="mt-auto pt-6 flex items-center justify-between gap-3">
-                    ${renderBadge(item, theme, progress)}
-                    <div class="w-8 h-8 rounded-full ${theme.bg} text-white flex items-center justify-center shadow-md transform group-hover:translate-x-1 transition-transform" aria-hidden="true">
-                        <i class="fa-solid fa-arrow-right text-sm"></i>
-                    </div>
-                </div>
-            </div>
+        <a class="study-item ${theme.tone}" href="${escapeAttribute(getTargetUrl(item))}" aria-label="${escapeAttribute(ariaLabel)}">
+            <span class="item-icon" aria-hidden="true">
+                <i class="fa-solid ${theme.icon}"></i>
+            </span>
+            <span class="item-copy">
+                <strong>${title}</strong>
+                <small>${subtitle}</small>
+            </span>
+            <span class="item-status">
+                ${renderProgress(item, progress)}
+            </span>
         </a>
     `;
 }
 
-function renderCategory(category, progressStore) {
-    const items = Array.isArray(category.items) ? category.items : [];
-    const cardsHtml = items.map(item => renderModuleCard(item, progressStore)).join('');
+function renderCategory(category, categoryIndex, modules) {
+    const items = modules.filter(module => module.categoryIndex === categoryIndex);
+    const title = escapeHtml(category.categoryTitle);
 
     return `
-        <section class="mb-12" aria-labelledby="category-${escapeAttribute(category.categoryTitle)}">
-            <h2 id="category-${escapeAttribute(category.categoryTitle)}" class="text-2xl font-bold text-slate-800 mb-6 border-l-4 ${category.categoryBorder} pl-3">
-                ${escapeHtml(category.categoryTitle)}
-            </h2>
-            <div class="category-row flex gap-5 overflow-x-auto pb-4 snap-x snap-mandatory scroll-smooth">
-                ${cardsHtml}
+        <section id="category-${categoryIndex}" class="category-block">
+            <div class="category-title">
+                <h2>${title}</h2>
+                <span>${items.length} 个主题</span>
+            </div>
+            <div class="study-list">
+                ${items.map(renderModule).join('')}
             </div>
         </section>
+    `;
+}
+
+function renderShortcuts(categories) {
+    return `
+        <nav class="category-tabs" aria-label="学科分类">
+            ${categories.map((category, index) => `
+                <a href="#category-${index}">${escapeHtml(category.categoryTitle)}</a>
+            `).join('')}
+        </nav>
     `;
 }
 
 function renderEmptyState() {
     mainContainer.innerHTML = `
         <div class="empty-state">
-            <i class="fa-solid fa-layer-group text-3xl text-slate-300 mb-3" aria-hidden="true"></i>
-            <p class="text-sm font-bold text-slate-500">还没有可展示的学习模块</p>
+            <p>还没有可展示的学习模块。</p>
         </div>
     `;
 }
 
 function renderHome() {
-    const categories = typeof siteData === 'undefined' ? [] : siteData;
+    const { siteData: categories } = getDataSource();
 
     if (!Array.isArray(categories) || categories.length === 0) {
         renderEmptyState();
         return;
     }
 
-    const progressStore = readProgressStore();
-    const html = categories.map(category => renderCategory(category, progressStore)).join('');
+    const progressStore = readJson(STUDY_PROGRESS_KEY) || {};
+    const modules = getFlatModules(categories, progressStore);
+    const categoryHtml = categories.map((category, index) => renderCategory(category, index, modules)).join('');
 
     requestAnimationFrame(() => {
-        mainContainer.innerHTML = html;
+        mainContainer.innerHTML = `
+            ${renderResume(modules)}
+            ${renderShortcuts(categories)}
+            ${categoryHtml}
+        `;
     });
 }
 
-renderHome();
+function initHome() {
+    if (!requireSession()) return;
+
+    logoutBtn.addEventListener('click', handleLogout);
+    renderHome();
+}
+
+initHome();

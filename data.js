@@ -593,3 +593,76 @@ const siteData = [
         ]
     }
 ];
+
+// ====================================================
+// 首页目录修正与新增讲义挂载
+// ====================================================
+(function normalizeCatalogForReviewHome() {
+    Object.assign(appData, {
+        c_pointer_adv1: {
+            id: "c_pointer_adv1",
+            title: "C语言：指针进阶（上）",
+            subtitle: "指针数组、数组指针与函数指针",
+            themeColor: "emerald",
+            type: "article",
+            url: "c/指针高级1.html",
+            cards: []
+        },
+        c_dynamic_memory: {
+            id: "c_dynamic_memory",
+            title: "C语言：动态内存分配",
+            subtitle: "malloc/free 与内存生命周期",
+            themeColor: "emerald",
+            type: "article",
+            url: "c/动态内存分配.html",
+            cards: []
+        },
+        c_union: {
+            id: "c_union",
+            title: "C语言：联合体",
+            subtitle: "union 共享存储与类型辨析",
+            themeColor: "emerald",
+            type: "article",
+            url: "c/联合体.html",
+            cards: []
+        },
+        c_file: {
+            id: "c_file",
+            title: "C语言：文件操作",
+            subtitle: "文件读写、定位与错误处理",
+            themeColor: "emerald",
+            type: "article",
+            url: "c/文件.html",
+            cards: []
+        }
+    });
+
+    const cCategory = siteData.find(category => category.categoryId === "c-language");
+    if (!cCategory) return;
+
+    cCategory.items = [
+        appData.c_syntax_basics1,
+        appData.c_syntax_basics2,
+        appData.c_syntax_core1,
+        appData.c_syntax_core2,
+        appData.c_operator1,
+        appData.c_operator2,
+        appData.c_operator3,
+        appData.c_branching,
+        appData.c_loop,
+        appData.c_for_loop,
+        appData.c_loop_advanced,
+        appData.c_array1,
+        appData.c_array2,
+        appData.c_func1,
+        appData.c_func2,
+        appData.c_pointer1,
+        appData.c_pointer_adv1,
+        appData.c_pointer_adv2,
+        appData.c_dynamic_memory,
+        appData.c_string,
+        appData.c_struct,
+        appData.c_union,
+        appData.c_file
+    ].filter(Boolean);
+})();

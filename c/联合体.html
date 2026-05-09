@@ -1,0 +1,1653 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>C语言 · 共用体 union 复习系统</title>
+<style>
+/* =========================
+   C语言共用体 union 复习系统
+   单文件 HTML / CSS / JS
+========================= */
+
+/* ---------- :root 变量 ---------- */
+:root {
+    --bg: #f3f5f8;
+    --bg-soft: linear-gradient(135deg, #f6f8fb 0%, #eef3f9 100%);
+    --card: #ffffff;
+    --text: #1f2937;
+    --text-weak: #6b7280;
+    --border: #e5e7eb;
+
+    --blue: #2563eb;
+    --blue-light: #eff6ff;
+    --green: #059669;
+    --green-light: #ecfdf5;
+    --amber: #d97706;
+    --amber-light: #fffbeb;
+    --purple: #7c3aed;
+    --purple-light: #f5f3ff;
+    --red: #dc2626;
+    --red-light: #fef2f2;
+    --gray: #64748b;
+    --gray-light: #f8fafc;
+
+    --radius: 16px;
+    --radius-sm: 10px;
+    --shadow: 0 10px 28px rgba(15, 23, 42, 0.08);
+    --shadow-sm: 0 4px 14px rgba(15, 23, 42, 0.06);
+    --max-width: 1080px;
+}
+
+/* ---------- 全局样式 ---------- */
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC",
+        "Hiragino Sans GB", "Microsoft YaHei", Arial, sans-serif;
+    color: var(--text);
+    background: var(--bg-soft);
+    line-height: 1.75;
+    font-size: 15px;
+}
+
+a {
+    color: var(--blue);
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+p {
+    margin: 0 0 10px;
+}
+
+ul,
+ol {
+    margin: 8px 0 8px 22px;
+    padding: 0;
+}
+
+li {
+    margin: 4px 0;
+}
+
+code {
+    font-family: Consolas, Monaco, "Courier New", monospace;
+    background: #eef2f7;
+    color: #b91c1c;
+    padding: 2px 6px;
+    border-radius: 6px;
+    font-size: 0.92em;
+}
+
+pre {
+    margin: 10px 0;
+    padding: 16px 18px;
+    overflow-x: auto;
+    border-radius: 12px;
+    background: #0f172a;
+    color: #e2e8f0;
+    line-height: 1.65;
+    font-size: 0.9em;
+}
+
+pre code {
+    background: transparent;
+    color: inherit;
+    padding: 0;
+    border-radius: 0;
+}
+
+/* ---------- 布局样式 ---------- */
+.page {
+    width: min(var(--max-width), calc(100% - 32px));
+    margin: 0 auto;
+}
+
+.hero {
+    margin: 0 0 20px;
+    padding: 56px 0 42px;
+    background:
+        radial-gradient(circle at top left, rgba(96, 165, 250, 0.35), transparent 34%),
+        linear-gradient(135deg, #111827 0%, #1e293b 60%, #1d4ed8 100%);
+    color: #ffffff;
+    border-bottom-left-radius: 28px;
+    border-bottom-right-radius: 28px;
+}
+
+.hero h1 {
+    margin: 0;
+    font-size: clamp(1.8rem, 4vw, 2.6rem);
+    letter-spacing: -0.04em;
+    line-height: 1.2;
+}
+
+.hero .subtitle {
+    margin-top: 10px;
+    color: #cbd5e1;
+    font-size: 1rem;
+}
+
+.hero .hero-tip {
+    margin-top: 18px;
+    max-width: 780px;
+    padding: 12px 16px;
+    border-left: 4px solid #60a5fa;
+    border-radius: 0 12px 12px 0;
+    background: rgba(255, 255, 255, 0.09);
+    color: #dbeafe;
+}
+
+.tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 18px;
+}
+
+.tag,
+.tag-blue,
+.tag-green,
+.tag-amber,
+.tag-purple,
+.tag-red,
+.tag-gray {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 3px 10px;
+    border-radius: 999px;
+    font-size: 0.78rem;
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+.hero .tag {
+    color: #e5e7eb;
+    background: rgba(255, 255, 255, 0.12);
+    border: 1px solid rgba(255, 255, 255, 0.16);
+}
+
+.tag-blue {
+    color: var(--blue);
+    background: var(--blue-light);
+}
+
+.tag-green {
+    color: var(--green);
+    background: var(--green-light);
+}
+
+.tag-amber {
+    color: var(--amber);
+    background: var(--amber-light);
+}
+
+.tag-purple {
+    color: var(--purple);
+    background: var(--purple-light);
+}
+
+.tag-red {
+    color: var(--red);
+    background: var(--red-light);
+}
+
+.tag-gray {
+    color: var(--gray);
+    background: var(--gray-light);
+}
+
+.toolbar {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    padding: 12px 0;
+    margin-bottom: 14px;
+    background: rgba(243, 245, 248, 0.92);
+    backdrop-filter: blur(10px);
+}
+
+.toolbar button {
+    border: 1px solid var(--border);
+    background: var(--card);
+    color: var(--text);
+    border-radius: 999px;
+    padding: 8px 13px;
+    font-family: inherit;
+    font-weight: 700;
+    font-size: 0.86rem;
+    cursor: pointer;
+    box-shadow: var(--shadow-sm);
+}
+
+.toolbar button:hover {
+    color: #ffffff;
+    background: var(--blue);
+    border-color: var(--blue);
+}
+
+.toolbar .primary {
+    color: #ffffff;
+    background: var(--blue);
+    border-color: var(--blue);
+}
+
+.toolbar .print {
+    color: #ffffff;
+    background: #111827;
+    border-color: #111827;
+}
+
+.nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    align-items: center;
+    margin-bottom: 20px;
+    padding: 14px 16px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: rgba(255, 255, 255, 0.86);
+    box-shadow: var(--shadow-sm);
+}
+
+.nav strong {
+    margin-right: 4px;
+    color: var(--text-weak);
+    font-size: 0.82rem;
+}
+
+.nav a {
+    padding: 4px 10px;
+    border-radius: 999px;
+    color: var(--blue);
+    background: var(--blue-light);
+    font-size: 0.84rem;
+    font-weight: 700;
+}
+
+.nav a:hover {
+    text-decoration: none;
+    color: #ffffff;
+    background: var(--blue);
+}
+
+main {
+    padding-bottom: 28px;
+}
+
+.section-title {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 34px 0 14px;
+}
+
+.section-title .mark {
+    width: 32px;
+    height: 32px;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 10px;
+    font-weight: 900;
+}
+
+.section-title h2 {
+    margin: 0;
+    font-size: 1.22rem;
+    letter-spacing: -0.02em;
+}
+
+.mark-blue {
+    color: var(--blue);
+    background: var(--blue-light);
+}
+
+.mark-green {
+    color: var(--green);
+    background: var(--green-light);
+}
+
+.mark-amber {
+    color: var(--amber);
+    background: var(--amber-light);
+}
+
+.mark-purple {
+    color: var(--purple);
+    background: var(--purple-light);
+}
+
+.mark-red {
+    color: var(--red);
+    background: var(--red-light);
+}
+
+.card {
+    margin-bottom: 16px;
+    padding: 22px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: var(--card);
+    box-shadow: var(--shadow);
+}
+
+.grid-2 {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 14px;
+}
+
+.grid-3 {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 14px;
+}
+
+.mini-card {
+    padding: 16px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    background: var(--gray-light);
+}
+
+.mini-card h3,
+.mini-card h4 {
+    margin: 0 0 6px;
+    font-size: 0.96rem;
+}
+
+.mini-card p {
+    color: var(--text-weak);
+    font-size: 0.9rem;
+}
+
+/* ---------- 知识卡样式 ---------- */
+.rule {
+    margin: 10px 0 12px;
+    padding: 12px 14px;
+    border: 1px solid #a7f3d0;
+    border-radius: var(--radius-sm);
+    background: linear-gradient(90deg, var(--green-light), #ffffff);
+    color: #065f46;
+    font-weight: 800;
+}
+
+.note {
+    margin: 10px 0;
+    padding: 12px 14px;
+    border-left: 4px solid var(--border);
+    border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+    font-size: 0.93rem;
+}
+
+.note-blue {
+    border-color: var(--blue);
+    background: var(--blue-light);
+}
+
+.note-green {
+    border-color: var(--green);
+    background: var(--green-light);
+}
+
+.note-amber {
+    border-color: var(--amber);
+    background: var(--amber-light);
+}
+
+.note-purple {
+    border-color: var(--purple);
+    background: var(--purple-light);
+}
+
+.note-red {
+    border-color: var(--red);
+    background: var(--red-light);
+}
+
+.example {
+    margin: 10px 0;
+    padding: 14px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    background: #ffffff;
+}
+
+.example-title {
+    margin-bottom: 8px;
+    color: var(--purple);
+    font-weight: 900;
+    font-size: 0.88rem;
+}
+
+.practice {
+    margin-bottom: 14px;
+    padding: 18px;
+    border: 1px solid #ddd6fe;
+    border-radius: var(--radius);
+    background: var(--purple-light);
+}
+
+.practice-title {
+    margin-bottom: 10px;
+    color: var(--purple);
+    font-weight: 900;
+}
+
+.question {
+    padding: 13px;
+    border-radius: var(--radius-sm);
+    background: #ffffff;
+}
+
+.answer-content {
+    margin-top: 0;
+    padding: 14px 16px;
+    border: 1px solid #ddd6fe;
+    border-top: none;
+    border-radius: 0 0 var(--radius-sm) var(--radius-sm);
+    background: #ffffff;
+}
+
+.checklist {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.check-item {
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--border);
+}
+
+.check-item:last-child {
+    border-bottom: none;
+}
+
+.check-dot {
+    flex: 0 0 20px;
+    width: 20px;
+    height: 20px;
+    margin-top: 3px;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    color: var(--green);
+    border: 2px solid var(--green);
+    font-size: 0.75rem;
+    font-weight: 900;
+}
+
+/* ---------- table ---------- */
+table {
+    width: 100%;
+    margin: 10px 0;
+    border-collapse: collapse;
+    overflow: hidden;
+    border-radius: 12px;
+    font-size: 0.92rem;
+}
+
+th {
+    padding: 10px 12px;
+    color: #f8fafc;
+    background: #1e293b;
+    text-align: left;
+}
+
+td {
+    padding: 10px 12px;
+    border-bottom: 1px solid var(--border);
+    background: #ffffff;
+    vertical-align: top;
+}
+
+tr:nth-child(even) td {
+    background: var(--gray-light);
+}
+
+/* ---------- details / summary ---------- */
+details {
+    margin-top: 10px;
+}
+
+summary {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    list-style: none;
+    cursor: pointer;
+    padding: 10px 13px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    background: #ffffff;
+    color: var(--purple);
+    font-weight: 900;
+}
+
+summary::-webkit-details-marker {
+    display: none;
+}
+
+summary::before {
+    content: "展开";
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 38px;
+    padding: 1px 7px;
+    border-radius: 999px;
+    background: var(--purple-light);
+    color: var(--purple);
+    font-size: 0.75rem;
+}
+
+details[open] summary {
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
+details[open] summary::before {
+    content: "收起";
+    background: var(--amber-light);
+    color: var(--amber);
+}
+
+/* ---------- 只看重点 ---------- */
+.focus-mode .non-key {
+    display: none !important;
+}
+
+/* ---------- 页脚 ---------- */
+footer {
+    padding: 30px 16px;
+    text-align: center;
+    color: #94a3b8;
+    background: #111827;
+    font-size: 0.9rem;
+}
+
+footer strong {
+    color: #e5e7eb;
+}
+
+/* ---------- 响应式 ---------- */
+@media (max-width: 760px) {
+    body {
+        font-size: 14px;
+    }
+
+    .page {
+        width: min(100% - 22px, var(--max-width));
+    }
+
+    .grid-2,
+    .grid-3 {
+        grid-template-columns: 1fr;
+    }
+
+    .hero {
+        padding: 38px 0 30px;
+    }
+
+    .toolbar {
+        position: static;
+    }
+
+    .toolbar button {
+        flex: 1 1 auto;
+    }
+
+    .card {
+        padding: 17px;
+    }
+}
+
+/* ---------- 打印样式 ---------- */
+@media print {
+    body {
+        background: #ffffff !important;
+        color: #000000;
+    }
+
+    .toolbar,
+    .nav {
+        display: none !important;
+    }
+
+    .hero {
+        border-radius: 0;
+        background: #111827 !important;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+    }
+
+    .card,
+    .mini-card,
+    .practice,
+    .example {
+        box-shadow: none !important;
+        break-inside: avoid;
+        page-break-inside: avoid;
+    }
+
+    details {
+        display: block;
+    }
+
+    details summary {
+        display: none;
+    }
+
+    .answer-content {
+        display: block !important;
+        border: 1px solid #ddd6fe;
+        border-radius: var(--radius-sm);
+    }
+
+    pre {
+        white-space: pre-wrap;
+        break-inside: avoid;
+    }
+
+    a {
+        color: #000000;
+    }
+}
+</style>
+    <link rel="stylesheet" href="../css/lecture.css">
+</head>
+
+<body>
+
+<!-- START: 首页 -->
+<header class="hero">
+    <div class="page">
+        <h1>C语言 · 第13章 · 共用体 union 复习系统</h1>
+        <p class="subtitle">覆盖：共用体定义、基本使用、内存特点、大小计算、结构体与共用体区别</p>
+        <div class="tags">
+            <span class="tag">union</span>
+            <span class="tag">共用体 / 联合体 / 共同体</span>
+            <span class="tag">内存共用</span>
+            <span class="tag">sizeof</span>
+            <span class="tag">内存对齐</span>
+            <span class="tag">struct vs union</span>
+            <span class="tag">typedef</span>
+        </div>
+        <div class="hero-tip">
+            使用建议：先看“总纲”建立框架，再按模块复习；最后做练习题自测。导出 PDF 前会自动展开全部内容和答案。
+        </div>
+    </div>
+</header>
+<!-- END: 首页 -->
+
+<div class="page">
+
+<!-- START: 工具栏 -->
+<div class="toolbar">
+    <button onclick="expandAll()">全部展开</button>
+    <button onclick="collapseAll()">全部收起</button>
+    <button class="primary" onclick="showAnswers()">显示答案</button>
+    <button onclick="hideAnswers()">隐藏答案</button>
+    <button id="focusBtn" onclick="toggleFocusMode()">只看重点</button>
+    <button class="print" onclick="printPage()">导出 PDF</button>
+</div>
+<!-- END: 工具栏 -->
+
+<!-- START: 导航栏 -->
+<nav class="nav">
+    <strong>导航</strong>
+    <a href="#overview">总纲</a>
+    <a href="#scene">使用场景</a>
+    <a href="#syntax">定义与使用</a>
+    <a href="#memory">内存特点</a>
+    <a href="#sizeof">大小计算</a>
+    <a href="#overwrite">覆盖与取值</a>
+    <a href="#compare">struct vs union</a>
+    <a href="#code">代码整理区</a>
+    <a href="#practice">练习中心</a>
+    <a href="#strategy">实战策略</a>
+    <a href="#checklist">检查清单</a>
+</nav>
+<!-- END: 导航栏 -->
+
+<main>
+
+<!-- START: 总纲 -->
+<section id="overview">
+    <div class="section-title">
+        <span class="mark mark-blue">总</span>
+        <h2>总纲：这章到底学什么</h2>
+    </div>
+
+    <div class="card">
+        <div class="rule">
+            共用体（union）的核心：多个成员共用同一块内存，同一时间通常只有一个成员有效。
+        </div>
+
+        <div class="grid-3">
+            <div class="mini-card">
+                <h3>1. 什么时候用</h3>
+                <p>当“一个数据”可能有多种类型，但同一时刻只会采用其中一种类型时，可以用共用体。</p>
+            </div>
+            <div class="mini-card">
+                <h3>2. 怎么用</h3>
+                <p>用 <code>union</code> 定义类型，用 <code>.</code> 访问成员，字符串成员赋值用 <code>strcpy</code>。</p>
+            </div>
+            <div class="mini-card">
+                <h3>3. 怎么考</h3>
+                <p>常考成员共用内存、后赋值覆盖、<code>sizeof</code> 大小计算、和 <code>struct</code> 的区别。</p>
+            </div>
+        </div>
+
+        <div class="note note-amber">
+            易混点：结构体解决“一个事物有多个属性”；共用体解决“一个属性有多种可能类型”。
+        </div>
+    </div>
+</section>
+<!-- END: 总纲 -->
+
+<!-- START: 核心模块1：使用场景 -->
+<section id="scene">
+    <div class="section-title">
+        <span class="mark mark-green">1</span>
+        <h2>使用场景：什么情况下需要共用体</h2>
+    </div>
+
+    <div class="card">
+        <div class="rule">
+            一个数据可能出现多种数据类型，并且同一时间只需要其中一种，就可以考虑使用 <code>union</code>。
+        </div>
+
+        <div class="grid-2">
+            <div class="example">
+                <div class="example-title">案例 A：金融项目中的“钱”</div>
+                <p>钱这个数据，在不同情况下可能有不同形式：</p>
+                <ul>
+                    <li><code>int</code>：例如 <code>99999</code></li>
+                    <li><code>double</code>：例如 <code>123.32</code></li>
+                    <li><code>char[]</code>：例如 <code>"100万"</code></li>
+                </ul>
+                <p>只用一种普通类型难以同时表达这些情况。</p>
+            </div>
+
+            <div class="example">
+                <div class="example-title">案例 B：考试成绩</div>
+                <p>成绩也可能有多种表示方式：</p>
+                <ul>
+                    <li><code>int</code>：例如 <code>95</code></li>
+                    <li><code>double</code>：例如 <code>89.5</code></li>
+                    <li><code>char</code>：例如 <code>'A'</code>、<code>'B'</code>、<code>'C'</code>、<code>'D'</code></li>
+                </ul>
+                <p>这类“类型不固定的属性”适合使用共用体。</p>
+            </div>
+        </div>
+
+        <div class="note note-red">
+            禁忌：不要把共用体理解成“可以同时保存多个值”。它的重点是“多种类型选一种”。
+        </div>
+
+        <div class="note note-green">
+            本模块记忆点：共用体适合表示“一个属性，多种可能类型”。
+        </div>
+    </div>
+</section>
+<!-- END: 核心模块1：使用场景 -->
+
+<!-- START: 核心模块2：定义与基本使用 -->
+<section id="syntax">
+    <div class="section-title">
+        <span class="mark mark-green">2</span>
+        <h2>定义与基本使用</h2>
+    </div>
+
+    <div class="card">
+        <div class="rule">
+            定义共用体使用关键字 <code>union</code>，它也是一种自定义数据类型。
+        </div>
+
+        <p><strong>基本格式：</strong></p>
+        <pre><code>union 共用体名
+{
+    类型1 成员名1;
+    类型2 成员名2;
+    类型3 成员名3;
+};</code></pre>
+
+        <p><strong>文稿中的钱类型可以整理为：</strong></p>
+        <pre><code>union MoneyType
+{
+    int money_i;           // 整数形式的钱
+    double money_d;        // 小数形式的钱
+    char money_str[100];   // 字符串形式的钱
+};</code></pre>
+
+        <div class="grid-2">
+            <div class="note note-green">
+                <strong>定义变量：</strong><br>
+                <code>union MoneyType money;</code><br>
+                前面是自定义类型，后面是变量名。
+            </div>
+
+            <div class="note note-amber">
+                <strong>成员名不能重复：</strong><br>
+                不要三个成员都叫 <code>money</code>，否则访问时无法区分。
+            </div>
+        </div>
+
+        <p><strong>赋值和取值：</strong></p>
+        <pre><code>#include &lt;stdio.h&gt;
+#include &lt;string.h&gt;
+
+union MoneyType
+{
+    int money_i;
+    double money_d;
+    char money_str[100];
+};
+
+int main()
+{
+    union MoneyType money;
+
+    money.money_i = 99999;
+    printf("整数形式：%d\n", money.money_i);
+
+    money.money_d = 123.32;
+    printf("小数形式：%.2lf\n", money.money_d);
+
+    strcpy(money.money_str, "100万");
+    printf("字符串形式：%s\n", money.money_str);
+
+    return 0;
+}</code></pre>
+
+        <div class="note note-amber">
+            字符串成员是字符数组，不能写 <code>money.money_str = "100万";</code>。必须使用 <code>strcpy</code>，并包含头文件 <code>#include &lt;string.h&gt;</code>。
+        </div>
+
+        <div class="note note-green">
+            本模块记忆点：共用体成员使用 <code>.</code> 访问；字符串成员赋值用 <code>strcpy</code>。
+        </div>
+    </div>
+</section>
+<!-- END: 核心模块2：定义与基本使用 -->
+
+<!-- START: 核心模块3：共用体的四个特点 -->
+<section id="memory">
+    <div class="section-title">
+        <span class="mark mark-blue">3</span>
+        <h2>共用体的四个特点</h2>
+    </div>
+
+    <div class="card">
+        <div class="grid-2">
+            <div class="mini-card">
+                <h3>特点 1：多个中文名</h3>
+                <p>共用体、联合体、共同体，说的都是 C 语言里的 <code>union</code>。</p>
+            </div>
+
+            <div class="mini-card">
+                <h3>特点 2：成员共用内存</h3>
+                <p>所有成员使用同一块内存空间，因此成员起始地址相同。</p>
+            </div>
+
+            <div class="mini-card">
+                <h3>特点 3：大小不是成员总和</h3>
+                <p>共用体大小主要看最大成员，同时还会受到内存对齐影响。</p>
+            </div>
+
+            <div class="mini-card">
+                <h3>特点 4：后赋值会覆盖前值</h3>
+                <p>因为共用同一块内存，多次赋值时，后写入的数据会覆盖之前的数据。</p>
+            </div>
+        </div>
+
+        <p style="margin-top: 16px;"><strong>打印地址验证成员共用内存：</strong></p>
+        <pre><code>#include &lt;stdio.h&gt;
+
+union MoneyType
+{
+    int money_i;
+    double money_d;
+    char money_str[100];
+};
+
+int main()
+{
+    union MoneyType money;
+
+    printf("money_i   地址：%p\n", (void *)&money.money_i);
+    printf("money_d   地址：%p\n", (void *)&money.money_d);
+    printf("money_str 地址：%p\n", (void *)money.money_str);
+
+    return 0;
+}</code></pre>
+
+        <div class="note note-blue">
+            运行后会发现三个地址相同。原因是 <code>money_i</code>、<code>money_d</code>、<code>money_str</code> 都从同一块内存的起始位置开始存。
+        </div>
+
+        <div class="note note-green">
+            本模块记忆点：共用体不是“各存各的”，而是“大家共用同一个地方”。
+        </div>
+    </div>
+</section>
+<!-- END: 核心模块3：共用体的四个特点 -->
+
+<!-- START: 核心模块4：sizeof 与内存对齐 -->
+<section id="sizeof">
+    <div class="section-title">
+        <span class="mark mark-amber">4</span>
+        <h2>sizeof 与内存对齐：共用体大小怎么算</h2>
+    </div>
+
+    <div class="card">
+        <div class="rule">
+            共用体大小计算：先看能容纳最大成员的空间，再让总大小满足最大单个成员的整数倍。
+        </div>
+
+        <p><strong>文稿中的经典例子：</strong></p>
+        <pre><code>union MoneyType
+{
+    int money_i;           // 通常 4 字节
+    double money_d;        // 通常 8 字节
+    char money_str[100];   // 100 个 char，总共 100 字节
+};</code></pre>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>成员</th>
+                    <th>说明</th>
+                    <th>大小判断</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>money_i</code></td>
+                    <td><code>int</code></td>
+                    <td>通常 4 字节</td>
+                </tr>
+                <tr>
+                    <td><code>money_d</code></td>
+                    <td><code>double</code></td>
+                    <td>通常 8 字节，是最大单个成员</td>
+                </tr>
+                <tr>
+                    <td><code>money_str</code></td>
+                    <td><code>char[100]</code></td>
+                    <td>总共 100 字节，但判断最大单个成员时要拆成 100 个 <code>char</code></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="note note-blue">
+            关键细节：数组成员要拆开看。<code>char money_str[100]</code> 是 100 个单独的 <code>char</code>，每个 <code>char</code> 是 1 字节。因此最大单个成员仍然是 <code>double</code>，即 8 字节。
+        </div>
+
+        <div class="example">
+            <div class="example-title">为什么结果是 104？</div>
+            <ol>
+                <li>共用体必须能容纳最大的整体成员，<code>char[100]</code> 需要 100 字节。</li>
+                <li>最大单个成员的对齐基准是 <code>double</code>，即 8 字节。</li>
+                <li>总大小必须是 8 的整数倍。</li>
+                <li>100 不是 8 的整数倍，所以向后补 4 个空白字节。</li>
+                <li>最终大小是 104 字节。</li>
+            </ol>
+        </div>
+
+        <pre><code>#include &lt;stdio.h&gt;
+
+union MoneyType
+{
+    int money_i;
+    double money_d;
+    char money_str[100];
+};
+
+int main()
+{
+    union MoneyType money;
+
+    printf("sizeof(money.money_i) = %zu\n", sizeof(money.money_i));
+    printf("sizeof(money.money_d) = %zu\n", sizeof(money.money_d));
+    printf("sizeof(money.money_str) = %zu\n", sizeof(money.money_str));
+    printf("sizeof(money) = %zu\n", sizeof(money));
+
+    return 0;
+}</code></pre>
+
+        <div class="note note-red">
+            严重易错：共用体大小不是所有成员相加，也不一定直接等于最大整体成员大小；还要考虑内存对齐。
+        </div>
+
+        <div class="note note-green">
+            本模块记忆点：谁大听谁的，但还要听内存对齐的。
+        </div>
+    </div>
+</section>
+<!-- END: 核心模块4：sizeof 与内存对齐 -->
+
+<!-- START: 核心模块5：后赋值覆盖与怎么存怎么取 -->
+<section id="overwrite">
+    <div class="section-title">
+        <span class="mark mark-red">5</span>
+        <h2>后赋值覆盖：怎么存，就怎么取</h2>
+    </div>
+
+    <div class="card">
+        <div class="rule">
+            共用体每次通常只能有一个有效成员。后一次赋值会覆盖前一次赋值。
+        </div>
+
+        <pre><code>#include &lt;stdio.h&gt;
+
+union Data
+{
+    int data_i;
+    double data_d;
+};
+
+int main()
+{
+    union Data data;
+
+    data.data_i = 99;
+    data.data_d = 1.23;
+
+    printf("按 double 读取：%lf\n", data.data_d); // 正确
+    printf("按 int 读取：%d\n", data.data_i);     // 错误，结果无意义
+
+    return 0;
+}</code></pre>
+
+        <div class="note note-blue">
+            原因：<code>data_i</code> 和 <code>data_d</code> 使用同一块内存。先存 <code>int</code>，再存 <code>double</code>，第二次写入会覆盖第一次的数据。
+        </div>
+
+        <div class="note note-red">
+            存储规则不同：<code>int</code> 和 <code>double</code> 在内存中的二进制格式不同。存的是 <code>double</code>，却按 <code>int</code> 读取，结果就是错误数据。
+        </div>
+
+        <div class="note note-green">
+            本模块记忆点：赋给哪个成员，就从哪个成员取；最后一次给谁赋值，当前有效成员就是谁。
+        </div>
+    </div>
+</section>
+<!-- END: 核心模块5：后赋值覆盖与怎么存怎么取 -->
+
+<!-- START: 核心模块6：结构体和共用体区别 -->
+<section id="compare">
+    <div class="section-title">
+        <span class="mark mark-purple">6</span>
+        <h2>结构体和共用体的区别</h2>
+    </div>
+
+    <div class="card">
+        <div class="rule">
+            结构体表示“一个事物的多个属性”；共用体表示“一个属性的多种可能类型”。
+        </div>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>对比项</th>
+                    <th>结构体 struct</th>
+                    <th>共用体 union</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>代码层面</td>
+                    <td>表示一种事物，里面有多个属性</td>
+                    <td>表示一个属性，但这个属性有多种数据类型</td>
+                </tr>
+                <tr>
+                    <td>典型案例</td>
+                    <td>女朋友、学生、老师等对象</td>
+                    <td>钱、成绩等类型不固定的属性</td>
+                </tr>
+                <tr>
+                    <td>存储方式</td>
+                    <td>成员各存各的，空间互相独立</td>
+                    <td>成员存在一起，共用同一块内存</td>
+                </tr>
+                <tr>
+                    <td>多次赋值</td>
+                    <td>多个成员可同时保存各自的值</td>
+                    <td>后赋值会覆盖前面的数据</td>
+                </tr>
+                <tr>
+                    <td>内存占用</td>
+                    <td>大致是所有成员大小之和，再加内存对齐</td>
+                    <td>谁大听谁的，再受内存对齐影响</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="grid-2">
+            <div class="example">
+                <div class="example-title">结构体适合描述“事物”</div>
+                <ul>
+                    <li>女朋友：名字、年龄、性别、身高</li>
+                    <li>学生：姓名、年龄、考试成绩</li>
+                    <li>老师：姓名、年龄、工作年龄</li>
+                </ul>
+                <pre><code>struct Student
+{
+    char name[50];
+    int age;
+    double score;
+};</code></pre>
+            </div>
+
+            <div class="example">
+                <div class="example-title">共用体适合描述“属性的多种类型”</div>
+                <ul>
+                    <li>钱：整数、小数、字符串</li>
+                    <li>成绩：整数、小数、ABCD 等级</li>
+                </ul>
+                <pre><code>union Score
+{
+    int score_i;
+    double score_d;
+    char score_level;
+};</code></pre>
+            </div>
+        </div>
+
+        <div class="note note-green">
+            本模块记忆点：如果多个数据要同时存在，用 <code>struct</code>；如果同一时间只选一种类型，用 <code>union</code>。
+        </div>
+    </div>
+</section>
+<!-- END: 核心模块6：结构体和共用体区别 -->
+
+<!-- START: 核心模块7：typedef 别名 -->
+<section id="typedef">
+    <div class="section-title">
+        <span class="mark mark-blue">7</span>
+        <h2>typedef：给共用体起别名</h2>
+    </div>
+
+    <div class="card">
+        <div class="rule">
+            <code>typedef</code> 可以给共用体类型起别名，让定义变量更简洁。
+        </div>
+
+        <div class="grid-2">
+            <div class="example">
+                <div class="example-title">不使用 typedef</div>
+                <pre><code>union MoneyType money;</code></pre>
+                <p>每次定义变量都要写 <code>union MoneyType</code>。</p>
+            </div>
+
+            <div class="example">
+                <div class="example-title">使用 typedef</div>
+                <pre><code>typedef union MoneyType
+{
+    int money_i;
+    double money_d;
+    char money_str[100];
+} Money;
+
+Money money;</code></pre>
+                <p>可以直接用 <code>Money</code> 定义变量。</p>
+            </div>
+        </div>
+
+        <div class="note note-gray non-key">
+            了解即可：文稿中也提到可以起别名为 <code>MT</code>。实际写代码时，更推荐起有意义的名字，例如 <code>Money</code>。
+        </div>
+    </div>
+</section>
+<!-- END: 核心模块7：typedef 别名 -->
+
+<!-- START: 代码整理区 -->
+<section id="code">
+    <div class="section-title">
+        <span class="mark mark-blue">码</span>
+        <h2>代码整理区：可复制运行</h2>
+    </div>
+
+    <div class="card">
+        <details open>
+            <summary>代码 1：共用体基本使用</summary>
+            <div class="answer-content">
+<pre><code>#include &lt;stdio.h&gt;
+#include &lt;string.h&gt;
+
+typedef union MoneyType
+{
+    int money_i;
+    double money_d;
+    char money_str[100];
+} Money;
+
+int main()
+{
+    Money money;
+
+    money.money_i = 99999;
+    printf("整数形式：%d\n", money.money_i);
+
+    money.money_d = 123.32;
+    printf("小数形式：%.2lf\n", money.money_d);
+
+    strcpy(money.money_str, "100万");
+    printf("字符串形式：%s\n", money.money_str);
+
+    return 0;
+}</code></pre>
+            </div>
+        </details>
+
+        <details>
+            <summary>代码 2：打印成员地址，验证共用内存</summary>
+            <div class="answer-content">
+<pre><code>#include &lt;stdio.h&gt;
+
+typedef union MoneyType
+{
+    int money_i;
+    double money_d;
+    char money_str[100];
+} Money;
+
+int main()
+{
+    Money money;
+
+    printf("money_i   地址：%p\n", (void *)&money.money_i);
+    printf("money_d   地址：%p\n", (void *)&money.money_d);
+    printf("money_str 地址：%p\n", (void *)money.money_str);
+
+    return 0;
+}</code></pre>
+            </div>
+        </details>
+
+        <details>
+            <summary>代码 3：sizeof 验证共用体大小</summary>
+            <div class="answer-content">
+<pre><code>#include &lt;stdio.h&gt;
+
+typedef union MoneyType
+{
+    int money_i;
+    double money_d;
+    char money_str[100];
+} Money;
+
+int main()
+{
+    Money money;
+
+    printf("int成员大小：%zu\n", sizeof(money.money_i));
+    printf("double成员大小：%zu\n", sizeof(money.money_d));
+    printf("字符串数组成员大小：%zu\n", sizeof(money.money_str));
+    printf("整个共用体大小：%zu\n", sizeof(money));
+
+    return 0;
+}</code></pre>
+            </div>
+        </details>
+
+        <details>
+            <summary>代码 4：结构体和共用体对比</summary>
+            <div class="answer-content">
+<pre><code>#include &lt;stdio.h&gt;
+
+struct StructData
+{
+    int data_i;
+    double data_d;
+};
+
+union UnionData
+{
+    int data_i;
+    double data_d;
+};
+
+int main()
+{
+    printf("struct大小：%zu\n", sizeof(struct StructData));
+    printf("union大小：%zu\n", sizeof(union UnionData));
+
+    return 0;
+}</code></pre>
+            </div>
+        </details>
+    </div>
+</section>
+<!-- END: 代码整理区 -->
+
+<!-- START: 练习中心 -->
+<section id="practice">
+    <div class="section-title">
+        <span class="mark mark-purple">练</span>
+        <h2>练习中心：题目可见，答案隐藏</h2>
+    </div>
+
+    <div class="practice">
+        <div class="practice-title">练习 1：判断适用场景</div>
+        <div class="question">
+            <p>下面两种情况分别应该用 <code>struct</code> 还是 <code>union</code>？</p>
+            <p>A. 表示一个学生，需要同时保存姓名、年龄、成绩。</p>
+            <p>B. 表示一个成绩，可能是整数分、小数分，也可能是 A/B/C/D 等级。</p>
+        </div>
+        <div class="answer">
+            <details class="answer-toggle">
+                <summary>点击查看答案解析</summary>
+                <div class="answer-content">
+                    <p><strong>答案：</strong>A 用 <code>struct</code>，B 用 <code>union</code>。</p>
+                    <p><strong>解析：</strong>A 是“一个事物的多个属性”，姓名、年龄、成绩要同时存在，所以用结构体。B 是“一个属性的多种类型”，同一时间成绩只会用一种形式，所以用共用体。</p>
+                    <p><strong>结论：</strong>多个属性同时存在用 <code>struct</code>；多种类型选一种用 <code>union</code>。</p>
+                </div>
+            </details>
+        </div>
+    </div>
+
+    <div class="practice">
+        <div class="practice-title">练习 2：计算 sizeof</div>
+        <div class="question">
+            <p>下面共用体在常见 64 位环境下大小是多少？</p>
+<pre><code>union MoneyType
+{
+    int money_i;
+    double money_d;
+    char money_str[100];
+};</code></pre>
+        </div>
+        <div class="answer">
+            <details class="answer-toggle">
+                <summary>点击查看答案解析</summary>
+                <div class="answer-content">
+                    <p><strong>答案：</strong>通常是 104 字节。</p>
+                    <p><strong>解析：</strong><code>char[100]</code> 需要 100 字节空间；最大单个成员是 <code>double</code>，对齐基准是 8 字节。100 不是 8 的整数倍，所以补 4 字节到 104。</p>
+                    <p><strong>结论：</strong>共用体大小既要能容纳最大整体成员，也要考虑最大单个成员的对齐要求。</p>
+                </div>
+            </details>
+        </div>
+    </div>
+
+    <div class="practice">
+        <div class="practice-title">练习 3：判断输出是否可靠</div>
+        <div class="question">
+            <p>下面代码最后一行输出是否可靠？为什么？</p>
+<pre><code>union Data
+{
+    int data_i;
+    double data_d;
+};
+
+int main()
+{
+    union Data data;
+    data.data_i = 99;
+    data.data_d = 1.23;
+    printf("%d\n", data.data_i);
+    return 0;
+}</code></pre>
+        </div>
+        <div class="answer">
+            <details class="answer-toggle">
+                <summary>点击查看答案解析</summary>
+                <div class="answer-content">
+                    <p><strong>答案：</strong>不可靠，结果是错误数据。</p>
+                    <p><strong>解析：</strong><code>data.data_d = 1.23;</code> 会覆盖之前 <code>data.data_i = 99;</code> 写入的数据。最后再按 <code>int</code> 读取同一块内存，读到的不是原来的 99。</p>
+                    <p><strong>内存示意：</strong>同一块空间先放 99，随后改放 1.23；现在空间里的有效内容是 double 格式的 1.23。</p>
+                    <p><strong>结论：</strong>怎么存，就怎么取；最后给哪个成员赋值，就按哪个成员取。</p>
+                </div>
+            </details>
+        </div>
+    </div>
+
+    <div class="practice">
+        <div class="practice-title">练习 4：找出字符串赋值错误</div>
+        <div class="question">
+            <p>下面代码哪里错了？应该怎么改？</p>
+<pre><code>union MoneyType
+{
+    int money_i;
+    double money_d;
+    char money_str[100];
+};
+
+int main()
+{
+    union MoneyType money;
+    money.money_str = "100万";
+    return 0;
+}</code></pre>
+        </div>
+        <div class="answer">
+            <details class="answer-toggle">
+                <summary>点击查看答案解析</summary>
+                <div class="answer-content">
+                    <p><strong>答案：</strong><code>money.money_str = "100万";</code> 错了。</p>
+                    <p><strong>解析：</strong><code>money_str</code> 是字符数组，数组不能用 <code>=</code> 整体赋值。应该使用 <code>strcpy</code>，并引入 <code>#include &lt;string.h&gt;</code>。</p>
+<pre><code>#include &lt;stdio.h&gt;
+#include &lt;string.h&gt;
+
+union MoneyType
+{
+    int money_i;
+    double money_d;
+    char money_str[100];
+};
+
+int main()
+{
+    union MoneyType money;
+    strcpy(money.money_str, "100万");
+    printf("%s\n", money.money_str);
+
+    return 0;
+}</code></pre>
+                    <p><strong>结论：</strong>字符数组赋值用 <code>strcpy</code>，不能直接用 <code>=</code>。</p>
+                </div>
+            </details>
+        </div>
+    </div>
+
+    <div class="practice">
+        <div class="practice-title">练习 5：结构体和共用体内存区别</div>
+        <div class="question">
+            <p>为什么下面两个类型大小不同？</p>
+<pre><code>struct S
+{
+    int data_i;
+    double data_d;
+};
+
+union U
+{
+    int data_i;
+    double data_d;
+};</code></pre>
+        </div>
+        <div class="answer">
+            <details class="answer-toggle">
+                <summary>点击查看答案解析</summary>
+                <div class="answer-content">
+                    <p><strong>答案：</strong><code>struct S</code> 通常更大，<code>union U</code> 通常是 8 字节。</p>
+                    <p><strong>解析：</strong>结构体中 <code>int</code> 和 <code>double</code> 各存各的，整体大小大致是成员之和再加对齐填充。共用体中二者共用同一块内存，大小以较大的 <code>double</code> 为主。</p>
+                    <p><strong>结论：</strong>结构体成员独立存储；共用体成员共用存储。</p>
+                </div>
+            </details>
+        </div>
+    </div>
+</section>
+<!-- END: 练习中心 -->
+
+<!-- START: 实战策略 -->
+<section id="strategy">
+    <div class="section-title">
+        <span class="mark mark-amber">策</span>
+        <h2>实战策略：考试和写代码怎么判断</h2>
+    </div>
+
+    <div class="card">
+        <div class="grid-2">
+            <div class="note note-blue">
+                <strong>判断 struct / union：</strong>
+                <ol>
+                    <li>先看它是“一个事物”还是“一个属性”。</li>
+                    <li>一个事物有多个属性同时存在：用 <code>struct</code>。</li>
+                    <li>一个属性有多种可能类型：用 <code>union</code>。</li>
+                </ol>
+            </div>
+
+            <div class="note note-blue">
+                <strong>判断 sizeof：</strong>
+                <ol>
+                    <li>列出所有成员大小。</li>
+                    <li>数组成员要拆成单个元素判断最大单个成员。</li>
+                    <li>找对齐基准。</li>
+                    <li>总大小补到基准的整数倍。</li>
+                </ol>
+            </div>
+        </div>
+
+        <div class="note note-red">
+            常见陷阱 1：看到多个成员连续赋值，要立刻想到“后赋值覆盖前面的值”。
+        </div>
+
+        <div class="note note-red">
+            常见陷阱 2：看到字符串数组成员直接用 <code>=</code> 赋值，要立刻判断为错误。
+        </div>
+
+        <div class="note note-amber">
+            常见陷阱 3：计算共用体大小时，不要简单相加，也不要忽略内存对齐。
+        </div>
+
+        <div class="note note-green">
+            记忆口诀：结构体各存各的；共用体存在一起。结构体表示事物；共用体表示属性多类型。
+        </div>
+    </div>
+</section>
+<!-- END: 实战策略 -->
+
+<!-- START: 检查清单 -->
+<section id="checklist">
+    <div class="section-title">
+        <span class="mark mark-green">查</span>
+        <h2>最终检查清单</h2>
+    </div>
+
+    <div class="card">
+        <ul class="checklist">
+            <li class="check-item"><span class="check-dot">✓</span><span>知道共用体、联合体、共同体都是 <code>union</code>。<span class="tag-green">必掌握</span></span></li>
+            <li class="check-item"><span class="check-dot">✓</span><span>会写共用体定义格式：<code>union 类型名 { 成员; };</code>。<span class="tag-green">必掌握</span></span></li>
+            <li class="check-item"><span class="check-dot">✓</span><span>知道共用体也是一种自定义数据类型。<span class="tag-green">必掌握</span></span></li>
+            <li class="check-item"><span class="check-dot">✓</span><span>成员名不能重复。<span class="tag-amber">易错</span></span></li>
+            <li class="check-item"><span class="check-dot">✓</span><span>定义变量写法：<code>union 类型名 变量名;</code>。<span class="tag-green">必掌握</span></span></li>
+            <li class="check-item"><span class="check-dot">✓</span><span>使用 <code>.</code> 访问成员。<span class="tag-green">必掌握</span></span></li>
+            <li class="check-item"><span class="check-dot">✓</span><span>字符数组成员赋值用 <code>strcpy</code>，需要 <code>#include &lt;string.h&gt;</code>。<span class="tag-red">高频错误</span></span></li>
+            <li class="check-item"><span class="check-dot">✓</span><span>所有成员共用同一块内存，成员地址相同。<span class="tag-green">必掌握</span></span></li>
+            <li class="check-item"><span class="check-dot">✓</span><span>后赋值会覆盖前面的值。<span class="tag-red">禁忌</span></span></li>
+            <li class="check-item"><span class="check-dot">✓</span><span>牢记“怎么存，就怎么取”。<span class="tag-red">禁忌</span></span></li>
+            <li class="check-item"><span class="check-dot">✓</span><span>共用体大小不是成员总和，而是看最大成员和内存对齐。<span class="tag-green">必掌握</span></span></li>
+            <li class="check-item"><span class="check-dot">✓</span><span>数组成员判断最大单个成员时，要拆成单个元素看。<span class="tag-amber">易错</span></span></li>
+            <li class="check-item"><span class="check-dot">✓</span><span>结构体表示一个事物的多个属性。<span class="tag-green">必掌握</span></span></li>
+            <li class="check-item"><span class="check-dot">✓</span><span>共用体表示一个属性的多种可能类型。<span class="tag-green">必掌握</span></span></li>
+            <li class="check-item"><span class="check-dot">✓</span><span><code>typedef</code> 可以给共用体起别名。<span class="tag-gray">了解即可</span></span></li>
+        </ul>
+    </div>
+</section>
+<!-- END: 检查清单 -->
+
+</main>
+</div>
+
+<!-- START: 页脚 -->
+<footer>
+    <p><strong>C语言共用体 union 复习系统</strong></p>
+    <p>覆盖范围：共用体定义、使用场景、内存特点、sizeof 计算、结构体与共用体区别</p>
+    <p>最后更新时间：2026-05-08</p>
+</footer>
+<!-- END: 页脚 -->
+
+<!-- START: JavaScript -->
+<script>
+function expandAll() {
+    document.querySelectorAll("details").forEach(function(detail) {
+        detail.open = true;
+    });
+}
+
+function collapseAll() {
+    document.querySelectorAll("details").forEach(function(detail) {
+        detail.open = false;
+    });
+}
+
+function showAnswers() {
+    document.querySelectorAll("details.answer-toggle").forEach(function(detail) {
+        detail.open = true;
+    });
+}
+
+function hideAnswers() {
+    document.querySelectorAll("details.answer-toggle").forEach(function(detail) {
+        detail.open = false;
+    });
+}
+
+function toggleFocusMode() {
+    const body = document.body;
+    const button = document.getElementById("focusBtn");
+    body.classList.toggle("focus-mode");
+
+    if (body.classList.contains("focus-mode")) {
+        button.textContent = "显示全部";
+        button.style.background = "var(--amber)";
+        button.style.color = "#ffffff";
+        button.style.borderColor = "var(--amber)";
+    } else {
+        button.textContent = "只看重点";
+        button.style.background = "";
+        button.style.color = "";
+        button.style.borderColor = "";
+    }
+}
+
+function printPage() {
+    expandAll();
+    showAnswers();
+    setTimeout(function() {
+        window.print();
+    }, 250);
+}
+</script>
+<!-- END: JavaScript -->
+
+    <script src="../data.js"></script>
+    <script src="../js/lecture.js"></script>
+</body>
+</html>

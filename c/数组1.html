@@ -2,6 +2,7 @@
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>C语言数组与内存复习笔记</title>
 <style>
     :root {
@@ -222,6 +223,7 @@
         }
     }
 </style>
+    <link rel="stylesheet" href="../css/lecture.css">
 </head>
 
 <body>
@@ -407,4 +409,42 @@ int ages1[5] = {17, 18, 19, 20, 21};
 int ages2[] = {17, 18, 19, 20, 21};
 
 // 存储2个身高
-double heights1[2] = {1.68, 1.
+double heights1[2] = {1.68, 1.75};
+</code></pre>
+
+    <div class="card memory">
+        <p><span class="tag tag-purple">记忆口诀</span>数组先定类型，再定长度；访问看下标，下标从 0 起。</p>
+    </div>
+
+    <h2>五、数组访问与边界</h2>
+
+    <p>访问数组元素时使用 <code>数组名[下标]</code>。如果数组长度为 <code>n</code>，合法下标范围是 <code>0</code> 到 <code>n - 1</code>。</p>
+
+    <pre><code>int scores[5] = {90, 85, 76, 92, 88};
+
+printf("%d\n", scores[0]); // 第 1 个元素
+printf("%d\n", scores[4]); // 第 5 个元素
+</code></pre>
+
+    <div class="card danger">
+        <p><span class="tag tag-red">高频错误</span><code>scores[5]</code> 不是第 5 个元素，而是越界访问。第 5 个元素应该写 <code>scores[4]</code>。</p>
+    </div>
+
+    <h2>六、遍历数组</h2>
+
+    <p>数组常和循环一起使用。遍历时要把循环条件和数组长度对应起来。</p>
+
+    <pre><code>for (int i = 0; i < 5; i++) {
+    printf("%d\n", scores[i]);
+}
+</code></pre>
+
+    <div class="card practice">
+        <p><span class="tag tag-green">主动回忆</span>看到数组题，先问自己三件事：数组长度是多少？下标从哪里到哪里？循环条件有没有越界？</p>
+    </div>
+</main>
+
+    <script src="../data.js"></script>
+    <script src="../js/lecture.js"></script>
+</body>
+</html>
