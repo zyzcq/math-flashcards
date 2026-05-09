@@ -252,14 +252,165 @@
         `;
     }
 
-    function enhanceCodeBlocks() {
+    function looksLikeTeachingCode(text) {
+        const code = String(text || '').trim();
+        if (!code) return false;
+
+        const codeMarkers = [
+            /#include|#define/,
+            /\b(int|char|float|double|void|long|short|FILE|struct|union|typedef|return)\b/,
+            /\b(if|else|for|while|do|switch|case|break|continue)\b/,
+            /\b(printf|scanf|malloc|calloc|realloc|free|sizeof|strlen|strcpy|strcmp|fopen|fclose|fprintf|fscanf|rand|srand|time)\b/,
+            /数据类型|变量名|函数名|数组名|参数列表|条件判断语句|循环体语句|指针/,
+            /==|!=|<=|>=|&&|\|\||\+\+|--|->|\?/
+        ];
+
+        return codeMarkers.some(marker => marker.test(code));
+    }
+
+    function buildCodeNotes(text) {
+        const code = String(text || '');
+        const notes = [];
+
+        const add = note => {
+            if (notes.length < 5 && !notes.includes(note)) notes.push(note);
+        };
+
+        if (!looksLikeTeachingCode(code)) return notes;
+
+        if (/#include/.test(code) && /\bmain\s*\(/.test(code)) {
+            add('完整示例先从头文件看起，再进入 main 函数按顺序往下执行。');
+        } else if (/数据类型|变量名|函数名|参数列表|条件判断语句|循环体语句/.test(code)) {
+            add('这是语法模板，中文占位词需要替换成真实的类型、变量名、条件或语句。');
+        } else {
+            add('阅读这段代码时，先找变量，再看条件和执行顺序。');
+        }
+
+        if (/#define _CRT_SECURE_NO_WARNINGS/.test(code)) {
+            add('这行常用于 Visual Studio，作用是关闭 scanf 等函数的安全警告。');
+        }
+        if (/\bprintf\s*\(/.test(code)) {
+            add('printf 负责输出，格式占位符要和后面的数据类型对应。');
+        }
+        if (/\bscanf\s*\(/.test(code)) {
+            add('scanf 负责输入，普通变量通常要加 &，字符数组名通常不用加 &。');
+        }
+        if (/\bif\s*\(/.test(code) || /\belse\s+if\s*\(/.test(code)) {
+            add('if / else if 会从上往下判断，先满足的分支会先执行。');
+        }
+        if (/\bswitch\s*\(/.test(code)) {
+            add('switch 适合固定值匹配，case 后常用 break 防止继续贯穿。');
+        }
+        if (/\bfor\s*\(/.test(code)) {
+            add('for 循环重点看三处：初始值、循环条件、每轮后的更新。');
+        }
+        if (/\bwhile\s*\(/.test(code) && !/\bdo\b[\s\S]*\bwhile\s*\(/.test(code)) {
+            add('while 先判断再执行，循环体里要让条件逐步接近结束。');
+        }
+        if (/\bdo\b[\s\S]*\bwhile\s*\(/.test(code)) {
+            add('do...while 会先执行一次循环体，然后再判断条件。');
+        }
+        if (/\bbreak\s*;/.test(code)) {
+            add('break 会立刻跳出当前循环或 switch。');
+        }
+        if (/\bcontinue\s*;/.test(code)) {
+            add('continue 会跳过本轮剩余语句，直接进入下一轮判断或更新。');
+        }
+        if (/\breturn\b/.test(code)) {
+            add('return 会结束当前函数；如果后面带表达式，就把这个结果交回调用位置。');
+        }
+        if (/\bsizeof\s*\(/.test(code)) {
+            add('sizeof 计算占用字节数，常用来求数组长度或申请内存大小。');
+        }
+        if (/\bmalloc\s*\(|\bcalloc\s*\(|\brealloc\s*\(/.test(code)) {
+            add('动态内存申请后要先判空，确认成功后再使用。');
+        }
+        if (/\bfree\s*\(/.test(code)) {
+            add('free 释放堆内存，释放后指针最好置为 NULL，避免悬空指针。');
+        }
+        if (/\bstruct\b/.test(code)) {
+            add('struct 把多个成员打包成一个整体，访问成员时注意层级。');
+        }
+        if (/\bunion\b/.test(code)) {
+            add('union 的成员共享同一段空间，同一时间只应该相信一个有效成员。');
+        }
+        if (/->/.test(code)) {
+            add('箭头 -> 用在结构体指针上，相当于先解引用再访问成员。');
+        }
+        if (/\bchar\s+\w+\s*\[/.test(code) || /\bstrlen\s*\(|\bstrcpy\s*\(|\bstrcmp\s*\(/.test(code)) {
+            add('C 字符串本质是以 \\0 结尾的字符数组，容量要给结束标记留位置。');
+        }
+        if (/\w+\s*\[[^\]]+\]/.test(code) || /\barr\b/.test(code)) {
+            add('数组下标从 0 开始，循环访问时要特别注意边界。');
+        }
+
+        const hasPointerDeclaration = /\b(?:const\s+)?(?:unsigned\s+|signed\s+)?(?:int|char|float|double|void|long(?:\s+long)?|short|FILE|struct\s+\w+|union\s+\w+)\s*\*+\s*\w+/.test(code);
+        const hasPointerWrapper = /\(\s*\*+\s*\w+\s*\)/.test(code);
+        const hasDereference = /(^|[=({[,;]\s*)\*+\s*[A-Za-z_]\w*|\breturn\s+\*+\s*[A-Za-z_]\w*/m.test(code);
+        const hasAddressOf = /&amp;\(?[A-Za-z_]\w*|&(?!&)\(?[A-Za-z_]\w*/.test(code);
+
+        if (hasPointerDeclaration || hasPointerWrapper || hasDereference || hasAddressOf) {
+            add('涉及 & 或 * 时，先分清地址和值：& 取地址，* 访问地址里的数据。');
+        }
+        if (/\bfopen\s*\(/.test(code) || /\bfclose\s*\(/.test(code)) {
+            add('文件操作要先判断打开是否成功，使用结束后记得 fclose。');
+        }
+        if (/\brand\s*\(/.test(code) || /\bsrand\s*\(/.test(code)) {
+            add('rand 生成伪随机数，srand 通常只在程序开始时设置一次种子。');
+        }
+        if (/\?[\s\S]*:/.test(code)) {
+            add('三目运算符按“条件 ? 条件真结果 : 条件假结果”阅读。');
+        }
+        if (/==|!=|<=|>=|&&|\|\|/.test(code)) {
+            add('关系和逻辑表达式在 C 中通常返回 1 或 0，分别代表真和假。');
+        }
+        if (/(^|[^"'])%\s*[\w(]/.test(code)) {
+            add('% 是取余运算，常用于判断倍数、奇偶或拆出个位数字。');
+        }
+        if (/#include\s*&lt;stdio\.h&gt;|#include\s*<stdio\.h>/.test(code)) {
+            add('stdio.h 提供 printf、scanf 等标准输入输出函数。');
+        }
+        if (/#include\s*&lt;stdlib\.h&gt;|#include\s*<stdlib\.h>/.test(code)) {
+            add('stdlib.h 提供 malloc、free、rand、srand 等常用库函数。');
+        }
+        if (/#include\s*&lt;string\.h&gt;|#include\s*<string\.h>/.test(code)) {
+            add('string.h 提供 strlen、strcpy、strcmp 等字符串处理函数。');
+        }
+        if (/#include\s*&lt;time\.h&gt;|#include\s*<time\.h>/.test(code)) {
+            add('time.h 常配合 srand 使用，让随机数种子随时间变化。');
+        }
+
+        return notes;
+    }
+
+    function renderCodeNotes(notes) {
+        if (!notes.length) return '';
+
+        return `
+            <div class="lecture-code-notes" aria-label="代码教学注释">
+                <span class="lecture-code-notes__title">教学注释</span>
+                <ul>
+                    ${notes.map(note => `<li><span>//</span>${escapeHtml(note)}</li>`).join('')}
+                </ul>
+            </div>
+        `;
+    }
+
+    function enhanceCodeBlocks(path) {
+        const shouldAnnotate = normalizePath(path).startsWith('c/');
+
         document.querySelectorAll('pre').forEach((pre, index) => {
             if (pre.closest('.lecture-code-wrap')) return;
 
+            const codeText = pre.textContent || '';
+            const notes = shouldAnnotate ? buildCodeNotes(codeText) : [];
             const wrap = document.createElement('div');
             wrap.className = 'lecture-code-wrap';
             pre.parentNode.insertBefore(wrap, pre);
-            wrap.appendChild(pre);
+
+            const toolbar = document.createElement('div');
+            toolbar.className = 'lecture-code-toolbar';
+            toolbar.innerHTML = `<span>${notes.length ? '带注释代码' : '代码块'}</span>`;
 
             const button = document.createElement('button');
             button.type = 'button';
@@ -276,7 +427,10 @@
                     setTimeout(() => { button.textContent = '复制'; }, 1400);
                 }
             });
-            wrap.appendChild(button);
+            toolbar.appendChild(button);
+            wrap.appendChild(toolbar);
+            wrap.insertAdjacentHTML('beforeend', renderCodeNotes(notes));
+            wrap.appendChild(pre);
         });
     }
 
@@ -311,7 +465,7 @@
         document.querySelector('.lecture-topbar').insertAdjacentHTML('afterend', renderStudyShell(review, headings));
         document.body.insertAdjacentHTML('beforeend', renderFooter(review));
 
-        enhanceCodeBlocks();
+        enhanceCodeBlocks(currentPath);
         trackReading(currentPath);
     }
 

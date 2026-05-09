@@ -284,26 +284,85 @@ body.lecture-enhanced pre {
     margin: 10px 0;
 }
 
+.lecture-code-toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    min-height: 38px;
+    padding: 6px 8px 6px 12px;
+    border: 1px solid var(--lecture-border);
+    border-bottom: 0;
+    border-radius: 12px 12px 0 0;
+    background: #f8fafc;
+    color: #475569;
+    font-size: 0.76rem;
+    font-weight: 900;
+}
+
+.lecture-code-notes {
+    border: 1px solid var(--lecture-border);
+    border-bottom: 0;
+    padding: 10px 12px;
+    background: #ffffff;
+}
+
+.lecture-code-notes__title {
+    display: inline-flex;
+    align-items: center;
+    min-height: 22px;
+    margin-bottom: 8px;
+    padding: 0 8px;
+    border-radius: 999px;
+    color: var(--lecture-blue);
+    background: var(--lecture-blue-soft);
+    font-size: 0.72rem;
+    font-weight: 900;
+}
+
+.lecture-code-notes ul {
+    display: grid;
+    gap: 6px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.lecture-code-notes li {
+    display: flex;
+    gap: 7px;
+    color: #334155;
+    font-size: 0.82rem;
+    font-weight: 800;
+    line-height: 1.55;
+}
+
+.lecture-code-notes li span {
+    flex-shrink: 0;
+    color: var(--lecture-green);
+    font-family: Consolas, Monaco, monospace;
+    font-weight: 900;
+}
+
 .lecture-code-wrap pre {
     margin: 0;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
 }
 
 .lecture-copy-btn {
-    position: absolute;
-    top: 8px;
-    right: 8px;
     min-height: 30px;
     padding: 0 9px;
-    color: #e2e8f0;
-    background: rgba(15, 23, 42, 0.82);
-    border-color: rgba(148, 163, 184, 0.45);
+    color: #334155;
+    background: #ffffff;
+    border-color: #cbd5e1;
     font-size: 0.72rem;
 }
 
 .lecture-copy-btn:hover,
 .lecture-copy-btn:focus-visible {
-    color: #ffffff;
-    border-color: #ffffff;
+    color: var(--lecture-blue);
+    border-color: #bfdbfe;
 }
 
 .lecture-link:focus-visible,
