@@ -142,6 +142,11 @@ body {
     display: flex; align-items: center; justify-content: center;
 }
 .toggle-pwd:hover { color: rgba(255, 255, 255, 0.9); }
+.toggle-pwd:focus-visible,
+.login-btn:focus-visible {
+    outline: 3px solid rgba(94, 234, 212, 0.42);
+    outline-offset: 4px;
+}
 
 /* 居中展开的下划线 */
 .field-underline {
@@ -238,20 +243,20 @@ body {
 
     <div class="login-field">
         <i class="fa-solid fa-user login-field-icon"></i>
-        <input type="text" id="login-username" placeholder="Username" autocomplete="username">
+        <input type="text" id="login-username" placeholder="Username" autocomplete="username" aria-label="用户名">
         <span class="field-underline"></span>
     </div>
 
     <div class="login-field">
         <i class="fa-solid fa-lock login-field-icon"></i>
-        <input type="password" id="login-password" placeholder="Password" autocomplete="current-password">
-        <button type="button" class="toggle-pwd" onclick="togglePassword('login-password', this)">
+        <input type="password" id="login-password" placeholder="Password" autocomplete="current-password" aria-label="密码">
+        <button type="button" class="toggle-pwd" onclick="togglePassword('login-password', this)" aria-label="显示或隐藏密码">
             <i class="fa-solid fa-eye"></i>
         </button>
         <span class="field-underline"></span>
     </div>
 
-    <button onclick="handleLogin()" class="login-btn">
+    <button type="button" onclick="handleLogin()" class="login-btn">
         <i class="fa-solid fa-arrow-right-to-bracket"></i>
         <span>登录</span>
     </button>
@@ -288,7 +293,15 @@ function handleLogin(){
 
 (function(){
     const s = localStorage.getItem(SESSION_KEY);
-    if(s) window.location.href = 'index.html';
+    if(!s) return;
+
+    try {
+        const session = JSON.parse(s);
+        if(!session.username) throw new Error('Missing username');
+        window.location.href = 'index.html';
+    } catch (error) {
+        localStorage.removeItem(SESSION_KEY);
+    }
 })();
 
 document.addEventListener('keydown', e => { if(e.key === 'Enter') handleLogin(); });
@@ -481,7 +494,9 @@ window.addEventListener('resize', () => {
 });
 
 const clock = new THREE.Clock();
-function animate(){
+const reduceMotion = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches ?? false;
+
+function renderFrame(){
     uniforms.uTime.value = clock.getElapsedTime();
     // 平滑缓动
     mouse.x += (mouse.tx - mouse.x) * 0.04;
@@ -493,7 +508,11 @@ function animate(){
     camera.position.y = mouse.y * 0.02;
 
     renderer.render(scene, camera);
-    requestAnimationFrame(animate);
+}
+
+function animate(){
+    renderFrame();
+    if (!reduceMotion) requestAnimationFrame(animate);
 }
 animate();
 </script>

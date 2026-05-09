@@ -1,9 +1,15 @@
 const SESSION_KEY = 'math_flashcard_session';
 const VALID_USER = { username: 'zyz', password: '123' };
+let toastTimer = null;
 
 function getSession() {
-    const data = localStorage.getItem(SESSION_KEY);
-    return data ? JSON.parse(data) : null;
+    try {
+        const data = localStorage.getItem(SESSION_KEY);
+        return data ? JSON.parse(data) : null;
+    } catch (error) {
+        localStorage.removeItem(SESSION_KEY);
+        return null;
+    }
 }
 
 function setSession(username) {
@@ -15,7 +21,8 @@ function showToast(message, isError = false) {
     toast.textContent = message;
     toast.style.background = isError ? '#ef4444' : '#1e293b';
     toast.style.opacity = '1';
-    setTimeout(() => {
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => {
         toast.style.opacity = '0';
     }, 2500);
 }
@@ -59,7 +66,7 @@ document.addEventListener('keydown', (e) => {
 
 (function checkAutoLogin() {
     const session = getSession();
-    if (session) {
+    if (session?.username) {
         window.location.href = 'index.html';
     }
 })();

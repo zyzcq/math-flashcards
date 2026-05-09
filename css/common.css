@@ -7,6 +7,15 @@ body {
     -webkit-tap-highlight-color: transparent;
 }
 
+html {
+    scroll-behavior: smooth;
+}
+
+button,
+a {
+    touch-action: manipulation;
+}
+
 .highlight {
     color: #e11d48;
     font-weight: 900;
@@ -31,3 +40,13 @@ body {
 
 .math-scroll-wrapper::-webkit-scrollbar { height: 5px; }
 .math-scroll-wrapper::-webkit-scrollbar-thumb { background-color: #cbd5e1; border-radius: 10px; }
+
+.math-scroll-wrapper .katex-display {
+    margin: 0.35rem 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    html {
+        scroll-behavior: auto;
+    }
+}

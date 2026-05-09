@@ -17,8 +17,8 @@
             <p class="text-sm text-slate-500 mt-2 font-medium">高效复习 · 核心考点突破</p>
         </div>
         <div class="flex items-center gap-3 mt-1">
-            <span id="user-display" class="text-sm font-bold text-slate-600"></span>
-            <button onclick="handleLogout()" class="h-9 px-4 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-600 text-xs font-bold transition-colors active:scale-95">
+            <span id="user-display" class="text-sm font-bold text-slate-600" aria-live="polite"></span>
+            <button type="button" onclick="handleLogout()" class="h-9 px-4 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-600 text-xs font-bold transition-colors active:scale-95">
                 <i class="fa-solid fa-right-from-bracket mr-1"></i>退出
             </button>
         </div>
@@ -35,8 +35,14 @@
                 window.location.href = 'login.html';
                 return;
             }
-            const { username } = JSON.parse(session);
-            document.getElementById('user-display').textContent = username;
+            try {
+                const { username } = JSON.parse(session);
+                if (!username) throw new Error('Missing username');
+                document.getElementById('user-display').textContent = username;
+            } catch (error) {
+                localStorage.removeItem('math_flashcard_session');
+                window.location.href = 'login.html';
+            }
         })();
 
         function handleLogout() {
