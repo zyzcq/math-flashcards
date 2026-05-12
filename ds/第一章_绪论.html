@@ -207,6 +207,110 @@
             font-size: 0.98rem;
         }
 
+        .memory-strip {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: 10px;
+            margin: 14px 0;
+        }
+
+        .memory-chip {
+            min-height: 74px;
+            padding: 12px;
+            border: 1px solid var(--ds-border);
+            border-radius: 12px;
+            background: #f8fafc;
+            color: #334155;
+            font-weight: 800;
+        }
+
+        .memory-chip b {
+            display: block;
+            margin-bottom: 4px;
+            color: #0f172a;
+            font-size: 1rem;
+        }
+
+        .visual-panel {
+            margin: 14px 0;
+            padding: 14px;
+            border: 1px solid var(--ds-border);
+            border-radius: 14px;
+            background: #ffffff;
+        }
+
+        .visual-title {
+            margin: 0 0 10px;
+            color: #0f172a;
+            font-weight: 900;
+        }
+
+        .visual-panel svg {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .svg-label {
+            fill: #0f172a;
+            font-size: 15px;
+            font-weight: 800;
+            font-family: "Microsoft YaHei", Arial, sans-serif;
+        }
+
+        .svg-small {
+            fill: #64748b;
+            font-size: 12px;
+            font-weight: 700;
+            font-family: "Microsoft YaHei", Arial, sans-serif;
+        }
+
+        .svg-box {
+            fill: #ffffff;
+            stroke: #cbd5e1;
+            stroke-width: 2;
+        }
+
+        .svg-blue { fill: #eff6ff; stroke: #60a5fa; }
+        .svg-green { fill: #ecfdf5; stroke: #34d399; }
+        .svg-amber { fill: #fffbeb; stroke: #fbbf24; }
+        .svg-purple { fill: #f5f3ff; stroke: #a78bfa; }
+        .svg-red { fill: #fef2f2; stroke: #f87171; }
+        .svg-line { stroke: #64748b; stroke-width: 2.4; fill: none; }
+        .svg-arrow { stroke: #2563eb; stroke-width: 2.6; fill: none; marker-end: url(#arrow); }
+
+        .scene-grid {
+            display: grid;
+            grid-template-columns: 1.15fr 0.85fr;
+            gap: 12px;
+            align-items: stretch;
+        }
+
+        .scene-card {
+            padding: 14px;
+            border: 1px solid var(--ds-border);
+            border-radius: 12px;
+            background: #ffffff;
+        }
+
+        .scene-card h3 {
+            margin-top: 0;
+        }
+
+        .mnemonic {
+            margin: 12px 0;
+            padding: 14px;
+            border-left: 5px solid var(--ds-purple);
+            border-radius: 12px;
+            background: #f5f3ff;
+            color: #4c1d95;
+            font-weight: 800;
+        }
+
+        .mnemonic strong {
+            color: #3b0764;
+        }
+
         .tag {
             display: inline-flex;
             align-items: center;
@@ -253,6 +357,11 @@
                 grid-template-columns: 1fr;
             }
 
+            .memory-strip,
+            .scene-grid {
+                grid-template-columns: 1fr;
+            }
+
             table {
                 display: block;
                 overflow-x: auto;
@@ -264,7 +373,7 @@
 <body>
     <header>
         <h1>数据结构第一章：绪论</h1>
-        <p>基于第一章视频文稿整理，修正转录噪声并补足考研复习需要的概念边界、判断方法和常见易错点。</p>
+        <p>别被“绪论”两个字骗了：这里不是寒暄区，而是整门课的地图。先把数据、结构、算法、复杂度这几根柱子立住，后面学线性表、树、图时就不会在概念迷雾里原地打转。</p>
     </header>
 
     <main>
@@ -280,17 +389,73 @@
             <a href="#exam">8. 考前检查</a>
         </nav>
 
+        <section aria-label="本章知识地图">
+            <h2>先看总地图：本章到底在铺什么路</h2>
+            <div class="visual-panel">
+                <p class="visual-title">一条主线：现实问题先变成数据，再选择结构，最后用算法处理。</p>
+                <svg viewBox="0 0 980 230" role="img" aria-label="数据结构绪论学习路线图">
+                    <defs>
+                        <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+                            <path d="M0,0 L0,6 L9,3 z" fill="#2563eb"></path>
+                        </marker>
+                    </defs>
+                    <rect x="20" y="58" width="150" height="92" rx="16" class="svg-amber"></rect>
+                    <text x="95" y="96" text-anchor="middle" class="svg-label">现实问题</text>
+                    <text x="95" y="122" text-anchor="middle" class="svg-small">排队、社交、文件</text>
+
+                    <path d="M178 104 H255" class="svg-arrow"></path>
+                    <rect x="265" y="58" width="150" height="92" rx="16" class="svg-blue"></rect>
+                    <text x="340" y="96" text-anchor="middle" class="svg-label">数据化</text>
+                    <text x="340" y="122" text-anchor="middle" class="svg-small">元素、数据项、对象</text>
+
+                    <path d="M423 104 H500" class="svg-arrow"></path>
+                    <rect x="510" y="58" width="150" height="92" rx="16" class="svg-green"></rect>
+                    <text x="585" y="96" text-anchor="middle" class="svg-label">结构化</text>
+                    <text x="585" y="122" text-anchor="middle" class="svg-small">逻辑 + 存储 + 运算</text>
+
+                    <path d="M668 104 H745" class="svg-arrow"></path>
+                    <rect x="755" y="58" width="150" height="92" rx="16" class="svg-purple"></rect>
+                    <text x="830" y="96" text-anchor="middle" class="svg-label">算法处理</text>
+                    <text x="830" y="122" text-anchor="middle" class="svg-small">正确、快、省内存</text>
+
+                    <path d="M585 152 C585 200 830 200 830 152" class="svg-line"></path>
+                    <text x="708" y="205" text-anchor="middle" class="svg-small">复杂度负责拷问：你到底快不快？费不费内存？</text>
+                </svg>
+            </div>
+            <div class="memory-strip">
+                <div class="memory-chip"><b>概念</b>先认清“谁是谁”，别把数据对象和数据结构认成双胞胎。</div>
+                <div class="memory-chip"><b>三要素</b>逻辑、存储、运算，像身份证、住址和技能表。</div>
+                <div class="memory-chip"><b>算法</b>必须有限、明确、能干活，还得有输入输出。</div>
+                <div class="memory-chip"><b>复杂度</b>别拿秒表审判算法，看它随 n 长大时会不会膨胀。</div>
+            </div>
+        </section>
+
         <section id="what">
             <h2>1. 数据结构在学什么</h2>
-            <p>数据结构这门课的主线可以概括为两句话：</p>
+            <p>数据结构这门课的主线可以概括为两句话，听起来像口号，但其实很实用：</p>
             <div class="note">
                 <strong>第一，如何用程序代码把现实世界的问题信息化。</strong><br>
                 <strong>第二，如何让计算机更高效地处理这些信息。</strong>
             </div>
-            <p>现实世界中的金钱、排队、社交关系、文件目录、地图路径，都可以抽象成计算机能处理的数据。数据结构负责设计“数据怎么组织”，算法负责设计“数据怎么处理”。</p>
+            <p>现实世界中的金钱、排队、社交关系、文件目录、地图路径，都可以抽象成计算机能处理的数据。数据结构负责设计“数据怎么组织”，算法负责设计“数据怎么处理”。说白了，数据结构像收纳师：东西不能乱塞，塞得好不好，决定你后面找东西会不会崩溃。</p>
             <div class="formula">
                 程序 = 数据结构 + 算法。<br>
                 数据结构偏向“信息如何表示”，算法偏向“信息如何被处理”。
+            </div>
+            <div class="scene-grid">
+                <div class="scene-card">
+                    <h3>三个信息化例子</h3>
+                    <ul>
+                        <li>钱从纸币硬币变成账户余额：数值数据登场。</li>
+                        <li>排队从站在门口变成手机取号：队列思想登场。</li>
+                        <li>好友关系从线下认识变成互相关注：图结构思想登场。</li>
+                    </ul>
+                </div>
+                <div class="scene-card">
+                    <h3>记忆钩子</h3>
+                    <p><strong>数据结构不是“背结构”，而是“给现实世界建模型”。</strong></p>
+                    <p>模型建得好，算法就像走高速；模型建得糟，算法像在早高峰找停车位。</p>
+                </div>
             </div>
             <h3>和其他计算机基础课的关系</h3>
             <table>
@@ -333,6 +498,25 @@
 
         <section id="concepts">
             <h2>2. 数据结构的基本概念</h2>
+            <p>这一节的概念很多，别一上来就硬背定义。先抓住层级：<strong>数据最大，数据元素是主角，数据项是主角身上的零件。</strong></p>
+            <div class="visual-panel">
+                <p class="visual-title">概念层级图：别把“一个人”和“身份证号”混成一锅粥。</p>
+                <svg viewBox="0 0 980 260" role="img" aria-label="数据、数据对象、数据元素、数据项之间的层级关系">
+                    <rect x="30" y="35" width="920" height="190" rx="20" class="svg-blue"></rect>
+                    <text x="70" y="70" class="svg-label">数据：所有可被计算机识别和处理的信息</text>
+                    <rect x="95" y="95" width="790" height="100" rx="16" class="svg-green"></rect>
+                    <text x="125" y="128" class="svg-label">数据对象：性质相同的一批数据元素</text>
+                    <rect x="185" y="145" width="190" height="34" rx="10" class="svg-amber"></rect>
+                    <rect x="395" y="145" width="190" height="34" rx="10" class="svg-amber"></rect>
+                    <rect x="605" y="145" width="190" height="34" rx="10" class="svg-amber"></rect>
+                    <text x="280" y="167" text-anchor="middle" class="svg-small">数据元素 A：一桌顾客</text>
+                    <text x="490" y="167" text-anchor="middle" class="svg-small">数据元素 B：一桌顾客</text>
+                    <text x="700" y="167" text-anchor="middle" class="svg-small">数据元素 C：一桌顾客</text>
+                    <line x1="280" y1="180" x2="280" y2="222" class="svg-line"></line>
+                    <rect x="160" y="220" width="240" height="30" rx="8" class="svg-purple"></rect>
+                    <text x="280" y="240" text-anchor="middle" class="svg-small">数据项：排队号 / 时间 / 人数</text>
+                </svg>
+            </div>
             <div class="grid">
                 <div class="cardlet">
                     <strong>数据</strong>
@@ -365,6 +549,9 @@
             <div class="danger">
                 易错区分：数据对象只要求元素性质相同；数据结构还要求元素之间存在某种关系。
             </div>
+            <div class="mnemonic">
+                <strong>一句话背法：</strong>对象看“同类不同类”，结构看“有没有关系”。同类只是一起进群，有关系才算组队。
+            </div>
         </section>
 
         <section id="three">
@@ -375,8 +562,52 @@
                 <span class="tag">存储结构</span>
                 <span class="tag">数据的运算</span>
             </p>
+            <div class="mnemonic">
+                <strong>三要素像开店：</strong>逻辑结构决定顾客怎么排队，存储结构决定顾客站哪儿，数据运算决定服务员怎么叫号、插队、清场。
+            </div>
 
             <h3>3.1 逻辑结构：元素之间是什么关系</h3>
+            <div class="visual-panel">
+                <p class="visual-title">四种逻辑结构：看“元素之间怎么牵手”。</p>
+                <svg viewBox="0 0 980 310" role="img" aria-label="集合、线性、树形、图状四种逻辑结构示意图">
+                    <rect x="20" y="35" width="220" height="220" rx="18" class="svg-blue"></rect>
+                    <text x="130" y="68" text-anchor="middle" class="svg-label">集合结构</text>
+                    <circle cx="85" cy="132" r="22" class="svg-amber"></circle>
+                    <circle cx="145" cy="120" r="22" class="svg-green"></circle>
+                    <circle cx="165" cy="178" r="22" class="svg-purple"></circle>
+                    <circle cx="100" cy="190" r="22" class="svg-red"></circle>
+                    <text x="130" y="238" text-anchor="middle" class="svg-small">只说“我们都在”，不说“谁挨谁”</text>
+
+                    <rect x="260" y="35" width="220" height="220" rx="18" class="svg-green"></rect>
+                    <text x="370" y="68" text-anchor="middle" class="svg-label">线性结构</text>
+                    <circle cx="305" cy="145" r="19" class="svg-box"></circle>
+                    <circle cx="350" cy="145" r="19" class="svg-box"></circle>
+                    <circle cx="395" cy="145" r="19" class="svg-box"></circle>
+                    <circle cx="440" cy="145" r="19" class="svg-box"></circle>
+                    <path d="M324 145 H331 M369 145 H376 M414 145 H421" class="svg-line"></path>
+                    <text x="370" y="238" text-anchor="middle" class="svg-small">一对一，像排队买奶茶</text>
+
+                    <rect x="500" y="35" width="220" height="220" rx="18" class="svg-amber"></rect>
+                    <text x="610" y="68" text-anchor="middle" class="svg-label">树形结构</text>
+                    <circle cx="610" cy="105" r="20" class="svg-box"></circle>
+                    <circle cx="560" cy="165" r="18" class="svg-box"></circle>
+                    <circle cx="660" cy="165" r="18" class="svg-box"></circle>
+                    <circle cx="535" cy="215" r="15" class="svg-box"></circle>
+                    <circle cx="585" cy="215" r="15" class="svg-box"></circle>
+                    <circle cx="660" cy="215" r="15" class="svg-box"></circle>
+                    <path d="M598 121 L570 150 M622 121 L650 150 M554 181 L542 202 M566 181 L580 202 M660 183 V200" class="svg-line"></path>
+                    <text x="610" y="238" text-anchor="middle" class="svg-small">一对多，像文件夹套文件夹</text>
+
+                    <rect x="740" y="35" width="220" height="220" rx="18" class="svg-purple"></rect>
+                    <text x="850" y="68" text-anchor="middle" class="svg-label">图状结构</text>
+                    <circle cx="810" cy="120" r="18" class="svg-box"></circle>
+                    <circle cx="890" cy="118" r="18" class="svg-box"></circle>
+                    <circle cx="835" cy="190" r="18" class="svg-box"></circle>
+                    <circle cx="910" cy="190" r="18" class="svg-box"></circle>
+                    <path d="M828 120 H872 M815 136 L830 174 M886 135 L845 176 M853 190 H892 M898 132 L907 173" class="svg-line"></path>
+                    <text x="850" y="238" text-anchor="middle" class="svg-small">多对多，社交网络本体</text>
+                </svg>
+            </div>
             <table>
                 <thead>
                     <tr>
@@ -413,6 +644,56 @@
             </div>
 
             <h3>3.2 存储结构：逻辑关系如何放进内存</h3>
+            <div class="visual-panel">
+                <p class="visual-title">四种存储结构：同一队人，站法不同，办事效率也不同。</p>
+                <svg viewBox="0 0 980 390" role="img" aria-label="顺序存储、链式存储、索引存储、散列存储示意图">
+                    <rect x="20" y="35" width="440" height="145" rx="18" class="svg-blue"></rect>
+                    <text x="42" y="66" class="svg-label">顺序存储：肩并肩站好</text>
+                    <rect x="52" y="95" width="58" height="42" rx="8" class="svg-box"></rect>
+                    <rect x="110" y="95" width="58" height="42" rx="8" class="svg-box"></rect>
+                    <rect x="168" y="95" width="58" height="42" rx="8" class="svg-box"></rect>
+                    <rect x="226" y="95" width="58" height="42" rx="8" class="svg-box"></rect>
+                    <text x="81" y="122" text-anchor="middle" class="svg-small">A</text>
+                    <text x="139" y="122" text-anchor="middle" class="svg-small">B</text>
+                    <text x="197" y="122" text-anchor="middle" class="svg-small">C</text>
+                    <text x="255" y="122" text-anchor="middle" class="svg-small">D</text>
+                    <text x="330" y="112" class="svg-small">查第 i 个快</text>
+                    <text x="330" y="136" class="svg-small">插入删除可能搬家</text>
+
+                    <rect x="520" y="35" width="440" height="145" rx="18" class="svg-green"></rect>
+                    <text x="542" y="66" class="svg-label">链式存储：人可以散坐，靠指针认路</text>
+                    <rect x="550" y="95" width="58" height="42" rx="8" class="svg-box"></rect>
+                    <rect x="680" y="115" width="58" height="42" rx="8" class="svg-box"></rect>
+                    <rect x="820" y="86" width="58" height="42" rx="8" class="svg-box"></rect>
+                    <path d="M608 116 C638 88 653 145 680 136 M738 136 C775 162 785 100 820 107" class="svg-arrow"></path>
+                    <text x="579" y="122" text-anchor="middle" class="svg-small">A</text>
+                    <text x="709" y="142" text-anchor="middle" class="svg-small">B</text>
+                    <text x="849" y="113" text-anchor="middle" class="svg-small">C</text>
+
+                    <rect x="20" y="215" width="440" height="145" rx="18" class="svg-amber"></rect>
+                    <text x="42" y="246" class="svg-label">索引存储：先查目录，再找座位</text>
+                    <rect x="58" y="272" width="120" height="62" rx="8" class="svg-box"></rect>
+                    <line x1="58" y1="303" x2="178" y2="303" class="svg-line"></line>
+                    <line x1="118" y1="272" x2="118" y2="334" class="svg-line"></line>
+                    <text x="88" y="292" text-anchor="middle" class="svg-small">key</text>
+                    <text x="148" y="292" text-anchor="middle" class="svg-small">addr</text>
+                    <text x="88" y="324" text-anchor="middle" class="svg-small">42</text>
+                    <text x="148" y="324" text-anchor="middle" class="svg-small">0xA</text>
+                    <path d="M180 304 H258" class="svg-arrow"></path>
+                    <rect x="270" y="276" width="95" height="50" rx="10" class="svg-box"></rect>
+                    <text x="317" y="306" text-anchor="middle" class="svg-small">真实数据</text>
+
+                    <rect x="520" y="215" width="440" height="145" rx="18" class="svg-purple"></rect>
+                    <text x="542" y="246" class="svg-label">散列存储：关键字算地址</text>
+                    <text x="555" y="292" class="svg-small">key = 42</text>
+                    <path d="M620 288 H700" class="svg-arrow"></path>
+                    <rect x="712" y="263" width="90" height="54" rx="10" class="svg-box"></rect>
+                    <text x="757" y="294" text-anchor="middle" class="svg-small">hash(key)</text>
+                    <path d="M805 288 H880" class="svg-arrow"></path>
+                    <rect x="888" y="263" width="42" height="54" rx="8" class="svg-box"></rect>
+                    <text x="909" y="294" text-anchor="middle" class="svg-small">桶</text>
+                </svg>
+            </div>
             <table>
                 <thead>
                     <tr>
@@ -458,7 +739,7 @@
         <section id="adt">
             <h2>4. 数据类型与抽象数据类型</h2>
             <h3>数据类型</h3>
-            <p>数据类型是一个值的集合，以及定义在这个集合上的一组操作的总称。</p>
+            <p>数据类型是一个值的集合，以及定义在这个集合上的一组操作的总称。说人话：一种类型，不但规定“你能取哪些值”，还规定“你能做哪些动作”。</p>
             <table>
                 <thead>
                     <tr>
@@ -482,9 +763,30 @@
             </table>
             <h3>抽象数据类型 ADT</h3>
             <p>ADT 是抽象的数据组织以及与之相关的操作。它只关心逻辑结构和运算，不关心具体如何存储。</p>
+            <div class="visual-panel">
+                <p class="visual-title">ADT 像“菜单说明书”：先说能点什么菜，不急着说厨房怎么炒。</p>
+                <svg viewBox="0 0 980 250" role="img" aria-label="抽象数据类型只关注逻辑结构和运算，具体实现才关注存储结构">
+                    <rect x="50" y="50" width="260" height="140" rx="18" class="svg-purple"></rect>
+                    <text x="180" y="88" text-anchor="middle" class="svg-label">ADT</text>
+                    <text x="180" y="122" text-anchor="middle" class="svg-small">逻辑结构</text>
+                    <text x="180" y="150" text-anchor="middle" class="svg-small">数据运算</text>
+                    <path d="M318 120 H455" class="svg-arrow"></path>
+                    <rect x="465" y="50" width="200" height="140" rx="18" class="svg-green"></rect>
+                    <text x="565" y="88" text-anchor="middle" class="svg-label">实现时再决定</text>
+                    <text x="565" y="122" text-anchor="middle" class="svg-small">顺序 / 链式</text>
+                    <text x="565" y="150" text-anchor="middle" class="svg-small">索引 / 散列</text>
+                    <path d="M672 120 H792" class="svg-arrow"></path>
+                    <rect x="805" y="50" width="125" height="140" rx="18" class="svg-amber"></rect>
+                    <text x="867" y="105" text-anchor="middle" class="svg-label">代码</text>
+                    <text x="867" y="137" text-anchor="middle" class="svg-small">真正落地</text>
+                </svg>
+            </div>
             <div class="formula">
                 ADT = 逻辑结构 + 数据运算。<br>
                 真正写代码实现时，才需要选择顺序存储、链式存储、索引存储或散列存储。
+            </div>
+            <div class="mnemonic">
+                <strong>背法：</strong>ADT 管“我是谁、我能干啥”；存储结构管“我住哪儿、怎么找到我”。
             </div>
         </section>
 
@@ -494,8 +796,28 @@
             <div class="example">
                 做番茄炒蛋时，食材相当于数据结构，菜谱步骤相当于算法。没有食材，无法加工；只有食材没有步骤，也不能得到菜。
             </div>
+            <div class="visual-panel">
+                <p class="visual-title">算法不是玄学，是“输入经过步骤，变成输出”。</p>
+                <svg viewBox="0 0 980 210" role="img" aria-label="算法输入、处理步骤、输出示意图">
+                    <rect x="65" y="62" width="170" height="86" rx="16" class="svg-blue"></rect>
+                    <text x="150" y="99" text-anchor="middle" class="svg-label">输入</text>
+                    <text x="150" y="124" text-anchor="middle" class="svg-small">原始数据</text>
+                    <path d="M244 105 H350" class="svg-arrow"></path>
+                    <rect x="360" y="42" width="260" height="126" rx="20" class="svg-green"></rect>
+                    <text x="490" y="78" text-anchor="middle" class="svg-label">算法步骤</text>
+                    <text x="490" y="108" text-anchor="middle" class="svg-small">有限、明确、可执行</text>
+                    <text x="490" y="136" text-anchor="middle" class="svg-small">别写“然后奇迹发生”</text>
+                    <path d="M630 105 H736" class="svg-arrow"></path>
+                    <rect x="746" y="62" width="170" height="86" rx="16" class="svg-amber"></rect>
+                    <text x="831" y="99" text-anchor="middle" class="svg-label">输出</text>
+                    <text x="831" y="124" text-anchor="middle" class="svg-small">处理结果</text>
+                </svg>
+            </div>
 
             <h3>算法的五个特性</h3>
+            <div class="mnemonic">
+                <strong>五特性口诀：</strong>“穷、定、行、入、出”。穷是有穷，定是确定，行是可行，入是输入，出是输出。少一个，算法身份证就办不下来。
+            </div>
             <table>
                 <thead>
                     <tr>
@@ -534,6 +856,7 @@
             </table>
 
             <h3>好算法的目标</h3>
+            <p>满足五特性只是“像个算法”；要成为好算法，还得别跑偏、别难懂、别一碰坏数据就当场表演失忆。</p>
             <div class="grid">
                 <div class="cardlet">
                     <strong>正确性</strong>
@@ -556,6 +879,7 @@
 
         <section id="time">
             <h2>6. 算法的时间复杂度</h2>
+            <p>时间复杂度不是拿秒表审判算法。秒表会被电脑性能、编译器、语言实现这些“场外嘉宾”影响；复杂度关心的是 n 变大时，算法的脾气会不会越来越暴躁。</p>
             <h3>为什么不用实际运行时间评价算法</h3>
             <ul>
                 <li>运行时间受机器性能影响。</li>
@@ -563,6 +887,31 @@
                 <li>运行时间受编译器和机器指令质量影响。</li>
                 <li>有些算法不能先试运行再统计，比如控制系统、实时系统。</li>
             </ul>
+            <div class="visual-panel">
+                <p class="visual-title">实际运行时间像天气预报，复杂度看的是“季节规律”。</p>
+                <svg viewBox="0 0 980 260" role="img" aria-label="实际运行时间受环境影响，时间复杂度关注输入规模增长趋势">
+                    <rect x="45" y="48" width="250" height="150" rx="18" class="svg-amber"></rect>
+                    <circle cx="170" cy="112" r="42" fill="#fff7ed" stroke="#f97316" stroke-width="4"></circle>
+                    <line x1="170" y1="112" x2="170" y2="82" class="svg-line"></line>
+                    <line x1="170" y1="112" x2="198" y2="126" class="svg-line"></line>
+                    <text x="170" y="178" text-anchor="middle" class="svg-label">秒表时间</text>
+                    <text x="170" y="218" text-anchor="middle" class="svg-small">机器、语言、编译器都会插一脚</text>
+
+                    <path d="M315 125 H430" class="svg-arrow"></path>
+
+                    <rect x="445" y="48" width="250" height="150" rx="18" class="svg-blue"></rect>
+                    <path d="M485 165 C525 150 555 128 590 108 S650 72 675 58" fill="none" stroke="#2563eb" stroke-width="5" stroke-linecap="round"></path>
+                    <line x1="485" y1="170" x2="675" y2="170" class="svg-line"></line>
+                    <line x1="485" y1="170" x2="485" y2="65" class="svg-line"></line>
+                    <text x="590" y="205" text-anchor="middle" class="svg-label">增长趋势 T(n)</text>
+                    <text x="590" y="228" text-anchor="middle" class="svg-small">n 越大，谁涨得更快</text>
+
+                    <path d="M715 125 H800" class="svg-arrow"></path>
+                    <rect x="815" y="72" width="115" height="105" rx="16" class="svg-green"></rect>
+                    <text x="872" y="116" text-anchor="middle" class="svg-label">大 O</text>
+                    <text x="872" y="145" text-anchor="middle" class="svg-small">抓主项</text>
+                </svg>
+            </div>
             <div class="formula">
                 时间复杂度研究的是：算法时间开销 T(n) 与问题规模 n 之间的增长关系。
             </div>
@@ -598,6 +947,34 @@ T(n) = 4n^3 + 2n^2 =&gt; O(n^3)</code></pre>
             <div class="note">
                 从小到大记：O(1) &lt; O(log n) &lt; O(n) &lt; O(n log n) &lt; O(n²) &lt; O(n³) &lt; O(2ⁿ) &lt; O(n!) &lt; O(nⁿ)。<br>
                 口诀：常、对、幂、指、阶。常数级 &lt; 对数级 &lt; 幂函数级 &lt; 指数级 &lt; 阶乘级。
+            </div>
+            <div class="visual-panel">
+                <p class="visual-title">复杂度阶梯：越往右，n 变大时越容易“起飞”。</p>
+                <svg viewBox="0 0 980 330" role="img" aria-label="常见时间复杂度从低到高的阶梯示意图">
+                    <line x1="65" y1="278" x2="925" y2="278" class="svg-line"></line>
+                    <rect x="85" y="240" width="70" height="38" rx="8" class="svg-green"></rect>
+                    <rect x="180" y="226" width="70" height="52" rx="8" class="svg-green"></rect>
+                    <rect x="275" y="202" width="70" height="76" rx="8" class="svg-blue"></rect>
+                    <rect x="370" y="176" width="70" height="102" rx="8" class="svg-blue"></rect>
+                    <rect x="465" y="138" width="70" height="140" rx="8" class="svg-amber"></rect>
+                    <rect x="560" y="98" width="70" height="180" rx="8" class="svg-amber"></rect>
+                    <rect x="655" y="58" width="70" height="220" rx="8" class="svg-red"></rect>
+                    <rect x="750" y="34" width="70" height="244" rx="8" class="svg-red"></rect>
+                    <rect x="845" y="18" width="70" height="260" rx="8" class="svg-red"></rect>
+
+                    <text x="120" y="232" text-anchor="middle" class="svg-label">O(1)</text>
+                    <text x="215" y="218" text-anchor="middle" class="svg-label">O(log n)</text>
+                    <text x="310" y="194" text-anchor="middle" class="svg-label">O(n)</text>
+                    <text x="405" y="168" text-anchor="middle" class="svg-label">O(n log n)</text>
+                    <text x="500" y="130" text-anchor="middle" class="svg-label">O(n²)</text>
+                    <text x="595" y="90" text-anchor="middle" class="svg-label">O(n³)</text>
+                    <text x="690" y="50" text-anchor="middle" class="svg-label">O(2ⁿ)</text>
+                    <text x="785" y="26" text-anchor="middle" class="svg-label">O(n!)</text>
+                    <text x="880" y="310" text-anchor="middle" class="svg-label">O(nⁿ)</text>
+                </svg>
+                <div class="mnemonic">
+                    <strong>背法：</strong>“常对幂指阶”。其中 O(n)、O(n²)、O(n³) 都属于幂函数级，考试排序时别把 O(n log n) 丢了，它常常夹在 O(n) 和 O(n²) 中间。
+                </div>
             </div>
 
             <h3>怎么数时间复杂度</h3>
@@ -660,7 +1037,7 @@ while (i &lt;= n) {
 
         <section id="space">
             <h2>7. 算法的空间复杂度</h2>
-            <p>空间复杂度用于衡量算法运行时的内存空间开销与问题规模 n 之间的关系，常用 S(n) 表示。</p>
+            <p>空间复杂度用于衡量算法运行时的内存空间开销与问题规模 n 之间的关系，常用 S(n) 表示。时间复杂度问“跑多久”，空间复杂度问“占多大地方”。有的算法跑得快，但很会占座；考试要两边都看。</p>
 
             <h3>程序运行需要哪些内存</h3>
             <ul>
@@ -669,6 +1046,33 @@ while (i &lt;= n) {
                 <li>数组、动态申请的空间：如果大小和 n 有关，要重点分析。</li>
                 <li>递归调用栈：每一层递归调用都需要保存参数、局部变量、返回地址等信息。</li>
             </ul>
+            <div class="visual-panel">
+                <p class="visual-title">程序内存账本：固定开销别慌，随 n 长大的才是重点嫌疑。</p>
+                <svg viewBox="0 0 980 300" role="img" aria-label="程序运行内存由代码、固定变量、数组动态空间、递归调用栈组成">
+                    <rect x="55" y="45" width="870" height="210" rx="22" fill="#ffffff" stroke="#cbd5e1" stroke-width="3"></rect>
+                    <rect x="90" y="80" width="160" height="140" rx="16" class="svg-green"></rect>
+                    <text x="170" y="125" text-anchor="middle" class="svg-label">程序代码</text>
+                    <text x="170" y="156" text-anchor="middle" class="svg-small">通常 O(1)</text>
+                    <text x="170" y="184" text-anchor="middle" class="svg-small">不随 n 涨</text>
+
+                    <rect x="285" y="80" width="160" height="140" rx="16" class="svg-blue"></rect>
+                    <text x="365" y="120" text-anchor="middle" class="svg-label">固定变量</text>
+                    <text x="365" y="151" text-anchor="middle" class="svg-small">i、sum、temp</text>
+                    <text x="365" y="184" text-anchor="middle" class="svg-small">常数个就是 O(1)</text>
+
+                    <rect x="480" y="80" width="160" height="140" rx="16" class="svg-amber"></rect>
+                    <text x="560" y="118" text-anchor="middle" class="svg-label">数组/申请空间</text>
+                    <text x="560" y="151" text-anchor="middle" class="svg-small">a[n]、matrix[n][n]</text>
+                    <text x="560" y="184" text-anchor="middle" class="svg-small">重点看 n</text>
+
+                    <rect x="675" y="80" width="160" height="140" rx="16" class="svg-purple"></rect>
+                    <rect x="712" y="104" width="86" height="22" rx="6" class="svg-box"></rect>
+                    <rect x="712" y="131" width="86" height="22" rx="6" class="svg-box"></rect>
+                    <rect x="712" y="158" width="86" height="22" rx="6" class="svg-box"></rect>
+                    <text x="755" y="207" text-anchor="middle" class="svg-label">递归栈</text>
+                    <text x="755" y="238" text-anchor="middle" class="svg-small">深度 × 每层空间</text>
+                </svg>
+            </div>
 
             <h3>普通程序的空间复杂度</h3>
             <pre><code>// 只使用固定数量变量，空间复杂度 O(1)
@@ -686,6 +1090,34 @@ int matrix[n][n];</code></pre>
 
             <h3>递归程序的空间复杂度</h3>
             <p>大多数考研题中，如果每层递归只使用常数空间，那么空间复杂度主要看递归深度。</p>
+            <div class="visual-panel">
+                <p class="visual-title">递归栈像叠文件夹：每调用一次，就多压一层现场。</p>
+                <svg viewBox="0 0 980 330" role="img" aria-label="递归调用栈示意：递归深度为 n，每层常数空间时总空间为 O(n)">
+                    <rect x="75" y="42" width="300" height="236" rx="20" class="svg-blue"></rect>
+                    <text x="225" y="78" text-anchor="middle" class="svg-label">调用过程</text>
+                    <rect x="125" y="100" width="200" height="34" rx="8" class="svg-green"></rect>
+                    <rect x="145" y="145" width="200" height="34" rx="8" class="svg-green"></rect>
+                    <rect x="165" y="190" width="200" height="34" rx="8" class="svg-green"></rect>
+                    <text x="225" y="123" text-anchor="middle" class="svg-small">f(n)</text>
+                    <text x="245" y="168" text-anchor="middle" class="svg-small">f(n-1)</text>
+                    <text x="265" y="213" text-anchor="middle" class="svg-small">...</text>
+                    <path d="M225 136 V142 M245 181 V187" class="svg-arrow"></path>
+
+                    <path d="M395 160 H510" class="svg-arrow"></path>
+
+                    <rect x="535" y="42" width="330" height="236" rx="20" class="svg-amber"></rect>
+                    <text x="700" y="78" text-anchor="middle" class="svg-label">栈空间</text>
+                    <rect x="595" y="95" width="210" height="34" rx="8" class="svg-box"></rect>
+                    <rect x="595" y="132" width="210" height="34" rx="8" class="svg-box"></rect>
+                    <rect x="595" y="169" width="210" height="34" rx="8" class="svg-box"></rect>
+                    <rect x="595" y="206" width="210" height="34" rx="8" class="svg-box"></rect>
+                    <text x="700" y="118" text-anchor="middle" class="svg-small">参数 + 局部变量 + 返回地址</text>
+                    <text x="700" y="155" text-anchor="middle" class="svg-small">参数 + 局部变量 + 返回地址</text>
+                    <text x="700" y="192" text-anchor="middle" class="svg-small">...</text>
+                    <text x="700" y="264" text-anchor="middle" class="svg-label">总空间 = 递归深度 × 每层空间</text>
+                    <text x="700" y="296" text-anchor="middle" class="svg-small">深度 n、每层 O(1) ⇒ S(n)=O(n)</text>
+                </svg>
+            </div>
             <pre><code>// 递归深度为 n，每层只用常数空间，空间复杂度 O(n)
 void f(int n) {
     int a, b, c;
@@ -708,6 +1140,30 @@ void g(int n) {
 
         <section id="exam">
             <h2>8. 考前检查清单</h2>
+            <div class="mnemonic">
+                <strong>考前总口诀：</strong>对象看同类，结构看关系；逻辑问“怎么连”，存储问“住哪里”，运算问“能干啥”；复杂度问“n 长大后还撑不撑得住”。
+            </div>
+            <div class="visual-panel">
+                <p class="visual-title">本章复习三连问：关系、动作、代价。</p>
+                <svg viewBox="0 0 980 230" role="img" aria-label="数据结构绪论复习三连问：关系、动作、代价">
+                    <rect x="55" y="60" width="230" height="110" rx="18" class="svg-blue"></rect>
+                    <text x="170" y="98" text-anchor="middle" class="svg-label">关系</text>
+                    <text x="170" y="128" text-anchor="middle" class="svg-small">元素之间怎么组织？</text>
+                    <text x="170" y="154" text-anchor="middle" class="svg-small">集合/线性/树/图</text>
+
+                    <path d="M300 115 H360" class="svg-arrow"></path>
+                    <rect x="375" y="60" width="230" height="110" rx="18" class="svg-green"></rect>
+                    <text x="490" y="98" text-anchor="middle" class="svg-label">动作</text>
+                    <text x="490" y="128" text-anchor="middle" class="svg-small">能插、删、查、改吗？</text>
+                    <text x="490" y="154" text-anchor="middle" class="svg-small">算法步骤是否明确？</text>
+
+                    <path d="M620 115 H680" class="svg-arrow"></path>
+                    <rect x="695" y="60" width="230" height="110" rx="18" class="svg-amber"></rect>
+                    <text x="810" y="98" text-anchor="middle" class="svg-label">代价</text>
+                    <text x="810" y="128" text-anchor="middle" class="svg-small">时间 T(n)</text>
+                    <text x="810" y="154" text-anchor="middle" class="svg-small">空间 S(n)</text>
+                </svg>
+            </div>
             <div class="grid">
                 <div class="cardlet">
                     <strong>概念题</strong>
@@ -745,7 +1201,7 @@ void g(int n) {
             <details>
                 <summary>本章一句话总复习</summary>
                 <div>
-                    数据结构研究数据元素之间的关系以及如何存储和操作这些数据；算法研究解决问题的有限步骤；复杂度研究算法运行时随问题规模增长的时间和空间开销。
+                    数据结构研究数据元素之间的关系，以及如何存储和操作这些数据；算法研究解决问题的有限步骤；复杂度研究算法在 n 变大时，时间和空间这两张账单会涨成什么样。
                 </div>
             </details>
         </section>
