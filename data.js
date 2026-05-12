@@ -257,7 +257,7 @@ const appData = {
         id: "rolle_auxiliary",
         title: "罗尔定理辅助函数",
         subtitle: "微分中值定理核心构造法",
-        themeColor: "emerald", 
+        themeColor: "emerald",
         cards: [
             {
                 title: "🔄 乘积法则逆用 I",
@@ -291,7 +291,197 @@ const appData = {
             }
         ]
     },
-    
+
+    // === 模块 7：不定积分公式与凑微分 ===
+    integral_formulas: {
+        id: "integral_formulas",
+        title: "不定积分公式与凑微分",
+        subtitle: "10组基础公式 + 13条常用凑微分",
+        themeColor: "violet",
+        cards: [
+            {
+                title: "① 幂函数积分",
+                q: "$$\\int x^k\\,dx$$",
+                tip: "<b>记忆：</b>指数加一，除以新指数。<ul><li>前提是 $k\\neq -1$。</li><li>当 $k=-1$ 时不能套这个公式，要用 $\\ln|x|$。</li></ul>",
+                a: "$$\\int x^k\\,dx=\\frac{x^{k+1}}{k+1}+C\\quad(k\\neq -1)$$"
+            },
+            {
+                title: "① 幂函数特殊值",
+                q: "$$\\int \\frac{1}{x^2}\\,dx\\quad\\text{和}\\quad\\int \\frac{1}{\\sqrt{x}}\\,dx$$",
+                tip: "<b>都可看成幂函数：</b><ul><li>$\\frac{1}{x^2}=x^{-2}$。</li><li>$\\frac{1}{\\sqrt{x}}=x^{-\\frac12}$。</li></ul>",
+                a: "$$\\int \\frac{1}{x^2}\\,dx=-\\frac{1}{x}+C$$<br>$$\\int \\frac{1}{\\sqrt{x}}\\,dx=2\\sqrt{x}+C$$"
+            },
+            {
+                title: "② 倒数积分",
+                q: "$$\\int \\frac{1}{x}\\,dx$$",
+                tip: "<b>唯一例外：</b>$x^{-1}$ 不能用幂函数积分公式。<ul><li>对应导数：$(\\ln|x|)'=\\frac1x$。</li></ul>",
+                a: "$$\\int \\frac{1}{x}\\,dx=\\ln|x|+C$$"
+            },
+            {
+                title: "③ 指数函数积分",
+                q: "$$\\int e^x\\,dx\\quad\\text{和}\\quad\\int a^x\\,dx$$",
+                tip: "<b>指数函数积分先抄自己：</b><ul><li>$e^x$ 最简单，积分后还是自己。</li><li>$a^x$ 要除以 $\\ln a$。</li></ul>",
+                a: "$$\\int e^x\\,dx=e^x+C$$<br>$$\\int a^x\\,dx=\\frac{a^x}{\\ln a}+C\\quad(a>0,\\ a\\neq1)$$"
+            },
+            {
+                title: "④ 正弦余弦积分",
+                q: "$$\\int \\sin x\\,dx\\quad\\text{和}\\quad\\int \\cos x\\,dx$$",
+                tip: "<b>反向看导数：</b><ul><li>$(-\\cos x)'=\\sin x$。</li><li>$(\\sin x)'=\\cos x$。</li></ul>",
+                a: "$$\\int \\sin x\\,dx=-\\cos x+C$$<br>$$\\int \\cos x\\,dx=\\sin x+C$$"
+            },
+            {
+                title: "④ 正切余切积分",
+                q: "$$\\int \\tan x\\,dx\\quad\\text{和}\\quad\\int \\cot x\\,dx$$",
+                tip: "<b>记对数：</b><ul><li>$\\tan x=\\frac{\\sin x}{\\cos x}$，凑 $\\cos x$ 的导数。</li><li>$\\cot x=\\frac{\\cos x}{\\sin x}$，凑 $\\sin x$ 的导数。</li></ul>",
+                a: "$$\\int \\tan x\\,dx=-\\ln|\\cos x|+C$$<br>$$\\int \\cot x\\,dx=\\ln|\\sin x|+C$$"
+            },
+            {
+                title: "④ 正割余割积分",
+                q: "$$\\int \\sec x\\,dx\\quad\\text{和}\\quad\\int \\csc x\\,dx$$",
+                tip: "<b>常考但容易忘：</b><ul><li>$\\sec x=\\frac1{\\cos x}$。</li><li>$\\csc x=\\frac1{\\sin x}$。</li></ul>",
+                a: "$$\\int \\frac{dx}{\\cos x}=\\int \\sec x\\,dx=\\ln|\\sec x+\\tan x|+C$$<br>$$\\int \\frac{dx}{\\sin x}=\\int \\csc x\\,dx=\\ln|\\csc x-\\cot x|+C$$"
+            },
+            {
+                title: "④ 平方割函数积分",
+                q: "$$\\int \\sec^2 x\\,dx\\quad\\text{和}\\quad\\int \\csc^2 x\\,dx$$",
+                tip: "<b>直接对应导数：</b><ul><li>$(\\tan x)'=\\sec^2 x$。</li><li>$(\\cot x)'=-\\csc^2 x$。</li></ul>",
+                a: "$$\\int \\sec^2 x\\,dx=\\tan x+C$$<br>$$\\int \\csc^2 x\\,dx=-\\cot x+C$$"
+            },
+            {
+                title: "④ 割乘切积分",
+                q: "$$\\int \\sec x\\tan x\\,dx\\quad\\text{和}\\quad\\int \\csc x\\cot x\\,dx$$",
+                tip: "<b>还是反看导数：</b><ul><li>$(\\sec x)'=\\sec x\\tan x$。</li><li>$(\\csc x)'=-\\csc x\\cot x$。</li></ul>",
+                a: "$$\\int \\sec x\\tan x\\,dx=\\sec x+C$$<br>$$\\int \\csc x\\cot x\\,dx=-\\csc x+C$$"
+            },
+            {
+                title: "⑤ 反正切型积分",
+                q: "$$\\int \\frac{1}{1+x^2}\\,dx\\quad\\text{和}\\quad\\int \\frac{1}{a^2+x^2}\\,dx$$",
+                tip: "<b>看到平方和：</b>优先联想 $\\arctan$。<ul><li>第二个式子把 $x/a$ 看成整体。</li></ul>",
+                a: "$$\\int \\frac{1}{1+x^2}\\,dx=\\arctan x+C$$<br>$$\\int \\frac{1}{a^2+x^2}\\,dx=\\frac1a\\arctan\\frac{x}{a}+C\\quad(a>0)$$"
+            },
+            {
+                title: "⑥ 反正弦型积分",
+                q: "$$\\int \\frac{1}{\\sqrt{1-x^2}}\\,dx\\quad\\text{和}\\quad\\int \\frac{1}{\\sqrt{a^2-x^2}}\\,dx$$",
+                tip: "<b>看到 $1-x^2$ 或 $a^2-x^2$ 的根号：</b>优先联想 $\\arcsin$。",
+                a: "$$\\int \\frac{1}{\\sqrt{1-x^2}}\\,dx=\\arcsin x+C$$<br>$$\\int \\frac{1}{\\sqrt{a^2-x^2}}\\,dx=\\arcsin\\frac{x}{a}+C\\quad(a>0)$$"
+            },
+            {
+                title: "⑦ 根式对数型积分",
+                q: "$$\\int \\frac{1}{\\sqrt{x^2+a^2}}\\,dx\\quad\\text{和}\\quad\\int \\frac{1}{\\sqrt{x^2-a^2}}\\,dx$$",
+                tip: "<b>两个根式对数：</b><ul><li>$x^2+a^2$ 常见特例是 $a=1$。</li><li>$x^2-a^2$ 要注意定义域 $|x|>|a|$。</li></ul>",
+                a: "$$\\int \\frac{1}{\\sqrt{x^2+a^2}}\\,dx=\\ln\\left(x+\\sqrt{x^2+a^2}\\right)+C$$<br>$$\\int \\frac{1}{\\sqrt{x^2-a^2}}\\,dx=\\ln\\left|x+\\sqrt{x^2-a^2}\\right|+C\\quad(|x|>|a|)$$"
+            },
+            {
+                title: "⑧ 平方差分母积分",
+                q: "$$\\int \\frac{1}{x^2-a^2}\\,dx\\quad\\text{和}\\quad\\int \\frac{1}{a^2-x^2}\\,dx$$",
+                tip: "<b>符号互换要小心：</b><ul><li>分母是 $x^2-a^2$，对数里是 $\\frac{x-a}{x+a}$。</li><li>分母是 $a^2-x^2$，对数里倒过来。</li></ul>",
+                a: "$$\\int \\frac{1}{x^2-a^2}\\,dx=\\frac{1}{2a}\\ln\\left|\\frac{x-a}{x+a}\\right|+C$$<br>$$\\int \\frac{1}{a^2-x^2}\\,dx=\\frac{1}{2a}\\ln\\left|\\frac{x+a}{x-a}\\right|+C\\quad(a>0)$$"
+            },
+            {
+                title: "⑨ 半圆根式积分",
+                q: "$$\\int \\sqrt{a^2-x^2}\\,dx$$",
+                tip: "<b>半圆面积型：</b><ul><li>结果由 $\\arcsin\\frac{x}{a}$ 项和 $x\\sqrt{a^2-x^2}$ 项组成。</li><li>常见于三角代换。</li></ul>",
+                a: "$$\\int \\sqrt{a^2-x^2}\\,dx=\\frac{a^2}{2}\\arcsin\\frac{x}{a}+\\frac{x}{2}\\sqrt{a^2-x^2}+C\\quad(a>0,\\ |x|\\le a)$$"
+            },
+            {
+                title: "⑩ 正弦平方与余弦平方",
+                q: "$$\\int \\sin^2 x\\,dx\\quad\\text{和}\\quad\\int \\cos^2 x\\,dx$$",
+                tip: "<b>降幂公式：</b><ul><li>$\\sin^2x=\\frac{1-\\cos2x}{2}$。</li><li>$\\cos^2x=\\frac{1+\\cos2x}{2}$。</li></ul>",
+                a: "$$\\int \\sin^2x\\,dx=\\frac{x}{2}-\\frac{\\sin2x}{4}+C$$<br>$$\\int \\cos^2x\\,dx=\\frac{x}{2}+\\frac{\\sin2x}{4}+C$$"
+            },
+            {
+                title: "⑩ 正切平方与余切平方",
+                q: "$$\\int \\tan^2 x\\,dx\\quad\\text{和}\\quad\\int \\cot^2 x\\,dx$$",
+                tip: "<b>先拆恒等式：</b><ul><li>$\\tan^2x=\\sec^2x-1$。</li><li>$\\cot^2x=\\csc^2x-1$。</li></ul>",
+                a: "$$\\int \\tan^2x\\,dx=\\tan x-x+C$$<br>$$\\int \\cot^2x\\,dx=-\\cot x-x+C$$"
+            },
+            {
+                title: "凑微分①：$x^2$ 型",
+                q: "$$\\int x f(x^2)\\,dx$$",
+                tip: "<b>关键微分：</b>$$x\\,dx=\\frac12 d(x^2)$$",
+                a: "$$\\int x f(x^2)\\,dx=\\frac12\\int f(x^2)\\,d(x^2)=\\frac12\\int f(u)\\,du$$"
+            },
+            {
+                title: "凑微分②：$x^{3/2}$ 型",
+                q: "$$\\int \\sqrt{x}\\,f\\left(x^{\\frac32}\\right)\\,dx$$",
+                tip: "<b>关键微分：</b>$$\\sqrt{x}\\,dx=\\frac23 d\\left(x^{\\frac32}\\right)$$",
+                a: "$$\\int \\sqrt{x}\\,f\\left(x^{\\frac32}\\right)\\,dx=\\frac23\\int f\\left(x^{\\frac32}\\right)d\\left(x^{\\frac32}\\right)=\\frac23\\int f(u)\\,du$$"
+            },
+            {
+                title: "凑微分③：$\\sqrt{x}$ 型",
+                q: "$$\\int \\frac{f(\\sqrt{x})}{\\sqrt{x}}\\,dx$$",
+                tip: "<b>关键微分：</b>$$\\frac{dx}{\\sqrt{x}}=2d(\\sqrt{x})$$",
+                a: "$$\\int \\frac{f(\\sqrt{x})}{\\sqrt{x}}\\,dx=2\\int f(\\sqrt{x})d(\\sqrt{x})=2\\int f(u)\\,du$$"
+            },
+            {
+                title: "凑微分④：$-1/x$ 型",
+                q: "$$\\int \\frac{f\\left(-\\frac1x\\right)}{x^2}\\,dx$$",
+                tip: "<b>关键微分：</b>$$\\frac{dx}{x^2}=d\\left(-\\frac1x\\right)$$",
+                a: "$$\\int \\frac{f\\left(-\\frac1x\\right)}{x^2}\\,dx=\\int f\\left(-\\frac1x\\right)d\\left(-\\frac1x\\right)=\\int f(u)\\,du$$"
+            },
+            {
+                title: "凑微分⑤：$\\ln x$ 型",
+                q: "$$\\int \\frac{f(\\ln x)}{x}\\,dx$$",
+                tip: "<b>关键微分：</b>当 $x>0$ 时，$$\\frac1x dx=d(\\ln x)$$",
+                a: "$$\\int \\frac{f(\\ln x)}{x}\\,dx=\\int f(\\ln x)d(\\ln x)=\\int f(u)\\,du\\quad(x>0)$$"
+            },
+            {
+                title: "凑微分⑥：$e^x$ 型",
+                q: "$$\\int e^x f(e^x)\\,dx$$",
+                tip: "<b>关键微分：</b>$$e^x dx=d(e^x)$$",
+                a: "$$\\int e^x f(e^x)\\,dx=\\int f(e^x)d(e^x)=\\int f(u)\\,du$$"
+            },
+            {
+                title: "凑微分⑦：$a^x$ 型",
+                q: "$$\\int a^x f(a^x)\\,dx$$",
+                tip: "<b>关键微分：</b>$$a^x dx=\\frac1{\\ln a}d(a^x)\\quad(a>0,\\ a\\neq1)$$",
+                a: "$$\\int a^x f(a^x)\\,dx=\\frac1{\\ln a}\\int f(a^x)d(a^x)=\\frac1{\\ln a}\\int f(u)\\,du$$"
+            },
+            {
+                title: "凑微分⑧：$-\\cos x$ 型",
+                q: "$$\\int \\sin x\\,f(-\\cos x)\\,dx$$",
+                tip: "<b>关键微分：</b>$$\\sin x\\,dx=d(-\\cos x)$$",
+                a: "$$\\int \\sin x\\,f(-\\cos x)\\,dx=\\int f(-\\cos x)d(-\\cos x)=\\int f(u)\\,du$$"
+            },
+            {
+                title: "凑微分⑨：$\\sin x$ 型",
+                q: "$$\\int \\cos x\\,f(\\sin x)\\,dx$$",
+                tip: "<b>关键微分：</b>$$\\cos x\\,dx=d(\\sin x)$$",
+                a: "$$\\int \\cos x\\,f(\\sin x)\\,dx=\\int f(\\sin x)d(\\sin x)=\\int f(u)\\,du$$"
+            },
+            {
+                title: "凑微分⑩：$\\tan x$ 型",
+                q: "$$\\int \\frac{f(\\tan x)}{\\cos^2 x}\\,dx$$",
+                tip: "<b>关键微分：</b>$$\\frac{dx}{\\cos^2x}=\\sec^2x\\,dx=d(\\tan x)$$",
+                a: "$$\\int \\frac{f(\\tan x)}{\\cos^2x}\\,dx=\\int f(\\tan x)d(\\tan x)=\\int f(u)\\,du$$"
+            },
+            {
+                title: "凑微分⑪：$-\\cot x$ 型",
+                q: "$$\\int \\frac{f(-\\cot x)}{\\sin^2 x}\\,dx$$",
+                tip: "<b>关键微分：</b>$$\\frac{dx}{\\sin^2x}=\\csc^2x\\,dx=d(-\\cot x)$$",
+                a: "$$\\int \\frac{f(-\\cot x)}{\\sin^2x}\\,dx=\\int f(-\\cot x)d(-\\cot x)=\\int f(u)\\,du$$"
+            },
+            {
+                title: "凑微分⑫：$\\arctan x$ 型",
+                q: "$$\\int \\frac{f(\\arctan x)}{1+x^2}\\,dx$$",
+                tip: "<b>关键微分：</b>$$\\frac{1}{1+x^2}dx=d(\\arctan x)$$",
+                a: "$$\\int \\frac{f(\\arctan x)}{1+x^2}\\,dx=\\int f(\\arctan x)d(\\arctan x)=\\int f(u)\\,du$$"
+            },
+            {
+                title: "凑微分⑬：$\\arcsin x$ 型",
+                q: "$$\\int \\frac{f(\\arcsin x)}{\\sqrt{1-x^2}}\\,dx$$",
+                tip: "<b>关键微分：</b>$$\\frac{1}{\\sqrt{1-x^2}}dx=d(\\arcsin x)$$",
+                a: "$$\\int \\frac{f(\\arcsin x)}{\\sqrt{1-x^2}}\\,dx=\\int f(\\arcsin x)d(\\arcsin x)=\\int f(u)\\,du$$"
+            },
+            {
+                title: "凑微分例题：$\\arcsin$ 三次",
+                q: "$$\\int \\frac{(\\arcsin x)^2}{\\sqrt{1-x^2}}\\,dx$$",
+                tip: "<b>对应凑微分⑬：</b>令 $u=\\arcsin x$，则 $du=\\frac{dx}{\\sqrt{1-x^2}}$。",
+                a: "$$\\int \\frac{(\\arcsin x)^2}{\\sqrt{1-x^2}}\\,dx=\\int u^2\\,du=\\frac13u^3+C=\\frac13\\arcsin^3x+C$$"
+            }
+        ]
+    },
+
     // ==========================================
     // ============ 新增独立页面模块 ============
     // ==========================================
@@ -548,6 +738,7 @@ const siteData = [
         categoryBorder: "border-sky-500",
         items: [
             appData.derivatives,
+            appData.integral_formulas,
             appData.equivalent,
             appData.taylor,
             appData.trig_special,
