@@ -497,6 +497,16 @@ const appData = {
         cards: []
     },
 
+    ds_intro_chapter1: {
+        id: "ds_intro_chapter1",
+        title: "数据结构：第一章绪论",
+        subtitle: "基本概念、算法与复杂度",
+        themeColor: "amber",
+        type: "article",
+        url: "ds/第一章_绪论.html",
+        cards: []
+    },
+
     // === 模块 8：C语言 - for循环 ===
     c_for_loop: {
         id: "c_for_loop",
@@ -744,6 +754,14 @@ const siteData = [
             appData.trig_special,
             appData.high_order_derivatives,
             appData.rolle_auxiliary
+        ]
+    },
+    {
+        categoryTitle: "🧱 数据结构",
+        categoryId: "data-structure",
+        categoryBorder: "border-amber-500",
+        items: [
+            appData.ds_intro_chapter1
         ]
     },
     {

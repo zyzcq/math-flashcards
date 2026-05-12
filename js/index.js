@@ -1,11 +1,13 @@
 const SESSION_KEY = 'math_flashcard_session';
 const STUDY_PROGRESS_KEY = 'math_flashcard_progress';
+const CATEGORY_STATE_KEY = 'home_category_visibility';
 
 const themeStyles = {
     sky: { tone: 'tone-sky', icon: 'fa-square-root-variable' },
     indigo: { tone: 'tone-indigo', icon: 'fa-language' },
     violet: { tone: 'tone-violet', icon: 'fa-chart-line' },
     emerald: { tone: 'tone-emerald', icon: 'fa-code' },
+    amber: { tone: 'tone-amber', icon: 'fa-diagram-project' },
     rose: { tone: 'tone-rose', icon: 'fa-rocket' },
     default: { tone: 'tone-slate', icon: 'fa-book' }
 };
@@ -36,6 +38,10 @@ function readJson(key) {
         localStorage.removeItem(key);
         return null;
     }
+}
+
+function writeJson(key, value) {
+    localStorage.setItem(key, JSON.stringify(value));
 }
 
 function getDataSource() {
@@ -125,9 +131,7 @@ function getResumeModule(modules) {
         .sort((a, b) => b.progress.updatedAt - a.progress.updatedAt)[0] || flashcards[0] || null;
 }
 
-function renderResume(modules) {
-    const resume = getResumeModule(modules);
-
+function renderResume(resume) {
     if (!resume) {
         return '';
     }
@@ -192,17 +196,37 @@ function renderModule(module) {
     `;
 }
 
-function renderCategory(category, categoryIndex, modules) {
+function getCategoryKey(category, categoryIndex) {
+    return category.categoryId || `category-${categoryIndex}`;
+}
+
+function getCategoryState(categories, activeCategoryIndex) {
+    const saved = readJson(CATEGORY_STATE_KEY) || {};
+
+    return categories.reduce((state, category, index) => {
+        const key = getCategoryKey(category, index);
+        state[key] = typeof saved[key] === 'boolean' ? saved[key] : index === activeCategoryIndex;
+        return state;
+    }, {});
+}
+
+function renderCategory(category, categoryIndex, modules, categoryState) {
     const items = modules.filter(module => module.categoryIndex === categoryIndex);
     const title = escapeHtml(category.categoryTitle);
+    const key = getCategoryKey(category, categoryIndex);
+    const expanded = categoryState[key];
+    const panelId = `category-panel-${categoryIndex}`;
 
     return `
-        <section id="category-${categoryIndex}" class="category-block">
-            <div class="category-title">
-                <h2>${title}</h2>
-                <span>${items.length} 个主题</span>
-            </div>
-            <div class="study-list">
+        <section id="category-${categoryIndex}" class="category-block ${expanded ? '' : 'is-collapsed'}" data-category-key="${escapeAttribute(key)}">
+            <button class="category-heading" type="button" data-category-toggle aria-expanded="${expanded}" aria-controls="${panelId}">
+                <span class="category-title">
+                    <strong>${title}</strong>
+                    <small>${items.length} 个主题</small>
+                </span>
+                <i class="fa-solid fa-chevron-down category-chevron" aria-hidden="true"></i>
+            </button>
+            <div id="${panelId}" class="study-list" ${expanded ? '' : 'hidden'}>
                 ${items.map(renderModule).join('')}
             </div>
         </section>
@@ -211,11 +235,14 @@ function renderCategory(category, categoryIndex, modules) {
 
 function renderShortcuts(categories) {
     return `
-        <nav class="category-tabs" aria-label="学科分类">
-            ${categories.map((category, index) => `
-                <a href="#category-${index}">${escapeHtml(category.categoryTitle)}</a>
-            `).join('')}
-        </nav>
+        <div class="home-controls">
+            <nav class="category-tabs" aria-label="学科分类">
+                ${categories.map((category, index) => `
+                    <a href="#category-${index}">${escapeHtml(category.categoryTitle)}</a>
+                `).join('')}
+            </nav>
+            <button type="button" class="category-action" data-category-action="expand">全部展开</button>
+        </div>
     `;
 }
 
@@ -237,15 +264,88 @@ function renderHome() {
 
     const progressStore = readJson(STUDY_PROGRESS_KEY) || {};
     const modules = getFlatModules(categories, progressStore);
-    const categoryHtml = categories.map((category, index) => renderCategory(category, index, modules)).join('');
+    const resume = getResumeModule(modules);
+    const activeCategoryIndex = resume?.categoryIndex ?? 0;
+    const categoryState = getCategoryState(categories, activeCategoryIndex);
+    const categoryHtml = categories.map((category, index) => renderCategory(category, index, modules, categoryState)).join('');
 
     requestAnimationFrame(() => {
         mainContainer.innerHTML = `
-            ${renderResume(modules)}
+            ${renderResume(resume)}
             ${renderShortcuts(categories)}
             ${categoryHtml}
         `;
+        bindCategoryControls(categories);
     });
+}
+
+function syncCategoryActionButton() {
+    const actionButton = mainContainer.querySelector('[data-category-action]');
+    if (!actionButton) return;
+
+    const panels = Array.from(mainContainer.querySelectorAll('.category-block'));
+    const allExpanded = panels.length > 0 && panels.every(panel => !panel.classList.contains('is-collapsed'));
+
+    actionButton.dataset.categoryAction = allExpanded ? 'collapse' : 'expand';
+    actionButton.textContent = allExpanded ? '全部收起' : '全部展开';
+}
+
+function setCategoryExpanded(section, expanded) {
+    const button = section.querySelector('[data-category-toggle]');
+    const panel = section.querySelector('.study-list');
+
+    section.classList.toggle('is-collapsed', !expanded);
+    button?.setAttribute('aria-expanded', String(expanded));
+    if (panel) panel.hidden = !expanded;
+}
+
+function persistCategoryState() {
+    const state = {};
+
+    mainContainer.querySelectorAll('.category-block').forEach(section => {
+        const key = section.dataset.categoryKey;
+        if (key) state[key] = !section.classList.contains('is-collapsed');
+    });
+
+    writeJson(CATEGORY_STATE_KEY, state);
+}
+
+function bindCategoryControls() {
+    mainContainer.querySelectorAll('[data-category-toggle]').forEach(button => {
+        button.addEventListener('click', () => {
+            const section = button.closest('.category-block');
+            if (!section) return;
+
+            const expanded = section.classList.contains('is-collapsed');
+            setCategoryExpanded(section, expanded);
+            persistCategoryState();
+            syncCategoryActionButton();
+        });
+    });
+
+    const actionButton = mainContainer.querySelector('[data-category-action]');
+    actionButton?.addEventListener('click', () => {
+        const shouldExpand = actionButton.dataset.categoryAction === 'expand';
+
+        mainContainer.querySelectorAll('.category-block').forEach(section => {
+            setCategoryExpanded(section, shouldExpand);
+        });
+        persistCategoryState();
+        syncCategoryActionButton();
+    });
+
+    mainContainer.querySelectorAll('.category-tabs a[href^="#category-"]').forEach(link => {
+        link.addEventListener('click', () => {
+            const section = mainContainer.querySelector(link.getAttribute('href'));
+            if (!section) return;
+
+            setCategoryExpanded(section, true);
+            persistCategoryState();
+            syncCategoryActionButton();
+        });
+    });
+
+    syncCategoryActionButton();
 }
 
 function initHome() {

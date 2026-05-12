@@ -4,7 +4,7 @@
     function normalizePath(value) {
         return decodeURIComponent(String(value || ''))
             .replace(/\\/g, '/')
-            .replace(/^.*?(c|english)\//, '$1/');
+            .replace(/^.*?(c|english|ds)\//, '$1/');
     }
 
     function escapeHtml(value) {
@@ -108,6 +108,11 @@
                 mistakes: ['混淆 . 和 ->', '忽略内存对齐', '结构体数组访问层级错误']
             },
             {
+                match: /数据结构|算法|复杂度|绪论|ADT|存储结构/,
+                memory: '数据结构绪论按“概念边界、三要素、算法特性、复杂度分析”四条线复习。',
+                mistakes: ['混淆数据对象和数据结构', '只背定义不看三要素之间的关系', '复杂度分析时把常数项和低阶项看得太重']
+            },
+            {
                 match: /英语|简单句|谓语|从句/,
                 memory: '英语句子先找谓语动词，再确定主干，最后处理修饰成分。',
                 mistakes: ['没先定位谓语', '把修饰语当主干', '从句边界划分不清']
@@ -123,7 +128,11 @@
     function buildReview(entry, path) {
         const title = inferTitle(entry);
         const profile = getKeywordProfile(title, path);
-        const subject = path.startsWith('english/') ? '英语' : 'C 语言';
+        const subject = path.startsWith('english/')
+            ? '英语'
+            : path.startsWith('ds/')
+                ? '数据结构'
+                : 'C 语言';
 
         return {
             title,

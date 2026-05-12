@@ -7,6 +7,7 @@ const themeColors = {
     violet: { hex: '#8b5cf6', gradStart: '#8b5cf6', gradEnd: '#a855f7', text: '#5b21b6', border: '#c4b5fd', shadow: 'rgba(139, 92, 246, 0.25)' },
     rose: { hex: '#f43f5e', gradStart: '#f43f5e', gradEnd: '#fb7185', text: '#be123c', border: '#fecdd3', shadow: 'rgba(244, 63, 94, 0.25)' },
     emerald: { hex: '#10b981', gradStart: '#10b981', gradEnd: '#34d399', text: '#047857', border: '#a7f3d0', shadow: 'rgba(16, 185, 129, 0.25)' },
+    amber: { hex: '#d97706', gradStart: '#d97706', gradEnd: '#f59e0b', text: '#92400e', border: '#fde68a', shadow: 'rgba(217, 119, 6, 0.24)' },
     default: { hex: '#64748b', gradStart: '#64748b', gradEnd: '#475569', text: '#334155', border: '#cbd5e1', shadow: 'rgba(100, 116, 139, 0.22)' }
 };
 
