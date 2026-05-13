@@ -292,11 +292,11 @@ const appData = {
         ]
     },
 
-    // === 模块 7：不定积分公式与凑微分 ===
+    // === 模块 7：常用不定积分公式 ===
     integral_formulas: {
         id: "integral_formulas",
-        title: "不定积分公式与凑微分",
-        subtitle: "10组基础公式 + 13条常用凑微分",
+        title: "常用不定积分公式",
+        subtitle: "考研高频基础积分公式，先背这些，积分题就不至于当场沉默",
         themeColor: "violet",
         cards: [
             {
@@ -394,90 +394,294 @@ const appData = {
                 q: "$$\\int \\tan^2 x\\,dx\\quad\\text{和}\\quad\\int \\cot^2 x\\,dx$$",
                 tip: "<b>先拆恒等式：</b><ul><li>$\\tan^2x=\\sec^2x-1$。</li><li>$\\cot^2x=\\csc^2x-1$。</li></ul>",
                 a: "$$\\int \\tan^2x\\,dx=\\tan x-x+C$$<br>$$\\int \\cot^2x\\,dx=-\\cot x-x+C$$"
-            },
+            }
+
+        ]
+    },
+
+    // === 模块 8：凑微分公式 ===
+    differential_substitution: {
+        id: "differential_substitution",
+        title: "凑微分公式",
+        subtitle: "13条常用凑微分：把 dx 打包成 d(整体)，考研积分的换挡杆",
+        themeColor: "rose",
+        cards: [
             {
-                title: "凑微分①：$x^2$ 型",
+                title: "重点｜凑微分①：$x^2$ 型",
                 q: "$$\\int x f(x^2)\\,dx$$",
                 tip: "<b>关键微分：</b>$$x\\,dx=\\frac12 d(x^2)$$",
                 a: "$$\\int x f(x^2)\\,dx=\\frac12\\int f(x^2)\\,d(x^2)=\\frac12\\int f(u)\\,du$$"
             },
             {
-                title: "凑微分②：$x^{3/2}$ 型",
+                title: "重点｜凑微分②：$x^{3/2}$ 型",
                 q: "$$\\int \\sqrt{x}\\,f\\left(x^{\\frac32}\\right)\\,dx$$",
                 tip: "<b>关键微分：</b>$$\\sqrt{x}\\,dx=\\frac23 d\\left(x^{\\frac32}\\right)$$",
                 a: "$$\\int \\sqrt{x}\\,f\\left(x^{\\frac32}\\right)\\,dx=\\frac23\\int f\\left(x^{\\frac32}\\right)d\\left(x^{\\frac32}\\right)=\\frac23\\int f(u)\\,du$$"
             },
             {
-                title: "凑微分③：$\\sqrt{x}$ 型",
+                title: "重点｜凑微分③：$\\sqrt{x}$ 型",
                 q: "$$\\int \\frac{f(\\sqrt{x})}{\\sqrt{x}}\\,dx$$",
                 tip: "<b>关键微分：</b>$$\\frac{dx}{\\sqrt{x}}=2d(\\sqrt{x})$$",
                 a: "$$\\int \\frac{f(\\sqrt{x})}{\\sqrt{x}}\\,dx=2\\int f(\\sqrt{x})d(\\sqrt{x})=2\\int f(u)\\,du$$"
             },
             {
-                title: "凑微分④：$-1/x$ 型",
+                title: "重点｜凑微分④：$-1/x$ 型",
                 q: "$$\\int \\frac{f\\left(-\\frac1x\\right)}{x^2}\\,dx$$",
                 tip: "<b>关键微分：</b>$$\\frac{dx}{x^2}=d\\left(-\\frac1x\\right)$$",
                 a: "$$\\int \\frac{f\\left(-\\frac1x\\right)}{x^2}\\,dx=\\int f\\left(-\\frac1x\\right)d\\left(-\\frac1x\\right)=\\int f(u)\\,du$$"
             },
             {
-                title: "凑微分⑤：$\\ln x$ 型",
+                title: "重点｜凑微分⑤：$\\ln x$ 型",
                 q: "$$\\int \\frac{f(\\ln x)}{x}\\,dx$$",
                 tip: "<b>关键微分：</b>当 $x>0$ 时，$$\\frac1x dx=d(\\ln x)$$",
                 a: "$$\\int \\frac{f(\\ln x)}{x}\\,dx=\\int f(\\ln x)d(\\ln x)=\\int f(u)\\,du\\quad(x>0)$$"
             },
             {
-                title: "凑微分⑥：$e^x$ 型",
+                title: "重点｜凑微分⑥：$e^x$ 型",
                 q: "$$\\int e^x f(e^x)\\,dx$$",
                 tip: "<b>关键微分：</b>$$e^x dx=d(e^x)$$",
                 a: "$$\\int e^x f(e^x)\\,dx=\\int f(e^x)d(e^x)=\\int f(u)\\,du$$"
             },
             {
-                title: "凑微分⑦：$a^x$ 型",
+                title: "重点｜凑微分⑦：$a^x$ 型",
                 q: "$$\\int a^x f(a^x)\\,dx$$",
                 tip: "<b>关键微分：</b>$$a^x dx=\\frac1{\\ln a}d(a^x)\\quad(a>0,\\ a\\neq1)$$",
                 a: "$$\\int a^x f(a^x)\\,dx=\\frac1{\\ln a}\\int f(a^x)d(a^x)=\\frac1{\\ln a}\\int f(u)\\,du$$"
             },
             {
-                title: "凑微分⑧：$-\\cos x$ 型",
+                title: "重点｜凑微分⑧：$-\\cos x$ 型",
                 q: "$$\\int \\sin x\\,f(-\\cos x)\\,dx$$",
                 tip: "<b>关键微分：</b>$$\\sin x\\,dx=d(-\\cos x)$$",
                 a: "$$\\int \\sin x\\,f(-\\cos x)\\,dx=\\int f(-\\cos x)d(-\\cos x)=\\int f(u)\\,du$$"
             },
             {
-                title: "凑微分⑨：$\\sin x$ 型",
+                title: "重点｜凑微分⑨：$\\sin x$ 型",
                 q: "$$\\int \\cos x\\,f(\\sin x)\\,dx$$",
                 tip: "<b>关键微分：</b>$$\\cos x\\,dx=d(\\sin x)$$",
                 a: "$$\\int \\cos x\\,f(\\sin x)\\,dx=\\int f(\\sin x)d(\\sin x)=\\int f(u)\\,du$$"
             },
             {
-                title: "凑微分⑩：$\\tan x$ 型",
+                title: "重点｜凑微分⑩：$\\tan x$ 型",
                 q: "$$\\int \\frac{f(\\tan x)}{\\cos^2 x}\\,dx$$",
                 tip: "<b>关键微分：</b>$$\\frac{dx}{\\cos^2x}=\\sec^2x\\,dx=d(\\tan x)$$",
                 a: "$$\\int \\frac{f(\\tan x)}{\\cos^2x}\\,dx=\\int f(\\tan x)d(\\tan x)=\\int f(u)\\,du$$"
             },
             {
-                title: "凑微分⑪：$-\\cot x$ 型",
+                title: "重点｜凑微分⑪：$-\\cot x$ 型",
                 q: "$$\\int \\frac{f(-\\cot x)}{\\sin^2 x}\\,dx$$",
                 tip: "<b>关键微分：</b>$$\\frac{dx}{\\sin^2x}=\\csc^2x\\,dx=d(-\\cot x)$$",
                 a: "$$\\int \\frac{f(-\\cot x)}{\\sin^2x}\\,dx=\\int f(-\\cot x)d(-\\cot x)=\\int f(u)\\,du$$"
             },
             {
-                title: "凑微分⑫：$\\arctan x$ 型",
+                title: "重点｜凑微分⑫：$\\arctan x$ 型",
                 q: "$$\\int \\frac{f(\\arctan x)}{1+x^2}\\,dx$$",
                 tip: "<b>关键微分：</b>$$\\frac{1}{1+x^2}dx=d(\\arctan x)$$",
                 a: "$$\\int \\frac{f(\\arctan x)}{1+x^2}\\,dx=\\int f(\\arctan x)d(\\arctan x)=\\int f(u)\\,du$$"
             },
             {
-                title: "凑微分⑬：$\\arcsin x$ 型",
+                title: "重点｜凑微分⑬：$\\arcsin x$ 型",
                 q: "$$\\int \\frac{f(\\arcsin x)}{\\sqrt{1-x^2}}\\,dx$$",
                 tip: "<b>关键微分：</b>$$\\frac{1}{\\sqrt{1-x^2}}dx=d(\\arcsin x)$$",
                 a: "$$\\int \\frac{f(\\arcsin x)}{\\sqrt{1-x^2}}\\,dx=\\int f(\\arcsin x)d(\\arcsin x)=\\int f(u)\\,du$$"
             },
             {
-                title: "凑微分例题：$\\arcsin$ 三次",
+                title: "重点｜凑微分例题：$\\arcsin$ 三次",
                 q: "$$\\int \\frac{(\\arcsin x)^2}{\\sqrt{1-x^2}}\\,dx$$",
                 tip: "<b>对应凑微分⑬：</b>令 $u=\\arcsin x$，则 $du=\\frac{dx}{\\sqrt{1-x^2}}$。",
                 a: "$$\\int \\frac{(\\arcsin x)^2}{\\sqrt{1-x^2}}\\,dx=\\int u^2\\,du=\\frac13u^3+C=\\frac13\\arcsin^3x+C$$"
+            }
+        ]
+    },
+
+    // === 模块 9：三角函数常用公式 ===
+    trig_formula_suite: {
+        id: "trig_formula_suite",
+        title: "三角函数常用公式",
+        subtitle: "诱导、倍角、半角、和差与积化和差，先把符号稳住",
+        themeColor: "sky",
+        cards: [
+            {
+                title: "重点｜诱导公式全表",
+                q: "诱导公式里，$\\frac{\\pi}{2}\\pm\\alpha$、$\\pi\\pm\\alpha$、$\\frac{3\\pi}{2}\\pm\\alpha$、$2\\pi-\\alpha$ 怎么变？",
+                tip: "<b>总口诀：</b><span class='highlight'>奇变偶不变，符号看象限</span>。<ul><li>角写成 $k\\frac{\\pi}{2}+\\alpha$：$k$ 为奇数，正弦余弦互换、正切余切互换；$k$ 为偶数，函数名不变。</li><li>最后只看原函数在该象限该不该带负号。别硬背到脑袋冒烟，先判象限。</li></ul>",
+                a: String.raw`
+                    <div class='table-scroll'>
+                        <table class='formula-table'>
+                            <thead>
+                                <tr><th>函数</th><th>$\frac{\pi}{2}-\alpha$</th><th>$\frac{\pi}{2}+\alpha$</th><th>$\pi-\alpha$</th><th>$\pi+\alpha$</th><th>$\frac{3\pi}{2}-\alpha$</th><th>$\frac{3\pi}{2}+\alpha$</th><th>$2\pi-\alpha$</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><th>$\sin\theta$</th><td>$\cos\alpha$</td><td>$\cos\alpha$</td><td>$\sin\alpha$</td><td>$-\sin\alpha$</td><td>$-\cos\alpha$</td><td>$-\cos\alpha$</td><td>$-\sin\alpha$</td></tr>
+                                <tr><th>$\cos\theta$</th><td>$\sin\alpha$</td><td>$-\sin\alpha$</td><td>$-\cos\alpha$</td><td>$-\cos\alpha$</td><td>$-\sin\alpha$</td><td>$\sin\alpha$</td><td>$\cos\alpha$</td></tr>
+                                <tr><th>$\tan\theta$</th><td>$\cot\alpha$</td><td>$-\cot\alpha$</td><td>$-\tan\alpha$</td><td>$\tan\alpha$</td><td>$\cot\alpha$</td><td>$-\cot\alpha$</td><td>$-\tan\alpha$</td></tr>
+                                <tr><th>$\cot\theta$</th><td>$\tan\alpha$</td><td>$-\tan\alpha$</td><td>$-\cot\alpha$</td><td>$\cot\alpha$</td><td>$\tan\alpha$</td><td>$-\tan\alpha$</td><td>$-\cot\alpha$</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <p class='formula-note'>速记小钩子：$\sin(\frac{\pi}{2}\pm\alpha)=\cos\alpha$，$\cos(\frac{\pi}{2}\pm\alpha)$ 才会一正一负。</p>`
+            },
+            {
+                title: "重点｜象限符号与倒数关系",
+                q: "三角函数在四个象限的符号，以及 $\\sec\\alpha$、$\\csc\\alpha$ 怎么来？",
+                tip: "<b>符号先行：</b>诱导公式、半角开方都靠它。符号错了，后面再努力也只是把错题写得很端正。",
+                a: String.raw`
+                    <div class='table-scroll'>
+                        <table class='formula-table formula-table--compact'>
+                            <thead><tr><th>函数</th><th>第一象限</th><th>第二象限</th><th>第三象限</th><th>第四象限</th></tr></thead>
+                            <tbody>
+                                <tr><th>$\sin\theta$</th><td>$+$</td><td>$+$</td><td>$-$</td><td>$-$</td></tr>
+                                <tr><th>$\cos\theta$</th><td>$+$</td><td>$-$</td><td>$-$</td><td>$+$</td></tr>
+                                <tr><th>$\tan\theta$</th><td>$+$</td><td>$-$</td><td>$+$</td><td>$-$</td></tr>
+                                <tr><th>$\cot\theta$</th><td>$+$</td><td>$-$</td><td>$+$</td><td>$-$</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    $$\sec\alpha=\frac{1}{\cos\alpha},\qquad \csc\alpha=\frac{1}{\sin\alpha}$$`
+            },
+            {
+                title: "重点｜二倍角公式",
+                q: "二倍角公式有哪些？",
+                tip: "<b>考研高频：</b>$\\cos2\\alpha$ 的三种写法都要会，因为它经常负责“降幂”和“变形救场”。",
+                a: String.raw`
+                    $$\sin2\alpha=2\sin\alpha\cos\alpha$$
+                    $$\cos2\alpha=\cos^2\alpha-\sin^2\alpha=1-2\sin^2\alpha=2\cos^2\alpha-1$$
+                    $$\tan2\alpha=\frac{2\tan\alpha}{1-\tan^2\alpha},\qquad
+                    \cot2\alpha=\frac{\cot^2\alpha-1}{2\cot\alpha}$$`
+            },
+            {
+                title: "三倍角公式",
+                q: "三倍角公式怎么写？",
+                tip: "<b>不用每天拿出来供着背，</b>但碰到三倍角、三次幂化简时，它会突然很有用。",
+                a: String.raw`
+                    $$\sin3\alpha=-4\sin^3\alpha+3\sin\alpha$$
+                    $$\cos3\alpha=4\cos^3\alpha-3\cos\alpha$$`
+            },
+            {
+                title: "重点｜半角与降幂公式",
+                q: "半角公式、降幂公式有哪些？",
+                tip: "<b>开方要看象限：</b>$\\pm$ 不是装饰品，$\\frac{\\alpha}{2}$ 落在哪个象限就取哪个符号。",
+                a: String.raw`
+                    $$\sin^2\frac{\alpha}{2}=\frac{1-\cos\alpha}{2},\qquad
+                    \cos^2\frac{\alpha}{2}=\frac{1+\cos\alpha}{2}$$
+                    $$\sin\frac{\alpha}{2}=\pm\sqrt{\frac{1-\cos\alpha}{2}},\qquad
+                    \cos\frac{\alpha}{2}=\pm\sqrt{\frac{1+\cos\alpha}{2}}$$
+                    $$\tan\frac{\alpha}{2}=\frac{1-\cos\alpha}{\sin\alpha}
+                    =\frac{\sin\alpha}{1+\cos\alpha}
+                    =\pm\sqrt{\frac{1-\cos\alpha}{1+\cos\alpha}}$$
+                    $$\cot\frac{\alpha}{2}=\frac{\sin\alpha}{1-\cos\alpha}
+                    =\frac{1+\cos\alpha}{\sin\alpha}
+                    =\pm\sqrt{\frac{1+\cos\alpha}{1-\cos\alpha}}$$`
+            },
+            {
+                title: "重点｜和差公式",
+                q: "$\\sin(\\alpha\\pm\\beta)$、$\\cos(\\alpha\\pm\\beta)$、$\\tan(\\alpha\\pm\\beta)$、$\\cot(\\alpha\\pm\\beta)$ 怎么展开？",
+                tip: "<b>最稳记法：</b>正弦“同号”，余弦“反号”。正切分母也反号，别让它偷偷换队。",
+                a: String.raw`
+                    $$\sin(\alpha\pm\beta)=\sin\alpha\cos\beta\pm\cos\alpha\sin\beta$$
+                    $$\cos(\alpha\pm\beta)=\cos\alpha\cos\beta\mp\sin\alpha\sin\beta$$
+                    $$\tan(\alpha\pm\beta)=\frac{\tan\alpha\pm\tan\beta}{1\mp\tan\alpha\tan\beta}$$
+                    $$\cot(\alpha\pm\beta)=\frac{\cot\alpha\cot\beta\mp1}{\cot\beta\pm\cot\alpha}$$
+                    <p class='formula-note'>常用特例：$\tan\left(\frac{\pi}{4}-\alpha\right)=\frac{1-\tan\alpha}{1+\tan\alpha}$。</p>`
+            },
+            {
+                title: "重点｜积化和差",
+                q: "积化和差公式怎么背？",
+                tip: "<b>乘积拆成和差：</b>它常用于三角积分、三角级数和化简。看到两个三角函数相乘，先问问能不能拆。",
+                a: String.raw`
+                    $$\sin\alpha\cos\beta=\frac12[\sin(\alpha+\beta)+\sin(\alpha-\beta)]$$
+                    $$\cos\alpha\sin\beta=\frac12[\sin(\alpha+\beta)-\sin(\alpha-\beta)]$$
+                    $$\cos\alpha\cos\beta=\frac12[\cos(\alpha+\beta)+\cos(\alpha-\beta)]$$
+                    $$\sin\alpha\sin\beta=\frac12[\cos(\alpha-\beta)-\cos(\alpha+\beta)]$$`
+            },
+            {
+                title: "和差化积",
+                q: "和差化积公式有哪些？",
+                tip: "<b>和差化积像拉链：</b>把两个角拉成“平均角”和“半差角”。题目里出现 $\\alpha+\\beta$ 与 $\\alpha-\\beta$ 时尤其顺手。",
+                a: String.raw`
+                    $$\sin\alpha+\sin\beta=2\sin\frac{\alpha+\beta}{2}\cos\frac{\alpha-\beta}{2}$$
+                    $$\sin\alpha-\sin\beta=2\sin\frac{\alpha-\beta}{2}\cos\frac{\alpha+\beta}{2}$$
+                    $$\cos\alpha+\cos\beta=2\cos\frac{\alpha+\beta}{2}\cos\frac{\alpha-\beta}{2}$$
+                    $$\cos\alpha-\cos\beta=-2\sin\frac{\alpha+\beta}{2}\sin\frac{\alpha-\beta}{2}$$`
+            },
+            {
+                title: "万能公式",
+                q: "万能代换 $u=\\tan\\frac{x}{2}$ 下，$\\sin x$、$\\cos x$ 怎么表示？",
+                tip: "<b>万能不是万能药，</b>但在有理化三角式里很好使。它的核心是把三角函数变成关于 $u$ 的有理式。",
+                a: String.raw`
+                    $$u=\tan\frac{x}{2}\quad(-\pi<x<\pi)$$
+                    $$\sin x=\frac{2u}{1+u^2},\qquad \cos x=\frac{1-u^2}{1+u^2}$$
+                    <p class='formula-note'>顺手补一刀：$\tan x=\frac{2u}{1-u^2}$，积分换元时还有 $dx=\frac{2}{1+u^2}du$。</p>`
+            }
+        ]
+    },
+
+    // === 模块 10：代数基础公式 ===
+    algebra_formula_suite: {
+        id: "algebra_formula_suite",
+        title: "代数基础公式",
+        subtitle: "二次方程、因式分解、二项式与双阶乘，基础不塌，后面才敢飞",
+        themeColor: "amber",
+        cards: [
+            {
+                title: "重点｜一元二次方程与判别式",
+                q: "一元二次方程、判别式和求根公式是什么？",
+                tip: "<b>考研基础件：</b>二次方程经常藏在极限、积分、特征值、配方里。看到 $ax^2+bx+c$，先把判别式请出来坐镇。",
+                a: String.raw`
+                    $$ax^2+bx+c=0\quad(a\ne0)$$
+                    $$\Delta=b^2-4ac$$
+                    $$\Delta\ge0:\quad x_{1,2}=\frac{-b\pm\sqrt{b^2-4ac}}{2a}$$
+                    $$\Delta<0:\quad x_{1,2}=\frac{-b\pm\sqrt{4ac-b^2}\,i}{2a}$$`
+            },
+            {
+                title: "重点｜韦达定理",
+                q: "一元二次方程根与系数的关系是什么？",
+                tip: "<b>不求根也能做题：</b>根的和、根的积就是韦达定理的两只手，很多参数题靠它直接抓答案。",
+                a: String.raw`
+                    若 $x_1,x_2$ 是 $ax^2+bx+c=0\ (a\ne0)$ 的两个根，则
+                    $$x_1+x_2=-\frac{b}{a},\qquad x_1x_2=\frac{c}{a}$$`
+            },
+            {
+                title: "重点｜平方与立方公式",
+                q: "常用平方、立方展开公式有哪些？",
+                tip: "<b>别小看展开：</b>配方、因式分解、极限化简都靠这些基础公式打地基。",
+                a: String.raw`
+                    $$(a+b)^2=a^2+2ab+b^2,\qquad (a-b)^2=a^2-2ab+b^2$$
+                    $$(a+b)^3=a^3+3a^2b+3ab^2+b^3$$
+                    $$(a-b)^3=a^3-3a^2b+3ab^2-b^3$$`
+            },
+            {
+                title: "重点｜平方差与立方和差",
+                q: "平方差、立方差、立方和怎么分解？",
+                tip: "<b>符号是灵魂：</b>立方差里面全是加号，立方和中间那个 $ab$ 是负号。",
+                a: String.raw`
+                    $$a^2-b^2=(a+b)(a-b)$$
+                    $$a^3-b^3=(a-b)(a^2+ab+b^2)$$
+                    $$a^3+b^3=(a+b)(a^2-ab+b^2)$$`
+            },
+            {
+                title: "$n$ 次方和差公式",
+                q: "$a^n-b^n$ 与 $a^n+b^n$ 怎么分解？",
+                tip: "<b>一串楼梯：</b>指数从 $a^{n-1}$ 一路走到 $b^{n-1}$。$a^n+b^n$ 只在 $n$ 为正奇数时能这样拆。",
+                a: String.raw`
+                    $$a^n-b^n=(a-b)(a^{n-1}+a^{n-2}b+\cdots+ab^{n-2}+b^{n-1})\quad(n\text{ 是正整数})$$
+                    $$a^n+b^n=(a+b)(a^{n-1}-a^{n-2}b+\cdots-ab^{n-2}+b^{n-1})\quad(n\text{ 为正奇数})$$`
+            },
+            {
+                title: "重点｜二项式定理",
+                q: "二项式定理怎么展开？",
+                tip: "<b>系数别硬猜：</b>第 $k$ 项的系数来自组合数，指数一个降、一个升，像交接班。",
+                a: String.raw`
+                    $$(a+b)^n=\sum_{k=0}^{n}C_n^k a^{n-k}b^k$$
+                    $$=a^n+na^{n-1}b+\frac{n(n-1)}{2!}a^{n-2}b^2+\cdots+\frac{n(n-1)\cdots(n-k+1)}{k!}a^{n-k}b^k+\cdots+nab^{n-1}+b^n$$`
+            },
+            {
+                title: "重点｜阶乘与双阶乘",
+                q: "阶乘和双阶乘公式是什么？",
+                tip: "<b>双阶乘就是隔一个乘一个：</b>偶数只乘偶数，奇数只乘奇数。别把它和普通阶乘搅成一锅粥。",
+                a: String.raw`
+                    $$n!=1\cdot2\cdot3\cdots n,\qquad 0!=1$$
+                    $$(2n)!!=2\cdot4\cdot6\cdots(2n)=2^n\cdot n!$$
+                    $$(2n-1)!!=1\cdot3\cdot5\cdots(2n-1)$$`
             }
         ]
     },
@@ -749,6 +953,9 @@ const siteData = [
         items: [
             appData.derivatives,
             appData.integral_formulas,
+            appData.differential_substitution,
+            appData.trig_formula_suite,
+            appData.algebra_formula_suite,
             appData.equivalent,
             appData.taylor,
             appData.trig_special,

@@ -278,12 +278,12 @@
             <p><code>++</code> 叫做<strong>自增运算符</strong>，作用是让变量的值加 1。</p>
 
 <pre><code>int a = 10;
-a++;    // a 变成 11</code></pre>
+a++;</code></pre>
 
             <p><code>--</code> 叫做<strong>自减运算符</strong>，作用是让变量的值减 1。</p>
 
 <pre><code>int a = 10;
-a--;    // a 变成 9</code></pre>
+a--;</code></pre>
 
             <div class="key">
                 <strong>重点：</strong><code>a++</code> 等价于 <code>a = a + 1</code>，<code>a--</code> 等价于 <code>a = a - 1</code>。
@@ -327,10 +327,10 @@ a--;    // a 变成 9</code></pre>
 
 <pre><code>int a = 10;
 
-a++;    // a = 11
-++a;    // a = 12
-a--;    // a = 11
---a;    // a = 10</code></pre>
+a++;
+++a;
+a--;
+--a;</code></pre>
 
             <p>所以上面代码执行完后，<code>a</code> 最终还是 <code>10</code>。</p>
         </div>
@@ -343,19 +343,19 @@ a--;    // a = 11
             <p><span class="tag">场景一</span> 年龄增长：</p>
 
 <pre><code>int age = 1;
-age++;    // 过生日后变成 2</code></pre>
+age++;</code></pre>
 
             <p><span class="tag">场景二</span> 购物车数量变化：</p>
 
 <pre><code>int count = 1;
-count++;  // 点击加号，数量加 1
-count--;  // 点击减号，数量减 1</code></pre>
+count++;
+count--;</code></pre>
 
             <p><span class="tag">场景三</span> 数据统计：</p>
 
 <pre><code>int total = 0;
 
-total++;  // 每发现一个符合条件的数据，就加 1</code></pre>
+total++;</code></pre>
 
             <div class="key">
                 <strong>本节重点：</strong>自增自减最常用的写法是单独成行，尤其适合计数、统计、数量变化。
@@ -680,8 +680,8 @@ a += b;</code></pre>
 
             <p>所以：</p>
 
-<pre><code>a = 10 + 20;  // a = 30
-b = 20;       // b 不变</code></pre>
+<pre><code>a = 10 + 20;
+b = 20;</code></pre>
         </div>
 
         <div class="card">
@@ -692,7 +692,7 @@ b = 20;       // b 不变</code></pre>
 <pre><code>int a = 10;
 int b = 20;
 
-a += b;  // a = 30</code></pre>
+a += b;</code></pre>
 
             <p>继续执行：</p>
 
@@ -704,8 +704,8 @@ a += b;  // a = 30</code></pre>
 
             <p>此时 <code>a</code> 已经是 30，所以：</p>
 
-<pre><code>a = 30 * 20;  // a = 600
-b = 20;       // b 不变</code></pre>
+<pre><code>a = 30 * 20;
+b = 20;</code></pre>
 
             <div class="success">
                 <strong>正确理解：</strong>后面的计算要使用变量当前最新的值，不是最开始的值。

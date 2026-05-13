@@ -546,9 +546,9 @@ int *p2 = &arr[0];</code></pre>
 
 <pre><code>int *p = arr;
 
-printf("%d\n", *p);        // arr[0]
-printf("%d\n", *(p + 1));  // arr[1]
-printf("%d\n", *(p + 2));  // arr[2]</code></pre>
+printf("%d\n", *p);
+printf("%d\n", *(p + 1));
+printf("%d\n", *(p + 2));</code></pre>
 
     <div class="key">
         <span class="tag tag-blue">公式</span>
@@ -560,8 +560,8 @@ printf("%d\n", *(p + 2));  // arr[2]</code></pre>
 <pre><code>int arr[] = {10, 20, 30};
 int *p = arr;
 
-printf("%d\n", *(p + 1));  // 20
-printf("%d\n", *p + 1);    // 11</code></pre>
+printf("%d\n", *(p + 1));
+printf("%d\n", *p + 1);</code></pre>
 
     <div class="warn">
         <span class="tag tag-orange">易错点</span>
@@ -600,8 +600,8 @@ for (int i = 0; i &lt; len; i++)
 
 <pre><code>int arr[] = {1, 2, 3};
 
-int *p = arr;       // arr 退化为 &arr[0]
-int *pp = arr + 1;  // 指向 arr[1]</code></pre>
+int *p = arr;
+int *pp = arr + 1;</code></pre>
 
     <p>如果 <code>arr</code> 是 <code>int</code> 数组，那么 <code>arr + 1</code> 移动一个 <code>int</code> 的大小，常见为 4 字节。</p>
 

@@ -700,7 +700,7 @@ body.focus-mode .non-key {
 <pre><code>#include &lt;stdio.h&gt;
 
 int main() {
-    printf("\"\n");   // 打印一个双引号
+    printf("\"\n");
     return 0;
 }</code></pre>
 
@@ -708,7 +708,7 @@ int main() {
 <pre><code>#include &lt;stdio.h&gt;
 
 int main() {
-    printf("\\\n");   // 打印一个反斜杠
+    printf("\\\n");
     return 0;
 }</code></pre>
   <p>理解：第一个 <code>\</code> 是"改造器"，第二个 <code>\</code> 才是真正被打印的普通反斜杠。</p>
@@ -732,7 +732,6 @@ int main() {
 <pre><code>#include &lt;stdio.h&gt;
 
 int main() {
-    // 所有单 \ 都要写成 \\
     char* path = "C:\\Users\\admin\\Desktop\\a.txt";
     printf("%s\n", path);
     return 0;
@@ -798,8 +797,6 @@ int main() {
         printf("文件打开失败\\n");
         return 1;
     }
-
-    // 这里进行读或写操作
 
     fclose(file);
     return 0;
@@ -1078,11 +1075,9 @@ int main() {
         return 1;
     }
 
-    // 1. 一次写一个字符：97 对应字符 'a'
     int writtenChar = fputc(97, file);
     printf("fputc 写出的字符：%c\\n", writtenChar);
 
-    // 2. 一次写一个字符串
     int putStringResult = fputs("你好你好", file);
     printf("fputs 返回值：%d\\n", putStringResult);
 

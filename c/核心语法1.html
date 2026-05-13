@@ -874,8 +874,8 @@ int main()
 
                 <h3>字符 1 和数字 1 不一样</h3>
 
-                <pre><code>char c = '1'; // 字符 1
-int n = 1;    // 整数 1</code></pre>
+                <pre><code>char c = '1';
+int n = 1;</code></pre>
 
                 <h3>char 的大小</h3>
 
@@ -1102,7 +1102,6 @@ int n = 1;    // 整数 1</code></pre>
 
 int main()
 {
-    // 一、整数类型
     short a = 10;
     int b = 100;
     long c = 1000L;
@@ -1117,7 +1116,6 @@ int main()
     printf("long long d = %lld
 ", d);
 
-    // 二、sizeof 测量整数类型大小
     printf("sizeof(short) = %zu
 ", sizeof(short));
     printf("sizeof(int) = %zu
@@ -1127,7 +1125,6 @@ int main()
     printf("sizeof(long long) = %zu
 ", sizeof(long long));
 
-    // 三、整数类型的完整写法
     short int e = 20;
     long int f = 2000L;
     long long int g = 30000LL;
@@ -1140,9 +1137,7 @@ int main()
 ", g);
 
     // 错误写法：int 后面不能再加 int
-    // int int x = 10;
 
-    // 四、有符号整数和无符号整数
     signed int h = -100;
     unsigned int i = 999;
     unsigned short j = 65535;
@@ -1154,7 +1149,6 @@ int main()
     printf("unsigned short j = %u
 ", j);
 
-    // 五、小数类型
     float k = 3.14F;
     double l = 1.78;
     long double m = 3.141592653589793238L;
@@ -1174,7 +1168,6 @@ int main()
     printf("long double m 保留两位 = %.2Lf
 ", m);
 
-    // 六、sizeof 测量小数类型大小
     printf("sizeof(float) = %zu
 ", sizeof(float));
     printf("sizeof(double) = %zu
@@ -1182,7 +1175,6 @@ int main()
     printf("sizeof(long double) = %zu
 ", sizeof(long double));
 
-    // 七、字符类型
     char n1 = 'a';
     char n2 = '1';
     char n3 = 'A';
@@ -1197,7 +1189,6 @@ int main()
     printf("char n4 = %c
 ", n4);
 
-    // 八、sizeof 测量 char 大小
     printf("sizeof(char) = %zu
 ", sizeof(char));
     printf("sizeof(n1) = %zu
@@ -1235,8 +1226,8 @@ int main()
 
                 <h3>2. 字符数字和整数数字不同</h3>
 
-                <pre><code>char c = '1'; // 字符 1
-int n = 1;    // 整数 1</code></pre>
+                <pre><code>char c = '1';
+int n = 1;</code></pre>
 
                 <p>它们显示出来可能都像 1，但类型不同。</p>
 

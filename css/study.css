@@ -148,6 +148,53 @@ a:focus-visible {
     line-height: 1.65;
 }
 
+.table-scroll {
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    margin: 0.25rem 0 0.75rem;
+}
+
+.formula-table {
+    width: max-content;
+    min-width: 100%;
+    border-collapse: collapse;
+    font-size: 0.78rem;
+    line-height: 1.45;
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 0.75rem;
+    overflow: hidden;
+}
+
+.formula-table th,
+.formula-table td {
+    padding: 0.55rem 0.65rem;
+    border: 1px solid #e2e8f0;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+}
+
+.formula-table th {
+    background: #f8fafc;
+    color: #334155;
+    font-weight: 800;
+}
+
+.formula-table--compact {
+    width: 100%;
+}
+
+.formula-note {
+    margin-top: 0.75rem;
+    padding: 0.75rem 0.9rem;
+    border-left: 3px solid currentColor;
+    background: #f8fafc;
+    border-radius: 0.65rem;
+    font-size: 0.9rem;
+}
+
 #a-content img,
 #mnemonic-content img {
     max-width: 100%;

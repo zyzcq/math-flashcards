@@ -864,21 +864,18 @@ while (*p != '\0')
             <pre><code>char str2[100] = "abc";
 char str3[] = "qwer";
 
-strcat(str2, str3);
-// str2 变成 "abcqwer"
-// str3 仍然是 "qwer"</code></pre>
+strcat(str2, str3);</code></pre>
 
             <h3><code>strcpy</code>：复制覆盖</h3>
             <pre><code>char str2[100] = "abc";
 char str3[] = "qwer";
 
-strcpy(str2, str3);
-// str2 变成 "qwer"</code></pre>
+strcpy(str2, str3);</code></pre>
 
             <h3><code>strcmp</code>：比较内容</h3>
-            <pre><code>strcmp("abc", "abc")   // 返回 0
-strcmp("abc", "acb")   // 返回非 0
-strcmp("abc", "abc ")  // 返回非 0，因为多了空格</code></pre>
+            <pre><code>strcmp("abc", "abc")
+strcmp("abc", "acb")
+strcmp("abc", "abc ")</code></pre>
           </div>
         </details>
 
@@ -1032,7 +1029,6 @@ int main()
             <pre><code>for (int i = 0; str[i] != '\0'; i++)
 {
     char c = str[i];
-    // 判断 c 的类型
 }</code></pre>
             <p>这种写法直接利用字符串结束标记 <code>'\0'</code>，不需要 <code>#include &lt;string.h&gt;</code>。</p>
           </div>

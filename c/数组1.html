@@ -245,9 +245,9 @@
         <p>如果只存一个数据，用变量即可；如果要存很多个同类型数据，用很多变量会很麻烦，这时就应该使用数组。</p>
     </div>
 
-    <pre><code>int score = 90; // 一个变量只能存一个值
+    <pre><code>int score = 90;
 
-int scores[5] = {90, 85, 76, 92, 88}; // 一个数组可以存多个值</code></pre>
+int scores[5] = {90, 85, 76, 92, 88};</code></pre>
 
     <h3>数组的核心作用</h3>
 
@@ -265,8 +265,7 @@ double prices[3] = {9.9, 15.5, 20.0};</code></pre>
 
     <p>C 语言中存在隐式转换。比如 <code>double</code> 数组可以存整数，因为整数会自动转成小数。</p>
 
-    <pre><code>double arr[3] = {1, 2, 3}; 
-// 实际理解为：1.0, 2.0, 3.0</code></pre>
+    <pre><code>double arr[3] = {1, 2, 3}; </code></pre>
 
     <div class="card danger">
         <p><span class="tag tag-red">易错</span>如果把小数放进 <code>int</code> 数组，小数部分可能会丢失。</p>
@@ -329,8 +328,7 @@ double prices[3] = {9.9, 15.5, 20.0};</code></pre>
 
     <h3>定义数组练习</h3>
 
-    <pre><code>// 存储全班80位同学的年龄，年龄是整数
-int ages[80];
+    <pre><code>int ages[80];
 
 // 存储全班50位同学的身高，身高可能是小数
 double heights[50];
@@ -360,8 +358,7 @@ double prices[3];</code></pre>
 
     <p>如果初始化时省略数组长度，那么右边有几个数据，数组长度就是几。</p>
 
-    <pre><code>int ages[] = {17, 18, 19, 20, 21};
-// 数组长度自动确定为5</code></pre>
+    <pre><code>int ages[] = {17, 18, 19, 20, 21};</code></pre>
 
     <h3>规则 2：写了长度时，数据个数不能超过长度</h3>
 
@@ -372,10 +369,8 @@ int nums2[2] = {1, 2, 3}; // 错误，数据个数超过长度</code></pre>
     <h3>规则 3：没给满的位置会补默认值</h3>
 
     <pre><code>int nums[5] = {1, 2, 3};
-// 实际效果：1, 2, 3, 0, 0
 
-double arr[3] = {1.5};
-// 实际效果：1.5, 0.0, 0.0</code></pre>
+double arr[3] = {1.5};</code></pre>
 
     <table>
         <tr>
@@ -402,13 +397,10 @@ double arr[3] = {1.5};
 
     <h3>初始化练习</h3>
 
-    <pre><code>// 存储5个学生年龄
-int ages1[5] = {17, 18, 19, 20, 21};
+    <pre><code>int ages1[5] = {17, 18, 19, 20, 21};
 
-// 省略长度
 int ages2[] = {17, 18, 19, 20, 21};
 
-// 存储2个身高
 double heights1[2] = {1.68, 1.75};
 </code></pre>
 
@@ -422,8 +414,8 @@ double heights1[2] = {1.68, 1.75};
 
     <pre><code>int scores[5] = {90, 85, 76, 92, 88};
 
-printf("%d\n", scores[0]); // 第 1 个元素
-printf("%d\n", scores[4]); // 第 5 个元素
+printf("%d\n", scores[0]);
+printf("%d\n", scores[4]);
 </code></pre>
 
     <div class="card danger">
