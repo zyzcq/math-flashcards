@@ -931,6 +931,15 @@ const appData = {
         url: "english/简单句的提升.html",
         cards: []
     },
+    english_grammar_parallel: {
+        id: "english_grammar_parallel",
+        title: "英语语法：并列句",
+        subtitle: "多件事一样重要，靠并列连词连接",
+        themeColor: "indigo",
+        type: "article",
+        url: "english/并列句.html",
+        cards: []
+    },
     c_pointer_adv1: {
         id: "c_pointer_adv1",
         title: "C语言：指针3",
@@ -1005,7 +1014,8 @@ const siteData = [
         items: [
             appData.english_grammar,
             appData.english_grammar_ext,
-            appData.english_grammar_upgrade
+            appData.english_grammar_upgrade,
+            appData.english_grammar_parallel
         ]
     }
 ];
