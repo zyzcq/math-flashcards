@@ -711,6 +711,16 @@ const appData = {
         cards: []
     },
 
+    ds_linear_list_chapter2: {
+        id: "ds_linear_list_chapter2",
+        title: "数据结构：第二章线性表",
+        subtitle: "线性表、顺序表、链表与存储结构比较",
+        themeColor: "amber",
+        type: "article",
+        url: "ds/第二章_线性表.html",
+        cards: []
+    },
+
     // === 模块 8：C语言 - for循环 ===
     c_for_loop: {
         id: "c_for_loop",
@@ -977,7 +987,8 @@ const siteData = [
         categoryId: "data-structure",
         categoryBorder: "border-amber-500",
         items: [
-            appData.ds_intro_chapter1
+            appData.ds_intro_chapter1,
+            appData.ds_linear_list_chapter2
         ]
     },
     {
