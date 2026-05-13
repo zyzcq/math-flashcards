@@ -379,6 +379,7 @@
     <main>
         <nav class="toc" aria-label="本页目录">
             <h2>复习路线</h2>
+            <a href="#chapter-route">0. 学习目标</a>
             <a href="#what">1. 数据结构在学什么</a>
             <a href="#concepts">2. 基本概念</a>
             <a href="#three">3. 三要素</a>
@@ -387,7 +388,62 @@
             <a href="#time">6. 时间复杂度</a>
             <a href="#space">7. 空间复杂度</a>
             <a href="#exam">8. 考前检查</a>
+            <a href="#memory-drill">9. 主动回忆题库</a>
         </nav>
+
+        <section id="chapter-route">
+            <h2>0. 本章先会什么、学完能做什么</h2>
+            <p>绪论不是用来“背一堆名词”的，它要帮你建立后面整门课的答题框架。跨考同学先把概念边界说清楚，考研做题时再把复杂度分析步骤练熟。</p>
+            <div class="grid">
+                <div class="cardlet">
+                    <strong>先会什么</strong>
+                    能用自己的话区分数据、数据元素、数据项、数据对象、数据结构；能说出逻辑结构、存储结构、数据运算三要素分别回答什么问题。
+                </div>
+                <div class="cardlet">
+                    <strong>学完能做什么</strong>
+                    看到一个现实例子，能判断它大概属于线性、树形还是图状结构；看到一段简单代码，能找基本操作并估算时间/空间复杂度。
+                </div>
+                <div class="cardlet">
+                    <strong>考试怎么考</strong>
+                    选择题常考概念边界和算法特性；简答题常考三要素、ADT；计算题常考循环、分支、递归的复杂度。
+                </div>
+                <div class="cardlet">
+                    <strong>学习顺序</strong>
+                    先看“现实问题如何信息化”，再看“三要素”，最后做复杂度题。不要一上来死抠定义，先把地图装进脑子。
+                </div>
+            </div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>学习闭环</th>
+                        <th>本章操作</th>
+                        <th>自测标准</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>核心概念</td>
+                        <td>给每个名词配一个例子，如“顾客记录是数据元素”。</td>
+                        <td>不看书能说出相近概念的区别。</td>
+                    </tr>
+                    <tr>
+                        <td>例子/代码</td>
+                        <td>用排队、好友关系、循环代码理解抽象定义。</td>
+                        <td>能把例子换成自己的生活场景。</td>
+                    </tr>
+                    <tr>
+                        <td>易错提醒</td>
+                        <td>专门标记对象/结构、特性/目标、T(n)/O(n)。</td>
+                        <td>能解释“为什么错”，而不是只背正确答案。</td>
+                    </tr>
+                    <tr>
+                        <td>主动回忆</td>
+                        <td>每节结束后先闭眼复述，再展开自测题。</td>
+                        <td>能在 60 秒内说出本节主线。</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
 
         <section aria-label="本章知识地图">
             <h2>先看总地图：本章到底在铺什么路</h2>
@@ -494,6 +550,12 @@
                     </tr>
                 </tbody>
             </table>
+            <details>
+                <summary>主动回忆：这一节要能脱口而出</summary>
+                <div>
+                    先不看正文回答：数据结构为什么不是单纯“背代码”？请用“现实问题信息化 + 高效处理信息”这两个关键词解释，并各举一个例子。
+                </div>
+            </details>
         </section>
 
         <section id="concepts">
@@ -552,6 +614,12 @@
             <div class="mnemonic">
                 <strong>一句话背法：</strong>对象看“同类不同类”，结构看“有没有关系”。同类只是一起进群，有关系才算组队。
             </div>
+            <details>
+                <summary>主动回忆：概念边界检查</summary>
+                <div>
+                    请用“海底捞排队系统”重说一遍：什么是数据元素？什么是数据项？为什么某门店排队顾客能构成数据结构，而所有门店顾客信息更像数据对象？
+                </div>
+            </details>
         </section>
 
         <section id="three">
@@ -734,6 +802,12 @@
             <div class="example">
                 队列的逻辑结构决定它需要“入队”“出队”等操作；如果用顺序存储实现，入队可能是放到数组尾部；如果用链式存储实现，入队可能是申请一个新结点并修改指针。
             </div>
+            <details>
+                <summary>主动回忆：三要素答题模板</summary>
+                <div>
+                    遇到“分析某数据结构特点”的简答题，按三句话展开：它的逻辑结构是什么；可用哪些存储结构实现；这些存储结构会怎样影响插入、删除、查找等运算。
+                </div>
+            </details>
         </section>
 
         <section id="adt">
@@ -788,6 +862,12 @@
             <div class="mnemonic">
                 <strong>背法：</strong>ADT 管“我是谁、我能干啥”；存储结构管“我住哪儿、怎么找到我”。
             </div>
+            <details>
+                <summary>主动回忆：ADT 一句话</summary>
+                <div>
+                    请解释为什么“栈可以用数组实现，也可以用链表实现”，但它们仍然可以是同一个 ADT。答案必须包含“逻辑结构”“运算”和“存储实现”三个词。
+                </div>
+            </details>
         </section>
 
         <section id="algorithm">
@@ -875,6 +955,12 @@
                     时间开销小，空间开销小，也就是时间复杂度和空间复杂度尽量低。
                 </div>
             </div>
+            <details>
+                <summary>主动回忆：特性和目标别混</summary>
+                <div>
+                    算法五特性回答“这是不是算法”；好算法目标回答“这个算法好不好”。请分别说出“输出”和“健壮性”属于哪一类，并解释原因。
+                </div>
+            </details>
         </section>
 
         <section id="time">
@@ -1033,6 +1119,12 @@ while (i &lt;= n) {
             <div class="danger">
                 考研分析算法时，通常更关注最坏时间复杂度和平均时间复杂度；最好情况参考价值较低。
             </div>
+            <details>
+                <summary>主动回忆：复杂度考场三步</summary>
+                <div>
+                    先找基本操作，再数它随 n 执行多少次，最后只保留最高阶并去掉常数。遇到“查找某元素”这类输入会影响次数的题，要主动说明最好、最坏或平均情况。
+                </div>
+            </details>
         </section>
 
         <section id="space">
@@ -1136,6 +1228,12 @@ void g(int n) {
             <div class="danger">
                 易错点：递归不只看代码里有没有数组，还要看“递归深度”和“每一层调用需要多少空间”。
             </div>
+            <details>
+                <summary>主动回忆：空间复杂度检查顺序</summary>
+                <div>
+                    判断空间复杂度时，先忽略输入数据本身，再看额外变量、数组或动态申请空间，最后检查递归调用栈。请说明为什么固定个数变量通常是 O(1)，而递归深度为 n 时可能是 O(n)。
+                </div>
+            </details>
         </section>
 
         <section id="exam">
@@ -1202,6 +1300,82 @@ void g(int n) {
                 <summary>本章一句话总复习</summary>
                 <div>
                     数据结构研究数据元素之间的关系，以及如何存储和操作这些数据；算法研究解决问题的有限步骤；复杂度研究算法在 n 变大时，时间和空间这两张账单会涨成什么样。
+                </div>
+            </details>
+        </section>
+
+        <section id="memory-drill">
+            <h2>9. 文稿补强：第一章主动回忆题库</h2>
+            <div class="mnemonic">
+                <strong>怎么用：</strong>不要把这一节当答案看。先遮住解析，自己说出关键词；说不出来，再展开。绪论不是“背概念大会”，它更像给后面所有章节发地图。
+            </div>
+            <div class="visual-panel">
+                <p class="visual-title">第一章记忆路径：信息化、建关系、定动作、算代价。</p>
+                <svg viewBox="0 0 980 250" role="img" aria-label="第一章记忆路径：信息化、建关系、定动作、算代价">
+                    <rect x="40" y="66" width="190" height="96" rx="18" class="svg-amber"></rect>
+                    <text x="135" y="104" text-anchor="middle" class="svg-label">信息化</text>
+                    <text x="135" y="132" text-anchor="middle" class="svg-small">现实问题变数据</text>
+                    <path d="M244 114 H330" class="svg-arrow"></path>
+                    <rect x="345" y="66" width="190" height="96" rx="18" class="svg-blue"></rect>
+                    <text x="440" y="104" text-anchor="middle" class="svg-label">建关系</text>
+                    <text x="440" y="132" text-anchor="middle" class="svg-small">逻辑结构 + 存储结构</text>
+                    <path d="M550 114 H635" class="svg-arrow"></path>
+                    <rect x="650" y="66" width="130" height="96" rx="18" class="svg-green"></rect>
+                    <text x="715" y="104" text-anchor="middle" class="svg-label">定动作</text>
+                    <text x="715" y="132" text-anchor="middle" class="svg-small">插删查改</text>
+                    <path d="M795 114 H850" class="svg-arrow"></path>
+                    <rect x="862" y="66" width="86" height="96" rx="18" class="svg-purple"></rect>
+                    <text x="905" y="104" text-anchor="middle" class="svg-label">算代价</text>
+                    <text x="905" y="132" text-anchor="middle" class="svg-small">T(n)/S(n)</text>
+                    <text x="490" y="214" text-anchor="middle" class="svg-small">金钱、排队、社交关系、地图路径都能被数据化；结构决定怎么放，算法决定怎么用。</text>
+                </svg>
+            </div>
+            <div class="grid">
+                <div class="cardlet">
+                    <strong>Q1：数据结构到底在学什么？</strong>
+                    现实世界问题如何信息化，以及计算机如何高效处理这些信息。比如金钱从纸币硬币变成账户数字，排队从人站在门口变成线上取号。
+                </div>
+                <div class="cardlet">
+                    <strong>Q2：数据、数据元素、数据项怎么区分？</strong>
+                    数据是信息载体；数据元素是基本单位；数据项是元素内部不可再分的字段。顾客记录是元素，姓名、人数、排队号是数据项。
+                </div>
+                <div class="cardlet">
+                    <strong>Q3：数据对象和数据结构差在哪？</strong>
+                    数据对象强调“同类元素的集合”；数据结构还要强调元素之间存在关系。只同类还不够，有关系才叫结构。
+                </div>
+                <div class="cardlet">
+                    <strong>Q4：三要素是什么？</strong>
+                    逻辑结构回答“元素之间怎么连”；存储结构回答“在内存里怎么住”；数据运算回答“能对它做什么”。
+                </div>
+                <div class="cardlet">
+                    <strong>Q5：ADT 为什么重要？</strong>
+                    抽象数据类型只关心逻辑结构和运算，不关心具体存储实现。先想“队列能入队出队”，再想用数组还是链表实现。
+                </div>
+                <div class="cardlet">
+                    <strong>Q6：算法五特性？</strong>
+                    有穷性、确定性、可行性、输入、输出。注意输入可以是 0 个，但输出至少 1 个；没有输出就像做菜没上桌。
+                </div>
+                <div class="cardlet">
+                    <strong>Q7：好算法四目标？</strong>
+                    正确性、可读性、健壮性、高效率与低存储量。考试里常把“算法必须具备的特性”和“好算法追求的目标”混着考。
+                </div>
+                <div class="cardlet">
+                    <strong>Q8：为什么不用秒表直接评算法？</strong>
+                    事后统计受机器、语言、编译器、测试数据影响。复杂度看的是输入规模 n 增长时的趋势，不是某次跑了几秒。
+                </div>
+                <div class="cardlet">
+                    <strong>Q9：时间复杂度怎么抓？</strong>
+                    找基本操作，数执行次数 T(n)，取最高阶并忽略常数。循环看层数，分支取最坏或按题目要求看最好/平均。
+                </div>
+                <div class="cardlet">
+                    <strong>Q10：空间复杂度怎么抓？</strong>
+                    看算法额外使用的辅助空间。固定变量通常 O(1)，数组 a[n] 是 O(n)，递归要看“递归深度 × 每层空间”。
+                </div>
+            </div>
+            <details>
+                <summary>第一章闭眼复述模板</summary>
+                <div>
+                    数据结构把现实问题信息化，重点研究数据元素之间的关系、这些关系如何存到计算机里，以及对数据能做哪些操作。算法是解决问题的有限步骤，评价算法不仅要看正确，还要看时间复杂度和空间复杂度。复杂度不关心某台机器跑了几秒，而关心 n 变大时增长得快不快、占用空间多不多。
                 </div>
             </details>
         </section>

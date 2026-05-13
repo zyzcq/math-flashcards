@@ -1,0 +1,724 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>数据结构第二章：线性表复习讲义</title>
+    <link rel="stylesheet" href="../css/lecture.css">
+    <style>
+        :root {
+            --ink: #172033;
+            --muted: #64748b;
+            --blue: #2563eb;
+            --green: #059669;
+            --amber: #d97706;
+            --red: #dc2626;
+            --purple: #7c3aed;
+            --border: #e2e8f0;
+            --bg: #f8fafc;
+            --card: #ffffff;
+        }
+        * { box-sizing: border-box; }
+        body {
+            margin: 0;
+            background: var(--bg);
+            color: var(--ink);
+            font-family: "Microsoft YaHei", Arial, sans-serif;
+            line-height: 1.78;
+        }
+        header {
+            padding: 38px max(18px, 8vw) 30px;
+            color: #fff;
+            background: linear-gradient(135deg, #1d4ed8, #0f766e);
+        }
+        header h1 {
+            margin: 0;
+            font-size: clamp(1.7rem, 4vw, 2.7rem);
+            line-height: 1.16;
+        }
+        header p {
+            max-width: 900px;
+            margin: 12px 0 0;
+            color: rgba(255,255,255,.9);
+            font-weight: 700;
+        }
+        main {
+            width: min(1160px, calc(100% - 28px));
+            margin: 24px auto 56px;
+        }
+        section, .toc {
+            margin-bottom: 18px;
+            padding: 20px;
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            background: var(--card);
+            box-shadow: 0 8px 22px rgba(15, 23, 42, .04);
+        }
+        h2 {
+            margin: 0 0 14px;
+            padding-left: 12px;
+            border-left: 5px solid var(--blue);
+            color: #0f172a;
+            font-size: 1.32rem;
+            line-height: 1.35;
+        }
+        h3 { margin: 20px 0 8px; color: #0f172a; font-size: 1.04rem; }
+        p { margin: 8px 0; }
+        ul, ol { margin: 8px 0; padding-left: 1.25rem; }
+        li + li { margin-top: 4px; }
+        code {
+            padding: 1px 5px;
+            border-radius: 5px;
+            background: #f1f5f9;
+            color: #0f172a;
+            font-family: Consolas, Monaco, monospace;
+            font-size: .92em;
+        }
+        pre {
+            margin: 10px 0;
+            padding: 14px;
+            overflow-x: auto;
+            border-radius: 10px;
+            background: #0f172a;
+            color: #e2e8f0;
+            line-height: 1.58;
+        }
+        pre code { padding: 0; background: transparent; color: inherit; }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 10px 0 14px;
+            overflow: hidden;
+            border-radius: 10px;
+        }
+        th, td {
+            padding: 10px 12px;
+            border: 1px solid var(--border);
+            text-align: left;
+            vertical-align: top;
+        }
+        th { background: #f1f5f9; color: #0f172a; }
+        .toc nav {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 8px;
+        }
+        .toc a {
+            color: var(--blue);
+            text-decoration: none;
+            font-weight: 800;
+            padding: 8px 10px;
+            border: 1px solid #bfdbfe;
+            border-radius: 10px;
+            background: #eff6ff;
+        }
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+            gap: 12px;
+        }
+        .cardlet {
+            padding: 14px;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            background: #f8fafc;
+        }
+        .cardlet strong { display: block; margin-bottom: 6px; color: #0f172a; }
+        .mnemonic, .danger, .note {
+            margin: 12px 0;
+            padding: 13px 14px;
+            border-radius: 12px;
+        }
+        .mnemonic { border-left: 5px solid var(--purple); background: #f5f3ff; }
+        .danger { border-left: 5px solid var(--red); background: #fef2f2; }
+        .note { border-left: 5px solid var(--green); background: #ecfdf5; }
+        .visual-panel {
+            margin: 14px 0;
+            padding: 12px;
+            border: 1px dashed #cbd5e1;
+            border-radius: 14px;
+            background: #ffffff;
+        }
+        .visual-title {
+            margin: 0 0 8px;
+            color: var(--muted);
+            font-size: .93rem;
+            font-weight: 800;
+        }
+        .visual-panel svg {
+            width: 100%;
+            max-height: 420px;
+            display: block;
+        }
+        .svg-label { font: 700 22px "Microsoft YaHei", Arial, sans-serif; fill: #0f172a; }
+        .svg-small { font: 700 16px "Microsoft YaHei", Arial, sans-serif; fill: #334155; }
+        .svg-box { fill: #fff; stroke: #94a3b8; stroke-width: 2; }
+        .svg-blue { fill: #eff6ff; stroke: #60a5fa; stroke-width: 2; }
+        .svg-green { fill: #ecfdf5; stroke: #34d399; stroke-width: 2; }
+        .svg-amber { fill: #fffbeb; stroke: #fbbf24; stroke-width: 2; }
+        .svg-purple { fill: #f5f3ff; stroke: #a78bfa; stroke-width: 2; }
+        .svg-red { fill: #fef2f2; stroke: #f87171; stroke-width: 2; }
+        .svg-line { stroke: #64748b; stroke-width: 2.4; fill: none; }
+        .svg-arrow { stroke: #2563eb; stroke-width: 2.6; fill: none; marker-end: url(#arrow); }
+        details {
+            margin: 10px 0;
+            padding: 12px 14px;
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            background: #fff;
+        }
+        summary { cursor: pointer; font-weight: 900; color: var(--blue); }
+        @media (max-width: 720px) {
+            section, .toc { padding: 16px; }
+            table { display: block; overflow-x: auto; white-space: nowrap; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>数据结构第二章：线性表</h1>
+        <p>线性表是后续栈、队列、串、数组、广义表乃至大量算法题的地基。本章重点不是“背代码”，而是看清逻辑结构、物理存储和基本操作的代价。</p>
+    </header>
+
+    <main>
+        <div class="toc">
+            <nav>
+                <a href="#chapter-route">0. 学习目标</a>
+                <a href="#linear">1. 线性表定义</a>
+                <a href="#sequence">2. 顺序表</a>
+                <a href="#seq-ops">3. 顺序表插删查</a>
+                <a href="#single">4. 单链表</a>
+                <a href="#single-ops">5. 单链表操作</a>
+                <a href="#double">6. 双链表</a>
+                <a href="#circular">7. 循环链表</a>
+                <a href="#static">8. 静态链表</a>
+                <a href="#compare">9. 顺序表 vs 链表</a>
+                <a href="#review">10. 复习区</a>
+            </nav>
+        </div>
+
+        <section id="chapter-route">
+            <h2>0. 本章先会什么、学完能做什么</h2>
+            <p>第二章的核心不是“把代码背下来”，而是把同一个线性逻辑结构放进不同存储结构里，再比较它们做插入、删除、查找时分别付出什么代价。</p>
+            <div class="grid">
+                <div class="cardlet">
+                    <strong>先会什么</strong>
+                    分清线性表是逻辑结构，顺序表和链表是存储实现；位序从 1 开始，数组下标从 0 开始。
+                </div>
+                <div class="cardlet">
+                    <strong>学完能做什么</strong>
+                    能手写顺序表插入删除、单链表后插删除、头插法和尾插法；能解释每一步为什么这样写。
+                </div>
+                <div class="cardlet">
+                    <strong>考试怎么考</strong>
+                    选择题爱考复杂度、空表条件、头结点；算法题爱考插删指针顺序；简答题爱考顺序表和链表对比。
+                </div>
+                <div class="cardlet">
+                    <strong>学习顺序</strong>
+                    先看线性表“逻辑上是什么”，再看顺序表“连续存储”，最后看链表“指针存关系”。比较题永远回到三要素。
+                </div>
+            </div>
+            <table>
+                <tr><th>学习闭环</th><th>本章抓手</th><th>自测标准</th></tr>
+                <tr><td>核心概念</td><td>线性表、顺序表、链表、头指针、头结点、首元结点。</td><td>能把这些词画成图，而不是只背定义。</td></tr>
+                <tr><td>例子/代码</td><td>顺序表看搬移方向，链表看指针断不断。</td><td>能逐行解释插入删除代码。</td></tr>
+                <tr><td>易错提醒</td><td>位序/下标、传引用、malloc 判空、free 回收、指针赋值顺序。</td><td>能说出错写一行会造成什么后果。</td></tr>
+                <tr><td>主动回忆</td><td>每节结束回答“本结构适合什么场景，代价来自哪里”。</td><td>能不看表格完成顺序表 vs 链表比较。</td></tr>
+            </table>
+        </section>
+
+        <section id="linear">
+            <h2>1. 线性表的定义和基本操作</h2>
+            <p>线性表是具有相同数据类型的 n 个数据元素的有限序列。若 n=0，就是空表。通常写作：</p>
+            <div class="mnemonic"><strong>记忆式：</strong>L = (a1, a2, ..., ai, ..., an)。除了第一个元素没有直接前驱、最后一个元素没有直接后继，其余元素都有且仅有一个直接前驱和一个直接后继。</div>
+            <div class="visual-panel">
+                <p class="visual-title">线性表的逻辑结构：一对一，像排队。只谈“谁在谁前后”，先别管它们住在内存哪里。</p>
+                <svg viewBox="0 0 980 190" role="img" aria-label="线性表逻辑结构示意图">
+                    <defs><marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L0,6 L9,3 z" fill="#2563eb"></path></marker></defs>
+                    <rect x="60" y="58" width="110" height="70" rx="14" class="svg-blue"></rect>
+                    <rect x="240" y="58" width="110" height="70" rx="14" class="svg-blue"></rect>
+                    <rect x="420" y="58" width="110" height="70" rx="14" class="svg-blue"></rect>
+                    <rect x="600" y="58" width="110" height="70" rx="14" class="svg-blue"></rect>
+                    <rect x="780" y="58" width="110" height="70" rx="14" class="svg-blue"></rect>
+                    <text x="115" y="100" text-anchor="middle" class="svg-label">a1</text>
+                    <text x="295" y="100" text-anchor="middle" class="svg-label">a2</text>
+                    <text x="475" y="100" text-anchor="middle" class="svg-label">ai</text>
+                    <text x="655" y="100" text-anchor="middle" class="svg-label">...</text>
+                    <text x="835" y="100" text-anchor="middle" class="svg-label">an</text>
+                    <path d="M172 93 H235 M352 93 H415 M532 93 H595 M712 93 H775" class="svg-arrow"></path>
+                    <text x="115" y="150" text-anchor="middle" class="svg-small">无前驱</text>
+                    <text x="835" y="150" text-anchor="middle" class="svg-small">无后继</text>
+                </svg>
+            </div>
+            <h3>线性表常见基本操作</h3>
+            <table>
+                <tr><th>操作</th><th>含义</th><th>考点提醒</th></tr>
+                <tr><td><code>InitList(&L)</code></td><td>初始化表，构造空表。</td><td>带 & 表示会修改 L 本身。</td></tr>
+                <tr><td><code>DestroyList(&L)</code></td><td>销毁线性表并释放资源。</td><td>动态分配空间时尤其要注意。</td></tr>
+                <tr><td><code>ListInsert(&L,i,e)</code></td><td>在第 i 个位置插入元素 e。</td><td>合法范围通常是 1 到 length+1。</td></tr>
+                <tr><td><code>ListDelete(&L,i,&e)</code></td><td>删除第 i 个位置元素，并用 e 返回。</td><td>合法范围是 1 到 length。</td></tr>
+                <tr><td><code>LocateElem(L,e)</code></td><td>按值查找元素 e。</td><td>通常要顺序扫描。</td></tr>
+                <tr><td><code>GetElem(L,i)</code></td><td>按位序查找第 i 个元素。</td><td>顺序表 O(1)，链表 O(n)。</td></tr>
+                <tr><td><code>Length(L)</code>、<code>Empty(L)</code>、<code>PrintList(L)</code></td><td>求表长、判空、输出。</td><td>属于基础操作，不同存储结构实现不同。</td></tr>
+            </table>
+            <div class="callout">
+                <strong>为什么有的参数要写 <code>&L</code> 或 <code>&e</code>？</strong>
+                <p>一句话：函数里改了它，还要把修改结果带回调用者，就要传引用。初始化、插入、删除会改变表本身，所以常见 <code>&L</code>；删除时若要把被删元素带回来，就写 <code>&e</code>。单纯查找、求长度、判空不需要改原表，通常传 <code>L</code> 就够了。这里是 C++ 引用写法；如果用纯 C，常改成指针参数来完成同样的事。</p>
+                <p>封装这些基本操作，不是为了显得代码很有仪式感，而是为了团队协作和避免重复劳动：以后想增删改查，调用函数就行，别每次都从零手搓一遍。</p>
+            </div>
+            <details>
+                <summary>主动回忆：线性表先答什么</summary>
+                <div>不看正文回答：为什么“线性表”不是数组，也不是链表？请用“逻辑结构”和“存储结构”两个词说明。</div>
+            </details>
+        </section>
+
+        <section id="sequence">
+            <h2>2. 顺序表：用连续空间实现线性表</h2>
+            <p>顺序表是线性表的顺序存储实现。它用一整片连续的内存空间，依次存放线性表中的元素。</p>
+            <div class="visual-panel">
+                <p class="visual-title">顺序表像电影院连号座：知道第一个座位，就能算出第 i 个座位在哪。</p>
+                <svg viewBox="0 0 980 240" role="img" aria-label="顺序表存储示意图">
+                    <defs><marker id="arrow2" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L0,6 L9,3 z" fill="#2563eb"></path></marker></defs>
+                    <text x="60" y="52" class="svg-label">内存连续空间</text>
+                    <g>
+                        <rect x="70" y="82" width="90" height="70" class="svg-green"></rect>
+                        <rect x="160" y="82" width="90" height="70" class="svg-green"></rect>
+                        <rect x="250" y="82" width="90" height="70" class="svg-green"></rect>
+                        <rect x="340" y="82" width="90" height="70" class="svg-green"></rect>
+                        <rect x="430" y="82" width="90" height="70" class="svg-amber"></rect>
+                        <rect x="520" y="82" width="90" height="70" class="svg-amber"></rect>
+                    </g>
+                    <text x="115" y="124" text-anchor="middle" class="svg-small">a1</text>
+                    <text x="205" y="124" text-anchor="middle" class="svg-small">a2</text>
+                    <text x="295" y="124" text-anchor="middle" class="svg-small">a3</text>
+                    <text x="385" y="124" text-anchor="middle" class="svg-small">a4</text>
+                    <text x="475" y="124" text-anchor="middle" class="svg-small">空闲</text>
+                    <text x="565" y="124" text-anchor="middle" class="svg-small">空闲</text>
+                    <text x="115" y="178" text-anchor="middle" class="svg-small">下标0 / 位序1</text>
+                    <text x="385" y="178" text-anchor="middle" class="svg-small">length = 4</text>
+                    <text x="520" y="178" text-anchor="middle" class="svg-small">MaxSize = 6</text>
+                    <path d="M660 117 H800" class="svg-arrow"></path>
+                    <text x="830" y="112" class="svg-small">LOC(ai)=LOC(a1)+(i-1)×sizeof(ElemType)</text>
+                </svg>
+            </div>
+            <h3>静态分配</h3>
+            <pre><code>typedef struct {
+    ElemType data[MaxSize];
+    int length;
+} SqList;</code></pre>
+            <p>静态分配的数组容量固定。优点是定义简单；缺点是空间一开始就定死，表满后不能直接扩容。</p>
+            <h3>动态分配</h3>
+            <pre><code>#define InitSize 10
+typedef struct {
+    ElemType *data;
+    int MaxSize;
+    int length;
+} SeqList;
+
+void InitList(SeqList &L) {
+    L.data = (ElemType *)malloc(InitSize * sizeof(ElemType));
+    L.length = 0;
+    L.MaxSize = InitSize;
+}</code></pre>
+            <p>动态分配并不是“无限长”。它只是运行时申请一片连续空间；想扩容时，通常需要申请更大的新空间、复制旧元素、释放旧空间。</p>
+            <table>
+                <tr><th>实现方式</th><th>容量特点</th><th>跨考提醒</th></tr>
+                <tr><td>静态分配</td><td>容量编译时确定，数组大小固定。</td><td>表满后不能继续插入，除非重新定义更大的结构。</td></tr>
+                <tr><td>动态分配</td><td>运行时用 <code>malloc</code> 申请连续空间，可扩容。</td><td>扩容不是原地变长，通常要申请新空间、复制、释放旧空间。</td></tr>
+            </table>
+            <div class="danger">易错点：位序从 1 开始，下标从 0 开始。第 i 个元素对应数组下标 i-1。</div>
+            <details>
+                <summary>主动回忆：顺序表三件套</summary>
+                <div>请闭眼说出顺序表为什么支持随机存取：连续存储、元素等长、已知起始地址，所以能用地址公式直接算第 i 个元素。</div>
+            </details>
+        </section>
+
+        <section id="seq-ops">
+            <h2>3. 顺序表插入、删除、查找</h2>
+            <h3>插入：先搬家，再入住</h3>
+            <p>在第 i 个位置插入 e，合法范围是 <code>1 <= i <= L.length + 1</code>。如果表满，插入失败。</p>
+            <pre><code>bool ListInsert(SqList &L, int i, ElemType e) {
+    if (i < 1 || i > L.length + 1) return false;
+    if (L.length >= MaxSize) return false;
+    for (int j = L.length; j >= i; j--)
+        L.data[j] = L.data[j - 1];
+    L.data[i - 1] = e;
+    L.length++;
+    return true;
+}</code></pre>
+            <div class="visual-panel">
+                <p class="visual-title">在第 2 个位置插入 X：从后往前搬，给 X 腾座位。</p>
+                <svg viewBox="0 0 980 250" role="img" aria-label="顺序表插入需要移动元素">
+                    <rect x="80" y="60" width="90" height="56" class="svg-green"></rect>
+                    <rect x="170" y="60" width="90" height="56" class="svg-green"></rect>
+                    <rect x="260" y="60" width="90" height="56" class="svg-green"></rect>
+                    <rect x="350" y="60" width="90" height="56" class="svg-green"></rect>
+                    <text x="125" y="95" text-anchor="middle" class="svg-small">A</text>
+                    <text x="215" y="95" text-anchor="middle" class="svg-small">B</text>
+                    <text x="305" y="95" text-anchor="middle" class="svg-small">C</text>
+                    <text x="395" y="95" text-anchor="middle" class="svg-small">D</text>
+                    <path d="M395 122 V160 H485" class="svg-arrow"></path>
+                    <path d="M305 122 V160 H395" class="svg-arrow"></path>
+                    <path d="M215 122 V160 H305" class="svg-arrow"></path>
+                    <rect x="80" y="170" width="90" height="56" class="svg-green"></rect>
+                    <rect x="170" y="170" width="90" height="56" class="svg-red"></rect>
+                    <rect x="260" y="170" width="90" height="56" class="svg-green"></rect>
+                    <rect x="350" y="170" width="90" height="56" class="svg-green"></rect>
+                    <rect x="440" y="170" width="90" height="56" class="svg-green"></rect>
+                    <text x="125" y="205" text-anchor="middle" class="svg-small">A</text>
+                    <text x="215" y="205" text-anchor="middle" class="svg-small">X</text>
+                    <text x="305" y="205" text-anchor="middle" class="svg-small">B</text>
+                    <text x="395" y="205" text-anchor="middle" class="svg-small">C</text>
+                    <text x="485" y="205" text-anchor="middle" class="svg-small">D</text>
+                    <text x="640" y="114" class="svg-small">最好：尾插 O(1)</text>
+                    <text x="640" y="150" class="svg-small">最坏：头插 O(n)</text>
+                    <text x="640" y="186" class="svg-small">平均：移动约 n/2 个元素，O(n)</text>
+                </svg>
+            </div>
+            <h3>删除：先取走，再补位</h3>
+            <p>删除第 i 个位置元素，合法范围是 <code>1 <= i <= L.length</code>。删除后，后面的元素依次前移。</p>
+            <pre><code>bool ListDelete(SqList &L, int i, ElemType &e) {
+    if (i < 1 || i > L.length) return false;
+    e = L.data[i - 1];
+    for (int j = i; j < L.length; j++)
+        L.data[j - 1] = L.data[j];
+    L.length--;
+    return true;
+}</code></pre>
+            <p>删除的最好情况是删表尾 O(1)，最坏情况是删表头 O(n)，平均移动约 (n-1)/2 个元素，数量级仍是 O(n)。</p>
+            <h3>查找：按位快，按值慢</h3>
+            <table>
+                <tr><th>查找方式</th><th>顺序表表现</th><th>原因</th></tr>
+                <tr><td>按位查找 <code>GetElem(L,i)</code></td><td>O(1)</td><td>连续存储 + 元素等长，可直接套地址公式。</td></tr>
+                <tr><td>按值查找 <code>LocateElem(L,e)</code></td><td>O(n)</td><td>不知道 e 在哪，只能从前往后比。</td></tr>
+            </table>
+            <table>
+                <tr><th>操作</th><th>合法范围</th><th>移动方向</th><th>复杂度来源</th></tr>
+                <tr><td>插入第 i 个位置</td><td><code>1 <= i <= length + 1</code></td><td>从后往前移，避免覆盖。</td><td>插入位置后面的元素都要后移。</td></tr>
+                <tr><td>删除第 i 个位置</td><td><code>1 <= i <= length</code></td><td>从前往后补位。</td><td>删除位置后面的元素都要前移。</td></tr>
+                <tr><td>按位查找</td><td><code>1 <= i <= length</code></td><td>不移动。</td><td>地址公式直接定位。</td></tr>
+            </table>
+            <details>
+                <summary>主动回忆：顺序表插删为什么是 O(n)</summary>
+                <div>不要只背结论。请分别说明：插入表头为什么要移动 n 个元素，删除表头为什么要移动 n-1 个元素，为什么平均情况仍然记为 O(n)。</div>
+            </details>
+        </section>
+
+        <section id="single">
+            <h2>4. 单链表：元素散坐，指针认路</h2>
+            <p>单链表使用链式存储。每个结点包含数据域和指针域，指针域 <code>next</code> 指向后继结点。</p>
+            <div class="visual-panel">
+                <p class="visual-title">单链表不要求物理相邻，只要求用 next 把逻辑顺序串起来。</p>
+                <svg viewBox="0 0 980 260" role="img" aria-label="单链表示意图">
+                    <defs><marker id="arrow3" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L0,6 L9,3 z" fill="#2563eb"></path></marker></defs>
+                    <rect x="70" y="72" width="130" height="72" rx="12" class="svg-amber"></rect>
+                    <text x="135" y="114" text-anchor="middle" class="svg-label">头结点</text>
+                    <rect x="300" y="42" width="140" height="84" rx="12" class="svg-blue"></rect>
+                    <line x1="370" y1="42" x2="370" y2="126" class="svg-line"></line>
+                    <text x="335" y="90" text-anchor="middle" class="svg-small">data</text>
+                    <text x="405" y="90" text-anchor="middle" class="svg-small">next</text>
+                    <rect x="535" y="120" width="140" height="84" rx="12" class="svg-blue"></rect>
+                    <line x1="605" y1="120" x2="605" y2="204" class="svg-line"></line>
+                    <text x="570" y="168" text-anchor="middle" class="svg-small">data</text>
+                    <text x="640" y="168" text-anchor="middle" class="svg-small">next</text>
+                    <rect x="770" y="70" width="140" height="84" rx="12" class="svg-blue"></rect>
+                    <line x1="840" y1="70" x2="840" y2="154" class="svg-line"></line>
+                    <text x="805" y="118" text-anchor="middle" class="svg-small">data</text>
+                    <text x="875" y="118" text-anchor="middle" class="svg-small">NULL</text>
+                    <path d="M200 108 C250 75 260 84 300 84" class="svg-arrow"></path>
+                    <path d="M440 84 C495 84 487 162 535 162" class="svg-arrow"></path>
+                    <path d="M675 162 C730 162 715 112 770 112" class="svg-arrow"></path>
+                    <text x="492" y="236" text-anchor="middle" class="svg-small">链式存储：地址可以分散，逻辑顺序靠指针维护。</text>
+                </svg>
+            </div>
+            <pre><code>typedef struct LNode {
+    ElemType data;
+    struct LNode *next;
+} LNode, *LinkList;</code></pre>
+            <div class="grid">
+                <div class="cardlet"><strong>头指针</strong>指向链表第一个结点。带头结点时，它指向头结点；不带头结点时，它指向第一个数据结点。</div>
+                <div class="cardlet"><strong>头结点</strong>不一定存数据，主要让插入删除更统一。带头结点的空表满足 <code>L->next == NULL</code>。</div>
+                <div class="cardlet"><strong>首元结点</strong>第一个真正存放数据元素的结点。别把头结点和首元结点认成一个人。</div>
+            </div>
+            <pre><code>bool InitList(LinkList &L) {
+    L = (LNode *)malloc(sizeof(LNode));
+    if (L == NULL) return false;
+    L->next = NULL;
+    return true;
+}</code></pre>
+            <table>
+                <tr><th>实现方式</th><th>空表条件</th><th>代码处理差异</th></tr>
+                <tr><td>带头结点</td><td><code>L != NULL</code> 且 <code>L->next == NULL</code></td><td>第 1 个位置的插入删除可统一看成在头结点后操作。</td></tr>
+                <tr><td>不带头结点</td><td><code>L == NULL</code></td><td>操作第 1 个数据结点时常要单独修改头指针。</td></tr>
+            </table>
+            <div class="note">跨考提醒：<code>LinkList</code> 本质上是 <code>LNode *</code>，但名字强调“这是一条链表”；<code>LNode *p</code> 强调“这是一个结点指针”。类型相同，语义不同。</div>
+            <details>
+                <summary>主动回忆：头指针、头结点、首元结点</summary>
+                <div>画一个带头结点的空链表，再画一个含 2 个数据结点的链表。标出 L、头结点和首元结点，并写出空表判断条件。</div>
+            </details>
+        </section>
+
+        <section id="single-ops">
+            <h2>5. 单链表插入、删除、查找、建立</h2>
+            <h3>按位插入：先找前驱，再改指针</h3>
+            <p>在第 i 个位置插入元素，需要先找到第 i-1 个结点 p，再把新结点 s 接到 p 后面。</p>
+            <pre><code>bool InsertNextNode(LNode *p, ElemType e) {
+    if (p == NULL) return false;
+    LNode *s = (LNode *)malloc(sizeof(LNode));
+    if (s == NULL) return false;
+    s->data = e;
+    s->next = p->next;  // 先让新人认后门
+    p->next = s;        // 再让前驱认新人
+    return true;
+}</code></pre>
+            <div class="danger">指针顺序别写反：先 <code>s->next = p->next</code>，再 <code>p->next = s</code>。反过来会把后半截链表弄丢，像搬家时先把旧地址撕了。</div>
+            <div class="visual-panel">
+                <p class="visual-title">后插操作：新结点先接后继，再被前驱接纳。</p>
+                <svg viewBox="0 0 980 250" role="img" aria-label="单链表后插操作">
+                    <rect x="120" y="82" width="130" height="62" rx="12" class="svg-blue"></rect>
+                    <rect x="430" y="82" width="130" height="62" rx="12" class="svg-blue"></rect>
+                    <rect x="280" y="170" width="130" height="62" rx="12" class="svg-red"></rect>
+                    <text x="185" y="120" text-anchor="middle" class="svg-label">p</text>
+                    <text x="495" y="120" text-anchor="middle" class="svg-label">p->next</text>
+                    <text x="345" y="208" text-anchor="middle" class="svg-label">s</text>
+                    <path d="M250 112 H430" class="svg-line"></path>
+                    <path d="M410 190 C470 180 490 150 495 145" class="svg-arrow"></path>
+                    <text x="520" y="204" class="svg-small">1. s->next = p->next</text>
+                    <path d="M250 112 C280 120 300 158 330 170" class="svg-arrow"></path>
+                    <text x="120" y="190" class="svg-small">2. p->next = s</text>
+                </svg>
+            </div>
+            <h3>前插操作：可找前驱，也可后插后交换数据</h3>
+            <p>如果只给定结点 p，想在 p 前插入 s，单链表不能直接找到 p 的前驱。常见技巧是：把 s 插到 p 后面，然后交换 p 和 s 的数据域，效果等价于在 p 前插入。</p>
+            <h3>删除结点</h3>
+            <pre><code>bool DeleteNextNode(LNode *p) {
+    if (p == NULL || p->next == NULL) return false;
+    LNode *q = p->next;
+    p->next = q->next;
+    free(q);
+    return true;
+}</code></pre>
+            <p>如果给定结点 p 本身并要求删除 p，可用“复制后继数据再删后继”的技巧：令 q=p->next，把 q 的数据复制到 p，再删除 q。注意：如果 p 是最后一个结点，这招不成立。</p>
+            <h3>查找</h3>
+            <table>
+                <tr><th>操作</th><th>单链表复杂度</th><th>原因</th></tr>
+                <tr><td>按位查找第 i 个结点</td><td>O(n)</td><td>只能从头结点一路数过去。</td></tr>
+                <tr><td>按值查找 e</td><td>O(n)</td><td>只能逐个比较数据域。</td></tr>
+                <tr><td>已知前驱 p 后插/删后继</td><td>O(1)</td><td>只改几个指针，不搬元素。</td></tr>
+            </table>
+            <h3>建立单链表：尾插法与头插法</h3>
+            <div class="grid">
+                <div class="cardlet">
+                    <strong>尾插法</strong>
+                    维护尾指针 r，每次把新结点接到尾部，输入顺序和链表顺序一致。适合“按原顺序建表”。
+                </div>
+                <div class="cardlet">
+                    <strong>头插法</strong>
+                    每次把新结点插到头结点后面，最终顺序与输入顺序相反。适合逆置链表，像每来一个人都插队到最前面。
+                </div>
+            </div>
+            <table>
+                <tr><th>操作</th><th>必须先做什么</th><th>最容易错哪儿</th></tr>
+                <tr><td>后插结点</td><td>检查 <code>p</code> 和 <code>malloc</code> 结果。</td><td>先改 <code>p->next</code> 导致原后继丢失。</td></tr>
+                <tr><td>删除后继</td><td>保存 <code>q = p->next</code>。</td><td>忘记 <code>free(q)</code>，或 <code>p->next == NULL</code> 时仍删除。</td></tr>
+                <tr><td>按位插入</td><td>先找到第 <code>i-1</code> 个结点。</td><td>把“第 i 个结点”和“第 i-1 个前驱”混淆。</td></tr>
+                <tr><td>建表</td><td>明确要保序还是逆序。</td><td>把头插法最终顺序误认为和输入顺序一致。</td></tr>
+            </table>
+            <details>
+                <summary>主动回忆：单链表四句口诀</summary>
+                <div>按位插入先找前驱；后插先接后继再接前驱；删除先保存被删结点再断链释放；头插逆序、尾插保序。</div>
+            </details>
+        </section>
+
+        <section id="double">
+            <h2>6. 双链表：向前向后都认路</h2>
+            <p>单链表给定某个结点 p 时，找后继很容易，找前驱很麻烦。双链表在每个结点中增加 <code>prior</code> 指针，指向前驱结点。</p>
+            <pre><code>typedef struct DNode {
+    ElemType data;
+    struct DNode *prior, *next;
+} DNode, *DLinkList;</code></pre>
+            <div class="visual-panel">
+                <p class="visual-title">双链表每个结点有两根线：prior 向前，next 向后。</p>
+                <svg viewBox="0 0 980 220" role="img" aria-label="双链表示意图">
+                    <rect x="105" y="75" width="150" height="70" rx="12" class="svg-blue"></rect>
+                    <rect x="410" y="75" width="150" height="70" rx="12" class="svg-blue"></rect>
+                    <rect x="715" y="75" width="150" height="70" rx="12" class="svg-blue"></rect>
+                    <text x="180" y="116" text-anchor="middle" class="svg-label">A</text>
+                    <text x="485" y="116" text-anchor="middle" class="svg-label">B</text>
+                    <text x="790" y="116" text-anchor="middle" class="svg-label">C</text>
+                    <path d="M255 92 H408" class="svg-arrow"></path>
+                    <path d="M410 128 H258" class="svg-arrow"></path>
+                    <path d="M560 92 H713" class="svg-arrow"></path>
+                    <path d="M715 128 H563" class="svg-arrow"></path>
+                    <text x="332" y="78" text-anchor="middle" class="svg-small">next</text>
+                    <text x="332" y="160" text-anchor="middle" class="svg-small">prior</text>
+                    <text x="638" y="78" text-anchor="middle" class="svg-small">next</text>
+                    <text x="638" y="160" text-anchor="middle" class="svg-small">prior</text>
+                </svg>
+            </div>
+            <pre><code>bool InsertNextDNode(DNode *p, DNode *s) {
+    if (p == NULL || s == NULL) return false;
+    s->next = p->next;
+    if (p->next != NULL)
+        p->next->prior = s;
+    s->prior = p;
+    p->next = s;
+    return true;
+}</code></pre>
+            <div class="danger">双链表插入要照顾四条线。若 p 是尾结点，<code>p->next</code> 为 NULL，不能直接写 <code>p->next->prior</code>。</div>
+            <p>删除结点时，要让前驱的 next 跳过它、后继的 prior 跳过它，再释放结点。双链表在“找前驱”这件事上比单链表舒服很多。</p>
+            <details>
+                <summary>主动回忆：双链表为什么更方便</summary>
+                <div>给定某个结点 p，单链表找前驱通常要从头遍历；双链表可以通过 <code>p->prior</code> 直接找到前驱。请顺着这句话解释双链表为什么会多一个指针域空间开销。</div>
+            </details>
+        </section>
+
+        <section id="circular">
+            <h2>7. 循环链表：尾巴不指 NULL，转回头</h2>
+            <p>循环链表是在普通链表基础上的小改造。循环单链表中，尾结点的 <code>next</code> 指回头结点；循环双链表中，头结点的 <code>prior</code> 也指向尾结点。</p>
+            <div class="visual-panel">
+                <p class="visual-title">循环单链表：尾结点 next 指向头结点，形成闭环。</p>
+                <svg viewBox="0 0 980 260" role="img" aria-label="循环单链表示意图">
+                    <rect x="120" y="90" width="120" height="60" rx="12" class="svg-amber"></rect>
+                    <rect x="340" y="90" width="120" height="60" rx="12" class="svg-blue"></rect>
+                    <rect x="560" y="90" width="120" height="60" rx="12" class="svg-blue"></rect>
+                    <rect x="780" y="90" width="120" height="60" rx="12" class="svg-blue"></rect>
+                    <text x="180" y="126" text-anchor="middle" class="svg-small">头结点</text>
+                    <text x="400" y="126" text-anchor="middle" class="svg-small">A</text>
+                    <text x="620" y="126" text-anchor="middle" class="svg-small">B</text>
+                    <text x="840" y="126" text-anchor="middle" class="svg-small">C</text>
+                    <path d="M240 120 H338 M460 120 H558 M680 120 H778" class="svg-arrow"></path>
+                    <path d="M900 120 C930 210 95 210 120 122" class="svg-arrow"></path>
+                    <text x="500" y="230" text-anchor="middle" class="svg-small">空表：L->next == L；表尾判断：p->next == L</text>
+                </svg>
+            </div>
+            <table>
+                <tr><th>类型</th><th>初始化/判空</th><th>表尾判断</th><th>特点</th></tr>
+                <tr><td>循环单链表</td><td><code>L->next = L</code>，空表 <code>L->next == L</code></td><td><code>p->next == L</code></td><td>给任意结点可继续绕回整表，但找前驱仍要绕。</td></tr>
+                <tr><td>循环双链表</td><td><code>L->next=L; L->prior=L</code></td><td><code>p->next == L</code></td><td>前后都能走，头尾衔接更顺。</td></tr>
+            </table>
+            <details>
+                <summary>主动回忆：循环链表不看 NULL</summary>
+                <div>普通链表常用 NULL 判断结尾；循环链表的尾巴会指回头结点。请写出带头结点循环单链表的空表条件和表尾条件。</div>
+            </details>
+        </section>
+
+        <section id="static">
+            <h2>8. 静态链表：用数组模拟指针</h2>
+            <p>静态链表用一整片连续数组来存放结点，但结点之间的逻辑关系不靠真实指针，而靠游标 <code>next</code> 保存下一个结点的数组下标。</p>
+            <pre><code>#define MaxSize 1000
+typedef struct {
+    ElemType data;
+    int next;
+} SLinkList[MaxSize];</code></pre>
+            <div class="visual-panel">
+                <p class="visual-title">静态链表：数组下标充当“伪指针”。0 号单元常当头结点，-1 表示结束。</p>
+                <svg viewBox="0 0 980 300" role="img" aria-label="静态链表示意图">
+                    <rect x="80" y="55" width="820" height="190" rx="16" class="svg-blue"></rect>
+                    <text x="110" y="90" class="svg-label">数组空间</text>
+                    <g>
+                        <rect x="115" y="120" width="100" height="82" class="svg-box"></rect>
+                        <rect x="215" y="120" width="100" height="82" class="svg-box"></rect>
+                        <rect x="315" y="120" width="100" height="82" class="svg-box"></rect>
+                        <rect x="415" y="120" width="100" height="82" class="svg-box"></rect>
+                        <rect x="515" y="120" width="100" height="82" class="svg-box"></rect>
+                    </g>
+                    <text x="165" y="112" text-anchor="middle" class="svg-small">0</text>
+                    <text x="265" y="112" text-anchor="middle" class="svg-small">1</text>
+                    <text x="365" y="112" text-anchor="middle" class="svg-small">2</text>
+                    <text x="465" y="112" text-anchor="middle" class="svg-small">3</text>
+                    <text x="565" y="112" text-anchor="middle" class="svg-small">4</text>
+                    <text x="165" y="150" text-anchor="middle" class="svg-small">头</text>
+                    <text x="165" y="180" text-anchor="middle" class="svg-small">next=2</text>
+                    <text x="265" y="150" text-anchor="middle" class="svg-small">B</text>
+                    <text x="265" y="180" text-anchor="middle" class="svg-small">next=-1</text>
+                    <text x="365" y="150" text-anchor="middle" class="svg-small">A</text>
+                    <text x="365" y="180" text-anchor="middle" class="svg-small">next=1</text>
+                    <text x="465" y="150" text-anchor="middle" class="svg-small">空闲</text>
+                    <text x="565" y="150" text-anchor="middle" class="svg-small">空闲</text>
+                    <path d="M168 205 C180 260 352 260 365 205" class="svg-arrow"></path>
+                    <path d="M365 205 C350 245 276 245 265 205" class="svg-arrow"></path>
+                    <text x="735" y="150" class="svg-small">逻辑顺序：头 -> A -> B -> -1</text>
+                    <text x="735" y="184" class="svg-small">物理位置：A 在下标 2，B 在下标 1</text>
+                </svg>
+            </div>
+            <p>静态链表兼具“数组空间固定”和“链式逻辑关系”的味道。它不需要真实指针，适合没有指针的语言或需要在数组中模拟链表的场景；缺点是容量仍固定，且插入删除要维护空闲结点。</p>
+            <details>
+                <summary>主动回忆：静态链表到底静在哪</summary>
+                <div>静态链表的数组容量固定，所以“静”；它又用 next 游标保存下一个结点下标，所以逻辑上像链表。请说明 <code>next=-1</code> 和单链表 <code>next=NULL</code> 的对应关系。</div>
+            </details>
+        </section>
+
+        <section id="compare">
+            <h2>9. 顺序表和链表的比较</h2>
+            <p>顺序表和链表在逻辑上都属于线性表，区别主要来自存储结构。顺序表把元素连续摆放，链表让元素分散存放、靠指针相连。</p>
+            <table>
+                <tr><th>角度</th><th>顺序表</th><th>链表</th></tr>
+                <tr><td>逻辑结构</td><td>线性结构，一对一。</td><td>线性结构，一对一。</td></tr>
+                <tr><td>存储结构</td><td>连续空间，元素物理相邻。</td><td>离散空间，指针维护逻辑关系。</td></tr>
+                <tr><td>随机存取</td><td>支持，按位查找 O(1)。</td><td>不支持，按位查找 O(n)。</td></tr>
+                <tr><td>按值查找</td><td>通常 O(n)。</td><td>通常 O(n)。</td></tr>
+                <tr><td>插入删除</td><td>平均 O(n)，主要花在移动元素。</td><td>找前驱 O(n)，已知前驱后改指针 O(1)。</td></tr>
+                <tr><td>空间</td><td>存储密度高，但可能预分配浪费或溢出。</td><td>动态灵活，但每个结点有指针域开销。</td></tr>
+                <tr><td>容量</td><td>扩容不方便，需要新空间并复制。</td><td>按需申请结点，容量更灵活。</td></tr>
+                <tr><td>适用场景</td><td>表长稳定、频繁按位访问、插删少。</td><td>表长变化大、插删频繁、随机访问少。</td></tr>
+            </table>
+            <div class="mnemonic">
+                <strong>选择口诀：</strong>查得多、位置明确、规模稳定，顺序表很香；插删多、规模飘忽、空间不想一口气预留，链表更灵活。
+            </div>
+            <table>
+                <tr><th>简答题答题角度</th><th>该写什么</th></tr>
+                <tr><td>逻辑结构</td><td>二者都是线性表，元素之间都是一对一关系。</td></tr>
+                <tr><td>存储结构</td><td>顺序表连续存储，链表离散存储并用指针表示逻辑关系。</td></tr>
+                <tr><td>基本操作</td><td>顺序表按位查找快，链表插删改指针方便；具体复杂度要说明代价来源。</td></tr>
+                <tr><td>应用场景</td><td>表长稳定且查找多选顺序表；长度变化大且插删多选链表。</td></tr>
+            </table>
+            <details>
+                <summary>主动回忆：顺序表和链表比较模板</summary>
+                <div>请按“逻辑结构、存储结构、基本操作、应用场景”四个角度口述一遍。不要只说谁快，要说快在哪里、慢在哪里、为什么。</div>
+            </details>
+        </section>
+
+        <section id="review">
+            <h2>10. 复习区：线性表闭环自测</h2>
+            <div class="grid">
+                <div class="cardlet"><strong>线性表定义</strong>同类型、有限序列、一对一关系；第一个无前驱，最后一个无后继。</div>
+                <div class="cardlet"><strong>顺序表三件事</strong>连续空间、长度 length、最大容量 MaxSize；第 i 个元素下标 i-1。</div>
+                <div class="cardlet"><strong>顺序表插入</strong>范围 1 到 length+1；从后往前移动；平均 O(n)。</div>
+                <div class="cardlet"><strong>顺序表删除</strong>范围 1 到 length；从前往后补位；平均 O(n)。</div>
+                <div class="cardlet"><strong>单链表三名词</strong>头指针、头结点、首元结点必须区分。</div>
+                <div class="cardlet"><strong>单链表插入</strong>先 <code>s->next=p->next</code>，再 <code>p->next=s</code>。</div>
+                <div class="cardlet"><strong>单链表删除</strong>删后继要 <code>q=p->next</code>，接链，再 free(q)。</div>
+                <div class="cardlet"><strong>头插尾插</strong>头插逆序，尾插保序。</div>
+                <div class="cardlet"><strong>双链表</strong>多一个 prior，找前驱 O(1)，插删要维护四条线。</div>
+                <div class="cardlet"><strong>循环链表</strong>空表和表尾判断不再看 NULL，而看是否回到头结点。</div>
+                <div class="cardlet"><strong>静态链表</strong>数组 + 游标 next，游标保存下一个结点下标，-1 表示结束。</div>
+                <div class="cardlet"><strong>最终比较</strong>顺序表随机访问强，链表插删灵活；没有谁永远赢，只有场景合不合适。</div>
+            </div>
+            <details>
+                <summary>自测 1：为什么顺序表按位查找是 O(1)，链表是 O(n)？</summary>
+                <div>顺序表连续存储且元素等长，可通过地址公式直接计算第 i 个元素位置；链表只能从头沿 next 一个个走到第 i 个。</div>
+            </details>
+            <details>
+                <summary>自测 2：链表已知前驱插入为什么是 O(1)？</summary>
+                <div>因为不用移动元素，只需申请新结点并修改两条指针：新结点指向原后继，前驱指向新结点。</div>
+            </details>
+            <details>
+                <summary>自测 3：头插法和尾插法最终顺序有什么区别？</summary>
+                <div>头插法每次插到最前面，最终顺序与输入顺序相反；尾插法每次接到尾部，最终顺序与输入顺序一致。</div>
+            </details>
+            <details>
+                <summary>自测 4：循环单链表空表条件是什么？</summary>
+                <div>带头结点的循环单链表初始化为 <code>L->next = L</code>，所以空表条件是 <code>L->next == L</code>。</div>
+            </details>
+            <details>
+                <summary>自测 5：静态链表里的 next 和单链表里的 next 有何区别？</summary>
+                <div>单链表 next 存真实指针或地址；静态链表 next 存数组下标，也叫游标，用下标模拟指针。</div>
+            </details>
+        </section>
+    </main>
+
+    <script src="../data.js"></script>
+    <script src="../js/lecture.js"></script>
+</body>
+</html>
