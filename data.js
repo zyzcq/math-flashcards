@@ -1036,6 +1036,186 @@ const siteData = [
 // ====================================================
 (function normalizeCatalogForReviewHome() {
     Object.assign(appData, {
+        ds_html_index: {
+            id: "ds_html_index",
+            title: "数据结构：HTML讲义总目录",
+            subtitle: "17节单课讲义 + 2个章节合并版",
+            themeColor: "amber",
+            type: "article",
+            url: "output/index.html",
+            cards: []
+        },
+        ds_intro_chapter1: {
+            id: "ds_intro_chapter1",
+            title: "数据结构：第一章绪论（新版）",
+            subtitle: "章节合并版：基本概念、算法与复杂度",
+            themeColor: "amber",
+            type: "article",
+            url: "output/chapters/01_绪论.html",
+            cards: []
+        },
+        ds_linear_list_chapter2: {
+            id: "ds_linear_list_chapter2",
+            title: "数据结构：第二章线性表（新版）",
+            subtitle: "章节合并版：线性表、顺序表与链表",
+            themeColor: "amber",
+            type: "article",
+            url: "output/chapters/02_线性表.html",
+            cards: []
+        },
+        ds_lesson_002: {
+            id: "ds_lesson_002",
+            title: "数据结构 1.0：开篇",
+            subtitle: "数据结构在学什么",
+            themeColor: "amber",
+            type: "article",
+            url: "output/lessons/002_开篇：数据结构在学什么.html",
+            cards: []
+        },
+        ds_lesson_003: {
+            id: "ds_lesson_003",
+            title: "数据结构 1.1：基本概念",
+            subtitle: "数据、结构三要素与 ADT",
+            themeColor: "amber",
+            type: "article",
+            url: "output/lessons/003_数据结构的基本概念.html",
+            cards: []
+        },
+        ds_lesson_004: {
+            id: "ds_lesson_004",
+            title: "数据结构 1.2.1：算法基本概念",
+            subtitle: "算法定义、特性与评价标准",
+            themeColor: "amber",
+            type: "article",
+            url: "output/lessons/004_算法的基本概念.html",
+            cards: []
+        },
+        ds_lesson_005: {
+            id: "ds_lesson_005",
+            title: "数据结构 1.2.2：时间复杂度",
+            subtitle: "大 O 表示法与复杂度分析",
+            themeColor: "amber",
+            type: "article",
+            url: "output/lessons/005_算法的时间复杂度.html",
+            cards: []
+        },
+        ds_lesson_006: {
+            id: "ds_lesson_006",
+            title: "数据结构 1.2.3：空间复杂度",
+            subtitle: "数组空间与递归调用栈",
+            themeColor: "amber",
+            type: "article",
+            url: "output/lessons/006_算法的空间复杂度.html",
+            cards: []
+        },
+        ds_lesson_007: {
+            id: "ds_lesson_007",
+            title: "数据结构 2.1：线性表",
+            subtitle: "定义、术语和基本操作",
+            themeColor: "amber",
+            type: "article",
+            url: "output/lessons/007_线性表的定义和基本操作.html",
+            cards: []
+        },
+        ds_lesson_008: {
+            id: "ds_lesson_008",
+            title: "数据结构 2.2.1：顺序表定义",
+            subtitle: "顺序存储、静态分配与动态分配",
+            themeColor: "amber",
+            type: "article",
+            url: "output/lessons/008_顺序表的定义.html",
+            cards: []
+        },
+        ds_lesson_009: {
+            id: "ds_lesson_009",
+            title: "数据结构 2.2.2：顺序表插删",
+            subtitle: "插入、删除和移动元素",
+            themeColor: "amber",
+            type: "article",
+            url: "output/lessons/009_顺序表的插入删除.html",
+            cards: []
+        },
+        ds_lesson_010: {
+            id: "ds_lesson_010",
+            title: "数据结构 2.2.2：顺序表查找",
+            subtitle: "按位查找与按值查找",
+            themeColor: "amber",
+            type: "article",
+            url: "output/lessons/010_顺序表的查找.html",
+            cards: []
+        },
+        ds_lesson_011: {
+            id: "ds_lesson_011",
+            title: "数据结构 2.3.1：单链表定义",
+            subtitle: "结点、头指针与头结点",
+            themeColor: "amber",
+            type: "article",
+            url: "output/lessons/011_单链表的定义.html",
+            cards: []
+        },
+        ds_lesson_012: {
+            id: "ds_lesson_012",
+            title: "数据结构 2.3.2：单链表插删",
+            subtitle: "后插、前插、删除与 free",
+            themeColor: "amber",
+            type: "article",
+            url: "output/lessons/012_单链表的插入删除.html",
+            cards: []
+        },
+        ds_lesson_013: {
+            id: "ds_lesson_013",
+            title: "数据结构 2.3.2：单链表查找",
+            subtitle: "按位、按值和求表长",
+            themeColor: "amber",
+            type: "article",
+            url: "output/lessons/013_单链表的查找.html",
+            cards: []
+        },
+        ds_lesson_014: {
+            id: "ds_lesson_014",
+            title: "数据结构 2.3.2：单链表建立",
+            subtitle: "头插法、尾插法和逆置",
+            themeColor: "amber",
+            type: "article",
+            url: "output/lessons/014_单链表的建立.html",
+            cards: []
+        },
+        ds_lesson_015: {
+            id: "ds_lesson_015",
+            title: "数据结构 2.3.3：双链表",
+            subtitle: "prior、next 与双向遍历",
+            themeColor: "amber",
+            type: "article",
+            url: "output/lessons/015_双链表.html",
+            cards: []
+        },
+        ds_lesson_016: {
+            id: "ds_lesson_016",
+            title: "数据结构 2.3.4：循环链表",
+            subtitle: "循环单链表与循环双链表",
+            themeColor: "amber",
+            type: "article",
+            url: "output/lessons/016_循环链表.html",
+            cards: []
+        },
+        ds_lesson_017: {
+            id: "ds_lesson_017",
+            title: "数据结构 2.3.5：静态链表",
+            subtitle: "数组模拟链式结构",
+            themeColor: "amber",
+            type: "article",
+            url: "output/lessons/017_静态链表.html",
+            cards: []
+        },
+        ds_lesson_018: {
+            id: "ds_lesson_018",
+            title: "数据结构 2.3.6：顺序表和链表比较",
+            subtitle: "按场景选择合适线性表实现",
+            themeColor: "amber",
+            type: "article",
+            url: "output/lessons/018_顺序表和链表的比较.html",
+            cards: []
+        },
         c_pointer_adv1: {
             id: "c_pointer_adv1",
             title: "C语言：指针进阶（上）",
@@ -1073,6 +1253,32 @@ const siteData = [
             cards: []
         }
     });
+
+    const dsCategory = siteData.find(category => category.categoryId === "data-structure");
+    if (dsCategory) {
+        dsCategory.items = [
+            appData.ds_html_index,
+            appData.ds_intro_chapter1,
+            appData.ds_linear_list_chapter2,
+            appData.ds_lesson_002,
+            appData.ds_lesson_003,
+            appData.ds_lesson_004,
+            appData.ds_lesson_005,
+            appData.ds_lesson_006,
+            appData.ds_lesson_007,
+            appData.ds_lesson_008,
+            appData.ds_lesson_009,
+            appData.ds_lesson_010,
+            appData.ds_lesson_011,
+            appData.ds_lesson_012,
+            appData.ds_lesson_013,
+            appData.ds_lesson_014,
+            appData.ds_lesson_015,
+            appData.ds_lesson_016,
+            appData.ds_lesson_017,
+            appData.ds_lesson_018
+        ].filter(Boolean);
+    }
 
     const cCategory = siteData.find(category => category.categoryId === "c-language");
     if (!cCategory) return;
