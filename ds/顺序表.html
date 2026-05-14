@@ -1,0 +1,1691 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>C语言 · 顺序表查找复习系统</title>
+  <style>
+    /* START: CSS变量 */
+    :root {
+      --bg: #f4f7fb;
+      --bg-soft: #eef4ff;
+      --card: #ffffff;
+      --text: #1f2937;
+      --muted: #64748b;
+      --border: #e2e8f0;
+
+      --blue: #2563eb;
+      --blue-soft: #eff6ff;
+      --green: #16a34a;
+      --green-soft: #ecfdf5;
+      --amber: #d97706;
+      --amber-soft: #fffbeb;
+      --purple: #7c3aed;
+      --purple-soft: #f5f3ff;
+      --red: #dc2626;
+      --red-soft: #fef2f2;
+      --gray-soft: #f8fafc;
+
+      --radius: 18px;
+      --radius-sm: 12px;
+      --shadow: 0 10px 30px rgba(15, 23, 42, 0.08);
+      --shadow-soft: 0 4px 14px rgba(15, 23, 42, 0.06);
+      --max-width: 1080px;
+
+      --code-bg: #1e293b;
+      --code-text: #e2e8f0;
+    }
+    /* END: CSS变量 */
+
+    /* START: 全局样式 */
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", "Segoe UI", sans-serif;
+      line-height: 1.75;
+      color: var(--text);
+      background:
+        radial-gradient(circle at top left, rgba(37, 99, 235, 0.10), transparent 32%),
+        linear-gradient(135deg, #f8fafc 0%, #eef4ff 100%);
+    }
+
+    a {
+      color: var(--blue);
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    code {
+      font-family: Consolas, Monaco, "Courier New", monospace;
+      background: #eef2ff;
+      color: #3730a3;
+      padding: 2px 6px;
+      border-radius: 6px;
+      font-size: 0.94em;
+    }
+
+    pre {
+      margin: 14px 0 0;
+      background: var(--code-bg);
+      color: var(--code-text);
+      border-radius: 14px;
+      overflow-x: auto;
+      box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.06);
+    }
+
+    pre code {
+      display: block;
+      padding: 18px;
+      background: transparent;
+      color: var(--code-text);
+      line-height: 1.65;
+      font-size: 14px;
+      white-space: pre;
+    }
+
+    h1, h2, h3, h4 {
+      line-height: 1.35;
+      margin: 0 0 12px;
+    }
+
+    p {
+      margin: 8px 0;
+    }
+
+    ul, ol {
+      margin-top: 8px;
+      padding-left: 22px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 14px;
+      overflow: hidden;
+      border-radius: 12px;
+      font-size: 15px;
+    }
+
+    th, td {
+      border: 1px solid var(--border);
+      padding: 10px 12px;
+      text-align: left;
+      vertical-align: top;
+    }
+
+    th {
+      background: #f8fafc;
+      color: #334155;
+    }
+
+    .page {
+      width: min(100% - 32px, var(--max-width));
+      margin: 0 auto;
+      padding: 28px 0 56px;
+    }
+
+    .muted {
+      color: var(--muted);
+    }
+
+    .strong {
+      font-weight: 700;
+    }
+
+    .kbd {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 6px;
+      border: 1px solid var(--border);
+      background: #fff;
+      box-shadow: 0 1px 0 rgba(15, 23, 42, 0.06);
+      font-size: 13px;
+      color: #475569;
+    }
+    /* END: 全局样式 */
+
+    /* START: 布局样式 */
+    .hero {
+      padding: 34px;
+      border-radius: 28px;
+      background:
+        linear-gradient(135deg, rgba(37, 99, 235, 0.12), rgba(124, 58, 237, 0.10)),
+        var(--card);
+      box-shadow: var(--shadow);
+      border: 1px solid rgba(255, 255, 255, 0.7);
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+
+    .hero h1 {
+      font-size: clamp(28px, 5vw, 44px);
+      letter-spacing: -0.04em;
+    }
+
+    .hero .subtitle {
+      font-size: 17px;
+      color: var(--muted);
+      max-width: 820px;
+    }
+
+    .tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 18px;
+    }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      padding: 6px 10px;
+      border-radius: 999px;
+      font-size: 13px;
+      font-weight: 650;
+      border: 1px solid transparent;
+    }
+
+    .tag-blue {
+      background: var(--blue-soft);
+      color: var(--blue);
+      border-color: #bfdbfe;
+    }
+
+    .tag-green {
+      background: var(--green-soft);
+      color: var(--green);
+      border-color: #bbf7d0;
+    }
+
+    .tag-amber {
+      background: var(--amber-soft);
+      color: var(--amber);
+      border-color: #fde68a;
+    }
+
+    .tag-purple {
+      background: var(--purple-soft);
+      color: var(--purple);
+      border-color: #ddd6fe;
+    }
+
+    .tag-red {
+      background: var(--red-soft);
+      color: var(--red);
+      border-color: #fecaca;
+    }
+
+    .toolbar {
+      position: sticky;
+      top: 12px;
+      z-index: 10;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin: 18px 0;
+      padding: 12px;
+      border-radius: 18px;
+      background: rgba(255, 255, 255, 0.86);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(226, 232, 240, 0.9);
+      box-shadow: var(--shadow-soft);
+    }
+
+    .toolbar button {
+      border: 0;
+      cursor: pointer;
+      padding: 9px 13px;
+      border-radius: 12px;
+      background: #f1f5f9;
+      color: #334155;
+      font-weight: 700;
+      transition: 0.18s ease;
+    }
+
+    .toolbar button:hover {
+      transform: translateY(-1px);
+      background: #e2e8f0;
+    }
+
+    .toolbar .primary {
+      background: var(--blue);
+      color: #fff;
+    }
+
+    .toolbar .purple {
+      background: var(--purple);
+      color: #fff;
+    }
+
+    .toolbar .green {
+      background: var(--green);
+      color: #fff;
+    }
+
+    .nav {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin: 18px 0 22px;
+      padding: 14px;
+      border-radius: 18px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow-soft);
+    }
+
+    .nav a {
+      padding: 7px 10px;
+      border-radius: 999px;
+      background: #f8fafc;
+      color: #475569;
+      font-size: 14px;
+      font-weight: 650;
+    }
+
+    .nav a:hover {
+      color: var(--blue);
+      background: var(--blue-soft);
+      text-decoration: none;
+    }
+
+    main {
+      display: grid;
+      gap: 18px;
+    }
+
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow-soft);
+      padding: 24px;
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .mini-card {
+      padding: 16px;
+      border-radius: 14px;
+      background: #f8fafc;
+      border: 1px solid var(--border);
+    }
+
+    .mini-card h4 {
+      font-size: 16px;
+      margin-bottom: 6px;
+    }
+    /* END: 布局样式 */
+
+    /* START: 知识卡样式 */
+    .rule,
+    .note,
+    .example,
+    .practice,
+    .checklist {
+      padding: 16px;
+      border-radius: 14px;
+      border: 1px solid var(--border);
+      margin-top: 14px;
+    }
+
+    .rule {
+      background: var(--green-soft);
+      border-color: #bbf7d0;
+    }
+
+    .rule strong {
+      color: var(--green);
+    }
+
+    .example {
+      background: var(--blue-soft);
+      border-color: #bfdbfe;
+    }
+
+    .practice {
+      background: var(--purple-soft);
+      border-color: #ddd6fe;
+    }
+
+    .practice-title {
+      font-weight: 800;
+      color: var(--purple);
+      margin-bottom: 8px;
+      font-size: 17px;
+    }
+
+    .question {
+      background: rgba(255, 255, 255, 0.68);
+      border: 1px solid rgba(221, 214, 254, 0.8);
+      border-radius: 12px;
+      padding: 12px;
+      margin-top: 10px;
+    }
+
+    .answer-content {
+      margin-top: 12px;
+      padding: 14px;
+      border-radius: 12px;
+      background: #fff;
+      border: 1px solid #ddd6fe;
+    }
+
+    .checklist {
+      background: #fff;
+    }
+
+    .check-item {
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+      padding: 8px 0;
+      border-bottom: 1px dashed var(--border);
+    }
+
+    .check-item:last-child {
+      border-bottom: none;
+    }
+
+    .check-item::before {
+      content: "✓";
+      flex: 0 0 auto;
+      color: var(--green);
+      font-weight: 900;
+    }
+
+    .note-blue {
+      background: var(--blue-soft);
+      border-color: #bfdbfe;
+    }
+
+    .note-green {
+      background: var(--green-soft);
+      border-color: #bbf7d0;
+    }
+
+    .note-amber {
+      background: var(--amber-soft);
+      border-color: #fde68a;
+    }
+
+    .note-purple {
+      background: var(--purple-soft);
+      border-color: #ddd6fe;
+    }
+
+    .note-red {
+      background: var(--red-soft);
+      border-color: #fecaca;
+    }
+
+    .note-gray {
+      background: var(--gray-soft);
+      border-color: var(--border);
+      color: #475569;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 800;
+      vertical-align: middle;
+    }
+
+    .badge-key {
+      color: var(--green);
+      background: var(--green-soft);
+      border: 1px solid #bbf7d0;
+    }
+
+    .badge-warn {
+      color: var(--amber);
+      background: var(--amber-soft);
+      border: 1px solid #fde68a;
+    }
+
+    .badge-gray {
+      color: #64748b;
+      background: #f1f5f9;
+      border: 1px solid var(--border);
+    }
+
+    .memory {
+      margin-top: 12px;
+      padding: 12px 14px;
+      border-left: 4px solid var(--green);
+      background: #f8fafc;
+      border-radius: 10px;
+      font-weight: 650;
+    }
+
+    body.focus-mode .non-key {
+      display: none !important;
+    }
+
+    body.focus-mode .toolbar::after {
+      content: "当前：只看重点";
+      margin-left: auto;
+      align-self: center;
+      color: var(--green);
+      font-weight: 800;
+      padding: 0 8px;
+    }
+    /* END: 知识卡样式 */
+
+    /* START: details样式 */
+    details.card {
+      padding: 0;
+      overflow: hidden;
+    }
+
+    details.card > summary {
+      padding: 20px 24px;
+      font-size: 20px;
+      font-weight: 850;
+      color: #0f172a;
+      background: linear-gradient(90deg, #ffffff, #f8fafc);
+      border-bottom: 1px solid transparent;
+    }
+
+    details.card[open] > summary {
+      border-bottom-color: var(--border);
+    }
+
+    details.card > .detail-body {
+      padding: 22px 24px 24px;
+    }
+
+    summary {
+      cursor: pointer;
+      list-style: none;
+      user-select: none;
+    }
+
+    summary::-webkit-details-marker {
+      display: none;
+    }
+
+    summary::before {
+      content: "＋";
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 24px;
+      height: 24px;
+      margin-right: 8px;
+      border-radius: 999px;
+      background: #eef2ff;
+      color: var(--blue);
+      font-weight: 900;
+      font-size: 14px;
+    }
+
+    details[open] > summary::before {
+      content: "－";
+      background: var(--blue-soft);
+      color: var(--blue);
+    }
+
+    details.answer-toggle {
+      margin-top: 12px;
+      border-radius: 12px;
+      border: 1px solid #ddd6fe;
+      background: rgba(255, 255, 255, 0.65);
+      overflow: hidden;
+    }
+
+    details.answer-toggle > summary {
+      padding: 12px 14px;
+      font-weight: 800;
+      color: var(--purple);
+    }
+
+    details.answer-toggle > summary::before {
+      background: var(--purple-soft);
+      color: var(--purple);
+    }
+    /* END: details样式 */
+
+    /* START: 响应式样式 */
+    @media (max-width: 760px) {
+      .page {
+        width: min(100% - 20px, var(--max-width));
+        padding-top: 14px;
+      }
+
+      .hero {
+        padding: 24px;
+        border-radius: 22px;
+      }
+
+      .toolbar {
+        position: static;
+      }
+
+      .grid-2,
+      .grid-3 {
+        grid-template-columns: 1fr;
+      }
+
+      .card,
+      details.card > .detail-body {
+        padding: 18px;
+      }
+
+      details.card > summary {
+        padding: 18px;
+        font-size: 18px;
+      }
+    }
+    /* END: 响应式样式 */
+
+    /* START: 打印样式 */
+    @media print {
+      body {
+        background: #ffffff !important;
+      }
+
+      .page {
+        width: 100%;
+        max-width: none;
+        padding: 0;
+      }
+
+      .toolbar,
+      .nav {
+        display: none !important;
+      }
+
+      .hero {
+        box-shadow: none;
+        border: 1px solid #dbeafe;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+      }
+
+      .card,
+      details.card,
+      .mini-card,
+      .rule,
+      .note,
+      .example,
+      .practice,
+      .checklist {
+        box-shadow: none !important;
+        break-inside: avoid;
+        page-break-inside: avoid;
+      }
+
+      details.card {
+        border: 1px solid #e5e7eb;
+      }
+
+      pre {
+        white-space: pre-wrap;
+        break-inside: avoid;
+      }
+
+      pre code {
+        white-space: pre-wrap;
+      }
+
+      .answer-content {
+        display: block !important;
+      }
+    }
+    /* END: 打印样式 */
+  </style>
+</head>
+
+<body>
+  <div class="page">
+    <!-- START: 首页 -->
+    <header class="hero">
+      <h1>C语言 · 顺序表查找复习系统</h1>
+      <p class="subtitle">
+        覆盖范围：顺序表的按位查找、按值查找、静态/动态顺序表访问方式、指针下标访问原理、结构体比较、时间复杂度分析与考试易错点。
+      </p>
+      <div class="tags">
+        <span class="tag tag-blue">按位查找 GetElem</span>
+        <span class="tag tag-purple">按值查找 LocateElem</span>
+        <span class="tag tag-green">随机存取 O(1)</span>
+        <span class="tag tag-amber">位序 vs 数组下标</span>
+        <span class="tag tag-blue">指针 + 下标</span>
+        <span class="tag tag-red">struct 不能直接 ==</span>
+        <span class="tag tag-green">时间复杂度</span>
+      </div>
+      <p class="muted" style="margin-top: 16px;">
+        使用方法：先看总纲建立框架，再展开核心模块复习规则；最后到练习中心自测。点击“导出 PDF”会自动展开所有知识点和答案。
+      </p>
+    </header>
+    <!-- END: 首页 -->
+
+    <!-- START: 工具栏 -->
+    <div class="toolbar">
+      <button class="primary" onclick="expandAll()">全部展开</button>
+      <button onclick="collapseAll()">全部收起</button>
+      <button class="purple" onclick="showAnswers()">显示答案</button>
+      <button onclick="hideAnswers()">隐藏答案</button>
+      <button class="green" onclick="toggleFocusMode()">只看重点 / 显示全部</button>
+      <button onclick="printPage()">导出 PDF</button>
+    </div>
+    <!-- END: 工具栏 -->
+
+    <!-- START: 导航栏 -->
+    <nav class="nav">
+      <a href="#overview">总纲</a>
+      <a href="#module-get">按位查找</a>
+      <a href="#module-pointer">指针下标原理</a>
+      <a href="#module-locate">按值查找</a>
+      <a href="#module-struct">结构体比较</a>
+      <a href="#module-complexity">复杂度</a>
+      <a href="#code-zone">代码整理区</a>
+      <a href="#practice-zone">练习中心</a>
+      <a href="#strategy">实战策略</a>
+      <a href="#checklist">检查清单</a>
+    </nav>
+    <!-- END: 导航栏 -->
+
+    <main>
+      <!-- START: 总纲 -->
+      <section id="overview" class="card">
+        <h2>总纲：顺序表查找的核心方法</h2>
+        <div class="rule">
+          <strong>一句话核心：</strong>
+          顺序表“按位查找”快，因为它连续存储，可以直接算地址；“按值查找”通常慢，因为不知道目标值在哪，只能从头到尾比较。
+        </div>
+
+        <div class="grid-3">
+          <div class="mini-card">
+            <h4>抓手 1：位置找元素</h4>
+            <p>给定位序 <code>i</code>，直接访问 <code>data[i - 1]</code>。</p>
+          </div>
+          <div class="mini-card">
+            <h4>抓手 2：值找位置</h4>
+            <p>给定元素值 <code>e</code>，从 <code>data[0]</code> 开始逐个比较。</p>
+          </div>
+          <div class="mini-card">
+            <h4>抓手 3：C 语言语法边界</h4>
+            <p>基本类型可用 <code>==</code>，结构体不能直接用 <code>==</code> 比较。</p>
+          </div>
+        </div>
+
+        <div class="note note-amber">
+          <strong>本节最容易丢分的点：</strong>
+          题目说“第 <code>i</code> 个元素”通常是位序，从 1 开始；数组下标从 0 开始，所以代码里是 <code>data[i - 1]</code>。
+        </div>
+      </section>
+      <!-- END: 总纲 -->
+
+      <!-- START: 核心模块1：按位查找 -->
+      <details id="module-get" class="card" open>
+        <summary>核心模块 1：按位查找 GetElem</summary>
+        <div class="detail-body">
+          <p>
+            按位查找的任务是：给定线性表中的位置 <code>i</code>，取得第 <code>i</code> 个数据元素。
+          </p>
+
+          <div class="rule">
+            <strong>核心规则：</strong>
+            顺序表第 <code>i</code> 个元素对应数组下标 <code>i - 1</code>。
+          </div>
+
+          <div class="example">
+            <strong>例子：</strong>
+            如果顺序表是 <code>[10, 20, 30, 40]</code>，查找第 3 个元素，应访问 <code>data[2]</code>，结果是 <code>30</code>。
+          </div>
+
+          <h3>静态顺序表中的按位查找</h3>
+          <p>
+            静态顺序表通常用固定数组保存元素。若不做健壮性检查，核心代码很短：
+          </p>
+
+          <pre><code>ElemType GetElem(SqList L, int i) {
+    return L.data[i - 1];
+}</code></pre>
+
+          <div class="note note-amber">
+            <strong>注意：</strong>
+            上面写法只展示核心逻辑。实际写代码时最好检查 <code>i</code> 是否满足 <code>1 &lt;= i &lt;= L.length</code>。
+          </div>
+
+          <h3>更规范的 C 语言写法</h3>
+          <p>
+            为了让调用者知道查找是否成功，可以返回 <code>bool</code>，再通过指针参数 <code>e</code> 带回查到的元素。
+          </p>
+
+          <pre><code>#include &lt;stdio.h&gt;
+#include &lt;stdbool.h&gt;
+
+#define MaxSize 10
+typedef int ElemType;
+
+typedef struct {
+    ElemType data[MaxSize];
+    int length;
+} SqList;
+
+bool GetElem(SqList L, int i, ElemType *e) {
+    if (i &lt; 1 || i &gt; L.length) {
+        return false;
+    }
+
+    *e = L.data[i - 1];
+    return true;
+}
+
+int main(void) {
+    SqList list = {{10, 20, 30, 40}, 4};
+    ElemType value = 0;
+
+    if (GetElem(list, 3, &amp;value)) {
+        printf("第3个元素是：%d\n", value);
+    } else {
+        printf("查找失败：位置非法\n");
+    }
+
+    return 0;
+}</code></pre>
+
+          <div class="memory">
+            记忆点：按位查找 = <code>data[i - 1]</code>；合法范围 = <code>1 &lt;= i &lt;= length</code>。
+          </div>
+        </div>
+      </details>
+      <!-- END: 核心模块1：按位查找 -->
+
+      <!-- START: 核心模块2：指针下标访问原理 -->
+      <details id="module-pointer" class="card" open>
+        <summary>核心模块 2：动态顺序表中，为什么指针也能像数组一样用</summary>
+        <div class="detail-body">
+          <p>
+            动态顺序表中，<code>data</code> 不再是固定数组，而是一个指针。它指向 <code>malloc</code> 申请的一整片连续内存空间。
+          </p>
+
+          <div class="rule">
+            <strong>核心规则：</strong>
+            在 C 语言中，指针可以配合下标访问连续空间，<code>data[i]</code> 等价于 <code>*(data + i)</code>。
+          </div>
+
+          <pre><code>#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+
+#define InitSize 10
+typedef int ElemType;
+
+typedef struct {
+    ElemType *data;
+    int maxSize;
+    int length;
+} SeqList;
+
+void InitList(SeqList *L) {
+    L-&gt;data = (ElemType *)malloc(sizeof(ElemType) * InitSize);
+
+    if (L-&gt;data == NULL) {
+        printf("内存申请失败\n");
+        return;
+    }
+
+    L-&gt;maxSize = InitSize;
+    L-&gt;length = 0;
+}
+
+int main(void) {
+    SeqList list;
+    InitList(&amp;list);
+
+    if (list.data == NULL) {
+        return 1;
+    }
+
+    list.data[0] = 100;
+    list.data[1] = 200;
+    list.length = 2;
+
+    printf("第1个元素：%d\n", list.data[0]);
+    printf("第2个元素：%d\n", list.data[1]);
+
+    free(list.data);
+    list.data = NULL;
+
+    return 0;
+}</code></pre>
+
+          <h3>指针类型决定每次跳多少字节</h3>
+          <p>
+            文稿强调：即使两个指针指向同一个地址，只要指针类型不同，访问 <code>p[i]</code> 时“跳过的字节数”也不同。
+          </p>
+
+          <div class="note note-blue">
+            假设 <code>data</code> 指向地址 2000，且 <code>ElemType</code> 占 6 字节：
+            <ul>
+              <li><code>data[0]</code> 访问地址 2000 开始的 6 个字节。</li>
+              <li><code>data[1]</code> 访问地址 2006 开始的 6 个字节。</li>
+              <li><code>data[2]</code> 访问地址 2012 开始的 6 个字节。</li>
+            </ul>
+          </div>
+
+          <div class="note note-blue">
+            如果 <code>int *p</code> 指向同样的地址 2000，且 <code>int</code> 占 4 字节：
+            <ul>
+              <li><code>p[0]</code> 访问地址 2000 开始的 4 个字节。</li>
+              <li><code>p[1]</code> 访问地址 2004 开始的 4 个字节。</li>
+              <li><code>p[2]</code> 访问地址 2008 开始的 4 个字节。</li>
+            </ul>
+          </div>
+
+          <h3>为什么 <code>malloc</code> 后要转换成对应指针类型</h3>
+          <p>
+            <code>malloc</code> 申请的是一片原始内存。把返回值转换成 <code>ElemType *</code>，就是告诉编译器：以后用 <code>data[i]</code> 访问时，每个元素按 <code>sizeof(ElemType)</code> 个字节理解。
+          </p>
+
+          <pre><code>L-&gt;data = (ElemType *)malloc(sizeof(ElemType) * InitSize);</code></pre>
+
+          <div class="note note-red">
+            <strong>严重错误：</strong>
+            如果指针类型写错，程序可能从错误的字节边界取数据，导致访问结果混乱。
+          </div>
+
+          <div class="memory">
+            记忆点：<code>data[i]</code> 不是简单地址加 <code>i</code>，而是地址加 <code>i * sizeof(指针指向的类型)</code>。
+          </div>
+        </div>
+      </details>
+      <!-- END: 核心模块2：指针下标访问原理 -->
+
+      <!-- START: 核心模块3：按值查找 -->
+      <details id="module-locate" class="card" open>
+        <summary>核心模块 3：按值查找 LocateElem</summary>
+        <div class="detail-body">
+          <p>
+            按值查找的任务是：给定一个元素值 <code>e</code>，在线性表中查找是否存在与 <code>e</code> 相等的元素；如果存在，返回它的位序。
+          </p>
+
+          <div class="rule">
+            <strong>核心规则：</strong>
+            无序顺序表按值查找只能从头到尾依次比较，找到后返回 <code>数组下标 + 1</code>。
+          </div>
+
+          <pre><code>int LocateElem(SqList L, ElemType e) {
+    for (int i = 0; i &lt; L.length; i++) {
+        if (L.data[i] == e) {
+            return i + 1;
+        }
+    }
+
+    return 0;
+}</code></pre>
+
+          <p>
+            这里返回 <code>i + 1</code>，是因为 <code>i</code> 是数组下标，从 0 开始；而线性表的位序从 1 开始。
+          </p>
+
+          <div class="example">
+            <strong>例子：</strong>
+            顺序表为 <code>[7, 8, 9, 10, 11, 12]</code>，查找 <code>9</code>：
+            <ul>
+              <li>第一次比较 <code>7 == 9</code>，不相等。</li>
+              <li>第二次比较 <code>8 == 9</code>，不相等。</li>
+              <li>第三次比较 <code>9 == 9</code>，相等，返回 <code>2 + 1 = 3</code>。</li>
+            </ul>
+          </div>
+
+          <h3>完整可运行示例</h3>
+          <pre><code>#include &lt;stdio.h&gt;
+
+#define MaxSize 10
+typedef int ElemType;
+
+typedef struct {
+    ElemType data[MaxSize];
+    int length;
+} SqList;
+
+int LocateElem(SqList L, ElemType e) {
+    for (int i = 0; i &lt; L.length; i++) {
+        if (L.data[i] == e) {
+            return i + 1;  // 返回位序，不是数组下标
+        }
+    }
+
+    return 0;  // 0 表示没有找到
+}
+
+int main(void) {
+    SqList list = {{7, 8, 9, 10, 11, 12}, 6};
+
+    int position = LocateElem(list, 9);
+
+    if (position != 0) {
+        printf("元素9的位序是：%d\n", position);
+    } else {
+        printf("没有找到元素9\n");
+    }
+
+    return 0;
+}</code></pre>
+
+          <div class="note note-amber">
+            <strong>注意：</strong>
+            如果没有找到，常用 <code>0</code> 表示失败，因为线性表没有第 0 个位置。
+          </div>
+
+          <div class="memory">
+            记忆点：按值查找 = 逐个比较；找到返回位序 <code>i + 1</code>；没找到返回 <code>0</code>。
+          </div>
+        </div>
+      </details>
+      <!-- END: 核心模块3：按值查找 -->
+
+      <!-- START: 核心模块4：结构体比较 -->
+      <details id="module-struct" class="card" open>
+        <summary>核心模块 4：结构体元素如何比较相等</summary>
+        <div class="detail-body">
+          <p>
+            如果顺序表存放的是 <code>int</code>、<code>char</code>、<code>float</code>、<code>double</code> 等基本类型，通常可以直接用 <code>==</code> 比较。
+          </p>
+
+          <div class="rule">
+            <strong>核心规则：</strong>
+            C 语言中不能直接用 <code>==</code> 判断两个结构体变量是否相等。
+          </div>
+
+          <h3>错误示例：结构体直接比较</h3>
+          <pre><code>#include &lt;stdio.h&gt;
+
+typedef struct {
+    int number;
+    int people;
+} Customer;
+
+int main(void) {
+    Customer first = {1, 1};
+    Customer second = {1, 1};
+
+    /*
+      错误：C 语言不允许直接用 == 比较结构体。
+      if (first == second) {
+          printf("相等\n");
+      }
+    */
+
+    return 0;
+}</code></pre>
+
+          <div class="note note-red">
+            <strong>不能这样做：</strong>
+            <code>first == second</code> 在严格 C 语言中通常无法编译。结构体是否相等，需要你自己定义判断标准。
+          </div>
+
+          <h3>正确示例：写比较函数</h3>
+          <pre><code>#include &lt;stdio.h&gt;
+#include &lt;stdbool.h&gt;
+
+#define MaxSize 10
+
+typedef struct {
+    int number;
+    int people;
+} Customer;
+
+typedef struct {
+    Customer data[MaxSize];
+    int length;
+} CustomerList;
+
+bool CustomerEqual(Customer x, Customer y) {
+    return x.number == y.number &amp;&amp; x.people == y.people;
+}
+
+int LocateCustomer(CustomerList L, Customer target) {
+    for (int i = 0; i &lt; L.length; i++) {
+        if (CustomerEqual(L.data[i], target)) {
+            return i + 1;
+        }
+    }
+
+    return 0;
+}
+
+int main(void) {
+    CustomerList list = {
+        {
+            {1, 20},
+            {2, 30},
+            {3, 40}
+        },
+        3
+    };
+
+    Customer target = {2, 30};
+    int position = LocateCustomer(list, target);
+
+    if (position != 0) {
+        printf("目标顾客的位序是：%d\n", position);
+    } else {
+        printf("没有找到目标顾客\n");
+    }
+
+    return 0;
+}</code></pre>
+
+          <div class="note note-gray non-key">
+            <span class="badge badge-gray">了解即可</span>
+            C++ 可以通过运算符重载让结构体或类支持 <code>==</code>，但本节重点是 C 语言，不展开。
+          </div>
+
+          <div class="note note-amber">
+            <strong>考试提醒：</strong>
+            如果考试科目是“数据结构”，更关注算法逻辑，抽象写法里常用 <code>==</code> 表达“两个元素相等”。如果考试科目是“C 语言程序设计”，通常更严格，结构体比较要写字段比较或比较函数。
+          </div>
+
+          <div class="memory">
+            记忆点：基本类型可直接 <code>==</code>；结构体要逐字段比较，最好封装成比较函数。
+          </div>
+        </div>
+      </details>
+      <!-- END: 核心模块4：结构体比较 -->
+
+      <!-- START: 核心模块5：查找操作时间复杂度 -->
+      <details id="module-complexity" class="card" open>
+        <summary>核心模块 5：查找操作的时间复杂度</summary>
+        <div class="detail-body">
+          <h3>按位查找：O(1)</h3>
+          <p>
+            按位查找只需要根据位置直接访问 <code>data[i - 1]</code>。没有循环，也不需要从头扫描。
+          </p>
+
+          <div class="rule">
+            <strong>原因：</strong>
+            顺序表连续存储，且每个元素大小相同，所以只要知道起始地址和元素大小，就能立即算出第 <code>i</code> 个元素的位置。
+          </div>
+
+          <h3>按值查找：最好 O(1)，最坏 O(n)，平均 O(n)</h3>
+          <table>
+            <thead>
+              <tr>
+                <th>情况</th>
+                <th>说明</th>
+                <th>比较次数</th>
+                <th>复杂度</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>最好情况</td>
+                <td>目标元素刚好在表头</td>
+                <td>1 次</td>
+                <td><code>O(1)</code></td>
+              </tr>
+              <tr>
+                <td>最坏情况</td>
+                <td>目标元素在表尾，或不存在</td>
+                <td>n 次</td>
+                <td><code>O(n)</code></td>
+              </tr>
+              <tr>
+                <td>平均情况</td>
+                <td>目标元素出现在每个位置的概率相同</td>
+                <td><code>(n + 1) / 2</code></td>
+                <td><code>O(n)</code></td>
+              </tr>
+            </tbody>
+          </table>
+
+          <div class="example">
+            平均比较次数：
+            <pre><code>(1 + 2 + 3 + ... + n) / n = (n + 1) / 2</code></pre>
+            因此数量级仍然是 <code>O(n)</code>。
+          </div>
+
+          <div class="note note-gray non-key">
+            <span class="badge badge-gray">了解即可</span>
+            如果顺序表中的数据有序，例如从小到大排列，后续可以使用更高效的查找算法，如二分查找。本节只要求掌握无序顺序表的顺序查找。
+          </div>
+
+          <div class="memory">
+            记忆点：按位查找看“位置”，直接访问；按值查找看“值”，通常扫描。
+          </div>
+        </div>
+      </details>
+      <!-- END: 核心模块5：查找操作时间复杂度 -->
+
+      <!-- START: 代码整理区 -->
+      <section id="code-zone" class="card">
+        <h2>代码整理区：本节重要代码合集</h2>
+        <p class="muted">
+          以下代码均为规范 C 语言版本，包含必要头文件、<code>main()</code> 和 <code>return 0;</code>，可复制运行。
+        </p>
+
+        <details open>
+          <summary>代码 1：静态顺序表 · 按位查找 + 按值查找</summary>
+          <pre><code>#include &lt;stdio.h&gt;
+#include &lt;stdbool.h&gt;
+
+#define MaxSize 10
+typedef int ElemType;
+
+typedef struct {
+    ElemType data[MaxSize];
+    int length;
+} SqList;
+
+bool GetElem(SqList L, int i, ElemType *e) {
+    if (i &lt; 1 || i &gt; L.length) {
+        return false;
+    }
+
+    *e = L.data[i - 1];
+    return true;
+}
+
+int LocateElem(SqList L, ElemType e) {
+    for (int i = 0; i &lt; L.length; i++) {
+        if (L.data[i] == e) {
+            return i + 1;
+        }
+    }
+
+    return 0;
+}
+
+int main(void) {
+    SqList list = {{7, 8, 9, 10, 11, 12}, 6};
+
+    ElemType value = 0;
+    if (GetElem(list, 3, &amp;value)) {
+        printf("第3个元素是：%d\n", value);
+    } else {
+        printf("按位查找失败\n");
+    }
+
+    int position = LocateElem(list, 10);
+    if (position != 0) {
+        printf("元素10的位序是：%d\n", position);
+    } else {
+        printf("没有找到元素10\n");
+    }
+
+    return 0;
+}</code></pre>
+        </details>
+
+        <details>
+          <summary>代码 2：动态顺序表 · 指针下标访问</summary>
+          <pre><code>#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;stdbool.h&gt;
+
+#define InitSize 10
+typedef int ElemType;
+
+typedef struct {
+    ElemType *data;
+    int maxSize;
+    int length;
+} SeqList;
+
+bool InitList(SeqList *L) {
+    L-&gt;data = (ElemType *)malloc(sizeof(ElemType) * InitSize);
+
+    if (L-&gt;data == NULL) {
+        return false;
+    }
+
+    L-&gt;maxSize = InitSize;
+    L-&gt;length = 0;
+    return true;
+}
+
+bool GetElem(SeqList L, int i, ElemType *e) {
+    if (i &lt; 1 || i &gt; L.length) {
+        return false;
+    }
+
+    *e = L.data[i - 1];
+    return true;
+}
+
+void DestroyList(SeqList *L) {
+    free(L-&gt;data);
+    L-&gt;data = NULL;
+    L-&gt;maxSize = 0;
+    L-&gt;length = 0;
+}
+
+int main(void) {
+    SeqList list;
+
+    if (!InitList(&amp;list)) {
+        printf("初始化失败：内存申请失败\n");
+        return 1;
+    }
+
+    list.data[0] = 100;
+    list.data[1] = 200;
+    list.data[2] = 300;
+    list.length = 3;
+
+    ElemType value = 0;
+    if (GetElem(list, 2, &amp;value)) {
+        printf("第2个元素是：%d\n", value);
+    }
+
+    DestroyList(&amp;list);
+    return 0;
+}</code></pre>
+        </details>
+
+        <details>
+          <summary>代码 3：结构体顺序表 · 自定义相等判断</summary>
+          <pre><code>#include &lt;stdio.h&gt;
+#include &lt;stdbool.h&gt;
+
+#define MaxSize 10
+
+typedef struct {
+    int number;
+    int people;
+} Customer;
+
+typedef struct {
+    Customer data[MaxSize];
+    int length;
+} CustomerList;
+
+bool CustomerEqual(Customer x, Customer y) {
+    return x.number == y.number &amp;&amp; x.people == y.people;
+}
+
+int LocateCustomer(CustomerList L, Customer target) {
+    for (int i = 0; i &lt; L.length; i++) {
+        if (CustomerEqual(L.data[i], target)) {
+            return i + 1;
+        }
+    }
+
+    return 0;
+}
+
+int main(void) {
+    CustomerList list = {
+        {
+            {101, 2},
+            {102, 4},
+            {103, 6}
+        },
+        3
+    };
+
+    Customer target = {102, 4};
+    int position = LocateCustomer(list, target);
+
+    if (position != 0) {
+        printf("找到目标顾客，位序：%d\n", position);
+    } else {
+        printf("未找到目标顾客\n");
+    }
+
+    return 0;
+}</code></pre>
+        </details>
+      </section>
+      <!-- END: 代码整理区 -->
+
+      <!-- START: 练习中心 -->
+      <section id="practice-zone" class="card">
+        <h2>练习中心：题目可见，答案隐藏</h2>
+        <p class="muted">建议先独立判断，再点击查看解析。</p>
+
+        <div class="practice">
+          <div class="practice-title">练习 1：位序和数组下标</div>
+          <div class="question">
+            <p>顺序表 <code>L.data = {5, 10, 15, 20}</code>，<code>L.length = 4</code>。如果要取得第 3 个元素，应该访问哪个数组下标？结果是多少？</p>
+          </div>
+          <div class="answer">
+            <details class="answer-toggle">
+              <summary>点击查看答案解析</summary>
+              <div class="answer-content">
+                <p><strong>答案：</strong>访问 <code>L.data[2]</code>，结果是 <code>15</code>。</p>
+                <p><strong>解析：</strong>第 3 个元素是位序，位序从 1 开始；数组下标从 0 开始，所以数组下标是 <code>3 - 1 = 2</code>。</p>
+                <p><strong>结论：</strong>第 <code>i</code> 个元素对应 <code>data[i - 1]</code>。</p>
+              </div>
+            </details>
+          </div>
+        </div>
+
+        <div class="practice">
+          <div class="practice-title">练习 2：判断输出结果</div>
+          <div class="question">
+            <p>下面程序输出什么？</p>
+            <pre><code>#include &lt;stdio.h&gt;
+
+#define MaxSize 10
+typedef int ElemType;
+
+typedef struct {
+    ElemType data[MaxSize];
+    int length;
+} SqList;
+
+int LocateElem(SqList L, ElemType e) {
+    for (int i = 0; i &lt; L.length; i++) {
+        if (L.data[i] == e) {
+            return i + 1;
+        }
+    }
+
+    return 0;
+}
+
+int main(void) {
+    SqList list = {{3, 6, 9, 12}, 4};
+    printf("%d\n", LocateElem(list, 9));
+    printf("%d\n", LocateElem(list, 7));
+    return 0;
+}</code></pre>
+          </div>
+          <div class="answer">
+            <details class="answer-toggle">
+              <summary>点击查看答案解析</summary>
+              <div class="answer-content">
+                <p><strong>答案：</strong></p>
+                <pre><code>3
+0</code></pre>
+                <p><strong>解析：</strong><code>9</code> 位于数组下标 <code>2</code>，返回位序 <code>2 + 1 = 3</code>。<code>7</code> 不存在，所以返回 <code>0</code>。</p>
+                <p><strong>结论：</strong><code>LocateElem</code> 找到返回位序，没找到返回 <code>0</code>。</p>
+              </div>
+            </details>
+          </div>
+        </div>
+
+        <div class="practice">
+          <div class="practice-title">练习 3：指针下标访问推理</div>
+          <div class="question">
+            <p>假设 <code>int</code> 占 4 字节，<code>int *p</code> 指向地址 2000。请问 <code>p[0]</code>、<code>p[1]</code>、<code>p[2]</code> 分别从哪个地址开始取数据？</p>
+          </div>
+          <div class="answer">
+            <details class="answer-toggle">
+              <summary>点击查看答案解析</summary>
+              <div class="answer-content">
+                <p><strong>答案：</strong></p>
+                <ul>
+                  <li><code>p[0]</code> 从地址 2000 开始。</li>
+                  <li><code>p[1]</code> 从地址 2004 开始。</li>
+                  <li><code>p[2]</code> 从地址 2008 开始。</li>
+                </ul>
+                <p><strong>解析：</strong><code>p[i]</code> 等价于 <code>*(p + i)</code>，指针加 1 不是地址数值加 1，而是跳过一个 <code>int</code> 的大小，也就是 4 字节。</p>
+                <p><strong>内存示意：</strong></p>
+                <pre><code>地址 2000 ~ 2003：p[0]
+地址 2004 ~ 2007：p[1]
+地址 2008 ~ 2011：p[2]</code></pre>
+                <p><strong>结论：</strong>指针类型决定下标访问时每次跳多少字节。</p>
+              </div>
+            </details>
+          </div>
+        </div>
+
+        <div class="practice">
+          <div class="practice-title">练习 4：找代码错误</div>
+          <div class="question">
+            <p>下面代码有什么问题？应该如何修改？</p>
+            <pre><code>typedef struct {
+    int number;
+    int people;
+} Customer;
+
+int main(void) {
+    Customer x = {1, 2};
+    Customer y = {1, 2};
+
+    if (x == y) {
+        printf("相等\n");
+    }
+
+    return 0;
+}</code></pre>
+          </div>
+          <div class="answer">
+            <details class="answer-toggle">
+              <summary>点击查看答案解析</summary>
+              <div class="answer-content">
+                <p><strong>答案：</strong>错误在 <code>x == y</code>。C 语言中不能直接用 <code>==</code> 比较两个结构体变量。</p>
+                <p><strong>解析：</strong>结构体是否相等需要自己定义标准，比如所有字段都相等才算相等。</p>
+                <p><strong>正确写法：</strong></p>
+                <pre><code>#include &lt;stdio.h&gt;
+#include &lt;stdbool.h&gt;
+
+typedef struct {
+    int number;
+    int people;
+} Customer;
+
+bool CustomerEqual(Customer x, Customer y) {
+    return x.number == y.number &amp;&amp; x.people == y.people;
+}
+
+int main(void) {
+    Customer x = {1, 2};
+    Customer y = {1, 2};
+
+    if (CustomerEqual(x, y)) {
+        printf("相等\n");
+    }
+
+    return 0;
+}</code></pre>
+                <p><strong>结论：</strong>结构体比较要逐字段判断，最好封装成比较函数。</p>
+              </div>
+            </details>
+          </div>
+        </div>
+
+        <div class="practice">
+          <div class="practice-title">练习 5：复杂度判断</div>
+          <div class="question">
+            <p>无序顺序表长度为 <code>n</code>。按位查找和按值查找的时间复杂度分别是多少？为什么？</p>
+          </div>
+          <div class="answer">
+            <details class="answer-toggle">
+              <summary>点击查看答案解析</summary>
+              <div class="answer-content">
+                <p><strong>答案：</strong>按位查找是 <code>O(1)</code>；按值查找平均是 <code>O(n)</code>。</p>
+                <p><strong>解析：</strong>按位查找可以直接通过 <code>data[i - 1]</code> 找到元素，不需要循环。按值查找不知道目标值在哪里，只能从头开始逐个比较。</p>
+                <p><strong>结论：</strong>位置已知，用随机存取；值已知但位置未知，用顺序扫描。</p>
+              </div>
+            </details>
+          </div>
+        </div>
+      </section>
+      <!-- END: 练习中心 -->
+
+      <!-- START: 实战策略 -->
+      <section id="strategy" class="card">
+        <h2>实战策略：考试 / 笔试快速判断</h2>
+
+        <div class="grid-2">
+          <div class="mini-card">
+            <h4>看到“第 i 个元素”</h4>
+            <p>立刻想到：这是位序，代码访问 <code>data[i - 1]</code>。</p>
+          </div>
+          <div class="mini-card">
+            <h4>看到“查找值 e”</h4>
+            <p>无序表默认从头扫到尾，找到返回位序，找不到返回失败标记。</p>
+          </div>
+          <div class="mini-card">
+            <h4>看到“动态顺序表 data”</h4>
+            <p><code>data</code> 是指针，但指向连续空间，所以可以写 <code>data[i]</code>。</p>
+          </div>
+          <div class="mini-card">
+            <h4>看到“结构体相等”</h4>
+            <p>严格 C 语言中不要写 <code>x == y</code>，要写比较函数。</p>
+          </div>
+        </div>
+
+        <div class="note note-amber">
+          <strong>常见陷阱：</strong>
+          <ul>
+            <li>把位序 <code>i</code> 误写成数组下标 <code>data[i]</code>。</li>
+            <li>按值查找找到后返回了数组下标，而不是位序。</li>
+            <li>忘记处理“没找到”的情况。</li>
+            <li>结构体直接用 <code>==</code> 比较。</li>
+            <li>误以为指针加 1 是地址数值加 1，而不是跳过一个元素大小。</li>
+          </ul>
+        </div>
+
+        <div class="note note-green">
+          <strong>答题模板：</strong>
+          <p>
+            顺序表按位查找的时间复杂度为 <code>O(1)</code>，因为顺序表连续存储且元素大小相同，可以根据起始地址和元素位序直接计算目标元素地址。
+          </p>
+          <p>
+            顺序表按值查找在无序情况下平均时间复杂度为 <code>O(n)</code>，因为需要从表头开始逐个比较，平均比较次数为 <code>(n + 1) / 2</code>。
+          </p>
+        </div>
+      </section>
+      <!-- END: 实战策略 -->
+
+      <!-- START: 检查清单 -->
+      <section id="checklist" class="card">
+        <h2>考前检查清单</h2>
+
+        <div class="grid-2">
+          <div class="checklist">
+            <h3>概念与规则</h3>
+            <div class="check-item">我知道按位查找是根据位置找元素。</div>
+            <div class="check-item">我知道按值查找是根据元素值找位序。</div>
+            <div class="check-item">我知道位序从 1 开始，数组下标从 0 开始。</div>
+            <div class="check-item">我知道第 <code>i</code> 个元素对应 <code>data[i - 1]</code>。</div>
+          </div>
+
+          <div class="checklist">
+            <h3>C 语言细节</h3>
+            <div class="check-item">我知道动态顺序表的 <code>data</code> 是指针。</div>
+            <div class="check-item">我知道 <code>data[i]</code> 等价于 <code>*(data + i)</code>。</div>
+            <div class="check-item">我知道指针类型决定每次跳多少字节。</div>
+            <div class="check-item">我知道 <code>malloc</code> 需要 <code>#include &lt;stdlib.h&gt;</code>。</div>
+          </div>
+
+          <div class="checklist">
+            <h3>代码能力</h3>
+            <div class="check-item">我能写出 <code>GetElem</code>。</div>
+            <div class="check-item">我能写出 <code>LocateElem</code>。</div>
+            <div class="check-item">我能写出结构体比较函数。</div>
+            <div class="check-item">我会用 <code>0</code> 表示按值查找失败。</div>
+          </div>
+
+          <div class="checklist">
+            <h3>复杂度</h3>
+            <div class="check-item">我知道按位查找是 <code>O(1)</code>。</div>
+            <div class="check-item">我知道按值查找最好是 <code>O(1)</code>。</div>
+            <div class="check-item">我知道按值查找最坏是 <code>O(n)</code>。</div>
+            <div class="check-item">我知道按值查找平均是 <code>O(n)</code>。</div>
+          </div>
+        </div>
+      </section>
+      <!-- END: 检查清单 -->
+    </main>
+
+    <!-- START: 页脚 -->
+    <footer class="card" style="margin-top: 18px;">
+      <h2>资料信息</h2>
+      <p><strong>资料主题：</strong>C语言 / 数据结构 · 顺序表的查找</p>
+      <p><strong>覆盖范围：</strong>按位查找、按值查找、静态顺序表、动态顺序表、指针下标访问、结构体比较、时间复杂度分析。</p>
+      <p><strong>最后更新时间：</strong>2026-05-14</p>
+
+      <div class="note note-gray">
+        <strong>完整性检查清单：</strong>
+        <pre><code>请确认全文包含：
+&lt;!-- END: 首页 --&gt;
+&lt;!-- END: 工具栏 --&gt;
+&lt;!-- END: 导航栏 --&gt;
+&lt;!-- END: 总纲 --&gt;
+&lt;!-- END: 核心模块1：按位查找 --&gt;
+&lt;!-- END: 核心模块2：指针下标访问原理 --&gt;
+&lt;!-- END: 核心模块3：按值查找 --&gt;
+&lt;!-- END: 核心模块4：结构体比较 --&gt;
+&lt;!-- END: 核心模块5：查找操作时间复杂度 --&gt;
+&lt;!-- END: 代码整理区 --&gt;
+&lt;!-- END: 练习中心 --&gt;
+&lt;!-- END: 实战策略 --&gt;
+&lt;!-- END: 检查清单 --&gt;
+&lt;!-- END: 页脚 --&gt;
+&lt;!-- END: JavaScript --&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+      </div>
+    </footer>
+    <!-- END: 页脚 -->
+  </div>
+
+  <!-- START: JavaScript -->
+  <script>
+    function expandAll() {
+      document.querySelectorAll("details").forEach(function(detail) {
+        detail.open = true;
+      });
+    }
+
+    function collapseAll() {
+      document.querySelectorAll("details").forEach(function(detail) {
+        detail.open = false;
+      });
+    }
+
+    function showAnswers() {
+      document.querySelectorAll(".answer-toggle").forEach(function(detail) {
+        detail.open = true;
+      });
+    }
+
+    function hideAnswers() {
+      document.querySelectorAll(".answer-toggle").forEach(function(detail) {
+        detail.open = false;
+      });
+    }
+
+    function toggleFocusMode() {
+      document.body.classList.toggle("focus-mode");
+    }
+
+    function printPage() {
+      expandAll();
+      showAnswers();
+
+      setTimeout(function() {
+        window.print();
+      }, 120);
+    }
+
+    window.addEventListener("beforeprint", function() {
+      expandAll();
+      showAnswers();
+    });
+  </script>
+  <!-- END: JavaScript -->
+</body>
+</html>
