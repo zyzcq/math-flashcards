@@ -1,0 +1,193 @@
+{
+  "id": "static-linked-list",
+  "title": "2.3.5 静态链表",
+  "subtitle": "用数组模拟链式结构，用游标表示后继",
+  "objectives": [
+    "理解静态链表是用数组实现的链表，游标 next 保存后继下标。",
+    "掌握静态链表结点定义、初始化、空闲结点标记和基本操作思路。",
+    "理解静态链表与顺序表、单链表的区别和适用场景。"
+  ],
+  "outline": [
+    {
+      "heading": "静态链表的基本思想",
+      "summary": "静态链表分配一整片连续数组空间，每个数组元素是一个结点，包含 data 和 next。这里的 next 不存真实内存地址，而存下一个结点的数组下标，也叫游标。"
+    },
+    {
+      "heading": "静态链表的 C 定义",
+      "summary": "可以先定义 Node 结构体，再声明 Node list[MaxSize]。教材中可能使用 typedef struct {...} SLinkList[Max..."
+    },
+    {
+      "heading": "基本操作思路",
+      "summary": "初始化时，头结点 list[0].next 设为 -1，表示空表；其他空闲结点可把 next 设为 -2，表示可用空间。插入时先找到空闲结点，再找到第 i-1 ..."
+    },
+    {
+      "heading": "特点与应用",
+      "summary": "静态链表容量固定，不能像动态链表那样随时 malloc 新结点；它也不支持随机存取某个逻辑位序。优点是在不支持指针的语言中也能模拟链表，且数据数量基本固定时比较..."
+    }
+  ],
+  "sections": [
+    {
+      "heading": "静态链表的基本思想",
+      "paragraphs": [
+        "静态链表分配一整片连续数组空间，每个数组元素是一个结点，包含 data 和 next。这里的 next 不存真实内存地址，而存下一个结点的数组下标，也叫游标。",
+        "数组下标 0 常作为头结点，不存实际数据。若某结点 next 为 -1，可表示它是表尾；若用 -2 标记空闲结点，计算机就能区分哪些数组位置尚未被链表使用。"
+      ],
+      "highlights": [
+        "游标 next 的角色类似单链表中的指针。"
+      ],
+      "keyPoint": "静态链表用数组下标模拟指针，逻辑相邻不要求物理下标相邻。",
+      "svgRefs": [
+        "017-static-layout",
+        "017-cursor-link"
+      ],
+      "id": "sec-01-static-linked-list"
+    },
+    {
+      "heading": "静态链表的 C 定义",
+      "paragraphs": [
+        "可以先定义 Node 结构体，再声明 Node list[MaxSize]。教材中可能使用 typedef struct {...} SLinkList[MaxSize] 的写法，它本质上是把“长度为 MaxSize 的结点数组”重命名为 SLinkList。",
+        "每个结点大小固定，因此数组下标可以根据起始地址和结点大小换算为实际地址。但查找第 i 个逻辑结点时，仍要从头结点沿游标逐个查找。"
+      ],
+      "highlights": [
+        "typedef 可以给数组类型取别名。"
+      ],
+      "keyPoint": "SLinkList 本质上是结点数组，只是命名上强调它是一种静态链表。",
+      "svgRefs": [
+        "017-typedef-array"
+      ],
+      "id": "sec-02-static-linked-list"
+    },
+    {
+      "heading": "基本操作思路",
+      "paragraphs": [
+        "初始化时，头结点 list[0].next 设为 -1，表示空表；其他空闲结点可把 next 设为 -2，表示可用空间。插入时先找到空闲结点，再找到第 i-1 个逻辑结点，修改游标完成连接。",
+        "删除时，修改前驱结点的 next 让它跳过被删结点，再把被删结点 next 标记为 -2，表示回收到空闲区。与顺序表不同，静态链表插删不需要大量移动元素；与单链表相同，按位查找仍是 O(n)。"
+      ],
+      "highlights": [
+        "删除后要把结点标记为空闲。"
+      ],
+      "keyPoint": "静态链表插删改游标，不移动元素；查找仍要沿逻辑链走。",
+      "svgRefs": [
+        "017-insert-delete"
+      ],
+      "id": "sec-03-lesson"
+    },
+    {
+      "heading": "特点与应用",
+      "paragraphs": [
+        "静态链表容量固定，不能像动态链表那样随时 malloc 新结点；它也不支持随机存取某个逻辑位序。优点是在不支持指针的语言中也能模拟链表，且数据数量基本固定时比较合适。",
+        "操作系统中的文件分配表 FAT 可以从静态链表的角度理解：用表项和下标关系表示文件块之间的后继关系。"
+      ],
+      "highlights": [
+        "适合容量固定、需要游标关系的场景。"
+      ],
+      "keyPoint": "静态链表是数组和链表思想的折中：数组存空间，游标存关系。",
+      "svgRefs": [
+        "017-compare"
+      ],
+      "id": "sec-04-lesson"
+    }
+  ],
+  "codeBlocks": [
+    {
+      "id": "code-017-static",
+      "title": "静态链表定义与初始化",
+      "language": "c",
+      "description": "用 FREE=-2 标记空闲结点，用 NIL=-1 表示链表结束。",
+      "code": "#include <stdbool.h>\n\n#define MaxSize 50\n#define NIL -1\n#define FREE -2\n\ntypedef int ElemType;\n\ntypedef struct {\n    ElemType data;\n    int next;       // 游标：下一个结点的数组下标\n} SNode;\n\ntypedef SNode SLinkList[MaxSize];\n\nvoid InitSLinkList(SLinkList L) {\n    L[0].next = NIL;       // 0 号单元作为头结点\n    for (int i = 1; i < MaxSize; ++i) {\n        L[i].next = FREE;  // 标记为空闲结点\n    }\n}\n\nint FindFree(SLinkList L) {\n    for (int i = 1; i < MaxSize; ++i) {\n        if (L[i].next == FREE) {\n            return i;\n        }\n    }\n    return NIL;\n}",
+      "linkedSectionId": "sec-01-static-linked-list"
+    }
+  ],
+  "mistakes": [
+    {
+      "title": "把游标当真实地址",
+      "detail": "静态链表 next 保存的是数组下标，不是内存地址。"
+    },
+    {
+      "title": "以为静态链表可随机按位访问",
+      "detail": "虽然底层是数组，但逻辑位序要沿游标查找。"
+    },
+    {
+      "title": "未标记空闲结点",
+      "detail": "不标记空闲位置，插入时无法可靠判断哪些数组单元可用。"
+    }
+  ],
+  "summary": [
+    "静态链表用数组存储结点，用游标保存后继下标。",
+    "头结点常放在 0 号单元，-1 表示结束，空闲结点可用特殊值标记。",
+    "静态链表插删不移动元素，但查找逻辑位序仍是 O(n)。",
+    "它容量固定，适合数据规模稳定或不便使用指针的场景。"
+  ],
+  "quiz": [
+    {
+      "question": "静态链表中 next 通常保存什么？",
+      "options": [
+        "A. 后继结点地址",
+        "B. 后继结点数组下标",
+        "C. 当前长度",
+        "D. MaxSize"
+      ],
+      "answer": "B",
+      "explanation": "静态链表用游标即数组下标模拟指针。"
+    },
+    {
+      "question": "静态链表删除结点后，常把该结点标记为什么状态？",
+      "options": [
+        "A. 表头",
+        "B. 空闲",
+        "C. 满表",
+        "D. 随机存取"
+      ],
+      "answer": "B",
+      "explanation": "删除后该数组单元可被后续插入复用。"
+    },
+    {
+      "question": "静态链表查找第 i 个逻辑结点的复杂度通常是？",
+      "options": [
+        "A. O(1)",
+        "B. O(log n)",
+        "C. O(n)",
+        "D. O(n^2)"
+      ],
+      "answer": "C",
+      "explanation": "需要从头结点沿游标逐个查找。"
+    }
+  ],
+  "svgAssets": [
+    {
+      "id": "017-static-layout",
+      "title": "静态链表数组布局",
+      "purpose": "展示连续数组中的结点",
+      "type": "static-array",
+      "description": "每个数组元素含 data 和 next。"
+    },
+    {
+      "id": "017-cursor-link",
+      "title": "游标连接逻辑顺序",
+      "purpose": "展示 0 -> 2 -> 1 -> 3 的逻辑链",
+      "type": "pointer",
+      "description": "逻辑顺序由游标决定。"
+    },
+    {
+      "id": "017-typedef-array",
+      "title": "数组类型 typedef",
+      "purpose": "说明 SLinkList 是结点数组别名",
+      "type": "comparison",
+      "description": "typedef 给数组类型命名。"
+    },
+    {
+      "id": "017-insert-delete",
+      "title": "静态链表插删",
+      "purpose": "展示找空闲结点和修改游标",
+      "type": "algorithm-flow",
+      "description": "插删主要修改 next 游标。"
+    },
+    {
+      "id": "017-compare",
+      "title": "静态链表特点",
+      "purpose": "对比顺序表、单链表和静态链表",
+      "type": "comparison",
+      "description": "连续空间、游标关系、容量固定。"
+    }
+  ]
+}

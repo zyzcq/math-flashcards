@@ -1,0 +1,167 @@
+{
+  "id": "singly-linked-list-search",
+  "title": "2.3.2-2 单链表的查找",
+  "subtitle": "按位查找、按值查找、求表长与封装思想",
+  "objectives": [
+    "掌握带头结点单链表按位查找 GetElem 的循环写法。",
+    "掌握按值查找 LocateElem 和求表长 Length 的遍历思想。",
+    "理解封装基本操作可以减少重复代码并提升可维护性。"
+  ],
+  "outline": [
+    {
+      "heading": "按位查找",
+      "summary": "带头结点单链表可以把头结点视为第 0 个结点。按位查找第 i 个结点时，令 p 从头结点出发，计数器 j 从 0 开始，每次 p = p->next、j++，直..."
+    },
+    {
+      "heading": "按值查找",
+      "summary": "按值查找从第一个数据结点开始，逐个比较 p->data 与目标值 e。找到则返回当前结点指针，遍历到 NULL 仍未找到则返回 NULL。"
+    },
+    {
+      "heading": "求表长与封装复用",
+      "summary": "求单链表长度时，让 p 指向第一个数据结点，每经过一个结点计数器加 1，直到 p == NULL。这个过程和查找操作一样，核心都是遍历。"
+    }
+  ],
+  "sections": [
+    {
+      "heading": "按位查找",
+      "paragraphs": [
+        "带头结点单链表可以把头结点视为第 0 个结点。按位查找第 i 个结点时，令 p 从头结点出发，计数器 j 从 0 开始，每次 p = p->next、j++，直到 j == i 或 p == NULL。",
+        "如果 i 超过实际表长，最终 p 会变为 NULL，调用者可据此判断查找失败。按位查找需要从头遍历，因此平均和最坏时间复杂度都是 O(n)。"
+      ],
+      "highlights": [
+        "返回 NULL 是常见的失败反馈。"
+      ],
+      "keyPoint": "单链表按位查找没有地址公式，只能沿 next 指针逐个走。",
+      "svgRefs": [
+        "013-get-elem"
+      ],
+      "id": "sec-01-lesson"
+    },
+    {
+      "heading": "按值查找",
+      "paragraphs": [
+        "按值查找从第一个数据结点开始，逐个比较 p->data 与目标值 e。找到则返回当前结点指针，遍历到 NULL 仍未找到则返回 NULL。",
+        "若 ElemType 是 int 等基本类型，可以用 ==；若是结构体，应自定义相等判断规则。按值查找同样需要顺序遍历，时间复杂度为 O(n)。"
+      ],
+      "highlights": [
+        "链表有序也不能像顺序表那样直接折半查找。"
+      ],
+      "keyPoint": "单链表按值查找本质上也是遍历，目标越靠后比较越多。",
+      "svgRefs": [
+        "013-locate-elem"
+      ],
+      "id": "sec-02-lesson"
+    },
+    {
+      "heading": "求表长与封装复用",
+      "paragraphs": [
+        "求单链表长度时，让 p 指向第一个数据结点，每经过一个结点计数器加 1，直到 p == NULL。这个过程和查找操作一样，核心都是遍历。",
+        "实现 GetElem 后，按位插入和按位删除可以直接调用 GetElem(L, i-1) 找前驱，再调用后插或删除逻辑。把常用功能封装成基本操作，可以避免重复代码，也便于统一修复 bug。"
+      ],
+      "highlights": [
+        "GetElem 是插入、删除等操作可复用的基础。"
+      ],
+      "keyPoint": "链表操作的基础能力是遍历；封装能让复杂操作更清晰、更好维护。",
+      "svgRefs": [
+        "013-length",
+        "013-reuse"
+      ],
+      "id": "sec-03-lesson"
+    }
+  ],
+  "codeBlocks": [
+    {
+      "id": "code-013-search",
+      "title": "单链表查找与求长",
+      "language": "c",
+      "description": "基于带头结点单链表的 GetElem、LocateElem 和 Length。",
+      "code": "#include <stddef.h>\n\ntypedef int ElemType;\ntypedef struct LNode {\n    ElemType data;\n    struct LNode *next;\n} LNode, *LinkList;\n\nLNode *GetElem(LinkList L, int i) {\n    if (i < 0) {\n        return NULL;\n    }\n    LNode *p = L;\n    int j = 0;\n    while (p != NULL && j < i) {\n        p = p->next;\n        j++;\n    }\n    return p;\n}\n\nLNode *LocateElem(LinkList L, ElemType e) {\n    LNode *p = L->next;\n    while (p != NULL && p->data != e) {\n        p = p->next;\n    }\n    return p;\n}\n\nint Length(LinkList L) {\n    int len = 0;\n    for (LNode *p = L->next; p != NULL; p = p->next) {\n        len++;\n    }\n    return len;\n}",
+      "linkedSectionId": "sec-01-lesson"
+    }
+  ],
+  "mistakes": [
+    {
+      "title": "从头结点开始比较 data",
+      "detail": "带头结点不存实际数据，按值查找应从 L->next 开始。"
+    },
+    {
+      "title": "循环条件漏掉 p != NULL",
+      "detail": "若不检查空指针，越界查找会访问非法地址。"
+    },
+    {
+      "title": "认为单链表按位查找是 O(1)",
+      "detail": "单链表不连续，必须从头沿指针查找，复杂度 O(n)。"
+    }
+  ],
+  "summary": [
+    "单链表按位、按值查找和求表长都依赖遍历。",
+    "带头结点时可把头结点视为第 0 个结点。",
+    "查找失败常用 NULL 表示，调用者应检查返回值。",
+    "封装 GetElem 等基本操作能减少重复代码，提高可维护性。"
+  ],
+  "quiz": [
+    {
+      "question": "带头结点单链表中，GetElem(L, 0) 通常返回什么？",
+      "options": [
+        "A. NULL",
+        "B. 头结点",
+        "C. 第一个数据结点",
+        "D. 尾结点"
+      ],
+      "answer": "B",
+      "explanation": "带头结点可视为第 0 个结点。"
+    },
+    {
+      "question": "单链表按位查找第 i 个结点的平均复杂度是？",
+      "options": [
+        "A. O(1)",
+        "B. O(log n)",
+        "C. O(n)",
+        "D. O(n^2)"
+      ],
+      "answer": "C",
+      "explanation": "必须从头沿 next 逐个定位。"
+    },
+    {
+      "question": "求单链表长度时，计数器何时加 1？",
+      "options": [
+        "A. 每经过一个数据结点",
+        "B. 每经过一个空指针",
+        "C. 只在头结点",
+        "D. 只在尾结点"
+      ],
+      "answer": "A",
+      "explanation": "遍历数据结点，每访问一个数据结点长度加 1。"
+    }
+  ],
+  "svgAssets": [
+    {
+      "id": "013-get-elem",
+      "title": "按位查找路径",
+      "purpose": "展示 p 和 j 从头向后移动",
+      "type": "pointer",
+      "description": "计数器和指针同步前进。"
+    },
+    {
+      "id": "013-locate-elem",
+      "title": "按值查找路径",
+      "purpose": "展示逐结点比较 data",
+      "type": "algorithm-flow",
+      "description": "找到目标或走到 NULL。"
+    },
+    {
+      "id": "013-length",
+      "title": "求表长遍历",
+      "purpose": "展示计数累加",
+      "type": "algorithm-flow",
+      "description": "每经过一个数据结点 len++。"
+    },
+    {
+      "id": "013-reuse",
+      "title": "基本操作复用",
+      "purpose": "展示 GetElem 支撑插入删除",
+      "type": "algorithm-flow",
+      "description": "封装减少重复逻辑。"
+    }
+  ]
+}

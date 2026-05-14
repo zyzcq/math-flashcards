@@ -1,0 +1,185 @@
+{
+  "id": "sequence-vs-linked-list",
+  "title": "2.3.6 顺序表和链表的比较",
+  "subtitle": "从逻辑结构、存储结构和基本操作选择合适实现",
+  "objectives": [
+    "能从逻辑结构、存储结构和基本操作三个维度比较顺序表与链表。",
+    "掌握顺序表和链表在创建、销毁、插删、查找方面的效率差异。",
+    "能根据表长是否稳定、插删是否频繁、查找是否频繁选择合适结构。"
+  ],
+  "outline": [
+    {
+      "heading": "逻辑结构相同，存储结构不同",
+      "summary": "顺序表和链表在逻辑上都是线性表，元素之间都是一对一的前后关系。它们的主要差别来自存储结构：顺序表用连续空间，链表用指针把离散结点连接起来。"
+    },
+    {
+      "heading": "创建与销毁",
+      "summary": "顺序表初始化时通常要预分配一片连续空间。分配小了后续扩容麻烦，分配大了会浪费空间。静态顺序表空间由系统随作用域结束回收；动态顺序表用 malloc 申请的堆空间..."
+    },
+    {
+      "heading": "插入删除与查找",
+      "summary": "顺序表插入、删除需要移动元素，最坏和平均时间复杂度都是 O(n)，时间开销主要来自元素搬移。链表插入、删除本身改指针很快，但按位操作前往往要先查找目标位置，整体..."
+    },
+    {
+      "heading": "如何选择",
+      "summary": "如果线性表长度难以预估，且经常插入、删除，例如排队取号、叫号等动态场景，链表更合适。"
+    }
+  ],
+  "sections": [
+    {
+      "heading": "逻辑结构相同，存储结构不同",
+      "paragraphs": [
+        "顺序表和链表在逻辑上都是线性表，元素之间都是一对一的前后关系。它们的主要差别来自存储结构：顺序表用连续空间，链表用指针把离散结点连接起来。",
+        "顺序表可以随机存取，存储密度高，但要求大片连续空间，扩容不方便。链表空间分配灵活，添加结点只需 malloc 一小片空间，但不支持随机存取，并且每个结点需要额外指针域，存储密度较低。"
+      ],
+      "highlights": [
+        "连续存储带来随机存取，链式存储带来容量灵活。"
+      ],
+      "keyPoint": "顺序表与链表的逻辑结构相同，性能差异主要由存储结构决定。",
+      "svgRefs": [
+        "018-storage-compare"
+      ],
+      "id": "sec-01-lesson"
+    },
+    {
+      "heading": "创建与销毁",
+      "paragraphs": [
+        "顺序表初始化时通常要预分配一片连续空间。分配小了后续扩容麻烦，分配大了会浪费空间。静态顺序表空间由系统随作用域结束回收；动态顺序表用 malloc 申请的堆空间必须 free。",
+        "链表初始化通常只需头指针和可选头结点，之后每次扩展再 malloc 新结点。销毁链表时要遍历所有结点并逐个 free，不能只把头指针置空。"
+      ],
+      "highlights": [
+        "malloc 和 free 应成对出现。"
+      ],
+      "keyPoint": "动态申请的空间必须释放；链表销毁要逐结点 free。",
+      "svgRefs": [
+        "018-create-destroy"
+      ],
+      "id": "sec-02-lesson"
+    },
+    {
+      "heading": "插入删除与查找",
+      "paragraphs": [
+        "顺序表插入、删除需要移动元素，最坏和平均时间复杂度都是 O(n)，时间开销主要来自元素搬移。链表插入、删除本身改指针很快，但按位操作前往往要先查找目标位置，整体平均和最坏也常为 O(n)。当数据元素很大时，移动大量元素的实际代价可能远高于沿链查找。",
+        "顺序表按位查找是 O(1)，无序按值查找是 O(n)，若有序则可用折半查找达到 O(log n)。链表无论按位还是按值，通常都必须从头遍历，复杂度为 O(n)，即使元素有序也难以直接折半。"
+      ],
+      "highlights": [
+        "两者插删的大 O 可能相同，但常数代价和数据大小会影响实际效率。"
+      ],
+      "keyPoint": "插删频繁更偏向链表，按位查找频繁更偏向顺序表。",
+      "svgRefs": [
+        "018-operation-compare"
+      ],
+      "id": "sec-03-lesson"
+    },
+    {
+      "heading": "如何选择",
+      "paragraphs": [
+        "如果线性表长度难以预估，且经常插入、删除，例如排队取号、叫号等动态场景，链表更合适。",
+        "如果线性表长度可预估、比较稳定，且查询操作多，例如班级点名、固定名单查询，顺序表通常效率更高。答简答题时，可以按逻辑结构、存储结构、基本操作三条线组织答案。"
+      ],
+      "highlights": [
+        "没有绝对更好，只有更适合当前需求。"
+      ],
+      "keyPoint": "选择结构要结合场景：表长是否稳定、是否频繁插删、是否频繁查询。",
+      "svgRefs": [
+        "018-choice-flow"
+      ],
+      "id": "sec-04-lesson"
+    }
+  ],
+  "codeBlocks": [
+    {
+      "id": "code-018-destroy",
+      "title": "动态顺序表与链表销毁",
+      "language": "c",
+      "description": "对比顺序表释放整片空间和链表逐结点释放。",
+      "code": "#include <stdlib.h>\n\ntypedef int ElemType;\n\ntypedef struct {\n    ElemType *data;\n    int length;\n    int maxSize;\n} SqList;\n\nvoid DestroySqList(SqList *L) {\n    free(L->data);\n    L->data = NULL;\n    L->length = 0;\n    L->maxSize = 0;\n}\n\ntypedef struct LNode {\n    ElemType data;\n    struct LNode *next;\n} LNode, *LinkList;\n\nvoid DestroyLinkList(LinkList *L) {\n    LNode *p = *L;\n    while (p != NULL) {\n        LNode *next = p->next;\n        free(p);\n        p = next;\n    }\n    *L = NULL;\n}",
+      "linkedSectionId": "sec-01-lesson"
+    }
+  ],
+  "mistakes": [
+    {
+      "title": "只看大 O 不看实际代价",
+      "detail": "顺序表和链表插删都可能是 O(n)，但顺序表移动大元素的代价可能更高。"
+    },
+    {
+      "title": "链表销毁只把头指针置空",
+      "detail": "这样会丢失结点地址并造成内存泄漏，必须逐个 free。"
+    },
+    {
+      "title": "认为有序链表可直接折半查找",
+      "detail": "链表不能随机定位中点，折半查找依赖顺序表的随机存取。"
+    }
+  ],
+  "summary": [
+    "顺序表和链表都是线性表，差异主要来自存储结构。",
+    "顺序表随机存取、存储密度高；链表容量灵活、插删改指针方便。",
+    "顺序表扩容和插删移动元素不方便；链表查找慢且有指针开销。",
+    "选择时看表长是否稳定、插删是否频繁、查询是否频繁。"
+  ],
+  "quiz": [
+    {
+      "question": "顺序表按位查找的复杂度是？",
+      "options": [
+        "A. O(1)",
+        "B. O(n)",
+        "C. O(n^2)",
+        "D. O(n!)"
+      ],
+      "answer": "A",
+      "explanation": "顺序表支持随机存取。"
+    },
+    {
+      "question": "链表相对顺序表的主要优势是？",
+      "options": [
+        "A. 随机存取更快",
+        "B. 存储密度一定更高",
+        "C. 容量扩展和插删更灵活",
+        "D. 不需要指针"
+      ],
+      "answer": "C",
+      "explanation": "链表不要求连续空间，插删主要改指针。"
+    },
+    {
+      "question": "班级名单人数稳定且查询频繁，更适合使用什么？",
+      "options": [
+        "A. 顺序表",
+        "B. 链表",
+        "C. 只能用静态链表",
+        "D. 不能用线性表"
+      ],
+      "answer": "A",
+      "explanation": "表长稳定且查询多，顺序表随机访问优势明显。"
+    }
+  ],
+  "svgAssets": [
+    {
+      "id": "018-storage-compare",
+      "title": "存储结构对比",
+      "purpose": "展示顺序表连续与链表离散",
+      "type": "comparison",
+      "description": "同为线性表，物理实现不同。"
+    },
+    {
+      "id": "018-create-destroy",
+      "title": "创建销毁对比",
+      "purpose": "展示预分配与逐结点释放",
+      "type": "algorithm-flow",
+      "description": "不同结构的内存管理差异。"
+    },
+    {
+      "id": "018-operation-compare",
+      "title": "基本操作效率对比",
+      "purpose": "展示插删查找复杂度",
+      "type": "comparison",
+      "description": "按操作类型比较两种结构。"
+    },
+    {
+      "id": "018-choice-flow",
+      "title": "结构选择流程",
+      "purpose": "根据场景选择顺序表或链表",
+      "type": "algorithm-flow",
+      "description": "表长、插删、查询决定选择。"
+    }
+  ]
+}
