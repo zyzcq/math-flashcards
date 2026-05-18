@@ -1,0 +1,1555 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>名词性从句复习系统｜宾语从句·表语从句·主语从句·同位语从句</title>
+  <style>
+    :root {
+      --bg: #f4f6f8;
+      --bg-grad: linear-gradient(135deg, #f6f8fb 0%, #eef3f7 48%, #f8f7f1 100%);
+      --card: #ffffff;
+      --text: #1f2937;
+      --muted: #6b7280;
+      --weak: #9ca3af;
+      --border: #e5e7eb;
+
+      --blue: #2563eb;
+      --blue-bg: #eff6ff;
+      --green: #059669;
+      --green-bg: #ecfdf5;
+      --amber: #d97706;
+      --amber-bg: #fffbeb;
+      --purple: #7c3aed;
+      --purple-bg: #f5f3ff;
+      --red: #dc2626;
+      --red-bg: #fef2f2;
+      --gray-bg: #f9fafb;
+
+      --radius: 18px;
+      --radius-sm: 12px;
+      --shadow: 0 12px 32px rgba(15, 23, 42, 0.08);
+      --shadow-sm: 0 6px 18px rgba(15, 23, 42, 0.06);
+      --max-width: 1080px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", Arial, sans-serif;
+      color: var(--text);
+      background: var(--bg-grad);
+      line-height: 1.75;
+      font-size: 16px;
+    }
+
+    a {
+      color: var(--blue);
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    code {
+      display: inline-block;
+      max-width: 100%;
+      padding: 0.15rem 0.4rem;
+      border-radius: 8px;
+      color: #111827;
+      background: #f3f4f6;
+      border: 1px solid #e5e7eb;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+      white-space: normal;
+      line-height: 1.65;
+    }
+
+    p {
+      margin: 0.55rem 0;
+    }
+
+    h1, h2, h3, h4 {
+      line-height: 1.25;
+      margin: 0;
+      color: #111827;
+    }
+
+    h2 {
+      font-size: 1.55rem;
+      margin-bottom: 1rem;
+    }
+
+    h3 {
+      font-size: 1.18rem;
+      margin-bottom: 0.7rem;
+    }
+
+    h4 {
+      font-size: 1rem;
+      margin-bottom: 0.5rem;
+    }
+
+    ul, ol {
+      margin: 0.6rem 0 0.6rem 1.2rem;
+      padding: 0;
+    }
+
+    li {
+      margin: 0.3rem 0;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 0.8rem 0;
+      overflow: hidden;
+      border-radius: var(--radius-sm);
+      font-size: 0.95rem;
+    }
+
+    th, td {
+      border: 1px solid var(--border);
+      padding: 0.7rem 0.8rem;
+      text-align: left;
+      vertical-align: top;
+    }
+
+    th {
+      background: #f8fafc;
+      color: #374151;
+      font-weight: 700;
+    }
+
+    .page {
+      width: min(100% - 32px, var(--max-width));
+      margin: 0 auto;
+      padding: 28px 0 56px;
+    }
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+      padding: 38px;
+      border-radius: 28px;
+      background:
+        radial-gradient(circle at top right, rgba(37, 99, 235, 0.12), transparent 34%),
+        radial-gradient(circle at bottom left, rgba(124, 58, 237, 0.10), transparent 30%),
+        var(--card);
+      box-shadow: var(--shadow);
+      border: 1px solid rgba(255, 255, 255, 0.75);
+    }
+
+    .hero h1 {
+      font-size: clamp(2rem, 5vw, 3.2rem);
+      letter-spacing: -0.04em;
+      margin-bottom: 0.8rem;
+    }
+
+    .subtitle {
+      color: var(--muted);
+      max-width: 780px;
+      font-size: 1.05rem;
+    }
+
+    .tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.55rem;
+      margin: 1.2rem 0;
+    }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      padding: 0.32rem 0.68rem;
+      border-radius: 999px;
+      font-size: 0.86rem;
+      font-weight: 700;
+      border: 1px solid transparent;
+    }
+
+    .tag-green {
+      color: var(--green);
+      background: var(--green-bg);
+      border-color: rgba(5, 150, 105, 0.18);
+    }
+
+    .tag-amber {
+      color: var(--amber);
+      background: var(--amber-bg);
+      border-color: rgba(217, 119, 6, 0.18);
+    }
+
+    .tag-red {
+      color: var(--red);
+      background: var(--red-bg);
+      border-color: rgba(220, 38, 38, 0.18);
+    }
+
+    .tag-purple {
+      color: var(--purple);
+      background: var(--purple-bg);
+      border-color: rgba(124, 58, 237, 0.18);
+    }
+
+    .toolbar {
+      position: sticky;
+      top: 10px;
+      z-index: 20;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.55rem;
+      margin: 18px 0;
+      padding: 12px;
+      border: 1px solid rgba(229, 231, 235, 0.9);
+      border-radius: 18px;
+      background: rgba(255, 255, 255, 0.84);
+      backdrop-filter: blur(12px);
+      box-shadow: var(--shadow-sm);
+    }
+
+    button {
+      cursor: pointer;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      background: #ffffff;
+      color: #374151;
+      padding: 0.58rem 0.92rem;
+      font-weight: 700;
+      font-size: 0.92rem;
+      transition: 0.18s ease;
+    }
+
+    button:hover {
+      transform: translateY(-1px);
+      border-color: #cbd5e1;
+      box-shadow: 0 6px 14px rgba(15, 23, 42, 0.08);
+    }
+
+    .btn-primary {
+      background: var(--blue);
+      color: white;
+      border-color: var(--blue);
+    }
+
+    .btn-green {
+      background: var(--green);
+      color: white;
+      border-color: var(--green);
+    }
+
+    .btn-purple {
+      background: var(--purple);
+      color: white;
+      border-color: var(--purple);
+    }
+
+    .nav {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.55rem;
+      margin: 16px 0 24px;
+      padding: 14px;
+      border-radius: 18px;
+      background: rgba(255, 255, 255, 0.68);
+      border: 1px solid rgba(229, 231, 235, 0.8);
+    }
+
+    .nav a {
+      padding: 0.42rem 0.68rem;
+      border-radius: 999px;
+      color: #475569;
+      background: #fff;
+      border: 1px solid var(--border);
+      font-size: 0.9rem;
+      font-weight: 700;
+    }
+
+    .nav a:hover {
+      text-decoration: none;
+      color: var(--blue);
+      border-color: rgba(37, 99, 235, 0.28);
+      background: var(--blue-bg);
+    }
+
+    main {
+      display: grid;
+      gap: 18px;
+    }
+
+    .card {
+      padding: 26px;
+      border-radius: var(--radius);
+      background: var(--card);
+      border: 1px solid rgba(229, 231, 235, 0.86);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .mini-card {
+      padding: 16px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      background: #fff;
+    }
+
+    .mini-card h3,
+    .mini-card h4 {
+      margin-bottom: 0.45rem;
+    }
+
+    .rule {
+      padding: 14px 16px;
+      border-left: 5px solid var(--green);
+      border-radius: 14px;
+      background: var(--green-bg);
+      color: #064e3b;
+      font-weight: 700;
+      margin: 0.8rem 0 1rem;
+    }
+
+    .note {
+      padding: 14px 16px;
+      border-radius: 14px;
+      margin: 0.8rem 0;
+      border: 1px solid transparent;
+    }
+
+    .note-blue {
+      background: var(--blue-bg);
+      border-color: rgba(37, 99, 235, 0.14);
+      color: #1e3a8a;
+    }
+
+    .note-green {
+      background: var(--green-bg);
+      border-color: rgba(5, 150, 105, 0.14);
+      color: #064e3b;
+    }
+
+    .note-amber {
+      background: var(--amber-bg);
+      border-color: rgba(217, 119, 6, 0.16);
+      color: #78350f;
+    }
+
+    .note-purple {
+      background: var(--purple-bg);
+      border-color: rgba(124, 58, 237, 0.14);
+      color: #4c1d95;
+    }
+
+    .note-red {
+      background: var(--red-bg);
+      border-color: rgba(220, 38, 38, 0.14);
+      color: #7f1d1d;
+    }
+
+    .example {
+      padding: 14px 16px;
+      border-radius: 14px;
+      background: #f8fafc;
+      border: 1px dashed #cbd5e1;
+      margin: 0.85rem 0;
+    }
+
+    .example-title {
+      font-weight: 800;
+      color: #334155;
+      margin-bottom: 0.35rem;
+    }
+
+    .practice {
+      padding: 18px;
+      border-radius: 16px;
+      border: 1px solid rgba(124, 58, 237, 0.16);
+      background: linear-gradient(180deg, #ffffff 0%, #fbfaff 100%);
+      margin: 14px 0;
+    }
+
+    .practice-title {
+      font-weight: 850;
+      color: var(--purple);
+      margin-bottom: 0.55rem;
+    }
+
+    .question {
+      margin: 0.7rem 0;
+    }
+
+    .answer-content {
+      padding: 12px 14px;
+      border-radius: 12px;
+      background: #fff;
+      border: 1px solid rgba(124, 58, 237, 0.14);
+      margin-top: 10px;
+    }
+
+    .translation {
+      color: #475569;
+      background: #f8fafc;
+      border-left: 4px solid #cbd5e1;
+      padding: 0.55rem 0.75rem;
+      border-radius: 8px;
+    }
+
+    .checklist {
+      display: grid;
+      gap: 10px;
+      margin-top: 0.8rem;
+    }
+
+    .check-item {
+      display: flex;
+      gap: 0.65rem;
+      align-items: flex-start;
+      padding: 12px 14px;
+      border-radius: 14px;
+      border: 1px solid var(--border);
+      background: #fff;
+    }
+
+    .check-item::before {
+      content: "✓";
+      flex: 0 0 auto;
+      width: 22px;
+      height: 22px;
+      display: inline-grid;
+      place-items: center;
+      border-radius: 50%;
+      background: var(--green-bg);
+      color: var(--green);
+      font-weight: 900;
+      margin-top: 2px;
+    }
+
+    details {
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      background: #fff;
+      margin: 0.8rem 0;
+      overflow: hidden;
+    }
+
+    details > summary {
+      list-style: none;
+      cursor: pointer;
+      padding: 13px 16px;
+      font-weight: 800;
+      color: #334155;
+      background: #f9fafb;
+      display: flex;
+      justify-content: space-between;
+      gap: 1rem;
+      align-items: center;
+    }
+
+    details > summary::-webkit-details-marker {
+      display: none;
+    }
+
+    details > summary::after {
+      content: "展开";
+      color: var(--blue);
+      font-size: 0.84rem;
+      border: 1px solid rgba(37, 99, 235, 0.18);
+      background: var(--blue-bg);
+      padding: 0.18rem 0.55rem;
+      border-radius: 999px;
+      white-space: nowrap;
+    }
+
+    details[open] > summary::after {
+      content: "收起";
+      color: var(--amber);
+      border-color: rgba(217, 119, 6, 0.18);
+      background: var(--amber-bg);
+    }
+
+    details .detail-body {
+      padding: 14px 16px 16px;
+      border-top: 1px solid var(--border);
+    }
+
+    details.answer-toggle {
+      border-color: rgba(124, 58, 237, 0.20);
+      background: #fff;
+    }
+
+    details.answer-toggle > summary {
+      color: var(--purple);
+      background: var(--purple-bg);
+    }
+
+    details.answer-toggle > summary::after {
+      color: var(--purple);
+      background: #fff;
+      border-color: rgba(124, 58, 237, 0.22);
+    }
+
+    details.answer-toggle[open] > summary::after {
+      content: "隐藏";
+      color: var(--red);
+      background: var(--red-bg);
+      border-color: rgba(220, 38, 38, 0.16);
+    }
+
+    .compact-list {
+      display: grid;
+      gap: 8px;
+      margin: 0.7rem 0;
+    }
+
+    .compact-list span {
+      display: block;
+      padding: 9px 11px;
+      border-radius: 12px;
+      background: #f8fafc;
+      border: 1px solid var(--border);
+    }
+
+    .focus-mode .non-key {
+      display: none !important;
+    }
+
+    .kbd {
+      font-size: 0.82rem;
+      color: var(--muted);
+      background: #f8fafc;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      padding: 0.15rem 0.55rem;
+      white-space: nowrap;
+    }
+
+    footer {
+      margin-top: 24px;
+      padding: 22px 0 8px;
+      color: var(--muted);
+      text-align: center;
+      font-size: 0.92rem;
+    }
+
+    @media (max-width: 760px) {
+      .page {
+        width: min(100% - 20px, var(--max-width));
+        padding-top: 14px;
+      }
+
+      .hero {
+        padding: 24px;
+        border-radius: 22px;
+      }
+
+      .toolbar {
+        position: static;
+      }
+
+      .card {
+        padding: 20px;
+      }
+
+      .grid-2,
+      .grid-3 {
+        grid-template-columns: 1fr;
+      }
+
+      button {
+        width: calc(50% - 0.3rem);
+      }
+
+      .nav a {
+        width: 100%;
+      }
+    }
+
+    @media print {
+      body {
+        background: #fff !important;
+        color: #111827;
+      }
+
+      .page {
+        width: 100%;
+        max-width: none;
+        padding: 0;
+      }
+
+      .toolbar,
+      .nav {
+        display: none !important;
+      }
+
+      .hero,
+      .card,
+      .mini-card,
+      .practice,
+      details {
+        box-shadow: none !important;
+        break-inside: avoid;
+        page-break-inside: avoid;
+      }
+
+      .hero {
+        border: 1px solid #ddd;
+        padding: 18px;
+      }
+
+      .card {
+        margin: 12px 0;
+        border: 1px solid #ddd;
+      }
+
+      details > summary::after {
+        display: none;
+      }
+
+      a {
+        color: #111827;
+        text-decoration: none;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="page">
+
+    <!-- START: 首页 -->
+    <header class="hero" id="top">
+      <h1>名词性从句复习系统</h1>
+      <p class="subtitle">
+        覆盖宾语从句、表语从句、主语从句、同位语从句、真题演练与考场攻略。目标不是背概念，而是形成一套能在阅读、翻译、写作中直接使用的判断与表达方法。
+      </p>
+      <div class="tags">
+        <span class="tag tag-green">必须掌握：四类名词性从句</span>
+        <span class="tag tag-purple">真题演练：15 题</span>
+        <span class="tag tag-amber">易错点：that / whether / 非谓语</span>
+        <span class="tag tag-red">禁忌：疑问句语序乱入从句</span>
+      </div>
+      <div class="note note-blue">
+        <strong>使用方法：</strong>先看“总方法论”建立框架，再逐个模块复习；练习中心默认隐藏答案，适合自测；考前只看“最终检查清单”。
+      </div>
+    </header>
+    <!-- END: 首页 -->
+
+    <!-- START: 顶部工具栏 -->
+    <div class="toolbar">
+      <button onclick="expandAll()">全部展开</button>
+      <button onclick="collapseAll()">全部收起</button>
+      <button id="focusBtn" class="btn-green" onclick="toggleFocusMode()">只看重点</button>
+      <button class="btn-purple" onclick="showAnswers()">显示答案</button>
+      <button onclick="hideAnswers()">隐藏答案</button>
+      <button class="btn-primary" onclick="printPage()">导出 PDF</button>
+    </div>
+    <!-- END: 顶部工具栏 -->
+
+    <!-- START: 导航栏 -->
+    <nav class="nav">
+      <a href="#method">总方法论</a>
+      <a href="#map">四类总览</a>
+      <a href="#object">宾语从句</a>
+      <a href="#predicative">表语从句</a>
+      <a href="#subject">主语从句</a>
+      <a href="#appositive">同位语从句</a>
+      <a href="#exam">考场攻略</a>
+      <a href="#practice">演练中心</a>
+      <a href="#checklist">检查清单</a>
+    </nav>
+    <!-- END: 导航栏 -->
+
+    <main>
+
+      <!-- START: 总方法论 -->
+      <section class="card" id="method">
+        <h2>总方法论：名词性从句只抓两件事</h2>
+        <div class="rule">
+          名词性从句的本质：用一个句子去充当名词能充当的成分。学习时只问两个问题：它怎么写？它放在哪？
+        </div>
+
+        <div class="grid-2">
+          <div class="mini-card">
+            <h3>一、写法</h3>
+            <p>四类名词性从句写法基本相同：</p>
+            <p><code>连接词 + 陈述句语序</code></p>
+            <p>连接词选择原则：从句里缺什么，就补什么；什么都不缺，用 <code>that</code>。</p>
+          </div>
+          <div class="mini-card">
+            <h3>二、位置</h3>
+            <p>位置决定类型。看从句在大句子里做什么成分。</p>
+            <p><code>动词/介词后 = 宾语从句</code></p>
+            <p><code>系动词后 = 表语从句</code></p>
+            <p><code>句首/it 后 = 主语从句</code></p>
+            <p><code>抽象名词后 = 同位语从句</code></p>
+          </div>
+        </div>
+
+        <details class="non-key">
+          <summary>为什么它叫“名词性”从句？</summary>
+          <div class="detail-body">
+            <p>因为这些从句整体相当于一个名词。一个名词可以做宾语、表语、主语、同位语；一个句子也可以整体放到这些位置上，于是形成宾语从句、表语从句、主语从句、同位语从句。</p>
+            <div class="example">
+              <div class="example-title">对比理解</div>
+              <p><code>The news surprised me.</code> 这里 <code>The news</code> 是名词做主语。</p>
+              <p><code>That he failed surprised me.</code> 这里 <code>That he failed</code> 是一个句子做主语。</p>
+            </div>
+          </div>
+        </details>
+      </section>
+      <!-- END: 总方法论 -->
+
+      <!-- START: 四类名词性从句总览 -->
+      <section class="card" id="map">
+        <h2>四类名词性从句总览</h2>
+        <div class="rule">
+          名词性从句的区别不主要在写法，而在位置。
+        </div>
+
+        <table>
+          <thead>
+            <tr>
+              <th>类型</th>
+              <th>核心定义</th>
+              <th>典型位置</th>
+              <th>例句</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>宾语从句</td>
+              <td>一个句子做宾语</td>
+              <td>动词后、介词后，少数形容词后</td>
+              <td><code>I know that he is right.</code></td>
+            </tr>
+            <tr>
+              <td>表语从句</td>
+              <td>一个句子做表语</td>
+              <td>系动词后，尤其 be 后</td>
+              <td><code>The problem is that we lack time.</code></td>
+            </tr>
+            <tr>
+              <td>主语从句</td>
+              <td>一个句子做主语</td>
+              <td>句首，或句尾用 it 做形式主语</td>
+              <td><code>That he lied is clear.</code></td>
+            </tr>
+            <tr>
+              <td>同位语从句</td>
+              <td>一个句子做同位语，解释抽象名词</td>
+              <td>抽象名词后</td>
+              <td><code>The fact that he lied is clear.</code></td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="note note-amber">
+          <strong>易错提醒：</strong>不要只看连接词判断类型。同样是 <code>that</code>，放在动词后可能是宾语从句，放在系动词后可能是表语从句，放在抽象名词后可能是同位语从句。
+        </div>
+      </section>
+      <!-- END: 四类名词性从句总览 -->
+
+      <!-- START: 宾语从句 -->
+      <section class="card" id="object">
+        <h2>模块 1：宾语从句</h2>
+        <div class="rule">
+          宾语从句 = 一个句子做宾语。最常见的是动词后宾语从句，其次是介词后宾语从句。
+        </div>
+
+        <div class="grid-3">
+          <div class="mini-card">
+            <h3>动宾</h3>
+            <p><code>动词 + that/what/how... 从句</code></p>
+            <p>例如：<code>I believe that practice matters.</code></p>
+          </div>
+          <div class="mini-card">
+            <h3>介宾</h3>
+            <p><code>介词 + what/how/why... 从句</code></p>
+            <p>例如：<code>It depends on whether he agrees.</code></p>
+          </div>
+          <div class="mini-card non-key">
+            <h3>少数形容词后</h3>
+            <p>了解即可。少数形容词后也可跟宾语从句。</p>
+            <p>例如：<code>I am sure that he is right.</code></p>
+          </div>
+        </div>
+
+        <div class="note note-green">
+          <strong>必须掌握：</strong>宾语从句中，<code>that</code> 不做成分时通常可以省略。
+        </div>
+
+        <div class="example">
+          <div class="example-title">例句</div>
+          <p><code>Before applying for university, I told everyone that I would study journalism.</code></p>
+          <p><strong>判断：</strong><code>told everyone that...</code> 中 <code>that</code> 从句是“告诉的事情”，所以是宾语从句。</p>
+        </div>
+
+        <details>
+          <summary>本模块记忆点</summary>
+          <div class="detail-body">
+            <p>看见从句后，三个字：<strong>往前看</strong>。如果它前面是动词或介词，优先判断为宾语从句。</p>
+            <p><code>found that...</code>、<code>announced that...</code>、<code>believing that...</code>、<code>about how...</code> 都是高频结构。</p>
+          </div>
+        </details>
+      </section>
+      <!-- END: 宾语从句 -->
+
+      <!-- START: 表语从句 -->
+      <section class="card" id="predicative">
+        <h2>模块 2：表语从句</h2>
+        <div class="rule">
+          表语从句 = 一个句子做表语。核心位置：系动词后，最常见是 be 动词后。
+        </div>
+
+        <p>表语从句通常用来表达“什么是什么”“问题是什么”“原因是什么”“重点是什么”。</p>
+
+        <div class="compact-list">
+          <span><code>The problem is that...</code> 问题是……</span>
+          <span><code>The reason is that...</code> 原因是……</span>
+          <span><code>The good news is that...</code> 好消息是……</span>
+          <span><code>This is why...</code> 这就是为什么……</span>
+        </div>
+
+        <div class="note note-green">
+          <strong>规则：</strong>表语从句写法同宾语从句，但 <code>that</code> 在表语从句中通常不省略。
+        </div>
+
+        <div class="example">
+          <div class="example-title">例句</div>
+          <p><code>The real problem is that the parks have been chronically starved of funding.</code></p>
+          <p><strong>主干：</strong><code>The real problem is that...</code></p>
+          <p><strong>理解：</strong>真正的问题是这些公园长期缺乏资金。</p>
+        </div>
+
+        <div class="note note-amber">
+          <strong>翻译技巧：</strong>先翻主句框架：“问题是……”“原因是……”，再翻 that 从句内容。
+        </div>
+
+        <details>
+          <summary>本模块记忆点</summary>
+          <div class="detail-body">
+            <p>看到 <code>is / are / was / were + that / whether / what / why / how</code>，优先考虑表语从句。</p>
+            <p>除了 be，<code>become</code>、<code>remain</code>、<code>seem</code> 等系动词后也可能接表语从句。</p>
+          </div>
+        </details>
+      </section>
+      <!-- END: 表语从句 -->
+
+      <!-- START: 主语从句 -->
+      <section class="card" id="subject">
+        <h2>模块 3：主语从句</h2>
+        <div class="rule">
+          主语从句 = 一个句子做主语。它可以放句首，也可以放句尾，用 it 做形式主语。
+        </div>
+
+        <div class="grid-2">
+          <div class="mini-card">
+            <h3>位置一：放句首</h3>
+            <p><code>That he lied is clear.</code></p>
+            <p><code>What he said matters.</code></p>
+            <p>从句整体在谓语前做主语。</p>
+          </div>
+          <div class="mini-card">
+            <h3>位置二：放句尾</h3>
+            <p><code>It is clear that he lied.</code></p>
+            <p><code>It remains to be seen how this works.</code></p>
+            <p><code>it</code> 是形式主语，真正主语在后面。</p>
+          </div>
+        </div>
+
+        <div class="note note-green">
+          <strong>必须掌握：</strong>主语从句中的 <code>that</code> 不做成分，但不能省略；表达“是否”通常用 <code>whether</code>，不用 <code>if</code>。
+        </div>
+
+        <div class="note note-red">
+          <strong>严重错误：</strong><code>He is honest is clear.</code> 错。应写成 <code>That he is honest is clear.</code>
+        </div>
+
+        <div class="example">
+          <div class="example-title">例句</div>
+          <p><code>Whether the separation distance involved would satisfy air traffic control regulations is another matter.</code></p>
+          <p><strong>主语从句：</strong><code>Whether the separation distance involved would satisfy air traffic control regulations</code></p>
+          <p><strong>主句：</strong><code>is another matter</code></p>
+          <p><strong>参考翻译：</strong>被涉及的间隔距离是否会满足航空交通管制条例，是另一回事。</p>
+        </div>
+
+        <details>
+          <summary>本模块记忆点</summary>
+          <div class="detail-body">
+            <p>主语从句整体表示“一件事”，所以后面的谓语通常用单数。</p>
+            <p>写作中更推荐 <code>It is ... that...</code>，因为不头重脚轻，也更像正式表达。</p>
+          </div>
+        </details>
+      </section>
+      <!-- END: 主语从句 -->
+
+      <!-- START: 同位语从句 -->
+      <section class="card" id="appositive">
+        <h2>模块 4：同位语从句</h2>
+        <div class="rule">
+          同位语从句 = 一个句子做同位语，放在抽象名词后，解释这个名词的具体内容。
+        </div>
+
+        <p>同位语从句不是修饰名词外表，而是解释名词内容。通常搭配抽象名词。</p>
+
+        <div class="grid-2">
+          <div class="mini-card">
+            <h3>典型结构</h3>
+            <p><code>抽象名词 + that + 陈述句</code></p>
+            <p>例如：<code>the fact that he lied</code></p>
+          </div>
+          <div class="mini-card">
+            <h3>that 特点</h3>
+            <p><code>that</code> 不做成分。</p>
+            <p><code>that</code> 不能省略。</p>
+            <p>同位语从句中最常见的是 <code>that + 陈述句</code>。</p>
+          </div>
+        </div>
+
+        <table>
+          <thead>
+            <tr>
+              <th>抽象名词</th>
+              <th>意思</th>
+              <th>常见搭配</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>fact</td><td>事实</td><td><code>the fact that...</code></td></tr>
+            <tr><td>idea</td><td>想法</td><td><code>the idea that...</code></td></tr>
+            <tr><td>sign</td><td>迹象，标志</td><td><code>a sign that...</code></td></tr>
+            <tr><td>belief / faith</td><td>信念，相信的事</td><td><code>the belief that...</code></td></tr>
+            <tr><td>claim / report</td><td>声明，报告</td><td><code>the claim that...</code></td></tr>
+            <tr><td>evidence</td><td>证据</td><td><code>the evidence that...</code></td></tr>
+            <tr><td>indication / implication</td><td>暗示，迹象，影响</td><td><code>the implication that...</code></td></tr>
+            <tr><td>insight</td><td>洞察，见解</td><td><code>the insight that...</code></td></tr>
+            <tr><td>probability</td><td>可能性</td><td><code>the probability that...</code></td></tr>
+            <tr><td>requirement</td><td>要求</td><td><code>the requirement that...</code></td></tr>
+          </tbody>
+        </table>
+
+        <div class="example">
+          <div class="example-title">例句</div>
+          <p><code>The insight that curiosity can drive you to do self-destructive things is a profound one.</code></p>
+          <p><strong>主干：</strong><code>The insight is a profound one.</code></p>
+          <p><strong>同位语从句：</strong><code>that curiosity can drive you to do self-destructive things</code>，解释 <code>insight</code>。</p>
+        </div>
+
+        <div class="note note-amber">
+          <strong>易混点：</strong>看到 <code>It is ... that...</code> 不一定都是主语从句；如果 <code>that</code> 从句解释前面的抽象名词，仍然是同位语从句。
+        </div>
+
+        <details>
+          <summary>本模块记忆点</summary>
+          <div class="detail-body">
+            <p>判断公式：<code>抽象名词 + that + 完整句子</code>。如果 that 从句解释这个名词，就是同位语从句。</p>
+            <p>同位语从句最容易和定语从句混，后续学习定语从句时要重点区分。</p>
+          </div>
+        </details>
+      </section>
+      <!-- END: 同位语从句 -->
+
+      <!-- START: 考场攻略 -->
+      <section class="card" id="exam">
+        <h2>考场攻略：写作提分 + 阅读翻译断句</h2>
+
+        <h3>攻略一：写作模板</h3>
+        <div class="grid-3">
+          <div class="mini-card">
+            <h3>观点看法</h3>
+            <p><code>It is done that...</code></p>
+            <p>用于表达“人们认为 / 据说 / 有人建议 / 官方宣布”。</p>
+            <div class="note note-blue">
+              <code>It is believed that...</code><br />
+              <code>It is acknowledged that...</code><br />
+              <code>It was proposed that...</code>
+            </div>
+          </div>
+
+          <div class="mini-card">
+            <h3>评价一件事</h3>
+            <p><code>It is + adj./n. + that/whether...</code></p>
+            <p>用于表达“某事很重要 / 不奇怪 / 不清楚”。</p>
+            <div class="note note-green">
+              <code>It is clear that...</code><br />
+              <code>It is not surprising that...</code><br />
+              <code>It is unclear whether...</code>
+            </div>
+          </div>
+
+          <div class="mini-card">
+            <h3>说明“什么是什么”</h3>
+            <p><code>A is that...</code></p>
+            <p>表语从句模板，用来解释问题、原因、建议、结果。</p>
+            <div class="note note-purple">
+              <code>The problem is that...</code><br />
+              <code>The reason is that...</code><br />
+              <code>The proposal is that...</code>
+            </div>
+          </div>
+        </div>
+
+        <details>
+          <summary>模板一详解：It is done that...</summary>
+          <div class="detail-body">
+            <p>这个模板的优点是客观。中文常说“我认为”“人们认为”，但英语学术表达更喜欢把“人”隐藏，把“事情”放到前面。</p>
+            <div class="example">
+              <div class="example-title">例句</div>
+              <p><code>It was announced that the Games of the 30th Olympiad would be in London.</code></p>
+              <p><strong>理解：</strong>官方宣布第 30 届奥运会将在伦敦举行。</p>
+            </div>
+            <p><strong>可替换动词：</strong><code>said</code>, <code>thought</code>, <code>believed</code>, <code>announced</code>, <code>proposed</code>, <code>argued</code>, <code>noted</code>, <code>admitted</code>, <code>acknowledged</code>。</p>
+            <div class="note note-amber">
+              <strong>特别注意：</strong><code>It was proposed that the system be changed.</code> 中 <code>be changed</code> 可理解为省略了 <code>should</code>，完整为 <code>should be changed</code>。
+            </div>
+          </div>
+        </details>
+
+        <details>
+          <summary>攻略二：如何快速找到从句</summary>
+          <div class="detail-body">
+            <p>第一步，找连接词。从句通常开始于 <code>that</code>, <code>whether</code>, <code>what</code>, <code>how</code>, <code>why</code>, <code>when</code>, <code>where</code>。</p>
+            <p>第二步，找结束位置。从句可能结束于三处：</p>
+            <ul>
+              <li>标点处：逗号、句号等。</li>
+              <li>下一个连接词前。</li>
+              <li>第二个谓语动词前。</li>
+            </ul>
+            <div class="example">
+              <div class="example-title">例句</div>
+              <p><code>The common idea that high CEO pay is mainly about ripping people off doesn't explain history very well.</code></p>
+              <p><strong>从句开始：</strong><code>that</code></p>
+              <p><strong>第一个谓语：</strong><code>is</code>，属于 that 从句。</p>
+              <p><strong>第二个谓语：</strong><code>doesn't explain</code>，属于主句。</p>
+              <p><strong>从句范围：</strong><code>that high CEO pay is mainly about ripping people off</code></p>
+            </div>
+          </div>
+        </details>
+
+        <details>
+          <summary>攻略三：如何判断从句类型</summary>
+          <div class="detail-body">
+            <div class="rule">判断类型只记三个字：往前看。</div>
+            <table>
+              <thead>
+                <tr>
+                  <th>往前看到什么</th>
+                  <th>判断</th>
+                  <th>例子</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>动词</td>
+                  <td>动宾宾语从句</td>
+                  <td><code>found that...</code></td>
+                </tr>
+                <tr>
+                  <td>介词</td>
+                  <td>介宾宾语从句</td>
+                  <td><code>about how...</code></td>
+                </tr>
+                <tr>
+                  <td>系动词</td>
+                  <td>表语从句</td>
+                  <td><code>This is why...</code></td>
+                </tr>
+                <tr>
+                  <td>抽象名词</td>
+                  <td>同位语从句</td>
+                  <td><code>the idea that...</code></td>
+                </tr>
+                <tr>
+                  <td>形式主语 it</td>
+                  <td>主语从句</td>
+                  <td><code>It is clear that...</code></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </details>
+
+        <div class="note note-red">
+          <strong>考场禁忌：</strong>不要看到一个连接词就立刻判断类型；必须先找到从句范围，再“往前看”判断它做什么成分。
+        </div>
+      </section>
+      <!-- END: 考场攻略 -->
+
+      <!-- START: 真题演练中心 -->
+      <section class="card" id="practice">
+        <h2>真题 / 例句演练中心</h2>
+        <div class="note note-purple">
+          <strong>练习方法：</strong>先自己判断从句位置和类型，再展开答案。重点不是背答案，而是训练“找连接词 → 定范围 → 往前看”的步骤。
+        </div>
+
+        <div class="practice">
+          <div class="practice-title">练习 1：介宾宾语从句</div>
+          <div class="question">
+            <code>That conflicted with how I needed to train to reach my goals.</code>
+          </div>
+          <div class="answer">
+            <details class="answer-toggle">
+              <summary>点击查看答案解析</summary>
+              <div class="answer-content">
+                <p><strong>答案：</strong><code>how I needed to train to reach my goals</code> 是介宾宾语从句。</p>
+                <p><strong>解析：</strong>从句由 <code>how</code> 引导，往前看，前面是介词 <code>with</code>，所以是介词后的宾语从句。</p>
+                <p class="translation"><strong>参考翻译：</strong>那与我为实现目标所需要的训练方式发生了冲突。</p>
+              </div>
+            </details>
+          </div>
+        </div>
+
+        <div class="practice">
+          <div class="practice-title">练习 2：it 形式主语</div>
+          <div class="question">
+            <code>It is clearer than ever that the future belongs to renewable sources such as wind and solar.</code>
+          </div>
+          <div class="answer">
+            <details class="answer-toggle">
+              <summary>点击查看答案解析</summary>
+              <div class="answer-content">
+                <p><strong>答案：</strong><code>that the future belongs to renewable sources such as wind and solar</code> 是主语从句。</p>
+                <p><strong>解析：</strong><code>it</code> 是形式主语，真正主语是后面的 that 从句。中间有形容词比较级 <code>clearer</code>，不是强调句。</p>
+                <p class="translation"><strong>参考翻译：</strong>未来属于风能、太阳能等可再生能源，这一点比以往任何时候都更加清楚。</p>
+              </div>
+            </details>
+          </div>
+        </div>
+
+        <div class="practice">
+          <div class="practice-title">练习 3：主语从句 + 表语从句</div>
+          <div class="question">
+            <code>What makes the problem so thorny is that the usual time-management techniques don’t seem sufficient.</code>
+          </div>
+          <div class="answer">
+            <details class="answer-toggle">
+              <summary>点击查看答案解析</summary>
+              <div class="answer-content">
+                <p><strong>答案：</strong><code>What makes the problem so thorny</code> 是主语从句；<code>that the usual time-management techniques don’t seem sufficient</code> 是表语从句。</p>
+                <p><strong>解析：</strong>句子主干是 <code>A is B</code>。A 位置由 what 从句充当主语；B 位置在系动词 <code>is</code> 后，由 that 从句充当表语。</p>
+                <p class="translation"><strong>参考翻译：</strong>使这个问题如此棘手的是，通常的时间管理技巧似乎并不足够。</p>
+              </div>
+            </details>
+          </div>
+        </div>
+
+        <div class="practice">
+          <div class="practice-title">练习 4：动宾宾语从句</div>
+          <div class="question">
+            <code>Before applying for university, I told everyone that I would study journalism.</code>
+          </div>
+          <div class="answer">
+            <details class="answer-toggle">
+              <summary>点击查看答案解析</summary>
+              <div class="answer-content">
+                <p><strong>答案：</strong><code>that I would study journalism</code> 是宾语从句。</p>
+                <p><strong>解析：</strong><code>told everyone that...</code> 是双宾结构：告诉某人某事。that 从句表示“告诉的事情”。</p>
+                <p class="translation"><strong>参考翻译：</strong>在申请大学之前，我告诉所有人我将学习新闻学。</p>
+              </div>
+            </details>
+          </div>
+        </div>
+
+        <div class="practice">
+          <div class="practice-title">练习 5：announce that...</div>
+          <div class="question">
+            <code>The Labor Party has recently announced that it will retain a large part of the coalition’s spending plans.</code>
+          </div>
+          <div class="answer">
+            <details class="answer-toggle">
+              <summary>点击查看答案解析</summary>
+              <div class="answer-content">
+                <p><strong>答案：</strong><code>that it will retain a large part of the coalition’s spending plans</code> 是动宾宾语从句。</p>
+                <p><strong>解析：</strong>往前看是动词 <code>announced</code>，that 从句说明“宣布的内容”。</p>
+                <p class="translation"><strong>参考翻译：</strong>工党最近宣布，它将保留联盟大部分开支计划。</p>
+              </div>
+            </details>
+          </div>
+        </div>
+
+        <div class="practice">
+          <div class="practice-title">练习 6：A is B 结构</div>
+          <div class="question">
+            <code>What makes this slump different from the last is that there are still buyers in the market.</code>
+          </div>
+          <div class="answer">
+            <details class="answer-toggle">
+              <summary>点击查看答案解析</summary>
+              <div class="answer-content">
+                <p><strong>答案：</strong><code>What makes this slump different from the last</code> 是主语从句；<code>that there are still buyers in the market</code> 是表语从句。</p>
+                <p><strong>主干：</strong><code>What... is that...</code></p>
+                <p class="translation"><strong>参考翻译：</strong>使这次经济低迷不同于上一次的是，市场上仍然有买家。</p>
+              </div>
+            </details>
+          </div>
+        </div>
+
+        <div class="practice">
+          <div class="practice-title">练习 7：同位语从句</div>
+          <div class="question">
+            <code>There is concern that government, employers, and marketers might be able to access these data, thereby encroaching on our privacy.</code>
+          </div>
+          <div class="answer">
+            <details class="answer-toggle">
+              <summary>点击查看答案解析</summary>
+              <div class="answer-content">
+                <p><strong>答案：</strong><code>that government, employers, and marketers might be able to access these data...</code> 是同位语从句。</p>
+                <p><strong>解析：</strong>that 从句解释抽象名词 <code>concern</code> 的内容：担心什么。</p>
+                <p class="translation"><strong>参考翻译：</strong>有人担心政府、雇主和营销人员可能会接触这些数据，从而侵犯我们的隐私。</p>
+              </div>
+            </details>
+          </div>
+        </div>
+
+        <div class="practice">
+          <div class="practice-title">练习 8：assure somebody that...</div>
+          <div class="question">
+            <code>The Biotechnology Industry Organization, BIO, a trade group, assured members that this was just a preliminary step in a long battle.</code>
+          </div>
+          <div class="answer">
+            <details class="answer-toggle">
+              <summary>点击查看答案解析</summary>
+              <div class="answer-content">
+                <p><strong>答案：</strong><code>that this was just a preliminary step in a long battle</code> 是宾语从句。</p>
+                <p><strong>解析：</strong><code>assure somebody that...</code> 表示“使某人确信某事”，that 从句是“确信的内容”。</p>
+                <p class="translation"><strong>参考翻译：</strong>生物技术产业组织 BIO 这个贸易团体让成员确信，这只是长期斗争中的初步一步。</p>
+              </div>
+            </details>
+          </div>
+        </div>
+
+        <div class="practice">
+          <div class="practice-title">练习 9：It is true that...</div>
+          <div class="question">
+            <code>It’s true that high school coding classes aren’t essential for learning computer science in college.</code>
+          </div>
+          <div class="answer">
+            <details class="answer-toggle">
+              <summary>点击查看答案解析</summary>
+              <div class="answer-content">
+                <p><strong>答案：</strong><code>that high school coding classes aren’t essential...</code> 是主语从句。</p>
+                <p><strong>解析：</strong><code>It is true that...</code> 是形式主语结构，that 从句是真正主语。</p>
+                <p class="translation"><strong>参考翻译：</strong>高中编程课程对于大学学习计算机科学并不是必不可少的，这一点是真的。</p>
+              </div>
+            </details>
+          </div>
+        </div>
+
+        <div class="practice">
+          <div class="practice-title">练习 10：省略 that 的宾语从句</div>
+          <div class="question">
+            <code>But most people will come away from this book believing it was money well spent.</code>
+          </div>
+          <div class="answer">
+            <details class="answer-toggle">
+              <summary>点击查看答案解析</summary>
+              <div class="answer-content">
+                <p><strong>答案：</strong><code>it was money well spent</code> 是省略了 <code>that</code> 的宾语从句。</p>
+                <p><strong>解析：</strong>完整结构可理解为 <code>believing that it was money well spent</code>。宾语从句中 that 不做成分，所以可以省略。</p>
+                <p class="translation"><strong>参考翻译：</strong>但大多数人读完这本书后会认为这钱花得值。</p>
+              </div>
+            </details>
+          </div>
+        </div>
+
+        <div class="practice">
+          <div class="practice-title">练习 11：about how much...</div>
+          <div class="question">
+            <code>In an essay entitled “Making It in America,” the author Adam Davidson relates a joke from cotton country about just how much a modern textile mill has been automated.</code>
+          </div>
+          <div class="answer">
+            <details class="answer-toggle">
+              <summary>点击查看答案解析</summary>
+              <div class="answer-content">
+                <p><strong>答案：</strong><code>just how much a modern textile mill has been automated</code> 是介宾宾语从句。</p>
+                <p><strong>解析：</strong>往前看是介词 <code>about</code>。<code>just</code> 修饰 <code>how much</code>，最好一起看。</p>
+                <p><strong>补充：</strong><code>entitled</code> 是非谓语，表示“被命名为”；<code>make it</code> 可表示“成功”。</p>
+                <p class="translation"><strong>参考翻译：</strong>在一篇题为《在美国成功》的文章中，作者 Adam Davidson 讲述了一个来自棉花产区的笑话，内容是一个现代纺织厂到底已经自动化到了什么程度。</p>
+              </div>
+            </details>
+          </div>
+        </div>
+
+        <div class="practice">
+          <div class="practice-title">练习 12：found that...</div>
+          <div class="question">
+            <code>One survey found that bureaucratic delays led the average H-2A worker to arrive on the job 22 days late.</code>
+          </div>
+          <div class="answer">
+            <details class="answer-toggle">
+              <summary>点击查看答案解析</summary>
+              <div class="answer-content">
+                <p><strong>答案：</strong><code>that bureaucratic delays led...</code> 是动宾宾语从句。</p>
+                <p><strong>解析：</strong>往前看是动词 <code>found</code>，that 从句是调查“发现的内容”。</p>
+                <p class="translation"><strong>参考翻译：</strong>一项调查发现，官僚主义的延误导致普通 H-2A 工人晚 22 天到岗。</p>
+              </div>
+            </details>
+          </div>
+        </div>
+
+        <div class="practice">
+          <div class="practice-title">练习 13：省略 that 的宾语从句</div>
+          <div class="question">
+            <code>Leys has alarmed health campaigners by suggesting he wants industry rather than government to take the lead.</code>
+          </div>
+          <div class="answer">
+            <details class="answer-toggle">
+              <summary>点击查看答案解析</summary>
+              <div class="answer-content">
+                <p><strong>答案：</strong><code>he wants industry rather than government to take the lead</code> 是省略 <code>that</code> 的宾语从句。</p>
+                <p><strong>解析：</strong>完整结构是 <code>by suggesting that he wants...</code>。that 在宾语从句中可省略。</p>
+                <p class="translation"><strong>参考翻译：</strong>Leys 表示他希望由行业而不是政府带头，这让健康运动人士感到警觉。</p>
+              </div>
+            </details>
+          </div>
+        </div>
+
+        <div class="practice">
+          <div class="practice-title">练习 14：两个 how 从句</div>
+          <div class="question">
+            <code>For the low-sympathy kids, how much they shared appeared to turn on how inclined they were to feel guilty.</code>
+          </div>
+          <div class="answer">
+            <details class="answer-toggle">
+              <summary>点击查看答案解析</summary>
+              <div class="answer-content">
+                <p><strong>答案：</strong><code>how much they shared</code> 是主语从句；<code>how inclined they were to feel guilty</code> 是介宾宾语从句。</p>
+                <p><strong>解析：</strong>第一个 how 从句位于谓语 <code>appeared</code> 前，整体做主语。第二个 how 从句在介词 <code>on</code> 后，做介词宾语。</p>
+                <p class="translation"><strong>参考翻译：</strong>对于同情心较低的孩子来说，他们分享多少似乎取决于他们有多倾向于感到内疚。</p>
+              </div>
+            </details>
+          </div>
+        </div>
+
+        <div class="practice">
+          <div class="practice-title">练习 15：宾语从句 + 同位语从句</div>
+          <div class="question">
+            <code>Ralph Rapson may have mispredicted just how the mechanical revolution would impact everyday life, but his belief that self-sufficiency was both desirable and inevitable was widely shared.</code>
+          </div>
+          <div class="answer">
+            <details class="answer-toggle">
+              <summary>点击查看答案解析</summary>
+              <div class="answer-content">
+                <p><strong>答案：</strong><code>just how the mechanical revolution would impact everyday life</code> 是宾语从句；<code>that self-sufficiency was both desirable and inevitable</code> 是同位语从句。</p>
+                <p><strong>解析：</strong>第一个从句往前看是动词 <code>mispredicted</code>，所以是宾语从句。第二个 that 从句解释抽象名词 <code>belief</code>，所以是同位语从句。</p>
+                <p><strong>补充：</strong><code>may have done</code> 表示对过去的推测，“可能过去做过”。</p>
+                <p class="translation"><strong>参考翻译：</strong>Ralph Rapson 可能错误预测了机械革命将如何影响日常生活，但他关于自给自足既值得追求又不可避免的信念被广泛认同。</p>
+              </div>
+            </details>
+          </div>
+        </div>
+
+        <details class="non-key">
+          <summary>补充例句：考场攻略中的两个断句例子</summary>
+          <div class="detail-body">
+            <div class="practice">
+              <div class="practice-title">补充 1：表语从句</div>
+              <div class="question">
+                <code>Perhaps this is why many worry about the agonizing dullness of a jobless future.</code>
+              </div>
+              <div class="answer">
+                <details class="answer-toggle">
+                  <summary>点击查看答案解析</summary>
+                  <div class="answer-content">
+                    <p><strong>答案：</strong><code>why many worry about...</code> 是表语从句。</p>
+                    <p><strong>解析：</strong>why 从句前面是系动词 <code>is</code>，所以是表语从句。</p>
+                    <p class="translation"><strong>参考翻译：</strong>也许这就是为什么许多人担心没有工作的未来会令人痛苦而无聊。</p>
+                  </div>
+                </details>
+              </div>
+            </div>
+
+            <div class="practice">
+              <div class="practice-title">补充 2：同位语从句</div>
+              <div class="question">
+                <code>The common idea that high CEO pay is mainly about ripping people off doesn't explain history very well.</code>
+              </div>
+              <div class="answer">
+                <details class="answer-toggle">
+                  <summary>点击查看答案解析</summary>
+                  <div class="answer-content">
+                    <p><strong>答案：</strong><code>that high CEO pay is mainly about ripping people off</code> 是同位语从句。</p>
+                    <p><strong>解析：</strong>that 从句解释抽象名词 <code>idea</code>，说明“普遍想法”的内容。</p>
+                    <p class="translation"><strong>参考翻译：</strong>“CEO 高薪主要是在剥削人们”这一普遍想法，并不能很好地解释历史。</p>
+                  </div>
+                </details>
+              </div>
+            </div>
+          </div>
+        </details>
+      </section>
+      <!-- END: 真题演练中心 -->
+
+      <!-- START: 易错点整理 -->
+      <section class="card" id="mistakes">
+        <h2>易错点集中整理</h2>
+
+        <div class="grid-2">
+          <div class="mini-card">
+            <h3>that 是否省略</h3>
+            <p><span class="tag tag-green">宾语从句</span> that 不做成分时通常可省。</p>
+            <p><span class="tag tag-red">主语 / 表语 / 同位语从句</span> that 通常不省。</p>
+          </div>
+
+          <div class="mini-card">
+            <h3>whether 与 if</h3>
+            <p>主语从句表达“是否”时，通常用 <code>whether</code>，不用 <code>if</code>。</p>
+            <p><code>Whether he comes is uncertain.</code></p>
+          </div>
+
+          <div class="mini-card">
+            <h3>陈述句语序</h3>
+            <p>名词性从句内部用陈述句语序。</p>
+            <p class="note note-red"><code>Why did he leave is unknown.</code> 错。</p>
+            <p class="note note-green"><code>Why he left is unknown.</code> 对。</p>
+          </div>
+
+          <div class="mini-card">
+            <h3>只数谓语，不数非谓语</h3>
+            <p><code>to do</code>、<code>doing</code>、<code>done</code> 很多时候是非谓语，不参与断主句从句。</p>
+            <p>遇到 <code>-ed</code> 结尾，要看意思：主动多为谓语，被动多为非谓语。</p>
+          </div>
+        </div>
+
+        <div class="note note-amber">
+          <strong>老师强调的方法：</strong>从句从连接词开始；可能结束于标点、下一个连接词前、第二个谓语动词前。判断类型时“三个字：往前看”。
+        </div>
+      </section>
+      <!-- END: 易错点整理 -->
+
+      <!-- START: 最终检查清单 -->
+      <section class="card" id="checklist">
+        <h2>最终检查清单</h2>
+
+        <h3>一、基础概念</h3>
+        <div class="checklist">
+          <div class="check-item">我能说出四类名词性从句：宾语、表语、主语、同位语。</div>
+          <div class="check-item">我知道名词性从句本质是“一个句子当名词用”。</div>
+          <div class="check-item">我知道四类从句写法基本相同：连接词 + 陈述句语序。</div>
+        </div>
+
+        <h3>二、位置判断</h3>
+        <div class="checklist">
+          <div class="check-item">动词后、介词后的从句，我能优先判断为宾语从句。</div>
+          <div class="check-item">系动词后的从句，我能判断为表语从句。</div>
+          <div class="check-item">句首做主语，或 it 后真正主语的从句，我能判断为主语从句。</div>
+          <div class="check-item">抽象名词后解释名词内容的从句，我能判断为同位语从句。</div>
+        </div>
+
+        <h3>三、必背规则</h3>
+        <div class="checklist">
+          <div class="check-item">主语从句中的 that 不做成分，但不能省略。</div>
+          <div class="check-item">表语从句中的 that 通常不省略。</div>
+          <div class="check-item">同位语从句中的 that 不做成分，也不能省略。</div>
+          <div class="check-item">主语从句表达“是否”时，通常用 whether，不用 if。</div>
+          <div class="check-item">名词性从句内部必须使用陈述句语序。</div>
+        </div>
+
+        <h3>四、考场应用</h3>
+        <div class="checklist">
+          <div class="check-item">我会用 <code>It is done that...</code> 表达客观观点。</div>
+          <div class="check-item">我会用 <code>It is + adj./n. + that/whether...</code> 评价一件事。</div>
+          <div class="check-item">我会用 <code>The problem/reason/proposal is that...</code> 写表语从句。</div>
+          <div class="check-item">我会先找连接词，再定从句范围，最后“往前看”判断类型。</div>
+          <div class="check-item">我知道分析长难句时只数谓语动词，不数非谓语。</div>
+        </div>
+      </section>
+      <!-- END: 最终检查清单 -->
+
+      <!-- START: 完整性检查 -->
+      <section class="card non-key">
+        <h2>完整性检查</h2>
+        <p>本单文件 HTML 已覆盖以下资料范围：</p>
+        <ul>
+          <li>宾语从句、表语从句、主语从句、同位语从句的定义、写法、位置与易错点。</li>
+          <li>真题演练中的 15 个句子及答案解析。</li>
+          <li>考场攻略中的写作模板、找从句方法、判断从句类型方法。</li>
+          <li>that 省略规则、whether / if 区分、形式主语 it、非谓语与谓语判断。</li>
+        </ul>
+        <div class="note note-blue">
+          代码检查标记：<code>&lt;!-- END: 首页 --&gt;</code>、<code>&lt;!-- END: 总方法论 --&gt;</code>、<code>&lt;!-- END: 真题演练中心 --&gt;</code>、<code>&lt;!-- END: 最终检查清单 --&gt;</code>、<code>&lt;footer&gt;</code>、<code>&lt;script&gt;</code>、<code>&lt;/body&gt;</code>、<code>&lt;/html&gt;</code> 均已包含。
+        </div>
+      </section>
+      <!-- END: 完整性检查 -->
+
+    </main>
+
+    <!-- START: 页脚 -->
+    <footer>
+      <p><strong>资料主题：</strong>考研英语二｜名词性从句复习系统</p>
+      <p><strong>覆盖范围：</strong>宾语从句、表语从句、主语从句、同位语从句、真题演练、考场攻略</p>
+      <p><strong>最后更新时间：</strong>2026-05-18</p>
+    </footer>
+    <!-- END: 页脚 -->
+
+  </div>
+
+  <!-- START: JavaScript -->
+  <script>
+    function expandAll() {
+      document.querySelectorAll('details').forEach(function (detail) {
+        detail.open = true;
+      });
+    }
+
+    function collapseAll() {
+      document.querySelectorAll('details').forEach(function (detail) {
+        detail.open = false;
+      });
+    }
+
+    function showAnswers() {
+      document.querySelectorAll('details.answer-toggle').forEach(function (detail) {
+        detail.open = true;
+      });
+    }
+
+    function hideAnswers() {
+      document.querySelectorAll('details.answer-toggle').forEach(function (detail) {
+        detail.open = false;
+      });
+    }
+
+    function toggleFocusMode() {
+      var body = document.body;
+      var btn = document.getElementById('focusBtn');
+      body.classList.toggle('focus-mode');
+
+      if (body.classList.contains('focus-mode')) {
+        btn.textContent = '显示全部';
+      } else {
+        btn.textContent = '只看重点';
+      }
+    }
+
+    function printPage() {
+      expandAll();
+      showAnswers();
+      setTimeout(function () {
+        window.print();
+      }, 120);
+    }
+  </script>
+  <!-- END: JavaScript -->
+
+</body>
+</html>

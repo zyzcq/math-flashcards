@@ -939,6 +939,15 @@ const appData = {
         url: "english/宾语从句.html",
         cards: []
     },
+    english_grammar_noun_clause: {
+        id: "english_grammar_noun_clause",
+        title: "英语语法：名词性从句",
+        subtitle: "主语/宾语/表语/同位语从句总览",
+        themeColor: "indigo",
+        type: "article",
+        url: "english/名词性从句.html",
+        cards: []
+    },
     c_pointer_adv1: {
         id: "c_pointer_adv1",
         title: "C语言：指针3",
@@ -1018,7 +1027,8 @@ const siteData = [
             appData.english_grammar_ext,
             appData.english_grammar_upgrade,
             appData.english_grammar_parallel,
-            appData.english_grammar_object_clause
+            appData.english_grammar_object_clause,
+            appData.english_grammar_noun_clause
         ]
     },
     {
