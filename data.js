@@ -977,6 +977,16 @@ const appData = {
         type: "article",
         url: "ds/单链表.html",
         cards: []
+    },
+
+    ds_doubly_list: {
+        id: "ds_doubly_list",
+        title: "数据结构：双链表",
+        subtitle: "prior/next、插删、销毁、双向遍历",
+        themeColor: "amber",
+        type: "article",
+        url: "ds/双链表.html",
+        cards: []
     }
 };
 
@@ -1047,7 +1057,8 @@ const siteData = [
         categoryBorder: "border-amber-500",
         items: [
             appData.ds_seq_list,
-            appData.ds_singly_list
+            appData.ds_singly_list,
+            appData.ds_doubly_list
         ]
     }
 ];

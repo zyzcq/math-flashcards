@@ -1,0 +1,1350 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>数据结构 · 双链表学习复习系统</title>
+  <style>
+    :root {
+      --bg: #f6f8fb;
+      --surface: #ffffff;
+      --soft: #f8fafc;
+      --text: #172033;
+      --muted: #64748b;
+      --border: #dbe3ef;
+      --blue: #2563eb;
+      --blue-soft: #eff6ff;
+      --green: #059669;
+      --green-soft: #ecfdf5;
+      --amber: #d97706;
+      --amber-soft: #fffbeb;
+      --red: #dc2626;
+      --red-soft: #fef2f2;
+      --purple: #7c3aed;
+      --purple-soft: #f5f3ff;
+      --code-bg: #111827;
+      --code-text: #e5e7eb;
+      --shadow: 0 10px 28px rgba(15, 23, 42, 0.08);
+      --radius: 8px;
+      --max: 1120px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      scroll-padding-top: 86px;
+    }
+
+    body {
+      margin: 0;
+      color: var(--text);
+      background: linear-gradient(180deg, #f8fafc 0%, var(--bg) 100%);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+      line-height: 1.72;
+    }
+
+    code {
+      padding: 2px 6px;
+      border-radius: 6px;
+      color: #1d4ed8;
+      background: #eaf2ff;
+      font-family: Consolas, Monaco, "Courier New", monospace;
+      font-size: 0.94em;
+    }
+
+    pre {
+      margin: 12px 0 0;
+      overflow-x: auto;
+      border-radius: var(--radius);
+      color: var(--code-text);
+      background: var(--code-bg);
+    }
+
+    pre code {
+      display: block;
+      padding: 16px;
+      color: var(--code-text);
+      background: transparent;
+      line-height: 1.6;
+      white-space: pre;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 12px;
+      font-size: 15px;
+    }
+
+    th,
+    td {
+      border: 1px solid var(--border);
+      padding: 10px 12px;
+      text-align: left;
+      vertical-align: top;
+    }
+
+    th {
+      background: #f1f5f9;
+    }
+
+    h1,
+    h2,
+    h3,
+    h4 {
+      margin: 0 0 10px;
+      line-height: 1.32;
+    }
+
+    p {
+      margin: 8px 0;
+    }
+
+    ul,
+    ol {
+      margin-top: 8px;
+      padding-left: 22px;
+    }
+
+    a {
+      color: var(--blue);
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      min-height: 58px;
+      padding: 9px max(16px, env(safe-area-inset-left)) 9px max(16px, env(safe-area-inset-right));
+      border-bottom: 1px solid rgba(219, 227, 239, 0.9);
+      background: rgba(255, 255, 255, 0.94);
+      backdrop-filter: blur(14px);
+    }
+
+    .topbar-title {
+      min-width: 0;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      font-weight: 900;
+    }
+
+    .topbar-actions {
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      flex-shrink: 0;
+    }
+
+    .button,
+    .topbar a {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 34px;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      padding: 0 12px;
+      color: #334155;
+      background: #fff;
+      font-size: 13px;
+      font-weight: 800;
+      cursor: pointer;
+    }
+
+    .button:hover,
+    .topbar a:hover {
+      border-color: #bfdbfe;
+      color: var(--blue);
+      text-decoration: none;
+    }
+
+    .page {
+      width: min(100% - 28px, var(--max));
+      margin: 0 auto;
+      padding: 24px 0 48px;
+    }
+
+    .hero {
+      padding: 30px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: var(--surface);
+      box-shadow: var(--shadow);
+    }
+
+    .hero h1 {
+      font-size: clamp(28px, 5vw, 44px);
+      letter-spacing: 0;
+    }
+
+    .subtitle {
+      max-width: 880px;
+      color: var(--muted);
+      font-size: 17px;
+    }
+
+    .chips,
+    .toolbar,
+    .toc {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .chips {
+      margin-top: 16px;
+    }
+
+    .chip {
+      display: inline-flex;
+      align-items: center;
+      min-height: 28px;
+      border: 1px solid transparent;
+      border-radius: 999px;
+      padding: 0 10px;
+      font-size: 13px;
+      font-weight: 850;
+    }
+
+    .blue { color: var(--blue); background: var(--blue-soft); border-color: #bfdbfe; }
+    .green { color: var(--green); background: var(--green-soft); border-color: #bbf7d0; }
+    .amber { color: var(--amber); background: var(--amber-soft); border-color: #fde68a; }
+    .red { color: var(--red); background: var(--red-soft); border-color: #fecaca; }
+    .purple { color: var(--purple); background: var(--purple-soft); border-color: #ddd6fe; }
+
+    .toolbar,
+    .toc {
+      margin-top: 16px;
+      padding: 12px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: rgba(255, 255, 255, 0.86);
+      box-shadow: 0 6px 18px rgba(15, 23, 42, 0.05);
+    }
+
+    .toolbar {
+      position: sticky;
+      top: 58px;
+      z-index: 15;
+      backdrop-filter: blur(12px);
+    }
+
+    .toc a {
+      display: inline-flex;
+      align-items: center;
+      min-height: 30px;
+      border-radius: 999px;
+      padding: 0 10px;
+      color: #475569;
+      background: #f8fafc;
+      font-size: 13px;
+      font-weight: 800;
+    }
+
+    .toc a:hover {
+      color: var(--blue);
+      background: var(--blue-soft);
+      text-decoration: none;
+    }
+
+    main {
+      display: grid;
+      gap: 16px;
+      margin-top: 16px;
+    }
+
+    .card,
+    details.lesson {
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: var(--surface);
+      box-shadow: 0 6px 18px rgba(15, 23, 42, 0.05);
+    }
+
+    .card {
+      padding: 22px;
+    }
+
+    details.lesson {
+      overflow: hidden;
+    }
+
+    details.lesson > summary {
+      cursor: pointer;
+      list-style: none;
+      padding: 19px 22px;
+      color: #0f172a;
+      background: linear-gradient(90deg, #fff, #f8fafc);
+      font-size: 20px;
+      font-weight: 900;
+    }
+
+    details.lesson > summary::-webkit-details-marker {
+      display: none;
+    }
+
+    details.lesson > summary::before {
+      content: "+";
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 24px;
+      height: 24px;
+      margin-right: 8px;
+      border-radius: 999px;
+      color: var(--blue);
+      background: var(--blue-soft);
+      font-size: 15px;
+      font-weight: 900;
+    }
+
+    details.lesson[open] > summary::before {
+      content: "-";
+    }
+
+    .lesson-body {
+      padding: 22px;
+      border-top: 1px solid var(--border);
+    }
+
+    .grid-2,
+    .grid-3 {
+      display: grid;
+      gap: 12px;
+      margin-top: 12px;
+    }
+
+    .grid-2 {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .grid-3 {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .mini {
+      padding: 14px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: var(--soft);
+    }
+
+    .note,
+    .rule,
+    .warn,
+    .practice,
+    .summary-box {
+      margin-top: 12px;
+      padding: 14px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+    }
+
+    .rule {
+      background: var(--green-soft);
+      border-color: #bbf7d0;
+    }
+
+    .note {
+      background: var(--blue-soft);
+      border-color: #bfdbfe;
+    }
+
+    .warn {
+      background: var(--red-soft);
+      border-color: #fecaca;
+    }
+
+    .practice {
+      background: var(--purple-soft);
+      border-color: #ddd6fe;
+    }
+
+    .summary-box {
+      border-left: 4px solid var(--green);
+      background: #f8fafc;
+    }
+
+    .diagram {
+      margin: 12px 0;
+      padding: 14px;
+      overflow-x: auto;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: #fff;
+      font-family: Consolas, Monaco, "Courier New", monospace;
+      line-height: 1.65;
+      white-space: pre;
+    }
+
+    .answer-toggle {
+      margin-top: 10px;
+      border: 1px solid #ddd6fe;
+      border-radius: var(--radius);
+      background: #fff;
+      overflow: hidden;
+    }
+
+    .answer-toggle > summary {
+      cursor: pointer;
+      padding: 10px 12px;
+      color: var(--purple);
+      font-weight: 850;
+      list-style: none;
+    }
+
+    .answer-toggle > summary::-webkit-details-marker {
+      display: none;
+    }
+
+    .answer-content {
+      padding: 12px;
+      border-top: 1px solid #ddd6fe;
+    }
+
+    .checklist {
+      display: grid;
+      gap: 8px;
+      margin-top: 12px;
+    }
+
+    .check {
+      padding: 10px 12px;
+      border: 1px dashed var(--border);
+      border-radius: var(--radius);
+      background: #fff;
+      font-weight: 750;
+    }
+
+    body.focus-mode .lesson-body > p,
+    body.focus-mode .lesson-body > pre,
+    body.focus-mode .lesson-body > table,
+    body.focus-mode .lesson-body > .diagram,
+    body.focus-mode .lesson-body > .grid-2,
+    body.focus-mode .lesson-body > .grid-3,
+    body.focus-mode #code .grid-2,
+    body.focus-mode #practice .practice {
+      display: none !important;
+    }
+
+    body.focus-mode .toolbar::after {
+      content: "当前：只看重点";
+      align-self: center;
+      margin-left: auto;
+      color: var(--green);
+      font-weight: 900;
+    }
+
+    @media (max-width: 820px) {
+      .grid-2,
+      .grid-3 {
+        grid-template-columns: 1fr;
+      }
+
+      .toolbar {
+        position: static;
+      }
+
+      html {
+        scroll-padding-top: 70px;
+      }
+    }
+
+    @media (max-width: 560px) {
+      .page {
+        width: min(100% - 18px, var(--max));
+        padding-top: 14px;
+      }
+
+      .topbar {
+        align-items: stretch;
+        flex-direction: column;
+      }
+
+      .topbar-title {
+        white-space: normal;
+      }
+
+      .hero,
+      .card,
+      .lesson-body {
+        padding: 18px;
+      }
+
+      details.lesson > summary {
+        padding: 16px;
+        font-size: 18px;
+      }
+    }
+
+    @media print {
+      body {
+        background: #fff !important;
+      }
+
+      .topbar,
+      .toolbar,
+      .toc {
+        display: none !important;
+      }
+
+      .page {
+        width: 100%;
+        padding: 0;
+      }
+
+      .card,
+      details.lesson,
+      .mini,
+      .note,
+      .rule,
+      .warn,
+      .practice {
+        box-shadow: none !important;
+        break-inside: avoid;
+      }
+
+      pre code,
+      .diagram {
+        white-space: pre-wrap;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="topbar">
+    <div class="topbar-title">数据结构 · 双链表学习复习系统</div>
+    <div class="topbar-actions">
+      <a href="../index.html">返回首页</a>
+      <button class="button" type="button" onclick="expandAll()">展开</button>
+      <button class="button" type="button" onclick="collapseAll()">收起</button>
+      <button class="button" type="button" onclick="toggleFocus()">重点</button>
+    </div>
+  </div>
+
+  <div class="page">
+    <header class="hero">
+      <h1>双链表：定义、插删、销毁、遍历</h1>
+      <p class="subtitle">
+        这份笔记围绕文稿完整整理：双链表为什么出现、结点如何定义、带头结点如何初始化、插入删除怎样维护两条链、如何销毁、如何前后遍历，以及空指针和复杂度问题。
+      </p>
+      <div class="chips">
+        <span class="chip blue">prior 前驱指针</span>
+        <span class="chip green">next 后继指针</span>
+        <span class="chip amber">带头结点</span>
+        <span class="chip red">空指针边界</span>
+        <span class="chip purple">双向遍历</span>
+      </div>
+    </header>
+
+    <div class="toolbar">
+      <button class="button" type="button" onclick="expandAll()">全部展开</button>
+      <button class="button" type="button" onclick="collapseAll()">全部收起</button>
+      <button class="button" type="button" onclick="showAnswers()">显示答案</button>
+      <button class="button" type="button" onclick="hideAnswers()">隐藏答案</button>
+      <button class="button" type="button" onclick="toggleFocus()">只看重点</button>
+      <button class="button" type="button" onclick="printReview()">导出 PDF</button>
+    </div>
+
+    <nav class="toc">
+      <a href="#map">学习地图</a>
+      <a href="#concept">概念与定义</a>
+      <a href="#init">初始化</a>
+      <a href="#insert">插入</a>
+      <a href="#delete">删除与销毁</a>
+      <a href="#traverse">遍历查找</a>
+      <a href="#code">完整代码</a>
+      <a href="#practice">练习</a>
+      <a href="#check">复习清单</a>
+    </nav>
+
+    <main>
+      <section id="map" class="card">
+        <h2>学习地图</h2>
+        <div class="rule">
+          <strong>总主线：</strong>双链表是在单链表的基础上多加 <code>prior</code> 指针，让每个结点既能找到后继，也能找到前驱。
+        </div>
+        <div class="grid-3">
+          <div class="mini">
+            <h3>先看结构</h3>
+            <p>单链表只有 <code>next</code>，双链表有 <code>prior</code> 和 <code>next</code> 两个指针域。</p>
+          </div>
+          <div class="mini">
+            <h3>再看改链</h3>
+            <p>插入和删除时不能只改后向链，还要同步维护前向链。</p>
+          </div>
+          <div class="mini">
+            <h3>最后看边界</h3>
+            <p>插入表尾、删除尾结点时，必须避免访问空指针。</p>
+          </div>
+        </div>
+        <div class="summary-box">
+          <strong>复习口诀：</strong>双链表多了前驱，找前驱变容易；插删要改两边，尾部别碰空指针。
+        </div>
+      </section>
+
+      <details id="concept" class="lesson" open>
+        <summary>一、为什么需要双链表</summary>
+        <div class="lesson-body">
+          <h2>1. 单链表的问题</h2>
+          <p>单链表每个结点只有指向后继结点的指针。如果给定一个结点 <code>p</code>，想找它的后继很容易，写 <code>p->next</code> 就行；但想找它的前驱很麻烦，因为结点里没有保存“前一个结点是谁”。</p>
+          <div class="diagram">单链表：
+[10|next] -> [20|next] -> [30|NULL]
+
+给定 p 指向 20：
+p->next 可以找到 30
+但 p 的前驱 10 不能直接找到</div>
+
+          <h2>2. 双链表的解决办法</h2>
+          <p>双链表在单链表基础上增加一个指针域 <code>prior</code>，让它指向当前结点的前驱结点。</p>
+          <div class="diagram">双链表：
+NULL <- [头结点] <-> [10] <-> [20] <-> [30] -> NULL
+
+每个数据结点：
+prior 指向前驱
+next  指向后继</div>
+
+          <h2>3. 结点定义</h2>
+          <p>文稿中把双链表结点命名为 <code>DNode</code>，其中 <code>D</code> 来自 double，表示双向。</p>
+          <pre><code>#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;stdbool.h&gt;
+
+typedef int ElemType;
+
+typedef struct DNode {
+    ElemType data;
+    struct DNode *prior;
+    struct DNode *next;
+} DNode, *DLinkList;</code></pre>
+
+          <table>
+            <thead>
+              <tr>
+                <th>成员</th>
+                <th>作用</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><code>data</code></td>
+                <td>存放数据元素</td>
+              </tr>
+              <tr>
+                <td><code>prior</code></td>
+                <td>指向前驱结点</td>
+              </tr>
+              <tr>
+                <td><code>next</code></td>
+                <td>指向后继结点</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <h2>4. <code>DNode</code> 和 <code>DLinkList</code></h2>
+          <p>和单链表类似，<code>DNode *</code> 和 <code>DLinkList</code> 本质都是 <code>struct DNode *</code>，只是语义不同。</p>
+          <table>
+            <thead>
+              <tr>
+                <th>写法</th>
+                <th>本质</th>
+                <th>强调</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><code>DNode *p</code></td>
+                <td>双链表结点指针</td>
+                <td><code>p</code> 是某个结点</td>
+              </tr>
+              <tr>
+                <td><code>DLinkList L</code></td>
+                <td>双链表结点指针</td>
+                <td><code>L</code> 是一条链表的入口</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <div class="summary-box">
+            <strong>本部分重点：</strong>双链表的核心变化是增加 <code>prior</code>。它解决单链表找前驱麻烦的问题，但后面插入删除时也要多维护一条前向链。
+          </div>
+        </div>
+      </details>
+
+      <details id="init" class="lesson" open>
+        <summary>二、带头结点双链表的初始化与判空</summary>
+        <div class="lesson-body">
+          <h2>1. 初始化</h2>
+          <p>文稿讨论的是带头结点的双链表。初始化时，先申请头结点空间，再让头结点的 <code>prior</code> 和 <code>next</code> 都指向 <code>NULL</code>。</p>
+          <div class="diagram">初始化后：
+L
+↓
+[prior=NULL | 头结点 | next=NULL]</div>
+          <pre><code>bool InitDLinkList(DLinkList *L) {
+    *L = (DNode *)malloc(sizeof(DNode));
+    if (*L == NULL) {
+        return false;
+    }
+
+    (*L)->prior = NULL;
+    (*L)->next = NULL;
+    return true;
+}</code></pre>
+
+          <div class="rule">
+            <strong>为什么头结点的 <code>prior</code> 永远是 <code>NULL</code>：</strong>头结点前面不会再有其他结点，所以它没有前驱。
+          </div>
+
+          <h2>2. 判空</h2>
+          <p>带头结点的双链表即使为空，也有一个头结点。判断是否为空，要看头结点之后有没有数据结点。</p>
+          <pre><code>bool Empty(DLinkList L) {
+    return L->next == NULL;
+}</code></pre>
+          <div class="diagram">空表：
+L -> [头结点] -> NULL
+
+判空：
+L->next == NULL</div>
+
+          <div class="summary-box">
+            <strong>本部分重点：</strong>初始化要设置 <code>L->prior = NULL</code> 和 <code>L->next = NULL</code>。带头结点双链表判空看 <code>L->next</code>，不是看 <code>L</code>。
+          </div>
+        </div>
+      </details>
+
+      <details id="insert" class="lesson" open>
+        <summary>三、双链表插入：在 p 后插入 s</summary>
+        <div class="lesson-body">
+          <h2>1. 插入目标</h2>
+          <p>课本中的插入是后插操作：给定结点 <code>p</code> 和新结点 <code>s</code>，把 <code>s</code> 插到 <code>p</code> 后面。</p>
+          <div class="diagram">插入前：
+[P] <----> [B]
+
+插入后：
+[P] <----> [S] <----> [B]</div>
+
+          <h2>2. 课本基本思路</h2>
+          <p>普通情况下要改四条指针：</p>
+          <ol>
+            <li><code>s->next = p->next</code>：让 <code>s</code> 指向原来 <code>p</code> 的后继。</li>
+            <li><code>p->next->prior = s</code>：让原后继的前驱改成 <code>s</code>。</li>
+            <li><code>s->prior = p</code>：让 <code>s</code> 的前驱指向 <code>p</code>。</li>
+            <li><code>p->next = s</code>：让 <code>p</code> 的后继改成 <code>s</code>。</li>
+          </ol>
+
+          <h2>3. 更严谨的代码</h2>
+          <p>如果 <code>p</code> 刚好是最后一个结点，那么 <code>p->next == NULL</code>。这时不能执行 <code>p->next->prior = s</code>，否则会空指针错误。</p>
+          <pre><code>bool InsertNextDNode(DNode *p, DNode *s) {
+    if (p == NULL || s == NULL) {
+        return false;
+    }
+
+    s->next = p->next;
+
+    if (p->next != NULL) {
+        p->next->prior = s;
+    }
+
+    s->prior = p;
+    p->next = s;
+
+    return true;
+}</code></pre>
+
+          <div class="warn">
+            <strong>尾部插入的边界：</strong>当 <code>p</code> 是尾结点时，<code>p->next == NULL</code>，只需要让 <code>s->next = NULL</code>、<code>s->prior = p</code>、<code>p->next = s</code>。
+          </div>
+
+          <h2>4. 指针修改顺序不能乱</h2>
+          <p>文稿中特别提醒：如果先执行 <code>p->next = s</code>，再执行 <code>s->next = p->next</code>，就会让 <code>s->next</code> 指向 <code>s</code> 自己。</p>
+          <div class="diagram">错误顺序：
+p->next = s;
+s->next = p->next;
+
+结果：
+[P] -> [S]
+       ↑  |
+       └──┘
+s->next 指向自己，后面的链断掉</div>
+
+          <h2>5. 后插可以推广到其他插入</h2>
+          <div class="grid-2">
+            <div class="mini">
+              <h3>按位插入</h3>
+              <p>先从头结点开始找到第 <code>i - 1</code> 个结点，再对它执行后插。</p>
+            </div>
+            <div class="mini">
+              <h3>前插操作</h3>
+              <p>双链表能直接通过 <code>p->prior</code> 找到前驱，所以在 <code>p</code> 前插入，可以转化为对 <code>p->prior</code> 后插。</p>
+            </div>
+          </div>
+
+          <pre><code>bool ListInsert(DLinkList L, int i, ElemType e) {
+    if (i < 1) {
+        return false;
+    }
+
+    DNode *p = L;
+    int j = 0;
+
+    while (p != NULL && j < i - 1) {
+        p = p->next;
+        j++;
+    }
+
+    if (p == NULL) {
+        return false;
+    }
+
+    DNode *s = (DNode *)malloc(sizeof(DNode));
+    if (s == NULL) {
+        return false;
+    }
+
+    s->data = e;
+    return InsertNextDNode(p, s);
+}</code></pre>
+
+          <div class="summary-box">
+            <strong>本部分重点：</strong>双链表后插要维护四个方向关系。最容易错的是尾部空指针和指针修改顺序。先保存旧后继，再建立新连接。
+          </div>
+        </div>
+      </details>
+
+      <details id="delete" class="lesson" open>
+        <summary>四、双链表删除与销毁</summary>
+        <div class="lesson-body">
+          <h2>1. 删除 p 的后继结点</h2>
+          <p>文稿讨论的是删除指定结点 <code>p</code> 的后继结点。令 <code>q = p->next</code>，那么真正要删除的是 <code>q</code>。</p>
+          <div class="diagram">删除前：
+[P] <----> [Q] <----> [B]
+
+删除后：
+[P] <---------------> [B]
+
+最后 free(Q)</div>
+
+          <h2>2. 严谨代码</h2>
+          <p>如果 <code>p</code> 没有后继，删除失败；如果 <code>q</code> 是尾结点，不能访问 <code>q->next->prior</code>。</p>
+          <pre><code>bool DeleteNextDNode(DNode *p) {
+    if (p == NULL) {
+        return false;
+    }
+
+    DNode *q = p->next;
+    if (q == NULL) {
+        return false;
+    }
+
+    p->next = q->next;
+
+    if (q->next != NULL) {
+        q->next->prior = p;
+    }
+
+    free(q);
+    return true;
+}</code></pre>
+
+          <div class="warn">
+            <strong>删除尾结点的边界：</strong>如果 <code>q</code> 是最后一个结点，<code>q->next == NULL</code>，这时只需要 <code>p->next = NULL</code>，不能再写 <code>q->next->prior = p</code>。
+          </div>
+
+          <h2>3. 按位删除</h2>
+          <p>按位删除可以先找第 <code>i - 1</code> 个结点，再删除它的后继。</p>
+          <pre><code>bool ListDelete(DLinkList L, int i, ElemType *e) {
+    if (i < 1) {
+        return false;
+    }
+
+    DNode *p = L;
+    int j = 0;
+
+    while (p != NULL && j < i - 1) {
+        p = p->next;
+        j++;
+    }
+
+    if (p == NULL || p->next == NULL) {
+        return false;
+    }
+
+    *e = p->next->data;
+    return DeleteNextDNode(p);
+}</code></pre>
+
+          <h2>4. 销毁双链表</h2>
+          <p>销毁双链表时，可以用循环不断删除头结点的后继结点，直到只剩头结点。最后释放头结点，并让头指针指向 <code>NULL</code>。</p>
+          <pre><code>void DestroyDLinkList(DLinkList *L) {
+    if (L == NULL || *L == NULL) {
+        return;
+    }
+
+    while ((*L)->next != NULL) {
+        DeleteNextDNode(*L);
+    }
+
+    free(*L);
+    *L = NULL;
+}</code></pre>
+          <div class="diagram">销毁过程：
+L -> 头结点 <-> 10 <-> 20 <-> 30 -> NULL
+L -> 头结点 <-> 20 <-> 30 -> NULL
+L -> 头结点 <-> 30 -> NULL
+L -> 头结点 -> NULL
+free(头结点)
+L = NULL</div>
+
+          <div class="summary-box">
+            <strong>本部分重点：</strong>删除时先保存目标 <code>q</code>，再让 <code>p</code> 跳过 <code>q</code>，如果 <code>q</code> 有后继，再修正后继的 <code>prior</code>，最后 <code>free(q)</code>。销毁要释放所有数据结点和头结点。
+          </div>
+        </div>
+      </details>
+
+      <details id="traverse" class="lesson" open>
+        <summary>五、遍历与查找</summary>
+        <div class="lesson-body">
+          <h2>1. 后向遍历</h2>
+          <p>后向遍历就是沿着 <code>next</code> 从前往后走。循环内部可以打印数据，也可以做其他处理。</p>
+          <pre><code>void PrintForward(DLinkList L) {
+    DNode *p = L->next;
+
+    while (p != NULL) {
+        printf("%d ", p->data);
+        p = p->next;
+    }
+
+    printf("\n");
+}</code></pre>
+
+          <h2>2. 前向遍历</h2>
+          <p>前向遍历就是沿着 <code>prior</code> 从后往前走。如果不想处理头结点，可以让循环在 <code>p->prior == NULL</code> 时停止。</p>
+          <pre><code>void PrintBackward(DNode *p) {
+    while (p != NULL && p->prior != NULL) {
+        printf("%d ", p->data);
+        p = p->prior;
+    }
+
+    printf("\n");
+}</code></pre>
+          <div class="note">
+            <strong>为什么用 <code>p->prior != NULL</code>：</strong>头结点的 <code>prior</code> 是 <code>NULL</code>，这个条件可以避免把头结点当作数据结点处理。
+          </div>
+
+          <h2>3. 按位查找</h2>
+          <p>双链表虽然能双向遍历，但依旧不支持随机存取。按位查找仍要一个一个走。</p>
+          <pre><code>DNode *GetElem(DLinkList L, int i) {
+    if (i < 0) {
+        return NULL;
+    }
+
+    DNode *p = L;
+    int j = 0;
+
+    while (p != NULL && j < i) {
+        p = p->next;
+        j++;
+    }
+
+    return p;
+}</code></pre>
+
+          <h2>4. 按值查找</h2>
+          <pre><code>DNode *LocateElem(DLinkList L, ElemType e) {
+    DNode *p = L->next;
+
+    while (p != NULL && p->data != e) {
+        p = p->next;
+    }
+
+    return p;
+}</code></pre>
+
+          <h2>5. 时间复杂度</h2>
+          <table>
+            <thead>
+              <tr>
+                <th>操作</th>
+                <th>复杂度</th>
+                <th>原因</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>已知 <code>p</code> 找前驱</td>
+                <td><code>O(1)</code></td>
+                <td>直接访问 <code>p->prior</code></td>
+              </tr>
+              <tr>
+                <td>已知 <code>p</code> 找后继</td>
+                <td><code>O(1)</code></td>
+                <td>直接访问 <code>p->next</code></td>
+              </tr>
+              <tr>
+                <td>在 <code>p</code> 后插入</td>
+                <td><code>O(1)</code></td>
+                <td>只改有限条指针</td>
+              </tr>
+              <tr>
+                <td>删除 <code>p</code> 后继</td>
+                <td><code>O(1)</code></td>
+                <td>只改有限条指针</td>
+              </tr>
+              <tr>
+                <td>按位查找</td>
+                <td><code>O(n)</code></td>
+                <td>不支持随机存取，只能遍历</td>
+              </tr>
+              <tr>
+                <td>按值查找</td>
+                <td><code>O(n)</code></td>
+                <td>需要逐个结点比较</td>
+              </tr>
+              <tr>
+                <td>销毁整表</td>
+                <td><code>O(n)</code></td>
+                <td>每个结点都要释放一次</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <div class="summary-box">
+            <strong>本部分重点：</strong>双链表能向前、向后遍历，但仍不能像数组那样随机访问。因此按位查找和按值查找仍然是 <code>O(n)</code>。
+          </div>
+        </div>
+      </details>
+
+      <section id="code" class="card">
+        <h2>完整代码整理</h2>
+        <p>下面是一份带头结点双链表的完整 C 代码，包含文稿里的初始化、判空、插入、删除、销毁、遍历和查找。</p>
+        <pre><code>#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;stdbool.h&gt;
+
+typedef int ElemType;
+
+typedef struct DNode {
+    ElemType data;
+    struct DNode *prior;
+    struct DNode *next;
+} DNode, *DLinkList;
+
+bool InitDLinkList(DLinkList *L) {
+    *L = (DNode *)malloc(sizeof(DNode));
+    if (*L == NULL) {
+        return false;
+    }
+
+    (*L)->prior = NULL;
+    (*L)->next = NULL;
+    return true;
+}
+
+bool Empty(DLinkList L) {
+    return L->next == NULL;
+}
+
+bool InsertNextDNode(DNode *p, DNode *s) {
+    if (p == NULL || s == NULL) {
+        return false;
+    }
+
+    s->next = p->next;
+
+    if (p->next != NULL) {
+        p->next->prior = s;
+    }
+
+    s->prior = p;
+    p->next = s;
+    return true;
+}
+
+bool ListInsert(DLinkList L, int i, ElemType e) {
+    if (i < 1) {
+        return false;
+    }
+
+    DNode *p = L;
+    int j = 0;
+
+    while (p != NULL && j < i - 1) {
+        p = p->next;
+        j++;
+    }
+
+    if (p == NULL) {
+        return false;
+    }
+
+    DNode *s = (DNode *)malloc(sizeof(DNode));
+    if (s == NULL) {
+        return false;
+    }
+
+    s->data = e;
+    return InsertNextDNode(p, s);
+}
+
+bool DeleteNextDNode(DNode *p) {
+    if (p == NULL) {
+        return false;
+    }
+
+    DNode *q = p->next;
+    if (q == NULL) {
+        return false;
+    }
+
+    p->next = q->next;
+
+    if (q->next != NULL) {
+        q->next->prior = p;
+    }
+
+    free(q);
+    return true;
+}
+
+bool ListDelete(DLinkList L, int i, ElemType *e) {
+    if (i < 1) {
+        return false;
+    }
+
+    DNode *p = L;
+    int j = 0;
+
+    while (p != NULL && j < i - 1) {
+        p = p->next;
+        j++;
+    }
+
+    if (p == NULL || p->next == NULL) {
+        return false;
+    }
+
+    *e = p->next->data;
+    return DeleteNextDNode(p);
+}
+
+DNode *GetElem(DLinkList L, int i) {
+    if (i < 0) {
+        return NULL;
+    }
+
+    DNode *p = L;
+    int j = 0;
+
+    while (p != NULL && j < i) {
+        p = p->next;
+        j++;
+    }
+
+    return p;
+}
+
+DNode *LocateElem(DLinkList L, ElemType e) {
+    DNode *p = L->next;
+
+    while (p != NULL && p->data != e) {
+        p = p->next;
+    }
+
+    return p;
+}
+
+void PrintForward(DLinkList L) {
+    DNode *p = L->next;
+
+    while (p != NULL) {
+        printf("%d ", p->data);
+        p = p->next;
+    }
+
+    printf("\n");
+}
+
+void PrintBackward(DNode *p) {
+    while (p != NULL && p->prior != NULL) {
+        printf("%d ", p->data);
+        p = p->prior;
+    }
+
+    printf("\n");
+}
+
+void DestroyDLinkList(DLinkList *L) {
+    if (L == NULL || *L == NULL) {
+        return;
+    }
+
+    while ((*L)->next != NULL) {
+        DeleteNextDNode(*L);
+    }
+
+    free(*L);
+    *L = NULL;
+}
+
+int main(void) {
+    DLinkList L;
+
+    if (!InitDLinkList(&L)) {
+        printf("初始化失败\n");
+        return 1;
+    }
+
+    ListInsert(L, 1, 10);
+    ListInsert(L, 2, 20);
+    ListInsert(L, 3, 30);
+
+    printf("后向遍历：");
+    PrintForward(L);
+
+    DNode *p = LocateElem(L, 30);
+    if (p != NULL) {
+        printf("从 30 开始前向遍历：");
+        PrintBackward(p);
+    }
+
+    ElemType deleted;
+    if (ListDelete(L, 2, &deleted)) {
+        printf("删除第 2 个结点：%d\n", deleted);
+    }
+
+    printf("删除后：");
+    PrintForward(L);
+
+    DestroyDLinkList(&L);
+    return 0;
+}</code></pre>
+      </section>
+
+      <section id="practice" class="card">
+        <h2>练习中心</h2>
+        <div class="practice">
+          <h3>练习 1：为什么双链表找前驱方便</h3>
+          <p>给定结点 <code>p</code>，单链表和双链表分别怎么找它的前驱？</p>
+          <details class="answer-toggle">
+            <summary>查看答案</summary>
+            <div class="answer-content">
+              <p>单链表不能从 <code>p</code> 直接找前驱，通常要从头结点开始遍历。双链表可以直接写 <code>p->prior</code>，时间复杂度是 <code>O(1)</code>。</p>
+            </div>
+          </details>
+        </div>
+
+        <div class="practice">
+          <h3>练习 2：指出插入代码问题</h3>
+          <pre><code>p->next = s;
+s->next = p->next;</code></pre>
+          <p>这两句如果用于后插，有什么问题？</p>
+          <details class="answer-toggle">
+            <summary>查看答案</summary>
+            <div class="answer-content">
+              <p>顺序错了。第一句执行后，<code>p->next</code> 已经变成 <code>s</code>，第二句会让 <code>s->next</code> 指向 <code>s</code> 自己。正确做法是先保存原后继：<code>s->next = p->next</code>。</p>
+            </div>
+          </details>
+        </div>
+
+        <div class="practice">
+          <h3>练习 3：尾结点边界</h3>
+          <p>为什么插入时要判断 <code>p->next != NULL</code>？删除时要判断 <code>q->next != NULL</code>？</p>
+          <details class="answer-toggle">
+            <summary>查看答案</summary>
+            <div class="answer-content">
+              <p>如果 <code>p</code> 是尾结点，<code>p->next</code> 是空指针，不能访问 <code>p->next->prior</code>。如果 <code>q</code> 是尾结点，<code>q->next</code> 是空指针，不能访问 <code>q->next->prior</code>。</p>
+            </div>
+          </details>
+        </div>
+
+        <div class="practice">
+          <h3>练习 4：遍历条件</h3>
+          <p>前向遍历时，如果只想处理数据结点，为什么可以用 <code>p->prior != NULL</code> 控制循环？</p>
+          <details class="answer-toggle">
+            <summary>查看答案</summary>
+            <div class="answer-content">
+              <p>因为带头结点双链表中，头结点的 <code>prior</code> 是 <code>NULL</code>。当 <code>p->prior == NULL</code> 时，说明 <code>p</code> 已经是头结点，不应该再处理。</p>
+            </div>
+          </details>
+        </div>
+      </section>
+
+      <section id="check" class="card">
+        <h2>复习清单</h2>
+        <div class="grid-2">
+          <div class="checklist">
+            <div class="check">我知道双链表比单链表多了 <code>prior</code> 指针。</div>
+            <div class="check">我能写出 <code>DNode</code> 和 <code>DLinkList</code> 的定义。</div>
+            <div class="check">我知道头结点的 <code>prior</code> 永远是 <code>NULL</code>。</div>
+            <div class="check">我知道带头结点双链表判空是 <code>L->next == NULL</code>。</div>
+            <div class="check">我能写出双链表后插的四步指针修改。</div>
+          </div>
+          <div class="checklist">
+            <div class="check">我知道 <code>p->next->prior</code> 前要判断 <code>p->next != NULL</code>。</div>
+            <div class="check">我知道 <code>q->next->prior</code> 前要判断 <code>q->next != NULL</code>。</div>
+            <div class="check">我能写出删除 <code>p</code> 后继结点的代码。</div>
+            <div class="check">我知道销毁双链表要先删数据结点，再释放头结点。</div>
+            <div class="check">我知道双链表仍不支持随机存取，查找是 <code>O(n)</code>。</div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script>
+    function expandAll() {
+      document.querySelectorAll("details").forEach(function(item) {
+        item.open = true;
+      });
+    }
+
+    function collapseAll() {
+      document.querySelectorAll("details.lesson").forEach(function(item) {
+        item.open = false;
+      });
+    }
+
+    function showAnswers() {
+      document.querySelectorAll(".answer-toggle").forEach(function(item) {
+        item.open = true;
+      });
+    }
+
+    function hideAnswers() {
+      document.querySelectorAll(".answer-toggle").forEach(function(item) {
+        item.open = false;
+      });
+    }
+
+    function toggleFocus() {
+      document.body.classList.toggle("focus-mode");
+    }
+
+    function printReview() {
+      expandAll();
+      showAnswers();
+      setTimeout(function() {
+        window.print();
+      }, 120);
+    }
+
+    window.addEventListener("beforeprint", function() {
+      expandAll();
+      showAnswers();
+    });
+  </script>
+</body>
+</html>
