@@ -1,0 +1,1335 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>数据结构 · 单链表学习复习系统</title>
+  <style>
+    :root {
+      --bg: #f6f8fb;
+      --surface: #ffffff;
+      --surface-soft: #f8fafc;
+      --text: #172033;
+      --muted: #64748b;
+      --border: #dbe3ef;
+      --blue: #2563eb;
+      --blue-soft: #eff6ff;
+      --green: #059669;
+      --green-soft: #ecfdf5;
+      --amber: #d97706;
+      --amber-soft: #fffbeb;
+      --red: #dc2626;
+      --red-soft: #fef2f2;
+      --purple: #7c3aed;
+      --purple-soft: #f5f3ff;
+      --code-bg: #111827;
+      --code-text: #e5e7eb;
+      --shadow: 0 10px 28px rgba(15, 23, 42, 0.08);
+      --radius: 8px;
+      --max: 1120px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      scroll-padding-top: 86px;
+    }
+
+    body {
+      margin: 0;
+      color: var(--text);
+      background: linear-gradient(180deg, #f8fafc 0%, var(--bg) 100%);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+      line-height: 1.72;
+    }
+
+    a {
+      color: var(--blue);
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    code {
+      padding: 2px 6px;
+      border-radius: 6px;
+      color: #1d4ed8;
+      background: #eaf2ff;
+      font-family: Consolas, Monaco, "Courier New", monospace;
+      font-size: 0.94em;
+    }
+
+    pre {
+      margin: 12px 0 0;
+      overflow-x: auto;
+      border-radius: var(--radius);
+      background: var(--code-bg);
+      color: var(--code-text);
+    }
+
+    pre code {
+      display: block;
+      padding: 16px;
+      color: var(--code-text);
+      background: transparent;
+      line-height: 1.6;
+      white-space: pre;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 12px;
+      font-size: 15px;
+    }
+
+    th,
+    td {
+      border: 1px solid var(--border);
+      padding: 10px 12px;
+      text-align: left;
+      vertical-align: top;
+    }
+
+    th {
+      background: #f1f5f9;
+    }
+
+    h1,
+    h2,
+    h3,
+    h4 {
+      margin: 0 0 10px;
+      line-height: 1.32;
+    }
+
+    p {
+      margin: 8px 0;
+    }
+
+    ul,
+    ol {
+      margin-top: 8px;
+      padding-left: 22px;
+    }
+
+    .page {
+      width: min(100% - 28px, var(--max));
+      margin: 0 auto;
+      padding: 24px 0 48px;
+    }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      min-height: 58px;
+      padding: 9px max(16px, env(safe-area-inset-left)) 9px max(16px, env(safe-area-inset-right));
+      border-bottom: 1px solid rgba(219, 227, 239, 0.9);
+      background: rgba(255, 255, 255, 0.94);
+      backdrop-filter: blur(14px);
+    }
+
+    .topbar-title {
+      min-width: 0;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      font-weight: 900;
+    }
+
+    .topbar-actions {
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      flex-shrink: 0;
+    }
+
+    .button,
+    .topbar a {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 34px;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      padding: 0 12px;
+      color: #334155;
+      background: #fff;
+      font-size: 13px;
+      font-weight: 800;
+      cursor: pointer;
+    }
+
+    .button:hover,
+    .topbar a:hover {
+      border-color: #bfdbfe;
+      color: var(--blue);
+      text-decoration: none;
+    }
+
+    .hero {
+      padding: 30px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: var(--surface);
+      box-shadow: var(--shadow);
+    }
+
+    .hero h1 {
+      font-size: clamp(28px, 5vw, 44px);
+      letter-spacing: 0;
+    }
+
+    .subtitle {
+      max-width: 880px;
+      color: var(--muted);
+      font-size: 17px;
+    }
+
+    .chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 16px;
+    }
+
+    .chip {
+      display: inline-flex;
+      align-items: center;
+      min-height: 28px;
+      border: 1px solid transparent;
+      border-radius: 999px;
+      padding: 0 10px;
+      font-size: 13px;
+      font-weight: 850;
+    }
+
+    .blue { color: var(--blue); background: var(--blue-soft); border-color: #bfdbfe; }
+    .green { color: var(--green); background: var(--green-soft); border-color: #bbf7d0; }
+    .amber { color: var(--amber); background: var(--amber-soft); border-color: #fde68a; }
+    .red { color: var(--red); background: var(--red-soft); border-color: #fecaca; }
+    .purple { color: var(--purple); background: var(--purple-soft); border-color: #ddd6fe; }
+
+    .toolbar,
+    .toc {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 9px;
+      margin-top: 16px;
+      padding: 12px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: rgba(255, 255, 255, 0.86);
+      box-shadow: 0 6px 18px rgba(15, 23, 42, 0.05);
+    }
+
+    .toolbar {
+      position: sticky;
+      top: 58px;
+      z-index: 15;
+      backdrop-filter: blur(12px);
+    }
+
+    .toc a {
+      display: inline-flex;
+      align-items: center;
+      min-height: 30px;
+      border-radius: 999px;
+      padding: 0 10px;
+      color: #475569;
+      background: #f8fafc;
+      font-size: 13px;
+      font-weight: 800;
+    }
+
+    .toc a:hover {
+      color: var(--blue);
+      background: var(--blue-soft);
+      text-decoration: none;
+    }
+
+    main {
+      display: grid;
+      gap: 16px;
+      margin-top: 16px;
+    }
+
+    .card,
+    details.lesson {
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: var(--surface);
+      box-shadow: 0 6px 18px rgba(15, 23, 42, 0.05);
+    }
+
+    .card {
+      padding: 22px;
+    }
+
+    details.lesson {
+      overflow: hidden;
+    }
+
+    details.lesson > summary {
+      cursor: pointer;
+      list-style: none;
+      padding: 19px 22px;
+      color: #0f172a;
+      background: linear-gradient(90deg, #fff, #f8fafc);
+      font-size: 20px;
+      font-weight: 900;
+    }
+
+    details.lesson > summary::-webkit-details-marker {
+      display: none;
+    }
+
+    details.lesson > summary::before {
+      content: "+";
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 24px;
+      height: 24px;
+      margin-right: 8px;
+      border-radius: 999px;
+      color: var(--blue);
+      background: var(--blue-soft);
+      font-size: 15px;
+      font-weight: 900;
+    }
+
+    details.lesson[open] > summary::before {
+      content: "-";
+    }
+
+    .lesson-body {
+      padding: 22px;
+      border-top: 1px solid var(--border);
+    }
+
+    .grid-2,
+    .grid-3 {
+      display: grid;
+      gap: 12px;
+      margin-top: 12px;
+    }
+
+    .grid-2 {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .grid-3 {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .mini {
+      padding: 14px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: var(--surface-soft);
+    }
+
+    .note,
+    .rule,
+    .warn,
+    .practice {
+      margin-top: 12px;
+      padding: 14px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+    }
+
+    .rule {
+      background: var(--green-soft);
+      border-color: #bbf7d0;
+    }
+
+    .note {
+      background: var(--blue-soft);
+      border-color: #bfdbfe;
+    }
+
+    .warn {
+      background: var(--red-soft);
+      border-color: #fecaca;
+    }
+
+    .practice {
+      background: var(--purple-soft);
+      border-color: #ddd6fe;
+    }
+
+    .summary-box {
+      margin-top: 14px;
+      padding: 14px;
+      border-left: 4px solid var(--green);
+      border-radius: var(--radius);
+      background: #f8fafc;
+    }
+
+    .diagram {
+      margin: 12px 0;
+      padding: 14px;
+      overflow-x: auto;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: #fff;
+      font-family: Consolas, Monaco, "Courier New", monospace;
+      line-height: 1.65;
+      white-space: pre;
+    }
+
+    .split {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      gap: 12px;
+      align-items: start;
+    }
+
+    .answer-toggle {
+      margin-top: 10px;
+      border: 1px solid #ddd6fe;
+      border-radius: var(--radius);
+      background: #fff;
+      overflow: hidden;
+    }
+
+    .answer-toggle > summary {
+      cursor: pointer;
+      padding: 10px 12px;
+      color: var(--purple);
+      font-weight: 850;
+      list-style: none;
+    }
+
+    .answer-toggle > summary::-webkit-details-marker {
+      display: none;
+    }
+
+    .answer-content {
+      padding: 12px;
+      border-top: 1px solid #ddd6fe;
+    }
+
+    .checklist {
+      display: grid;
+      gap: 8px;
+      margin-top: 12px;
+    }
+
+    .check {
+      padding: 10px 12px;
+      border: 1px dashed var(--border);
+      border-radius: var(--radius);
+      background: #fff;
+      font-weight: 750;
+    }
+
+    body.focus-mode .non-key {
+      display: none !important;
+    }
+
+    body.focus-mode .lesson-body > p,
+    body.focus-mode .lesson-body > pre,
+    body.focus-mode .lesson-body > table,
+    body.focus-mode .lesson-body > .diagram,
+    body.focus-mode .lesson-body > .split,
+    body.focus-mode .lesson-body > .grid-2,
+    body.focus-mode .lesson-body > .grid-3,
+    body.focus-mode #code .grid-2,
+    body.focus-mode #practice .practice {
+      display: none !important;
+    }
+
+    body.focus-mode .toolbar::after {
+      content: "当前：只看重点";
+      align-self: center;
+      margin-left: auto;
+      color: var(--green);
+      font-weight: 900;
+    }
+
+    @media (max-width: 820px) {
+      .grid-2,
+      .grid-3,
+      .split {
+        grid-template-columns: 1fr;
+      }
+
+      .toolbar {
+        position: static;
+      }
+
+      html {
+        scroll-padding-top: 70px;
+      }
+    }
+
+    @media (max-width: 560px) {
+      .page {
+        width: min(100% - 18px, var(--max));
+        padding-top: 14px;
+      }
+
+      .topbar {
+        align-items: stretch;
+        flex-direction: column;
+      }
+
+      .topbar-title {
+        white-space: normal;
+      }
+
+      .hero,
+      .card,
+      .lesson-body {
+        padding: 18px;
+      }
+
+      details.lesson > summary {
+        padding: 16px;
+        font-size: 18px;
+      }
+    }
+
+    @media print {
+      body {
+        background: #fff !important;
+      }
+
+      .topbar,
+      .toolbar,
+      .toc {
+        display: none !important;
+      }
+
+      .page {
+        width: 100%;
+        padding: 0;
+      }
+
+      .card,
+      details.lesson,
+      .mini,
+      .note,
+      .rule,
+      .warn,
+      .practice {
+        box-shadow: none !important;
+        break-inside: avoid;
+      }
+
+      details.lesson {
+        border: 1px solid #e5e7eb;
+      }
+
+      pre code,
+      .diagram {
+        white-space: pre-wrap;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="topbar">
+    <div class="topbar-title">数据结构 · 单链表学习复习系统</div>
+    <div class="topbar-actions">
+      <a href="../index.html">返回首页</a>
+      <button class="button" type="button" onclick="expandAll()">展开</button>
+      <button class="button" type="button" onclick="collapseAll()">收起</button>
+      <button class="button" type="button" onclick="toggleFocus()">重点</button>
+    </div>
+  </div>
+
+  <div class="page">
+    <header class="hero">
+      <h1>单链表：定义、插删、查找、建表</h1>
+      <p class="subtitle">
+        这份页面把前面几节单链表课整理成一个学习和复习系统。主线是：结点结构、头指针与头结点、插入删除的改链逻辑、查找遍历、头插法与尾插法建表。
+      </p>
+      <div class="chips">
+        <span class="chip blue">链式存储</span>
+        <span class="chip green">头结点</span>
+        <span class="chip amber">插入删除</span>
+        <span class="chip purple">查找遍历</span>
+        <span class="chip red">边界条件</span>
+      </div>
+    </header>
+
+    <div class="toolbar">
+      <button class="button" type="button" onclick="expandAll()">全部展开</button>
+      <button class="button" type="button" onclick="collapseAll()">全部收起</button>
+      <button class="button" type="button" onclick="showAnswers()">显示答案</button>
+      <button class="button" type="button" onclick="hideAnswers()">隐藏答案</button>
+      <button class="button" type="button" onclick="toggleFocus()">只看重点</button>
+      <button class="button" type="button" onclick="printReview()">导出 PDF</button>
+    </div>
+
+    <nav class="toc">
+      <a href="#map">学习地图</a>
+      <a href="#define">定义</a>
+      <a href="#insert-delete">插入删除</a>
+      <a href="#search">查找</a>
+      <a href="#build">建表</a>
+      <a href="#code">代码总表</a>
+      <a href="#practice">练习</a>
+      <a href="#check">复习清单</a>
+    </nav>
+
+    <main>
+      <section id="map" class="card">
+        <h2>学习地图</h2>
+        <div class="rule">
+          <strong>总主线：</strong>单链表用结点里的 <code>next</code> 指针表示先后关系。插入、删除、查找、建表，本质都是围绕 <code>next</code> 的移动和修改。
+        </div>
+        <div class="grid-3">
+          <div class="mini">
+            <h3>先理解结构</h3>
+            <p>结点由 <code>data</code> 和 <code>next</code> 组成。头指针找到第一个入口，之后顺着 <code>next</code> 找完整条链。</p>
+          </div>
+          <div class="mini">
+            <h3>再练改链</h3>
+            <p>插入和删除都要先找前驱。后插是基础，按位插入、按位删除都能复用它的思想。</p>
+          </div>
+          <div class="mini">
+            <h3>最后会遍历</h3>
+            <p>按位查找、按值查找、求表长、尾插建表，都是让指针从前往后扫描。</p>
+          </div>
+        </div>
+        <div class="summary-box">
+          <strong>复习口诀：</strong>找结点靠遍历，插入先连后面再连前面，删除先保存目标再跳过释放，头插得到逆序，尾插保持原序。
+        </div>
+      </section>
+
+      <details id="define" class="lesson" open>
+        <summary>一、单链表的定义与初始化</summary>
+        <div class="lesson-body">
+          <h2>1. 顺序表和链表的区别</h2>
+          <div class="split">
+            <div class="mini">
+              <h3>顺序表</h3>
+              <div class="diagram">[a1][a2][a3][a4]
+物理上连续存放</div>
+              <p>优点是支持随机存取，存储密度高。缺点是需要大片连续空间，扩容不方便。</p>
+            </div>
+            <div class="mini">
+              <h3>单链表</h3>
+              <div class="diagram">[a1|next] -> [a2|next] -> [a3|NULL]
+物理上可以分散存放</div>
+              <p>优点是扩容、插入、删除更灵活。缺点是不能随机存取，只能从前往后找。</p>
+            </div>
+          </div>
+
+          <h2>2. 结点结构</h2>
+          <div class="diagram">┌────────┬────────┐
+│ data   │ next   │
+└────────┴────────┘
+ 数据域    指针域</div>
+          <p><code>data</code> 存数据元素，<code>next</code> 存下一个结点的地址。每个结点只有一个后继指针，所以叫单链表。</p>
+
+          <pre><code>typedef int ElemType;
+
+typedef struct LNode {
+    ElemType data;
+    struct LNode *next;
+} LNode, *LinkList;</code></pre>
+
+          <div class="rule">
+            <strong><code>typedef</code> 要拆开理解：</strong><code>LNode</code> 等价于 <code>struct LNode</code>；<code>LinkList</code> 等价于 <code>struct LNode *</code>。
+          </div>
+
+          <table>
+            <thead>
+              <tr>
+                <th>写法</th>
+                <th>本质</th>
+                <th>强调点</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><code>LNode *p</code></td>
+                <td>结点指针</td>
+                <td>强调 <code>p</code> 指向一个结点</td>
+              </tr>
+              <tr>
+                <td><code>LinkList L</code></td>
+                <td>结点指针</td>
+                <td>强调 <code>L</code> 是一条链表的入口</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <h2>3. 头指针、头结点、第一个数据结点</h2>
+          <div class="grid-2">
+            <div class="mini">
+              <h3>不带头结点</h3>
+              <div class="diagram">L -> [10| ] -> [20|NULL]
+     第一个数据结点
+
+空表：L == NULL</div>
+              <p><code>L</code> 直接指向第一个数据结点。</p>
+            </div>
+            <div class="mini">
+              <h3>带头结点</h3>
+              <div class="diagram">L -> [头结点| ] -> [10| ] -> [20|NULL]
+                    第一个数据结点
+
+空表：L->next == NULL</div>
+              <p><code>L</code> 指向头结点，头结点不存实际数据，<code>L->next</code> 才是第一个数据结点。</p>
+            </div>
+          </div>
+
+          <h2>4. 初始化与判空</h2>
+          <div class="grid-2">
+            <div>
+              <h3>不带头结点</h3>
+              <pre><code>bool InitListNoHead(LinkList *L) {
+    *L = NULL;
+    return true;
+}
+
+bool EmptyNoHead(LinkList L) {
+    return L == NULL;
+}</code></pre>
+            </div>
+            <div>
+              <h3>带头结点</h3>
+              <pre><code>bool InitList(LinkList *L) {
+    *L = (LNode *)malloc(sizeof(LNode));
+    if (*L == NULL) {
+        return false;
+    }
+
+    (*L)->next = NULL;
+    return true;
+}
+
+bool Empty(LinkList L) {
+    return L->next == NULL;
+}</code></pre>
+            </div>
+          </div>
+
+          <div class="warn">
+            <strong>注意：</strong>教材里有时写 <code>LinkList &L</code>，这是 C++ 引用写法。标准 C 里要用 <code>LinkList *L</code>，因为要修改头指针本身。
+          </div>
+
+          <div class="summary-box">
+            <strong>本部分重点：</strong>单链表的关键是 <code>data + next</code>。带头结点写代码更统一，因为可以把头结点看成第 0 个结点；不带头结点处理第一个结点时常要特殊判断。
+          </div>
+        </div>
+      </details>
+
+      <details id="insert-delete" class="lesson" open>
+        <summary>二、单链表的插入与删除</summary>
+        <div class="lesson-body">
+          <h2>1. 带头结点按位插入</h2>
+          <p>在第 <code>i</code> 个位置插入元素 <code>e</code>，要先找到第 <code>i - 1</code> 个结点，因为真正要改的是前驱结点的 <code>next</code>。</p>
+          <div class="diagram">插入前：
+p -> 原第 i 个结点
+
+插入后：
+p -> s -> 原第 i 个结点</div>
+          <pre><code>bool ListInsert(LinkList L, int i, ElemType e) {
+    if (i < 1) {
+        return false;
+    }
+
+    LNode *p = L;
+    int j = 0;
+
+    while (p != NULL && j < i - 1) {
+        p = p->next;
+        j++;
+    }
+
+    if (p == NULL) {
+        return false;
+    }
+
+    LNode *s = (LNode *)malloc(sizeof(LNode));
+    if (s == NULL) {
+        return false;
+    }
+
+    s->data = e;
+    s->next = p->next;
+    p->next = s;
+
+    return true;
+}</code></pre>
+          <div class="warn">
+            <strong>两句不能颠倒：</strong>必须先写 <code>s->next = p->next</code>，再写 <code>p->next = s</code>。如果反过来，<code>s->next</code> 可能指向自己，后面的链会断。
+          </div>
+
+          <h2>2. 不带头结点按位插入</h2>
+          <p>不带头结点时没有第 0 个结点，所以插入第 1 个位置要单独处理。</p>
+          <pre><code>bool ListInsertNoHead(LinkList *L, int i, ElemType e) {
+    if (i < 1) {
+        return false;
+    }
+
+    if (i == 1) {
+        LNode *s = (LNode *)malloc(sizeof(LNode));
+        if (s == NULL) {
+            return false;
+        }
+
+        s->data = e;
+        s->next = *L;
+        *L = s;
+        return true;
+    }
+
+    LNode *p = *L;
+    int j = 1;
+
+    while (p != NULL && j < i - 1) {
+        p = p->next;
+        j++;
+    }
+
+    if (p == NULL) {
+        return false;
+    }
+
+    LNode *s = (LNode *)malloc(sizeof(LNode));
+    if (s == NULL) {
+        return false;
+    }
+
+    s->data = e;
+    s->next = p->next;
+    p->next = s;
+    return true;
+}</code></pre>
+
+          <h2>3. 后插操作</h2>
+          <p>给定结点 <code>p</code>，在它后面插入新元素。这个操作是很多插入算法的基础。</p>
+          <pre><code>bool InsertNextNode(LNode *p, ElemType e) {
+    if (p == NULL) {
+        return false;
+    }
+
+    LNode *s = (LNode *)malloc(sizeof(LNode));
+    if (s == NULL) {
+        return false;
+    }
+
+    s->data = e;
+    s->next = p->next;
+    p->next = s;
+    return true;
+}</code></pre>
+          <div class="rule">
+            <strong>封装好处：</strong>按位插入可以先找第 <code>i - 1</code> 个结点，再调用 <code>InsertNextNode(p, e)</code>。代码更短，边界处理也更集中。
+          </div>
+
+          <h2>4. 前插操作</h2>
+          <p>只给定结点 <code>p</code>，要在它前面插入新元素。单链表不能从 <code>p</code> 往前找，所以有两种思路。</p>
+          <div class="grid-2">
+            <div class="mini">
+              <h3>思路一：从头找前驱</h3>
+              <p>如果给了头指针 <code>L</code>，可以从表头遍历，找到 <code>p</code> 的前驱，再后插。时间复杂度 <code>O(n)</code>。</p>
+            </div>
+            <div class="mini">
+              <h3>思路二：后插再换数据</h3>
+              <p>先把新结点插到 <code>p</code> 后面，再交换 <code>p</code> 和新结点的数据。逻辑效果等价于前插。时间复杂度 <code>O(1)</code>。</p>
+            </div>
+          </div>
+          <div class="diagram">原来：
+p(x) -> 后继
+
+先后插：
+p(x) -> s(e) -> 后继
+
+交换数据：
+p(e) -> s(x) -> 后继</div>
+          <pre><code>bool InsertPriorNode(LNode *p, ElemType e) {
+    if (p == NULL) {
+        return false;
+    }
+
+    LNode *s = (LNode *)malloc(sizeof(LNode));
+    if (s == NULL) {
+        return false;
+    }
+
+    s->next = p->next;
+    p->next = s;
+
+    s->data = p->data;
+    p->data = e;
+    return true;
+}</code></pre>
+
+          <h2>5. 按位删除</h2>
+          <p>删除第 <code>i</code> 个结点，也要先找第 <code>i - 1</code> 个结点。</p>
+          <div class="diagram">删除前：
+p -> q -> q的后继
+
+删除后：
+p ------> q的后继
+
+最后 free(q)</div>
+          <pre><code>bool ListDelete(LinkList L, int i, ElemType *e) {
+    if (i < 1) {
+        return false;
+    }
+
+    LNode *p = L;
+    int j = 0;
+
+    while (p != NULL && j < i - 1) {
+        p = p->next;
+        j++;
+    }
+
+    if (p == NULL || p->next == NULL) {
+        return false;
+    }
+
+    LNode *q = p->next;
+    *e = q->data;
+    p->next = q->next;
+    free(q);
+    return true;
+}</code></pre>
+
+          <h2>6. 删除给定结点</h2>
+          <p>只给定 <code>p</code>，删除它。如果 <code>p</code> 不是尾结点，可以用后继覆盖法。</p>
+          <div class="diagram">原来：
+p(x) -> q(y) -> 后继
+
+复制后继数据：
+p(y) -> q(y) -> 后继
+
+删除 q：
+p(y) -> 后继</div>
+          <pre><code>bool DeleteNode(LNode *p) {
+    if (p == NULL || p->next == NULL) {
+        return false;
+    }
+
+    LNode *q = p->next;
+    p->data = q->data;
+    p->next = q->next;
+    free(q);
+    return true;
+}</code></pre>
+          <div class="warn">
+            <strong>尾结点不能这样删：</strong>如果 <code>p->next == NULL</code>，<code>q</code> 就是空指针，再访问 <code>q->data</code> 会出错。删除尾结点只能从头开始找前驱，时间复杂度 <code>O(n)</code>。
+          </div>
+
+          <div class="summary-box">
+            <strong>本部分重点：</strong>插入核心是 <code>s->next = p->next; p->next = s;</code>。删除核心是保存目标结点 <code>q</code>，让前驱跳过它，再 <code>free(q)</code>。只给结点指针时，前插和删除都可以用“数据搬家”的技巧，但删除尾结点不行。
+          </div>
+        </div>
+      </details>
+
+      <details id="search" class="lesson" open>
+        <summary>三、单链表的查找与求长度</summary>
+        <div class="lesson-body">
+          <h2>1. 按位查找</h2>
+          <p>带头结点时，可以把头结点看成第 0 个结点。按位查找就是让 <code>p</code> 往后走 <code>i</code> 次。</p>
+          <pre><code>LNode *GetElem(LinkList L, int i) {
+    if (i < 0) {
+        return NULL;
+    }
+
+    LNode *p = L;
+    int j = 0;
+
+    while (p != NULL && j < i) {
+        p = p->next;
+        j++;
+    }
+
+    return p;
+}</code></pre>
+          <div class="note">
+            <strong>边界：</strong><code>i == 0</code> 返回头结点；<code>i</code> 超过表长时最终返回 <code>NULL</code>。调用者可以通过返回值是否为 <code>NULL</code> 判断是否查找成功。
+          </div>
+
+          <h2>2. 按值查找</h2>
+          <p>按值查找从第一个数据结点开始，找到第一个 <code>data == e</code> 的结点就返回。</p>
+          <pre><code>LNode *LocateElem(LinkList L, ElemType e) {
+    LNode *p = L->next;
+
+    while (p != NULL && p->data != e) {
+        p = p->next;
+    }
+
+    return p;
+}</code></pre>
+          <div class="warn">
+            <strong>结构体比较：</strong>如果 <code>ElemType</code> 是结构体，不能简单写 <code>p->data == e</code>。要自己写比较函数，按字段比较。
+          </div>
+
+          <h2>3. 求表长</h2>
+          <pre><code>int Length(LinkList L) {
+    int len = 0;
+    LNode *p = L->next;
+
+    while (p != NULL) {
+        len++;
+        p = p->next;
+    }
+
+    return len;
+}</code></pre>
+
+          <h2>4. 不带头结点的区别</h2>
+          <p>区别只有入口不同：带头结点从 <code>L->next</code> 处理数据结点，不带头结点从 <code>L</code> 处理数据结点。</p>
+          <pre><code>LNode *GetElemNoHead(LinkList L, int i) {
+    if (i < 1) {
+        return NULL;
+    }
+
+    LNode *p = L;
+    int j = 1;
+
+    while (p != NULL && j < i) {
+        p = p->next;
+        j++;
+    }
+
+    return p;
+}</code></pre>
+
+          <div class="summary-box">
+            <strong>本部分重点：</strong>查找类操作的核心都是 <code>p = p->next</code>。单链表不能随机访问，所以按位查找、按值查找、求表长平均和最坏都是 <code>O(n)</code>。
+          </div>
+        </div>
+      </details>
+
+      <details id="build" class="lesson" open>
+        <summary>四、尾插法和头插法建立单链表</summary>
+        <div class="lesson-body">
+          <h2>1. 尾插法</h2>
+          <p>尾插法每次把新结点插到表尾，建立结果和输入顺序一致。</p>
+          <div class="diagram">输入：10 16 27
+结果：L -> 头结点 -> 10 -> 16 -> 27 -> NULL</div>
+          <p>如果每次都调用按位插入插到 <code>length + 1</code>，每次都要从头找尾，总复杂度会变成 <code>O(n^2)</code>。更好的做法是维护尾指针 <code>r</code>。</p>
+          <pre><code>LinkList List_TailInsert(void) {
+    int x;
+    LinkList L = (LinkList)malloc(sizeof(LNode));
+    if (L == NULL) {
+        return NULL;
+    }
+
+    L->next = NULL;
+    LNode *r = L;
+
+    scanf("%d", &x);
+    while (x != 999) {
+        LNode *s = (LNode *)malloc(sizeof(LNode));
+        if (s == NULL) {
+            return L;
+        }
+
+        s->data = x;
+        s->next = NULL;
+
+        r->next = s;
+        r = s;
+
+        scanf("%d", &x);
+    }
+
+    r->next = NULL;
+    return L;
+}</code></pre>
+          <div class="rule">
+            <strong>尾插核心：</strong><code>r->next = s; r = s;</code>。必须保证 <code>r</code> 永远指向当前最后一个结点。
+          </div>
+
+          <h2>2. 头插法</h2>
+          <p>头插法每次把新结点插到头结点后面，建立结果和输入顺序相反。</p>
+          <div class="diagram">输入：10 16 27
+结果：L -> 头结点 -> 27 -> 16 -> 10 -> NULL</div>
+          <pre><code>LinkList List_HeadInsert(void) {
+    int x;
+    LinkList L = (LinkList)malloc(sizeof(LNode));
+    if (L == NULL) {
+        return NULL;
+    }
+
+    L->next = NULL;
+
+    scanf("%d", &x);
+    while (x != 999) {
+        LNode *s = (LNode *)malloc(sizeof(LNode));
+        if (s == NULL) {
+            return L;
+        }
+
+        s->data = x;
+        s->next = L->next;
+        L->next = s;
+
+        scanf("%d", &x);
+    }
+
+    return L;
+}</code></pre>
+          <div class="warn">
+            <strong>初始化不能忘：</strong><code>L->next = NULL</code> 很重要。<code>malloc</code> 得到的空间可能有脏数据，如果不初始化，最后一个结点可能指向未知地址。
+          </div>
+
+          <h2>3. 头插法用于链表逆置</h2>
+          <p>头插法天然得到逆序，所以常用来实现链表逆置。</p>
+          <pre><code>void ReverseList(LinkList L) {
+    LNode *p = L->next;
+    LNode *r;
+
+    L->next = NULL;
+
+    while (p != NULL) {
+        r = p->next;
+
+        p->next = L->next;
+        L->next = p;
+
+        p = r;
+    }
+}</code></pre>
+          <div class="note">
+            <strong>关键保护：</strong>先写 <code>r = p->next</code> 保存后继，因为马上要修改 <code>p->next</code>。不保存，后面的链就找不到了。
+          </div>
+
+          <h2>4. 不带头结点建表</h2>
+          <div class="grid-2">
+            <div>
+              <h3>不带头结点尾插</h3>
+              <pre><code>LinkList List_TailInsert_NoHead(void) {
+    int x;
+    LinkList L = NULL;
+    LNode *r = NULL;
+
+    scanf("%d", &x);
+    while (x != 999) {
+        LNode *s = (LNode *)malloc(sizeof(LNode));
+        if (s == NULL) {
+            return L;
+        }
+
+        s->data = x;
+        s->next = NULL;
+
+        if (L == NULL) {
+            L = s;
+            r = s;
+        } else {
+            r->next = s;
+            r = s;
+        }
+
+        scanf("%d", &x);
+    }
+
+    return L;
+}</code></pre>
+            </div>
+            <div>
+              <h3>不带头结点头插</h3>
+              <pre><code>LinkList List_HeadInsert_NoHead(void) {
+    int x;
+    LinkList L = NULL;
+
+    scanf("%d", &x);
+    while (x != 999) {
+        LNode *s = (LNode *)malloc(sizeof(LNode));
+        if (s == NULL) {
+            return L;
+        }
+
+        s->data = x;
+        s->next = L;
+        L = s;
+
+        scanf("%d", &x);
+    }
+
+    return L;
+}</code></pre>
+            </div>
+          </div>
+
+          <div class="summary-box">
+            <strong>本部分重点：</strong>尾插法保持输入顺序，需要尾指针 <code>r</code>；头插法得到输入逆序，常用于链表逆置。建表整体复杂度都是 <code>O(n)</code>，但朴素尾插如果每次从头找尾会退化到 <code>O(n^2)</code>。
+          </div>
+        </div>
+      </details>
+
+      <section id="code" class="card">
+        <h2>代码总表：考试手写优先记这些</h2>
+        <div class="grid-2">
+          <div class="mini">
+            <h3>结构与基本动作</h3>
+            <pre><code>typedef int ElemType;
+
+typedef struct LNode {
+    ElemType data;
+    struct LNode *next;
+} LNode, *LinkList;
+
+/* 后插 */
+s->next = p->next;
+p->next = s;
+
+/* 删除 p 后继 */
+q = p->next;
+p->next = q->next;
+free(q);</code></pre>
+          </div>
+          <div class="mini">
+            <h3>复杂度速记</h3>
+            <table>
+              <tbody>
+                <tr><td>按位查找</td><td><code>O(n)</code></td></tr>
+                <tr><td>按值查找</td><td><code>O(n)</code></td></tr>
+                <tr><td>求表长</td><td><code>O(n)</code></td></tr>
+                <tr><td>已知 <code>p</code> 后插</td><td><code>O(1)</code></td></tr>
+                <tr><td>已知 <code>p</code> 前插换数据</td><td><code>O(1)</code></td></tr>
+                <tr><td>删除给定非尾结点</td><td><code>O(1)</code></td></tr>
+                <tr><td>删除尾结点</td><td><code>O(n)</code></td></tr>
+                <tr><td>头插/尾插建表</td><td><code>O(n)</code></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <section id="practice" class="card">
+        <h2>练习中心</h2>
+        <div class="practice">
+          <h3>练习 1：判断插入顺序</h3>
+          <p>输入 <code>10 16 27 999</code>，分别用头插法和尾插法建表，结果是什么？</p>
+          <details class="answer-toggle">
+            <summary>查看答案</summary>
+            <div class="answer-content">
+              <p>尾插法：<code>10 -> 16 -> 27</code>，保持输入顺序。</p>
+              <p>头插法：<code>27 -> 16 -> 10</code>，得到输入逆序。</p>
+            </div>
+          </details>
+        </div>
+
+        <div class="practice">
+          <h3>练习 2：指出代码错误</h3>
+          <pre><code>p->next = s;
+s->next = p->next;</code></pre>
+          <p>这两句用于插入新结点，有什么问题？</p>
+          <details class="answer-toggle">
+            <summary>查看答案</summary>
+            <div class="answer-content">
+              <p>顺序错了。执行第一句后 <code>p->next</code> 已经是 <code>s</code>，第二句会让 <code>s->next</code> 指向自己。正确顺序是：</p>
+              <pre><code>s->next = p->next;
+p->next = s;</code></pre>
+            </div>
+          </details>
+        </div>
+
+        <div class="practice">
+          <h3>练习 3：删除给定结点</h3>
+          <p>只给一个结点指针 <code>p</code>，为什么不能用后继覆盖法删除尾结点？</p>
+          <details class="answer-toggle">
+            <summary>查看答案</summary>
+            <div class="answer-content">
+              <p>尾结点没有后继，<code>p->next == NULL</code>。后继覆盖法需要访问 <code>q = p->next</code> 的 <code>q->data</code>，此时 <code>q</code> 是空指针，会出错。只能从头找它的前驱。</p>
+            </div>
+          </details>
+        </div>
+
+        <div class="practice">
+          <h3>练习 4：写出逆置核心</h3>
+          <p>原地逆置单链表时，为什么要先写 <code>r = p->next</code>？</p>
+          <details class="answer-toggle">
+            <summary>查看答案</summary>
+            <div class="answer-content">
+              <p>因为后面要修改 <code>p->next</code>，如果不先保存原来的后继结点，后半段链表就找不到了。</p>
+            </div>
+          </details>
+        </div>
+      </section>
+
+      <section id="check" class="card">
+        <h2>复习清单</h2>
+        <div class="grid-2">
+          <div class="checklist">
+            <div class="check">我能画出带头结点和不带头结点的空表图。</div>
+            <div class="check">我能解释 <code>LNode *</code> 和 <code>LinkList</code> 的语义区别。</div>
+            <div class="check">我知道带头结点判空是 <code>L->next == NULL</code>。</div>
+            <div class="check">我知道不带头结点判空是 <code>L == NULL</code>。</div>
+            <div class="check">我能写出后插核心两句，并知道不能颠倒。</div>
+            <div class="check">我能写出按位插入、按位删除找第 <code>i - 1</code> 个结点的循环。</div>
+          </div>
+          <div class="checklist">
+            <div class="check">我知道前插可以用“后插再交换数据”。</div>
+            <div class="check">我知道删除给定非尾结点可以用“后继覆盖法”。</div>
+            <div class="check">我知道删除尾结点必须从头找前驱。</div>
+            <div class="check">我能写出按位查找、按值查找、求表长。</div>
+            <div class="check">我知道尾插法需要尾指针 <code>r</code>。</div>
+            <div class="check">我知道头插法会让链表逆序，常用于链表逆置。</div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script>
+    function expandAll() {
+      document.querySelectorAll("details").forEach(function(item) {
+        item.open = true;
+      });
+    }
+
+    function collapseAll() {
+      document.querySelectorAll("details.lesson").forEach(function(item) {
+        item.open = false;
+      });
+    }
+
+    function showAnswers() {
+      document.querySelectorAll(".answer-toggle").forEach(function(item) {
+        item.open = true;
+      });
+    }
+
+    function hideAnswers() {
+      document.querySelectorAll(".answer-toggle").forEach(function(item) {
+        item.open = false;
+      });
+    }
+
+    function toggleFocus() {
+      document.body.classList.toggle("focus-mode");
+    }
+
+    function printReview() {
+      expandAll();
+      showAnswers();
+      setTimeout(function() {
+        window.print();
+      }, 120);
+    }
+
+    window.addEventListener("beforeprint", function() {
+      expandAll();
+      showAnswers();
+    });
+  </script>
+</body>
+</html>

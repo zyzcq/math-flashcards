@@ -967,6 +967,16 @@ const appData = {
         type: "article",
         url: "ds/顺序表.html",
         cards: []
+    },
+
+    ds_singly_list: {
+        id: "ds_singly_list",
+        title: "数据结构：单链表",
+        subtitle: "定义、插删、查找、头插法与尾插法",
+        themeColor: "amber",
+        type: "article",
+        url: "ds/单链表.html",
+        cards: []
     }
 };
 
@@ -1036,7 +1046,8 @@ const siteData = [
         categoryId: "data-structure",
         categoryBorder: "border-amber-500",
         items: [
-            appData.ds_seq_list
+            appData.ds_seq_list,
+            appData.ds_singly_list
         ]
     }
 ];
