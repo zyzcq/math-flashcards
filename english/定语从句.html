@@ -1,0 +1,1305 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>定语从句复习系统｜考研英语二</title>
+  <style>
+    :root {
+      --bg: #f5f7fb;
+      --bg-grad-1: #f7f9fc;
+      --bg-grad-2: #eef3f9;
+      --card: #ffffff;
+      --text: #1f2937;
+      --muted: #6b7280;
+      --weak: #9ca3af;
+      --border: #e5e7eb;
+
+      --blue: #2563eb;
+      --blue-bg: #eff6ff;
+      --green: #16a34a;
+      --green-bg: #ecfdf5;
+      --amber: #d97706;
+      --amber-bg: #fffbeb;
+      --purple: #7c3aed;
+      --purple-bg: #f5f3ff;
+      --red: #dc2626;
+      --red-bg: #fef2f2;
+      --gray-bg: #f9fafb;
+
+      --radius: 16px;
+      --radius-sm: 10px;
+      --shadow: 0 10px 30px rgba(15, 23, 42, 0.08);
+      --shadow-sm: 0 4px 16px rgba(15, 23, 42, 0.06);
+      --max-width: 1080px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC",
+        "Hiragino Sans GB", "Microsoft YaHei", Arial, sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at top left, rgba(37, 99, 235, 0.08), transparent 30%),
+        linear-gradient(135deg, var(--bg-grad-1), var(--bg-grad-2));
+      line-height: 1.72;
+    }
+
+    a {
+      color: var(--blue);
+      text-decoration: none;
+    }
+
+    code {
+      display: inline-block;
+      max-width: 100%;
+      padding: 0.12rem 0.38rem;
+      border-radius: 7px;
+      background: #f3f4f6;
+      color: #111827;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+      font-size: 0.94em;
+      white-space: normal;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      overflow: hidden;
+      border-radius: var(--radius-sm);
+      margin: 1rem 0;
+      background: #fff;
+    }
+
+    th, td {
+      border: 1px solid var(--border);
+      padding: 0.75rem 0.8rem;
+      text-align: left;
+      vertical-align: top;
+    }
+
+    th {
+      background: #f8fafc;
+      color: #374151;
+      font-weight: 700;
+    }
+
+    .page {
+      width: min(100% - 32px, var(--max-width));
+      margin: 0 auto;
+      padding: 28px 0 56px;
+    }
+
+    .hero {
+      padding: 42px;
+      border-radius: 24px;
+      background:
+        linear-gradient(135deg, rgba(255,255,255,0.92), rgba(255,255,255,0.72)),
+        linear-gradient(135deg, rgba(37,99,235,0.11), rgba(124,58,237,0.10));
+      box-shadow: var(--shadow);
+      border: 1px solid rgba(255, 255, 255, 0.8);
+      margin-bottom: 18px;
+    }
+
+    .hero h1 {
+      margin: 0 0 10px;
+      font-size: clamp(2rem, 5vw, 3.2rem);
+      letter-spacing: -0.04em;
+      line-height: 1.1;
+    }
+
+    .hero p {
+      margin: 0.5rem 0;
+      color: var(--muted);
+      font-size: 1.05rem;
+    }
+
+    .tag-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 18px;
+    }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 0.38rem 0.72rem;
+      border-radius: 999px;
+      font-size: 0.86rem;
+      font-weight: 650;
+      border: 1px solid transparent;
+      background: #fff;
+      color: #374151;
+    }
+
+    .tag-green { background: var(--green-bg); color: #166534; border-color: rgba(22,163,74,0.18); }
+    .tag-amber { background: var(--amber-bg); color: #92400e; border-color: rgba(217,119,6,0.18); }
+    .tag-red { background: var(--red-bg); color: #991b1b; border-color: rgba(220,38,38,0.16); }
+    .tag-purple { background: var(--purple-bg); color: #5b21b6; border-color: rgba(124,58,237,0.16); }
+    .tag-blue { background: var(--blue-bg); color: #1d4ed8; border-color: rgba(37,99,235,0.16); }
+
+    .toolbar {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+      margin: 18px 0;
+      padding: 12px;
+      border-radius: var(--radius);
+      background: rgba(255, 255, 255, 0.92);
+      backdrop-filter: blur(10px);
+      box-shadow: var(--shadow-sm);
+      border: 1px solid rgba(229, 231, 235, 0.8);
+    }
+
+    button {
+      border: 1px solid var(--border);
+      background: #fff;
+      color: #374151;
+      border-radius: 999px;
+      padding: 0.58rem 0.88rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: transform 0.14s ease, box-shadow 0.14s ease, background 0.14s ease;
+    }
+
+    button:hover {
+      transform: translateY(-1px);
+      box-shadow: var(--shadow-sm);
+      background: #f8fafc;
+    }
+
+    .btn-primary {
+      background: var(--blue);
+      color: white;
+      border-color: var(--blue);
+    }
+
+    .btn-green {
+      background: var(--green);
+      color: white;
+      border-color: var(--green);
+    }
+
+    .btn-purple {
+      background: var(--purple);
+      color: white;
+      border-color: var(--purple);
+    }
+
+    .nav {
+      margin: 18px 0 26px;
+      padding: 14px;
+      border-radius: var(--radius);
+      background: rgba(255,255,255,0.86);
+      border: 1px solid rgba(229,231,235,0.85);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .nav strong {
+      display: block;
+      margin-bottom: 8px;
+      color: #374151;
+    }
+
+    .nav-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .nav a {
+      padding: 0.45rem 0.7rem;
+      border-radius: 999px;
+      background: #f8fafc;
+      color: #374151;
+      border: 1px solid var(--border);
+      font-size: 0.92rem;
+    }
+
+    .section-title {
+      margin: 34px 0 14px;
+      font-size: 1.55rem;
+      letter-spacing: -0.02em;
+    }
+
+    .card {
+      background: var(--card);
+      border: 1px solid rgba(229,231,235,0.9);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow-sm);
+      padding: 24px;
+      margin: 16px 0;
+    }
+
+    .card h2, .card h3, .card h4 {
+      margin-top: 0;
+      line-height: 1.35;
+    }
+
+    .card h2 {
+      font-size: 1.45rem;
+    }
+
+    .card h3 {
+      font-size: 1.18rem;
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 16px;
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 16px;
+    }
+
+    .mini-card {
+      padding: 16px;
+      border-radius: var(--radius-sm);
+      background: #f8fafc;
+      border: 1px solid var(--border);
+    }
+
+    .mini-card h4 {
+      margin: 0 0 8px;
+    }
+
+    .rule {
+      padding: 14px 16px;
+      border-radius: var(--radius-sm);
+      background: var(--blue-bg);
+      border-left: 4px solid var(--blue);
+      font-weight: 750;
+      margin: 12px 0;
+    }
+
+    .note,
+    .example,
+    .practice,
+    .checklist {
+      padding: 16px;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border);
+      margin: 14px 0;
+      background: #fff;
+    }
+
+    .note-blue { background: var(--blue-bg); border-color: rgba(37,99,235,0.2); }
+    .note-green { background: var(--green-bg); border-color: rgba(22,163,74,0.2); }
+    .note-amber { background: var(--amber-bg); border-color: rgba(217,119,6,0.22); }
+    .note-purple { background: var(--purple-bg); border-color: rgba(124,58,237,0.20); }
+    .note-red { background: var(--red-bg); border-color: rgba(220,38,38,0.20); }
+    .note-gray { background: var(--gray-bg); border-color: var(--border); }
+
+    .example {
+      background: var(--purple-bg);
+      border-color: rgba(124,58,237,0.18);
+    }
+
+    .example-title,
+    .practice-title {
+      font-weight: 800;
+      color: #4c1d95;
+      margin-bottom: 8px;
+    }
+
+    .practice {
+      background: #fff;
+      border-color: rgba(124,58,237,0.20);
+      box-shadow: 0 4px 14px rgba(124,58,237,0.05);
+    }
+
+    .question {
+      padding: 12px;
+      border-radius: 10px;
+      background: #f8fafc;
+      border: 1px solid var(--border);
+      margin: 10px 0;
+    }
+
+    .answer-content {
+      margin-top: 12px;
+      padding: 14px;
+      border-radius: var(--radius-sm);
+      background: #faf5ff;
+      border: 1px solid rgba(124,58,237,0.18);
+    }
+
+    .translation {
+      color: #4b5563;
+    }
+
+    details {
+      margin: 12px 0;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      background: #fff;
+      overflow: hidden;
+    }
+
+    summary {
+      list-style: none;
+      cursor: pointer;
+      padding: 14px 44px 14px 16px;
+      font-weight: 800;
+      position: relative;
+      background: #f8fafc;
+      user-select: none;
+    }
+
+    summary::-webkit-details-marker {
+      display: none;
+    }
+
+    summary::after {
+      content: "展开";
+      position: absolute;
+      right: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--blue);
+      font-size: 0.84rem;
+      font-weight: 800;
+    }
+
+    details[open] > summary::after {
+      content: "收起";
+      color: var(--muted);
+    }
+
+    details > .details-body {
+      padding: 16px;
+    }
+
+    .answer-toggle summary {
+      background: var(--purple-bg);
+      color: #4c1d95;
+    }
+
+    .answer-toggle {
+      border-color: rgba(124,58,237,0.24);
+    }
+
+    .checklist {
+      background: #fff;
+    }
+
+    .check-item {
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+      padding: 10px 0;
+      border-bottom: 1px dashed var(--border);
+    }
+
+    .check-item:last-child {
+      border-bottom: 0;
+    }
+
+    .check-item::before {
+      content: "✓";
+      flex: 0 0 auto;
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      display: inline-grid;
+      place-items: center;
+      background: var(--green-bg);
+      color: var(--green);
+      font-weight: 900;
+      font-size: 0.8rem;
+      margin-top: 2px;
+    }
+
+    .muted {
+      color: var(--muted);
+    }
+
+    .kbd {
+      font-size: 0.85rem;
+      color: #374151;
+      background: #f3f4f6;
+      border: 1px solid var(--border);
+      border-radius: 7px;
+      padding: 0.08rem 0.35rem;
+      font-weight: 700;
+    }
+
+    .focus-mode .non-key {
+      display: none !important;
+    }
+
+    footer {
+      margin-top: 40px;
+      padding: 20px;
+      border-radius: var(--radius);
+      background: rgba(255,255,255,0.78);
+      color: var(--muted);
+      border: 1px solid rgba(229,231,235,0.85);
+    }
+
+    @media (max-width: 760px) {
+      .page {
+        width: min(100% - 20px, var(--max-width));
+        padding-top: 14px;
+      }
+
+      .hero {
+        padding: 26px 20px;
+      }
+
+      .toolbar {
+        position: static;
+      }
+
+      .grid-2,
+      .grid-3 {
+        grid-template-columns: 1fr;
+      }
+
+      .card {
+        padding: 18px;
+      }
+
+      button {
+        width: calc(50% - 5px);
+      }
+    }
+
+    @media print {
+      body {
+        background: #fff !important;
+        color: #000;
+      }
+
+      .page {
+        width: 100%;
+        max-width: none;
+        padding: 0;
+      }
+
+      .toolbar,
+      .nav {
+        display: none !important;
+      }
+
+      .hero,
+      .card,
+      .mini-card,
+      .note,
+      .example,
+      .practice,
+      .checklist,
+      footer {
+        box-shadow: none !important;
+        break-inside: avoid;
+        page-break-inside: avoid;
+      }
+
+      .hero {
+        padding: 18px;
+      }
+
+      details {
+        break-inside: avoid;
+        page-break-inside: avoid;
+      }
+
+      summary::after {
+        display: none;
+      }
+
+      a {
+        color: #000;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="page">
+
+    <!-- START: 首页 -->
+    <header class="hero" id="top">
+      <h1>定语从句复习系统</h1>
+      <p>考研英语二｜写法、分类、真题演练、考场攻略一体化复习工具</p>
+      <p class="muted">使用方法：先看“总方法论”建立框架，再按模块复习规则，最后进入“真题演练中心”自测。题目答案默认隐藏，点击即可查看解析。</p>
+      <div class="tag-row">
+        <span class="tag tag-blue">结构逻辑</span>
+        <span class="tag tag-green">必须掌握</span>
+        <span class="tag tag-amber">易错提醒</span>
+        <span class="tag tag-purple">真题演练</span>
+        <span class="tag tag-red">禁忌规则</span>
+      </div>
+    </header>
+    <!-- END: 首页 -->
+
+    <!-- START: 顶部工具栏 -->
+    <div class="toolbar" aria-label="复习工具栏">
+      <button onclick="expandAll()">全部展开</button>
+      <button onclick="collapseAll()">全部收起</button>
+      <button id="focusBtn" class="btn-green" onclick="toggleFocusMode()">只看重点</button>
+      <button class="btn-purple" onclick="showAnswers()">显示答案</button>
+      <button onclick="hideAnswers()">隐藏答案</button>
+      <button class="btn-primary" onclick="printPage()">导出 PDF</button>
+    </div>
+    <!-- END: 顶部工具栏 -->
+
+    <!-- START: 导航栏 -->
+    <nav class="nav">
+      <strong>快速导航</strong>
+      <div class="nav-links">
+        <a href="#method">总方法论</a>
+        <a href="#basic">本质与写法</a>
+        <a href="#relatives">关系词</a>
+        <a href="#components">成分与省略</a>
+        <a href="#types">分类</a>
+        <a href="#compare">同位语区别</a>
+        <a href="#special">特殊结构</a>
+        <a href="#exam">考场攻略</a>
+        <a href="#practice">真题演练</a>
+        <a href="#checklist">检查清单</a>
+      </div>
+    </nav>
+    <!-- END: 导航栏 -->
+
+    <main>
+
+      <!-- START: 总方法论 -->
+      <section id="method">
+        <h2 class="section-title">总方法论：定语从句怎么学</h2>
+        <div class="card">
+          <div class="rule">定语从句的学习核心：会找、会判、会译、会写。</div>
+          <div class="grid-2">
+            <div class="mini-card">
+              <h4>读句子时</h4>
+              <p>先找关系词，再确定从句范围，最后往前找先行词。大多数情况下就近修饰，但遇到不合理时要用代入法。</p>
+            </div>
+            <div class="mini-card">
+              <h4>写句子时</h4>
+              <p>先确定要修饰的名词，再选关系词，最后把修饰内容写成从句。写作重点是先行词清楚、关系词正确。</p>
+            </div>
+          </div>
+
+          <details open>
+            <summary>一套通用分析流程</summary>
+            <div class="details-body">
+              <p><strong>第一步：</strong>找关系词：<code>who / whom / which / that / whose / when / where / why / 介词 + which / whom</code>。</p>
+              <p><strong>第二步：</strong>确定从句范围。一个从句内部有自己的谓语，遇到后面主句谓语时，从句往往在它前面结束。</p>
+              <p><strong>第三步：</strong>往前找先行词。通常就近找，但不绝对。</p>
+              <p><strong>第四步：</strong>如果不确定，用代入法：把可能的先行词代回从句，看意思是否通顺。</p>
+            </div>
+          </details>
+
+          <div class="note note-green">
+            <strong>必须掌握：</strong>定语从句在考研阅读、翻译、写作、完形、新题型中都会出现。考场核心不是背术语，而是读懂它修饰谁。
+          </div>
+        </div>
+      </section>
+      <!-- END: 总方法论 -->
+
+      <!-- START: 模块 1 本质与写法 -->
+      <section id="basic">
+        <h2 class="section-title">模块 1：定语从句的本质与写法</h2>
+        <div class="card">
+          <h3>1. 什么是定语从句</h3>
+          <div class="rule">定语从句 = 一个句子做定语，修饰限定名词、名词词组或代词。</div>
+          <p>普通定语可以是一个词，例如 <code>new students</code> 中的 <code>new</code> 修饰 <code>students</code>。当一个词说不清楚时，就可以用一个句子来修饰名词。</p>
+
+          <div class="example">
+            <div class="example-title">例句</div>
+            <p><code>This is a skill that will help them throughout life.</code></p>
+            <p><strong>主干：</strong><code>This is a skill.</code></p>
+            <p><strong>定语从句：</strong><code>that will help them throughout life</code>，修饰 <code>a skill</code>。</p>
+            <p><strong>翻译：</strong>这是一项会终生帮助他们的技能。</p>
+          </div>
+
+          <h3>2. 定语从句的位置</h3>
+          <p>英语中，一个词作定语常放名词前；一个句子作定语较长，通常放在名词后。</p>
+          <div class="note note-blue">
+            <strong>结构：</strong><code>名词 + 定语从句</code>，例如 <code>the book that I bought yesterday</code>。
+          </div>
+
+          <h3>3. 写法公式</h3>
+          <div class="rule">写定语从句：先写陈述句，再把重复名词换成关系词，并把关系词放到从句开头。</div>
+          <div class="grid-2">
+            <div class="mini-card">
+              <h4>原始两个句子</h4>
+              <p><code>This is the book.</code></p>
+              <p><code>I bought the book yesterday.</code></p>
+            </div>
+            <div class="mini-card">
+              <h4>合并后</h4>
+              <p><code>This is the book that I bought yesterday.</code></p>
+              <p><code>that = the book</code>，在从句中作宾语。</p>
+            </div>
+          </div>
+
+          <div class="note note-amber">
+            <strong>易错提醒：</strong>关系词原本可能在从句中间或后面，但写成定语从句时必须放到从句开头。
+          </div>
+        </div>
+      </section>
+      <!-- END: 模块 1 本质与写法 -->
+
+      <!-- START: 模块 2 先行词与关系词 -->
+      <section id="relatives">
+        <h2 class="section-title">模块 2：先行词与关系词</h2>
+        <div class="card">
+          <div class="grid-2">
+            <div class="mini-card">
+              <h4>先行词</h4>
+              <p>被定语从句修饰的名词、名词词组或代词。</p>
+              <p>例：<code>the book that I bought</code> 中，<code>the book</code> 是先行词。</p>
+            </div>
+            <div class="mini-card">
+              <h4>关系词</h4>
+              <p>引出定语从句，同时代替先行词在从句中做成分。</p>
+              <p>例：<code>that I bought</code> 中，<code>that = the book</code>。</p>
+            </div>
+          </div>
+
+          <div class="rule">核心结论：关系词 = 先行词。</div>
+
+          <table>
+            <thead>
+              <tr>
+                <th>先行词类型</th>
+                <th>常用关系词</th>
+                <th>例子</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>人</td>
+                <td><code>who / whom / that</code></td>
+                <td><code>the man who helped me</code></td>
+              </tr>
+              <tr>
+                <td>事物</td>
+                <td><code>which / that</code></td>
+                <td><code>the book that I bought</code></td>
+              </tr>
+              <tr>
+                <td>谁的</td>
+                <td><code>whose</code></td>
+                <td><code>the student whose name is Tom</code></td>
+              </tr>
+              <tr>
+                <td>时间</td>
+                <td><code>when</code></td>
+                <td><code>the day when we met</code></td>
+              </tr>
+              <tr>
+                <td>地点 / 范围</td>
+                <td><code>where</code></td>
+                <td><code>the city where I was born</code></td>
+              </tr>
+              <tr>
+                <td>原因</td>
+                <td><code>why</code></td>
+                <td><code>the reason why he left</code></td>
+              </tr>
+            </tbody>
+          </table>
+
+          <details>
+            <summary>关系词选择重点</summary>
+            <div class="details-body">
+              <p><strong>修饰事物：</strong><code>which / that</code>。考研基础阶段通常不用细分二者差别。</p>
+              <p><strong>修饰人：</strong><code>who / whom / that</code>。其中 <code>whom</code> 只能作宾语。</p>
+              <p><strong>表示“谁的”：</strong><code>whose</code>，可表示人的，也可表示物的。</p>
+              <p><strong>where：</strong>不只表示真实地点，也可表示抽象范围，例如平台、情境、领域。</p>
+            </div>
+          </details>
+        </div>
+      </section>
+      <!-- END: 模块 2 先行词与关系词 -->
+
+      <!-- START: 模块 3 成分与省略 -->
+      <section id="components">
+        <h2 class="section-title">模块 3：关系词做成分与省略</h2>
+        <div class="card">
+          <h3>1. 关系词一定做成分</h3>
+          <p>定语从句中的关系词不是单纯连接词，它代替先行词进入从句，所以必须在从句中承担成分。</p>
+          <div class="note note-blue">
+            <strong>区别：</strong>名词性从句中的 <code>that</code> 通常不做成分；定语从句中的 <code>that</code> 必须做成分。
+          </div>
+
+          <h3>2. 代入法</h3>
+          <div class="rule">代入法：把先行词代回从句，看它放在哪里合适。</div>
+          <div class="example">
+            <div class="example-title">判断 whom 能不能用</div>
+            <p><code>Lily is the girl whom we talked about yesterday.</code></p>
+            <p>代入：<code>we talked about the girl yesterday</code>。</p>
+            <p><code>the girl</code> 放在介词 <code>about</code> 后，作介词宾语，所以可以用 <code>whom</code>。</p>
+          </div>
+
+          <h3>3. 关系词作宾语时可以省略</h3>
+          <div class="rule">作宾语可省，作主语不可省。</div>
+          <div class="grid-2">
+            <div class="mini-card">
+              <h4>可以省略</h4>
+              <p><code>The book that I bought is useful.</code></p>
+              <p><code>= The book I bought is useful.</code></p>
+              <p>因为 <code>that</code> 作 <code>bought</code> 的宾语。</p>
+            </div>
+            <div class="mini-card">
+              <h4>不能省略</h4>
+              <p><code>The book that changed my life is useful.</code></p>
+              <p><code>that</code> 作主语，不能省。</p>
+              <p class="muted">错误：<code>The book changed my life is useful.</code></p>
+            </div>
+          </div>
+
+          <div class="note note-amber">
+            <strong>名词 + 主谓：</strong>常常是省略关系词的定语从句。例：<code>Technology might change the way we react.</code> 中，<code>we react</code> 修饰 <code>the way</code>。
+          </div>
+        </div>
+      </section>
+      <!-- END: 模块 3 成分与省略 -->
+
+      <!-- START: 模块 4 定语从句分类 -->
+      <section id="types">
+        <h2 class="section-title">模块 4：限定性与非限定性定语从句</h2>
+        <div class="card">
+          <table>
+            <thead>
+              <tr>
+                <th>类型</th>
+                <th>标志</th>
+                <th>作用</th>
+                <th>翻译</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>限定性定语从句</td>
+                <td>没逗号</td>
+                <td>限定名词范围</td>
+                <td>通常前置为“……的名词”</td>
+              </tr>
+              <tr>
+                <td>非限定性定语从句</td>
+                <td>有逗号</td>
+                <td>补充说明</td>
+                <td>通常顺着翻，另起一句</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <div class="grid-2">
+            <div class="mini-card">
+              <h4>限定性</h4>
+              <p><code>He will call his friend who is working in London.</code></p>
+              <p><code>his friend</code> 范围不明确，所以需要从句限定。</p>
+              <p><strong>译：</strong>他会打电话给那个在伦敦工作的朋友。</p>
+            </div>
+            <div class="mini-card">
+              <h4>非限定性</h4>
+              <p><code>He will call his mother, who is working in London.</code></p>
+              <p><code>his mother</code> 范围明确，后面只是补充说明。</p>
+              <p><strong>译：</strong>他会打电话给他的母亲，她现在在伦敦工作。</p>
+            </div>
+          </div>
+
+          <div class="rule">逗号的本质：看先行词范围是否明确。</div>
+
+          <details>
+            <summary>什么叫“范围明确”</summary>
+            <div class="details-body">
+              <p><strong>绝对明确：</strong>专有名词或独一无二的名词，例如人名、地名、<code>the sun</code>、<code>the moon</code>、<code>mother</code>、<code>father</code>。</p>
+              <p><strong>相对明确：</strong>根据上下文已经明确。例如文章一直在讲某一种新疫苗，则 <code>the new vaccine</code> 在该语境中范围明确。</p>
+            </div>
+          </details>
+
+          <div class="note note-red">
+            <strong>非限定性定语从句禁忌：</strong>不能省略关系词；不能用 <code>that</code>；指人作宾语时通常用 <code>whom</code>。
+          </div>
+        </div>
+      </section>
+      <!-- END: 模块 4 定语从句分类 -->
+
+      <!-- START: 模块 5 定语从句与同位语从句 -->
+      <section id="compare">
+        <h2 class="section-title">模块 5：定语从句与同位语从句</h2>
+        <div class="card">
+          <div class="rule">定语从句回答 which：哪一个 / 哪一些；同位语从句回答 what：是什么。</div>
+          <div class="grid-2">
+            <div class="mini-card">
+              <h4>同位语从句</h4>
+              <p><code>the news that he won the prize</code></p>
+              <p>解释 <code>news</code> 的内容：他获奖这个消息。</p>
+            </div>
+            <div class="mini-card">
+              <h4>定语从句</h4>
+              <p><code>the news that surprised me</code></p>
+              <p>限定 <code>news</code> 的范围：让我惊讶的那个消息。</p>
+            </div>
+          </div>
+
+          <details>
+            <summary>三步判断法</summary>
+            <div class="details-body">
+              <p><strong>第一步：</strong>看前面名词抽不抽象。同位语从句常跟在 <code>fact / news / evidence / theory / explanation / phenomenon / advantage</code> 等抽象名词后。</p>
+              <p><strong>第二步：</strong>看 <code>that</code> 做不做成分。做成分多为定语从句；不做成分多为同位语从句。</p>
+              <p><strong>第三步：</strong>看连接词是否省略。连接词省略时通常是定语从句，因为同位语从句的 <code>that</code> 一般不能省。</p>
+            </div>
+          </details>
+
+          <div class="note note-gray">
+            <strong>了解即可：</strong>考场上通常不会要求你判断“这是定语从句还是同位语从句”。真正重要的是知道名词后面的从句在为这个名词服务，并读懂句意。
+          </div>
+        </div>
+      </section>
+      <!-- END: 模块 5 定语从句与同位语从句 -->
+
+      <!-- START: 模块 6 特殊结构 -->
+      <section id="special">
+        <h2 class="section-title">模块 6：特殊非限定性与介词提前</h2>
+        <div class="card">
+          <h3>1. which / as 指代整句话</h3>
+          <div class="grid-2">
+            <div class="mini-card">
+              <h4>which</h4>
+              <p>通常放在主句后，表示“这件事……”。</p>
+              <p><code>He failed the exam, which surprised us.</code></p>
+            </div>
+            <div class="mini-card">
+              <h4>as</h4>
+              <p>位置灵活，常表示“正如……”。</p>
+              <p><code>As we all know, grammar is important.</code></p>
+            </div>
+          </div>
+
+          <div class="example">
+            <div class="example-title">例句：which 指代整件事</div>
+            <p><code>Such centers need to be well air-conditioned, which uses even more energy.</code></p>
+            <p><code>which</code> 指代前面整件事：这些中心需要良好空调环境这件事。</p>
+            <p><strong>译：</strong>这些中心需要良好的空调环境，而这会消耗更多能源。</p>
+          </div>
+
+          <h3>2. 介词提前的定语从句</h3>
+          <div class="rule">指物：介词 + which；指人：介词 + whom。</div>
+          <p>介词提前后，不能用 <code>that</code>，不能省略关系词。</p>
+
+          <div class="grid-2">
+            <div class="mini-card">
+              <h4>指物</h4>
+              <p><code>the society in which we live</code></p>
+              <p>来自：<code>we live in the society</code></p>
+            </div>
+            <div class="mini-card">
+              <h4>指人</h4>
+              <p><code>the person with whom I talked</code></p>
+              <p>来自：<code>I talked with the person</code></p>
+            </div>
+          </div>
+
+          <div class="note note-amber">
+            <strong>介词怎么选：</strong>看原本搭配。原来是 <code>live in</code>，就用 <code>in which</code>；原来是 <code>talk with</code>，就用 <code>with whom</code>。
+          </div>
+        </div>
+      </section>
+      <!-- END: 模块 6 特殊结构 -->
+
+      <!-- START: 模块 7 考场攻略 -->
+      <section id="exam">
+        <h2 class="section-title">模块 7：考场攻略</h2>
+        <div class="card">
+          <h3>1. 考场上真正重要的两件事</h3>
+          <div class="grid-2">
+            <div class="mini-card">
+              <h4>会读</h4>
+              <p>找到定语从句，判断它修饰哪个先行词，看懂句意。</p>
+            </div>
+            <div class="mini-card">
+              <h4>会写</h4>
+              <p>确定先行词，选对关系词，写出结构清楚的定语从句。</p>
+            </div>
+          </div>
+
+          <h3>2. 就近修饰不是绝对</h3>
+          <p>绝大多数定语从句都修饰前面最近的名词，但有些情况下，真正先行词和定语从句会被介词短语或其他修饰成分隔开。</p>
+
+          <div class="example">
+            <div class="example-title">例 1：who 不修饰最近的 symptoms</div>
+            <p><code>This was also found in high-functioning men with some autistic spectrum symptoms, who may tend to avoid eye contact.</code></p>
+            <p><code>who</code> 指人，但最近的 <code>symptoms</code> 不是人，所以继续往前找，真正先行词是 <code>men</code>。</p>
+            <p><strong>译：</strong>这也存在于一些有自闭症谱系症状的高功能男性中，他们可能倾向于避免眼神接触。</p>
+          </div>
+
+          <div class="example">
+            <div class="example-title">例 2：that 不修饰最近的 child</div>
+            <p><code>You can say something to your child that you may regret for a long time.</code></p>
+            <p>若 <code>that = child</code>，则变成 <code>you may regret your child</code>，意思不顺。</p>
+            <p>若 <code>that = something</code>，则变成 <code>you may regret something</code>，意思通顺。</p>
+            <p><strong>结论：</strong><code>that you may regret for a long time</code> 修饰 <code>something</code>。</p>
+          </div>
+
+          <div class="note note-green">
+            <strong>考场口诀：</strong>见关系词，找从句；找到从句，往前看；就近不通，往前找；实在不明，代入法。
+          </div>
+        </div>
+      </section>
+      <!-- END: 模块 7 考场攻略 -->
+
+      <!-- START: 真题演练中心 -->
+      <section id="practice">
+        <h2 class="section-title">真题演练中心：定语从句识别与先行词判断</h2>
+        <div class="card">
+          <p class="muted">练习任务：找出定语从句，判断先行词，并尽量说明先行词是名词、名词词组、代词、时间词组、地点范围还是整句话。</p>
+
+          <div class="practice">
+            <div class="practice-title">第 1 题</div>
+            <div class="question"><code>Some kids who are low in sympathy may make up for that shortfall by experiencing more guilt.</code></div>
+            <div class="answer">
+              <details class="answer-toggle">
+                <summary>点击查看答案解析</summary>
+                <div class="answer-content">
+                  <p><strong>答案：</strong><code>who are low in sympathy</code> 是定语从句，修饰 <code>Some kids</code>。</p>
+                  <p><strong>解析：</strong><code>who</code> 指人，往前找先行词是 <code>Some kids</code>。从句到 <code>may make</code> 前结束，因为 <code>may make</code> 是主句谓语。</p>
+                  <p class="translation"><strong>参考翻译：</strong>同情心较低的一些孩子，可能会通过体验更多内疚来弥补这一缺陷。</p>
+                </div>
+              </details>
+            </div>
+          </div>
+
+          <div class="practice">
+            <div class="practice-title">第 2 题</div>
+            <div class="question"><code>There are enough people to fill the jobs at McDonald's and other places where you don't need to have much skill.</code></div>
+            <div class="answer">
+              <details class="answer-toggle">
+                <summary>点击查看答案解析</summary>
+                <div class="answer-content">
+                  <p><strong>答案：</strong><code>where you don't need to have much skill</code> 是定语从句，修饰 <code>McDonald's and other places</code>。</p>
+                  <p><strong>解析：</strong><code>where</code> 表示地点或范围，这里修饰并列地点词组，不只是最近的 <code>places</code>。</p>
+                  <p class="translation"><strong>参考翻译：</strong>有足够多的人去填补麦当劳和其他不需要太多技能的地方的岗位。</p>
+                </div>
+              </details>
+            </div>
+          </div>
+
+          <div class="practice">
+            <div class="practice-title">第 3 题</div>
+            <div class="question"><code>While he obviously had an abundance of natural talent, the final polished work that he gave to the world was the result of years of practicing, rewriting and reading.</code></div>
+            <div class="answer">
+              <details class="answer-toggle">
+                <summary>点击查看答案解析</summary>
+                <div class="answer-content">
+                  <p><strong>答案：</strong><code>that he gave to the world</code> 是定语从句，修饰 <code>the final polished work</code>。</p>
+                  <p><strong>解析：</strong><code>while</code> 引导让步状语从句，不是定语从句。<code>that</code> 引出定语从句，到主句谓语 <code>was</code> 前结束。</p>
+                  <p><strong>主干：</strong><code>the final polished work was the result...</code></p>
+                  <p class="translation"><strong>参考翻译：</strong>尽管他显然很有天赋，但他呈现给世界的最终打磨过的作品，是多年练习、重写和阅读的结果。</p>
+                </div>
+              </details>
+            </div>
+          </div>
+
+          <div class="practice">
+            <div class="practice-title">第 4 题</div>
+            <div class="question"><code>I still grew up in an upper-middle-class home with parents who didn't have college degrees.</code></div>
+            <div class="answer">
+              <details class="answer-toggle">
+                <summary>点击查看答案解析</summary>
+                <div class="answer-content">
+                  <p><strong>答案：</strong><code>who didn't have college degrees</code> 是定语从句，修饰 <code>parents</code>。</p>
+                  <p><strong>解析：</strong><code>who</code> 指人，直接修饰前面的 <code>parents</code>。</p>
+                  <p class="translation"><strong>参考翻译：</strong>我仍然成长在一个中上阶层家庭中，父母没有大学学位。</p>
+                </div>
+              </details>
+            </div>
+          </div>
+
+          <div class="practice">
+            <div class="practice-title">第 5 题</div>
+            <div class="question"><code>We need progressive policies that shape collective action alongside engaged citizens pushing for change.</code></div>
+            <div class="answer">
+              <details class="answer-toggle">
+                <summary>点击查看答案解析</summary>
+                <div class="answer-content">
+                  <p><strong>答案：</strong><code>that shape collective action</code> 是定语从句，修饰 <code>progressive policies</code>。</p>
+                  <p><strong>解析：</strong><code>that</code> 代替 <code>progressive policies</code>，在从句中作主语。</p>
+                  <p class="translation"><strong>参考翻译：</strong>我们需要能够塑造集体行动的进步政策，同时也需要积极参与、推动变革的公民。</p>
+                </div>
+              </details>
+            </div>
+          </div>
+
+          <div class="practice">
+            <div class="practice-title">第 6 题</div>
+            <div class="question"><code>Sure enough, firms' investment and R&amp;D intensity were correlated with the happiness of the area in which they were headquartered.</code></div>
+            <div class="answer">
+              <details class="answer-toggle">
+                <summary>点击查看答案解析</summary>
+                <div class="answer-content">
+                  <p><strong>答案：</strong><code>in which they were headquartered</code> 是介词提前的定语从句，修饰 <code>the area</code>。</p>
+                  <p><strong>解析：</strong>还原为 <code>they were headquartered in the area</code>，所以用 <code>in which</code>。</p>
+                  <p class="translation"><strong>参考翻译：</strong>果然，公司的投资和研发强度与它们总部所在地区的幸福程度相关。</p>
+                </div>
+              </details>
+            </div>
+          </div>
+
+          <div class="practice">
+            <div class="practice-title">第 7 题</div>
+            <div class="question"><code>The whirlwind that swept through newsrooms harmed everybody, but much of the damage has been concentrated in areas where newspapers are least distinctive.</code></div>
+            <div class="answer">
+              <details class="answer-toggle">
+                <summary>点击查看答案解析</summary>
+                <div class="answer-content">
+                  <p><strong>答案：</strong>定语从句 1：<code>that swept through newsrooms</code>，修饰 <code>The whirlwind</code>；定语从句 2：<code>where newspapers are least distinctive</code>，修饰 <code>areas</code>。</p>
+                  <p><strong>主干：</strong><code>The whirlwind harmed everybody, but much of the damage has been concentrated in areas.</code></p>
+                  <p class="translation"><strong>参考翻译：</strong>席卷新闻编辑室的这场旋风伤害了每个人，但大部分损害集中在报纸最没有特色的地区。</p>
+                </div>
+              </details>
+            </div>
+          </div>
+
+          <div class="practice">
+            <div class="practice-title">第 8 题</div>
+            <div class="question"><code>Realistic optimists are those who make the best of things that happen.</code></div>
+            <div class="answer">
+              <details class="answer-toggle">
+                <summary>点击查看答案解析</summary>
+                <div class="answer-content">
+                  <p><strong>答案：</strong>定语从句 1：<code>who make the best of things that happen</code>，修饰 <code>those</code>；定语从句 2：<code>that happen</code>，修饰 <code>things</code>。</p>
+                  <p><strong>解析：</strong>这是嵌套结构，小从句 <code>that happen</code> 包在大从句内部。</p>
+                  <p class="translation"><strong>参考翻译：</strong>现实的乐观主义者，是那些能够充分利用所发生事情的人。</p>
+                </div>
+              </details>
+            </div>
+          </div>
+
+          <div class="practice">
+            <div class="practice-title">第 9 题</div>
+            <div class="question"><code>And there are health conditions for which being overweight is actually protective.</code></div>
+            <div class="answer">
+              <details class="answer-toggle">
+                <summary>点击查看答案解析</summary>
+                <div class="answer-content">
+                  <p><strong>答案：</strong><code>for which being overweight is actually protective</code> 是介词提前的定语从句，修饰 <code>health conditions</code>。</p>
+                  <p><strong>解析：</strong>代入为 <code>being overweight is actually protective for health conditions</code>。<code>being overweight</code> 是动名词短语作主语。</p>
+                  <p class="translation"><strong>参考翻译：</strong>有一些健康状况，体重过重实际上对其具有保护作用。</p>
+                </div>
+              </details>
+            </div>
+          </div>
+
+          <div class="practice">
+            <div class="practice-title">第 10 题</div>
+            <div class="question"><code>It was a really bad move, because that's not my passion, said Nini, whose dilemma about the job translated predictably into a lack of sales.</code></div>
+            <div class="answer">
+              <details class="answer-toggle">
+                <summary>点击查看答案解析</summary>
+                <div class="answer-content">
+                  <p><strong>答案：</strong><code>whose dilemma about the job translated predictably into a lack of sales</code> 是非限定性定语从句，修饰 <code>Nini</code>。</p>
+                  <p><strong>解析：</strong><code>whose</code> 表示“谁的”，这里是 <code>Nini's dilemma</code>。</p>
+                  <p class="translation"><strong>参考翻译：</strong>“这是非常糟糕的一步，因为那不是我的热情所在，”Nini 说。她对这份工作的两难处境可预见地转化成了销售不足。</p>
+                </div>
+              </details>
+            </div>
+          </div>
+
+          <div class="practice">
+            <div class="practice-title">第 11 题</div>
+            <div class="question"><code>Technology might change the way we react.</code></div>
+            <div class="answer">
+              <details class="answer-toggle">
+                <summary>点击查看答案解析</summary>
+                <div class="answer-content">
+                  <p><strong>答案：</strong><code>we react</code> 是省略关系词的定语从句，修饰 <code>the way</code>。</p>
+                  <p><strong>解析：</strong>完整形式可理解为 <code>the way that we react</code> 或 <code>the way in which we react</code>。</p>
+                  <p class="translation"><strong>参考翻译：</strong>技术可能会改变我们做出反应的方式。</p>
+                </div>
+              </details>
+            </div>
+          </div>
+
+          <div class="practice">
+            <div class="practice-title">第 12 题</div>
+            <div class="question"><code>The outbreak came to global notice in late April 2009, when Mexican authorities noted an unusually large number of hospitalizations and deaths among healthy adults.</code></div>
+            <div class="answer">
+              <details class="answer-toggle">
+                <summary>点击查看答案解析</summary>
+                <div class="answer-content">
+                  <p><strong>答案：</strong><code>when Mexican authorities noted...</code> 是非限定性定语从句，修饰 <code>late April 2009</code>。</p>
+                  <p><strong>解析：</strong><code>when</code> 前面有时间名词，并补充说明这个时间发生的事，所以是定语从句。</p>
+                  <p class="translation"><strong>参考翻译：</strong>这次疫情爆发在 2009 年 4 月末引起全球关注，当时墨西哥当局注意到健康成年人中出现了异常大量的住院和死亡病例。</p>
+                </div>
+              </details>
+            </div>
+          </div>
+
+          <div class="practice">
+            <div class="practice-title">第 13 题</div>
+            <div class="question"><code>The euro zone's economies will one day converge thanks to the discipline of sharing a single currency, which denies uncompetitive members the quick fix of devaluation.</code></div>
+            <div class="answer">
+              <details class="answer-toggle">
+                <summary>点击查看答案解析</summary>
+                <div class="answer-content">
+                  <p><strong>答案：</strong><code>which denies uncompetitive members the quick fix of devaluation</code> 是非限定性定语从句，修饰 <code>the discipline of sharing a single currency</code>。</p>
+                  <p><strong>解析：</strong><code>which</code> 不是指前面整句话，而是指“共享单一货币这一规则”。</p>
+                  <p class="translation"><strong>参考翻译：</strong>欧元区经济体总有一天会因为共享单一货币这一规则而趋于融合，而这一规则使缺乏竞争力的成员国无法采用货币贬值这一应急措施。</p>
+                </div>
+              </details>
+            </div>
+          </div>
+
+          <div class="practice">
+            <div class="practice-title">第 14 题</div>
+            <div class="question"><code>Most of these initial doses were of the FluMist nasal spray type, which is not recommended for pregnant women.</code></div>
+            <div class="answer">
+              <details class="answer-toggle">
+                <summary>点击查看答案解析</summary>
+                <div class="answer-content">
+                  <p><strong>答案：</strong><code>which is not recommended for pregnant women</code> 是非限定性定语从句，修饰 <code>the FluMist nasal spray type</code>。</p>
+                  <p><strong>解析：</strong><code>which</code> 指代前面的鼻喷雾剂类型，补充说明这种类型不建议孕妇使用。</p>
+                  <p class="translation"><strong>参考翻译：</strong>这些最初剂量中的大多数属于 FluMist 鼻喷雾剂类型，而这种类型不建议孕妇使用。</p>
+                </div>
+              </details>
+            </div>
+          </div>
+
+          <div class="practice">
+            <div class="practice-title">第 15 题</div>
+            <div class="question"><code>As such, it needed to appreciate economic realities, the social contexts and power relations in which each epoch stood.</code></div>
+            <div class="answer">
+              <details class="answer-toggle">
+                <summary>点击查看答案解析</summary>
+                <div class="answer-content">
+                  <p><strong>答案：</strong><code>in which each epoch stood</code> 是介词提前的定语从句，修饰 <code>economic realities, the social contexts and power relations</code> 三个并列名词词组。</p>
+                  <p><strong>解析：</strong>难点在于先行词不是一个词，而是前面三个并列对象。</p>
+                  <p class="translation"><strong>参考翻译：</strong>因此，它需要理解每个时代所处的经济现实、社会背景和权力关系。</p>
+                </div>
+              </details>
+            </div>
+          </div>
+        </div>
+      </section>
+      <!-- END: 真题演练中心 -->
+
+      <!-- START: 碎片知识整理 -->
+      <section id="glossary">
+        <h2 class="section-title">碎片知识整理</h2>
+        <div class="card non-key">
+          <div class="grid-3">
+            <div class="mini-card"><h4>do / does / did 强调</h4><p><code>do include</code> = 确实包含。</p></div>
+            <div class="mini-card"><h4>call</h4><p>除“电话”外，还可表示“呼吁”。</p></div>
+            <div class="mini-card"><h4>coach</h4><p>作动词表示“培训、训练”。</p></div>
+            <div class="mini-card"><h4>landscape</h4><p>本义“风景”，可引申为“局面、形势”。</p></div>
+            <div class="mini-card"><h4>patent</h4><p>专利。</p></div>
+            <div class="mini-card"><h4>registered users</h4><p>注册用户，过去分词作定语。</p></div>
+            <div class="mini-card"><h4>seem to do</h4><p>似乎做某事。</p></div>
+            <div class="mini-card"><h4>time 可数</h4><p>表示“一段时期 / 时代”时可数，如 <code>a time when...</code>。</p></div>
+            <div class="mini-card"><h4>it 形式主语</h4><p><code>It is difficult to do...</code> 中真正主语是后面的不定式。</p></div>
+            <div class="mini-card"><h4>of 倒译</h4><p><code>A of B</code> 常可理解为“B 的 A”。</p></div>
+            <div class="mini-card"><h4>a couple of</h4><p>可泛指“几个”，不一定严格等于两个。</p></div>
+            <div class="mini-card"><h4>cashless</h4><p><code>cashless society</code> = 无现金社会。</p></div>
+            <div class="mini-card"><h4>takeaway</h4><p>外带食品、外卖店。</p></div>
+            <div class="mini-card"><h4>small majority</h4><p>略微多数。</p></div>
+            <div class="mini-card"><h4>for</h4><p>可表示“支持”，反义词是 <code>against</code>。</p></div>
+          </div>
+        </div>
+      </section>
+      <!-- END: 碎片知识整理 -->
+
+      <!-- START: 最终检查清单 -->
+      <section id="checklist">
+        <h2 class="section-title">最终检查清单</h2>
+        <div class="card checklist">
+          <h3>考前一页检查</h3>
+          <div class="check-item">我知道定语从句的本质：一个句子修饰名词。</div>
+          <div class="check-item">我能找到常见关系词：who、whom、which、that、whose、when、where、why。</div>
+          <div class="check-item">我能判断定语从句修饰的先行词。</div>
+          <div class="check-item">我知道关系词等于先行词，并且在从句中做成分。</div>
+          <div class="check-item">我会用代入法判断关系词做什么成分。</div>
+          <div class="check-item">我知道关系词作宾语时可以省略，作主语时不能省略。</div>
+          <div class="check-item">我能区分限定性和非限定性定语从句：没逗号限定范围，有逗号补充说明。</div>
+          <div class="check-item">我知道非限定性定语从句不能省略关系词，不能用 that。</div>
+          <div class="check-item">我能处理介词提前结构：介词 + which / whom。</div>
+          <div class="check-item">我知道定语从句通常就近修饰，但不绝对；不合理时继续往前找。</div>
+          <div class="check-item">我知道定语从句和同位语从句的名称区分不是考场核心，不需要过度纠结。</div>
+          <div class="check-item">我能在写作中用定语从句合并重复名词。</div>
+
+          <div class="note note-green">
+            <strong>最终口诀：</strong>见关系词，找从句；找到从句，往前看；就近不通，往前找；实在不明，代入法。
+          </div>
+        </div>
+      </section>
+      <!-- END: 最终检查清单 -->
+
+    </main>
+
+    <!-- START: 页脚 -->
+    <footer>
+      <p><strong>资料主题：</strong>考研英语二定语从句专题复习系统</p>
+      <p><strong>覆盖范围：</strong>定语从句写法、关系词选择、成分与省略、限定性与非限定性、同位语从句区别、which/as 指代整句、介词提前、真题演练、考场攻略。</p>
+      <p><strong>最后更新时间：</strong>2026-05-24</p>
+    </footer>
+    <!-- END: 页脚 -->
+
+  </div>
+
+  <script>
+    function expandAll() {
+      document.querySelectorAll("details").forEach(function (detail) {
+        detail.open = true;
+      });
+    }
+
+    function collapseAll() {
+      document.querySelectorAll("details").forEach(function (detail) {
+        detail.open = false;
+      });
+    }
+
+    function showAnswers() {
+      document.querySelectorAll("details.answer-toggle").forEach(function (detail) {
+        detail.open = true;
+      });
+    }
+
+    function hideAnswers() {
+      document.querySelectorAll("details.answer-toggle").forEach(function (detail) {
+        detail.open = false;
+      });
+    }
+
+    function toggleFocusMode() {
+      document.body.classList.toggle("focus-mode");
+      var btn = document.getElementById("focusBtn");
+      if (document.body.classList.contains("focus-mode")) {
+        btn.textContent = "显示全部";
+      } else {
+        btn.textContent = "只看重点";
+      }
+    }
+
+    function printPage() {
+      expandAll();
+      showAnswers();
+      setTimeout(function () {
+        window.print();
+      }, 120);
+    }
+  </script>
+</body>
+</html>
