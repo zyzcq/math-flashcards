@@ -1028,6 +1028,549 @@ const appData = {
         cards: []
     },
 
+wx_short_answers: {
+  "id": "wx_short_answers",
+  "title": "微信小程序：核心简答闪卡",
+  "subtitle": "1-8章核心简答 · 口诀化拆解",
+  "themeColor": "emerald",
+  "type": "flashcard",
+  "cards": [
+    {
+      "title": "第1章：小程序特点",
+      "q": "请简述微信小程序的特点。",
+      "tip": "<b>记忆口诀：【即开即走不占内存，生态丰富流量省心】</b>",
+      "a": "<div class='sa-list'>\
+  <div class='sa-item'>\
+    <span class='sa-badge sa-badge-emerald'>即</span>\
+    <div class='sa-content'><b class='sa-title'>即开即用</b>：<span class='sa-desc'>无需下载与安装，通过扫码或搜索即可瞬间打开应用。</span></div>\
+  </div>\
+  <div class='sa-item'>\
+    <span class='sa-badge sa-badge-emerald'>走</span>\
+    <div class='sa-content'><b class='sa-title'>用完即走</b>：<span class='sa-desc'>关闭后不占用手机存储空间，也不驻留后台进程。</span></div>\
+  </div>\
+  <div class='sa-item'>\
+    <span class='sa-badge sa-badge-emerald'>低</span>\
+    <div class='sa-content'><b class='sa-title'>开发成本低</b>：<span class='sa-desc'>提供统一的开发框架和组件，比原生APP更容易上手。</span></div>\
+  </div>\
+  <div class='sa-item'>\
+    <span class='sa-badge sa-badge-emerald'>融</span>\
+    <div class='sa-content'><b class='sa-title'>微信生态融合</b>：<span class='sa-desc'>深度打通微信支付、社交分享、客服与登录等微信特有生态。</span></div>\
+  </div>\
+</div>"
+    },
+    {
+      "title": "第1章：项目创建过程",
+      "q": "请简述微信小程序项目的创建过程。",
+      "tip": "<b>记忆口诀：【先申账号拿AppID，下载工具建新项目】</b>",
+      "a": "<div class='sa-list'>\
+  <div class='sa-item'>\
+    <span class='sa-badge sa-badge-emerald'>号</span>\
+    <div class='sa-content'><b class='sa-title'>获取AppID</b>：<span class='sa-desc'>在微信公众平台注册小程序账号，并在“开发管理-开发设置”中复制AppID。</span></div>\
+  </div>\
+  <div class='sa-item'>\
+    <span class='sa-badge sa-badge-emerald'>工</span>\
+    <div class='sa-content'><b class='sa-title'>下载工具</b>：<span class='sa-desc'>下载并安装对应系统版本的“微信开发者工具”。</span></div>\
+  </div>\
+  <div class='sa-item'>\
+    <span class='sa-badge sa-badge-emerald'>建</span>\
+    <div class='sa-content'><b class='sa-title'>新建项目</b>：<span class='sa-desc'>启动开发者工具，扫码登录，点击“+”号选择新建小程序项目。</span></div>\
+  </div>\
+  <div class='sa-item'>\
+    <span class='sa-badge sa-badge-emerald'>配</span>\
+    <div class='sa-content'><b class='sa-title'>配置信息</b>：<span class='sa-desc'>填入项目名称、选择本地目录、填入AppID，选择开发模式（小程序）及模板，点击确定生成。</span></div>\
+  </div>\
+</div>"
+    },
+    {
+      "title": "第2章：WXML与HTML的区别",
+      "q": "简述 WXML 和 HTML 的区别。",
+      "tip": "<b>记忆口诀：【标签组件大换血，数据绑定不用DOM】</b>",
+      "a": "<div class='sa-list'>\
+  <div class='sa-item'>\
+    <span class='sa-badge sa-badge-emerald'>标</span>\
+    <div class='sa-content'><b class='sa-title'>标签不同</b>：<span class='sa-desc'>HTML使用div/span/img，WXML使用专属组件view/text/image。</span></div>\
+  </div>\
+  <div class='sa-item'>\
+    <span class='sa-badge sa-badge-emerald'>绑</span>\
+    <div class='sa-content'><b class='sa-title'>数据绑定</b>：<span class='sa-desc'>WXML支持MVVM式的双括号“{{ }}”插值，而HTML需要通过JS手动操作DOM。</span></div>\
+  </div>\
+  <div class='sa-item'>\
+    <span class='sa-badge sa-badge-emerald'>控</span>\
+    <div class='sa-content'><b class='sa-title'>指令渲染</b>：<span class='sa-desc'>WXML拥有指令属性（如wx:if、wx:for），HTML本身不具备逻辑控制能力。</span></div>\
+  </div>\
+  <div class='sa-item'>\
+    <span class='sa-badge sa-badge-emerald'>空</span>\
+    <div class='sa-content'><b class='sa-title'>没有DOM树</b>：<span class='sa-desc'>WXML中没有HTML的window和document对象，无法进行标准的DOM操作。</span></div>\
+  </div>\
+</div>"
+    },
+    {
+      "title": "第2章：WXSS与CSS的区别",
+      "q": "简述 WXSS 和 CSS 的区别。",
+      "tip": "<b>记忆口诀：【rpx适配全屏幕，import导入相对路】</b>",
+      "a": "<div class='sa-list'>\
+  <div class='sa-item'>\
+    <span class='sa-badge sa-badge-emerald'>尺</span>\
+    <div class='sa-content'><b class='sa-title'>rpx单位</b>：<span class='sa-desc'>新增rpx（responsive pixel）响应式像素单位，屏幕宽度固定为750rpx，自动适配不同机型。</span></div>\
+  </div>\
+  <div class='sa-item'>\
+    <span class='sa-badge sa-badge-emerald'>导</span>\
+    <div class='sa-content'><b class='sa-title'>样式导入</b>：<span class='sa-desc'>提供@import语法，支持将外联样式表引入到当前样式表中。</span></div>\
+  </div>\
+  <div class='sa-item'>\
+    <span class='sa-badge sa-badge-emerald'>选</span>\
+    <div class='sa-content'><b class='sa-title'>选择器受限</b>：<span class='sa-desc'>WXSS仅支持常用的选择器（如.class、#id、element等），不支持一些复杂的CSS3选择器。</span></div>\
+  </div>\
+  <div class='sa-item'>\
+    <span class='sa-badge sa-badge-emerald'>局</span>\
+    <div class='sa-content'><b class='sa-title'>全局与局部</b>：<span class='sa-desc'>拥有app.wxss全局样式与页面专属wxss，页面样式会自动覆盖同名的全局样式。</span></div>\
+  </div>\
+</div>"
+    },
+    {
+      "title": "第2章：Flex布局概念",
+      "q": "简述 Flex 布局的概念。",
+      "tip": "<b>记忆口诀：【设为flex分双轴，对齐伸缩排版优】</b>",
+      "a": "<div class='sa-list'>\
+  <div class='sa-item'>\
+    <span class='sa-badge sa-badge-emerald'>容</span>\
+    <div class='sa-content'><b class='sa-title'>弹性容器</b>：<span class='sa-desc'>通过将父元素的display属性设为flex，使其成为Flex容器，其子元素自动成为Flex项目。</span></div>\
+  </div>\
+  <div class='sa-item'>\
+    <span class='sa-badge sa-badge-emerald'>轴</span>\
+    <div class='sa-content'><b class='sa-title'>双轴模型</b>：<span class='sa-desc'>由主轴（main axis）和交叉轴（cross axis）组成，通过flex-direction可以调整轴向。</span></div>\
+  </div>\
+  <div class='sa-item'>\
+    <span class='sa-badge sa-badge-emerald'>对</span>\
+    <div class='sa-content'><b class='sa-title'>对齐控制</b>：<span class='sa-desc'>使用justify-content定义项目在主轴的对齐方式，使用align-items定义在交叉轴的对齐方式。</span></div>\
+  </div>\
+  <div class='sa-item'>\
+    <span class='sa-badge sa-badge-emerald'>伸</span>\
+    <div class='sa-content'><b class='sa-title'>弹性伸缩</b>：<span class='sa-desc'>子项目可通过flex属性控制自身的放大、缩小比例及基础大小，实现自动按比例分配。</span></div>\
+  </div>\
+</div>"
+    },
+    {
+      "title": "第3章：页面生命周期",
+      "q": "简述页面生命周期函数包括哪些。",
+      "tip": "<b>记忆口诀：【加载显示初渲染，隐藏卸载生命完】</b>",
+      "a": "<div class='sa-list'>\
+  <div class='sa-item'>\
+    <span class='sa-badge sa-badge-emerald'>载</span>\
+    <div class='sa-content'><b class='sa-title'>onLoad(query)</b>：<span class='sa-desc'>页面加载时触发。一个页面只调用一次，可以在此获取打开当前页面所调用的参数。</span></div>\
+  </div>\
+  <div class='sa-item'>\
+    <span class='sa-badge sa-badge-emerald'>显</span>\
+    <div class='sa-content'><b class='sa-title'>onShow()</b>：<span class='sa-desc'>页面显示/切入前台时触发。每次打开页面或从后台切回前台都会执行。</span></div>\
+  </div>\
+  <div class='sa-item'>\
+    <span class='sa-badge sa-badge-emerald'>初</span>\
+    <div class='sa-content'><b class='sa-title'>onReady()</b>：<span class='sa-desc'>页面初次渲染完成时触发。一个页面只调用一次，代表页面可以与视图层进行交互。</span></div>\
+  </div>\
+  <div class='sa-item'>\
+    <span class='sa-badge sa-badge-emerald'>隐</span>\
+    <div class='sa-content'><b class='sa-title'>onHide()</b>：<span class='sa-desc'>页面隐藏/切入后台时触发。如wx.navigateTo跳转或微信切入后台。</span></div>\
+  </div>\
+  <div class='sa-item'>\
+    <span class='sa-badge sa-badge-emerald'>卸</span>\
+    <div class='sa-content'><b class='sa-title'>onUnload()</b>：<span class='sa-desc'>页面卸载时触发。如wx.redirectTo重定向或wx.navigateBack返回上一页。</span></div>\
+  </div>\
+</div>"
+    },
+    {
+      "title": "第3章：wx:if与hidden区别",
+      "q": "简述 wx:if 控制属性和 hidden 属性的区别。",
+      "tip": "<b>记忆口诀：【条件if控渲染，频繁显隐hidden连】</b>",
+      "a": "<div class='sa-list'>\
+  <div class='sa-item'>\
+    <span class='sa-badge sa-badge-emerald'>机</span>\
+    <div class='sa-content'><b class='sa-title'>渲染机制</b>：<span class='sa-desc'>wx:if是动态的销毁和重建组件；hidden仅通过修改CSS的display属性控制可见性。</span></div>\
+  </div>\
+  <div class='sa-item'>\
+    <span class='sa-badge sa-badge-emerald'>初</span>\
+    <div class='sa-content'><b class='sa-title'>初始负载</b>：<span class='sa-desc'>wx:if是惰性的，初始为false则不渲染；hidden不管初始值，都会进行组件渲染。</span></div>\
+  </div>\
+  <div class='sa-item'>\
+    <span class='sa-badge sa-badge-emerald'>销</span>\
+    <div class='sa-content'><b class='sa-title'>生命周期</b>：<span class='sa-desc'>wx:if切换时会触发子组件的创建与销毁生命周期；hidden不会影响组件生命周期状态。</span></div>\
+  </div>\
+  <div class='sa-item'>\
+    <span class='sa-badge sa-badge-emerald'>选</span>\
+    <div class='sa-content'><b class='sa-title'>场景选择</b>：<span class='sa-desc'>频繁切换使用hidden以减少渲染开销；条件不常改变的使用wx:if以减少初始渲染时间。</span></div>\
+  </div>\
+</div>"
+    },
+    {
+      "title": "第3章：下拉刷新实现",
+      "q": "简述微信小程序如何实现下拉刷新。",
+      "tip": "<b>记忆口诀：【配置开启Refresh，监听重置stop止】</b>",
+      "a": "<div class='sa-list'>\
+  <div class='sa-item'>\
+    <span class='sa-badge sa-badge-emerald'>配</span>\
+    <div class='sa-content'><b class='sa-title'>开启全局/页面配置</b>：<span class='sa-desc'>在app.json或具体页面的json配置文件中，设置\"enablePullDownRefresh\": true。</span></div>\
+  </div>\
+  <div class='sa-item'>\
+    <span class='sa-badge sa-badge-emerald'>听</span>\
+    <div class='sa-content'><b class='sa-title'>监听下拉事件</b>：<span class='sa-desc'>在页面的JS文件中，编写生命周期函数onPullDownRefresh()，在里面编写刷新逻辑。</span></div>\
+  </div>\
+  <div class='sa-item'>\
+    <span class='sa-badge sa-badge-emerald'>新</span>\
+    <div class='sa-content'><b class='sa-title'>更新页面数据</b>：<span class='sa-desc'>在监听事件内重新请求API，并将获取的最新数据通过this.setData()渲染至页面。</span></div>\
+  </div>\
+  <div class='sa-item'>\
+    <span class='sa-badge sa-badge-emerald'>停</span>\
+    <div class='sa-content'><b class='sa-title'>主动停止动画</b>：<span class='sa-desc'>数据加载完成后，必须手动调用wx.stopPullDownRefresh()，否则下拉加载动画不会自动消失。</span></div>\
+  </div>\
+</div>"
+    },
+    {
+      "title": "第3章：上拉触底实现",
+      "q": "简述微信小程序如何实现上拉触底。",
+      "tip": "<b>记忆口诀：【触底监听onReach，配置距离加防重】</b>",
+      "a": "<div class='sa-list'>\
+  <div class='sa-item'>\
+    <span class='sa-badge sa-badge-emerald'>距</span>\
+    <div class='sa-content'><b class='sa-title'>配置触底距离</b>：<span class='sa-desc'>在页面json配置中，可通过onReachBottomDistance设置触发触底的距离，单位px，默认为50px。</span></div>\
+  </div>\
+  <div class='sa-item'>\
+    <span class='sa-badge sa-badge-emerald'>听</span>\
+    <div class='sa-content'><b class='sa-title'>监听触底函数</b>：<span class='sa-desc'>在页面的JS文件中，重写onReachBottom()生命周期函数，在该函数中编写加载下一页数据的逻辑。</span></div>\
+  </div>\
+  <div class='sa-item'>\
+    <span class='sa-badge sa-badge-emerald'>拼</span>\
+    <div class='sa-content'><b class='sa-title'>追加合并数据</b>：<span class='sa-desc'>发送请求获取新一页的数据后，使用this.setData()将新数据拼接到原数据列表的末尾。</span></div>\
+  </div>\
+  <div class='sa-item'>\
+    <span class='sa-badge sa-badge-emerald'>锁</span>\
+    <div class='sa-content'><b class='sa-title'>加入防抖节流</b>：<span class='sa-desc'>设置状态锁（如isloading），在请求发送时加锁，请求结束解锁，防止用户多次上拉重复请求。</span></div>\
+  </div>\
+</div>"
+    },
+    {
+      "title": "第4章：背景音频管理",
+      "q": "简述 BackgroundAudioManager 实例的属性和方法。",
+      "tip": "<b>记忆口诀：【获取实例配src，Title必填play起】</b>",
+      "a": "<div class='sa-list'>\
+  <div class='sa-item'>\
+    <span class='sa-badge sa-badge-emerald'>取</span>\
+    <div class='sa-content'><b class='sa-title'>获取实例</b>：<span class='sa-desc'>通过wx.getBackgroundAudioManager()获取系统级唯一的背景音频播放管理器。</span></div>\
+  </div>\
+  <div class='sa-item'>\
+    <span class='sa-badge sa-badge-emerald'>属</span>\
+    <div class='sa-content'><b class='sa-title'>核心属性</b>：<span class='sa-desc'>src属性（音频源链接）、title属性（音频标题，必须设置否则无法播放）、duration（总时长）、currentTime（当前播放进度）。</span></div>\
+  </div>\
+  <div class='sa-item'>\
+    <span class='sa-badge sa-badge-emerald'>方</span>\
+    <div class='sa-content'><b class='sa-title'>核心方法</b>：<span class='sa-desc'>play()开始播放、pause()暂停播放、stop()停止播放、seek(position)音频进度跳转。</span></div>\
+  </div>\
+  <div class='sa-item'>\
+    <span class='sa-badge sa-badge-emerald'>听</span>\
+    <div class='sa-content'><b class='sa-title'>状态监听</b>：<span class='sa-desc'>onPlay()监听播放开始、onPause()监听播放暂停、onTimeUpdate()监听播放进度更新、onEnded()监听播放自然结束。</span></div>\
+  </div>\
+</div>"
+    },
+    {
+      "title": "第4章：Canvas绘图步骤",
+      "q": "简述使用画布 API 进行绘图的基本步骤。",
+      "tip": "<b>记忆口诀：【获取上下文设样式，路径绘制draw出来】</b>",
+      "a": "<div class='sa-list'>\
+  <div class='sa-item'>\
+    <span class='sa-badge sa-badge-emerald'>创</span>\
+    <div class='sa-content'><b class='sa-title'>获取画布上下文</b>：<span class='sa-desc'>在WXML定义canvas组件，通过wx.createSelectorQuery()获取节点并调用getContext('2d')获取绘图上下文（Canvas 2D标准）。</span></div>\
+  </div>\
+  <div class='sa-item'>\
+    <span class='sa-badge sa-badge-emerald'>设</span>\
+    <div class='sa-content'><b class='sa-title'>设置绘制样式</b>：<span class='sa-desc'>通过上下文设置样式，如fillStyle（填充色）、strokeStyle（线条色）、lineWidth（线宽）及font（字体样式）等。</span></div>\
+  </div>\
+  <div class='sa-item'>\
+    <span class='sa-badge sa-badge-emerald'>绘</span>\
+    <div class='sa-content'><b class='sa-title'>绘制图形与路径</b>：<span class='sa-desc'>调用moveTo()、lineTo()、arc()等勾勒路径，或使用fillRect()、strokeRect()、fillText()等直接输出图形与文本。</span></div>\
+  </div>\
+  <div class='sa-item'>\
+    <span class='sa-badge sa-badge-emerald'>画</span>\
+    <div class='sa-content'><b class='sa-title'>渲染生成</b>：<span class='sa-desc'>若是旧版Canvas API，绘制完毕后必须调用ctx.draw()方法完成实际的画布渲染；若使用Canvas 2D则无需draw()，为实时绘制。</span></div>\
+  </div>\
+</div>"
+    },
+    {
+      "title": "第4章：文件上传与下载",
+      "q": "简述如何实现文件上传和文件下载。",
+      "tip": "<b>记忆口诀：【选好图片upload，远程下载download传】</b>",
+      "a": "<div class='sa-list'>\
+  <div class='sa-item'>\
+    <span class='sa-badge sa-badge-emerald'>上</span>\
+    <div class='sa-content'><b class='sa-title'>文件上传方法</b>：<span class='sa-desc'>先调用wx.chooseMedia选择本地多媒体文件，获取tempFilePath，再通过wx.uploadFile()上传，需要指定url、filePath和name等参数。</span></div>\
+  </div>\
+  <div class='sa-item'>\
+    <span class='sa-badge sa-badge-emerald'>下</span>\
+    <div class='sa-content'><b class='sa-title'>文件下载方法</b>：<span class='sa-desc'>调用wx.downloadFile()方法，指定文件url。下载成功后会在回调中返回临时文件路径tempFilePath。</span></div>\
+  </div>\
+  <div class='sa-item'>\
+    <span class='sa-badge sa-badge-emerald'>存</span>\
+    <div class='sa-content'><b class='sa-title'>文件保存与打开</b>：<span class='sa-desc'>拿到下载的临时文件后，可用wx.saveFile()将其持久化保存到本地，或者用wx.openDocument()直接打开预览（如PDF/Word文档）。</span></div>\
+  </div>\
+  <div class='sa-item'>\
+    <span class='sa-badge sa-badge-emerald'>听</span>\
+    <div class='sa-content'><b class='sa-title'>进度条监听</b>：<span class='sa-desc'>wx.uploadFile和wx.downloadFile会返回任务实例，通过监听onProgressUpdate事件可以获取实时进度百分比。</span></div>\
+  </div>\
+</div>"
+    },
+    {
+      "title": "第5章：Animation实例获取",
+      "q": "简述如何获取 Animation 实例。",
+      "tip": "<b>记忆口诀：【createAnimation定参数，step结束export出】</b>",
+      "a": "<div class='sa-list'>\
+  <div class='sa-item'>\
+    <span class='sa-badge sa-badge-emerald'>创</span>\
+    <div class='sa-content'><b class='sa-title'>调用创建API</b>：<span class='sa-desc'>通过wx.createAnimation(Object)创建一个动画实例。</span></div>\
+  </div>\
+  <div class='sa-item'>\
+    <span class='sa-badge sa-badge-emerald'>参</span>\
+    <div class='sa-content'><b class='sa-title'>配置动画参数</b>：<span class='sa-desc'>可在Object中配置duration(过渡时间)、timingFunction(动画效果)、delay(延迟)和transformOrigin(变形原点)。</span></div>\
+  </div>\
+  <div class='sa-item'>\
+    <span class='sa-badge sa-badge-emerald'>链</span>\
+    <div class='sa-content'><b class='sa-title'>编写动画步骤</b>：<span class='sa-desc'>通过链式调用如rotate()、scale()等，最后调用step()表示这组动画定义完毕。</span></div>\
+  </div>\
+  <div class='sa-item'>\
+    <span class='sa-badge sa-badge-emerald'>导</span>\
+    <div class='sa-content'><b class='sa-title'>导出并绑定</b>：<span class='sa-desc'>通过animation.export()导出动画数据，使用this.setData()绑定到页面的Data中，并放入WXML的animation属性里。</span></div>\
+  </div>\
+</div>"
+    },
+    {
+      "title": "第5章：应用生命周期",
+      "q": "简述微信小程序中应用生命周期回调函数 onLaunch( )、onShow( )、onError( )、onHide( )和 onPageNotFound( ) 的作用。",
+      "tip": "<b>记忆口诀：【初始化时onLaunch，显示隐藏错丢失】</b>",
+      "a": "<div class='sa-list'>\
+  <div class='sa-item'>\
+    <span class='sa-badge sa-badge-emerald'>启</span>\
+    <div class='sa-content'><b class='sa-title'>onLaunch()</b>：<span class='sa-desc'>生命周期-监听小程序初始化。小程序初始化完成时触发，全局只触发一次。</span></div>\
+  </div>\
+  <div class='sa-item'>\
+    <span class='sa-badge sa-badge-emerald'>显</span>\
+    <div class='sa-content'><b class='sa-title'>onShow()</b>：<span class='sa-desc'>生命周期-监听小程序启动或切前台。当小程序启动，或从后台进入前台显示时触发。</span></div>\
+  </div>\
+  <div class='sa-item'>\
+    <span class='sa-badge sa-badge-emerald'>隐</span>\
+    <div class='sa-content'><b class='sa-title'>onHide()</b>：<span class='sa-desc'>生命周期-监听小程序切后台。当小程序从前台进入后台隐藏时触发。</span></div>\
+  </div>\
+  <div class='sa-item'>\
+    <span class='sa-badge sa-badge-emerald'>错</span>\
+    <div class='sa-content'><b class='sa-title'>onError()</b>：<span class='sa-desc'>错误监听函数。小程序脚本发生JS错误，或者API调用失败时触发，用于收集错误日志。</span></div>\
+  </div>\
+  <div class='sa-item'>\
+    <span class='sa-badge sa-badge-emerald'>失</span>\
+    <div class='sa-content'><b class='sa-title'>onPageNotFound()</b>：<span class='sa-desc'>页面不存在监听函数。小程序要打开的页面不存在时触发，可在函数内重定向到首页，避免白屏。</span></div>\
+  </div>\
+</div>"
+    },
+    {
+      "title": "第5章：WebSocket连接",
+      "q": "简述如何创建 WebSocket 连接。",
+      "tip": "<b>记忆口诀：【connectSocket连网络，onOpen成功发消息】</b>",
+      "a": "<div class='sa-list'>\
+  <div class='sa-item'>\
+    <span class='sa-badge sa-badge-emerald'>连</span>\
+    <div class='sa-content'><b class='sa-title'>发起连接</b>：<span class='sa-desc'>调用wx.connectSocket()方法，传入wss协议的安全域名接口URL，返回SocketTask实例。</span></div>\
+  </div>\
+  <div class='sa-item'>\
+    <span class='sa-badge sa-badge-emerald'>听</span>\
+    <div class='sa-content'><b class='sa-title'>监听开启</b>：<span class='sa-desc'>使用wx.onSocketOpen()或SocketTask.onOpen()监听连接成功建立的事件。</span></div>\
+  </div>\
+  <div class='sa-item'>\
+    <span class='sa-badge sa-badge-emerald'>发</span>\
+    <div class='sa-content'><b class='sa-title'>发送数据</b>：<span class='sa-desc'>在连接成功建立后，调用wx.sendSocketMessage()或SocketTask.send()传输文本或二进制数据。</span></div>\
+  </div>\
+  <div class='sa-item'>\
+    <span class='sa-badge sa-badge-emerald'>收</span>\
+    <div class='sa-content'><b class='sa-title'>接收与关闭</b>：<span class='sa-desc'>调用wx.onSocketMessage()实时监听服务端消息，在断开或退出时调用wx.closeSocket()关闭长连接。</span></div>\
+  </div>\
+</div>"
+    },
+    {
+      "title": "第6章：页面切换方法区别",
+      "q": "简述微信小程序中实现页面之间切换的 wx.navigateTo( )、wx.redirectTo( )和 wx.switchTab( ) 方法的区别。",
+      "tip": "<b>记忆口诀：【保留navigateTo，关闭redirectTo，切换tabBar用switchTab】</b>",
+      "a": "<div class='sa-list'>\
+  <div class='sa-item'>\
+    <span class='sa-badge sa-badge-emerald'>保</span>\
+    <div class='sa-content'><b class='sa-title'>wx.navigateTo</b>：<span class='sa-desc'>保留当前页，跳转至非TabBar页。原页面不销毁，可以使用wx.navigateBack()返回，页面栈上限为10层。</span></div>\
+  </div>\
+  <div class='sa-item'>\
+    <span class='sa-badge sa-badge-emerald'>销</span>\
+    <div class='sa-content'><b class='sa-title'>wx.redirectTo</b>：<span class='sa-desc'>关闭当前页，跳转至非TabBar页。原页面会被销毁出栈，常用于表单提交成功或登录重定向，无法返回原页。</span></div>\
+  </div>\
+  <div class='sa-item'>\
+    <span class='sa-badge sa-badge-emerald'>切</span>\
+    <div class='sa-content'><b class='sa-title'>wx.switchTab</b>：<span class='sa-desc'>专门用于跳转至TabBar指定的底部导航页。跳转时会关闭并销毁页面栈中所有其他非TabBar页面。</span></div>\
+  </div>\
+</div>"
+    },
+    {
+      "title": "第6章：小程序登录流程",
+      "q": "简述微信小程序的登录流程。",
+      "tip": "<b>记忆口诀：【login拿code，后台换openid，token回传保本地】</b>",
+      "a": "<div class='sa-list'>\
+  <div class='sa-item'>\
+    <span class='sa-badge sa-badge-emerald'>凭</span>\
+    <div class='sa-content'><b class='sa-title'>前端获取Code</b>：<span class='sa-desc'>小程序端调用wx.login()获取临时登录凭证code，有效期为5分钟。</span></div>\
+  </div>\
+  <div class='sa-item'>\
+    <span class='sa-badge sa-badge-emerald'>传</span>\
+    <div class='sa-content'><b class='sa-title'>发送凭证至后台</b>：<span class='sa-desc'>小程序通过wx.request()将code发送给开发者自建服务器。</span></div>\
+  </div>\
+  <div class='sa-item'>\
+    <span class='sa-badge sa-badge-emerald'>换</span>\
+    <div class='sa-content'><b class='sa-title'>后台向微信换密钥</b>：<span class='sa-desc'>开发者服务器向微信接口服务发送code+AppID+AppSecret，换取用户的openid和会话密钥session_key。</span></div>\
+  </div>\
+  <div class='sa-item'>\
+    <span class='sa-badge sa-badge-emerald'>存</span>\
+    <div class='sa-content'><b class='sa-title'>返回并保存Token</b>：<span class='sa-desc'>服务器生成自定义登录态（Token）返给前端，前端调用wx.setStorage缓存Token，后续请求携带Token。</span></div>\
+  </div>\
+</div>"
+    },
+    {
+      "title": "第7章：自定义组件创建与使用",
+      "q": "简述自定义组件的创建和使用方法。",
+      "tip": "<b>记忆口诀：【新建组件设JSON，页面引用using配】</b>",
+      "a": "<div class='sa-list'>\
+  <div class='sa-item'>\
+    <span class='sa-badge sa-badge-emerald'>创</span>\
+    <div class='sa-content'><b class='sa-title'>新建四件套与配置</b>：<span class='sa-desc'>在项目目录中右键新建Component。组件的json文件中必须声明\"component\": true。</span></div>\
+  </div>\
+  <div class='sa-item'>\
+    <span class='sa-badge sa-badge-emerald'>写</span>\
+    <div class='sa-content'><b class='sa-title'>Component逻辑编写</b>：<span class='sa-desc'>在组件JS中调用Component()函数，可用properties接收外来参数，methods定义内部处理函数。</span></div>\
+  </div>\
+  <div class='sa-item'>\
+    <span class='sa-badge sa-badge-emerald'>引</span>\
+    <div class='sa-content'><b class='sa-title'>配置usingComponents</b>：<span class='sa-desc'>在需要引用该组件的页面（或app.json全局）的json文件中，通过usingComponents配置键值对引入组件。</span></div>\
+  </div>\
+  <div class='sa-item'>\
+    <span class='sa-badge sa-badge-emerald'>用</span>\
+    <div class='sa-content'><b class='sa-title'>在WXML内当做标签使用</b>：<span class='sa-desc'>在页面的WXML文件中直接写自定义标签（如<my-component />），并可通过属性传值和绑定事件。</span></div>\
+  </div>\
+</div>"
+    },
+    {
+      "title": "第7章：useExtendedLib引入WeUI",
+      "q": "简述通过 useExtendedLib 扩展库的方式引入 WeUI 组件库的方式。",
+      "tip": "<b>记忆口诀：【app配置useExtend，免包体积直接引】</b>",
+      "a": "<div class='sa-list'>\
+  <div class='sa-item'>\
+    <span class='sa-badge sa-badge-emerald'>配</span>\
+    <div class='sa-content'><b class='sa-title'>app.json全局声明</b>：<span class='sa-desc'>In app.json中加入配置：\"useExtendedLib\": { \"weui\": true }，使小程序项目支持WeUI库。</span></div>\
+  </div>\
+  <div class='sa-item'>\
+    <span class='sa-badge sa-badge-emerald'>引</span>\
+    <div class='sa-content'><b class='sa-title'>页面声明引入组件</b>：<span class='sa-desc'>在页面.json的usingComponents中直接注册组件，如\"mp-dialog\": \"weui-miniprogram/dialog/dialog\"。</span></div>\
+  </div>\
+  <div class='sa-item'>\
+    <span class='sa-badge sa-badge-emerald'>优</span>\
+    <div class='sa-content'><b class='sa-title'>减包不占体积</b>：<span class='sa-desc'>通过扩展库引入的组件库代码由微信客户端直接提供，不计入小程序的代码包大小限制。</span></div>\
+  </div>\
+  <div class='sa-item'>\
+    <span class='sa-badge sa-badge-emerald'>用</span>\
+    <div class='sa-content'><b class='sa-title'>页面标签渲染</b>：<span class='sa-desc'>在页面的WXML文件中，直接使用带有mp-前缀的标签进行页面渲染。</span></div>\
+  </div>\
+</div>"
+    },
+    {
+      "title": "第7章：navigator的open-type",
+      "q": "简述 navigator 组件的 open-type 属性的合法值及作用。",
+      "tip": "<b>记忆口诀：【navigate返非Tab，重构启动用reLaunch，跳转底部switchTab】</b>",
+      "a": "<div class='sa-list'>\
+  <div class='sa-item'>\
+    <span class='sa-badge sa-badge-emerald'>导</span>\
+    <div class='sa-content'><b class='sa-title'>navigate / redirect</b>：<span class='sa-desc'>navigate为默认保留当前页跳转非Tab页；redirect为关闭并销毁当前页跳转非Tab页。</span></div>\
+  </div>\
+  <div class='sa-item'>\
+    <span class='sa-badge sa-badge-emerald'>切</span>\
+    <div class='sa-content'><b class='sa-title'>switchTab / reLaunch</b>：<span class='sa-desc'>switchTab用于跳转到底部TabBar；reLaunch用于销毁全部页面栈并启动到任意指定页。</span></div>\
+  </div>\
+  <div class='sa-item'>\
+    <span class='sa-badge sa-badge-emerald'>返</span>\
+    <div class='sa-content'><b class='sa-title'>navigateBack</b>：<span class='sa-desc'>用于页面回退，可与delta属性配合指定向上返回的级数。</span></div>\
+  </div>\
+  <div class='sa-item'>\
+    <span class='sa-badge sa-badge-emerald'>退</span>\
+    <div class='sa-content'><b class='sa-title'>exit</b>：<span class='sa-desc'>用于退出小程序。仅在配合target=\"miniProgram\"且点击退出时生效。</span></div>\
+  </div>\
+</div>"
+    },
+    {
+      "title": "第7章：uni-app优点",
+      "q": "简述 uni-app 框架的优点。",
+      "tip": "<b>记忆口诀：【一套代码多端发，基于Vue生态大】</b>",
+      "a": "<div class='sa-list'>\
+  <div class='sa-item'>\
+    <span class='sa-badge sa-badge-emerald'>多</span>\
+    <div class='sa-content'><b class='sa-title'>多端发布支持</b>：<span class='sa-desc'>一套代码可编译成iOS、Android、Web以及各大平台的小程序，极大节省开发成本。</span></div>\
+  </div>\
+  <div class='sa-item'>\
+    <span class='sa-badge sa-badge-emerald'>Vue</span>\
+    <div class='sa-content'><b class='sa-title'>基于Vue.js开发</b>：<span class='sa-desc'>完全遵循Vue的语法和生命周期，易于上手，能够实现高效的组件化和数据流管理。</span></div>\
+  </div>\
+  <div class='sa-item'>\
+    <span class='sa-badge sa-badge-emerald'>态</span>\
+    <div class='sa-content'><b class='sa-title'>生态插件繁荣</b>：<span class='sa-desc'>DCloud插件市场沉淀了大量成熟插件与模板，极大提升开发效率。</span></div>\
+  </div>\
+  <div class='sa-item'>\
+    <span class='sa-badge sa-badge-emerald'>快</span>\
+    <div class='sa-content'><b class='sa-title'>优秀的渲染性能</b>：<span class='sa-desc'>App端结合原生渲染引擎，且支持小程序的轻量级运行，保证操作的顺畅流利。</span></div>\
+  </div>\
+</div>"
+    },
+    {
+      "title": "第8章：小程序页面组成",
+      "q": "简述微信小程序的页面组成。",
+      "tip": "<b>记忆口诀：【WXML定结构，样式逻辑JSON配】</b>",
+      "a": "<div class='sa-list'>\
+  <div class='sa-item'>\
+    <span class='sa-badge sa-badge-emerald'>构</span>\
+    <div class='sa-content'><b class='sa-title'>WXML 页面结构</b>：<span class='sa-desc'>类似HTML，通过使用各种自带组件来搭建页面的UI结构骨架。</span></div>\
+  </div>\
+  <div class='sa-item'>\
+    <span class='sa-badge sa-badge-emerald'>样</span>\
+    <div class='sa-content'><b class='sa-title'>WXSS 页面样式</b>：<span class='sa-desc'>类似CSS，用于控制组件的布局、字体、颜色以及不同设备的适配排版。</span></div>\
+  </div>\
+  <div class='sa-item'>\
+    <span class='sa-badge sa-badge-emerald'>控</span>\
+    <div class='sa-content'><b class='sa-title'>JS 页面逻辑</b>：<span class='sa-desc'>运行在逻辑层，进行状态数据的声明、事件处理函数的编写以及发送API请求。</span></div>\
+  </div>\
+  <div class='sa-item'>\
+    <span class='sa-badge sa-badge-emerald'>配</span>\
+    <div class='sa-content'><b class='sa-title'>JSON 页面配置</b>：<span class='sa-desc'>纯数据配置文件，定义当前页面的个性化设置（如导航标题、是否开启下拉刷新）。</span></div>\
+  </div>\
+</div>"
+    },
+    {
+      "title": "第8章：uni-app页面路径设置",
+      "q": "简述如何在 uni-app 项目中设置页面路径。",
+      "tip": "<b>记忆口诀：【新建页面在pages，pages.json填路径】</b>",
+      "a": "<div class='sa-list'>\
+  <div class='sa-item'>\
+    <span class='sa-badge sa-badge-emerald'>建</span>\
+    <div class='sa-content'><b class='sa-title'>新建页面组件</b>：<span class='sa-desc'>在uni-app项目的pages文件夹下，创建页面专属的目录及后缀为.vue的单文件组件。</span></div>\
+  </div>\
+  <div class='sa-item'>\
+    <span class='sa-badge sa-badge-emerald'>配</span>\
+    <div class='sa-content'><b class='sa-title'>配置pages.json</b>：<span class='sa-desc'>打开项目根目录下的全局配置文件pages.json，在pages数组中追加配置对象。</span></div>\
+  </div>\
+  <div class='sa-item'>\
+    <span class='sa-badge sa-badge-emerald'>路</span>\
+    <div class='sa-content'><b class='sa-title'>指定path属性</b>：<span class='sa-desc'>在页面配置中指定path属性，填入相对于项目根目录的相对路径，如\"pages/info/info\"。</span></div>\
+  </div>\
+  <div class='sa-item'>\
+    <span class='sa-badge sa-badge-emerald'>首</span>\
+    <div class='sa-content'><b class='sa-title'>定义初始首页</b>：<span class='sa-desc'>pages数组的第一个元素，会被默认设定为项目启动时渲染的首个页面。</span></div>\
+  </div>\
+</div>"
+    }
+  ]
+},
+
     se_short_answers: {
         id: "se_short_answers",
         title: "软件测试：核心简答闪卡",
@@ -1380,7 +1923,8 @@ const siteData = [
             appData.linux_short_answers,
             appData.se_quiz,
             appData.se_short_answers,
-            appData.wx_quiz
+            appData.wx_quiz,
+            appData.wx_short_answers
         ]
     }
 ];
