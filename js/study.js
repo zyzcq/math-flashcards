@@ -5,6 +5,7 @@ const themeColors = {
     sky: { hex: '#0ea5e9', gradStart: '#0ea5e9', gradEnd: '#3b82f6', text: '#0369a1', border: '#bae6fd', shadow: 'rgba(14, 165, 233, 0.25)' },
     indigo: { hex: '#6366f1', gradStart: '#6366f1', gradEnd: '#8b5cf6', text: '#3730a3', border: '#a5b4fc', shadow: 'rgba(99, 102, 241, 0.25)' },
     violet: { hex: '#8b5cf6', gradStart: '#8b5cf6', gradEnd: '#a855f7', text: '#5b21b6', border: '#c4b5fd', shadow: 'rgba(139, 92, 246, 0.25)' },
+    fuchsia: { hex: '#c026d3', gradStart: '#c026d3', gradEnd: '#e879f9', text: '#86198f', border: '#f0abfc', shadow: 'rgba(192, 38, 211, 0.24)' },
     rose: { hex: '#f43f5e', gradStart: '#f43f5e', gradEnd: '#fb7185', text: '#be123c', border: '#fecdd3', shadow: 'rgba(244, 63, 94, 0.25)' },
     emerald: { hex: '#10b981', gradStart: '#10b981', gradEnd: '#34d399', text: '#047857', border: '#a7f3d0', shadow: 'rgba(16, 185, 129, 0.25)' },
     amber: { hex: '#d97706', gradStart: '#d97706', gradEnd: '#f59e0b', text: '#92400e', border: '#fde68a', shadow: 'rgba(217, 119, 6, 0.24)' },
@@ -62,15 +63,20 @@ function clamp(value, min, max) {
 
 function getProgressStore() {
     try {
-        return JSON.parse(localStorage.getItem(STUDY_PROGRESS_KEY)) || {};
+        const item = localStorage.getItem(STUDY_PROGRESS_KEY);
+        return item ? JSON.parse(item) : {};
     } catch (error) {
-        localStorage.removeItem(STUDY_PROGRESS_KEY);
+        console.warn('Unable to access localStorage:', error);
         return {};
     }
 }
 
 function setProgressStore(store) {
-    localStorage.setItem(STUDY_PROGRESS_KEY, JSON.stringify(store));
+    try {
+        localStorage.setItem(STUDY_PROGRESS_KEY, JSON.stringify(store));
+    } catch (error) {
+        console.warn('Unable to write to localStorage:', error);
+    }
 }
 
 function getCardKey(card, index) {
@@ -149,6 +155,14 @@ function syncFullscreenIcon() {
 function initPage() {
     const urlParams = new URLSearchParams(window.location.search);
     const type = urlParams.get('type');
+    const viewParam = urlParams.get('view') || localStorage.getItem('shared_view');
+
+    // 动态更新返回首页的链接
+    const backBtn = document.querySelector('a[href="index.html"]');
+    if (backBtn && viewParam) {
+        backBtn.href = `index.html?view=${encodeURIComponent(viewParam)}`;
+    }
+
     const dataSource = typeof appData === 'undefined' ? {} : appData;
     const modules = Object.values(dataSource);
 
@@ -251,11 +265,16 @@ function loadCard(index) {
 function renderMath() {
     if (!window.renderMathInElement) return;
 
-    try {
-        renderMathInElement(dom.card, katexOptions);
-    } catch (error) {
-        console.warn('Math rendering failed:', error);
-    }
+    const targets = [dom.qText, dom.tipContent, dom.aContent];
+    targets.forEach(el => {
+        if (el) {
+            try {
+                renderMathInElement(el, katexOptions);
+            } catch (error) {
+                console.warn('Math rendering failed for element:', el, error);
+            }
+        }
+    });
 }
 
 function flipCard(event) {

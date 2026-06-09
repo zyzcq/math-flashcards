@@ -66,7 +66,7 @@
 
             <div class="face back shadow-xl border border-slate-100">
                 <div class="back-scroll-area">
-                    <div class="mnemonic-box border-dashed border-2" id="tip-box">
+                    <div class="mnemonic-box" id="tip-box">
                         <div class="font-black text-xs uppercase tracking-wider mb-2 border-b-2 pb-1 inline-block" id="tip-title">🧠 深度记忆解析</div>
                         <div id="mnemonic-content" class="mnemonic-text"></div>
                     </div>
@@ -97,6 +97,27 @@
 <script src="js/study.js"></script>
 <script>
     (function checkLogin() {
+        const urlParams = new URLSearchParams(window.location.search);
+        let viewParam = urlParams.get('view');
+        
+        if (viewParam) {
+            localStorage.setItem('shared_view', viewParam);
+        } else {
+            viewParam = localStorage.getItem('shared_view');
+            // 如果 url 里面没有但 localStorage 有，且没有 session 登录态，重定向以保持 URL 参数一致性
+            if (viewParam && !localStorage.getItem('math_flashcard_session')) {
+                const newParams = new URLSearchParams(window.location.search);
+                newParams.set('view', viewParam);
+                window.location.href = 'study.html?' + newParams.toString();
+                return;
+            }
+        }
+
+        // 如果是分享链接并且没有登录态，允许直接访问
+        if (viewParam && !localStorage.getItem('math_flashcard_session')) {
+            return;
+        }
+
         const session = localStorage.getItem('math_flashcard_session');
         if (!session) {
             window.location.href = 'login.html';

@@ -996,6 +996,295 @@ const appData = {
         type: "article",
         url: "ds/双链表.html",
         cards: []
+    },
+
+    ds_linear_supplement: {
+        id: "ds_linear_supplement",
+        title: "数据结构：循环/静态链表及对比",
+        subtitle: "循环链表、静态链表与线性表比较",
+        themeColor: "amber",
+        type: "article",
+        url: "ds/循环链表、静态链表与线性表比较.html",
+        cards: []
+    },
+
+    se_quiz: {
+        id: "se_quiz",
+        title: "软件测试：选择与填空通关",
+        subtitle: "专业课自测题库 · 答错显示记忆口诀",
+        themeColor: "fuchsia",
+        type: "article",
+        url: "se/se_quiz.html?v=1.3",
+        cards: []
+    },
+
+    se_short_answers: {
+        id: "se_short_answers",
+        title: "软件测试：核心简答闪卡",
+        subtitle: "1-7章高频简答 · 口诀化拆解",
+        themeColor: "fuchsia",
+        type: "flashcard",
+        cards: [
+            {
+                title: "第1章：缺陷处理流程",
+                q: "请简述软件缺陷的处理流程。",
+                tip: "<b>记忆口诀：【缺陷提分确认先，修复回归闭环圆】</b>",
+                a: "<div class='sa-list'>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-fuchsia'>提</span>\n    <div class='sa-content'><b class='sa-title'>提交缺陷</b>：<span class='sa-desc'>测试人员发现Bug，录入系统并提交。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-fuchsia'>分</span>\n    <div class='sa-content'><b class='sa-title'>分配缺陷</b>：<span class='sa-desc'>主管审核后分配给相应开发人员进行处理。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-fuchsia'>确</span>\n    <div class='sa-content'><b class='sa-title'>确认缺陷</b>：<span class='sa-desc'>开发确认该缺陷属实，准备进行修复。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-fuchsia'>修</span>\n    <div class='sa-content'><b class='sa-title'>修复缺陷</b>：<span class='sa-desc'>开发修改代码，解决问题后提交修复版本。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-fuchsia'>回</span>\n    <div class='sa-content'><b class='sa-title'>回归测试</b>：<span class='sa-desc'>测试验证原Bug已修复，且无新Bug引入。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-fuchsia'>关</span>\n    <div class='sa-content'><b class='sa-title'>关闭缺陷</b>：<span class='sa-desc'>验证通过后，正式关闭该缺陷状态。</span></div>\n  </div>\n</div>"
+            },
+            {
+                title: "第1章：测试基本流程",
+                q: "请简述软件测试的基本流程。",
+                tip: "<b>记忆口诀：【需求计划设用例，执行评估总结齐】</b>",
+                a: "<div class='sa-list'>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-fuchsia'>需</span>\n    <div class='sa-content'><b class='sa-title'>需求分析</b>：<span class='sa-desc'>熟悉业务逻辑，弄清“测什么”，提取测试点。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-fuchsia'>计</span>\n    <div class='sa-content'><b class='sa-title'>制定计划</b>：<span class='sa-desc'>编写计划文档，确定资源、进度与策略。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-fuchsia'>设</span>\n    <div class='sa-content'><b class='sa-title'>设计用例</b>：<span class='sa-desc'>运用白盒/黑盒方法设计测试步骤与预期输出。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-fuchsia'>执</span>\n    <div class='sa-content'><b class='sa-title'>执行测试</b>：<span class='sa-desc'>搭建环境，执行用例，记录结果并提交缺陷。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-fuchsia'>估</span>\n    <div class='sa-content'><b class='sa-title'>质量估算</b>：<span class='sa-desc'>分析缺陷数据，进行质量评估。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-fuchsia'>结</span>\n    <div class='sa-content'><b class='sa-title'>测试总结</b>：<span class='sa-desc'>输出质量报告与测试总结。</span></div>\n  </div>\n</div>"
+            },
+            {
+                title: "第2章：等价类划分",
+                q: "请简述等价类划分法的原则。",
+                tip: "<b>记忆口诀：【有效无效分两端，编号用例逐个盖】</b>",
+                a: "<div class='sa-list'>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-fuchsia'>区</span>\n    <div class='sa-content'><b class='sa-title'>区间划分</b>：<span class='sa-desc'>规定输入范围，划分1个有效和2个无效等价类。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-fuchsia'>数</span>\n    <div class='sa-content'><b class='sa-title'>数值划分</b>：<span class='sa-desc'>规定输入个数，划分1个有效和2个无效等价类。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-fuchsia'>集</span>\n    <div class='sa-content'><b class='sa-title'>集合划分</b>：<span class='sa-desc'>规定一组有效值，有效为集合内，无效为集合外。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-fuchsia'>必</span>\n    <div class='sa-content'><b class='sa-title'>必满足条件</b>：<span class='sa-desc'>输入需遵守某种规则，有效为遵守，无效为不遵守。</span></div>\n  </div>\n</div>"
+            },
+            {
+                title: "第2章：决策表合并",
+                q: "请简述决策表条件项的合并规则。",
+                tip: "<b>记忆口诀：【动作一致条件单，合并一列化繁难】</b>",
+                a: "<div class='sa-list'>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-fuchsia'>同</span>\n    <div class='sa-content'><b class='sa-title'>动作相同</b>：<span class='sa-desc'>若两条或多条规则的执行结果完全相同。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-fuchsia'>单不</span>\n    <div class='sa-content'><b class='sa-title'>单一不同</b>：<span class='sa-desc'>且只有一个条件项的取值不同（一真一假）。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-fuchsia'>合</span>\n    <div class='sa-content'><b class='sa-title'>合并为一</b>：<span class='sa-desc'>则可将此条件视为无关紧要的“无关项”(-)，合并为一条。</span></div>\n  </div>\n</div>"
+            },
+            {
+                title: "第2章：正交实验设计",
+                q: "请简述正交实验设计法测试用例的设计步骤。",
+                tip: "<b>记忆口诀：【因子状态筛选先，正交表上映射完】</b>",
+                a: "<div class='sa-list'>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-fuchsia'>提</span>\n    <div class='sa-content'><b class='sa-title'>提取因子状态</b>：<span class='sa-desc'>确定影响系统的输入参数及可选值。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-fuchsia'>筛</span>\n    <div class='sa-content'><b class='sa-title'>加权筛选</b>：<span class='sa-desc'>精简非核心因子，减轻测试工作量。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-fuchsia'>配</span>\n    <div class='sa-content'><b class='sa-title'>匹配正交表</b>：<span class='sa-desc'>根据因子数和状态数选择契合的标准正交表。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-fuchsia'>映</span>\n    <div class='sa-content'><b class='sa-title'>映射生成</b>：<span class='sa-desc'>用真实的因子与状态代入正交表各行生成用例。</span></div>\n  </div>\n</div>"
+            },
+            {
+                title: "第3章：逻辑覆盖",
+                q: "请简述逻辑覆盖的几种方法及区别。",
+                tip: "<b>记忆口诀：【语判条件组覆盖，路径最强保质量】</b>",
+                a: "<div class='sa-list'>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-fuchsia'>语</span>\n    <div class='sa-content'><b class='sa-title'>语句覆盖</b>：<span class='sa-desc'>每行可执行代码至少运行一次。(最弱)</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-fuchsia'>判</span>\n    <div class='sa-content'><b class='sa-title'>判定覆盖</b>：<span class='sa-desc'>每个判定的真/假分支都至少执行一次。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-fuchsia'>条</span>\n    <div class='sa-content'><b class='sa-title'>条件覆盖</b>：<span class='sa-desc'>判定中每个子条件的真/假取值都出现一次。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-fuchsia'>判条</span>\n    <div class='sa-content'><b class='sa-title'>判定-条件</b>：<span class='sa-desc'>同时满足判定和条件的覆盖指标。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-fuchsia'>组</span>\n    <div class='sa-content'><b class='sa-title'>条件组合</b>：<span class='sa-desc'>每个判定中子条件真假的各种组合各出现一次。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-fuchsia'>路</span>\n    <div class='sa-content'><b class='sa-title'>路径覆盖</b>：<span class='sa-desc'>程序所有可能的代码执行路径全部被覆盖。(最强)</span></div>\n  </div>\n</div>"
+            },
+            {
+                title: "第3章：目标代码插桩",
+                q: "请简述目标代码插桩的3种执行模式。",
+                tip: "<b>记忆口诀：【即时解释与探测，目标插桩三套客】</b>",
+                a: "<div class='sa-list'>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-fuchsia'>即</span>\n    <div class='sa-content'><b class='sa-title'>即时执行</b>：<span class='sa-desc'>在基本块即将被CPU执行前进行动态分析与插桩。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-fuchsia'>释</span>\n    <div class='sa-content'><b class='sa-title'>解释执行</b>：<span class='sa-desc'>在虚拟机或解释引擎中解释运行目标代码时进行拦截。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-fuchsia'>探</span>\n    <div class='sa-content'><b class='sa-title'>探测执行</b>：<span class='sa-desc'>用跳转指令(JMP)替换目标代码，跳转到分析例程后返回。</span></div>\n  </div>\n</div>"
+            },
+            {
+                title: "第4章：性能测试指标",
+                q: "请简述常用的性能测试指标。",
+                tip: "<b>记忆口诀：【时间吞吐并发数，资源利用性能驻】</b>",
+                a: "<div class='sa-list'>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-fuchsia'>时</span>\n    <div class='sa-content'><b class='sa-title'>响应时间</b>：<span class='sa-desc'>系统处理请求并返回结果所耗费的耗时。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-fuchsia'>吞</span>\n    <div class='sa-content'><b class='sa-title'>吞吐量</b>：<span class='sa-desc'>单位时间内系统能处理的数据字节数或工作量。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-fuchsia'>并</span>\n    <div class='sa-content'><b class='sa-title'>并发用户数</b>：<span class='sa-desc'>同一时间发送请求或建立长连接的用户总量。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-fuchsia'>T</span>\n    <div class='sa-content'><b class='sa-title'>TPS</b>：<span class='sa-desc'>每秒事务数，即每秒系统成功执行的业务事务数量。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-fuchsia'>资</span>\n    <div class='sa-content'><b class='sa-title'>资源利用率</b>：<span class='sa-desc'>CPU 占用、内存消耗、网络/磁盘 I/O 等百分比。</span></div>\n  </div>\n</div>"
+            },
+            {
+                title: "第4章：性能测试类型",
+                q: "请简述常见的性能测试种类。",
+                tip: "<b>记忆口诀：【载压并发峰值现，配置可靠性能检】</b>",
+                a: "<div class='sa-list'>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-fuchsia'>载</span>\n    <div class='sa-content'><b class='sa-title'>负载测试</b>：<span class='sa-desc'>逐步加压以测出满足指标下的最大可用容量。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-fuchsia'>压</span>\n    <div class='sa-content'><b class='sa-title'>压力测试</b>：<span class='sa-desc'>极端加压至系统崩溃，查找系统最薄弱的瓶颈。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-fuchsia'>并</span>\n    <div class='sa-content'><b class='sa-title'>并发测试</b>：<span class='sa-desc'>极短时间内发同类请求，排查死锁与资源争用。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-fuchsia'>峰</span>\n    <div class='sa-content'><b class='sa-title'>峰值测试</b>：<span class='sa-desc'>突发性流量测试，检验瞬间脉冲压力下的自愈能力。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-fuchsia'>配</span>\n    <div class='sa-content'><b class='sa-title'>配置测试</b>：<span class='sa-desc'>更改软硬件配置寻找系统的最佳调优方案。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-fuchsia'>靠</span>\n    <div class='sa-content'><b class='sa-title'>可靠性测试</b>：<span class='sa-desc'>高负载下稳定工作较长周期，验证是否崩溃或漏内存。</span></div>\n  </div>\n</div>"
+            },
+            {
+                title: "第4章：LoadRunner组成",
+                q: "请简述LoadRunner的组成部分及其作用。",
+                tip: "<b>记忆口诀：【VuGen录制脚本忙，Control控场分析强】</b>",
+                a: "<div class='sa-list'>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-fuchsia'>Vu</span>\n    <div class='sa-content'><b class='sa-title'>VuGen</b>：<span class='sa-desc'>虚拟用户生成器：负责脚本的录制、编辑与调试。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-fuchsia'>控</span>\n    <div class='sa-content'><b class='sa-title'>Controller</b>：<span class='sa-desc'>控制器：定义并执行性能场景，管理压力机。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-fuchsia'>分</span>\n    <div class='sa-content'><b class='sa-title'>Analysis</b>：<span class='sa-desc'>分析器：汇聚压测指标，生成分析图表与报告。</span></div>\n  </div>\n</div>"
+            },
+            {
+                title: "第5章：安全与常规测试",
+                q: "请简述安全测试与常规测试的区别。",
+                tip: "<b>记忆口诀：【常规测需求，安全查漏洞；常规正向走，安全逆向谋】</b>",
+                a: "<div class='sa-list'>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-fuchsia'>目</span>\n    <div class='sa-content'><b class='sa-title'>目标不同</b>：<span class='sa-desc'>常规测“是否符合需求”；安全测“是否存在漏洞”。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-fuchsia'>思</span>\n    <div class='sa-content'><b class='sa-title'>思维不同</b>：<span class='sa-desc'>常规走正向思维验证；安全走逆向破坏思维找缺口。</span></div>\n  </div>\n</div>"
+            },
+            {
+                title: "第5章：安全测试原则",
+                q: "请简述安全测试的基本原则。",
+                tip: "<b>记忆口诀：【意早全独防未然，安全测试记心田】</b>",
+                a: "<div class='sa-list'>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-fuchsia'>意</span>\n    <div class='sa-content'><b class='sa-title'>安全意识</b>：<span class='sa-desc'>全员建立“输入不可信”的安全防范和编码理念。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-fuchsia'>早</span>\n    <div class='sa-content'><b class='sa-title'>尽早测试</b>：<span class='sa-desc'>贯穿整个软件生命周期，且需经常频繁测试。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-fuchsia'>全</span>\n    <div class='sa-content'><b class='sa-title'>全面综合</b>：<span class='sa-desc'>从网络、数据、系统、代码逻辑等多维度覆盖。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-fuchsia'>独</span>\n    <div class='sa-content'><b class='sa-title'>独立团队</b>：<span class='sa-desc'>引入独立的、具备黑客视角的专业安全测试队伍。</span></div>\n  </div>\n</div>"
+            },
+            {
+                title: "第5章：XSS攻击防护",
+                q: "请简述XSS的攻击原理及防范措施。",
+                tip: "<b>记忆口诀：【脚本注入生漏洞，过滤转义HttpOnly】</b>",
+                a: "<div class='sa-list'>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-fuchsia'>注</span>\n    <div class='sa-content'><b class='sa-title'>注入脚本</b>：<span class='sa-desc'>攻击者在页面注入恶意HTML/JS代码，盗取用户信息。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-fuchsia'>滤</span>\n    <div class='sa-content'><b class='sa-title'>输入过滤</b>：<span class='sa-desc'>对用户提交的数据严格过滤敏感标签(如script)。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-fuchsia'>转</span>\n    <div class='sa-content'><b class='sa-title'>转义输出</b>：<span class='sa-desc'>对输出到页面的数据进行实体转义。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-fuchsia'>H</span>\n    <div class='sa-content'><b class='sa-title'>HttpOnly</b>：<span class='sa-desc'>给Cookie设置HttpOnly，防范JS读取拦截。</span></div>\n  </div>\n</div>"
+            },
+            {
+                title: "第6章：持续集成过程",
+                q: "请简述持续集成的基本过程。",
+                tip: "<b>记忆口诀：【提交拉取构测报，自动集成效率高】</b>",
+                a: "<div class='sa-list'>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-fuchsia'>提</span>\n    <div class='sa-content'><b class='sa-title'>代码提交</b>：<span class='sa-desc'>开发将代码推送至中心版本库。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-fuchsia'>拉</span>\n    <div class='sa-content'><b class='sa-title'>拉取分支</b>：<span class='sa-desc'>CI服务器自动监听并拉取最新变动代码。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-fuchsia'>构</span>\n    <div class='sa-content'><b class='sa-title'>自动构建</b>：<span class='sa-desc'>运行脚本进行编译、依赖包打入等打包动作。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-fuchsia'>测</span>\n    <div class='sa-content'><b class='sa-title'>自动化测试</b>：<span class='sa-desc'>自动跑单元测试、接口或UI回归用例。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-fuchsia'>报</span>\n    <div class='sa-content'><b class='sa-title'>发送报告</b>：<span class='sa-desc'>如果跑挂立即通知开发；全通过则发布产物。</span></div>\n  </div>\n</div>"
+            },
+            {
+                title: "第6章：CI框架与容器",
+                q: "请简述传统持续集成框架和持续集成容器的区别。",
+                tip: "<b>记忆口诀：【容器轻快开销小，环境一致免烦恼】</b>",
+                a: "<div class='sa-list'>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-fuchsia'>开销</span>\n    <div class='sa-content'><b class='sa-title'>启动与开销</b>：<span class='sa-desc'>传统机启动慢资源大；容器(Docker)毫秒级启动资源小。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-fuchsia'>环境</span>\n    <div class='sa-content'><b class='sa-title'>环境一致性</b>：<span class='sa-desc'>传统机容易被弄脏；容器基于纯净镜像，保证环境绝对一致。</span></div>\n  </div>\n</div>"
+            },
+            {
+                title: "第6章：自动化测试技术",
+                q: "请简述自动化测试使用的技术。",
+                tip: "<b>记忆口诀：【录制回放脚本基，数关驱动显威力】</b>",
+                a: "<div class='sa-list'>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-fuchsia'>录放</span>\n    <div class='sa-content'><b class='sa-title'>录制与回放</b>：<span class='sa-desc'>录下操作并回放，简单但极难维护。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-fuchsia'>脚</span>\n    <div class='sa-content'><b class='sa-title'>脚本技术</b>：<span class='sa-desc'>包含线性、结构化(加控制流)、共享(函数复用)等。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-fuchsia'>数</span>\n    <div class='sa-content'><b class='sa-title'>数据驱动</b>：<span class='sa-desc'>DDT：数据和代码解耦，读取文件数据跑批量。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-fuchsia'>关</span>\n    <div class='sa-content'><b class='sa-title'>关键字驱动</b>：<span class='sa-desc'>KDT：操作封装成表格，不写代码直接填表测试。</span></div>\n  </div>\n</div>"
+            },
+            {
+                title: "第7章：移动App测试差异",
+                q: "什么是移动App？与传统软件测试的区别是什么？",
+                tip: "<b>记忆口诀：【网专交海适配全，移动测试非一般】</b>",
+                a: "<div class='sa-list'>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-fuchsia'>定</span>\n    <div class='sa-content'><b class='sa-title'>定义</b>：<span class='sa-desc'>运行在智能手机、平板等移动终端上的应用软件。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-fuchsia'>专</span>\n    <div class='sa-content'><b class='sa-title'>专项性能</b>：<span class='sa-desc'>需特别监控电池电量、移动数据流量的消耗。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-fuchsia'>网</span>\n    <div class='sa-content'><b class='sa-title'>网络多变</b>：<span class='sa-desc'>要模拟 Wi-Fi/4G/5G 切换、断网弱网及丢包限速。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-fuchsia'>交</span>\n    <div class='sa-content'><b class='sa-title'>交叉中断</b>：<span class='sa-desc'>测试使用中遇到电话、短信、低电弹窗的自愈表现。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-fuchsia'>海</span>\n    <div class='sa-content'><b class='sa-title'>海量兼容</b>：<span class='sa-desc'>适配各种魔改系统版本及各异的手机分辨率。</span></div>\n  </div>\n</div>"
+            },
+            {
+                title: "第7章：移动App专项测试",
+                q: "请简述移动App的专项测试都有哪些。",
+                tip: "<b>记忆口诀：【网流中断测性能，安全升级要分明】</b>",
+                a: "<div class='sa-list'>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-fuchsia'>网</span>\n    <div class='sa-content'><b class='sa-title'>网络测试</b>：<span class='sa-desc'>弱网/丢包/网络切换测试。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-fuchsia'>容</span>\n    <div class='sa-content'><b class='sa-title'>兼容测试</b>：<span class='sa-desc'>海量系统版本及不同分辨率屏幕的兼容性测试。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-fuchsia'>中</span>\n    <div class='sa-content'><b class='sa-title'>中断测试</b>：<span class='sa-desc'>来电、短信等外部中断事件测试。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-fuchsia'>能</span>\n    <div class='sa-content'><b class='sa-title'>性能专项</b>：<span class='sa-desc'>电量、流量、冷启动、内存CPU等消耗专项。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-fuchsia'>安</span>\n    <div class='sa-content'><b class='sa-title'>安全权限</b>：<span class='sa-desc'>敏感数据存储、应用权限调用检测。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-fuchsia'>升</span>\n    <div class='sa-content'><b class='sa-title'>安装升级</b>：<span class='sa-desc'>干净安装、卸载及覆盖升级测试。</span></div>\n  </div>\n</div>"
+            }
+        ]
+    },
+
+    linux_quiz: {
+        id: "linux_quiz",
+        title: "Linux：基础与应用通关",
+        subtitle: "专业课选择/判断自测 · 答错显示记忆口诀",
+        themeColor: "emerald",
+        type: "article",
+        url: "linux/linux_quiz.html?v=1.4",
+        cards: []
+    },
+
+    linux_short_answers: {
+        id: "linux_short_answers",
+        title: "Linux：核心简答与讨论",
+        subtitle: "基础原理与运维安全要点",
+        themeColor: "emerald",
+        type: "flashcard",
+        cards: [
+            {
+                q: "请简述Linux操作系统相比于Windows和macOS的主要优势与劣势。",
+                tip: "<b>记忆口诀：【开源剪裁命令行，生态学习两堵墙】</b>",
+                a: "<div class='flex flex-col gap-3 text-left text-[0.95rem] leading-relaxed'>\n  <div class='flex items-start gap-2.5'>\n    <span class='shrink-0 mt-0.5 w-8 h-6 rounded-md bg-emerald-100 text-emerald-600 flex items-center justify-center font-black text-xs border border-emerald-200 shadow-sm leading-none pt-0.5 px-1'>开</span>\n    <div><b class='text-slate-700'>开源免费</b>：<span class='text-slate-500'>源码开放，可自由修改与定制，无高昂授权费。</span></div>\n  </div>\n  <div class='flex items-start gap-2.5'>\n    <span class='shrink-0 mt-0.5 w-8 h-6 rounded-md bg-emerald-100 text-emerald-600 flex items-center justify-center font-black text-xs border border-emerald-200 shadow-sm leading-none pt-0.5 px-1'>定</span>\n    <div><b class='text-slate-700'>高度定制</b>：<span class='text-slate-500'>可深度裁剪，适合从嵌入式到超算的各类场景。</span></div>\n  </div>\n  <div class='flex items-start gap-2.5'>\n    <span class='shrink-0 mt-0.5 w-8 h-6 rounded-md bg-emerald-100 text-emerald-600 flex items-center justify-center font-black text-xs border border-emerald-200 shadow-sm leading-none pt-0.5 px-1'>命</span>\n    <div><b class='text-slate-700'>命令行强</b>：<span class='text-slate-500'>CLI极其强大，非常适合自动化运维与脚本编程。</span></div>\n  </div>\n  <div class='flex items-start gap-2.5'>\n    <span class='shrink-0 mt-0.5 w-8 h-6 rounded-md bg-emerald-100 text-emerald-600 flex items-center justify-center font-black text-xs border border-emerald-200 shadow-sm leading-none pt-0.5 px-1'>缺生态</span>\n    <div><b class='text-slate-700'>软件生态弱</b>：<span class='text-slate-500'>劣势：桌面端商业软件（如Adobe系列、大型游戏）支持较少。</span></div>\n  </div>\n  <div class='flex items-start gap-2.5'>\n    <span class='shrink-0 mt-0.5 w-8 h-6 rounded-md bg-emerald-100 text-emerald-600 flex items-center justify-center font-black text-xs border border-emerald-200 shadow-sm leading-none pt-0.5 px-1'>缺易用</span>\n    <div><b class='text-slate-700'>学习门槛高</b>：<span class='text-slate-500'>劣势：对普通用户的图形化体验不如Windows/macOS直观。</span></div>\n  </div>\n</div>"
+            },
+            {
+                q: "在Linux服务器上安装图形用户界面(GUI)有哪些优劣势？",
+                tip: "<b>记忆口诀：【图形易用门槛低，耗资面广多危机】</b>",
+                a: "<div class='flex flex-col gap-3 text-left text-[0.95rem] leading-relaxed'>\n  <div class='flex items-start gap-2.5'>\n    <span class='shrink-0 mt-0.5 w-8 h-6 rounded-md bg-emerald-100 text-emerald-600 flex items-center justify-center font-black text-xs border border-emerald-200 shadow-sm leading-none pt-0.5 px-1'>优易用</span>\n    <div><b class='text-slate-700'>降低门槛</b>：<span class='text-slate-500'>优势：图形化操作更直观，适合新手管理员或特定桌面软件环境。</span></div>\n  </div>\n  <div class='flex items-start gap-2.5'>\n    <span class='shrink-0 mt-0.5 w-8 h-6 rounded-md bg-emerald-100 text-emerald-600 flex items-center justify-center font-black text-xs border border-emerald-200 shadow-sm leading-none pt-0.5 px-1'>劣耗资</span>\n    <div><b class='text-slate-700'>资源开销大</b>：<span class='text-slate-500'>劣势：GUI组件会占用大量内存和CPU，降低服务器业务承载力。</span></div>\n  </div>\n  <div class='flex items-start gap-2.5'>\n    <span class='shrink-0 mt-0.5 w-8 h-6 rounded-md bg-emerald-100 text-emerald-600 flex items-center justify-center font-black text-xs border border-emerald-200 shadow-sm leading-none pt-0.5 px-1'>劣面广</span>\n    <div><b class='text-slate-700'>攻击面增加</b>：<span class='text-slate-500'>劣势：安装包增多导致潜在的安全漏洞增加，维护成本变高。</span></div>\n  </div>\n  <div class='flex items-start gap-2.5'>\n    <span class='shrink-0 mt-0.5 w-8 h-6 rounded-md bg-emerald-100 text-emerald-600 flex items-center justify-center font-black text-xs border border-emerald-200 shadow-sm leading-none pt-0.5 px-1'>劣维护</span>\n    <div><b class='text-slate-700'>维护复杂</b>：<span class='text-slate-500'>劣势：图形组件和依赖包增多，补丁、兼容性与故障排查成本都会上升，服务器通常推荐纯CLI环境。</span></div>\n  </div>\n</div>"
+            },
+            {
+                q: "举例说明命令行在查看系统信息时的优势。",
+                tip: "<b>记忆口诀：【快组远批，命令行里藏玄机】</b>",
+                a: "<div class='flex flex-col gap-3 text-left text-[0.95rem] leading-relaxed'>\n  <div class='flex items-start gap-2.5'>\n    <span class='shrink-0 mt-0.5 w-8 h-6 rounded-md bg-emerald-100 text-emerald-600 flex items-center justify-center font-black text-xs border border-emerald-200 shadow-sm leading-none pt-0.5 px-1'>快</span>\n    <div><b class='text-slate-700'>响应极快</b>：<span class='text-slate-500'>无需加载图形界面，直接返回数据，如 `top` 命令瞬间显示资源。</span></div>\n  </div>\n  <div class='flex items-start gap-2.5'>\n    <span class='shrink-0 mt-0.5 w-8 h-6 rounded-md bg-emerald-100 text-emerald-600 flex items-center justify-center font-black text-xs border border-emerald-200 shadow-sm leading-none pt-0.5 px-1'>组</span>\n    <div><b class='text-slate-700'>组合强大</b>：<span class='text-slate-500'>通过管道符 `|` 可以将多个命令组合，如 `ps aux | grep nginx` 精准过滤。</span></div>\n  </div>\n  <div class='flex items-start gap-2.5'>\n    <span class='shrink-0 mt-0.5 w-8 h-6 rounded-md bg-emerald-100 text-emerald-600 flex items-center justify-center font-black text-xs border border-emerald-200 shadow-sm leading-none pt-0.5 px-1'>远</span>\n    <div><b class='text-slate-700'>远程低宽带</b>：<span class='text-slate-500'>SSH远程连接只需极低带宽即可流畅操作，不卡顿。</span></div>\n  </div>\n  <div class='flex items-start gap-2.5'>\n    <span class='shrink-0 mt-0.5 w-8 h-6 rounded-md bg-emerald-100 text-emerald-600 flex items-center justify-center font-black text-xs border border-emerald-200 shadow-sm leading-none pt-0.5 px-1'>批</span>\n    <div><b class='text-slate-700'>易于批处理</b>：<span class='text-slate-500'>能轻松将查询结果接入Shell脚本，实现自动化巡检与告警。</span></div>\n  </div>\n</div>"
+            },
+            {
+                q: "快速修改配置文件(如/etc/hosts)时，Vim与Windows记事本的区别是什么？",
+                tip: "<b>记忆口诀：【端权高批，Vim操作如飞】</b>",
+                a: "<div class='flex flex-col gap-3 text-left text-[0.95rem] leading-relaxed'>\n  <div class='flex items-start gap-2.5'>\n    <span class='shrink-0 mt-0.5 w-8 h-6 rounded-md bg-emerald-100 text-emerald-600 flex items-center justify-center font-black text-xs border border-emerald-200 shadow-sm leading-none pt-0.5 px-1'>端</span>\n    <div><b class='text-slate-700'>终端直改</b>：<span class='text-slate-500'>许多Linux环境默认提供vi/vim，或可快速安装；可直接在终端修改，无需先下载到本地。</span></div>\n  </div>\n  <div class='flex items-start gap-2.5'>\n    <span class='shrink-0 mt-0.5 w-8 h-6 rounded-md bg-emerald-100 text-emerald-600 flex items-center justify-center font-black text-xs border border-emerald-200 shadow-sm leading-none pt-0.5 px-1'>权</span>\n    <div><b class='text-slate-700'>权限控制</b>：<span class='text-slate-500'>Vim可以直接配合 `sudo vim` 提权编辑系统文件，记事本难以处理Linux权限。</span></div>\n  </div>\n  <div class='flex items-start gap-2.5'>\n    <span class='shrink-0 mt-0.5 w-8 h-6 rounded-md bg-emerald-100 text-emerald-600 flex items-center justify-center font-black text-xs border border-emerald-200 shadow-sm leading-none pt-0.5 px-1'>高</span>\n    <div><b class='text-slate-700'>高效跳转</b>：<span class='text-slate-500'>Vim支持强大的快捷键（如 `G` 到末尾，`/` 搜索），无需鼠标拖拽。</span></div>\n  </div>\n  <div class='flex items-start gap-2.5'>\n    <span class='shrink-0 mt-0.5 w-8 h-6 rounded-md bg-emerald-100 text-emerald-600 flex items-center justify-center font-black text-xs border border-emerald-200 shadow-sm leading-none pt-0.5 px-1'>批</span>\n    <div><b class='text-slate-700'>批量替换</b>：<span class='text-slate-500'>Vim支持底线命令模式 `:s` 进行正则表达式级别的精准批量替换。</span></div>\n  </div>\n</div>"
+            },
+            {
+                q: "部署符合等保2.0三级的openEuler用户管理系统，账户管理应采取哪些关键措施？",
+                tip: "<b>记忆口诀：【最小密审权限分，多因认证筑安全】</b>",
+                a: "<div class='flex flex-col gap-3 text-left text-[0.95rem] leading-relaxed'>\n  <div class='flex items-start gap-2.5'>\n    <span class='shrink-0 mt-0.5 w-8 h-6 rounded-md bg-emerald-100 text-emerald-600 flex items-center justify-center font-black text-xs border border-emerald-200 shadow-sm leading-none pt-0.5 px-1'>最小</span>\n    <div><b class='text-slate-700'>最小权限</b>：<span class='text-slate-500'>严格遵循最小权限原则，禁止多用户共享root账号。</span></div>\n  </div>\n  <div class='flex items-start gap-2.5'>\n    <span class='shrink-0 mt-0.5 w-8 h-6 rounded-md bg-emerald-100 text-emerald-600 flex items-center justify-center font-black text-xs border border-emerald-200 shadow-sm leading-none pt-0.5 px-1'>密</span>\n    <div><b class='text-slate-700'>密码策略</b>：<span class='text-slate-500'>结合 `login.defs`、PAM/pwquality 等配置强制密码复杂度、历史限制与定期修改周期（如90天）。</span></div>\n  </div>\n  <div class='flex items-start gap-2.5'>\n    <span class='shrink-0 mt-0.5 w-8 h-6 rounded-md bg-emerald-100 text-emerald-600 flex items-center justify-center font-black text-xs border border-emerald-200 shadow-sm leading-none pt-0.5 px-1'>审</span>\n    <div><b class='text-slate-700'>安全审计</b>：<span class='text-slate-500'>开启严格的登录日志审计（如监控 `/var/log/secure`）。</span></div>\n  </div>\n  <div class='flex items-start gap-2.5'>\n    <span class='shrink-0 mt-0.5 w-8 h-6 rounded-md bg-emerald-100 text-emerald-600 flex items-center justify-center font-black text-xs border border-emerald-200 shadow-sm leading-none pt-0.5 px-1'>权分</span>\n    <div><b class='text-slate-700'>权限分离</b>：<span class='text-slate-500'>使用 `sudo` 进行精细化授权，实现系统管理员、审计员和安全员三权分立。</span></div>\n  </div>\n  <div class='flex items-start gap-2.5'>\n    <span class='shrink-0 mt-0.5 w-8 h-6 rounded-md bg-emerald-100 text-emerald-600 flex items-center justify-center font-black text-xs border border-emerald-200 shadow-sm leading-none pt-0.5 px-1'>多因</span>\n    <div><b class='text-slate-700'>多因素认证</b>：<span class='text-slate-500'>对远程管理入口引入SSH密钥、密码与MFA等组合认证机制。</span></div>\n  </div>\n</div>"
+            },
+            {
+                q: "建立符合ISO 27001标准的openEuler文件管理系统，权限管理及存储优化应采取哪些措施？",
+                tip: "<b>记忆口诀：【精权加密冗快归，数据安全永相随】</b>",
+                a: "<div class='flex flex-col gap-3 text-left text-[0.95rem] leading-relaxed'>\n  <div class='flex items-start gap-2.5'>\n    <span class='shrink-0 mt-0.5 w-8 h-6 rounded-md bg-emerald-100 text-emerald-600 flex items-center justify-center font-black text-xs border border-emerald-200 shadow-sm leading-none pt-0.5 px-1'>精权</span>\n    <div><b class='text-slate-700'>精细权限</b>：<span class='text-slate-500'>除基础 UGO 权限外，利用 ACL (`setfacl`) 实现细粒度的文件访问控制。</span></div>\n  </div>\n  <div class='flex items-start gap-2.5'>\n    <span class='shrink-0 mt-0.5 w-8 h-6 rounded-md bg-emerald-100 text-emerald-600 flex items-center justify-center font-black text-xs border border-emerald-200 shadow-sm leading-none pt-0.5 px-1'>主加</span>\n    <div><b class='text-slate-700'>加密存储</b>：<span class='text-slate-500'>对核心机密数据所在分区进行磁盘级加密（如 LUKS）防止物理窃取。</span></div>\n  </div>\n  <div class='flex items-start gap-2.5'>\n    <span class='shrink-0 mt-0.5 w-8 h-6 rounded-md bg-emerald-100 text-emerald-600 flex items-center justify-center font-black text-xs border border-emerald-200 shadow-sm leading-none pt-0.5 px-1'>冗</span>\n    <div><b class='text-slate-700'>数据冗余</b>：<span class='text-slate-500'>根据业务重要性选择 RAID1/5/6/10 等方案提供冗余容错，避免把RAID0误当作冗余方案。</span></div>\n  </div>\n  <div class='flex items-start gap-2.5'>\n    <span class='shrink-0 mt-0.5 w-8 h-6 rounded-md bg-emerald-100 text-emerald-600 flex items-center justify-center font-black text-xs border border-emerald-200 shadow-sm leading-none pt-0.5 px-1'>快</span>\n    <div><b class='text-slate-700'>定期快照</b>：<span class='text-slate-500'>利用 LVM 快照或支持快照的文件系统/备份系统定期保护关键数据；XFS本身不提供原生快照。</span></div>\n  </div>\n  <div class='flex items-start gap-2.5'>\n    <span class='shrink-0 mt-0.5 w-8 h-6 rounded-md bg-emerald-100 text-emerald-600 flex items-center justify-center font-black text-xs border border-emerald-200 shadow-sm leading-none pt-0.5 px-1'>归</span>\n    <div><b class='text-slate-700'>日志归档</b>：<span class='text-slate-500'>严格控制文件修改权限，并使用审计系统(Auditd)记录所有敏感文件的读写日志。</span></div>\n  </div>\n</div>"
+            }
+        ]
+    },
+
+    linux_quiz: {
+        id: "linux_quiz",
+        title: "Linux：基础与应用通关",
+        subtitle: "八大模块核心考点（选择/判断）",
+        themeColor: "emerald",
+        type: "article",
+        url: "linux/linux_quiz.html?v=1.3",
+        cards: []
+    },
+
+    linux_short_answers: {
+        id: "linux_short_answers",
+        title: "Linux：核心简答与讨论",
+        subtitle: "基础原理与运维安全要点",
+        themeColor: "emerald",
+        type: "flashcard",
+        cards: [
+            {
+                q: "请简述Linux操作系统相比于Windows和macOS的主要优势与劣势。",
+                tip: "<b>记忆口诀：【开源剪裁命令行，生态学习两堵墙】</b>",
+                a: "<div class='sa-list'>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-emerald'>开</span>\n    <div class='sa-content'><b class='sa-title'>开源免费</b>：<span class='sa-desc'>源码开放，可自由修改与定制，无高昂授权费。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-emerald'>定</span>\n    <div class='sa-content'><b class='sa-title'>高度定制</b>：<span class='sa-desc'>可深度裁剪，适合从嵌入式到超算的各类场景。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-emerald'>命</span>\n    <div class='sa-content'><b class='sa-title'>命令行强</b>：<span class='sa-desc'>CLI极其强大，非常适合自动化运维与脚本编程。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-emerald'>缺生态</span>\n    <div class='sa-content'><b class='sa-title'>软件生态弱</b>：<span class='sa-desc'>劣势：桌面端商业软件（如Adobe系列、大型游戏）支持较少。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-emerald'>缺易用</span>\n    <div class='sa-content'><b class='sa-title'>学习门槛高</b>：<span class='sa-desc'>劣势：对普通用户的图形化体验不如Windows/macOS直观。</span></div>\n  </div>\n</div>"
+            },
+            {
+                q: "在Linux服务器上安装图形用户界面(GUI)有哪些优劣势？",
+                tip: "<b>记忆口诀：【图形易用门槛低，耗资面广多危机】</b>",
+                a: "<div class='sa-list'>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-emerald'>优易用</span>\n    <div class='sa-content'><b class='sa-title'>降低门槛</b>：<span class='sa-desc'>优势：图形化操作更直观，适合新手管理员或特定桌面软件环境。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-emerald'>劣耗资</span>\n    <div class='sa-content'><b class='sa-title'>资源开销大</b>：<span class='sa-desc'>劣势：GUI组件会占用大量内存和CPU，降低服务器业务承载力。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-emerald'>劣面广</span>\n    <div class='sa-content'><b class='sa-title'>攻击面增加</b>：<span class='sa-desc'>劣势：安装包增多导致潜在的安全漏洞增加，维护成本变高。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-emerald'>劣维护</span>\n    <div class='sa-content'><b class='sa-title'>维护复杂</b>：<span class='sa-desc'>劣势：图形组件和依赖包增多，补丁、兼容性与故障排查成本都会上升，服务器通常推荐纯CLI环境。</span></div>\n  </div>\n</div>"
+            },
+            {
+                q: "举例说明命令行在查看系统信息时的优势。",
+                tip: "<b>记忆口诀：【快组远批，命令行里藏玄机】</b>",
+                a: "<div class='sa-list'>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-emerald'>快</span>\n    <div class='sa-content'><b class='sa-title'>响应极快</b>：<span class='sa-desc'>无需加载图形界面，直接返回数据，如 `top` 命令瞬间显示资源。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-emerald'>组</span>\n    <div class='sa-content'><b class='sa-title'>组合强大</b>：<span class='sa-desc'>通过管道符 `|` 可以将多个命令组合，如 `ps aux | grep nginx` 精准过滤。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-emerald'>远</span>\n    <div class='sa-content'><b class='sa-title'>远程低宽带</b>：<span class='sa-desc'>SSH远程连接只需极低带宽即可流畅操作，不卡顿。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-emerald'>批</span>\n    <div class='sa-content'><b class='sa-title'>易于批处理</b>：<span class='sa-desc'>能轻松将查询结果接入Shell脚本，实现自动化巡检与告警。</span></div>\n  </div>\n</div>"
+            },
+            {
+                q: "快速修改配置文件(如/etc/hosts)时，Vim与Windows记事本的区别是什么？",
+                tip: "<b>记忆口诀：【端权高批，Vim操作如飞】</b>",
+                a: "<div class='sa-list'>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-emerald'>端</span>\n    <div class='sa-content'><b class='sa-title'>终端直改</b>：<span class='sa-desc'>许多Linux环境默认提供vi/vim，或可快速安装；可直接在终端修改，无需先下载到本地。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-emerald'>权</span>\n    <div class='sa-content'><b class='sa-title'>权限控制</b>：<span class='sa-desc'>Vim可以直接配合 `sudo vim` 提权编辑系统文件，记事本难以处理Linux权限。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-emerald'>高</span>\n    <div class='sa-content'><b class='sa-title'>高效跳转</b>：<span class='sa-desc'>Vim支持强大的快捷键（如 `G` 到末尾，`/` 搜索），无需鼠标拖拽。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-emerald'>批</span>\n    <div class='sa-content'><b class='sa-title'>批量替换</b>：<span class='sa-desc'>Vim支持底线命令模式 `:s` 进行正则表达式级别的精准批量替换。</span></div>\n  </div>\n</div>"
+            },
+            {
+                q: "部署符合等保2.0三级的openEuler用户管理系统，账户管理应采取哪些关键措施？",
+                tip: "<b>记忆口诀：【最小密审权限分，多因认证筑安全】</b>",
+                a: "<div class='sa-list'>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-emerald'>最小</span>\n    <div class='sa-content'><b class='sa-title'>最小权限</b>：<span class='sa-desc'>严格遵循最小权限原则，禁止多用户共享root账号。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-emerald'>密</span>\n    <div class='sa-content'><b class='sa-title'>密码策略</b>：<span class='sa-desc'>结合 `login.defs`、PAM/pwquality 等配置强制密码复杂度、历史限制与定期修改周期（如90天）。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-emerald'>审</span>\n    <div class='sa-content'><b class='sa-title'>安全审计</b>：<span class='sa-desc'>开启严格的登录日志审计（如监控 `/var/log/secure`）。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-emerald'>权分</span>\n    <div class='sa-content'><b class='sa-title'>权限分离</b>：<span class='sa-desc'>使用 `sudo` 进行精细化授权，实现系统管理员、审计员和安全员三权分立。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-emerald'>多因</span>\n    <div class='sa-content'><b class='sa-title'>多因素认证</b>：<span class='sa-desc'>对远程管理入口引入SSH密钥、密码与MFA等组合认证机制。</span></div>\n  </div>\n</div>"
+            },
+            {
+                q: "建立符合ISO 27001标准的openEuler文件管理系统，权限管理及存储优化应采取哪些措施？",
+                tip: "<b>记忆口诀：【精权加密冗快归，数据安全永相随】</b>",
+                a: "<div class='sa-list'>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-emerald'>精权</span>\n    <div class='sa-content'><b class='sa-title'>精细权限</b>：<span class='sa-desc'>除基础 UGO 权限外，利用 ACL (`setfacl`) 实现细粒度的文件访问控制。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-emerald'>主加</span>\n    <div class='sa-content'><b class='sa-title'>加密存储</b>：<span class='sa-desc'>对核心机密数据所在分区进行磁盘级加密（如 LUKS）防止物理窃取。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-emerald'>冗</span>\n    <div class='sa-content'><b class='sa-title'>数据冗余</b>：<span class='sa-desc'>根据业务重要性选择 RAID1/5/6/10 等方案提供冗余容错，避免把RAID0误当作冗余方案。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-emerald'>快</span>\n    <div class='sa-content'><b class='sa-title'>定期快照</b>：<span class='sa-desc'>利用 LVM 快照或支持快照的文件系统/备份系统定期保护关键数据；XFS本身不提供原生快照。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-emerald'>归</span>\n    <div class='sa-content'><b class='sa-title'>日志归档</b>：<span class='sa-desc'>严格控制文件修改权限，并使用审计系统(Auditd)记录所有敏感文件的读写日志。</span></div>\n  </div>\n</div>"
+            }
+        ]
+    }
+,
+
+    linux_quiz: {
+        id: "linux_quiz",
+        title: "Linux：基础与应用通关",
+        subtitle: "八大模块核心考点（选择/判断）",
+        themeColor: "emerald",
+        type: "article",
+        url: "linux/linux_quiz.html?v=1.3",
+        cards: []
+    },
+
+    linux_short_answers: {
+        id: "linux_short_answers",
+        title: "Linux：核心简答与讨论",
+        subtitle: "基础原理与运维安全要点",
+        themeColor: "emerald",
+        type: "flashcard",
+        cards: [
+            {
+                q: "请简述Linux操作系统相比于Windows和macOS的主要优势与劣势。",
+                tip: "<b>记忆口诀：【开源剪裁命令行，生态学习两堵墙】</b>",
+                a: "<div class='sa-list'>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-emerald'>开</span>\n    <div class='sa-content'><b class='sa-title'>开源免费</b>：<span class='sa-desc'>源码开放，可自由修改与定制，无高昂授权费。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-emerald'>定</span>\n    <div class='sa-content'><b class='sa-title'>高度定制</b>：<span class='sa-desc'>可深度裁剪，适合从嵌入式到超算的各类场景。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-emerald'>命</span>\n    <div class='sa-content'><b class='sa-title'>命令行强</b>：<span class='sa-desc'>CLI极其强大，非常适合自动化运维与脚本编程。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-emerald'>缺生态</span>\n    <div class='sa-content'><b class='sa-title'>软件生态弱</b>：<span class='sa-desc'>劣势：桌面端商业软件（如Adobe系列、大型游戏）支持较少。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-emerald'>缺易用</span>\n    <div class='sa-content'><b class='sa-title'>学习门槛高</b>：<span class='sa-desc'>劣势：对普通用户的图形化体验不如Windows/macOS直观。</span></div>\n  </div>\n</div>"
+            },
+            {
+                q: "在Linux服务器上安装图形用户界面(GUI)有哪些优劣势？",
+                tip: "<b>记忆口诀：【图形易用门槛低，耗资面广多危机】</b>",
+                a: "<div class='sa-list'>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-emerald'>优易用</span>\n    <div class='sa-content'><b class='sa-title'>降低门槛</b>：<span class='sa-desc'>优势：图形化操作更直观，适合新手管理员或特定桌面软件环境。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-emerald'>劣耗资</span>\n    <div class='sa-content'><b class='sa-title'>资源开销大</b>：<span class='sa-desc'>劣势：GUI组件会占用大量内存和CPU，降低服务器业务承载力。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-emerald'>劣面广</span>\n    <div class='sa-content'><b class='sa-title'>攻击面增加</b>：<span class='sa-desc'>劣势：安装包增多导致潜在的安全漏洞增加，维护成本变高。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-emerald'>劣维护</span>\n    <div class='sa-content'><b class='sa-title'>维护复杂</b>：<span class='sa-desc'>劣势：图形组件和依赖包增多，补丁、兼容性与故障排查成本都会上升，服务器通常推荐纯CLI环境。</span></div>\n  </div>\n</div>"
+            },
+            {
+                q: "举例说明命令行在查看系统信息时的优势。",
+                tip: "<b>记忆口诀：【快组远批，命令行里藏玄机】</b>",
+                a: "<div class='sa-list'>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-emerald'>快</span>\n    <div class='sa-content'><b class='sa-title'>响应极快</b>：<span class='sa-desc'>无需加载图形界面，直接返回数据，如 `top` 命令瞬间显示资源。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-emerald'>组</span>\n    <div class='sa-content'><b class='sa-title'>组合强大</b>：<span class='sa-desc'>通过管道符 `|` 可以将多个命令组合，如 `ps aux | grep nginx` 精准过滤。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-emerald'>远</span>\n    <div class='sa-content'><b class='sa-title'>远程低宽带</b>：<span class='sa-desc'>SSH远程连接只需极低带宽即可流畅操作，不卡顿。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-emerald'>批</span>\n    <div class='sa-content'><b class='sa-title'>易于批处理</b>：<span class='sa-desc'>能轻松将查询结果接入Shell脚本，实现自动化巡检与告警。</span></div>\n  </div>\n</div>"
+            },
+            {
+                q: "快速修改配置文件(如/etc/hosts)时，Vim与Windows记事本的区别是什么？",
+                tip: "<b>记忆口诀：【端权高批，Vim操作如飞】</b>",
+                a: "<div class='sa-list'>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-emerald'>端</span>\n    <div class='sa-content'><b class='sa-title'>终端直改</b>：<span class='sa-desc'>许多Linux环境默认提供vi/vim，或可快速安装；可直接在终端修改，无需先下载到本地。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-emerald'>权</span>\n    <div class='sa-content'><b class='sa-title'>权限控制</b>：<span class='sa-desc'>Vim可以直接配合 `sudo vim` 提权编辑系统文件，记事本难以处理Linux权限。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-emerald'>高</span>\n    <div class='sa-content'><b class='sa-title'>高效跳转</b>：<span class='sa-desc'>Vim支持强大的快捷键（如 `G` 到末尾，`/` 搜索），无需鼠标拖拽。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-emerald'>批</span>\n    <div class='sa-content'><b class='sa-title'>批量替换</b>：<span class='sa-desc'>Vim支持底线命令模式 `:s` 进行正则表达式级别的精准批量替换。</span></div>\n  </div>\n</div>"
+            },
+            {
+                q: "部署符合等保2.0三级的openEuler用户管理系统，账户管理应采取哪些关键措施？",
+                tip: "<b>记忆口诀：【最小密审权限分，多因认证筑安全】</b>",
+                a: "<div class='sa-list'>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-emerald'>最小</span>\n    <div class='sa-content'><b class='sa-title'>最小权限</b>：<span class='sa-desc'>严格遵循最小权限原则，禁止多用户共享root账号。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-emerald'>密</span>\n    <div class='sa-content'><b class='sa-title'>密码策略</b>：<span class='sa-desc'>结合 `login.defs`、PAM/pwquality 等配置强制密码复杂度、历史限制与定期修改周期（如90天）。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-emerald'>审</span>\n    <div class='sa-content'><b class='sa-title'>安全审计</b>：<span class='sa-desc'>开启严格的登录日志审计（如监控 `/var/log/secure`）。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-emerald'>权分</span>\n    <div class='sa-content'><b class='sa-title'>权限分离</b>：<span class='sa-desc'>使用 `sudo` 进行精细化授权，实现系统管理员、审计员和安全员三权分立。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-emerald'>多因</span>\n    <div class='sa-content'><b class='sa-title'>多因素认证</b>：<span class='sa-desc'>对远程管理入口引入SSH密钥、密码与MFA等组合认证机制。</span></div>\n  </div>\n</div>"
+            },
+            {
+                q: "建立符合ISO 27001标准的openEuler文件管理系统，权限管理及存储优化应采取哪些措施？",
+                tip: "<b>记忆口诀：【精权加密冗快归，数据安全永相随】</b>",
+                a: "<div class='sa-list'>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-emerald'>精权</span>\n    <div class='sa-content'><b class='sa-title'>精细权限</b>：<span class='sa-desc'>除基础 UGO 权限外，利用 ACL (`setfacl`) 实现细粒度的文件访问控制。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-emerald'>主加</span>\n    <div class='sa-content'><b class='sa-title'>加密存储</b>：<span class='sa-desc'>对核心机密数据所在分区进行磁盘级加密（如 LUKS）防止物理窃取。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-emerald'>冗</span>\n    <div class='sa-content'><b class='sa-title'>数据冗余</b>：<span class='sa-desc'>根据业务重要性选择 RAID1/5/6/10 等方案提供冗余容错，避免把RAID0误当作冗余方案。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-emerald'>快</span>\n    <div class='sa-content'><b class='sa-title'>定期快照</b>：<span class='sa-desc'>利用 LVM 快照或支持快照的文件系统/备份系统定期保护关键数据；XFS本身不提供原生快照。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-emerald'>归</span>\n    <div class='sa-content'><b class='sa-title'>日志归档</b>：<span class='sa-desc'>严格控制文件修改权限，并使用审计系统(Auditd)记录所有敏感文件的读写日志。</span></div>\n  </div>\n</div>"
+            }
+        ]
     }
 };
 
@@ -1068,7 +1357,19 @@ const siteData = [
         items: [
             appData.ds_seq_list,
             appData.ds_singly_list,
-            appData.ds_doubly_list
+            appData.ds_doubly_list,
+            appData.ds_linear_supplement
+        ]
+    },
+    {
+        categoryTitle: "🧱 专业课",
+        categoryId: "major",
+        categoryBorder: "border-fuchsia-500",
+        items: [
+            appData.linux_quiz,
+            appData.linux_short_answers,
+            appData.se_quiz,
+            appData.se_short_answers
         ]
     }
 ];

@@ -6,6 +6,7 @@ const themeStyles = {
     sky: { tone: 'tone-sky', icon: 'fa-square-root-variable' },
     indigo: { tone: 'tone-indigo', icon: 'fa-language' },
     violet: { tone: 'tone-violet', icon: 'fa-chart-line' },
+    fuchsia: { tone: 'tone-fuchsia', icon: 'fa-vial-circle-check' },
     emerald: { tone: 'tone-emerald', icon: 'fa-code' },
     amber: { tone: 'tone-amber', icon: 'fa-diagram-project' },
     rose: { tone: 'tone-rose', icon: 'fa-rocket' },
@@ -52,15 +53,41 @@ function getDataSource() {
 }
 
 function requireSession() {
+    const urlParams = new URLSearchParams(window.location.search);
+    let viewParam = urlParams.get('view');
     const session = readJson(SESSION_KEY);
 
-    if (!session?.username) {
+    if (viewParam) {
+        // 只有未登录用户才需要持久化分享视图，以防止他们通过返回首页按钮退回普通主页时被拦截重定向到登录页
+        if (!session) {
+            localStorage.setItem('shared_view', viewParam);
+        }
+    } else {
+        // URL 中没有 view 参数，如果未登录，检查是否有缓存的分享视图
+        if (!session) {
+            viewParam = localStorage.getItem('shared_view');
+            if (viewParam) {
+                window.location.href = `index.html?view=${encodeURIComponent(viewParam)}`;
+                return false;
+            }
+        }
+    }
+
+    if (!session) {
+        // 未登录但有分享参数，允许作为访客浏览
+        if (viewParam) {
+            if (userDisplay) userDisplay.textContent = '访客';
+            if (logoutBtn) logoutBtn.style.display = 'none';
+            return true;
+        }
+        // 未登录且无分享参数，重定向至登录页
         localStorage.removeItem(SESSION_KEY);
         window.location.href = 'login.html';
         return false;
     }
 
-    userDisplay.textContent = session.username;
+    if (userDisplay) userDisplay.textContent = session.username;
+    if (logoutBtn) logoutBtn.style.display = '';
     return true;
 }
 
@@ -74,8 +101,13 @@ function getTheme(item) {
 }
 
 function getTargetUrl(item) {
+    const urlParams = new URLSearchParams(window.location.search);
+    const viewParam = urlParams.get('view') || localStorage.getItem('shared_view');
+    const suffix = viewParam ? `view=${encodeURIComponent(viewParam)}` : '';
+
     if (item.type !== 'article') {
-        return `study.html?type=${encodeURIComponent(item.id)}`;
+        const url = `study.html?type=${encodeURIComponent(item.id)}`;
+        return suffix ? `${url}&${suffix}` : url;
     }
 
     const rawUrl = String(item.url || '').trim();
@@ -85,7 +117,10 @@ function getTargetUrl(item) {
         return '#';
     }
 
-    return rawUrl;
+    if (!suffix) return rawUrl;
+
+    const separator = rawUrl.includes('?') ? '&' : '?';
+    return `${rawUrl}${separator}${suffix}`;
 }
 
 function getCardsCount(item) {
@@ -262,20 +297,33 @@ function renderHome() {
         return;
     }
 
+    const urlParams = new URLSearchParams(window.location.search);
+    const viewParam = urlParams.get('view') || localStorage.getItem('shared_view');
+    
+    // 如果有分享/局部分类视图限制，只显示对应的分类
+    const filteredCategories = viewParam 
+        ? categories.filter(cat => cat.categoryId === viewParam)
+        : categories;
+
+    if (filteredCategories.length === 0) {
+        renderEmptyState();
+        return;
+    }
+
     const progressStore = readJson(STUDY_PROGRESS_KEY) || {};
-    const modules = getFlatModules(categories, progressStore);
+    const modules = getFlatModules(filteredCategories, progressStore);
     const resume = getResumeModule(modules);
     const activeCategoryIndex = resume?.categoryIndex ?? 0;
-    const categoryState = getCategoryState(categories, activeCategoryIndex);
-    const categoryHtml = categories.map((category, index) => renderCategory(category, index, modules, categoryState)).join('');
+    const categoryState = getCategoryState(filteredCategories, activeCategoryIndex);
+    const categoryHtml = filteredCategories.map((category, index) => renderCategory(category, index, modules, categoryState)).join('');
 
     requestAnimationFrame(() => {
         mainContainer.innerHTML = `
             ${renderResume(resume)}
-            ${renderShortcuts(categories)}
+            ${renderShortcuts(filteredCategories)}
             ${categoryHtml}
         `;
-        bindCategoryControls(categories);
+        bindCategoryControls(filteredCategories);
     });
 }
 

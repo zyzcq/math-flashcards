@@ -1,0 +1,2956 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>数据结构 · 线性表补充复习笔记</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+  <style>
+    :root {
+      --bg: #f6f8fb;
+      --surface: #ffffff;
+      --surface-soft: #f8fafc;
+      --text: #172033;
+      --muted: #64748b;
+      --border: #dbe3ef;
+      --blue: #2563eb;
+      --blue-soft: #eff6ff;
+      --green: #059669;
+      --green-soft: #ecfdf5;
+      --amber: #d97706;
+      --amber-soft: #fffbeb;
+      --red: #dc2626;
+      --red-soft: #fef2f2;
+      --purple: #7c3aed;
+      --purple-soft: #f5f3ff;
+      --code-bg: #111827;
+      --code-text: #e5e7eb;
+      --shadow: 0 10px 28px rgba(15, 23, 42, 0.08);
+      --radius: 8px;
+      --max: 1120px;
+    }
+
+    [data-theme="dark"] {
+      --bg: #111827;
+      --surface: #182033;
+      --surface-soft: #111827;
+      --text: #e5e7eb;
+      --muted: #a7b2c3;
+      --border: #334155;
+      --blue-soft: rgba(37, 99, 235, 0.18);
+      --green-soft: rgba(5, 150, 105, 0.16);
+      --amber-soft: rgba(217, 119, 6, 0.16);
+      --red-soft: rgba(220, 38, 38, 0.16);
+      --purple-soft: rgba(124, 58, 237, 0.16);
+      --code-bg: #0b1220;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; scroll-padding-top: 86px; }
+    body {
+      margin: 0;
+      color: var(--text);
+      background: linear-gradient(180deg, #f8fafc 0%, var(--bg) 100%);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+      line-height: 1.72;
+    }
+    [data-theme="dark"] body, body[data-theme="dark"] { background: var(--bg); }
+    a { color: var(--blue); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    code {
+      padding: 2px 6px;
+      border-radius: 6px;
+      color: #1d4ed8;
+      background: #eaf2ff;
+      font-family: Consolas, Monaco, "Courier New", monospace;
+      font-size: 0.94em;
+    }
+    [data-theme="dark"] code { color: #bfdbfe; background: rgba(37, 99, 235, 0.18); }
+    pre {
+      margin: 0;
+      overflow-x: auto;
+      border-radius: 0 0 var(--radius) var(--radius);
+      color: var(--code-text);
+      background: var(--code-bg) !important;
+    }
+    pre code {
+      display: block;
+      padding: 16px;
+      color: var(--code-text) !important;
+      background: transparent !important;
+      line-height: 1.62;
+      white-space: pre;
+      text-shadow: none !important;
+    }
+    h1, h2, h3, h4 { margin: 0 0 12px; line-height: 1.35; }
+    p { margin: 9px 0; }
+    ul, ol { margin: 10px 0 0; padding-left: 22px; }
+    table { width: 100%; border-collapse: collapse; font-size: 15px; }
+    th, td { border: 1px solid var(--border); padding: 10px 12px; text-align: left; vertical-align: top; }
+    th { background: var(--surface-soft); color: var(--text); }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 30;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 12px max(16px, calc((100vw - var(--max)) / 2));
+      border-bottom: 1px solid rgba(219, 227, 239, 0.86);
+      background: rgba(255, 255, 255, 0.9);
+      backdrop-filter: blur(14px);
+    }
+    [data-theme="dark"] .topbar { background: rgba(17, 24, 39, 0.88); border-color: var(--border); }
+    .topbar-title { font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .topbar-actions { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; justify-content: flex-end; }
+    .tool-btn, .copy-btn, .toc-toggle, .back-top {
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      color: var(--text);
+      background: var(--surface);
+      padding: 7px 10px;
+      cursor: pointer;
+      font: inherit;
+      font-size: 14px;
+      line-height: 1.2;
+      box-shadow: 0 2px 8px rgba(15, 23, 42, 0.05);
+    }
+    .tool-btn:hover, .copy-btn:hover, .toc-toggle:hover, .back-top:hover { border-color: var(--blue); color: var(--blue); }
+
+    .hero {
+      border-bottom: 1px solid var(--border);
+      background: linear-gradient(135deg, #f8fafc 0%, #eef4ff 52%, #f7fbf8 100%);
+    }
+    [data-theme="dark"] .hero { background: linear-gradient(135deg, #111827 0%, #172033 100%); }
+    .hero-inner {
+      width: min(100% - 32px, var(--max));
+      margin: 0 auto;
+      padding: 42px 0 32px;
+    }
+    .hero-kicker { color: var(--blue); font-weight: 800; letter-spacing: 0; }
+    .hero h1 { max-width: 860px; margin-top: 8px; font-size: clamp(28px, 4vw, 46px); }
+    .hero p { max-width: 780px; color: var(--muted); font-size: 17px; }
+    .hero-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 18px; }
+    .tag { display: inline-flex; align-items: center; border: 1px solid var(--border); border-radius: 999px; padding: 5px 10px; background: var(--surface); font-size: 14px; color: var(--muted); }
+
+    .layout {
+      width: min(100% - 32px, var(--max));
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 270px minmax(0, 1fr);
+      gap: 22px;
+      padding: 24px 0 64px;
+      align-items: start;
+    }
+    .toc {
+      position: sticky;
+      top: 68px;
+      max-height: calc(100vh - 92px);
+      overflow: auto;
+      padding: 14px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: var(--surface);
+      box-shadow: var(--shadow);
+    }
+    .toc h2 { margin-bottom: 10px; font-size: 16px; }
+    .toc a {
+      display: block;
+      padding: 7px 9px;
+      border-radius: 6px;
+      color: var(--muted);
+      font-size: 14px;
+      text-decoration: none;
+    }
+    .toc a:hover, .toc a.active { color: var(--blue); background: var(--blue-soft); }
+    .toc-level-1 { font-weight: 750; color: var(--text) !important; }
+    .toc-level-2 { padding-left: 20px !important; }
+    .toc-level-3 { padding-left: 34px !important; font-size: 13px !important; }
+    .mobile-toc { display: none; margin-bottom: 14px; }
+
+    .content { min-width: 0; }
+    .chapter-card {
+      margin-bottom: 18px;
+      padding: 24px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: var(--surface);
+      box-shadow: var(--shadow);
+    }
+    .chapter-card > h2 {
+      padding-bottom: 12px;
+      border-bottom: 2px solid var(--blue-soft);
+      font-size: clamp(24px, 3vw, 34px);
+    }
+    .chapter-card h3 {
+      margin-top: 26px;
+      padding-left: 10px;
+      border-left: 4px solid var(--blue);
+      font-size: 22px;
+    }
+    .chapter-card h4 {
+      margin-top: 20px;
+      font-size: 18px;
+      color: var(--text);
+    }
+    .plain-paragraph, .concept-card, .key-point, .warning-box, .error-box, .summary-box { max-width: 920px; }
+    .concept-card, .key-point, .warning-box, .summary-box, .answer-template {
+      padding: 12px 14px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+    }
+    .concept-card { background: var(--blue-soft); border-color: rgba(37, 99, 235, 0.18); }
+    .key-point { background: var(--green-soft); border-color: rgba(5, 150, 105, 0.2); font-weight: 650; }
+    .warning-box { background: var(--amber-soft); border-color: rgba(217, 119, 6, 0.26); }
+    .error-box { background: var(--red-soft); border-color: rgba(220, 38, 38, 0.24); }
+    .summary-box { background: var(--green-soft); border-color: rgba(5, 150, 105, 0.22); }
+    .note-list li { margin: 6px 0; }
+    .soft-divider { height: 1px; border: 0; background: var(--border); margin: 22px 0; }
+
+    .code-panel, .diagram-panel, .table-wrap {
+      margin: 14px 0 18px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      background: var(--surface-soft);
+    }
+    .code-toolbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      padding: 9px 12px;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+      color: #cbd5e1;
+      background: #0f172a;
+      font-size: 13px;
+    }
+    .copy-btn { color: #e5e7eb; background: #1f2937; border-color: #334155; box-shadow: none; }
+    .copy-btn:hover { color: #ffffff; border-color: #60a5fa; }
+    .diagram-panel { padding: 14px; overflow-x: auto; }
+    .diagram-panel figcaption { margin: 0 0 10px; color: var(--muted); font-weight: 650; }
+    .diagram-panel .mermaid { min-width: 260px; text-align: center; }
+    .table-wrap { overflow-x: auto; }
+    .table-wrap table { min-width: 620px; }
+    .compare-table tbody tr:nth-child(even) td { background: rgba(148, 163, 184, 0.06); }
+    .complexity-line { display: flex; flex-wrap: wrap; gap: 8px; margin: 12px 0 16px; }
+    .complexity-badge {
+      display: inline-flex;
+      align-items: center;
+      width: fit-content;
+      min-height: 26px;
+      margin: 0 3px;
+      padding: 2px 9px;
+      border-radius: 999px;
+      color: #075985;
+      background: #e0f2fe;
+      border: 1px solid #bae6fd;
+      font-family: Consolas, Monaco, "Courier New", monospace;
+      font-weight: 800;
+      white-space: nowrap;
+    }
+
+    .exam-pack {
+      margin-top: 26px;
+      padding: 18px;
+      border: 1px solid rgba(37, 99, 235, 0.18);
+      border-radius: var(--radius);
+      background: linear-gradient(180deg, var(--surface-soft), var(--surface));
+    }
+    .exam-pack h3 { margin-top: 20px; }
+    .exam-pack h3:first-child { margin-top: 0; }
+    .review-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; margin: 12px 0; }
+    .review-card {
+      padding: 13px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: var(--surface);
+    }
+    .review-card strong { display: block; margin-bottom: 6px; color: var(--blue); }
+    .answer-template { background: var(--purple-soft); border-color: rgba(124, 58, 237, 0.22); }
+    .checklist { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; margin-top: 10px; }
+    .checklist span {
+      display: block;
+      padding: 10px 12px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: var(--surface);
+    }
+    .final-review {
+      margin-top: 18px;
+      padding: 24px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: var(--surface);
+      box-shadow: var(--shadow);
+    }
+
+    .back-top {
+      position: fixed;
+      right: 18px;
+      bottom: 18px;
+      display: none;
+      z-index: 50;
+    }
+    .back-top.visible { display: inline-flex; }
+
+    @media (max-width: 900px) {
+      .layout { display: block; }
+      .toc { display: none; position: static; max-height: 55vh; margin-bottom: 14px; box-shadow: none; }
+      .toc.open { display: block; }
+      .mobile-toc { display: block; }
+      .chapter-card { padding: 18px; }
+      .review-grid, .checklist { grid-template-columns: 1fr; }
+      .topbar { align-items: flex-start; }
+      .topbar-title { max-width: 48vw; }
+    }
+    @media (max-width: 560px) {
+      .hero-inner, .layout { width: min(100% - 24px, var(--max)); }
+      .hero h1 { font-size: 28px; }
+      .topbar { padding: 10px 12px; }
+      .topbar-title { display: none; }
+      .tool-btn, .copy-btn, .toc-toggle { padding: 7px 8px; font-size: 13px; }
+      th, td { padding: 9px; }
+    }
+    @media print {
+      .topbar, .toc, .mobile-toc, .back-top { display: none !important; }
+      .layout, .hero-inner { width: 100%; display: block; padding: 0; }
+      .chapter-card, .final-review { box-shadow: none; break-inside: avoid; }
+      body { background: #fff; }
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="topbar-title">数据结构 · 线性表补充</div>
+    <div class="topbar-actions">
+      <a class="tool-btn" href="../index.html">返回首页</a>
+      <button type="button" class="tool-btn" id="themeBtn">深色模式</button>
+      <button type="button" class="tool-btn" id="printBtn">打印复习</button>
+    </div>
+  </header>
+
+  <section class="hero">
+    <div class="hero-inner">
+      <div class="hero-kicker">考研数据结构复习笔记</div>
+      <h1>第二章 线性表补充：循环链表、静态链表、顺序表和链表的比较</h1>
+      <p>围绕循环单链表、循环双链表、静态链表以及顺序表和链表的对比，整理成适合考研数据结构复习的系统笔记。</p>
+      <div class="hero-tags">
+        <span class="tag">循环单链表</span>
+        <span class="tag">循环双链表</span>
+        <span class="tag">静态链表</span>
+        <span class="tag">顺序表 vs 链表</span>
+        <span class="tag">代码题边界条件</span>
+      </div>
+    </div>
+  </section>
+
+  <div class="layout">
+    <button type="button" class="toc-toggle mobile-toc" id="tocToggle">展开目录</button>
+    <aside class="toc" id="toc">
+      <h2>目录</h2>
+      <a class="toc-level-1" href="#第二章-线性表补充循环链表静态链表顺序表和链表的比较">第二章 线性表补充：循环链表、静态链表、顺序表和链表的比较</a>
+<a class="toc-level-1" href="#234-循环链表">2.3.4 循环链表</a>
+<a class="toc-level-2" href="#一循环链表的基本思想">一、循环链表的基本思想</a>
+<a class="toc-level-2" href="#二循环单链表">二、循环单链表</a>
+<a class="toc-level-3" href="#1-循环单链表的定义">1. 循环单链表的定义</a>
+<a class="toc-level-3" href="#2-循环单链表的结点定义">2. 循环单链表的结点定义</a>
+<a class="toc-level-3" href="#3-循环单链表的初始化">3. 循环单链表的初始化</a>
+<a class="toc-level-3" href="#4-循环单链表的判空">4. 循环单链表的判空</a>
+<a class="toc-level-3" href="#5-判断某个结点是否为表尾结点">5. 判断某个结点是否为表尾结点</a>
+<a class="toc-level-3" href="#6-循环单链表的遍历">6. 循环单链表的遍历</a>
+<a class="toc-level-3" href="#7-循环单链表的优点">7. 循环单链表的优点</a>
+<a class="toc-level-3" href="#8-删除指定结点-p-的思路">8. 删除指定结点 p 的思路</a>
+<a class="toc-level-2" href="#三循环单链表中尾指针的使用">三、循环单链表中尾指针的使用</a>
+<a class="toc-level-2" href="#四循环双链表">四、循环双链表</a>
+<a class="toc-level-3" href="#1-循环双链表的基本结构">1. 循环双链表的基本结构</a>
+<a class="toc-level-3" href="#2-循环双链表的结点定义">2. 循环双链表的结点定义</a>
+<a class="toc-level-3" href="#3-循环双链表的初始化">3. 循环双链表的初始化</a>
+<a class="toc-level-3" href="#4-循环双链表的判空">4. 循环双链表的判空</a>
+<a class="toc-level-3" href="#5-判断某个结点是否为表尾结点-2">5. 判断某个结点是否为表尾结点</a>
+<a class="toc-level-2" href="#五循环双链表的插入和删除">五、循环双链表的插入和删除</a>
+<a class="toc-level-3" href="#1-在结点-p-后插入结点-s">1. 在结点 p 后插入结点 s</a>
+<a class="toc-level-3" href="#2-删除结点-q">2. 删除结点 q</a>
+<a class="toc-level-3" href="#3-更常用的删除指定结点-q">3. 更常用的删除指定结点 q</a>
+<a class="toc-level-2" href="#六循环双链表完整代码">六、循环双链表完整代码</a>
+<a class="toc-level-2" href="#七所有链表代码的通用检查点">七、所有链表代码的通用检查点</a>
+<a class="toc-level-3" href="#1-空表是什么状态">1. 空表是什么状态</a>
+<a class="toc-level-3" href="#2-怎么判断表尾">2. 怎么判断表尾</a>
+<a class="toc-level-3" href="#3-怎么遍历">3. 怎么遍历</a>
+<a class="toc-level-3" href="#4-插入删除要考虑边界">4. 插入删除要考虑边界</a>
+<a class="toc-level-2" href="#循环链表重点总结">循环链表重点总结</a>
+<a class="toc-level-1" href="#235-静态链表">2.3.5 静态链表</a>
+<a class="toc-level-2" href="#一什么是静态链表">一、什么是静态链表</a>
+<a class="toc-level-2" href="#二静态链表和单链表的区别">二、静态链表和单链表的区别</a>
+<a class="toc-level-2" href="#三静态链表中的特殊值">三、静态链表中的特殊值</a>
+<a class="toc-level-2" href="#四静态链表的地址计算">四、静态链表的地址计算</a>
+<a class="toc-level-2" href="#五静态链表的-C-语言定义">五、静态链表的 C 语言定义</a>
+<a class="toc-level-3" href="#1-普通定义方式">1. 普通定义方式</a>
+<a class="toc-level-3" href="#2-课本中的-typedef-写法">2. 课本中的 typedef 写法</a>
+<a class="toc-level-3" href="#3-sizeof-验证">3. sizeof 验证</a>
+<a class="toc-level-2" href="#六静态链表的初始化">六、静态链表的初始化</a>
+<a class="toc-level-2" href="#七静态链表的查找">七、静态链表的查找</a>
+<a class="toc-level-2" href="#八静态链表的插入">八、静态链表的插入</a>
+<a class="toc-level-3" href="#1-找空闲结点">1. 找空闲结点</a>
+<a class="toc-level-3" href="#2-插入逻辑">2. 插入逻辑</a>
+<a class="toc-level-3" href="#3-表尾插入例子">3. 表尾插入例子</a>
+<a class="toc-level-2" href="#九静态链表的删除">九、静态链表的删除</a>
+<a class="toc-level-2" href="#十静态链表完整代码">十、静态链表完整代码</a>
+<a class="toc-level-2" href="#十一静态链表的特点">十一、静态链表的特点</a>
+<a class="toc-level-3" href="#1-静态链表的优点">1. 静态链表的优点</a>
+<a class="toc-level-3" href="#2-静态链表的缺点">2. 静态链表的缺点</a>
+<a class="toc-level-3" href="#3-静态链表的适用场景">3. 静态链表的适用场景</a>
+<a class="toc-level-2" href="#静态链表重点总结">静态链表重点总结</a>
+<a class="toc-level-1" href="#236-顺序表和链表的比较">2.3.6 顺序表和链表的比较</a>
+<a class="toc-level-2" href="#一用数据结构三要素比较">一、用数据结构三要素比较</a>
+<a class="toc-level-2" href="#二存储结构比较">二、存储结构比较</a>
+<a class="toc-level-2" href="#1-顺序表的存储结构">1. 顺序表的存储结构</a>
+<a class="toc-level-3" href="#顺序表的优点">顺序表的优点</a>
+<a class="toc-level-3" href="#顺序表的缺点">顺序表的缺点</a>
+<a class="toc-level-2" href="#2-链表的存储结构">2. 链表的存储结构</a>
+<a class="toc-level-3" href="#链表的优点">链表的优点</a>
+<a class="toc-level-3" href="#链表的缺点">链表的缺点</a>
+<a class="toc-level-2" href="#三存储结构总体对比">三、存储结构总体对比</a>
+<a class="toc-level-2" href="#四基本操作比较">四、基本操作比较</a>
+<a class="toc-level-2" href="#五创建操作比较">五、创建操作比较</a>
+<a class="toc-level-3" href="#1-顺序表的创建">1. 顺序表的创建</a>
+<a class="toc-level-3" href="#2-动态分配顺序表">2. 动态分配顺序表</a>
+<a class="toc-level-3" href="#3-链表的创建">3. 链表的创建</a>
+<a class="toc-level-3" href="#创建操作总结">创建操作总结</a>
+<a class="toc-level-2" href="#六销毁操作比较">六、销毁操作比较</a>
+<a class="toc-level-3" href="#1-顺序表的销毁">1. 顺序表的销毁</a>
+<a class="toc-level-3" href="#2-链表的销毁">2. 链表的销毁</a>
+<a class="toc-level-3" href="#3-关于-malloc-和-free">3. 关于 malloc 和 free</a>
+<a class="toc-level-2" href="#七插入和删除操作比较">七、插入和删除操作比较</a>
+<a class="toc-level-2" href="#1-顺序表插入">1. 顺序表插入</a>
+<a class="toc-level-2" href="#2-顺序表删除">2. 顺序表删除</a>
+<a class="toc-level-2" href="#3-链表插入">3. 链表插入</a>
+<a class="toc-level-2" href="#4-链表删除">4. 链表删除</a>
+<a class="toc-level-2" href="#5-为什么链表增删通常更适合">5. 为什么链表增删通常更适合</a>
+<a class="toc-level-2" href="#八修改和查找操作比较">八、修改和查找操作比较</a>
+<a class="toc-level-2" href="#1-修改操作">1. 修改操作</a>
+<a class="toc-level-2" href="#2-按位查找">2. 按位查找</a>
+<a class="toc-level-3" href="#顺序表按位查找">顺序表按位查找</a>
+<a class="toc-level-3" href="#链表按位查找">链表按位查找</a>
+<a class="toc-level-2" href="#3-按值查找">3. 按值查找</a>
+<a class="toc-level-3" href="#顺序表无序时">顺序表无序时</a>
+<a class="toc-level-3" href="#顺序表有序时">顺序表有序时</a>
+<a class="toc-level-3" href="#链表按值查找">链表按值查找</a>
+<a class="toc-level-2" href="#九顺序表和链表完整对比">九、顺序表和链表完整对比</a>
+<a class="toc-level-2" href="#十什么时候用顺序表什么时候用链表">十、什么时候用顺序表，什么时候用链表</a>
+<a class="toc-level-2" href="#1-适合使用链表的场景">1. 适合使用链表的场景</a>
+<a class="toc-level-2" href="#2-适合使用顺序表的场景">2. 适合使用顺序表的场景</a>
+<a class="toc-level-2" href="#十一关键代码整理">十一、关键代码整理</a>
+<a class="toc-level-3" href="#1-动态顺序表创建和销毁">1. 动态顺序表创建和销毁</a>
+<a class="toc-level-3" href="#2-顺序表插入和删除">2. 顺序表插入和删除</a>
+<a class="toc-level-3" href="#3-链表创建插入删除销毁">3. 链表创建、插入、删除、销毁</a>
+<a class="toc-level-2" href="#十二考试答题框架">十二、考试答题框架</a>
+<a class="toc-level-2" href="#顺序表和链表比较重点总结">顺序表和链表比较重点总结</a>
+<a class="toc-level-1" href="#总复习这几节课必须掌握的核心点">总复习：这几节课必须掌握的核心点</a>
+<a class="toc-level-2" href="#1-循环链表">1. 循环链表</a>
+<a class="toc-level-2" href="#2-静态链表">2. 静态链表</a>
+<a class="toc-level-2" href="#3-顺序表和链表比较">3. 顺序表和链表比较</a>
+<a class="toc-level-1" href="#最后一句话总结">最后一句话总结</a>
+    </aside>
+    <main class="content">
+      <section class="chapter-card" id="第二章-线性表补充循环链表静态链表顺序表和链表的比较">
+<h2>第二章 线性表补充：循环链表、静态链表、顺序表和链表的比较</h2>
+<p class="plain-paragraph">本文件整理自以下几节课：</p>
+<ul class="note-list"><li>2.3.4 循环链表</li><li>2.3.5 静态链表</li><li>2.3.6 顺序表和链表的比较</li></ul>
+<p class="plain-paragraph">整理目标：</p>
+<ul class="note-list"><li>以原文稿知识点为核心，不遗漏主要内容</li><li>用 C 语言角度系统讲解</li><li>保留必要代码</li><li>对复杂概念用图示辅助理解</li><li>最后整理重点，方便复习和背诵</li></ul>
+<hr class="soft-divider">
+</section>
+<section class="chapter-card" id="234-循环链表">
+<h2>2.3.4 循环链表</h2>
+<h3 id="一循环链表的基本思想">一、循环链表的基本思想</h3>
+<p class="plain-paragraph">循环链表是在普通链表的基础上做了一个小改进。</p>
+<p class="plain-paragraph">普通单链表中，最后一个结点的 <code>next</code> 指针指向 <code>NULL</code>。</p>
+<div class="code-panel">
+  <div class="code-toolbar"><span>C 语言</span><button type="button" class="copy-btn">复制代码</button></div>
+  <pre><code class="language-c">尾结点-&gt;next = NULL;</code></pre>
+</div>
+<p class="plain-paragraph">循环单链表中，最后一个结点的 <code>next</code> 指针不再指向 <code>NULL</code>，而是指回头结点。</p>
+<div class="code-panel">
+  <div class="code-toolbar"><span>C 语言</span><button type="button" class="copy-btn">复制代码</button></div>
+  <pre><code class="language-c">尾结点-&gt;next = 头结点;</code></pre>
+</div>
+<p class="concept-card">也就是说，循环链表的首尾相接，形成一个环。</p>
+<figure class="diagram-panel">
+  <figcaption>图示 1：结构关系示意</figcaption>
+  <div class="mermaid">flowchart LR
+    H[&quot;头结点 head&quot;] --&gt; A[&quot;结点 A&quot;]
+    A --&gt; B[&quot;结点 B&quot;]
+    B --&gt; C[&quot;结点 C&quot;]
+    C --&gt; H</div>
+</figure>
+<hr class="soft-divider">
+<h3 id="二循环单链表">二、循环单链表</h3>
+<h4 id="1-循环单链表的定义">1. 循环单链表的定义</h4>
+<p class="plain-paragraph">普通单链表：</p>
+<figure class="diagram-panel">
+  <figcaption>图示 2：结构关系示意</figcaption>
+  <div class="mermaid">flowchart LR
+    H[&quot;head&quot;] --&gt; A[&quot;A&quot;]
+    A --&gt; B[&quot;B&quot;]
+    B --&gt; C[&quot;C&quot;]
+    C --&gt; N[&quot;NULL&quot;]</div>
+</figure>
+<p class="plain-paragraph">循环单链表：</p>
+<figure class="diagram-panel">
+  <figcaption>图示 3：结构关系示意</figcaption>
+  <div class="mermaid">flowchart LR
+    H[&quot;head&quot;] --&gt; A[&quot;A&quot;]
+    A --&gt; B[&quot;B&quot;]
+    B --&gt; C[&quot;C&quot;]
+    C --&gt; H</div>
+</figure>
+<p class="plain-paragraph">循环单链表与普通单链表的区别只有一个：</p>
+<div class="code-panel">
+  <div class="code-toolbar"><span>C 语言</span><button type="button" class="copy-btn">复制代码</button></div>
+  <pre><code class="language-c">普通单链表：尾结点-&gt;next == NULL
+循环单链表：尾结点-&gt;next == head</code></pre>
+</div>
+<hr class="soft-divider">
+<h4 id="2-循环单链表的结点定义">2. 循环单链表的结点定义</h4>
+<div class="code-panel">
+  <div class="code-toolbar"><span>C 语言</span><button type="button" class="copy-btn">复制代码</button></div>
+  <pre><code class="language-c">typedef struct LNode {
+    int data;
+    struct LNode *next;
+} LNode;</code></pre>
+</div>
+<p class="plain-paragraph">其中：</p>
+<div class="code-panel">
+  <div class="code-toolbar"><span>C 语言</span><button type="button" class="copy-btn">复制代码</button></div>
+  <pre><code class="language-c">data：存放数据元素
+next：指向下一个结点</code></pre>
+</div>
+<hr class="soft-divider">
+<h4 id="3-循环单链表的初始化">3. 循环单链表的初始化</h4>
+<p class="plain-paragraph">在初始化一个空的循环单链表时，需要让头结点的 <code>next</code> 指针指向头结点自己。</p>
+<div class="code-panel">
+  <div class="code-toolbar"><span>C 语言</span><button type="button" class="copy-btn">复制代码</button></div>
+  <pre><code class="language-c">head-&gt;next = head;</code></pre>
+</div>
+<p class="plain-paragraph">代码如下：</p>
+<div class="code-panel">
+  <div class="code-toolbar"><span>C 语言</span><button type="button" class="copy-btn">复制代码</button></div>
+  <pre><code class="language-c">#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+
+typedef struct LNode {
+    int data;
+    struct LNode *next;
+} LNode;
+
+LNode *initCircularList() {
+    LNode *head = (LNode *)malloc(sizeof(LNode));
+
+    if (head == NULL) {
+        return NULL;
+    }
+
+    head-&gt;next = head;
+    return head;
+}</code></pre>
+</div>
+<p class="plain-paragraph">空循环单链表的状态：</p>
+<figure class="diagram-panel">
+  <figcaption>图示 4：结构关系示意</figcaption>
+  <div class="mermaid">flowchart LR
+    H[&quot;head&quot;]
+    H --&gt; H</div>
+</figure>
+<hr class="soft-divider">
+<h4 id="4-循环单链表的判空">4. 循环单链表的判空</h4>
+<p class="plain-paragraph">普通单链表为空时：</p>
+<div class="code-panel">
+  <div class="code-toolbar"><span>C 语言</span><button type="button" class="copy-btn">复制代码</button></div>
+  <pre><code class="language-c">head-&gt;next == NULL</code></pre>
+</div>
+<p class="plain-paragraph">循环单链表为空时：</p>
+<div class="code-panel">
+  <div class="code-toolbar"><span>C 语言</span><button type="button" class="copy-btn">复制代码</button></div>
+  <pre><code class="language-c">head-&gt;next == head</code></pre>
+</div>
+<p class="plain-paragraph">代码：</p>
+<div class="code-panel">
+  <div class="code-toolbar"><span>C 语言</span><button type="button" class="copy-btn">复制代码</button></div>
+  <pre><code class="language-c">int isEmpty(LNode *head) {
+    return head-&gt;next == head;
+}</code></pre>
+</div>
+<hr class="soft-divider">
+<h4 id="5-判断某个结点是否为表尾结点">5. 判断某个结点是否为表尾结点</h4>
+<p class="plain-paragraph">普通单链表的表尾结点满足：</p>
+<div class="code-panel">
+  <div class="code-toolbar"><span>C 语言</span><button type="button" class="copy-btn">复制代码</button></div>
+  <pre><code class="language-c">p-&gt;next == NULL</code></pre>
+</div>
+<p class="plain-paragraph">循环单链表的表尾结点满足：</p>
+<div class="code-panel">
+  <div class="code-toolbar"><span>C 语言</span><button type="button" class="copy-btn">复制代码</button></div>
+  <pre><code class="language-c">p-&gt;next == head</code></pre>
+</div>
+<p class="plain-paragraph">代码：</p>
+<div class="code-panel">
+  <div class="code-toolbar"><span>C 语言</span><button type="button" class="copy-btn">复制代码</button></div>
+  <pre><code class="language-c">int isTail(LNode *head, LNode *p) {
+    return p-&gt;next == head;
+}</code></pre>
+</div>
+<hr class="soft-divider">
+<h4 id="6-循环单链表的遍历">6. 循环单链表的遍历</h4>
+<p class="plain-paragraph">普通单链表遍历时，可以用：</p>
+<div class="code-panel">
+  <div class="code-toolbar"><span>C 语言</span><button type="button" class="copy-btn">复制代码</button></div>
+  <pre><code class="language-c">while (p != NULL)</code></pre>
+</div>
+<p class="warning-box">但是循环单链表不能这样写。</p>
+<p class="plain-paragraph">因为循环单链表中没有 <code>NULL</code> 作为结束标志，如果一直判断 <code>p != NULL</code>，循环就不会停止。</p>
+<p class="plain-paragraph">循环单链表的遍历应该判断是否重新回到头结点。</p>
+<div class="code-panel">
+  <div class="code-toolbar"><span>C 语言</span><button type="button" class="copy-btn">复制代码</button></div>
+  <pre><code class="language-c">void printList(LNode *head) {
+    LNode *p = head-&gt;next;
+
+    while (p != head) {
+        printf(&quot;%d &quot;, p-&gt;data);
+        p = p-&gt;next;
+    }
+
+    printf(&quot;\n&quot;);
+}</code></pre>
+</div>
+<p class="key-point">遍历停止条件是：</p>
+<div class="code-panel">
+  <div class="code-toolbar"><span>C 语言</span><button type="button" class="copy-btn">复制代码</button></div>
+  <pre><code class="language-c">p == head</code></pre>
+</div>
+<hr class="soft-divider">
+<h4 id="7-循环单链表的优点">7. 循环单链表的优点</h4>
+<p class="plain-paragraph">普通单链表有一个限制：</p>
+<p class="warning-box">如果只知道某个结点 <code>p</code>，只能访问它后面的结点，不能访问它前面的结点。</p>
+<figure class="diagram-panel">
+  <figcaption>图示 5：结构关系示意</figcaption>
+  <div class="mermaid">flowchart LR
+    H[&quot;head&quot;] --&gt; A[&quot;A&quot;]
+    A --&gt; P[&quot;p&quot;]
+    P --&gt; C[&quot;C&quot;]
+    C --&gt; D[&quot;D&quot;]
+    D --&gt; N[&quot;NULL&quot;]</div>
+</figure>
+<p class="plain-paragraph">如果只知道 <code>p</code>，普通单链表无法找到 <code>A</code>。</p>
+<p class="plain-paragraph">但是循环单链表可以。</p>
+<figure class="diagram-panel">
+  <figcaption>图示 6：结构关系示意</figcaption>
+  <div class="mermaid">flowchart LR
+    H[&quot;head&quot;] --&gt; A[&quot;A&quot;]
+    A --&gt; P[&quot;p&quot;]
+    P --&gt; C[&quot;C&quot;]
+    C --&gt; D[&quot;D&quot;]
+    D --&gt; H</div>
+</figure>
+<p class="plain-paragraph">从 <code>p</code> 出发，沿着 <code>next</code> 一直走，最终可以绕回整个链表，所以可以访问链表中的任意结点。</p>
+<hr class="soft-divider">
+<h4 id="8-删除指定结点-p-的思路">8. 删除指定结点 p 的思路</h4>
+<p class="plain-paragraph">如果要删除某个结点 <code>p</code>，需要先找到它的前驱结点。</p>
+<p class="plain-paragraph">删除的核心操作是：</p>
+<div class="code-panel">
+  <div class="code-toolbar"><span>C 语言</span><button type="button" class="copy-btn">复制代码</button></div>
+  <pre><code class="language-c">前驱结点-&gt;next = p-&gt;next;
+free(p);</code></pre>
+</div>
+<p class="plain-paragraph">在循环单链表中，即使只知道 <code>p</code>，也可以沿着 <code>next</code> 一直找，直到找到某个结点 <code>pre</code> 满足：</p>
+<div class="code-panel">
+  <div class="code-toolbar"><span>C 语言</span><button type="button" class="copy-btn">复制代码</button></div>
+  <pre><code class="language-c">pre-&gt;next == p</code></pre>
+</div>
+<p class="plain-paragraph">这个 <code>pre</code> 就是 <code>p</code> 的前驱结点。</p>
+<div class="code-panel">
+  <div class="code-toolbar"><span>C 语言</span><button type="button" class="copy-btn">复制代码</button></div>
+  <pre><code class="language-c">void deleteNodeSafe(LNode *head, LNode *p) {
+    if (head == NULL || p == NULL || p == head) {
+        return;
+    }
+
+    LNode *pre = head;
+
+    while (pre-&gt;next != head &amp;&amp; pre-&gt;next != p) {
+        pre = pre-&gt;next;
+    }
+
+    if (pre-&gt;next == p) {
+        pre-&gt;next = p-&gt;next;
+        free(p);
+    }
+}</code></pre>
+</div>
+<hr class="soft-divider">
+<h3 id="三循环单链表中尾指针的使用">三、循环单链表中尾指针的使用</h3>
+<p class="plain-paragraph">在普通单链表中，如果只知道头结点，要找到尾结点，需要从头开始扫描。</p>
+<p class="plain-paragraph">时间复杂度是：</p>
+<div class="complexity-line"><span class="complexity-badge">O(n)</span></div>
+<p class="plain-paragraph">但是对于循环单链表，可以让链表指针 <code>L</code> 不指向头结点，而是指向尾结点。</p>
+<figure class="diagram-panel">
+  <figcaption>图示 7：结构关系示意</figcaption>
+  <div class="mermaid">flowchart LR
+    L[&quot;尾结点 L&quot;] --&gt; H[&quot;头结点 head&quot;]
+    H --&gt; A[&quot;第一个数据结点&quot;]
+    A --&gt; B[&quot;中间结点&quot;]
+    B --&gt; L</div>
+</figure>
+<p class="plain-paragraph">此时：</p>
+<div class="code-panel">
+  <div class="code-toolbar"><span>C 语言</span><button type="button" class="copy-btn">复制代码</button></div>
+  <pre><code class="language-c">L 是尾结点
+L-&gt;next 是头结点
+L-&gt;next-&gt;next 是第一个数据结点</code></pre>
+</div>
+<p class="plain-paragraph">这样可以在 <span class="complexity-badge">O(1)</span> 时间内找到：</p>
+<div class="code-panel">
+  <div class="code-toolbar"><span>C 语言</span><button type="button" class="copy-btn">复制代码</button></div>
+  <pre><code class="language-c">尾结点：L
+头结点：L-&gt;next</code></pre>
+</div>
+<p class="plain-paragraph">如果经常在表头或表尾操作，可以用尾指针管理循环单链表。</p>
+<p class="key-point">注意：</p>
+<p class="plain-paragraph">如果在表尾插入或删除结点，需要及时修改 <code>L</code> 的指向。</p>
+<hr class="soft-divider">
+<h3 id="四循环双链表">四、循环双链表</h3>
+<h4 id="1-循环双链表的基本结构">1. 循环双链表的基本结构</h4>
+<p class="plain-paragraph">普通双链表中：</p>
+<div class="code-panel">
+  <div class="code-toolbar"><span>C 语言</span><button type="button" class="copy-btn">复制代码</button></div>
+  <pre><code class="language-c">头结点-&gt;prior = NULL
+尾结点-&gt;next = NULL</code></pre>
+</div>
+<p class="plain-paragraph">循环双链表中：</p>
+<div class="code-panel">
+  <div class="code-toolbar"><span>C 语言</span><button type="button" class="copy-btn">复制代码</button></div>
+  <pre><code class="language-c">尾结点-&gt;next = 头结点
+头结点-&gt;prior = 尾结点</code></pre>
+</div>
+<p class="concept-card">也就是说：</p>
+<ul class="note-list"><li>所有 <code>next</code> 指针形成一个方向的环</li><li>所有 <code>prior</code> 指针形成另一个方向的环</li></ul>
+<figure class="diagram-panel">
+  <figcaption>图示 8：结构关系示意</figcaption>
+  <div class="mermaid">flowchart LR
+    H[&quot;head&quot;] --&gt; A[&quot;A&quot;]
+    A --&gt; B[&quot;B&quot;]
+    B --&gt; C[&quot;C&quot;]
+    C --&gt; H
+
+    H -. prior .-&gt; C
+    C -. prior .-&gt; B
+    B -. prior .-&gt; A
+    A -. prior .-&gt; H</div>
+</figure>
+<hr class="soft-divider">
+<h4 id="2-循环双链表的结点定义">2. 循环双链表的结点定义</h4>
+<div class="code-panel">
+  <div class="code-toolbar"><span>C 语言</span><button type="button" class="copy-btn">复制代码</button></div>
+  <pre><code class="language-c">typedef struct DNode {
+    int data;
+    struct DNode *prior;
+    struct DNode *next;
+} DNode;</code></pre>
+</div>
+<p class="plain-paragraph">其中：</p>
+<div class="code-panel">
+  <div class="code-toolbar"><span>C 语言</span><button type="button" class="copy-btn">复制代码</button></div>
+  <pre><code class="language-c">data：数据域
+prior：指向前驱结点
+next：指向后继结点</code></pre>
+</div>
+<hr class="soft-divider">
+<h4 id="3-循环双链表的初始化">3. 循环双链表的初始化</h4>
+<p class="plain-paragraph">空的循环双链表中，头结点的 <code>prior</code> 和 <code>next</code> 都指向自己。</p>
+<div class="code-panel">
+  <div class="code-toolbar"><span>C 语言</span><button type="button" class="copy-btn">复制代码</button></div>
+  <pre><code class="language-c">head-&gt;prior = head;
+head-&gt;next = head;</code></pre>
+</div>
+<p class="plain-paragraph">代码：</p>
+<div class="code-panel">
+  <div class="code-toolbar"><span>C 语言</span><button type="button" class="copy-btn">复制代码</button></div>
+  <pre><code class="language-c">DNode *initCircularDList() {
+    DNode *head = (DNode *)malloc(sizeof(DNode));
+
+    if (head == NULL) {
+        return NULL;
+    }
+
+    head-&gt;prior = head;
+    head-&gt;next = head;
+
+    return head;
+}</code></pre>
+</div>
+<hr class="soft-divider">
+<h4 id="4-循环双链表的判空">4. 循环双链表的判空</h4>
+<p class="plain-paragraph">循环双链表为空时：</p>
+<div class="code-panel">
+  <div class="code-toolbar"><span>C 语言</span><button type="button" class="copy-btn">复制代码</button></div>
+  <pre><code class="language-c">head-&gt;next == head</code></pre>
+</div>
+<p class="plain-paragraph">代码：</p>
+<div class="code-panel">
+  <div class="code-toolbar"><span>C 语言</span><button type="button" class="copy-btn">复制代码</button></div>
+  <pre><code class="language-c">int isDListEmpty(DNode *head) {
+    return head-&gt;next == head;
+}</code></pre>
+</div>
+<p class="plain-paragraph">也可以通过 <code>head-&gt;prior == head</code> 判断，但通常判断 <code>head-&gt;next == head</code> 即可。</p>
+<hr class="soft-divider">
+<h4 id="5-判断某个结点是否为表尾结点-2">5. 判断某个结点是否为表尾结点</h4>
+<p class="plain-paragraph">循环双链表的表尾结点满足：</p>
+<div class="code-panel">
+  <div class="code-toolbar"><span>C 语言</span><button type="button" class="copy-btn">复制代码</button></div>
+  <pre><code class="language-c">p-&gt;next == head</code></pre>
+</div>
+<p class="plain-paragraph">代码：</p>
+<div class="code-panel">
+  <div class="code-toolbar"><span>C 语言</span><button type="button" class="copy-btn">复制代码</button></div>
+  <pre><code class="language-c">int isDListTail(DNode *head, DNode *p) {
+    return p-&gt;next == head;
+}</code></pre>
+</div>
+<p class="key-point">注意：</p>
+<p class="plain-paragraph">当循环双链表为空时，头结点的 <code>next</code> 也指向自己，所以从逻辑上看，头结点既像第一个结点，也像最后一个结点。</p>
+<hr class="soft-divider">
+<h3 id="五循环双链表的插入和删除">五、循环双链表的插入和删除</h3>
+<h4 id="1-在结点-p-后插入结点-s">1. 在结点 p 后插入结点 s</h4>
+<p class="plain-paragraph">普通双链表中，如果 <code>p</code> 是尾结点，那么：</p>
+<div class="code-panel">
+  <div class="code-toolbar"><span>C 语言</span><button type="button" class="copy-btn">复制代码</button></div>
+  <pre><code class="language-c">p-&gt;next == NULL</code></pre>
+</div>
+<p class="plain-paragraph">如果执行：</p>
+<div class="code-panel">
+  <div class="code-toolbar"><span>C 语言</span><button type="button" class="copy-btn">复制代码</button></div>
+  <pre><code class="language-c">p-&gt;next-&gt;prior = s;</code></pre>
+</div>
+<p class="warning-box">就会访问空指针，程序出错。</p>
+<p class="plain-paragraph">但是循环双链表中，即使 <code>p</code> 是尾结点：</p>
+<div class="code-panel">
+  <div class="code-toolbar"><span>C 语言</span><button type="button" class="copy-btn">复制代码</button></div>
+  <pre><code class="language-c">p-&gt;next == head</code></pre>
+</div>
+<p class="concept-card">所以 <code>p-&gt;next-&gt;prior = s</code> 修改的是头结点的 <code>prior</code>，这是正确的。</p>
+<p class="plain-paragraph">插入前：</p>
+<figure class="diagram-panel">
+  <figcaption>图示 9：结构关系示意</figcaption>
+  <div class="mermaid">flowchart LR
+    P[&quot;p&quot;] --&gt; N[&quot;p 的后继&quot;]
+    N -. prior .-&gt; P</div>
+</figure>
+<p class="plain-paragraph">插入后：</p>
+<figure class="diagram-panel">
+  <figcaption>图示 10：结构关系示意</figcaption>
+  <div class="mermaid">flowchart LR
+    P[&quot;p&quot;] --&gt; S[&quot;s&quot;]
+    S --&gt; N[&quot;p 原来的后继&quot;]
+    N -. prior .-&gt; S
+    S -. prior .-&gt; P</div>
+</figure>
+<p class="plain-paragraph">代码：</p>
+<div class="code-panel">
+  <div class="code-toolbar"><span>C 语言</span><button type="button" class="copy-btn">复制代码</button></div>
+  <pre><code class="language-c">void insertAfter(DNode *p, DNode *s) {
+    s-&gt;next = p-&gt;next;
+    p-&gt;next-&gt;prior = s;
+    s-&gt;prior = p;
+    p-&gt;next = s;
+}</code></pre>
+</div>
+<p class="plain-paragraph">四句代码含义：</p>
+<div class="code-panel">
+  <div class="code-toolbar"><span>C 语言</span><button type="button" class="copy-btn">复制代码</button></div>
+  <pre><code class="language-c">s-&gt;next = p-&gt;next;</code></pre>
+</div>
+<p class="plain-paragraph">让 <code>s</code> 指向 <code>p</code> 原来的后继。</p>
+<div class="code-panel">
+  <div class="code-toolbar"><span>C 语言</span><button type="button" class="copy-btn">复制代码</button></div>
+  <pre><code class="language-c">p-&gt;next-&gt;prior = s;</code></pre>
+</div>
+<p class="plain-paragraph">让原后继的前驱改成 <code>s</code>。</p>
+<div class="code-panel">
+  <div class="code-toolbar"><span>C 语言</span><button type="button" class="copy-btn">复制代码</button></div>
+  <pre><code class="language-c">s-&gt;prior = p;</code></pre>
+</div>
+<p class="plain-paragraph">让 <code>s</code> 的前驱指向 <code>p</code>。</p>
+<div class="code-panel">
+  <div class="code-toolbar"><span>C 语言</span><button type="button" class="copy-btn">复制代码</button></div>
+  <pre><code class="language-c">p-&gt;next = s;</code></pre>
+</div>
+<p class="plain-paragraph">最后让 <code>p</code> 的后继改成 <code>s</code>。</p>
+<p class="key-point">注意：</p>
+<p class="warning-box"><code>p-&gt;next = s</code> 要放在最后，否则会丢失 <code>p</code> 原来的后继结点。</p>
+<hr class="soft-divider">
+<h4 id="2-删除结点-q">2. 删除结点 q</h4>
+<p class="plain-paragraph">假设 <code>p</code> 是 <code>q</code> 的前驱：</p>
+<div class="code-panel">
+  <div class="code-toolbar"><span>C 语言</span><button type="button" class="copy-btn">复制代码</button></div>
+  <pre><code class="language-c">p-&gt;next == q</code></pre>
+</div>
+<p class="plain-paragraph">删除前：</p>
+<figure class="diagram-panel">
+  <figcaption>图示 11：结构关系示意</figcaption>
+  <div class="mermaid">flowchart LR
+    P[&quot;p&quot;] --&gt; Q[&quot;q&quot;]
+    Q --&gt; N[&quot;q 的后继&quot;]
+    N -. prior .-&gt; Q
+    Q -. prior .-&gt; P</div>
+</figure>
+<p class="plain-paragraph">删除后：</p>
+<figure class="diagram-panel">
+  <figcaption>图示 12：结构关系示意</figcaption>
+  <div class="mermaid">flowchart LR
+    P[&quot;p&quot;] --&gt; N[&quot;q 的后继&quot;]
+    N -. prior .-&gt; P</div>
+</figure>
+<p class="plain-paragraph">代码：</p>
+<div class="code-panel">
+  <div class="code-toolbar"><span>C 语言</span><button type="button" class="copy-btn">复制代码</button></div>
+  <pre><code class="language-c">void deleteAfter(DNode *p) {
+    DNode *q = p-&gt;next;
+
+    p-&gt;next = q-&gt;next;
+    q-&gt;next-&gt;prior = p;
+
+    free(q);
+}</code></pre>
+</div>
+<p class="plain-paragraph">如果 <code>q</code> 是普通双链表的尾结点，则 <code>q-&gt;next == NULL</code>，执行：</p>
+<div class="code-panel">
+  <div class="code-toolbar"><span>C 语言</span><button type="button" class="copy-btn">复制代码</button></div>
+  <pre><code class="language-c">q-&gt;next-&gt;prior = p;</code></pre>
+</div>
+<p class="warning-box">会出错。</p>
+<p class="plain-paragraph">但循环双链表中，如果 <code>q</code> 是尾结点：</p>
+<div class="code-panel">
+  <div class="code-toolbar"><span>C 语言</span><button type="button" class="copy-btn">复制代码</button></div>
+  <pre><code class="language-c">q-&gt;next == head</code></pre>
+</div>
+<p class="concept-card">所以：</p>
+<div class="code-panel">
+  <div class="code-toolbar"><span>C 语言</span><button type="button" class="copy-btn">复制代码</button></div>
+  <pre><code class="language-c">q-&gt;next-&gt;prior = p;</code></pre>
+</div>
+<p class="plain-paragraph">其实是在修改头结点的 <code>prior</code>，逻辑正确。</p>
+<hr class="soft-divider">
+<h4 id="3-更常用的删除指定结点-q">3. 更常用的删除指定结点 q</h4>
+<p class="plain-paragraph">如果已经知道要删除的结点 <code>q</code>，循环双链表删除很方便：</p>
+<div class="code-panel">
+  <div class="code-toolbar"><span>C 语言</span><button type="button" class="copy-btn">复制代码</button></div>
+  <pre><code class="language-c">void deleteDNode(DNode *head, DNode *q) {
+    if (head == NULL || q == NULL || q == head) {
+        return;
+    }
+
+    q-&gt;prior-&gt;next = q-&gt;next;
+    q-&gt;next-&gt;prior = q-&gt;prior;
+
+    free(q);
+}</code></pre>
+</div>
+<p class="plain-paragraph">因为循环双链表没有 <code>NULL</code> 边界，所以不需要额外判断 <code>q</code> 是不是尾结点。</p>
+<hr class="soft-divider">
+<h3 id="六循环双链表完整代码">六、循环双链表完整代码</h3>
+<div class="code-panel">
+  <div class="code-toolbar"><span>C 语言</span><button type="button" class="copy-btn">复制代码</button></div>
+  <pre><code class="language-c">#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+
+typedef struct DNode {
+    int data;
+    struct DNode *prior;
+    struct DNode *next;
+} DNode;
+
+DNode *initList() {
+    DNode *head = (DNode *)malloc(sizeof(DNode));
+
+    if (head == NULL) {
+        return NULL;
+    }
+
+    head-&gt;prior = head;
+    head-&gt;next = head;
+
+    return head;
+}
+
+int isEmpty(DNode *head) {
+    return head-&gt;next == head;
+}
+
+DNode *createNode(int data) {
+    DNode *node = (DNode *)malloc(sizeof(DNode));
+
+    if (node == NULL) {
+        return NULL;
+    }
+
+    node-&gt;data = data;
+    node-&gt;prior = NULL;
+    node-&gt;next = NULL;
+
+    return node;
+}
+
+void insertAfter(DNode *p, DNode *s) {
+    s-&gt;next = p-&gt;next;
+    p-&gt;next-&gt;prior = s;
+    s-&gt;prior = p;
+    p-&gt;next = s;
+}
+
+void deleteNode(DNode *head, DNode *q) {
+    if (head == NULL || q == NULL || q == head) {
+        return;
+    }
+
+    q-&gt;prior-&gt;next = q-&gt;next;
+    q-&gt;next-&gt;prior = q-&gt;prior;
+
+    free(q);
+}
+
+void printList(DNode *head) {
+    DNode *p = head-&gt;next;
+
+    while (p != head) {
+        printf(&quot;%d &quot;, p-&gt;data);
+        p = p-&gt;next;
+    }
+
+    printf(&quot;\n&quot;);
+}
+
+void printReverse(DNode *head) {
+    DNode *p = head-&gt;prior;
+
+    while (p != head) {
+        printf(&quot;%d &quot;, p-&gt;data);
+        p = p-&gt;prior;
+    }
+
+    printf(&quot;\n&quot;);
+}
+
+int main() {
+    DNode *head = initList();
+
+    DNode *a = createNode(10);
+    DNode *b = createNode(20);
+    DNode *c = createNode(30);
+
+    insertAfter(head, a);
+    insertAfter(a, b);
+    insertAfter(b, c);
+
+    printf(&quot;正向遍历：&quot;);
+    printList(head);
+
+    printf(&quot;反向遍历：&quot;);
+    printReverse(head);
+
+    deleteNode(head, b);
+
+    printf(&quot;删除 20 后：&quot;);
+    printList(head);
+
+    return 0;
+}</code></pre>
+</div>
+<hr class="soft-divider">
+<h3 id="七所有链表代码的通用检查点">七、所有链表代码的通用检查点</h3>
+<p class="plain-paragraph">写链表代码时，不管是单链表、双链表，还是循环链表，都要关注以下问题：</p>
+<h4 id="1-空表是什么状态">1. 空表是什么状态</h4>
+<p class="plain-paragraph">普通单链表：</p>
+<div class="code-panel">
+  <div class="code-toolbar"><span>C 语言</span><button type="button" class="copy-btn">复制代码</button></div>
+  <pre><code class="language-c">head-&gt;next == NULL</code></pre>
+</div>
+<p class="plain-paragraph">循环单链表：</p>
+<div class="code-panel">
+  <div class="code-toolbar"><span>C 语言</span><button type="button" class="copy-btn">复制代码</button></div>
+  <pre><code class="language-c">head-&gt;next == head</code></pre>
+</div>
+<p class="plain-paragraph">普通双链表：</p>
+<div class="code-panel">
+  <div class="code-toolbar"><span>C 语言</span><button type="button" class="copy-btn">复制代码</button></div>
+  <pre><code class="language-c">head-&gt;next == NULL
+head-&gt;prior == NULL</code></pre>
+</div>
+<p class="plain-paragraph">循环双链表：</p>
+<div class="code-panel">
+  <div class="code-toolbar"><span>C 语言</span><button type="button" class="copy-btn">复制代码</button></div>
+  <pre><code class="language-c">head-&gt;next == head
+head-&gt;prior == head</code></pre>
+</div>
+<p class="plain-paragraph">知道空表状态，就知道怎么初始化。</p>
+<hr class="soft-divider">
+<h4 id="2-怎么判断表尾">2. 怎么判断表尾</h4>
+<p class="plain-paragraph">普通链表：</p>
+<div class="code-panel">
+  <div class="code-toolbar"><span>C 语言</span><button type="button" class="copy-btn">复制代码</button></div>
+  <pre><code class="language-c">p-&gt;next == NULL</code></pre>
+</div>
+<p class="plain-paragraph">循环链表：</p>
+<div class="code-panel">
+  <div class="code-toolbar"><span>C 语言</span><button type="button" class="copy-btn">复制代码</button></div>
+  <pre><code class="language-c">p-&gt;next == head</code></pre>
+</div>
+<hr class="soft-divider">
+<h4 id="3-怎么遍历">3. 怎么遍历</h4>
+<p class="plain-paragraph">普通链表：</p>
+<div class="code-panel">
+  <div class="code-toolbar"><span>C 语言</span><button type="button" class="copy-btn">复制代码</button></div>
+  <pre><code class="language-c">while (p != NULL)</code></pre>
+</div>
+<p class="plain-paragraph">循环链表：</p>
+<div class="code-panel">
+  <div class="code-toolbar"><span>C 语言</span><button type="button" class="copy-btn">复制代码</button></div>
+  <pre><code class="language-c">while (p != head)</code></pre>
+</div>
+<hr class="soft-divider">
+<h4 id="4-插入删除要考虑边界">4. 插入删除要考虑边界</h4>
+<p class="plain-paragraph">写链表插入、删除时，要考虑：</p>
+<div class="code-panel">
+  <div class="code-toolbar"><span>C 语言</span><button type="button" class="copy-btn">复制代码</button></div>
+  <pre><code class="language-c">表头
+表中
+表尾
+空表</code></pre>
+</div>
+<p class="plain-paragraph">普通链表在表尾处经常需要特殊处理，因为尾结点后面是 <code>NULL</code>。</p>
+<p class="plain-paragraph">循环链表的优势是：</p>
+<div class="code-panel">
+  <div class="code-toolbar"><span>C 语言</span><button type="button" class="copy-btn">复制代码</button></div>
+  <pre><code class="language-c">尾结点后面不是 NULL，而是头结点</code></pre>
+</div>
+<p class="concept-card">所以很多操作可以统一处理。</p>
+<hr class="soft-divider">
+<h3 id="循环链表重点总结">循环链表重点总结</h3>
+<p class="plain-paragraph">循环单链表：</p>
+<div class="code-panel">
+  <div class="code-toolbar"><span>C 语言</span><button type="button" class="copy-btn">复制代码</button></div>
+  <pre><code class="language-c">尾结点-&gt;next = head;
+head-&gt;next = head;  // 空表</code></pre>
+</div>
+<p class="plain-paragraph">循环双链表：</p>
+<div class="code-panel">
+  <div class="code-toolbar"><span>C 语言</span><button type="button" class="copy-btn">复制代码</button></div>
+  <pre><code class="language-c">尾结点-&gt;next = head;
+head-&gt;prior = 尾结点;
+
+head-&gt;next = head;
+head-&gt;prior = head; // 空表</code></pre>
+</div>
+<p class="plain-paragraph">循环链表遍历停止条件不是 <code>NULL</code>，而是回到头结点：</p>
+<div class="code-panel">
+  <div class="code-toolbar"><span>C 语言</span><button type="button" class="copy-btn">复制代码</button></div>
+  <pre><code class="language-c">p != head</code></pre>
+</div>
+<p class="key-point">判断尾结点：</p>
+<div class="code-panel">
+  <div class="code-toolbar"><span>C 语言</span><button type="button" class="copy-btn">复制代码</button></div>
+  <pre><code class="language-c">p-&gt;next == head</code></pre>
+</div>
+<p class="plain-paragraph">循环双链表插入核心代码：</p>
+<div class="code-panel">
+  <div class="code-toolbar"><span>C 语言</span><button type="button" class="copy-btn">复制代码</button></div>
+  <pre><code class="language-c">s-&gt;next = p-&gt;next;
+p-&gt;next-&gt;prior = s;
+s-&gt;prior = p;
+p-&gt;next = s;</code></pre>
+</div>
+<p class="plain-paragraph">循环双链表删除核心代码：</p>
+<div class="code-panel">
+  <div class="code-toolbar"><span>C 语言</span><button type="button" class="copy-btn">复制代码</button></div>
+  <pre><code class="language-c">q-&gt;prior-&gt;next = q-&gt;next;
+q-&gt;next-&gt;prior = q-&gt;prior;
+free(q);</code></pre>
+</div>
+<hr class="soft-divider">
+
+      <div class="exam-pack">
+        <h3>考点速记</h3>
+        <div class="review-grid">
+          <div class="review-card"><strong>循环单链表空表</strong><p><code>head-&gt;next == head</code>，尾结点条件也是 <code>p-&gt;next == head</code>。</p></div>
+          <div class="review-card"><strong>循环双链表空表</strong><p><code>head-&gt;next == head</code> 且 <code>head-&gt;prior == head</code>。</p></div>
+          <div class="review-card"><strong>遍历停止</strong><p>循环链表不能等 <code>NULL</code>，要判断是否回到头结点。</p></div>
+        </div>
+        <h3>常见陷阱</h3>
+        <ul class="note-list">
+          <li>把循环链表遍历写成 <code>while (p != NULL)</code>，会导致无法正常停止。</li>
+          <li>循环双链表后插时过早执行 <code>p-&gt;next = s</code>，会丢失原后继。</li>
+          <li>删除结点后忘记 <code>free</code>，会造成堆空间泄漏。</li>
+        </ul>
+        <h3>答题模板</h3>
+        <p class="answer-template">说明循环链表时，先写普通链表尾指针指向 <code>NULL</code>，再对比循环链表尾指针指回头结点，最后补充空表、判尾和遍历条件。</p>
+        <h3>代码检查清单</h3>
+        <div class="checklist"><span>初始化是否让头结点指向自己</span><span>遍历条件是否是 <code>p != head</code></span><span>插入指针顺序是否保留原后继</span><span>删除前是否排除头结点</span></div>
+      </div>
+</section>
+<section class="chapter-card" id="235-静态链表">
+<h2>2.3.5 静态链表</h2>
+<h3 id="一什么是静态链表">一、什么是静态链表</h3>
+<p class="plain-paragraph">静态链表本质上是：</p>
+<div class="code-panel">
+  <div class="code-toolbar"><span>C 语言</span><button type="button" class="copy-btn">复制代码</button></div>
+  <pre><code class="language-c">用数组模拟链表</code></pre>
+</div>
+<p class="plain-paragraph">普通单链表中的各个结点可以离散地分布在内存中，每个结点存放：</p>
+<div class="code-panel">
+  <div class="code-toolbar"><span>C 语言</span><button type="button" class="copy-btn">复制代码</button></div>
+  <pre><code class="language-c">数据元素 data
+指向下一个结点的指针 next</code></pre>
+</div>
+<p class="plain-paragraph">静态链表则是先分配一整片连续的内存空间，也就是一个数组。</p>
+<p class="plain-paragraph">数组中的每一个元素就是一个结点。</p>
+<p class="plain-paragraph">静态链表中的每个结点存放：</p>
+<div class="code-panel">
+  <div class="code-toolbar"><span>C 语言</span><button type="button" class="copy-btn">复制代码</button></div>
+  <pre><code class="language-c">数据元素 data
+下一个结点的数组下标 next</code></pre>
+</div>
+<p class="plain-paragraph">这里的 <code>next</code> 不是真正的地址，而是数组下标，也叫游标。</p>
+<hr class="soft-divider">
+<h3 id="二静态链表和单链表的区别">二、静态链表和单链表的区别</h3>
+<p class="plain-paragraph">单链表：</p>
+<div class="code-panel">
+  <div class="code-toolbar"><span>C 语言</span><button type="button" class="copy-btn">复制代码</button></div>
+  <pre><code class="language-c">next 存放的是下一个结点的内存地址</code></pre>
+</div>
+<p class="plain-paragraph">静态链表：</p>
+<div class="code-panel">
+  <div class="code-toolbar"><span>C 语言</span><button type="button" class="copy-btn">复制代码</button></div>
+  <pre><code class="language-c">next 存放的是下一个结点的数组下标</code></pre>
+</div>
+<p class="plain-paragraph">单链表示意：</p>
+<figure class="diagram-panel">
+  <figcaption>图示 13：结构关系示意</figcaption>
+  <div class="mermaid">flowchart LR
+    A[&quot;结点 A&lt;br/&gt;data | next地址&quot;] --&gt; B[&quot;结点 B&lt;br/&gt;data | next地址&quot;]
+    B --&gt; C[&quot;结点 C&lt;br/&gt;data | NULL&quot;]</div>
+</figure>
+<p class="plain-paragraph">静态链表示意：</p>
+<div class="table-wrap"><table class="compare-table"><thead><tr><th>数组下标</th><th>data</th><th>next</th></tr></thead><tbody><tr><td>0</td><td>不存实际数据</td><td>2</td></tr><tr><td>1</td><td>B</td><td>3</td></tr><tr><td>2</td><td>A</td><td>1</td></tr><tr><td>3</td><td>C</td><td>-1</td></tr><tr><td>4</td><td>空闲</td><td>-2</td></tr><tr><td>5</td><td>空闲</td><td>-2</td></tr></tbody></table></div>
+<p class="plain-paragraph">它表示的逻辑链表是：</p>
+<figure class="diagram-panel">
+  <figcaption>图示 14：结构关系示意</figcaption>
+  <div class="mermaid">flowchart LR
+    H[&quot;a[0] 头结点&quot;] --&gt; A[&quot;a[2] A&quot;]
+    A --&gt; B[&quot;a[1] B&quot;]
+    B --&gt; C[&quot;a[3] C&quot;]
+    C --&gt; END[&quot;-1 结束&quot;]</div>
+</figure>
+<p class="key-point">注意：</p>
+<p class="plain-paragraph">数组的物理顺序是：</p>
+<div class="code-panel">
+  <div class="code-toolbar"><span>C 语言</span><button type="button" class="copy-btn">复制代码</button></div>
+  <pre><code class="language-c">a[0], a[1], a[2], a[3], a[4], ...</code></pre>
+</div>
+<p class="plain-paragraph">链表的逻辑顺序是：</p>
+<div class="code-panel">
+  <div class="code-toolbar"><span>C 语言</span><button type="button" class="copy-btn">复制代码</button></div>
+  <pre><code class="language-c">a[0] -&gt; a[2] -&gt; a[1] -&gt; a[3]</code></pre>
+</div>
+<p class="concept-card">所以静态链表虽然底层是数组，但逻辑上仍然是链表。</p>
+<hr class="soft-divider">
+<h3 id="三静态链表中的特殊值">三、静态链表中的特殊值</h3>
+<p class="warning-box">文稿中涉及两个重要特殊值：</p>
+<div class="code-panel">
+  <div class="code-toolbar"><span>C 语言</span><button type="button" class="copy-btn">复制代码</button></div>
+  <pre><code class="language-c">-1：表示链表结束，相当于单链表中的 NULL
+-2：表示该数组位置空闲，可以用来存放新结点</code></pre>
+</div>
+<p class="plain-paragraph">例如：</p>
+<div class="code-panel">
+  <div class="code-toolbar"><span>C 语言</span><button type="button" class="copy-btn">复制代码</button></div>
+  <pre><code class="language-c">a[0].next == -1</code></pre>
+</div>
+<p class="plain-paragraph">表示静态链表为空。</p>
+<div class="code-panel">
+  <div class="code-toolbar"><span>C 语言</span><button type="button" class="copy-btn">复制代码</button></div>
+  <pre><code class="language-c">a[i].next == -2</code></pre>
+</div>
+<p class="plain-paragraph">表示 <code>a[i]</code> 这个位置是空闲结点。</p>
+<hr class="soft-divider">
+<h3 id="四静态链表的地址计算">四、静态链表的地址计算</h3>
+<p class="plain-paragraph">静态链表的底层是数组，数组元素在内存中连续存放。</p>
+<p class="plain-paragraph">假设：</p>
+<div class="code-panel">
+  <div class="code-toolbar"><span>C 语言</span><button type="button" class="copy-btn">复制代码</button></div>
+  <pre><code class="language-c">每个结点大小 = 8 字节
+数组起始地址 = base</code></pre>
+</div>
+<p class="plain-paragraph">那么数组下标为 <code>2</code> 的结点地址是：</p>
+<div class="code-panel">
+  <div class="code-toolbar"><span>C 语言</span><button type="button" class="copy-btn">复制代码</button></div>
+  <pre><code class="language-c">base + 2 * 8</code></pre>
+</div>
+<p class="plain-paragraph">一般公式：</p>
+<div class="code-panel">
+  <div class="code-toolbar"><span>C 语言</span><button type="button" class="copy-btn">复制代码</button></div>
+  <pre><code class="language-c">某结点地址 = 起始地址 + 数组下标 * 每个结点大小</code></pre>
+</div>
+<p class="concept-card">这说明数组下标可以映射成实际内存地址。</p>
+<p class="key-point">但是注意：</p>
+<p class="plain-paragraph">静态链表的“按位序查找”和数组的“按下标访问”不是一回事。</p>
+<p class="plain-paragraph">位序是逻辑顺序，数组下标是物理位置。</p>
+<hr class="soft-divider">
+<h3 id="五静态链表的-C-语言定义">五、静态链表的 C 语言定义</h3>
+<h4 id="1-普通定义方式">1. 普通定义方式</h4>
+<div class="code-panel">
+  <div class="code-toolbar"><span>C 语言</span><button type="button" class="copy-btn">复制代码</button></div>
+  <pre><code class="language-c">#define MAX_SIZE 10
+
+typedef struct Node {
+    int data;
+    int next;
+} Node;
+
+Node a[MAX_SIZE];</code></pre>
+</div>
+<p class="plain-paragraph">含义：</p>
+<div class="code-panel">
+  <div class="code-toolbar"><span>C 语言</span><button type="button" class="copy-btn">复制代码</button></div>
+  <pre><code class="language-c">data：存放数据元素
+next：存放下一个结点的数组下标</code></pre>
+</div>
+<p class="plain-paragraph"><code>a</code> 是一个数组，数组中每个元素都是一个 <code>Node</code> 结点。</p>
+<hr class="soft-divider">
+<h4 id="2-课本中的-typedef-写法">2. 课本中的 typedef 写法</h4>
+<p class="plain-paragraph">课本可能写成：</p>
+<div class="code-panel">
+  <div class="code-toolbar"><span>C 语言</span><button type="button" class="copy-btn">复制代码</button></div>
+  <pre><code class="language-c">typedef struct Node {
+    int data;
+    int next;
+} SLinkList[MAX_SIZE];</code></pre>
+</div>
+<p class="plain-paragraph">这段代码的意思是：</p>
+<div class="code-panel">
+  <div class="code-toolbar"><span>C 语言</span><button type="button" class="copy-btn">复制代码</button></div>
+  <pre><code class="language-c">把“长度为 MAX_SIZE 的 Node 数组”重命名为 SLinkList</code></pre>
+</div>
+<p class="concept-card">所以：</p>
+<div class="code-panel">
+  <div class="code-toolbar"><span>C 语言</span><button type="button" class="copy-btn">复制代码</button></div>
+  <pre><code class="language-c">SLinkList a;</code></pre>
+</div>
+<p class="plain-paragraph">等价于：</p>
+<div class="code-panel">
+  <div class="code-toolbar"><span>C 语言</span><button type="button" class="copy-btn">复制代码</button></div>
+  <pre><code class="language-c">struct Node a[MAX_SIZE];</code></pre>
+</div>
+<p class="concept-card">也就是说，<code>a</code> 仍然是一个数组，只是这个数组类型的名字叫 <code>SLinkList</code>。</p>
+<hr class="soft-divider">
+<h4 id="3-sizeof-验证">3. sizeof 验证</h4>
+<p class="plain-paragraph">假设：</p>
+<div class="code-panel">
+  <div class="code-toolbar"><span>C 语言</span><button type="button" class="copy-btn">复制代码</button></div>
+  <pre><code class="language-c">int data; // 4 字节
+int next; // 4 字节</code></pre>
+</div>
+<p class="plain-paragraph">则一个结点大小通常是：</p>
+<div class="code-panel">
+  <div class="code-toolbar"><span>C 语言</span><button type="button" class="copy-btn">复制代码</button></div>
+  <pre><code class="language-c">sizeof(Node) == 8</code></pre>
+</div>
+<p class="plain-paragraph">如果：</p>
+<div class="code-panel">
+  <div class="code-toolbar"><span>C 语言</span><button type="button" class="copy-btn">复制代码</button></div>
+  <pre><code class="language-c">MAX_SIZE == 10</code></pre>
+</div>
+<p class="plain-paragraph">那么数组大小通常是：</p>
+<div class="code-panel">
+  <div class="code-toolbar"><span>C 语言</span><button type="button" class="copy-btn">复制代码</button></div>
+  <pre><code class="language-c">sizeof(a) == 80</code></pre>
+</div>
+<p class="plain-paragraph">验证代码：</p>
+<div class="code-panel">
+  <div class="code-toolbar"><span>C 语言</span><button type="button" class="copy-btn">复制代码</button></div>
+  <pre><code class="language-c">#include &lt;stdio.h&gt;
+
+#define MAX_SIZE 10
+
+typedef struct Node {
+    int data;
+    int next;
+} Node;
+
+typedef struct BookNode {
+    int data;
+    int next;
+} SLinkList[MAX_SIZE];
+
+int main() {
+    Node x;
+    Node a[MAX_SIZE];
+    SLinkList b;
+
+    printf(&quot;一个结点大小：%zu\n&quot;, sizeof(x));
+    printf(&quot;普通数组大小：%zu\n&quot;, sizeof(a));
+    printf(&quot;课本写法大小：%zu\n&quot;, sizeof(b));
+
+    return 0;
+}</code></pre>
+</div>
+<p class="plain-paragraph">通常输出：</p>
+<div class="code-panel">
+  <div class="code-toolbar"><span>C 语言</span><button type="button" class="copy-btn">复制代码</button></div>
+  <pre><code class="language-c">一个结点大小：8
+普通数组大小：80
+课本写法大小：80</code></pre>
+</div>
+<p class="concept-card">这说明 <code>SLinkList b;</code> 背后仍然是一个数组。</p>
+<hr class="soft-divider">
+<h3 id="六静态链表的初始化">六、静态链表的初始化</h3>
+<p class="plain-paragraph">静态链表中，数组下标为 <code>0</code> 的结点充当头结点。</p>
+<p class="plain-paragraph">头结点不存放实际数据。</p>
+<p class="plain-paragraph">空表时，头结点后面没有数据结点，所以：</p>
+<div class="code-panel">
+  <div class="code-toolbar"><span>C 语言</span><button type="button" class="copy-btn">复制代码</button></div>
+  <pre><code class="language-c">a[0].next = -1;</code></pre>
+</div>
+<p class="plain-paragraph">其他位置都是空闲位置，所以可以标记为：</p>
+<div class="code-panel">
+  <div class="code-toolbar"><span>C 语言</span><button type="button" class="copy-btn">复制代码</button></div>
+  <pre><code class="language-c">a[i].next = -2;</code></pre>
+</div>
+<p class="plain-paragraph">代码：</p>
+<div class="code-panel">
+  <div class="code-toolbar"><span>C 语言</span><button type="button" class="copy-btn">复制代码</button></div>
+  <pre><code class="language-c">#define MAX_SIZE 10
+#define END -1
+#define FREE -2
+
+typedef struct Node {
+    int data;
+    int next;
+} Node;
+
+void initList(Node a[]) {
+    a[0].next = END;
+
+    for (int i = 1; i &lt; MAX_SIZE; i++) {
+        a[i].next = FREE;
+    }
+}</code></pre>
+</div>
+<p class="plain-paragraph">初始化后的状态：</p>
+<figure class="diagram-panel">
+  <figcaption>图示 15：结构关系示意</figcaption>
+  <div class="mermaid">flowchart LR
+    A0[&quot;a[0]&lt;br/&gt;头结点&lt;br/&gt;next=-1&quot;]
+    A1[&quot;a[1]&lt;br/&gt;空闲&lt;br/&gt;next=-2&quot;]
+    A2[&quot;a[2]&lt;br/&gt;空闲&lt;br/&gt;next=-2&quot;]
+    A3[&quot;a[3]&lt;br/&gt;空闲&lt;br/&gt;next=-2&quot;]</div>
+</figure>
+<p class="concept-card">为什么要把空闲结点标记出来？</p>
+<p class="plain-paragraph">因为内存中的每个位置都会有值，有些只是脏数据。</p>
+<p class="warning-box">计算机不能靠“看起来没有数据”判断空闲，所以必须用特殊值标记。</p>
+<hr class="soft-divider">
+<h3 id="七静态链表的查找">七、静态链表的查找</h3>
+<p class="plain-paragraph">静态链表查找某个位序的结点时，只能从头结点开始，通过 <code>next</code> 游标依次往后找。</p>
+<p class="key-point">注意：</p>
+<p class="plain-paragraph">查找的是“位序”，不是“数组下标”。</p>
+<p class="plain-paragraph">例如：</p>
+<div class="code-panel">
+  <div class="code-toolbar"><span>C 语言</span><button type="button" class="copy-btn">复制代码</button></div>
+  <pre><code class="language-c">a[0] -&gt; a[2] -&gt; a[1] -&gt; a[3]</code></pre>
+</div>
+<p class="plain-paragraph">逻辑顺序是：</p>
+<div class="code-panel">
+  <div class="code-toolbar"><span>C 语言</span><button type="button" class="copy-btn">复制代码</button></div>
+  <pre><code class="language-c">第 1 个数据结点：a[2]
+第 2 个数据结点：a[1]
+第 3 个数据结点：a[3]</code></pre>
+</div>
+<p class="warning-box">不能把第 2 个元素理解为 <code>a[2]</code>。</p>
+<p class="plain-paragraph">查找第 <code>i</code> 个数据结点：</p>
+<div class="code-panel">
+  <div class="code-toolbar"><span>C 语言</span><button type="button" class="copy-btn">复制代码</button></div>
+  <pre><code class="language-c">int findByOrder(Node a[], int i) {
+    if (i &lt; 1) {
+        return END;
+    }
+
+    int cur = a[0].next;
+    int count = 1;
+
+    while (cur != END &amp;&amp; count &lt; i) {
+        cur = a[cur].next;
+        count++;
+    }
+
+    if (cur != END &amp;&amp; count == i) {
+        return cur;
+    }
+
+    return END;
+}</code></pre>
+</div>
+<p class="plain-paragraph">时间复杂度：</p>
+<div class="complexity-line"><span class="complexity-badge">O(n)</span></div>
+<p class="warning-box">虽然底层是数组，但它仍然不能按逻辑位序随机访问。</p>
+<hr class="soft-divider">
+<h3 id="八静态链表的插入">八、静态链表的插入</h3>
+<p class="plain-paragraph">插入第 <code>i</code> 个位置的基本步骤：</p>
+<div class="code-panel">
+  <div class="code-toolbar"><span>C 语言</span><button type="button" class="copy-btn">复制代码</button></div>
+  <pre><code class="language-c">1. 找到一个空闲结点
+2. 找到第 i-1 个结点，也就是插入位置的前驱
+3. 修改 next 游标，把新结点接进去</code></pre>
+</div>
+<h4 id="1-找空闲结点">1. 找空闲结点</h4>
+<div class="code-panel">
+  <div class="code-toolbar"><span>C 语言</span><button type="button" class="copy-btn">复制代码</button></div>
+  <pre><code class="language-c">int findFree(Node a[]) {
+    for (int i = 1; i &lt; MAX_SIZE; i++) {
+        if (a[i].next == FREE) {
+            return i;
+        }
+    }
+
+    return END;
+}</code></pre>
+</div>
+<p class="plain-paragraph">如果返回 <code>END</code>，说明没有空闲空间，静态链表已满。</p>
+<hr class="soft-divider">
+<h4 id="2-插入逻辑">2. 插入逻辑</h4>
+<p class="plain-paragraph">插入前：</p>
+<figure class="diagram-panel">
+  <figcaption>图示 16：结构关系示意</figcaption>
+  <div class="mermaid">flowchart LR
+    P[&quot;前驱 pre&quot;] --&gt; N[&quot;原来的后继&quot;]</div>
+</figure>
+<p class="plain-paragraph">插入后：</p>
+<figure class="diagram-panel">
+  <figcaption>图示 17：结构关系示意</figcaption>
+  <div class="mermaid">flowchart LR
+    P[&quot;前驱 pre&quot;] --&gt; S[&quot;新结点 s&quot;]
+    S --&gt; N[&quot;原来的后继&quot;]</div>
+</figure>
+<p class="plain-paragraph">核心代码：</p>
+<div class="code-panel">
+  <div class="code-toolbar"><span>C 语言</span><button type="button" class="copy-btn">复制代码</button></div>
+  <pre><code class="language-c">a[freeIndex].next = a[pre].next;
+a[pre].next = freeIndex;</code></pre>
+</div>
+<p class="plain-paragraph">完整代码：</p>
+<div class="code-panel">
+  <div class="code-toolbar"><span>C 语言</span><button type="button" class="copy-btn">复制代码</button></div>
+  <pre><code class="language-c">int insert(Node a[], int i, int value) {
+    if (i &lt; 1) {
+        return 0;
+    }
+
+    int freeIndex = findFree(a);
+    if (freeIndex == END) {
+        return 0;
+    }
+
+    int pre;
+
+    if (i == 1) {
+        pre = 0;
+    } else {
+        pre = findByOrder(a, i - 1);
+        if (pre == END) {
+            return 0;
+        }
+    }
+
+    a[freeIndex].data = value;
+    a[freeIndex].next = a[pre].next;
+    a[pre].next = freeIndex;
+
+    return 1;
+}</code></pre>
+</div>
+<hr class="soft-divider">
+<h4 id="3-表尾插入例子">3. 表尾插入例子</h4>
+<p class="plain-paragraph">原链表：</p>
+<div class="code-panel">
+  <div class="code-toolbar"><span>C 语言</span><button type="button" class="copy-btn">复制代码</button></div>
+  <pre><code class="language-c">a[0] -&gt; a[2] -&gt; a[1] -&gt; a[3] -&gt; -1</code></pre>
+</div>
+<p class="plain-paragraph">要在表尾插入新结点，假设找到空闲位置：</p>
+<div class="code-panel">
+  <div class="code-toolbar"><span>C 语言</span><button type="button" class="copy-btn">复制代码</button></div>
+  <pre><code class="language-c">freeIndex = 4</code></pre>
+</div>
+<p class="plain-paragraph">原尾结点是 <code>a[3]</code>，操作：</p>
+<div class="code-panel">
+  <div class="code-toolbar"><span>C 语言</span><button type="button" class="copy-btn">复制代码</button></div>
+  <pre><code class="language-c">a[4].next = -1;
+a[3].next = 4;</code></pre>
+</div>
+<p class="plain-paragraph">插入后：</p>
+<figure class="diagram-panel">
+  <figcaption>图示 18：结构关系示意</figcaption>
+  <div class="mermaid">flowchart LR
+    H[&quot;a[0]&quot;] --&gt; A[&quot;a[2]&quot;]
+    A --&gt; B[&quot;a[1]&quot;]
+    B --&gt; C[&quot;a[3]&quot;]
+    C --&gt; D[&quot;a[4]&quot;]
+    D --&gt; END[&quot;-1&quot;]</div>
+</figure>
+<hr class="soft-divider">
+<h3 id="九静态链表的删除">九、静态链表的删除</h3>
+<p class="plain-paragraph">删除第 <code>i</code> 个数据结点时，也需要先找到它的前驱。</p>
+<p class="plain-paragraph">假设：</p>
+<div class="code-panel">
+  <div class="code-toolbar"><span>C 语言</span><button type="button" class="copy-btn">复制代码</button></div>
+  <pre><code class="language-c">pre 是第 i-1 个结点
+del 是要删除的结点</code></pre>
+</div>
+<p class="plain-paragraph">删除前：</p>
+<figure class="diagram-panel">
+  <figcaption>图示 19：结构关系示意</figcaption>
+  <div class="mermaid">flowchart LR
+    P[&quot;pre&quot;] --&gt; D[&quot;del&quot;]
+    D --&gt; N[&quot;del 的后继&quot;]</div>
+</figure>
+<p class="plain-paragraph">删除后：</p>
+<figure class="diagram-panel">
+  <figcaption>图示 20：结构关系示意</figcaption>
+  <div class="mermaid">flowchart LR
+    P[&quot;pre&quot;] --&gt; N[&quot;del 的后继&quot;]</div>
+</figure>
+<p class="plain-paragraph">核心操作：</p>
+<div class="code-panel">
+  <div class="code-toolbar"><span>C 语言</span><button type="button" class="copy-btn">复制代码</button></div>
+  <pre><code class="language-c">a[pre].next = a[del].next;
+a[del].next = FREE;</code></pre>
+</div>
+<p class="plain-paragraph">删除后一定要把被删除结点标记为空闲。</p>
+<p class="plain-paragraph">完整代码：</p>
+<div class="code-panel">
+  <div class="code-toolbar"><span>C 语言</span><button type="button" class="copy-btn">复制代码</button></div>
+  <pre><code class="language-c">int deleteByOrder(Node a[], int i) {
+    if (i &lt; 1) {
+        return 0;
+    }
+
+    int pre;
+
+    if (i == 1) {
+        pre = 0;
+    } else {
+        pre = findByOrder(a, i - 1);
+        if (pre == END) {
+            return 0;
+        }
+    }
+
+    int del = a[pre].next;
+
+    if (del == END) {
+        return 0;
+    }
+
+    a[pre].next = a[del].next;
+    a[del].next = FREE;
+
+    return 1;
+}</code></pre>
+</div>
+<hr class="soft-divider">
+<h3 id="十静态链表完整代码">十、静态链表完整代码</h3>
+<div class="code-panel">
+  <div class="code-toolbar"><span>C 语言</span><button type="button" class="copy-btn">复制代码</button></div>
+  <pre><code class="language-c">#include &lt;stdio.h&gt;
+
+#define MAX_SIZE 10
+#define END -1
+#define FREE -2
+
+typedef struct Node {
+    int data;
+    int next;
+} Node;
+
+void initList(Node a[]) {
+    a[0].next = END;
+
+    for (int i = 1; i &lt; MAX_SIZE; i++) {
+        a[i].next = FREE;
+    }
+}
+
+int findFree(Node a[]) {
+    for (int i = 1; i &lt; MAX_SIZE; i++) {
+        if (a[i].next == FREE) {
+            return i;
+        }
+    }
+
+    return END;
+}
+
+int findByOrder(Node a[], int i) {
+    if (i &lt; 1) {
+        return END;
+    }
+
+    int cur = a[0].next;
+    int count = 1;
+
+    while (cur != END &amp;&amp; count &lt; i) {
+        cur = a[cur].next;
+        count++;
+    }
+
+    if (cur != END &amp;&amp; count == i) {
+        return cur;
+    }
+
+    return END;
+}
+
+int insert(Node a[], int i, int value) {
+    if (i &lt; 1) {
+        return 0;
+    }
+
+    int freeIndex = findFree(a);
+    if (freeIndex == END) {
+        return 0;
+    }
+
+    int pre;
+
+    if (i == 1) {
+        pre = 0;
+    } else {
+        pre = findByOrder(a, i - 1);
+        if (pre == END) {
+            return 0;
+        }
+    }
+
+    a[freeIndex].data = value;
+    a[freeIndex].next = a[pre].next;
+    a[pre].next = freeIndex;
+
+    return 1;
+}
+
+int deleteByOrder(Node a[], int i) {
+    if (i &lt; 1) {
+        return 0;
+    }
+
+    int pre;
+
+    if (i == 1) {
+        pre = 0;
+    } else {
+        pre = findByOrder(a, i - 1);
+        if (pre == END) {
+            return 0;
+        }
+    }
+
+    int del = a[pre].next;
+
+    if (del == END) {
+        return 0;
+    }
+
+    a[pre].next = a[del].next;
+    a[del].next = FREE;
+
+    return 1;
+}
+
+void printList(Node a[]) {
+    int cur = a[0].next;
+
+    while (cur != END) {
+        printf(&quot;%d &quot;, a[cur].data);
+        cur = a[cur].next;
+    }
+
+    printf(&quot;\n&quot;);
+}
+
+void printArray(Node a[]) {
+    printf(&quot;下标\tdata\tnext\n&quot;);
+
+    for (int i = 0; i &lt; MAX_SIZE; i++) {
+        printf(&quot;%d\t%d\t%d\n&quot;, i, a[i].data, a[i].next);
+    }
+}
+
+int main() {
+    Node list[MAX_SIZE];
+
+    initList(list);
+
+    insert(list, 1, 10);
+    insert(list, 2, 20);
+    insert(list, 3, 30);
+    insert(list, 2, 99);
+
+    printf(&quot;链表内容：&quot;);
+    printList(list);
+
+    deleteByOrder(list, 3);
+
+    printf(&quot;删除第 3 个元素后：&quot;);
+    printList(list);
+
+    return 0;
+}</code></pre>
+</div>
+<hr class="soft-divider">
+<h3 id="十一静态链表的特点">十一、静态链表的特点</h3>
+<p class="plain-paragraph">静态链表的本质：</p>
+<div class="code-panel">
+  <div class="code-toolbar"><span>C 语言</span><button type="button" class="copy-btn">复制代码</button></div>
+  <pre><code class="language-c">数组 + 游标</code></pre>
+</div>
+<p class="plain-paragraph">它和顺序表一样，底层使用连续空间。</p>
+<p class="warning-box">但它和链表一样，逻辑相邻的元素不要求物理相邻。</p>
+<hr class="soft-divider">
+<h4 id="1-静态链表的优点">1. 静态链表的优点</h4>
+<p class="plain-paragraph">插入和删除时，不需要像顺序表那样大量移动元素。</p>
+<p class="plain-paragraph">只需要修改相关结点的 <code>next</code> 游标。</p>
+<div class="code-panel">
+  <div class="code-toolbar"><span>C 语言</span><button type="button" class="copy-btn">复制代码</button></div>
+  <pre><code class="language-c">a[freeIndex].next = a[pre].next;
+a[pre].next = freeIndex;</code></pre>
+</div>
+<p class="plain-paragraph">删除时：</p>
+<div class="code-panel">
+  <div class="code-toolbar"><span>C 语言</span><button type="button" class="copy-btn">复制代码</button></div>
+  <pre><code class="language-c">a[pre].next = a[del].next;
+a[del].next = FREE;</code></pre>
+</div>
+<hr class="soft-divider">
+<h4 id="2-静态链表的缺点">2. 静态链表的缺点</h4>
+<p class="plain-paragraph">静态链表不支持随机存取。</p>
+<p class="plain-paragraph">虽然底层是数组，但要找第 <code>i</code> 个逻辑元素，仍然要从头结点开始沿着 <code>next</code> 查找。</p>
+<p class="plain-paragraph">时间复杂度：</p>
+<div class="complexity-line"><span class="complexity-badge">O(n)</span></div>
+<p class="plain-paragraph">静态链表容量固定。</p>
+<p class="plain-paragraph">一旦声明：</p>
+<div class="code-panel">
+  <div class="code-toolbar"><span>C 语言</span><button type="button" class="copy-btn">复制代码</button></div>
+  <pre><code class="language-c">Node a[MAX_SIZE];</code></pre>
+</div>
+<p class="warning-box">最多能存多少结点就已经确定了，不能自动扩容。</p>
+<hr class="soft-divider">
+<h4 id="3-静态链表的适用场景">3. 静态链表的适用场景</h4>
+<p class="plain-paragraph">静态链表现在使用相对较少。</p>
+<p class="plain-paragraph">它主要适用于：</p>
+<div class="code-panel">
+  <div class="code-toolbar"><span>C 语言</span><button type="button" class="copy-btn">复制代码</button></div>
+  <pre><code class="language-c">早期不支持指针的低级语言
+数据元素数量基本固定的场景</code></pre>
+</div>
+<p class="plain-paragraph">文稿中提到：</p>
+<p class="plain-paragraph">操作系统文件管理中的 FAT，也就是文件分配表，本质上就有静态链表的思想。</p>
+<p class="plain-paragraph">可以理解为：</p>
+<div class="code-panel">
+  <div class="code-toolbar"><span>C 语言</span><button type="button" class="copy-btn">复制代码</button></div>
+  <pre><code class="language-c">用表项中的下标关系表示文件块之间的连接关系</code></pre>
+</div>
+<hr class="soft-divider">
+<h3 id="静态链表重点总结">静态链表重点总结</h3>
+<p class="plain-paragraph">静态链表就是：</p>
+<div class="code-panel">
+  <div class="code-toolbar"><span>C 语言</span><button type="button" class="copy-btn">复制代码</button></div>
+  <pre><code class="language-c">用数组实现链表</code></pre>
+</div>
+<p class="plain-paragraph">每个结点：</p>
+<div class="code-panel">
+  <div class="code-toolbar"><span>C 语言</span><button type="button" class="copy-btn">复制代码</button></div>
+  <pre><code class="language-c">typedef struct Node {
+    int data;
+    int next;
+} Node;</code></pre>
+</div>
+<p class="plain-paragraph">其中：</p>
+<div class="code-panel">
+  <div class="code-toolbar"><span>C 语言</span><button type="button" class="copy-btn">复制代码</button></div>
+  <pre><code class="language-c">data：存放数据
+next：存放下一个结点的数组下标</code></pre>
+</div>
+<p class="plain-paragraph">特殊规则：</p>
+<div class="code-panel">
+  <div class="code-toolbar"><span>C 语言</span><button type="button" class="copy-btn">复制代码</button></div>
+  <pre><code class="language-c">a[0] 是头结点，不存实际数据
+next == -1 表示链表结束
+next == -2 表示该位置空闲</code></pre>
+</div>
+<p class="plain-paragraph">初始化：</p>
+<div class="code-panel">
+  <div class="code-toolbar"><span>C 语言</span><button type="button" class="copy-btn">复制代码</button></div>
+  <pre><code class="language-c">a[0].next = -1;
+
+for (int i = 1; i &lt; MAX_SIZE; i++) {
+    a[i].next = -2;
+}</code></pre>
+</div>
+<p class="plain-paragraph">插入核心：</p>
+<div class="code-panel">
+  <div class="code-toolbar"><span>C 语言</span><button type="button" class="copy-btn">复制代码</button></div>
+  <pre><code class="language-c">a[freeIndex].next = a[pre].next;
+a[pre].next = freeIndex;</code></pre>
+</div>
+<p class="plain-paragraph">删除核心：</p>
+<div class="code-panel">
+  <div class="code-toolbar"><span>C 语言</span><button type="button" class="copy-btn">复制代码</button></div>
+  <pre><code class="language-c">a[pre].next = a[del].next;
+a[del].next = -2;</code></pre>
+</div>
+<p class="key-point">重点理解：</p>
+<div class="code-panel">
+  <div class="code-toolbar"><span>C 语言</span><button type="button" class="copy-btn">复制代码</button></div>
+  <pre><code class="language-c">静态链表底层是数组，但逻辑上是链表。
+它用数组下标模拟指针，用游标维护元素之间的逻辑关系。</code></pre>
+</div>
+<hr class="soft-divider">
+
+      <div class="exam-pack">
+        <h3>考点速记</h3>
+        <div class="review-grid">
+          <div class="review-card"><strong>本质</strong><p>静态链表是“数组 + 游标”，用数组下标模拟指针。</p></div>
+          <div class="review-card"><strong>特殊值</strong><p><code>-1</code> 表示结束，<code>-2</code> 表示空闲位置。</p></div>
+          <div class="review-card"><strong>位序区别</strong><p>逻辑位序要沿 <code>next</code> 查，不能直接等同数组下标。</p></div>
+        </div>
+        <h3>常见陷阱</h3>
+        <ul class="note-list">
+          <li>误以为第 2 个元素就是 <code>a[2]</code>，忽略逻辑链顺序。</li>
+          <li>把游标当真实指针理解；游标只是数组下标。</li>
+          <li>插入后忘记把新结点从空闲状态改成链中状态。</li>
+        </ul>
+        <h3>答题模板</h3>
+        <p class="answer-template">解释静态链表时，按“数组连续存储、结点含 data 和 next、next 存下标、-1/-2 标记状态、逻辑顺序由游标决定”展开。</p>
+        <h3>代码检查清单</h3>
+        <div class="checklist"><span>头结点是否用 <code>a[0]</code></span><span>空表是否 <code>a[0].next = -1</code></span><span>空闲结点是否标成 <code>-2</code></span><span>删除后是否回收为空闲</span></div>
+      </div>
+</section>
+<section class="chapter-card" id="236-顺序表和链表的比较">
+<h2>2.3.6 顺序表和链表的比较</h2>
+<h3 id="一用数据结构三要素比较">一、用数据结构三要素比较</h3>
+<p class="plain-paragraph">学习一个数据结构，要关注三个方面：</p>
+<div class="code-panel">
+  <div class="code-toolbar"><span>C 语言</span><button type="button" class="copy-btn">复制代码</button></div>
+  <pre><code class="language-c">逻辑结构
+物理结构
+数据运算</code></pre>
+</div>
+<p class="plain-paragraph">也就是：</p>
+<div class="code-panel">
+  <div class="code-toolbar"><span>C 语言</span><button type="button" class="copy-btn">复制代码</button></div>
+  <pre><code class="language-c">它在逻辑上是什么关系？
+它在内存中怎么存？
+它支持哪些操作？效率如何？</code></pre>
+</div>
+<p class="plain-paragraph">顺序表和链表都属于线性表。</p>
+<p class="plain-paragraph">它们的逻辑结构相同，都是线性结构。</p>
+<p class="plain-paragraph">线性结构的特点：</p>
+<div class="code-panel">
+  <div class="code-toolbar"><span>C 语言</span><button type="button" class="copy-btn">复制代码</button></div>
+  <pre><code class="language-c">除第一个元素外，每个元素有唯一前驱
+除最后一个元素外，每个元素有唯一后继</code></pre>
+</div>
+<p class="plain-paragraph">示意图：</p>
+<figure class="diagram-panel">
+  <figcaption>图示 21：结构关系示意</figcaption>
+  <div class="mermaid">flowchart LR
+    A[&quot;a1&quot;] --&gt; B[&quot;a2&quot;]
+    B --&gt; C[&quot;a3&quot;]
+    C --&gt; D[&quot;a4&quot;]</div>
+</figure>
+<p class="plain-paragraph">顺序表和链表真正的区别在于：</p>
+<div class="code-panel">
+  <div class="code-toolbar"><span>C 语言</span><button type="button" class="copy-btn">复制代码</button></div>
+  <pre><code class="language-c">物理存储方式不同
+基本操作效率不同</code></pre>
+</div>
+<hr class="soft-divider">
+<h3 id="二存储结构比较">二、存储结构比较</h3>
+<h3 id="1-顺序表的存储结构">1. 顺序表的存储结构</h3>
+<p class="plain-paragraph">顺序表采用顺序存储。</p>
+<p class="plain-paragraph">系统给它分配一整片连续的内存空间。</p>
+<figure class="diagram-panel">
+  <figcaption>图示 22：结构关系示意</figcaption>
+  <div class="mermaid">flowchart LR
+    A[&quot;a[0]&quot;] --&gt; B[&quot;a[1]&quot;]
+    B --&gt; C[&quot;a[2]&quot;]
+    C --&gt; D[&quot;a[3]&quot;]</div>
+</figure>
+<p class="plain-paragraph">因为每个数据元素大小相等，所以只要知道起始地址，就可以快速算出任意元素的位置。</p>
+<p class="plain-paragraph">地址计算公式：</p>
+<div class="code-panel">
+  <div class="code-toolbar"><span>C 语言</span><button type="button" class="copy-btn">复制代码</button></div>
+  <pre><code class="language-c">第 i 个元素地址 = 起始地址 + i * 每个元素大小</code></pre>
+</div>
+<p class="concept-card">因此顺序表支持随机存取。</p>
+<p class="plain-paragraph">按位查找时间复杂度：</p>
+<div class="complexity-line"><span class="complexity-badge">O(1)</span></div>
+<hr class="soft-divider">
+<h4 id="顺序表的优点">顺序表的优点</h4>
+<p class="plain-paragraph">顺序表中的每个位置只存数据本身，不需要额外存指针。</p>
+<p class="concept-card">所以存储密度高。</p>
+<div class="code-panel">
+  <div class="code-toolbar"><span>C 语言</span><button type="button" class="copy-btn">复制代码</button></div>
+  <pre><code class="language-c">int a[5] = {10, 20, 30, 40, 50};</code></pre>
+</div>
+<p class="plain-paragraph">每个位置只存一个整数，没有额外指针域。</p>
+<hr class="soft-divider">
+<h4 id="顺序表的缺点">顺序表的缺点</h4>
+<p class="plain-paragraph">顺序表要求连续存储空间。</p>
+<p class="plain-paragraph">如果一开始分配太小，后面扩容麻烦。</p>
+<p class="plain-paragraph">如果一开始分配太大，长期空闲空间多，会浪费内存。</p>
+<p class="concept-card">所以顺序表容量调整不方便。</p>
+<hr class="soft-divider">
+<h3 id="2-链表的存储结构">2. 链表的存储结构</h3>
+<p class="plain-paragraph">链表采用链式存储。</p>
+<p class="plain-paragraph">每个结点可以离散地分布在内存中的不同位置。</p>
+<p class="plain-paragraph">单链表结点：</p>
+<div class="code-panel">
+  <div class="code-toolbar"><span>C 语言</span><button type="button" class="copy-btn">复制代码</button></div>
+  <pre><code class="language-c">typedef struct LNode {
+    int data;
+    struct LNode *next;
+} LNode;</code></pre>
+</div>
+<p class="plain-paragraph">示意图：</p>
+<figure class="diagram-panel">
+  <figcaption>图示 23：结构关系示意</figcaption>
+  <div class="mermaid">flowchart LR
+    A[&quot;结点 A&lt;br/&gt;data | next&quot;] --&gt; B[&quot;结点 B&lt;br/&gt;data | next&quot;]
+    B --&gt; C[&quot;结点 C&lt;br/&gt;data | next&quot;]
+    C --&gt; N[&quot;NULL&quot;]</div>
+</figure>
+<p class="warning-box">链表不要求连续空间。</p>
+<p class="plain-paragraph">每次要添加新结点时，可以用 <code>malloc</code> 动态申请一小片空间。</p>
+<div class="code-panel">
+  <div class="code-toolbar"><span>C 语言</span><button type="button" class="copy-btn">复制代码</button></div>
+  <pre><code class="language-c">LNode *p = (LNode *)malloc(sizeof(LNode));</code></pre>
+</div>
+<hr class="soft-divider">
+<h4 id="链表的优点">链表的优点</h4>
+<p class="plain-paragraph">链表扩容方便。</p>
+<p class="warning-box">因为它不要求一整片连续空间，只需要每次申请一个新结点，然后用指针连入链表。</p>
+<div class="code-panel">
+  <div class="code-toolbar"><span>C 语言</span><button type="button" class="copy-btn">复制代码</button></div>
+  <pre><code class="language-c">新结点-&gt;next = 原来的后继;
+前驱结点-&gt;next = 新结点;</code></pre>
+</div>
+<p class="concept-card">所以链表存储容量更灵活。</p>
+<hr class="soft-divider">
+<h4 id="链表的缺点">链表的缺点</h4>
+<p class="warning-box">链表不能随机存取。</p>
+<p class="plain-paragraph">如果要找第 <code>i</code> 个元素，只能从第一个结点开始依次往后找。</p>
+<div class="code-panel">
+  <div class="code-toolbar"><span>C 语言</span><button type="button" class="copy-btn">复制代码</button></div>
+  <pre><code class="language-c">LNode *p = head-&gt;next;
+
+while (...) {
+    p = p-&gt;next;
+}</code></pre>
+</div>
+<p class="plain-paragraph">按位查找时间复杂度：</p>
+<div class="complexity-line"><span class="complexity-badge">O(n)</span></div>
+<p class="plain-paragraph">另外，每个链表结点除了存数据，还要存指针。</p>
+<p class="concept-card">所以链表存储密度较低。</p>
+<p class="plain-paragraph">单链表结点：</p>
+<div class="code-panel">
+  <div class="code-toolbar"><span>C 语言</span><button type="button" class="copy-btn">复制代码</button></div>
+  <pre><code class="language-c">data + next</code></pre>
+</div>
+<p class="plain-paragraph">双链表结点：</p>
+<div class="code-panel">
+  <div class="code-toolbar"><span>C 语言</span><button type="button" class="copy-btn">复制代码</button></div>
+  <pre><code class="language-c">prior + data + next</code></pre>
+</div>
+<p class="plain-paragraph">都比顺序表多了指针空间。</p>
+<hr class="soft-divider">
+<h3 id="三存储结构总体对比">三、存储结构总体对比</h3>
+<div class="table-wrap"><table class="compare-table"><thead><tr><th>对比点</th><th>顺序表</th><th>链表</th></tr></thead><tbody><tr><td>存储方式</td><td>连续存储</td><td>链式离散存储</td></tr><tr><td>随机存取</td><td>支持，O(1)</td><td>不支持，O(n)</td></tr><tr><td>存储密度</td><td>高</td><td>低</td></tr><tr><td>容量调整</td><td>不方便</td><td>比较方便</td></tr><tr><td>额外空间</td><td>基本没有</td><td>需要指针域</td></tr></tbody></table></div>
+<p class="key-point">核心记忆：</p>
+<div class="code-panel">
+  <div class="code-toolbar"><span>C 语言</span><button type="button" class="copy-btn">复制代码</button></div>
+  <pre><code class="language-c">顺序表查找强，链表增删灵活。</code></pre>
+</div>
+<hr class="soft-divider">
+<h3 id="四基本操作比较">四、基本操作比较</h3>
+<p class="plain-paragraph">数据结构的基本操作可以概括为：</p>
+<div class="code-panel">
+  <div class="code-toolbar"><span>C 语言</span><button type="button" class="copy-btn">复制代码</button></div>
+  <pre><code class="language-c">创、销、增、删、改、查</code></pre>
+</div>
+<p class="plain-paragraph">即：</p>
+<div class="code-panel">
+  <div class="code-toolbar"><span>C 语言</span><button type="button" class="copy-btn">复制代码</button></div>
+  <pre><code class="language-c">创建
+销毁
+增加
+删除
+修改
+查找</code></pre>
+</div>
+<hr class="soft-divider">
+<h3 id="五创建操作比较">五、创建操作比较</h3>
+<h4 id="1-顺序表的创建">1. 顺序表的创建</h4>
+<p class="plain-paragraph">顺序表初始化时，需要提前分配一整片连续空间。</p>
+<p class="plain-paragraph">静态分配：</p>
+<div class="code-panel">
+  <div class="code-toolbar"><span>C 语言</span><button type="button" class="copy-btn">复制代码</button></div>
+  <pre><code class="language-c">#define MAX_SIZE 100
+
+typedef struct {
+    int data[MAX_SIZE];
+    int length;
+} SqList;
+
+void initList(SqList *L) {
+    L-&gt;length = 0;
+}</code></pre>
+</div>
+<p class="plain-paragraph">这种方式容量固定。</p>
+<div class="code-panel">
+  <div class="code-toolbar"><span>C 语言</span><button type="button" class="copy-btn">复制代码</button></div>
+  <pre><code class="language-c">MAX_SIZE = 100</code></pre>
+</div>
+<p class="plain-paragraph">表示最多存 100 个元素。</p>
+<p class="plain-paragraph">如果空间太小，后面不够用。</p>
+<p class="plain-paragraph">如果空间太大，可能浪费内存。</p>
+<hr class="soft-divider">
+<h4 id="2-动态分配顺序表">2. 动态分配顺序表</h4>
+<div class="code-panel">
+  <div class="code-toolbar"><span>C 语言</span><button type="button" class="copy-btn">复制代码</button></div>
+  <pre><code class="language-c">#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+
+typedef struct {
+    int *data;
+    int length;
+    int capacity;
+} SeqList;
+
+void initSeqList(SeqList *L, int capacity) {
+    L-&gt;data = (int *)malloc(sizeof(int) * capacity);
+
+    if (L-&gt;data == NULL) {
+        printf(&quot;内存分配失败\n&quot;);
+        exit(1);
+    }
+
+    L-&gt;length = 0;
+    L-&gt;capacity = capacity;
+}</code></pre>
+</div>
+<p class="plain-paragraph">动态分配的顺序表容量可以改变。</p>
+<p class="plain-paragraph">但是扩容仍然麻烦，通常需要：</p>
+<div class="code-panel">
+  <div class="code-toolbar"><span>C 语言</span><button type="button" class="copy-btn">复制代码</button></div>
+  <pre><code class="language-c">申请更大的新空间
+复制旧数据
+释放旧空间</code></pre>
+</div>
+<p class="concept-card">所以动态顺序表虽然比静态顺序表灵活，但仍不如链表灵活。</p>
+<hr class="soft-divider">
+<h4 id="3-链表的创建">3. 链表的创建</h4>
+<p class="plain-paragraph">链表初始化通常只需要一个头指针，或者申请一个头结点。</p>
+<p class="plain-paragraph">带头结点的单链表：</p>
+<div class="code-panel">
+  <div class="code-toolbar"><span>C 语言</span><button type="button" class="copy-btn">复制代码</button></div>
+  <pre><code class="language-c">typedef struct LNode {
+    int data;
+    struct LNode *next;
+} LNode;
+
+LNode *initList() {
+    LNode *head = (LNode *)malloc(sizeof(LNode));
+
+    if (head == NULL) {
+        return NULL;
+    }
+
+    head-&gt;next = NULL;
+    return head;
+}</code></pre>
+</div>
+<p class="plain-paragraph">链表之后需要增加元素时，再用 <code>malloc</code> 一个一个申请新结点。</p>
+<hr class="soft-divider">
+<h4 id="创建操作总结">创建操作总结</h4>
+<p class="plain-paragraph">顺序表创建时：</p>
+<div class="code-panel">
+  <div class="code-toolbar"><span>C 语言</span><button type="button" class="copy-btn">复制代码</button></div>
+  <pre><code class="language-c">需要提前考虑容量
+容量太小，扩容麻烦
+容量太大，浪费空间</code></pre>
+</div>
+<p class="plain-paragraph">链表创建时：</p>
+<div class="code-panel">
+  <div class="code-toolbar"><span>C 语言</span><button type="button" class="copy-btn">复制代码</button></div>
+  <pre><code class="language-c">只需要头指针或头结点
+需要新元素时再 malloc
+容量更灵活</code></pre>
+</div>
+<p class="concept-card">因此，从存储容量弹性来看：</p>
+<div class="code-panel">
+  <div class="code-toolbar"><span>C 语言</span><button type="button" class="copy-btn">复制代码</button></div>
+  <pre><code class="language-c">链表更胜一筹</code></pre>
+</div>
+<hr class="soft-divider">
+<h3 id="六销毁操作比较">六、销毁操作比较</h3>
+<p class="plain-paragraph">销毁操作在考试中不一定经常考，但实际写代码非常重要。</p>
+<hr class="soft-divider">
+<h4 id="1-顺序表的销毁">1. 顺序表的销毁</h4>
+<p class="plain-paragraph">如果顺序表是静态数组实现：</p>
+<div class="code-panel">
+  <div class="code-toolbar"><span>C 语言</span><button type="button" class="copy-btn">复制代码</button></div>
+  <pre><code class="language-c">typedef struct {
+    int data[100];
+    int length;
+} SqList;</code></pre>
+</div>
+<p class="plain-paragraph">销毁时通常只需要：</p>
+<div class="code-panel">
+  <div class="code-toolbar"><span>C 语言</span><button type="button" class="copy-btn">复制代码</button></div>
+  <pre><code class="language-c">L.length = 0;</code></pre>
+</div>
+<p class="plain-paragraph">这里的 <code>length = 0</code> 只是逻辑上把顺序表标记为空表。</p>
+<p class="plain-paragraph">静态数组的空间会在生命周期结束后由系统自动回收。</p>
+<hr class="soft-divider">
+<p class="plain-paragraph">如果顺序表是动态数组实现：</p>
+<div class="code-panel">
+  <div class="code-toolbar"><span>C 语言</span><button type="button" class="copy-btn">复制代码</button></div>
+  <pre><code class="language-c">typedef struct {
+    int *data;
+    int length;
+    int capacity;
+} SeqList;</code></pre>
+</div>
+<p class="warning-box">销毁时必须手动释放：</p>
+<div class="code-panel">
+  <div class="code-toolbar"><span>C 语言</span><button type="button" class="copy-btn">复制代码</button></div>
+  <pre><code class="language-c">void destroySeqList(SeqList *L) {
+    free(L-&gt;data);
+    L-&gt;data = NULL;
+    L-&gt;length = 0;
+    L-&gt;capacity = 0;
+}</code></pre>
+</div>
+<p class="plain-paragraph">因为 <code>malloc</code> 申请的是堆区空间，不会自动释放。</p>
+<p class="key-point">原则：</p>
+<div class="code-panel">
+  <div class="code-toolbar"><span>C 语言</span><button type="button" class="copy-btn">复制代码</button></div>
+  <pre><code class="language-c">malloc 和 free 要成对出现</code></pre>
+</div>
+<hr class="soft-divider">
+<h4 id="2-链表的销毁">2. 链表的销毁</h4>
+<p class="plain-paragraph">链表中的每个结点通常都是用 <code>malloc</code> 申请的。</p>
+<p class="concept-card">所以销毁链表时，要依次释放每个结点。</p>
+<div class="code-panel">
+  <div class="code-toolbar"><span>C 语言</span><button type="button" class="copy-btn">复制代码</button></div>
+  <pre><code class="language-c">void destroyList(LNode *head) {
+    LNode *p = head;
+    LNode *nextNode;
+
+    while (p != NULL) {
+        nextNode = p-&gt;next;
+        free(p);
+        p = nextNode;
+    }
+}</code></pre>
+</div>
+<p class="warning-box">注意不能这样写：</p>
+<div class="code-panel">
+  <div class="code-toolbar"><span>C 语言</span><button type="button" class="copy-btn">复制代码</button></div>
+  <pre><code class="language-c">free(p);
+p = p-&gt;next;</code></pre>
+</div>
+<p class="warning-box">因为 <code>p</code> 被释放后，再访问 <code>p-&gt;next</code> 是不安全的。</p>
+<p class="plain-paragraph">正确做法是：</p>
+<div class="code-panel">
+  <div class="code-toolbar"><span>C 语言</span><button type="button" class="copy-btn">复制代码</button></div>
+  <pre><code class="language-c">先保存下一个结点
+再释放当前结点</code></pre>
+</div>
+<hr class="soft-divider">
+<h4 id="3-关于-malloc-和-free">3. 关于 malloc 和 free</h4>
+<p class="plain-paragraph">普通变量或数组：</p>
+<div class="code-panel">
+  <div class="code-toolbar"><span>C 语言</span><button type="button" class="copy-btn">复制代码</button></div>
+  <pre><code class="language-c">int x;
+int a[100];</code></pre>
+</div>
+<p class="plain-paragraph">它们的空间通常会由系统自动管理，生命周期结束后自动回收。</p>
+<p class="plain-paragraph"><code>malloc</code> 申请的空间：</p>
+<div class="code-panel">
+  <div class="code-toolbar"><span>C 语言</span><button type="button" class="copy-btn">复制代码</button></div>
+  <pre><code class="language-c">int *p = malloc(sizeof(int) * 100);</code></pre>
+</div>
+<p class="plain-paragraph">需要手动释放：</p>
+<div class="code-panel">
+  <div class="code-toolbar"><span>C 语言</span><button type="button" class="copy-btn">复制代码</button></div>
+  <pre><code class="language-c">free(p);</code></pre>
+</div>
+<p class="plain-paragraph">本阶段先记住：</p>
+<div class="code-panel">
+  <div class="code-toolbar"><span>C 语言</span><button type="button" class="copy-btn">复制代码</button></div>
+  <pre><code class="language-c">malloc 申请的空间，必须 free。</code></pre>
+</div>
+<hr class="soft-divider">
+<h3 id="七插入和删除操作比较">七、插入和删除操作比较</h3>
+<p class="plain-paragraph">插入和删除是顺序表和链表差别最明显的地方。</p>
+<hr class="soft-divider">
+<h3 id="1-顺序表插入">1. 顺序表插入</h3>
+<p class="plain-paragraph">顺序表要求元素在内存中连续存放。</p>
+<p class="plain-paragraph">如果要在中间插入元素，插入位置后面的元素都要后移。</p>
+<p class="plain-paragraph">插入前：</p>
+<figure class="diagram-panel">
+  <figcaption>图示 24：结构关系示意</figcaption>
+  <div class="mermaid">flowchart LR
+    A[&quot;10&quot;] --&gt; B[&quot;20&quot;] --&gt; C[&quot;30&quot;] --&gt; D[&quot;40&quot;]</div>
+</figure>
+<p class="plain-paragraph">在 <code>20</code> 前插入 <code>99</code> 后：</p>
+<figure class="diagram-panel">
+  <figcaption>图示 25：结构关系示意</figcaption>
+  <div class="mermaid">flowchart LR
+    A[&quot;10&quot;] --&gt; X[&quot;99&quot;] --&gt; B[&quot;20&quot;] --&gt; C[&quot;30&quot;] --&gt; D[&quot;40&quot;]</div>
+</figure>
+<p class="plain-paragraph">为了腾出位置，需要移动元素。</p>
+<p class="plain-paragraph">代码思想：</p>
+<div class="code-panel">
+  <div class="code-toolbar"><span>C 语言</span><button type="button" class="copy-btn">复制代码</button></div>
+  <pre><code class="language-c">for (int j = L-&gt;length; j &gt;= i; j--) {
+    L-&gt;data[j] = L-&gt;data[j - 1];
+}
+
+L-&gt;data[i - 1] = value;
+L-&gt;length++;</code></pre>
+</div>
+<hr class="soft-divider">
+<h3 id="2-顺序表删除">2. 顺序表删除</h3>
+<p class="plain-paragraph">删除元素时，删除位置后面的元素需要前移。</p>
+<p class="plain-paragraph">删除前：</p>
+<figure class="diagram-panel">
+  <figcaption>图示 26：结构关系示意</figcaption>
+  <div class="mermaid">flowchart LR
+    A[&quot;10&quot;] --&gt; B[&quot;20&quot;] --&gt; C[&quot;30&quot;] --&gt; D[&quot;40&quot;]</div>
+</figure>
+<p class="plain-paragraph">删除 <code>20</code> 后：</p>
+<figure class="diagram-panel">
+  <figcaption>图示 27：结构关系示意</figcaption>
+  <div class="mermaid">flowchart LR
+    A[&quot;10&quot;] --&gt; C[&quot;30&quot;] --&gt; D[&quot;40&quot;]</div>
+</figure>
+<p class="plain-paragraph">代码思想：</p>
+<div class="code-panel">
+  <div class="code-toolbar"><span>C 语言</span><button type="button" class="copy-btn">复制代码</button></div>
+  <pre><code class="language-c">for (int j = i; j &lt; L-&gt;length; j++) {
+    L-&gt;data[j - 1] = L-&gt;data[j];
+}
+
+L-&gt;length--;</code></pre>
+</div>
+<p class="plain-paragraph">顺序表插入和删除的平均、最坏时间复杂度都是：</p>
+<div class="complexity-line"><span class="complexity-badge">O(n)</span></div>
+<p class="plain-paragraph">主要时间花在移动元素上。</p>
+<hr class="soft-divider">
+<h3 id="3-链表插入">3. 链表插入</h3>
+<p class="plain-paragraph">链表插入不需要移动大量元素，只需要修改指针。</p>
+<p class="plain-paragraph">插入前：</p>
+<figure class="diagram-panel">
+  <figcaption>图示 28：结构关系示意</figcaption>
+  <div class="mermaid">flowchart LR
+    P[&quot;前驱 p&quot;] --&gt; Q[&quot;后继 q&quot;]</div>
+</figure>
+<p class="plain-paragraph">插入结点 <code>s</code> 后：</p>
+<figure class="diagram-panel">
+  <figcaption>图示 29：结构关系示意</figcaption>
+  <div class="mermaid">flowchart LR
+    P[&quot;前驱 p&quot;] --&gt; S[&quot;新结点 s&quot;]
+    S --&gt; Q[&quot;后继 q&quot;]</div>
+</figure>
+<p class="plain-paragraph">代码：</p>
+<div class="code-panel">
+  <div class="code-toolbar"><span>C 语言</span><button type="button" class="copy-btn">复制代码</button></div>
+  <pre><code class="language-c">s-&gt;next = p-&gt;next;
+p-&gt;next = s;</code></pre>
+</div>
+<p class="plain-paragraph">如果已经知道前驱结点 <code>p</code>，插入操作本身是：</p>
+<div class="complexity-line"><span class="complexity-badge">O(1)</span></div>
+<p class="plain-paragraph">但通常需要先从头查找插入位置的前驱结点，这一步是：</p>
+<div class="complexity-line"><span class="complexity-badge">O(n)</span></div>
+<p class="concept-card">所以整体通常是：</p>
+<div class="complexity-line"><span class="complexity-badge">O(n)</span></div>
+<hr class="soft-divider">
+<h3 id="4-链表删除">4. 链表删除</h3>
+<p class="plain-paragraph">删除前：</p>
+<figure class="diagram-panel">
+  <figcaption>图示 30：结构关系示意</figcaption>
+  <div class="mermaid">flowchart LR
+    P[&quot;前驱 p&quot;] --&gt; Q[&quot;要删除 q&quot;]
+    Q --&gt; R[&quot;后继 r&quot;]</div>
+</figure>
+<p class="plain-paragraph">删除后：</p>
+<figure class="diagram-panel">
+  <figcaption>图示 31：结构关系示意</figcaption>
+  <div class="mermaid">flowchart LR
+    P[&quot;前驱 p&quot;] --&gt; R[&quot;后继 r&quot;]</div>
+</figure>
+<p class="plain-paragraph">代码：</p>
+<div class="code-panel">
+  <div class="code-toolbar"><span>C 语言</span><button type="button" class="copy-btn">复制代码</button></div>
+  <pre><code class="language-c">LNode *q = p-&gt;next;
+p-&gt;next = q-&gt;next;
+free(q);</code></pre>
+</div>
+<p class="plain-paragraph">如果已经知道前驱结点，删除本身是：</p>
+<div class="complexity-line"><span class="complexity-badge">O(1)</span></div>
+<p class="plain-paragraph">但如果要先找删除位置，整体通常是：</p>
+<div class="complexity-line"><span class="complexity-badge">O(n)</span></div>
+<hr class="soft-divider">
+<h3 id="5-为什么链表增删通常更适合">5. 为什么链表增删通常更适合</h3>
+<p class="plain-paragraph">从大 O 表示法看，顺序表和链表插入、删除很多时候都是：</p>
+<div class="complexity-line"><span class="complexity-badge">O(n)</span></div>
+<p class="plain-paragraph">但时间开销来源不同。</p>
+<p class="plain-paragraph">顺序表：</p>
+<div class="code-panel">
+  <div class="code-toolbar"><span>C 语言</span><button type="button" class="copy-btn">复制代码</button></div>
+  <pre><code class="language-c">主要时间花在移动大量数据元素</code></pre>
+</div>
+<p class="plain-paragraph">链表：</p>
+<div class="code-panel">
+  <div class="code-toolbar"><span>C 语言</span><button type="button" class="copy-btn">复制代码</button></div>
+  <pre><code class="language-c">主要时间花在查找目标位置</code></pre>
+</div>
+<p class="plain-paragraph">如果一个数据元素非常大，比如一个元素占 1MB，那么顺序表移动大量元素的代价会很高。</p>
+<p class="plain-paragraph">链表只是通过指针找下一个结点，通常实际代价更低。</p>
+<p class="concept-card">因此，频繁插入和删除时，链表通常更合适。</p>
+<hr class="soft-divider">
+<h3 id="八修改和查找操作比较">八、修改和查找操作比较</h3>
+<h3 id="1-修改操作">1. 修改操作</h3>
+<p class="plain-paragraph">修改操作本身很简单。</p>
+<p class="plain-paragraph">只要找到目标元素，修改就是赋值。</p>
+<p class="plain-paragraph">顺序表：</p>
+<div class="code-panel">
+  <div class="code-toolbar"><span>C 语言</span><button type="button" class="copy-btn">复制代码</button></div>
+  <pre><code class="language-c">L-&gt;data[i] = newValue;</code></pre>
+</div>
+<p class="plain-paragraph">链表：</p>
+<div class="code-panel">
+  <div class="code-toolbar"><span>C 语言</span><button type="button" class="copy-btn">复制代码</button></div>
+  <pre><code class="language-c">p-&gt;data = newValue;</code></pre>
+</div>
+<p class="concept-card">所以修改操作的关键不是“改”，而是“查”。</p>
+<p class="plain-paragraph">查找快，修改就快。</p>
+<p class="plain-paragraph">查找慢，修改就慢。</p>
+<hr class="soft-divider">
+<h3 id="2-按位查找">2. 按位查找</h3>
+<p class="plain-paragraph">按位查找就是：</p>
+<div class="code-panel">
+  <div class="code-toolbar"><span>C 语言</span><button type="button" class="copy-btn">复制代码</button></div>
+  <pre><code class="language-c">查找第 i 个元素</code></pre>
+</div>
+<h4 id="顺序表按位查找">顺序表按位查找</h4>
+<p class="plain-paragraph">顺序表支持随机存取。</p>
+<div class="code-panel">
+  <div class="code-toolbar"><span>C 语言</span><button type="button" class="copy-btn">复制代码</button></div>
+  <pre><code class="language-c">L.data[i - 1]</code></pre>
+</div>
+<p class="plain-paragraph">时间复杂度：</p>
+<div class="complexity-line"><span class="complexity-badge">O(1)</span></div>
+<hr class="soft-divider">
+<h4 id="链表按位查找">链表按位查找</h4>
+<p class="warning-box">链表必须从第一个结点开始往后找。</p>
+<div class="code-panel">
+  <div class="code-toolbar"><span>C 语言</span><button type="button" class="copy-btn">复制代码</button></div>
+  <pre><code class="language-c">LNode *p = head-&gt;next;
+int j = 1;
+
+while (p != NULL &amp;&amp; j &lt; i) {
+    p = p-&gt;next;
+    j++;
+}</code></pre>
+</div>
+<p class="plain-paragraph">时间复杂度：</p>
+<div class="complexity-line"><span class="complexity-badge">O(n)</span></div>
+<hr class="soft-divider">
+<h3 id="3-按值查找">3. 按值查找</h3>
+<p class="plain-paragraph">按值查找就是：</p>
+<div class="code-panel">
+  <div class="code-toolbar"><span>C 语言</span><button type="button" class="copy-btn">复制代码</button></div>
+  <pre><code class="language-c">查找值等于 x 的元素</code></pre>
+</div>
+<h4 id="顺序表无序时">顺序表无序时</h4>
+<p class="plain-paragraph">如果顺序表中的数据无序，只能从头到尾依次比较。</p>
+<div class="code-panel">
+  <div class="code-toolbar"><span>C 语言</span><button type="button" class="copy-btn">复制代码</button></div>
+  <pre><code class="language-c">for (int i = 0; i &lt; L.length; i++) {
+    if (L.data[i] == x) {
+        return i;
+    }
+}</code></pre>
+</div>
+<p class="plain-paragraph">时间复杂度：</p>
+<div class="complexity-line"><span class="complexity-badge">O(n)</span></div>
+<hr class="soft-divider">
+<h4 id="顺序表有序时">顺序表有序时</h4>
+<p class="plain-paragraph">如果顺序表中的元素有序，可以使用折半查找，也叫二分查找。</p>
+<p class="plain-paragraph">时间复杂度：</p>
+<div class="complexity-line"><span class="complexity-badge">O(log n)</span></div>
+<p class="plain-paragraph">顺序表能用折半查找，是因为它可以快速访问中间元素。</p>
+<div class="code-panel">
+  <div class="code-toolbar"><span>C 语言</span><button type="button" class="copy-btn">复制代码</button></div>
+  <pre><code class="language-c">mid = (left + right) / 2;
+L.data[mid]</code></pre>
+</div>
+<hr class="soft-divider">
+<h4 id="链表按值查找">链表按值查找</h4>
+<p class="warning-box">链表即使有序，通常也不能高效使用折半查找。</p>
+<p class="warning-box">因为链表不能直接访问中间结点。</p>
+<p class="plain-paragraph">要找中间结点，仍然需要从头走过去。</p>
+<p class="concept-card">所以链表按值查找，无论有序还是无序，通常都是：</p>
+<div class="complexity-line"><span class="complexity-badge">O(n)</span></div>
+<hr class="soft-divider">
+<h3 id="九顺序表和链表完整对比">九、顺序表和链表完整对比</h3>
+<div class="table-wrap"><table class="compare-table"><thead><tr><th>操作或特性</th><th>顺序表</th><th>链表</th></tr></thead><tbody><tr><td>逻辑结构</td><td>线性表</td><td>线性表</td></tr><tr><td>存储结构</td><td>连续存储</td><td>链式离散存储</td></tr><tr><td>随机存取</td><td>支持</td><td>不支持</td></tr><tr><td>按位查找</td><td>O(1)</td><td>O(n)</td></tr><tr><td>按值查找</td><td>无序 O(n)，有序可 O(log n)</td><td>O(n)</td></tr><tr><td>插入删除</td><td>O(n)，主要移动元素</td><td>O(n)，主要查找位置</td></tr><tr><td>已知前驱时插入删除</td><td>仍可能需要移动元素</td><td>O(1)</td></tr><tr><td>存储密度</td><td>高</td><td>低</td></tr><tr><td>容量调整</td><td>不方便</td><td>方便</td></tr><tr><td>空间要求</td><td>需要连续空间</td><td>不需要连续空间</td></tr></tbody></table></div>
+<hr class="soft-divider">
+<h3 id="十什么时候用顺序表什么时候用链表">十、什么时候用顺序表，什么时候用链表</h3>
+<h3 id="1-适合使用链表的场景">1. 适合使用链表的场景</h3>
+<p class="plain-paragraph">如果线性表的长度难以估计，并且经常插入、删除，适合使用链表。</p>
+<p class="plain-paragraph">文稿例子：</p>
+<div class="code-panel">
+  <div class="code-toolbar"><span>C 语言</span><button type="button" class="copy-btn">复制代码</button></div>
+  <pre><code class="language-c">奶茶店排队取号或叫号系统</code></pre>
+</div>
+<p class="key-point">原因：</p>
+<div class="code-panel">
+  <div class="code-toolbar"><span>C 语言</span><button type="button" class="copy-btn">复制代码</button></div>
+  <pre><code class="language-c">不知道今天会有多少顾客
+新顾客取号时需要插入元素
+顾客取餐离开时需要删除元素</code></pre>
+</div>
+<p class="plain-paragraph">这种场景：</p>
+<div class="code-panel">
+  <div class="code-toolbar"><span>C 语言</span><button type="button" class="copy-btn">复制代码</button></div>
+  <pre><code class="language-c">表长不稳定
+增删频繁</code></pre>
+</div>
+<p class="concept-card">所以链表更合适。</p>
+<hr class="soft-divider">
+<h3 id="2-适合使用顺序表的场景">2. 适合使用顺序表的场景</h3>
+<p class="plain-paragraph">如果线性表长度可预估、比较稳定，并且查询操作多，适合使用顺序表。</p>
+<p class="plain-paragraph">文稿例子：</p>
+<div class="code-panel">
+  <div class="code-toolbar"><span>C 语言</span><button type="button" class="copy-btn">复制代码</button></div>
+  <pre><code class="language-c">课堂点名系统</code></pre>
+</div>
+<p class="key-point">原因：</p>
+<div class="code-panel">
+  <div class="code-toolbar"><span>C 语言</span><button type="button" class="copy-btn">复制代码</button></div>
+  <pre><code class="language-c">一个班级学生人数基本固定
+一个学期内变化不大
+点名时主要是查询学生信息</code></pre>
+</div>
+<p class="plain-paragraph">这种场景：</p>
+<div class="code-panel">
+  <div class="code-toolbar"><span>C 语言</span><button type="button" class="copy-btn">复制代码</button></div>
+  <pre><code class="language-c">表长稳定
+查询较多</code></pre>
+</div>
+<p class="concept-card">所以顺序表更合适。</p>
+<hr class="soft-divider">
+<h3 id="十一关键代码整理">十一、关键代码整理</h3>
+<h4 id="1-动态顺序表创建和销毁">1. 动态顺序表创建和销毁</h4>
+<div class="code-panel">
+  <div class="code-toolbar"><span>C 语言</span><button type="button" class="copy-btn">复制代码</button></div>
+  <pre><code class="language-c">#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+
+typedef struct {
+    int *data;
+    int length;
+    int capacity;
+} SeqList;
+
+void initSeqList(SeqList *L, int capacity) {
+    L-&gt;data = (int *)malloc(sizeof(int) * capacity);
+
+    if (L-&gt;data == NULL) {
+        printf(&quot;内存分配失败\n&quot;);
+        exit(1);
+    }
+
+    L-&gt;length = 0;
+    L-&gt;capacity = capacity;
+}
+
+void destroySeqList(SeqList *L) {
+    free(L-&gt;data);
+    L-&gt;data = NULL;
+    L-&gt;length = 0;
+    L-&gt;capacity = 0;
+}</code></pre>
+</div>
+<hr class="soft-divider">
+<h4 id="2-顺序表插入和删除">2. 顺序表插入和删除</h4>
+<div class="code-panel">
+  <div class="code-toolbar"><span>C 语言</span><button type="button" class="copy-btn">复制代码</button></div>
+  <pre><code class="language-c">int insertSeqList(SeqList *L, int pos, int value) {
+    if (pos &lt; 1 || pos &gt; L-&gt;length + 1) {
+        return 0;
+    }
+
+    if (L-&gt;length &gt;= L-&gt;capacity) {
+        return 0;
+    }
+
+    for (int i = L-&gt;length; i &gt;= pos; i--) {
+        L-&gt;data[i] = L-&gt;data[i - 1];
+    }
+
+    L-&gt;data[pos - 1] = value;
+    L-&gt;length++;
+
+    return 1;
+}
+
+int deleteSeqList(SeqList *L, int pos) {
+    if (pos &lt; 1 || pos &gt; L-&gt;length) {
+        return 0;
+    }
+
+    for (int i = pos; i &lt; L-&gt;length; i++) {
+        L-&gt;data[i - 1] = L-&gt;data[i];
+    }
+
+    L-&gt;length--;
+
+    return 1;
+}</code></pre>
+</div>
+<hr class="soft-divider">
+<h4 id="3-链表创建插入删除销毁">3. 链表创建、插入、删除、销毁</h4>
+<div class="code-panel">
+  <div class="code-toolbar"><span>C 语言</span><button type="button" class="copy-btn">复制代码</button></div>
+  <pre><code class="language-c">#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+
+typedef struct LNode {
+    int data;
+    struct LNode *next;
+} LNode;
+
+LNode *initList() {
+    LNode *head = (LNode *)malloc(sizeof(LNode));
+
+    if (head == NULL) {
+        printf(&quot;内存分配失败\n&quot;);
+        exit(1);
+    }
+
+    head-&gt;next = NULL;
+    return head;
+}
+
+void insertAfter(LNode *p, int value) {
+    LNode *s = (LNode *)malloc(sizeof(LNode));
+
+    if (s == NULL) {
+        printf(&quot;内存分配失败\n&quot;);
+        exit(1);
+    }
+
+    s-&gt;data = value;
+    s-&gt;next = p-&gt;next;
+    p-&gt;next = s;
+}
+
+void deleteAfter(LNode *p) {
+    if (p == NULL || p-&gt;next == NULL) {
+        return;
+    }
+
+    LNode *q = p-&gt;next;
+    p-&gt;next = q-&gt;next;
+    free(q);
+}
+
+void destroyList(LNode *head) {
+    LNode *p = head;
+    LNode *nextNode;
+
+    while (p != NULL) {
+        nextNode = p-&gt;next;
+        free(p);
+        p = nextNode;
+    }
+}</code></pre>
+</div>
+<hr class="soft-divider">
+<h3 id="十二考试答题框架">十二、考试答题框架</h3>
+<p class="plain-paragraph">遇到“比较顺序表和链表”这种开放题，可以按照以下框架答：</p>
+<div class="code-panel">
+  <div class="code-toolbar"><span>C 语言</span><button type="button" class="copy-btn">复制代码</button></div>
+  <pre><code class="language-c">逻辑结构
+存储结构
+基本操作
+适用场景</code></pre>
+</div>
+<p class="plain-paragraph">示例答法：</p>
+<p class="plain-paragraph">第一，逻辑结构上，顺序表和链表都是线性表，数据元素之间都是一对一关系。</p>
+<p class="warning-box">第二，存储结构上，顺序表采用连续存储，支持随机存取，存储密度高，但容量调整不方便；链表采用链式存储，结点可以离散分布，扩容灵活，但不能随机存取，并且需要额外指针空间。</p>
+<p class="plain-paragraph">第三，基本操作上，顺序表按位查找效率高，为 <span class="complexity-badge">O(1)</span>；链表按位查找需要从头遍历，为 <span class="complexity-badge">O(n)</span>。顺序表插入删除需要移动大量元素；链表插入删除主要修改指针，但通常也需要先查找位置。</p>
+<p class="plain-paragraph">第四，应用场景上，如果表长稳定且查询操作多，适合顺序表；如果表长难以估计且插入删除频繁，适合链表。</p>
+<hr class="soft-divider">
+<h3 id="顺序表和链表比较重点总结">顺序表和链表比较重点总结</h3>
+<p class="plain-paragraph">顺序表：</p>
+<div class="code-panel">
+  <div class="code-toolbar"><span>C 语言</span><button type="button" class="copy-btn">复制代码</button></div>
+  <pre><code class="language-c">连续存储
+支持随机存取
+按位查找 O(1)
+插入删除需要移动元素
+存储密度高
+容量调整不方便</code></pre>
+</div>
+<p class="plain-paragraph">链表：</p>
+<div class="code-panel">
+  <div class="code-toolbar"><span>C 语言</span><button type="button" class="copy-btn">复制代码</button></div>
+  <pre><code class="language-c">链式存储
+不支持随机存取
+查找 O(n)
+插入删除主要修改指针
+扩容灵活
+需要额外指针空间</code></pre>
+</div>
+<p class="key-point">使用选择：</p>
+<div class="code-panel">
+  <div class="code-toolbar"><span>C 语言</span><button type="button" class="copy-btn">复制代码</button></div>
+  <pre><code class="language-c">查询多、表长稳定：用顺序表
+增删多、表长不确定：用链表</code></pre>
+</div>
+<p class="plain-paragraph">核心理解：</p>
+<div class="code-panel">
+  <div class="code-toolbar"><span>C 语言</span><button type="button" class="copy-btn">复制代码</button></div>
+  <pre><code class="language-c">顺序表牺牲扩容灵活性，换来了快速随机访问。
+链表牺牲随机访问能力，换来了更灵活的插入、删除和空间分配。</code></pre>
+</div>
+<hr class="soft-divider">
+
+      <div class="exam-pack">
+        <h3>考点速记</h3>
+        <div class="table-wrap">
+          <table class="compare-table">
+            <thead><tr><th>场景</th><th>优先选择</th><th>原因</th></tr></thead>
+            <tbody>
+              <tr><td>表长稳定、查询频繁</td><td>顺序表</td><td>支持随机存取，按位查找为 <span class="complexity-badge">O(1)</span></td></tr>
+              <tr><td>表长难估、增删频繁</td><td>链表</td><td>无需连续空间，已知前驱时插删本身为 <span class="complexity-badge">O(1)</span></td></tr>
+              <tr><td>需要折半查找</td><td>有序顺序表</td><td>可以快速访问中间元素，时间复杂度 <span class="complexity-badge">O(log n)</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <h3>常见陷阱</h3>
+        <ul class="note-list">
+          <li>只看大 O，忽略顺序表是“移动元素”，链表是“查找位置”。</li>
+          <li>认为链表有序就能高效二分，实际上链表不能随机访问中间结点。</li>
+          <li>动态顺序表虽然能扩容，但扩容通常仍要申请新空间、复制、释放旧空间。</li>
+        </ul>
+        <h3>答题模板</h3>
+        <p class="answer-template">比较题按“逻辑结构相同、存储结构不同、操作效率不同、适用场景不同”四段作答，最后用一句话收束：顺序表查找强，链表增删灵活。</p>
+        <h3>代码检查清单</h3>
+        <div class="checklist"><span>顺序表插入是否先判位置和容量</span><span>顺序表删除是否移动后继元素</span><span>链表删除是否先保存被删结点</span><span><code>malloc</code> 后是否检查并配对 <code>free</code></span></div>
+      </div>
+</section>
+<section class="chapter-card" id="总复习这几节课必须掌握的核心点">
+<h2>总复习：这几节课必须掌握的核心点</h2>
+<h3 id="1-循环链表">1. 循环链表</h3>
+<p class="plain-paragraph">循环单链表：</p>
+<div class="code-panel">
+  <div class="code-toolbar"><span>C 语言</span><button type="button" class="copy-btn">复制代码</button></div>
+  <pre><code class="language-c">尾结点-&gt;next = head;
+空表：head-&gt;next = head;</code></pre>
+</div>
+<p class="plain-paragraph">循环双链表：</p>
+<div class="code-panel">
+  <div class="code-toolbar"><span>C 语言</span><button type="button" class="copy-btn">复制代码</button></div>
+  <pre><code class="language-c">尾结点-&gt;next = head;
+head-&gt;prior = 尾结点;
+
+空表：
+head-&gt;next = head;
+head-&gt;prior = head;</code></pre>
+</div>
+<p class="key-point">遍历停止条件：</p>
+<div class="code-panel">
+  <div class="code-toolbar"><span>C 语言</span><button type="button" class="copy-btn">复制代码</button></div>
+  <pre><code class="language-c">p != head</code></pre>
+</div>
+<p class="plain-paragraph">判断表尾：</p>
+<div class="code-panel">
+  <div class="code-toolbar"><span>C 语言</span><button type="button" class="copy-btn">复制代码</button></div>
+  <pre><code class="language-c">p-&gt;next == head</code></pre>
+</div>
+<hr class="soft-divider">
+<h3 id="2-静态链表">2. 静态链表</h3>
+<p class="key-point">本质：</p>
+<div class="code-panel">
+  <div class="code-toolbar"><span>C 语言</span><button type="button" class="copy-btn">复制代码</button></div>
+  <pre><code class="language-c">数组 + 游标</code></pre>
+</div>
+<p class="plain-paragraph">结点：</p>
+<div class="code-panel">
+  <div class="code-toolbar"><span>C 语言</span><button type="button" class="copy-btn">复制代码</button></div>
+  <pre><code class="language-c">typedef struct Node {
+    int data;
+    int next;
+} Node;</code></pre>
+</div>
+<p class="warning-box">特殊值：</p>
+<div class="code-panel">
+  <div class="code-toolbar"><span>C 语言</span><button type="button" class="copy-btn">复制代码</button></div>
+  <pre><code class="language-c">-1 表示结束
+-2 表示空闲</code></pre>
+</div>
+<p class="key-point">核心思想：</p>
+<div class="code-panel">
+  <div class="code-toolbar"><span>C 语言</span><button type="button" class="copy-btn">复制代码</button></div>
+  <pre><code class="language-c">用数组下标模拟指针</code></pre>
+</div>
+<hr class="soft-divider">
+<h3 id="3-顺序表和链表比较">3. 顺序表和链表比较</h3>
+<p class="plain-paragraph">顺序表适合：</p>
+<div class="code-panel">
+  <div class="code-toolbar"><span>C 语言</span><button type="button" class="copy-btn">复制代码</button></div>
+  <pre><code class="language-c">查询多
+表长稳定
+需要随机访问</code></pre>
+</div>
+<p class="plain-paragraph">链表适合：</p>
+<div class="code-panel">
+  <div class="code-toolbar"><span>C 语言</span><button type="button" class="copy-btn">复制代码</button></div>
+  <pre><code class="language-c">增删多
+表长不确定
+需要灵活扩容</code></pre>
+</div>
+<p class="plain-paragraph">答题框架：</p>
+<div class="code-panel">
+  <div class="code-toolbar"><span>C 语言</span><button type="button" class="copy-btn">复制代码</button></div>
+  <pre><code class="language-c">逻辑结构 -&gt; 存储结构 -&gt; 基本操作 -&gt; 适用场景</code></pre>
+</div>
+<hr class="soft-divider">
+
+      <div class="exam-pack final-pack">
+        <h3>考前快速浏览</h3>
+        <div class="review-grid">
+          <div class="review-card"><strong>循环链表</strong><p>无 <code>NULL</code> 尾标志，所有终止条件围绕 <code>head</code> 判断。</p></div>
+          <div class="review-card"><strong>静态链表</strong><p>数组下标模拟指针，重点分清逻辑位序和物理下标。</p></div>
+          <div class="review-card"><strong>顺序表 vs 链表</strong><p>查询多选顺序表，增删多选链表，比较题按四层框架展开。</p></div>
+        </div>
+      </div>
+</section>
+<section class="chapter-card" id="最后一句话总结">
+<h2>最后一句话总结</h2>
+<p class="plain-paragraph">循环链表是在普通链表基础上把尾部和头部连起来；静态链表是用数组下标模拟指针；顺序表和链表的选择，本质上是在“快速查找”和“灵活增删”之间做取舍。</p>
+
+</section>
+      <section class="final-review" id="exam-final-review">
+        <h2>总复习：考前 3 分钟抓主线</h2>
+        <div class="table-wrap">
+          <table class="compare-table">
+            <thead><tr><th>主题</th><th>必须会说</th><th>代码题先查</th><th>高频复杂度</th></tr></thead>
+            <tbody>
+              <tr><td>循环链表</td><td>尾结点指回头结点，空表头结点指向自己</td><td>遍历条件、插入顺序、是否误用 NULL</td><td><span class="complexity-badge">O(n)</span> 遍历，已知位置插删多为 <span class="complexity-badge">O(1)</span></td></tr>
+              <tr><td>静态链表</td><td>数组下标模拟指针，逻辑顺序由游标决定</td><td><code>-1</code> / <code>-2</code> 是否正确维护</td><td>按位查找通常 <span class="complexity-badge">O(n)</span></td></tr>
+              <tr><td>顺序表</td><td>连续存储、随机存取、移动元素</td><td>位置合法性、容量、移动方向</td><td>按位查找 <span class="complexity-badge">O(1)</span>，插删 <span class="complexity-badge">O(n)</span></td></tr>
+              <tr><td>链表</td><td>链式存储、扩容灵活、不支持随机存取</td><td>前驱、后继、free、空指针</td><td>查找 <span class="complexity-badge">O(n)</span>，已知前驱插删 <span class="complexity-badge">O(1)</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </main>
+  </div>
+  <button type="button" class="back-top" id="backTop">返回顶部</button>
+
+  <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-clike.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-c.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  <script>
+    (function () {
+      var root = document.documentElement;
+      var themeBtn = document.getElementById('themeBtn');
+      var printBtn = document.getElementById('printBtn');
+      var tocToggle = document.getElementById('tocToggle');
+      var toc = document.getElementById('toc');
+      var backTop = document.getElementById('backTop');
+      var savedTheme = localStorage.getItem('ds-linear-supplement-theme');
+      if (savedTheme) root.setAttribute('data-theme', savedTheme);
+
+      if (window.mermaid) {
+        mermaid.initialize({ startOnLoad: true, theme: savedTheme === 'dark' ? 'dark' : 'default', securityLevel: 'loose' });
+      }
+      if (window.Prism) Prism.highlightAll();
+
+      document.querySelectorAll('.copy-btn').forEach(function (button) {
+        button.addEventListener('click', function () {
+          var code = button.closest('.code-panel').querySelector('code').innerText;
+          navigator.clipboard.writeText(code).then(function () {
+            button.textContent = '已复制';
+            setTimeout(function () { button.textContent = '复制代码'; }, 1200);
+          }).catch(function () {
+            button.textContent = '复制失败';
+            setTimeout(function () { button.textContent = '复制代码'; }, 1200);
+          });
+        });
+      });
+
+      themeBtn.addEventListener('click', function () {
+        var next = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+        root.setAttribute('data-theme', next);
+        localStorage.setItem('ds-linear-supplement-theme', next);
+        themeBtn.textContent = next === 'dark' ? '浅色模式' : '深色模式';
+      });
+      if (root.getAttribute('data-theme') === 'dark') themeBtn.textContent = '浅色模式';
+
+      printBtn.addEventListener('click', function () { window.print(); });
+      tocToggle.addEventListener('click', function () {
+        toc.classList.toggle('open');
+        tocToggle.textContent = toc.classList.contains('open') ? '收起目录' : '展开目录';
+      });
+      backTop.addEventListener('click', function () { window.scrollTo({ top: 0, behavior: 'smooth' }); });
+      window.addEventListener('scroll', function () {
+        backTop.classList.toggle('visible', window.scrollY > 420);
+      }, { passive: true });
+
+      var links = Array.from(document.querySelectorAll('.toc a'));
+      var headings = links.map(function (link) { return document.getElementById(link.getAttribute('href').slice(1)); }).filter(Boolean);
+      var observer = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) {
+            links.forEach(function (link) { link.classList.remove('active'); });
+            var active = document.querySelector('.toc a[href="#' + entry.target.id + '"]');
+            if (active) active.classList.add('active');
+          }
+        });
+      }, { rootMargin: '-20% 0px -70% 0px', threshold: 0.01 });
+      headings.forEach(function (heading) { observer.observe(heading); });
+    })();
+  </script>
+</body>
+</html>

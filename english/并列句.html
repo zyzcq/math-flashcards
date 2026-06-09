@@ -1,875 +1,1375 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>句句真研 · 并列句记忆笔记</title>
-    <link rel="stylesheet" href="../css/lecture.css">
-    <style>
-        *, *::before, *::after { box-sizing: border-box; }
-        html { scroll-behavior: smooth; }
-        body {
-            margin: 0;
-            font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif;
-            line-height: 1.85;
-            color: #172033;
-            background: #f6f8fb;
-        }
-        .page-header {
-            background: linear-gradient(135deg, #1d4ed8 0%, #312e81 100%);
-            color: #fff;
-            padding: 52px 20px 42px;
-            text-align: center;
-        }
-        .page-header h1 {
-            margin: 0 0 12px;
-            font-size: clamp(2rem, 5vw, 3.2rem);
-            letter-spacing: 0;
-        }
-        .page-header p {
-            margin: 0 auto;
-            max-width: 860px;
-            color: rgba(255,255,255,.9);
-            font-size: 1.05rem;
-        }
-        .layout {
-            width: min(1120px, calc(100% - 32px));
-            margin: 0 auto;
-        }
-        .memory-route {
-            display: grid;
-            grid-template-columns: repeat(5, minmax(0, 1fr));
-            gap: 12px;
-            margin: -26px auto 28px;
-        }
-        .route-step {
-            border: 1px solid #dbeafe;
-            background: #fff;
-            border-radius: 8px;
-            padding: 14px;
-            box-shadow: 0 10px 28px rgba(30, 64, 175, .08);
-        }
-        .route-step strong {
-            display: block;
-            color: #1d4ed8;
-            margin-bottom: 4px;
-        }
-        .section-card {
-            background: #fff;
-            border: 1px solid #e2e8f0;
-            border-radius: 8px;
-            padding: clamp(20px, 4vw, 34px);
-            margin: 22px 0;
-            box-shadow: 0 16px 36px rgba(15, 23, 42, .06);
-        }
-        .section-card h2 {
-            margin-top: 0;
-            color: #0f172a;
-            font-size: clamp(1.45rem, 3vw, 2rem);
-        }
-        .section-card h3 { color: #1e293b; margin-top: 28px; }
-        .recall-box,
-        .warning-box,
-        .memory-box,
-        .practice-box {
-            border-radius: 8px;
-            padding: 16px 18px;
-            margin: 18px 0;
-        }
-        .recall-box {
-            background: #eff6ff;
-            border-left: 5px solid #2563eb;
-        }
-        .warning-box {
-            background: #fef2f2;
-            border-left: 5px solid #dc2626;
-        }
-        .memory-box {
-            background: #f5f3ff;
-            border-left: 5px solid #7c3aed;
-        }
-        .practice-box {
-            background: #ecfdf5;
-            border-left: 5px solid #059669;
-        }
-        .tag-row { display: flex; flex-wrap: wrap; gap: 8px; margin: 12px 0; }
-        .tag {
-            display: inline-flex;
-            align-items: center;
-            border-radius: 999px;
-            padding: 4px 10px;
-            font-size: .86rem;
-            font-weight: 700;
-            border: 1px solid transparent;
-        }
-        .tag--and { color: #047857; background: #ecfdf5; border-color: #a7f3d0; }
-        .tag--but { color: #b91c1c; background: #fef2f2; border-color: #fecaca; }
-        .tag--or { color: #1d4ed8; background: #eff6ff; border-color: #bfdbfe; }
-        .tag--so { color: #6d28d9; background: #f5f3ff; border-color: #ddd6fe; }
-        .grid-2,
-        .grid-3,
-        .logic-grid {
-            display: grid;
-            gap: 14px;
-        }
-        .grid-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-        .grid-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-        .logic-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
-        .mini-card,
-        .logic-card,
-        .example-card {
-            border: 1px solid #e2e8f0;
-            border-radius: 8px;
-            padding: 16px;
-            background: #fff;
-        }
-        .logic-card h3,
-        .mini-card h3,
-        .example-card h3 { margin-top: 0; }
-        .logic-card--and { border-top: 5px solid #059669; }
-        .logic-card--but { border-top: 5px solid #dc2626; }
-        .logic-card--or { border-top: 5px solid #2563eb; }
-        .logic-card--so { border-top: 5px solid #7c3aed; }
-        .formula {
-            font-size: 1.1rem;
-            font-weight: 800;
-            text-align: center;
-            padding: 16px;
-            border: 1px dashed #94a3b8;
-            border-radius: 8px;
-            background: #f8fafc;
-            margin: 16px 0;
-        }
-        .table-wrap { overflow-x: auto; margin: 16px 0; }
-        table {
-            width: 100%;
-            min-width: 720px;
-            border-collapse: collapse;
-            background: #fff;
-            border: 1px solid #e2e8f0;
-        }
-        th, td {
-            border: 1px solid #e2e8f0;
-            padding: 11px 12px;
-            vertical-align: top;
-            text-align: left;
-        }
-        th { background: #f8fafc; color: #0f172a; }
-        code {
-            background: #f1f5f9;
-            color: #0f172a;
-            padding: 2px 6px;
-            border-radius: 6px;
-            font-family: "SFMono-Regular", Consolas, monospace;
-        }
-        .english {
-            display: block;
-            color: #0f172a;
-            font-weight: 750;
-            margin-bottom: 8px;
-        }
-        .analysis-list {
-            margin: 8px 0 0;
-            padding-left: 1.2rem;
-        }
-        details {
-            border: 1px solid #e2e8f0;
-            border-radius: 8px;
-            padding: 12px 14px;
-            margin: 10px 0;
-            background: #f8fafc;
-        }
-        summary {
-            cursor: pointer;
-            font-weight: 800;
-            color: #1d4ed8;
-        }
-        .train-svg {
-            width: 100%;
-            max-width: 760px;
-            display: block;
-            margin: 18px auto;
-        }
-        .review-checklist li { margin-bottom: 8px; }
-        @media (max-width: 860px) {
-            .memory-route,
-            .logic-grid,
-            .grid-2,
-            .grid-3 {
-                grid-template-columns: 1fr;
-            }
-            table { min-width: 640px; }
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>并列句复习系统｜考研英语长难句</title>
+  <style>
+    :root {
+      --bg: #f4f7fb;
+      --bg-gradient: linear-gradient(135deg, #f6f8fc 0%, #eef4f8 48%, #f8f5ef 100%);
+      --card: #ffffff;
+      --text: #1f2937;
+      --muted: #6b7280;
+      --border: #e5e7eb;
+
+      --blue: #2563eb;
+      --blue-bg: #eff6ff;
+      --green: #16a34a;
+      --green-bg: #ecfdf3;
+      --amber: #d97706;
+      --amber-bg: #fffbeb;
+      --purple: #7c3aed;
+      --purple-bg: #f5f3ff;
+      --red: #dc2626;
+      --red-bg: #fef2f2;
+      --gray-bg: #f9fafb;
+
+      --radius: 18px;
+      --radius-sm: 12px;
+      --shadow: 0 12px 30px rgba(15, 23, 42, 0.08);
+      --shadow-sm: 0 6px 18px rgba(15, 23, 42, 0.06);
+      --max-width: 1080px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", Arial, sans-serif;
+      color: var(--text);
+      background: var(--bg-gradient);
+      line-height: 1.72;
+      font-size: 16px;
+    }
+
+    a {
+      color: var(--blue);
+      text-decoration: none;
+    }
+
+    code {
+      display: inline-block;
+      max-width: 100%;
+      padding: 0.12rem 0.38rem;
+      border-radius: 8px;
+      background: #f3f4f6;
+      color: #111827;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+      font-size: 0.94em;
+      white-space: normal;
+      word-break: break-word;
+    }
+
+    .page {
+      width: min(100% - 32px, var(--max-width));
+      margin: 0 auto;
+      padding: 28px 0 48px;
+    }
+
+    .hero {
+      background: rgba(255, 255, 255, 0.86);
+      border: 1px solid rgba(255, 255, 255, 0.8);
+      border-radius: 28px;
+      padding: 42px;
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(10px);
+      margin-bottom: 18px;
+    }
+
+    .hero h1 {
+      margin: 0 0 12px;
+      font-size: clamp(2rem, 5vw, 3.3rem);
+      line-height: 1.12;
+      letter-spacing: -0.04em;
+    }
+
+    .hero p {
+      margin: 0;
+      color: var(--muted);
+      max-width: 820px;
+      font-size: 1.05rem;
+    }
+
+    .tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin: 22px 0 0;
+    }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 5px 10px;
+      border-radius: 999px;
+      font-size: 0.84rem;
+      font-weight: 650;
+      border: 1px solid transparent;
+    }
+
+    .tag-green {
+      color: var(--green);
+      background: var(--green-bg);
+      border-color: #bbf7d0;
+    }
+
+    .tag-amber {
+      color: var(--amber);
+      background: var(--amber-bg);
+      border-color: #fde68a;
+    }
+
+    .tag-red {
+      color: var(--red);
+      background: var(--red-bg);
+      border-color: #fecaca;
+    }
+
+    .tag-purple {
+      color: var(--purple);
+      background: var(--purple-bg);
+      border-color: #ddd6fe;
+    }
+
+    .tag-blue {
+      color: var(--blue);
+      background: var(--blue-bg);
+      border-color: #bfdbfe;
+    }
+
+    .toolbar {
+      position: sticky;
+      top: 12px;
+      z-index: 20;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      padding: 12px;
+      margin: 16px 0;
+      border: 1px solid rgba(229, 231, 235, 0.9);
+      border-radius: 18px;
+      background: rgba(255, 255, 255, 0.92);
+      box-shadow: var(--shadow-sm);
+      backdrop-filter: blur(8px);
+    }
+
+    .toolbar button {
+      border: 1px solid var(--border);
+      background: #fff;
+      color: var(--text);
+      border-radius: 999px;
+      padding: 8px 13px;
+      cursor: pointer;
+      font-weight: 650;
+      transition: 0.16s ease;
+    }
+
+    .toolbar button:hover {
+      transform: translateY(-1px);
+      border-color: #cbd5e1;
+      box-shadow: 0 5px 14px rgba(15, 23, 42, 0.08);
+    }
+
+    .toolbar .primary {
+      background: var(--blue);
+      color: white;
+      border-color: var(--blue);
+    }
+
+    .nav {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin: 16px 0 24px;
+      padding: 12px;
+      border-radius: 18px;
+      background: rgba(255, 255, 255, 0.72);
+      border: 1px solid rgba(229, 231, 235, 0.86);
+    }
+
+    .nav a {
+      padding: 7px 11px;
+      border-radius: 999px;
+      color: #374151;
+      font-weight: 650;
+      font-size: 0.92rem;
+      background: #fff;
+      border: 1px solid var(--border);
+    }
+
+    main {
+      display: grid;
+      gap: 18px;
+    }
+
+    section {
+      scroll-margin-top: 108px;
+    }
+
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 26px;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .card h2 {
+      margin: 0 0 14px;
+      font-size: 1.5rem;
+      letter-spacing: -0.02em;
+    }
+
+    .card h3 {
+      margin: 20px 0 10px;
+      font-size: 1.12rem;
+    }
+
+    .card p {
+      margin: 10px 0;
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .mini-card {
+      border: 1px solid var(--border);
+      background: var(--gray-bg);
+      border-radius: var(--radius-sm);
+      padding: 16px;
+    }
+
+    .mini-card h3,
+    .mini-card h4 {
+      margin: 0 0 8px;
+    }
+
+    .rule {
+      border-left: 5px solid var(--green);
+      background: var(--green-bg);
+      border-radius: 14px;
+      padding: 14px 16px;
+      margin: 14px 0;
+      font-weight: 700;
+    }
+
+    .note,
+    .example,
+    .practice,
+    .checklist {
+      border-radius: 16px;
+      padding: 16px;
+      margin: 14px 0;
+      border: 1px solid var(--border);
+    }
+
+    .note-blue {
+      background: var(--blue-bg);
+      border-color: #bfdbfe;
+    }
+
+    .note-green {
+      background: var(--green-bg);
+      border-color: #bbf7d0;
+    }
+
+    .note-amber {
+      background: var(--amber-bg);
+      border-color: #fde68a;
+    }
+
+    .note-purple {
+      background: var(--purple-bg);
+      border-color: #ddd6fe;
+    }
+
+    .note-red {
+      background: var(--red-bg);
+      border-color: #fecaca;
+    }
+
+    .example {
+      background: #fbfaff;
+      border-color: #e9d5ff;
+    }
+
+    .practice {
+      background: #ffffff;
+      border-color: #ddd6fe;
+      box-shadow: 0 6px 16px rgba(124, 58, 237, 0.05);
+    }
+
+    .practice-title {
+      color: var(--purple);
+      font-weight: 800;
+      margin-bottom: 10px;
+    }
+
+    .question {
+      margin: 10px 0 12px;
+      padding: 12px;
+      border-radius: 12px;
+      background: var(--purple-bg);
+      border: 1px solid #ddd6fe;
+    }
+
+    .answer-content {
+      padding: 12px 14px 14px;
+      border-top: 1px solid var(--border);
+    }
+
+    .translation {
+      color: #374151;
+      background: #f9fafb;
+      border-radius: 10px;
+      padding: 10px;
+    }
+
+    details {
+      margin: 12px 0;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      overflow: hidden;
+      background: #fff;
+    }
+
+    summary {
+      list-style: none;
+      cursor: pointer;
+      padding: 13px 16px;
+      font-weight: 780;
+      color: #111827;
+      background: #f8fafc;
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      align-items: center;
+    }
+
+    summary::-webkit-details-marker {
+      display: none;
+    }
+
+    summary::after {
+      content: "展开";
+      color: var(--blue);
+      font-size: 0.86rem;
+      font-weight: 800;
+      flex: 0 0 auto;
+    }
+
+    details[open] > summary::after {
+      content: "收起";
+      color: var(--muted);
+    }
+
+    details > div {
+      padding: 0 16px 16px;
+    }
+
+    .answer-toggle {
+      border-color: #ddd6fe;
+      background: #fdfcff;
+    }
+
+    .answer-toggle summary {
+      background: var(--purple-bg);
+      color: #4c1d95;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 14px 0;
+      overflow: hidden;
+      border-radius: 12px;
+      font-size: 0.95rem;
+    }
+
+    th,
+    td {
+      border: 1px solid var(--border);
+      padding: 10px 12px;
+      vertical-align: top;
+      text-align: left;
+    }
+
+    th {
+      background: #f8fafc;
+    }
+
+    .checklist {
+      background: var(--green-bg);
+      border-color: #bbf7d0;
+    }
+
+    .check-item {
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+      padding: 8px 0;
+      border-bottom: 1px dashed rgba(22, 163, 74, 0.22);
+    }
+
+    .check-item:last-child {
+      border-bottom: none;
+    }
+
+    .check-item::before {
+      content: "✓";
+      color: var(--green);
+      font-weight: 900;
+    }
+
+    .muted {
+      color: var(--muted);
+    }
+
+    .focus-mode .non-key {
+      display: none !important;
+    }
+
+    footer {
+      color: var(--muted);
+      padding: 24px 4px 0;
+      text-align: center;
+      font-size: 0.92rem;
+    }
+
+    @media (max-width: 760px) {
+      .page {
+        width: min(100% - 20px, var(--max-width));
+        padding-top: 16px;
+      }
+
+      .hero {
+        padding: 26px;
+        border-radius: 22px;
+      }
+
+      .toolbar {
+        position: static;
+      }
+
+      .grid-2,
+      .grid-3 {
+        grid-template-columns: 1fr;
+      }
+
+      .card {
+        padding: 20px;
+      }
+    }
+
+    @media print {
+      body {
+        background: #fff !important;
+        color: #111827;
+      }
+
+      .page {
+        width: 100%;
+        padding: 0;
+      }
+
+      .toolbar,
+      .nav {
+        display: none !important;
+      }
+
+      .hero,
+      .card,
+      .mini-card,
+      .practice,
+      .note,
+      .example,
+      .checklist {
+        box-shadow: none !important;
+        break-inside: avoid;
+        page-break-inside: avoid;
+      }
+
+      .hero {
+        border: 1px solid #ddd;
+      }
+
+      section {
+        break-inside: avoid;
+      }
+
+      details {
+        break-inside: avoid;
+      }
+
+      summary::after {
+        content: "" !important;
+      }
+    }
+  </style>
 </head>
+
 <body>
-    <header class="page-header">
-        <h1>句句真研 · 并列句</h1>
-        <p>从“一个简单句表达一件事”升级到“多个简单句连接成多件事”。这份笔记按记忆心理学重排：先分块，再对比，再主动回忆，最后用真题例句做提取练习。</p>
+  <div class="page" id="page">
+
+    <!-- START: 首页 -->
+    <header class="hero">
+      <h1>并列句复习系统</h1>
+      <p>
+        基于课程转写稿与真题演练整理。本页不是普通笔记，而是用于“复习、自测、导出 PDF”的单文件学习工具。学习时先看总纲，再看核心模块，最后用真题演练检验：能否找出并列连词、判断并列对象、还原省略。
+      </p>
+      <div class="tags">
+        <span class="tag tag-blue">长难句</span>
+        <span class="tag tag-green">并列句</span>
+        <span class="tag tag-purple">真题演练</span>
+        <span class="tag tag-amber">省略还原</span>
+        <span class="tag tag-red">易错辨析</span>
+      </div>
     </header>
+    <!-- END: 首页 -->
 
-    <div class="layout">
-        <section class="memory-route" aria-label="学习路线">
-            <article class="route-step"><strong>1. 场景</strong><span>为什么长难句会长、会难</span></article>
-            <article class="route-step"><strong>2. 定义</strong><span>并列句到底并列什么</span></article>
-            <article class="route-step"><strong>3. 连词</strong><span>四类并列连词分块记</span></article>
-            <article class="route-step"><strong>4. 多并列</strong><span>多件事如何少写不乱</span></article>
-            <article class="route-step"><strong>5. 省略</strong><span>相同省略，剩下不变</span></article>
-        </section>
-
-        <main>
-            <section class="section-card" id="bridge">
-                <h2>一、从简单句进入长难句</h2>
-                <div class="recall-box">
-                    <strong>先想一想：</strong>中文里“我早上起晚了，我上课迟到了”能只用逗号连起来。英语里两个完整句子也能这样只靠逗号硬连吗？
-                </div>
-                <p>第一部分学习的是“一件事的内部”：一个简单句先有核心内容，再加入补充说明、修饰限定，就能把一件事说得越来越具体。第二部分的重点变了：不再只研究一个车厢内部，而是研究车厢和车厢之间怎么连接。</p>
-                <p>考研英语里常说“逢长难句处必出题”。长难句不是严格语法术语，它就是大白话：句子又长又难。它长、难的核心原因，通常不是某一个词吓人，而是把多件事连接在了一起。</p>
-                <div class="table-wrap">
-                    <table>
-                        <thead>
-                            <tr><th>语言特点</th><th>中文：意合</th><th>英语：形合</th></tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>连接方式</td>
-                                <td>意思有关就能连，连接词可加可不加。</td>
-                                <td>形式上必须有连接标记，句子和句子之间要有连词。</td>
-                            </tr>
-                            <tr>
-                                <td>典型例子</td>
-                                <td>我早上起晚了，我上课迟到了。</td>
-                                <td>I got up late, <strong>so</strong> I was late for class.</td>
-                            </tr>
-                            <tr>
-                                <td>高频坑</td>
-                                <td>逗号能承担很多关系。</td>
-                                <td>两个完整句子不能只用逗号硬连。逗号不是万能胶。</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-                <div class="warning-box">
-                    <strong>别踩坑：</strong>英语里两个完整句子想合并，光加逗号不够。需要 <code>and</code>、<code>but</code>、<code>or</code>、<code>so</code> 等连接词明确关系。
-                </div>
-                <div class="grid-2">
-                    <article class="mini-card">
-                        <h3>并列句</h3>
-                        <p>多件事一样重要，平起平坐，靠并列连词连接。</p>
-                    </article>
-                    <article class="mini-card">
-                        <h3>复合句</h3>
-                        <p>多件事不一样重要，有主有从，后面会学习主从复合句。</p>
-                    </article>
-                </div>
-                <div class="practice-box">
-                    <strong>提取练习：</strong>请闭眼回忆三句话：简单句表达几件事？长难句为什么长？英语句子连接最不能缺什么？
-                </div>
-            </section>
-
-            <section class="section-card" id="definition">
-                <h2>二、What：什么是并列句</h2>
-                <div class="recall-box">
-                    <strong>先想一想：</strong>如果只有一件事，它能不能“并列”？如果两件事中你认为一件更重要，还该不该写成并列句？
-                </div>
-                <p>并列的意思是“重要性一样”。比赛里两个选手并列第一，说明成绩一样、地位一样。并列句也是这个逻辑：两个或两个以上句子表达的事情一样重要，就可以并列。</p>
-                <div class="formula">并列句 = 多个简单句 + 并列连词 + 一样重要</div>
-                <svg class="train-svg" viewBox="0 0 760 140" role="img" aria-label="并列句像火车车厢通过并列连词连接">
-                    <rect x="20" y="38" width="150" height="68" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="3"></rect>
-                    <text x="95" y="78" text-anchor="middle" font-size="18" font-weight="700" fill="#1e3a8a">简单句 1</text>
-                    <rect x="245" y="38" width="150" height="68" rx="8" fill="#ecfdf5" stroke="#059669" stroke-width="3"></rect>
-                    <text x="320" y="78" text-anchor="middle" font-size="18" font-weight="700" fill="#065f46">并列连词</text>
-                    <rect x="470" y="38" width="150" height="68" rx="8" fill="#fef2f2" stroke="#dc2626" stroke-width="3"></rect>
-                    <text x="545" y="78" text-anchor="middle" font-size="18" font-weight="700" fill="#991b1b">简单句 2</text>
-                    <line x1="170" y1="72" x2="245" y2="72" stroke="#64748b" stroke-width="4"></line>
-                    <line x1="395" y1="72" x2="470" y2="72" stroke="#64748b" stroke-width="4"></line>
-                    <circle cx="70" cy="112" r="10" fill="#0f172a"></circle>
-                    <circle cx="130" cy="112" r="10" fill="#0f172a"></circle>
-                    <circle cx="295" cy="112" r="10" fill="#0f172a"></circle>
-                    <circle cx="355" cy="112" r="10" fill="#0f172a"></circle>
-                    <circle cx="520" cy="112" r="10" fill="#0f172a"></circle>
-                    <circle cx="580" cy="112" r="10" fill="#0f172a"></circle>
-                </svg>
-                <p>是否一样重要，不是天上掉下来的标准答案，而是表达者的观点。你觉得学习和玩一样重要，就可以把它们并列；你觉得玩更重要，可能就会写成主从关系或换一种表达。</p>
-                <div class="memory-box">
-                    <strong>记忆钩子：</strong>先把每件事写成一个简单句，再问“这些事是不是平起平坐”。平起平坐就并列，不平起平坐就先别急着并列。
-                </div>
-            </section>
-
-            <section class="section-card" id="conjunctions">
-                <h2>三、How：四类并列连词</h2>
-                <div class="recall-box">
-                    <strong>先想一想：</strong><code>and</code>、<code>but</code>、<code>or</code>、<code>so</code> 分别在告诉读者什么关系？
-                </div>
-                <div class="logic-grid">
-                    <article class="logic-card logic-card--and">
-                        <h3>顺接</h3>
-                        <div class="tag-row"><span class="tag tag--and">and</span><span class="tag tag--and">both ... and ...</span><span class="tag tag--and">not only ... but also ...</span></div>
-                        <p>两件事顺着说下去，相当于“和、而且、不但而且”。</p>
-                    </article>
-                    <article class="logic-card logic-card--but">
-                        <h3>转折</h3>
-                        <div class="tag-row"><span class="tag tag--but">but</span><span class="tag tag--but">yet</span></div>
-                        <p>后面内容出乎意料，或与前面相反。考研阅读里，转折后常常是重点。</p>
-                    </article>
-                    <article class="logic-card logic-card--or">
-                        <h3>选择</h3>
-                        <div class="tag-row"><span class="tag tag--or">or</span><span class="tag tag--or">either ... or ...</span><span class="tag tag--or">neither ... nor ...</span></div>
-                        <p>要么二选一，要么两个都不选。</p>
-                    </article>
-                    <article class="logic-card logic-card--so">
-                        <h3>因果</h3>
-                        <div class="tag-row"><span class="tag tag--so">so</span><span class="tag tag--so">for</span></div>
-                        <p><code>so</code> 表结果；<code>for + 句子</code> 表原因，通常放两个句子中间。</p>
-                    </article>
-                </div>
-
-                <h3>1. 顺接：and 系列</h3>
-                <p>顺接关系没有明显波折，就是一件事接着一件事说。最常用的是 <code>and</code>。书面一点的“不但而且”可以写成 <code>not only ... but also ...</code>，也可以简化或变形为 <code>not only ... but ...</code>、<code>not just ... but also ...</code>、<code>not merely ... but also ...</code>。</p>
-                <div class="grid-3">
-                    <article class="example-card">
-                        <h3>Bill Gates 阅读句</h3>
-                        <span class="english">The boy was Bill Gates, and he hasn't stopped reading yet.</span>
-                        <ol class="analysis-list">
-                            <li>并列连词：<code>and</code>。</li>
-                            <li>连接对象：两个完整句子。</li>
-                            <li>逻辑关系：顺接。</li>
-                            <li>理解：那个男孩是比尔·盖茨，而且他到现在还没有停止阅读。</li>
-                        </ol>
-                    </article>
-                    <article class="example-card">
-                        <h3>财富分配句</h3>
-                        <span class="english">A few wealthy people will own all the capital, and the masses will struggle in an impoverished wasteland.</span>
-                        <ol class="analysis-list">
-                            <li><code>and</code> 连接两个完整句子。</li>
-                            <li>前句说少数富人拥有资本，后句说大众在贫困荒地中挣扎。</li>
-                            <li>逻辑是顺着描述两种社会结果。</li>
-                        </ol>
-                    </article>
-                    <article class="example-card">
-                        <h3>三件事顺接</h3>
-                        <span class="english">Then his marriage failed, his career burned out, and his drinking became serious.</span>
-                        <ol class="analysis-list">
-                            <li>三件事都顺接。</li>
-                            <li>前两个连接词省成逗号，最后保留 <code>and</code>。</li>
-                            <li>理解：婚姻失败、事业崩掉、酗酒问题变严重。</li>
-                        </ol>
-                    </article>
-                </div>
-
-                <h3>2. 转折：but / yet</h3>
-                <p>转折通常有两种：一种是后面结果出乎意料，一种是前后方向相反。看到转折词，眼睛要亮一下，因为考研阅读常把答案或词义线索放在转折后。</p>
-                <div class="warning-box">
-                    <strong>重点：</strong><code>however</code> 也能表示“然而”，但它是副词，不是并列连词。它可以修饰一个句子，不能像 <code>but</code> 那样直接连接两个完整句子。
-                </div>
-                <div class="grid-2">
-                    <article class="example-card">
-                        <h3>folders 句</h3>
-                        <span class="english">They didn't remember the information, but they remembered how to find the folders.</span>
-                        <ol class="analysis-list">
-                            <li>并列连词：<code>but</code>。</li>
-                            <li>前后关系：不记得信息，但记得怎么找文件夹。</li>
-                            <li>关键词：didn't remember / remembered，方向相反。</li>
-                        </ol>
-                    </article>
-                    <article class="example-card">
-                        <h3>pink / color 句</h3>
-                        <span class="english">Adult women do not remember being so obsessed with the color, yet it is pervasive in our young girls' lives.</span>
-                        <ol class="analysis-list">
-                            <li>并列连词：<code>yet</code>。</li>
-                            <li>逻辑关系：转折。</li>
-                            <li>理解：成年女性不记得自己曾痴迷这种颜色，但它在小女孩生活中很流行。</li>
-                        </ol>
-                    </article>
-                    <article class="example-card">
-                        <h3>great recession 句</h3>
-                        <span class="english">The great recession may be over, but this era of high joblessness is probably beginning.</span>
-                        <ol class="analysis-list">
-                            <li><code>but</code> 连接两个完整句子。</li>
-                            <li>前句：大衰退可能结束了。</li>
-                            <li>后句：高失业时代可能正在开始。转折后是重点。</li>
-                        </ol>
-                    </article>
-                    <article class="example-card">
-                        <h3>income inequality 句</h3>
-                        <span class="english">Income inequality usually falls during a recession, but it has now shrunk in this one.</span>
-                        <ol class="analysis-list">
-                            <li>并列连词：<code>but</code>。</li>
-                            <li>前句讲通常情况，后句讲这一次的特殊情况。</li>
-                            <li>读题时用 <code>but</code> 把普通规律和当前事实分开。</li>
-                        </ol>
-                    </article>
-                    <article class="example-card">
-                        <h3>authors 句</h3>
-                        <span class="english">Like the majority of authors, he had to suffer many disappointments and rejections along the way, but these made him all the more determined to succeed.</span>
-                        <ol class="analysis-list">
-                            <li><code>disappointments and rejections</code> 是词组并列。</li>
-                            <li><code>but</code> 才连接两个句子。</li>
-                            <li>理解：一路有失望和拒绝，但这些让他更坚定要成功。</li>
-                        </ol>
-                    </article>
-                </div>
-
-                <h3>3. 选择：or / either ... or ... / neither ... nor ...</h3>
-                <p><code>or</code> 是“或者”；<code>either ... or ...</code> 是“要么这个，要么那个”；<code>neither ... nor ...</code> 是“既不这个，也不那个”。选择关系不能随便换成 <code>and</code>，否则意思会变成“两件都做”。</p>
-                <div class="grid-2">
-                    <article class="example-card">
-                        <h3>US import 句</h3>
-                        <span class="english">In effect, the US can import food, or it can import the workers.</span>
-                        <ol class="analysis-list">
-                            <li>并列连词：<code>or</code>。</li>
-                            <li>连接对象：两个完整句子。</li>
-                            <li>逻辑关系：二选一，进口食物或进口工人。</li>
-                        </ol>
-                    </article>
-                    <article class="example-card">
-                        <h3>Enron commitments 句</h3>
-                        <span class="english">Either Enron never really intended to live by those commitments, or it simply did not foresee what would happen next.</span>
-                        <ol class="analysis-list">
-                            <li>并列结构：<code>either ... or ...</code>。</li>
-                            <li>两种可能：没打算信守承诺，或没有预料后果。</li>
-                            <li><code>what would happen next</code> 是后半句内部的宾语从句，不影响外层选择关系。</li>
-                        </ol>
-                    </article>
-                </div>
-
-                <h3>4. 因果：so / for</h3>
-                <p><code>so</code> 引出结果；<code>for</code> 如果后面接句子，表示“因为”，通常放在两个句子中间。<code>because</code>、<code>since</code>、<code>as</code> 也能表示原因，但它们位置更灵活，放到从属连接里处理。</p>
-                <div class="grid-2">
-                    <article class="example-card">
-                        <h3>strangers anxious 句</h3>
-                        <span class="english">Strangers are inherently unfamiliar to us, so we are more likely to feel anxious.</span>
-                        <ol class="analysis-list">
-                            <li><code>so</code> 引出结果。</li>
-                            <li>原因：陌生人天然不熟悉。</li>
-                            <li>结果：我们更容易焦虑。</li>
-                        </ol>
-                    </article>
-                    <article class="example-card">
-                        <h3>computers heat 句</h3>
-                        <span class="english">These computers emit a great deal of heat, so the centers need to be well air-conditioned.</span>
-                        <ol class="analysis-list">
-                            <li>并列连词：<code>so</code>。</li>
-                            <li>原因：电脑释放大量热。</li>
-                            <li>结果：中心需要良好空调。</li>
-                        </ol>
-                    </article>
-                    <article class="example-card">
-                        <h3>mortgage payments 句</h3>
-                        <span class="english">I can't afford to pay my monthly mortgage payments on my own, so I have to rent rooms out to people to make that happen.</span>
-                        <ol class="analysis-list">
-                            <li><code>so</code> 连接两个完整句子。</li>
-                            <li>原因：自己负担不起每月房贷。</li>
-                            <li>结果：必须把房间租出去。</li>
-                        </ol>
-                    </article>
-                    <article class="example-card">
-                        <h3>impulsive spending 句</h3>
-                        <span class="english">Impulsive spending is not an option, so plan your weekly menu in advance, making shopping lists for ingredients in their exact quantities.</span>
-                        <ol class="analysis-list">
-                            <li><code>so</code> 表因果。</li>
-                            <li>后半句是祈使句，省略了面对面表达里的主语 <code>you</code>。</li>
-                            <li><code>making ...</code> 是补充说明如何提前计划。</li>
-                        </ol>
-                    </article>
-                    <article class="example-card">
-                        <h3>factory culture 句</h3>
-                        <span class="english">Mr. Dunwell has begun bringing high school juniors to the factory, so they can get exposed to its culture.</span>
-                        <ol class="analysis-list">
-                            <li><code>so</code> 引出结果或目的效果。</li>
-                            <li><code>get exposed to</code> 可理解为“接触到”。</li>
-                            <li>理解：把学生带到工厂，所以他们能接触工厂文化。</li>
-                        </ol>
-                    </article>
-                </div>
-            </section>
-
-            <section class="section-card" id="multiple">
-                <h2>四、多件事并列：连词一样就省，连词不同就留</h2>
-                <div class="recall-box">
-                    <strong>先想一想：</strong>如果四件事之间都是 <code>and</code>，你会写成 <code>1 and 2 and 3 and 4</code> 吗？
-                </div>
-                <div class="grid-2">
-                    <article class="mini-card">
-                        <h3>并列连词不同</h3>
-                        <p>该写什么就写什么。例如第一、二件事是转折，第二、三件事是顺接，就写 <code>1 but 2 and 3</code>。</p>
-                    </article>
-                    <article class="mini-card">
-                        <h3>并列连词相同</h3>
-                        <p>前面的连接词通常替换成逗号，只保留最后一个并列连词。例如 <code>1, 2, and 3</code>。</p>
-                    </article>
-                </div>
-                <h3>并列连词不只连接句子</h3>
-                <p>并列连词可以连接词、词组、句子。本课重点研究连接句子的并列连词，因为它决定长难句结构；连接词或词组通常一眼能看过去。</p>
-                <div class="table-wrap">
-                    <table>
-                        <thead>
-                            <tr><th>并列内容</th><th>例子</th><th>处理方式</th></tr>
-                        </thead>
-                        <tbody>
-                            <tr><td>名词词组</td><td><code>disappointments and rejections</code></td><td>知道是“失望和拒绝”，不用当成两个句子。</td></tr>
-                            <tr><td>形容词</td><td><code>responsive and sensitive</code></td><td>并列两个形容词，修饰父母状态。</td></tr>
-                            <tr><td>形容词词组</td><td><code>verbal or nonverbal</code></td><td>语言的或非语言的，属于选择并列。</td></tr>
-                            <tr><td>名词词组</td><td><code>deaths and hospitalizations</code></td><td>死亡和住院，并列两个结果名词。</td></tr>
-                        </tbody>
-                    </table>
-                </div>
-                <article class="example-card">
-                    <h3>parents balance 句</h3>
-                    <span class="english">Parents do not have to be exclusively present at all times, but there needs to be a balance, and the parents need to be responsive and sensitive to a child's verbal or nonverbal expressions of emotional need.</span>
-                    <ol class="analysis-list">
-                        <li>外层句子并列：<code>1 but 2 and 3</code>，连词不同，所以都保留。</li>
-                        <li><code>responsive and sensitive</code> 是形容词并列，不是句子并列。</li>
-                        <li><code>verbal or nonverbal</code> 是词组并列，也不是句子并列。</li>
-                        <li>理解：父母不必时时在场，但需要平衡，而且要对孩子语言或非语言的情感需求表达有反应、够敏感。</li>
-                    </ol>
-                </article>
-            </section>
-
-            <section class="section-card" id="ellipsis">
-                <h2>五、并列句省略：相同的省，剩下的不变</h2>
-                <div class="recall-box">
-                    <strong>先想一想：</strong><code>I had no money and needed the job.</code> 里的 <code>needed</code> 为什么不用变成非谓语？
-                </div>
-                <p>并列句的独有特点是：前后句子一样重要，处在同一级别，所以相同成分可以共享。共享之后，后面的相同部分可以省略，余下部分保持原来的形式。</p>
-                <div class="formula">并列句省略口诀：相同的省，剩下的不变。</div>
-                <div class="warning-box">
-                    <strong>关键区别：</strong>并列句省略主语后，谓语动词仍然是谓语，不需要变成非谓语。因为它不是“一个主语带两个多余动词”，而是两个句子共享了同一个主语。
-                </div>
-                <div class="table-wrap">
-                    <table>
-                        <thead>
-                            <tr><th>分析步骤</th><th>你要问自己的问题</th></tr>
-                        </thead>
-                        <tbody>
-                            <tr><td>1. 找并列连词</td><td>句子里有没有 <code>and / but / or / so / yet</code> 等连接词？</td></tr>
-                            <tr><td>2. 找并列对象</td><td>连的是句子、词组，还是两个形式一致的动词？</td></tr>
-                            <tr><td>3. 还原省略</td><td>后半句缺什么？缺的内容能不能从前半句共享过来？</td></tr>
-                        </tbody>
-                    </table>
-                </div>
-
-                <h3>1. 主语相同：省主语，谓语不变</h3>
-                <div class="grid-2">
-                    <article class="example-card">
-                        <h3>I had no money 句</h3>
-                        <span class="english">I had no money and needed the job.</span>
-                        <ol class="analysis-list">
-                            <li>完整形式：<code>I had no money and I needed the job.</code></li>
-                            <li>省略内容：第二个 <code>I</code>。</li>
-                            <li><code>needed</code> 仍是谓语动词，不变非谓语。</li>
-                        </ol>
-                    </article>
-                    <article class="example-card">
-                        <h3>predictions 句</h3>
-                        <span class="english">Predictions of such a society have been around for two decades, but have not yet come to fruition.</span>
-                        <ol class="analysis-list">
-                            <li>并列连词：<code>but</code>。</li>
-                            <li>省略内容：后半句主语 <code>predictions of such a society</code>。</li>
-                            <li>理解：这种社会的预测已经存在二十年，但还没有实现。</li>
-                        </ol>
-                    </article>
-                    <article class="example-card">
-                        <h3>astronaut / scientist 句</h3>
-                        <span class="english">He ticks astronaut, but quickly adds scientist to the list, and selects it as well.</span>
-                        <ol class="analysis-list">
-                            <li>三个动作并列：ticks / adds / selects。</li>
-                            <li>后两件事省略了相同主语 <code>he</code>。</li>
-                            <li>理解：他勾选宇航员，又迅速把科学家加到清单里，并且也选了它。</li>
-                        </ol>
-                    </article>
-                </div>
-
-                <h3>2. 主谓部分相同：省到相同处</h3>
-                <div class="grid-2">
-                    <article class="example-card">
-                        <h3>chocolate coins 句</h3>
-                        <span class="english">Then the kids were handed chocolate coins and given a chance to share them with anonymous children.</span>
-                        <ol class="analysis-list">
-                            <li><code>given</code> 与 <code>handed</code> 并列，都是过去分词。</li>
-                            <li>完整结构：the kids were handed ... and the kids were given ...</li>
-                            <li>省略内容：第二个主语和 <code>were</code>。</li>
-                        </ol>
-                    </article>
-                    <article class="example-card">
-                        <h3>newspapers survived 句</h3>
-                        <span class="english">Even American newspapers have not only survived but often returned to profit.</span>
-                        <ol class="analysis-list">
-                            <li>并列结构：<code>not only ... but ...</code>。</li>
-                            <li><code>survived</code> 与 <code>returned</code> 并列。</li>
-                            <li>共享部分：<code>American newspapers have</code>。</li>
-                        </ol>
-                    </article>
-                    <article class="example-card">
-                        <h3>COVID infected / caused 句</h3>
-                        <span class="english">In the US, it has infected more than one million people and caused more than six hundred deaths and more than six thousand hospitalizations.</span>
-                        <ol class="analysis-list">
-                            <li><code>infected</code> 与 <code>caused</code> 并列。</li>
-                            <li>共享部分：<code>it has</code>。</li>
-                            <li><code>deaths and hospitalizations</code> 是名词并列。</li>
-                        </ol>
-                    </article>
-                </div>
-
-                <h3>3. 主谓宾或 to do 前半部分相同：也能省</h3>
-                <div class="grid-2">
-                    <article class="example-card">
-                        <h3>Newport scheduling 句</h3>
-                        <span class="english">Newport also recommends deep scheduling to combat constant interruptions and get more done in less time.</span>
-                        <ol class="analysis-list">
-                            <li><code>get</code> 不是和 <code>recommends</code> 并列，因为形式不一致。</li>
-                            <li><code>get</code> 与 <code>combat</code> 并列，都是动词原形。</li>
-                            <li>共享部分：<code>Newport also recommends deep scheduling to</code>。</li>
-                        </ol>
-                    </article>
-                    <article class="example-card">
-                        <h3>focus time 句</h3>
-                        <span class="english">The key is to determine your length of focus time and stick to it.</span>
-                        <ol class="analysis-list">
-                            <li>真正并列：<code>determine</code> 与 <code>stick</code>。</li>
-                            <li>完整理解：The key is to determine ... and to stick to it.</li>
-                            <li>省略了第二个 <code>to</code>，共享前面的表语结构。</li>
-                        </ol>
-                    </article>
-                    <article class="example-card">
-                        <h3>housing need 句</h3>
-                        <span class="english">It needs to put historical prejudice to one side and take some steps to address urgent housing need.</span>
-                        <ol class="analysis-list">
-                            <li><code>take</code> 与 <code>put</code> 并列，都是动词原形。</li>
-                            <li>不是和 <code>needs</code> 并列，因为 <code>needs</code> 是第三人称单数。</li>
-                            <li>理解：它需要做两件事：放下历史偏见，并采取措施解决紧急住房需求。</li>
-                        </ol>
-                    </article>
-                    <article class="example-card">
-                        <h3>temptation / trend 句</h3>
-                        <span class="english">We still have the imaginative capacity to rise above temptation and reverse the high-speed trend.</span>
-                        <ol class="analysis-list">
-                            <li><code>reverse</code> 与 <code>rise</code> 并列。</li>
-                            <li>共享部分：<code>we still have the imaginative capacity to</code>。</li>
-                            <li>理解：我们仍有想象能力去抵制诱惑，并扭转高速趋势。</li>
-                        </ol>
-                    </article>
-                </div>
-            </section>
-
-            <section class="section-card" id="full-examples">
-                <h2>六、完整句并列：不一定都有省略</h2>
-                <div class="grid-2">
-                    <article class="example-card">
-                        <h3>overweight teasing 句</h3>
-                        <span class="english">Even very young children tend to look down on the overweight, and teasing about body build has long been a problem in schools.</span>
-                        <ol class="analysis-list">
-                            <li><code>and</code> 连接两个完整句子。</li>
-                            <li><code>tend to do</code> 表示“往往做某事”。</li>
-                            <li><code>teasing about body build</code> 是 doing 词组作主语。</li>
-                        </ol>
-                    </article>
-                    <article class="example-card">
-                        <h3>supermarket items 句</h3>
-                        <span class="english">The average supermarket carries some 44,000 different items, and many carry tens of thousands more.</span>
-                        <ol class="analysis-list">
-                            <li><code>and</code> 连接两个完整句子。</li>
-                            <li><code>average</code> 在这里不是“平均的”，而是“普通的”。</li>
-                            <li>理解：普通超市有大约 44,000 种商品，很多还会更多。</li>
-                        </ol>
-                    </article>
-                </div>
-            </section>
-
-            <section class="section-card" id="drills">
-                <h2>七、专项训练题：先做，再看解析</h2>
-                <div class="recall-box">
-                    <strong>做题规则：</strong>每题先遮住解析，自己说出“连词、连接对象、逻辑关系、是否省略”。这一步比多看三遍笔记更值钱。
-                </div>
-
-                <h3>A 组：四类并列连词分类题</h3>
-                <p>任务：判断加粗连词属于顺接、转折、选择还是因果。</p>
-                <details>
-                    <summary>1. The boy was Bill Gates, <strong>and</strong> he hasn't stopped reading yet.</summary>
-                    <p>顺接。<code>and</code> 连接两个完整句子，表示“而且”。</p>
-                </details>
-                <details>
-                    <summary>2. They didn't remember the information, <strong>but</strong> they remembered how to find the folders.</summary>
-                    <p>转折。前面“不记得信息”，后面“记得怎么找文件夹”，语义方向相反。</p>
-                </details>
-                <details>
-                    <summary>3. The US can import food, <strong>or</strong> it can import the workers.</summary>
-                    <p>选择。<code>or</code> 表示二选一：进口食物，或者进口工人。</p>
-                </details>
-                <details>
-                    <summary>4. Strangers are inherently unfamiliar to us, <strong>so</strong> we are more likely to feel anxious.</summary>
-                    <p>因果。<code>so</code> 引出结果：因此我们更容易焦虑。</p>
-                </details>
-                <details>
-                    <summary>5. Adult women do not remember being so obsessed with the color, <strong>yet</strong> it is pervasive in young girls' lives.</summary>
-                    <p>转折。<code>yet</code> 和 <code>but</code> 一样可以表示“然而、但是”。</p>
-                </details>
-                <details>
-                    <summary>6. <strong>Either</strong> Enron never intended to live by those commitments, <strong>or</strong> it did not foresee what would happen next.</summary>
-                    <p>选择。<code>either ... or ...</code> 表示“要么……要么……”。</p>
-                </details>
-
-                <h3>B 组：连接对象判断题</h3>
-                <p>任务：判断并列连词连接的是词、词组，还是句子。</p>
-                <details>
-                    <summary>1. He had to suffer many disappointments <strong>and</strong> rejections along the way.</summary>
-                    <p>连接两个名词：<code>disappointments</code> 和 <code>rejections</code>。这不是句子并列。</p>
-                </details>
-                <details>
-                    <summary>2. Parents need to be responsive <strong>and</strong> sensitive to a child's needs.</summary>
-                    <p>连接两个形容词：<code>responsive</code> 和 <code>sensitive</code>。</p>
-                </details>
-                <details>
-                    <summary>3. A child's verbal <strong>or</strong> nonverbal expressions of emotional need matter.</summary>
-                    <p>连接两个形容词：<code>verbal</code> 和 <code>nonverbal</code>。这是词组内部并列。</p>
-                </details>
-                <details>
-                    <summary>4. The great recession may be over, <strong>but</strong> this era of high joblessness is probably beginning.</summary>
-                    <p>连接两个完整句子。前句有主谓 <code>recession may be</code>，后句有主谓 <code>era is beginning</code>。</p>
-                </details>
-                <details>
-                    <summary>5. It has infected more than one million people <strong>and</strong> caused many deaths.</summary>
-                    <p>连接两个过去分词结构：<code>infected</code> 和 <code>caused</code>。它们共享前面的 <code>it has</code>，属于省略后的并列。</p>
-                </details>
-
-                <h3>C 组：省略还原题</h3>
-                <p>任务：把省略部分补出来，并说明为什么剩下的动词不用变非谓语。</p>
-                <details>
-                    <summary>1. I had no money and needed the job.</summary>
-                    <p>还原：<code>I had no money and I needed the job.</code> 第二个主语 <code>I</code> 与前面相同，所以省略。<code>needed</code> 仍是谓语动词。</p>
-                </details>
-                <details>
-                    <summary>2. Predictions of such a society have been around for two decades, but have not yet come to fruition.</summary>
-                    <p>还原：<code>Predictions of such a society have been around for two decades, but predictions of such a society have not yet come to fruition.</code> 省略的是后半句主语。</p>
-                </details>
-                <details>
-                    <summary>3. The kids were handed chocolate coins and given a chance to share them.</summary>
-                    <p>还原：<code>The kids were handed chocolate coins and the kids were given a chance to share them.</code> 省略的是第二个 <code>the kids were</code>。</p>
-                </details>
-                <details>
-                    <summary>4. Newport recommends deep scheduling to combat interruptions and get more done in less time.</summary>
-                    <p><code>get</code> 和 <code>combat</code> 并列，完整理解是 <code>to combat interruptions and to get more done</code>。共享前面的 <code>Newport recommends deep scheduling to</code>。</p>
-                </details>
-                <details>
-                    <summary>5. It needs to put historical prejudice to one side and take some steps to address urgent housing need.</summary>
-                    <p><code>take</code> 和 <code>put</code> 并列，都是动词原形。还原理解：<code>It needs to put ... and it needs to take ...</code>，也可以理解为共享 <code>It needs to</code>。</p>
-                </details>
-                <details>
-                    <summary>6. The key is to determine your length of focus time and stick to it.</summary>
-                    <p><code>stick</code> 和 <code>determine</code> 并列。还原：<code>The key is to determine ... and to stick to it.</code> 第二个 <code>to</code> 省略。</p>
-                </details>
-
-                <h3>D 组：综合长难句分析题</h3>
-                <p>任务：按“四步法”分析：找连词、判对象、判关系、翻译或还原。</p>
-                <details>
-                    <summary>1. Parents do not have to be exclusively present at all times, but there needs to be a balance, and the parents need to be responsive and sensitive to a child's verbal or nonverbal expressions of emotional need.</summary>
-                    <p>外层是三个句子并列：<code>1 but 2 and 3</code>。<code>responsive and sensitive</code> 是形容词并列；<code>verbal or nonverbal</code> 是词组内部选择并列。翻译：父母不必时时在场，但需要平衡，而且要对孩子语言或非语言的情感需求表达有反应、够敏感。</p>
-                </details>
-                <details>
-                    <summary>2. We still have the imaginative capacity to rise above temptation and reverse the high-speed trend.</summary>
-                    <p><code>reverse</code> 与 <code>rise</code> 并列，二者共享 <code>we still have the imaginative capacity to</code>。翻译：我们仍有想象能力去抵制诱惑，并扭转高速趋势。</p>
-                </details>
-                <details>
-                    <summary>3. Even very young children tend to look down on the overweight, and teasing about body build has long been a problem in schools.</summary>
-                    <p><code>and</code> 连接两个完整句子。第二句中 <code>teasing about body build</code> 是 doing 词组作主语。翻译：甚至很小的孩子也往往看不起超重者，而且嘲笑身材长期以来都是学校中的问题。</p>
-                </details>
-                <details>
-                    <summary>4. The average supermarket carries some 44,000 different items, and many carry tens of thousands more.</summary>
-                    <p><code>and</code> 连接两个完整句子。<code>average</code> 这里是“普通的”，不是“平均的”。翻译：普通超市有大约 44,000 种不同商品，很多超市还会有更多。</p>
-                </details>
-                <details>
-                    <summary>5. Income inequality usually falls during a recession, but it has now shrunk in this one.</summary>
-                    <p><code>but</code> 连接两个完整句子，表示转折。前句是通常规律，后句是这一次的特殊情况。阅读中要重点看 <code>but</code> 后面。</p>
-                </details>
-
-                <h3>E 组：考点迁移补充题</h3>
-                <p>任务：这些题不是逐字来自文稿，但按文稿规则推测补充，用来检查你会不会迁移。</p>
-                <details>
-                    <summary>1. I wanted to leave early, _____ the meeting lasted another hour. 选 <code>and</code> 还是 <code>but</code>？</summary>
-                    <p>选 <code>but</code>。前面想早点走，后面会议又持续一小时，结果出乎意料，表示转折。</p>
-                </details>
-                <details>
-                    <summary>2. The data were incomplete, _____ the researchers repeated the experiment. 选 <code>so</code> 还是 <code>or</code>？</summary>
-                    <p>选 <code>so</code>。数据不完整是原因，研究者重复实验是结果。</p>
-                </details>
-                <details>
-                    <summary>3. She can revise the draft today, _____ she can send it tomorrow. 选 <code>or</code> 还是 <code>but</code>？</summary>
-                    <p>选 <code>or</code>。这里是在两个方案中选择一个：今天修改，或者明天发送。</p>
-                </details>
-                <details>
-                    <summary>4. Not only did the policy reduce costs, _____ it also improved efficiency. 补什么？</summary>
-                    <p>补 <code>but</code>。结构是 <code>not only ... but also ...</code>，表示“不但降低成本，而且提高效率”。</p>
-                </details>
-                <details>
-                    <summary>5. The article explains the problem and offers a solution. 这里 <code>and</code> 连接的是句子吗？</summary>
-                    <p>不是两个完整句子。<code>explains</code> 和 <code>offers</code> 是两个谓语动词并列，共享同一个主语 <code>The article</code>。</p>
-                </details>
-            </section>
-
-            <section class="section-card" id="review">
-                <h2>八、复习区：用提取代替反复看</h2>
-                <h3>四类并列连词总表</h3>
-                <div class="table-wrap">
-                    <table>
-                        <thead><tr><th>类别</th><th>连词</th><th>记忆提示</th><th>考研提醒</th></tr></thead>
-                        <tbody>
-                            <tr><td>顺接</td><td><code>and</code>, <code>both ... and ...</code>, <code>not only ... but also ...</code></td><td>顺着往下说</td><td><code>not only ... but ...</code> 常见省略。</td></tr>
-                            <tr><td>转折</td><td><code>but</code>, <code>yet</code></td><td>后面出乎意料或相反</td><td>转折后常是阅读题重点。</td></tr>
-                            <tr><td>选择</td><td><code>or</code>, <code>either ... or ...</code>, <code>neither ... nor ...</code></td><td>选一个或都不选</td><td>不要随手换成 <code>and</code>。</td></tr>
-                            <tr><td>因果</td><td><code>so</code>, <code>for</code></td><td><code>so</code> 结果，<code>for</code> 原因</td><td><code>for + 句子</code> 才是“因为”。</td></tr>
-                        </tbody>
-                    </table>
-                </div>
-
-                <h3>并列句分析三步法</h3>
-                <ol class="review-checklist">
-                    <li>找并列连词：先圈出 <code>and / but / or / so / yet / for</code>。</li>
-                    <li>判连接对象：看它连接的是词、词组，还是句子。</li>
-                    <li>还原省略：形式一致优先，形式判断不了就看句意。</li>
-                </ol>
-
-                <h3>高频坑点清单</h3>
-                <ul class="review-checklist">
-                    <li>英语两个完整句子不能只靠逗号连接。</li>
-                    <li><code>however</code> 是副词，不是并列连词。</li>
-                    <li>并列连词连接词组时通常不构成长难句核心结构。</li>
-                    <li>并列句省略主语后，谓语动词保持谓语形式，不改成非谓语。</li>
-                    <li>判断并列对象时，先看形式是否一致：原形配原形，过去分词配过去分词。</li>
-                </ul>
-
-                <h3>自测题</h3>
-                <details>
-                    <summary>1. 为什么 <code>however</code> 不放进并列连词表？</summary>
-                    <p>因为 <code>however</code> 是副词，能表示转折、修饰句子，但不能作为并列连词直接连接两个完整句子。</p>
-                </details>
-                <details>
-                    <summary>2. <code>Newport ... to combat ... and get ...</code> 中，<code>get</code> 跟谁并列？</summary>
-                    <p>跟 <code>combat</code> 并列。二者都是动词原形，共享前面的 <code>Newport also recommends deep scheduling to</code>。</p>
-                </details>
-                <details>
-                    <summary>3. <code>I had no money and needed the job.</code> 中，<code>needed</code> 为什么不变非谓语？</summary>
-                    <p>因为这是并列句省略。完整形式是 <code>I had no money and I needed the job</code>，第二个主语 <code>I</code> 省略后，<code>needed</code> 仍然是谓语动词。</p>
-                </details>
-
-                <h3>间隔复习清单</h3>
-                <div class="grid-3">
-                    <article class="mini-card">
-                        <h3>1 天后</h3>
-                        <p>默写四类并列连词，并各举一个中文逻辑。</p>
-                    </article>
-                    <article class="mini-card">
-                        <h3>3 天后</h3>
-                        <p>任选 5 个例句，只看英文，找连词、判关系、还原省略。</p>
-                    </article>
-                    <article class="mini-card">
-                        <h3>7 天后</h3>
-                        <p>闭眼复述三步法：找连词、判对象、还原省略；再解释为什么转折后常出题。</p>
-                    </article>
-                </div>
-            </section>
-        </main>
+    <!-- START: 顶部工具栏 -->
+    <div class="toolbar">
+      <button onclick="expandAll()">全部展开</button>
+      <button onclick="collapseAll()">全部收起</button>
+      <button onclick="toggleFocusMode()" id="focusBtn">只看重点</button>
+      <button onclick="showAnswers()">显示答案</button>
+      <button onclick="hideAnswers()">隐藏答案</button>
+      <button class="primary" onclick="printPage()">导出 PDF</button>
     </div>
+    <!-- END: 顶部工具栏 -->
 
-    <script src="../js/lecture.js"></script>
+    <!-- START: 导航栏 -->
+    <nav class="nav">
+      <a href="#overview">总纲</a>
+      <a href="#concept">并列句本质</a>
+      <a href="#conjunctions">四类连词</a>
+      <a href="#multi">多项并列</a>
+      <a href="#ellipsis">省略还原</a>
+      <a href="#strategy">实战策略</a>
+      <a href="#practice">真题演练</a>
+      <a href="#checklist">检查清单</a>
+    </nav>
+    <!-- END: 导航栏 -->
+
+    <main>
+
+      <!-- START: 总方法论 -->
+      <section class="card" id="overview">
+        <h2>总方法论：长难句为什么难？</h2>
+        <div class="rule">
+          长难句的核心难点：不是单词堆得多，而是多件事被连接在一起。
+        </div>
+
+        <div class="grid-2">
+          <div class="mini-card">
+            <h3>一件事</h3>
+            <p>可以写成简单句。简单句先有核心主干，再加修饰、限定、补充。</p>
+            <p><code>The boy reads.</code></p>
+          </div>
+          <div class="mini-card">
+            <h3>多件事</h3>
+            <p>先写成多个简单句，再用连接词说明句子之间的关系。</p>
+            <p><code>I got up late, so I missed the bus.</code></p>
+          </div>
+        </div>
+
+        <details open>
+          <summary>中文“意合”与英语“形合”</summary>
+          <div>
+            <p>中文常靠意思连接。例如“我起晚了，我迟到了”，不写“因为所以”也能理解因果。</p>
+            <p>英语更强调形式连接。两个完整句子不能只靠逗号硬拼，通常需要连接词，如 <code>and</code>、<code>but</code>、<code>or</code>、<code>so</code>、<code>for</code>。</p>
+            <div class="note note-red">
+              <strong>不能这样理解：</strong>英语里“逗号”不能替代连接词。句子和句子之间要靠连接词明确关系。
+            </div>
+          </div>
+        </details>
+      </section>
+      <!-- END: 总方法论 -->
+
+      <!-- START: 并列句本质 -->
+      <section class="card" id="concept">
+        <h2>模块 1：并列句的本质</h2>
+        <div class="rule">
+          并列句 = 两件或两件以上一样重要的事 + 并列连词连接。
+        </div>
+
+        <p>“并列”就是地位一样。像比赛中“并列第一”，两个选手成绩一样、重要性一样。放到句子中，就是几个句子表达的事情处在同一级别。</p>
+
+        <div class="example">
+          <strong>例句：</strong>
+          <p><code>I like English, and I like math.</code></p>
+          <p>两件事：我喜欢英语；我喜欢数学。二者地位一样，所以用 <code>and</code> 连接。</p>
+        </div>
+
+        <div class="note note-blue">
+          <strong>判断关键：</strong>一件事不能叫并列。至少两件事，且表达者认为它们地位相同，才构成并列关系。
+        </div>
+
+        <div class="non-key note note-amber">
+          <strong>了解即可：</strong>如果多件事不一样重要，往往进入主从复合句。例如 <code>Because I got up late, I missed the bus.</code> 中，原因从句服务于主句。
+        </div>
+      </section>
+      <!-- END: 并列句本质 -->
+
+      <!-- START: 四类并列连词 -->
+      <section class="card" id="conjunctions">
+        <h2>模块 2：四类并列连词</h2>
+        <div class="rule">
+          学并列句的重点不是背句子，而是掌握并列连词表达的逻辑关系。
+        </div>
+
+        <table>
+          <thead>
+            <tr>
+              <th>关系</th>
+              <th>常见连词</th>
+              <th>核心意思</th>
+              <th>判断方法</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>顺接</td>
+              <td><code>and</code> / <code>both...and...</code> / <code>not only...but also...</code></td>
+              <td>和；并且；不但而且</td>
+              <td>没有明显转折、选择、因果，只是顺着说</td>
+            </tr>
+            <tr>
+              <td>转折</td>
+              <td><code>but</code> / <code>yet</code></td>
+              <td>但是；然而</td>
+              <td>后文出乎意料，或前后相反</td>
+            </tr>
+            <tr>
+              <td>选择</td>
+              <td><code>or</code> / <code>either...or...</code> / <code>neither...nor...</code></td>
+              <td>或者；要么；既不也不</td>
+              <td>不是都发生，而是在选项中选择</td>
+            </tr>
+            <tr>
+              <td>因果</td>
+              <td><code>so</code> / <code>for</code></td>
+              <td>所以；因为</td>
+              <td><code>so</code> 后接结果；<code>for</code> 后接原因</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <details open>
+          <summary>顺接：and / both...and / not only...but also</summary>
+          <div>
+            <p><code>and</code> 最常用，表示两件事顺着说。</p>
+            <p><code>both...and...</code> 表示“两者都”。例如：<code>She can both sing and dance.</code></p>
+            <p><code>not only...but also...</code> 表示“不但……而且……”，更书面，也更强调后者。</p>
+            <div class="note note-green">
+              变体：<code>not only...but...</code>、<code>not just...but also...</code>、<code>not merely...but also...</code>，本质都是“不仅 A，而且 B”。
+            </div>
+          </div>
+        </details>
+
+        <details open>
+          <summary>转折：but / yet，以及 however</summary>
+          <div>
+            <p>转折有两类：后文出乎意料，或前后方向相反。</p>
+            <p><code>It is summer, but it is very cold.</code> 夏天却很冷，出乎意料。</p>
+            <p><code>Sales increased, but profits fell.</code> 销量增长但利润下降，前后相反。</p>
+            <div class="note note-amber">
+              <strong>考研阅读重点：</strong>转折词后面往往是作者强调的关键信息，容易成为正确答案或推理依据。
+            </div>
+            <div class="note note-red">
+              <strong>易错：</strong><code>however</code> 表示转折，但它是副词，不是并列连词。<br />
+              推荐：<code>I was tired. However, I kept working.</code><br />
+              不推荐：<code>I was tired, however I kept working.</code>
+            </div>
+          </div>
+        </details>
+
+        <details>
+          <summary>选择：or / either...or / neither...nor</summary>
+          <div>
+            <p><code>or</code> 表示“或者”，不是都发生，而是选一个或选若干。</p>
+            <p><code>either...or...</code> 表示“要么……要么……”。</p>
+            <p><code>neither...nor...</code> 表示“既不……也不……”。</p>
+            <div class="note note-blue">
+              <code>and</code> = 都发生；<code>or</code> = 选择关系。不能随便互换。
+            </div>
+          </div>
+        </details>
+
+        <details>
+          <summary>因果：so / for</summary>
+          <div>
+            <p><code>so</code> 后面接结果：<code>It was raining, so I stayed home.</code></p>
+            <p><code>for</code> 后面接原因：<code>I stayed home, for it was raining.</code></p>
+            <div class="note note-amber">
+              <strong>易错：</strong><code>for</code> 作介词时后面接名词，如 <code>for three years</code>；作并列连词时后面接句子，表示“因为”。
+            </div>
+            <div class="non-key note note-blue">
+              <code>because</code>、<code>since</code>、<code>as</code> 也表示原因，但它们引导原因状语从句，位置更灵活，可以放句首或句中。
+            </div>
+          </div>
+        </details>
+      </section>
+      <!-- END: 四类并列连词 -->
+
+      <!-- START: 多项并列 -->
+      <section class="card" id="multi">
+        <h2>模块 3：多件事并列怎么处理</h2>
+        <div class="rule">
+          连词不同，挨个写；连词相同，前面用逗号，最后保留一个连词。
+        </div>
+
+        <div class="grid-2">
+          <div class="mini-card">
+            <h3>连词相同</h3>
+            <p><code>A, B, and C</code></p>
+            <p>前面的相同连词用逗号替代，最后保留一个 <code>and</code> 或 <code>or</code>。</p>
+          </div>
+          <div class="mini-card">
+            <h3>连词不同</h3>
+            <p><code>A but B so C</code></p>
+            <p>关系不同，不能省成逗号，否则会丢掉转折或因果。</p>
+          </div>
+        </div>
+
+        <div class="example">
+          <strong>例句：</strong>
+          <p><code>His marriage failed, his career burned out, and his drinking became serious.</code></p>
+          <p>三件事都是顺接列举，所以前面的 <code>and</code> 用逗号替代，只保留最后一个。</p>
+        </div>
+
+        <div class="note note-purple">
+          并列连词不仅能连接句子，也能连接词和词组。例如 <code>responsive and sensitive</code> 是两个形容词并列，<code>verbal or nonverbal</code> 是两个形容词并列。长难句分析时，重点关注连接“完整事情”的并列连词。
+        </div>
+      </section>
+      <!-- END: 多项并列 -->
+
+      <!-- START: 并列句省略 -->
+      <section class="card" id="ellipsis">
+        <h2>模块 4：并列句的省略与还原</h2>
+        <div class="rule">
+          并列句中，前后相同的成分可以省略，剩下的保持不变。
+        </div>
+
+        <details open>
+          <summary>省主语：谓语动词不用变非谓语</summary>
+          <div>
+            <p><code>I had no money and needed the job.</code></p>
+            <p>完整还原：<code>I had no money, and I needed the job.</code></p>
+            <div class="note note-green">
+              <code>needed</code> 仍然是谓语动词，不用变成非谓语，因为第二个 <code>I</code> 只是被省略了。
+            </div>
+          </div>
+        </details>
+
+        <details open>
+          <summary>省主语 + be / 助动词</summary>
+          <div>
+            <p><code>The kids were handed chocolate coins and given a chance.</code></p>
+            <p>真正并列：<code>handed</code> 和 <code>given</code>，都是过去分词。</p>
+            <p>完整还原：<code>The kids were handed chocolate coins, and the kids were given a chance.</code></p>
+          </div>
+        </details>
+
+        <details open>
+          <summary>主谓宾甚至 to do 都可以省</summary>
+          <div>
+            <p>这不是让你背术语，而是让你明白：如果后半部分和前半部分共用一大串内容，后面可以只保留不同部分。</p>
+            <div class="example">
+              <p><code>Newport recommends deep scheduling to combat constant interruptions and get more done in less time.</code></p>
+              <p>完整理解：</p>
+              <p><code>Newport recommends deep scheduling to combat constant interruptions, and Newport recommends deep scheduling to get more done in less time.</code></p>
+            </div>
+            <p>省掉的是：<code>Newport recommends deep scheduling to</code></p>
+            <p>真正并列的是：<code>combat</code> 和 <code>get</code>，它们都是动词原形，共用前面的 <code>to</code>。</p>
+            <div class="note note-red">
+              <strong>不能误判：</strong><code>get</code> 不是和 <code>recommends</code> 并列。因为 <code>recommends</code> 是三单，<code>get</code> 是动词原形，形式不一致。
+            </div>
+          </div>
+        </details>
+
+        <div class="note note-blue">
+          <strong>还原三步：</strong>找并列连词 → 找形式一致的并列项 → 把前面共用内容补到后面。
+        </div>
+      </section>
+      <!-- END: 并列句省略 -->
+
+      <!-- START: 实战策略 -->
+      <section class="card" id="strategy">
+        <h2>模块 5：考场实战策略</h2>
+        <div class="rule">
+          看到长句不要先翻译全部，先拆结构。
+        </div>
+
+        <div class="grid-3">
+          <div class="mini-card">
+            <h3>第 1 步</h3>
+            <p>找并列连词：<code>and</code>、<code>but</code>、<code>or</code>、<code>so</code>、<code>for</code>、<code>yet</code>。</p>
+          </div>
+          <div class="mini-card">
+            <h3>第 2 步</h3>
+            <p>判断连接对象：词、词组，还是句子。连接句子才是分析重点。</p>
+          </div>
+          <div class="mini-card">
+            <h3>第 3 步</h3>
+            <p>判断逻辑：顺接、转折、选择、因果。转折后面尤其要重视。</p>
+          </div>
+          <div class="mini-card">
+            <h3>第 4 步</h3>
+            <p>看后面是否完整。不完整时，优先考虑并列省略。</p>
+          </div>
+          <div class="mini-card">
+            <h3>第 5 步</h3>
+            <p>用“形式一致”找真正并列项：原形找原形，过去分词找过去分词。</p>
+          </div>
+          <div class="mini-card">
+            <h3>第 6 步</h3>
+            <p>补出省略部分，再按逻辑关系翻译。</p>
+          </div>
+        </div>
+      </section>
+      <!-- END: 实战策略 -->
+
+      <!-- START: 真题演练中心 -->
+      <section class="card" id="practice">
+        <h2>真题演练中心：并列句</h2>
+        <p class="muted">使用方式：先自己分析，再点开答案。每题重点看“并列连词、连接对象、逻辑关系、省略还原”。</p>
+
+        <div class="practice">
+          <div class="practice-title">第 1 题：but 连接两个句子，and 连接名词</div>
+          <div class="question">
+            <code>Like the majority of authors, he had to suffer many disappointments and rejections along the way, but these made him all the more determined to succeed.</code>
+          </div>
+          <div class="answer">
+            <details class="answer-toggle">
+              <summary>点击查看答案解析</summary>
+              <div class="answer-content">
+                <p><strong>答案：</strong>核心并列连词是 <code>but</code>；<code>and</code> 只连接两个名词 <code>disappointments and rejections</code>。</p>
+                <p><strong>解析：</strong><code>but</code> 前后连接两个句子，表示转折。前半句说他一路承受失望和拒绝，后半句说这些反而让他更坚定成功。</p>
+                <p><strong>主干：</strong><code>he had to suffer...</code>；<code>these made him...</code></p>
+                <p class="translation"><strong>参考翻译：</strong>像大多数作家一样，他一路上不得不承受许多失望和拒绝，但这些反而使他更加坚定地想要成功。</p>
+              </div>
+            </details>
+          </div>
+        </div>
+
+        <div class="practice">
+          <div class="practice-title">第 2 题：to do 并列，第二个 to 省略</div>
+          <div class="question">
+            <code>The key is to determine your length of focus time and stick to it.</code>
+          </div>
+          <div class="answer">
+            <details class="answer-toggle">
+              <summary>点击查看答案解析</summary>
+              <div class="answer-content">
+                <p><strong>答案：</strong><code>and</code> 连接 <code>determine</code> 和 <code>stick</code>，两个动词原形并列，共用前面的 <code>to</code>。</p>
+                <p><strong>解析：</strong>完整理解是：<code>The key is to determine... and to stick...</code>。由于 <code>to</code> 重复，第二个 <code>to</code> 被省略。</p>
+                <p><strong>主干：</strong><code>The key is to determine... and stick...</code></p>
+                <p class="translation"><strong>参考翻译：</strong>关键是确定你的专注时长，并坚持它。</p>
+              </div>
+            </details>
+          </div>
+        </div>
+
+        <div class="practice">
+          <div class="practice-title">第 3 题：so 表示因果</div>
+          <div class="question">
+            <code>I can't afford to pay my monthly mortgage payments on my own, so I have to rent rooms out to people to make that happen.</code>
+          </div>
+          <div class="answer">
+            <details class="answer-toggle">
+              <summary>点击查看答案解析</summary>
+              <div class="answer-content">
+                <p><strong>答案：</strong><code>so</code> 连接两个完整句子，表示因果，后面是结果。</p>
+                <p><strong>解析：</strong>前半句说“我独自负担不起每月房贷”，后半句说“所以我不得不把房间租给别人”。</p>
+                <p><strong>扩展：</strong><code>can't afford to do</code> = 负担不起做某事；<code>on my own</code> = 独自。</p>
+                <p class="translation"><strong>参考翻译：</strong>我无法独自负担每月的房贷，所以我不得不把房间租给别人，才能做到这一点。</p>
+              </div>
+            </details>
+          </div>
+        </div>
+
+        <div class="practice">
+          <div class="practice-title">第 4 题：but 表示转折</div>
+          <div class="question">
+            <code>The Great Recession may be over, but this era of high joblessness is probably beginning.</code>
+          </div>
+          <div class="answer">
+            <details class="answer-toggle">
+              <summary>点击查看答案解析</summary>
+              <div class="answer-content">
+                <p><strong>答案：</strong><code>but</code> 连接两个完整句子，表示转折。</p>
+                <p><strong>解析：</strong>前半句说“大衰退可能结束了”，后半句却说“高失业时期可能正在开始”，后文是重点。</p>
+                <p><strong>扩展：</strong><code>recession</code> 常指经济衰退；<code>joblessness</code> 表示失业或失业率。</p>
+                <p class="translation"><strong>参考翻译：</strong>大衰退或许已经结束，但这个高失业率的时代可能才刚刚开始。</p>
+              </div>
+            </details>
+          </div>
+        </div>
+
+        <div class="practice">
+          <div class="practice-title">第 5 题：has done and caused，省略主语和助动词</div>
+          <div class="question">
+            <code>In the US, it has infected more than one million people and caused more than six hundred deaths and more than six thousand hospitalizations.</code>
+          </div>
+          <div class="answer">
+            <details class="answer-toggle">
+              <summary>点击查看答案解析</summary>
+              <div class="answer-content">
+                <p><strong>答案：</strong>第一个 <code>and</code> 连接 <code>infected</code> 和 <code>caused</code>，二者都是过去分词，共用 <code>it has</code>。</p>
+                <p><strong>解析：</strong>完整理解是：<code>it has infected... and it has caused...</code>。第二个 <code>and</code> 连接两个名词短语：死亡人数和住院人数。</p>
+                <p><strong>主干：</strong><code>it has infected... and caused...</code></p>
+                <p class="translation"><strong>参考翻译：</strong>在美国，它已经感染了超过一百万人，并造成了六百多人死亡和六千多人住院。</p>
+              </div>
+            </details>
+          </div>
+        </div>
+
+        <div class="practice">
+          <div class="practice-title">第 6 题：so 后接祈使句</div>
+          <div class="question">
+            <code>Impulsive spending isn't an option, so plan your weekly menu in advance, making shopping lists for ingredients in their exact quantities.</code>
+          </div>
+          <div class="answer">
+            <details class="answer-toggle">
+              <summary>点击查看答案解析</summary>
+              <div class="answer-content">
+                <p><strong>答案：</strong><code>so</code> 表示因果，后半句是结果；<code>plan</code> 是祈使句动词原形。</p>
+                <p><strong>解析：</strong>后半句不是并列省略，而是祈使句省略了主语 <code>you</code>。<code>making...</code> 是非谓语结构，补充说明如何计划。</p>
+                <p><strong>主干：</strong><code>Impulsive spending isn't an option, so plan...</code></p>
+                <p class="translation"><strong>参考翻译：</strong>冲动消费不是明智选择，所以要提前计划每周菜单，并列出购物清单，写明所需食材及准确数量。</p>
+              </div>
+            </details>
+          </div>
+        </div>
+
+        <div class="practice">
+          <div class="practice-title">第 7 题：put and take，并列动词原形</div>
+          <div class="question">
+            <code>It needs to put historical prejudice to one side and take some steps to address our urgent housing need.</code>
+          </div>
+          <div class="answer">
+            <details class="answer-toggle">
+              <summary>点击查看答案解析</summary>
+              <div class="answer-content">
+                <p><strong>答案：</strong><code>and</code> 连接 <code>put</code> 和 <code>take</code>，它们都是动词原形，共用 <code>It needs to</code>。</p>
+                <p><strong>解析：</strong><code>take</code> 不能和 <code>needs</code> 并列，因为 <code>needs</code> 是三单，<code>take</code> 是原形。真正并列的是 <code>put</code> 和 <code>take</code>。</p>
+                <p><strong>还原：</strong><code>It needs to put... and it needs to take...</code></p>
+                <p class="translation"><strong>参考翻译：</strong>它需要把历史偏见放到一边，并采取一些措施来解决紧迫的住房需求。</p>
+              </div>
+            </details>
+          </div>
+        </div>
+
+        <div class="practice">
+          <div class="practice-title">第 8 题：but 转折，后文反常</div>
+          <div class="question">
+            <code>Income inequality usually falls during a recession, but it has not shrunk in this one.</code>
+          </div>
+          <div class="answer">
+            <details class="answer-toggle">
+              <summary>点击查看答案解析</summary>
+              <div class="answer-content">
+                <p><strong>答案：</strong><code>but</code> 连接两个完整句子，表示转折。</p>
+                <p><strong>解析：</strong>通常经济衰退时收入不平等会下降，但这一次没有缩小，后半句是反常信息，也是重点。</p>
+                <p><strong>扩展：</strong><code>shrink</code> = 缩小；<code>shrunk</code> 是过去分词。</p>
+                <p class="translation"><strong>参考翻译：</strong>收入不平等通常会在经济衰退期间下降，但在这次衰退中它并没有缩小。</p>
+              </div>
+            </details>
+          </div>
+        </div>
+
+        <div class="practice">
+          <div class="practice-title">第 9 题：rise and reverse，共用 to</div>
+          <div class="question">
+            <code>We still have the imaginative capacity to rise above temptation and reverse the high-speed trend.</code>
+          </div>
+          <div class="answer">
+            <details class="answer-toggle">
+              <summary>点击查看答案解析</summary>
+              <div class="answer-content">
+                <p><strong>答案：</strong><code>and</code> 连接 <code>rise</code> 和 <code>reverse</code>，二者都是动词原形，共用前面的 <code>to</code>。</p>
+                <p><strong>解析：</strong>不能只看距离，要看意思和形式。这里表示“有能力去做两件事”：抵制诱惑、逆转趋势。</p>
+                <p><strong>还原：</strong><code>to rise above temptation and to reverse the trend</code></p>
+                <p class="translation"><strong>参考翻译：</strong>我们仍然拥有想象能力，能够抵制诱惑，并扭转这种高速发展的趋势。</p>
+              </div>
+            </details>
+          </div>
+        </div>
+
+        <div class="practice">
+          <div class="practice-title">第 10 题：and 连接两个完整句子</div>
+          <div class="question">
+            <code>Even very young children tend to look down on the overweight, and teasing about body build has long been a problem in schools.</code>
+          </div>
+          <div class="answer">
+            <details class="answer-toggle">
+              <summary>点击查看答案解析</summary>
+              <div class="answer-content">
+                <p><strong>答案：</strong><code>and</code> 连接两个完整句子，表示顺接。</p>
+                <p><strong>解析：</strong>第一句说年幼儿童也往往看不起超重者；第二句说嘲笑体型长期以来是学校中的问题。</p>
+                <p><strong>扩展：</strong><code>tend to do</code> = 倾向于做，往往会做；<code>teasing about body build</code> 是动名词词组作主语。</p>
+                <p class="translation"><strong>参考翻译：</strong>甚至很小的孩子也往往看不起超重者，而嘲笑体型长期以来一直是学校中的一个问题。</p>
+              </div>
+            </details>
+          </div>
+        </div>
+
+        <div class="practice">
+          <div class="practice-title">第 11 题：so 表示因果，后接目的结果</div>
+          <div class="question">
+            <code>Mr. Dunwell has begun bringing high school juniors to the factory so they can get exposed
+ to its culture.</code>
+          </div>
+          <div class="answer">
+            <details class="answer-toggle">
+              <summary>点击查看答案解析</summary>
+              <div class="answer-content">
+                <p><strong>答案：</strong><code>so</code> 连接前后内容，表示结果或目的色彩：把学生带到工厂，所以他们能够接触工厂文化。</p>
+                <p><strong>解析：</strong>前半部分是 <code>Mr. Dunwell has begun bringing...</code>，后半部分是 <code>they can get exposed...</code>。这里 <code>so</code> 引出结果。</p>
+                <p><strong>扩展：</strong><code>get exposed to</code> 原意是“暴露于”，引申为“接触到”。</p>
+                <p class="translation"><strong>参考翻译：</strong>Dunwell 先生已经开始把高中低年级学生带到工厂，这样他们就能接触到工厂文化。</p>
+              </div>
+            </details>
+          </div>
+        </div>
+
+        <div class="practice">
+          <div class="practice-title">第 12 题：and 连接两个完整句子</div>
+          <div class="question">
+            <code>The average supermarket carries some 44,000 different items, and many carry tens of thousands more.</code>
+          </div>
+          <div class="answer">
+            <details class="answer-toggle">
+              <summary>点击查看答案解析</summary>
+              <div class="answer-content">
+                <p><strong>答案：</strong><code>and</code> 连接两个完整句子，表示顺接补充。</p>
+                <p><strong>解析：</strong>第一句说普通超市大约有 44,000 种不同商品；第二句补充说许多超市还有更多商品。</p>
+                <p><strong>主干：</strong><code>The average supermarket carries...</code>；<code>many carry...</code></p>
+                <p><strong>易错点：</strong><code>average</code> 在这里不是“平均的”，而是“普通的，一般的”。这是熟词僻义。</p>
+                <p class="translation"><strong>参考翻译：</strong>一家普通超市大约有 44,000 种不同商品，许多超市还会多出数万种。</p>
+              </div>
+            </details>
+          </div>
+        </div>
+      </section>
+      <!-- END: 真题演练中心 -->
+
+      <!-- START: 易错点速查 -->
+      <section class="card" id="mistakes">
+        <h2>易错点速查</h2>
+
+        <div class="grid-2">
+          <div class="mini-card">
+            <h3>1. 不是所有 and 都连接句子</h3>
+            <p><code>disappointments and rejections</code></p>
+            <p>这里 <code>and</code> 只连接两个名词，不是并列句的重点。</p>
+          </div>
+
+          <div class="mini-card">
+            <h3>2. 形式一致才可能并列</h3>
+            <p><code>needs to put... and take...</code></p>
+            <p><code>take</code> 和 <code>put</code> 并列，不和 <code>needs</code> 并列。</p>
+          </div>
+
+          <div class="mini-card">
+            <h3>3. to 可以共用</h3>
+            <p><code>to rise... and reverse...</code></p>
+            <p>完整理解是 <code>to rise... and to reverse...</code>，第二个 <code>to</code> 可以省略。</p>
+          </div>
+
+          <div class="mini-card">
+            <h3>4. 完成时可共用 have / has</h3>
+            <p><code>has infected... and caused...</code></p>
+            <p>完整理解是 <code>has infected... and has caused...</code>。</p>
+          </div>
+
+          <div class="mini-card">
+            <h3>5. so 后面可能是祈使句</h3>
+            <p><code>so plan your weekly menu...</code></p>
+            <p><code>plan</code> 是祈使句动词原形，不是并列省略。</p>
+          </div>
+
+          <div class="mini-card">
+            <h3>6. 转折后面常是重点</h3>
+            <p><code>but it has not shrunk...</code></p>
+            <p>阅读中看到 <code>but</code>，重点关注后半句。</p>
+          </div>
+        </div>
+      </section>
+      <!-- END: 易错点速查 -->
+
+      <!-- START: 词汇与表达速记 -->
+      <section class="card" id="vocabulary">
+        <h2>词汇与表达速记</h2>
+
+        <table>
+          <thead>
+            <tr>
+              <th>表达</th>
+              <th>含义</th>
+              <th>复习提醒</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>majority</code></td>
+              <td>大多数</td>
+              <td><code>the majority of authors</code> = 大多数作者</td>
+            </tr>
+            <tr>
+              <td><code>disappointment</code></td>
+              <td>失望</td>
+              <td>名词</td>
+            </tr>
+            <tr>
+              <td><code>rejection</code></td>
+              <td>拒绝；排斥</td>
+              <td>常与 <code>disappointment</code> 并列</td>
+            </tr>
+            <tr>
+              <td><code>determined</code></td>
+              <td>坚定的，下定决心的</td>
+              <td><code>be determined to do</code> = 决心做某事</td>
+            </tr>
+            <tr>
+              <td><code>along the way</code></td>
+              <td>一路上；在过程中</td>
+              <td>不要逐字翻译成“沿着路”</td>
+            </tr>
+            <tr>
+              <td><code>can't afford to do</code></td>
+              <td>负担不起做某事</td>
+              <td>后接不定式</td>
+            </tr>
+            <tr>
+              <td><code>mortgage payments</code></td>
+              <td>房贷还款</td>
+              <td><code>monthly mortgage payments</code> = 每月房贷</td>
+            </tr>
+            <tr>
+              <td><code>on one's own</code></td>
+              <td>独自，靠自己</td>
+              <td><code>on my own</code> = 我独自</td>
+            </tr>
+            <tr>
+              <td><code>recession</code></td>
+              <td>衰退；经济衰退</td>
+              <td>考研语境常指经济衰退</td>
+            </tr>
+            <tr>
+              <td><code>joblessness</code></td>
+              <td>失业；失业率</td>
+              <td><code>high joblessness</code> = 高失业率</td>
+            </tr>
+            <tr>
+              <td><code>hospitalization</code></td>
+              <td>住院</td>
+              <td>名词</td>
+            </tr>
+            <tr>
+              <td><code>impulsive spending</code></td>
+              <td>冲动消费</td>
+              <td><code>impulsive</code> = 冲动的</td>
+            </tr>
+            <tr>
+              <td><code>in advance</code></td>
+              <td>提前，事先</td>
+              <td>常作状语</td>
+            </tr>
+            <tr>
+              <td><code>prejudice</code></td>
+              <td>偏见</td>
+              <td><code>historical prejudice</code> = 历史偏见</td>
+            </tr>
+            <tr>
+              <td><code>put...to one side</code></td>
+              <td>把……放到一边</td>
+              <td>可引申为“暂时搁置”</td>
+            </tr>
+            <tr>
+              <td><code>urgent housing need</code></td>
+              <td>紧迫的住房需求</td>
+              <td><code>urgent</code> = 紧急的</td>
+            </tr>
+            <tr>
+              <td><code>income inequality</code></td>
+              <td>收入不平等</td>
+              <td>经济类文章常见</td>
+            </tr>
+            <tr>
+              <td><code>shrink / shrunk</code></td>
+              <td>缩小；萎缩</td>
+              <td><code>shrunk</code> 是过去分词</td>
+            </tr>
+            <tr>
+              <td><code>capacity</code></td>
+              <td>能力；容量</td>
+              <td><code>imaginative capacity</code> = 想象能力</td>
+            </tr>
+            <tr>
+              <td><code>temptation</code></td>
+              <td>诱惑</td>
+              <td><code>rise above temptation</code> = 抵制诱惑</td>
+            </tr>
+            <tr>
+              <td><code>reverse</code></td>
+              <td>逆转</td>
+              <td><code>reverse the trend</code> = 扭转趋势</td>
+            </tr>
+            <tr>
+              <td><code>tend to do</code></td>
+              <td>倾向于做；往往会做</td>
+              <td>考研高频表达</td>
+            </tr>
+            <tr>
+              <td><code>look down on</code></td>
+              <td>看不起，歧视</td>
+              <td>后接人或群体</td>
+            </tr>
+            <tr>
+              <td><code>get exposed to</code></td>
+              <td>接触到</td>
+              <td>由“暴露于”引申而来</td>
+            </tr>
+            <tr>
+              <td><code>average</code></td>
+              <td>普通的；平均的</td>
+              <td>本课句子中是“普通的”，属于熟词僻义</td>
+            </tr>
+            <tr>
+              <td><code>some 44,000</code></td>
+              <td>大约 44,000</td>
+              <td><code>some</code> 可表示“大约”</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+      <!-- END: 词汇与表达速记 -->
+
+      <!-- START: 最终检查清单 -->
+      <section class="card" id="checklist">
+        <h2>最终检查清单</h2>
+
+        <div class="checklist">
+          <div class="check-item">我知道长难句难，是因为多件事被连接在一起。</div>
+          <div class="check-item">我知道英语句子之间不能只靠逗号硬拼，通常需要连接词。</div>
+          <div class="check-item">我能说出并列句的本质：多件事一样重要。</div>
+          <div class="check-item">我能识别四类并列连词：顺接、转折、选择、因果。</div>
+          <div class="check-item">我知道 <code>but</code> / <code>yet</code> 后面通常是重点。</div>
+          <div class="check-item">我知道 <code>however</code> 是副词，不是并列连词。</div>
+          <div class="check-item">我能区分 <code>and</code> 和 <code>or</code>：一个表示都发生，一个表示选择。</div>
+          <div class="check-item">我知道 <code>so</code> 后接结果，<code>for</code> 后接原因。</div>
+          <div class="check-item">我能判断并列连词连接的是词、词组，还是句子。</div>
+          <div class="check-item">我知道连词相同时，前面可用逗号，最后保留一个连词。</div>
+          <div class="check-item">我知道连词不同时，必须保留各自连词。</div>
+          <div class="check-item">我能还原并列句中的省略成分。</div>
+          <div class="check-item">我知道省略后剩下的谓语动词不用变成非谓语。</div>
+          <div class="check-item">我会用“形式一致”判断谁和谁真正并列。</div>
+          <div class="check-item">我能分析 <code>to combat... and get...</code> 这类共用 <code>to</code> 的结构。</div>
+        </div>
+
+        <div class="note note-green">
+          <strong>最后记一句：</strong>看到并列连词，不要急着翻译；先问自己：它连接谁？是什么关系？有没有省略？能不能还原？
+        </div>
+      </section>
+      <!-- END: 最终检查清单 -->
+
+      <!-- START: 完整性检查 -->
+      <section class="card non-key" id="integrity">
+        <h2>完整性检查</h2>
+        <p>本 HTML 已包含以下结束标记，方便后续检查结构完整性：</p>
+        <ul>
+          <li><code>&lt;!-- END: 首页 --&gt;</code></li>
+          <li><code>&lt;!-- END: 总方法论 --&gt;</code></li>
+          <li><code>&lt;!-- END: 并列句本质 --&gt;</code></li>
+          <li><code>&lt;!-- END: 四类并列连词 --&gt;</code></li>
+          <li><code>&lt;!-- END: 多项并列 --&gt;</code></li>
+          <li><code>&lt;!-- END: 并列句省略 --&gt;</code></li>
+          <li><code>&lt;!-- END: 真题演练中心 --&gt;</code></li>
+          <li><code>&lt;!-- END: 最终检查清单 --&gt;</code></li>
+          <li><code>&lt;/body&gt;</code></li>
+          <li><code>&lt;/html&gt;</code></li>
+        </ul>
+      </section>
+      <!-- END: 完整性检查 -->
+
+    </main>
+
+    <!-- START: 页脚 -->
+    <footer>
+      <p><strong>资料主题：</strong>考研英语长难句——并列句与真题演练</p>
+      <p><strong>覆盖范围：</strong>并列句定义、四类并列连词、多项并列、省略还原、平行结构基础、12 道真题演练</p>
+      <p><strong>最后更新时间：</strong>2026-05-15</p>
+    </footer>
+    <!-- END: 页脚 -->
+
+  </div>
+
+  <!-- START: 脚本 -->
+  <script>
+    function expandAll() {
+      document.querySelectorAll("details").forEach(function(detail) {
+        detail.open = true;
+      });
+    }
+
+    function collapseAll() {
+      document.querySelectorAll("details").forEach(function(detail) {
+        detail.open = false;
+      });
+    }
+
+    function showAnswers() {
+      document.querySelectorAll("details.answer-toggle").forEach(function(detail) {
+        detail.open = true;
+      });
+    }
+
+    function hideAnswers() {
+      document.querySelectorAll("details.answer-toggle").forEach(function(detail) {
+        detail.open = false;
+      });
+    }
+
+    function toggleFocusMode() {
+      const body = document.body;
+      const btn = document.getElementById("focusBtn");
+      body.classList.toggle("focus-mode");
+
+      if (body.classList.contains("focus-mode")) {
+        btn.textContent = "显示全部";
+      } else {
+        btn.textContent = "只看重点";
+      }
+    }
+
+    function printPage() {
+      expandAll();
+      showAnswers();
+      setTimeout(function() {
+        window.print();
+      }, 150);
+    }
+  </script>
+  <!-- END: 脚本 -->
+
 </body>
 </html>

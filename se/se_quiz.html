@@ -1,0 +1,2144 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>软件测试课后习题汇总</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Nunito:wght@400;700;800&display=swap');
+
+        :root {
+            /* Solarized Light Theme */
+            --base03: #002b36; --base02: #073642; --base01: #586e75; --base00: #657b83;
+            --base0: #839496; --base1: #93a1a1; --base2: #eee8d5; --base3: #fdf6e3;
+            --yellow: #b58900; --orange: #cb4b16; --red: #dc322f; --magenta: #d33682;
+            --violet: #6c71c4; --blue: #268bd2; --cyan: #2aa198; --green: #859900;
+
+            --bg-color: var(--base3);
+            --card-bg: #fffbf0;
+            --text-color: var(--base00);
+            --heading-color: var(--base01);
+            --accent-color: var(--blue);
+            --border-color: rgba(0,0,0,0.1);
+            --shadow: 0 8px 30px rgba(0,0,0,0.05);
+            --code-bg: rgba(0, 43, 54, 0.05);
+            --btn-shadow: 0 4px 6px rgba(0,0,0,0.1);
+
+            /* Mnemonic styles */
+            --mnemonic-bg: rgba(108, 113, 196, 0.08);
+            --mnemonic-border: rgba(108, 113, 196, 0.4);
+            --mnemonic-text: #4c51a9;
+        }
+
+        [data-theme="dark"] {
+            /* Solarized Dark Theme */
+            --bg-color: var(--base03);
+            --card-bg: var(--base02);
+            --text-color: var(--base0);
+            --heading-color: var(--base1);
+            --accent-color: var(--blue);
+            --border-color: rgba(255,255,255,0.1);
+            --shadow: 0 8px 30px rgba(0,0,0,0.3);
+            --code-bg: rgba(0,0,0,0.2);
+            --btn-shadow: 0 4px 6px rgba(0,0,0,0.3);
+
+            /* Mnemonic styles */
+            --mnemonic-bg: rgba(165, 180, 252, 0.1);
+            --mnemonic-border: rgba(165, 180, 252, 0.4);
+            --mnemonic-text: #a5b4fc;
+        }
+
+        * { box-sizing: border-box; transition: background-color 0.3s, color 0.3s, transform 0.2s; -webkit-tap-highlight-color: transparent; }
+        body { margin: 0; font-family: 'Nunito', 'PingFang SC', sans-serif; background-color: var(--bg-color); color: var(--text-color); height: 100vh; display: flex; flex-direction: column; overflow: hidden; user-select: none; }
+
+        /* HUD Header */
+        .hud { display: flex; justify-content: space-between; align-items: center; padding: 0 1.5rem; height: 60px; background: rgba(255,255,255,0.05); backdrop-filter: blur(10px); border-bottom: 1px solid var(--border-color); z-index: 10; flex-shrink: 0; }
+        .stat-group { display: flex; gap: 1.5rem; }
+        .stat-item { display: flex; flex-direction: column; align-items: center; justify-content: center; line-height: 1; }
+        .stat-label { font-size: 0.65rem; opacity: 0.7; letter-spacing: 1px; font-weight: 700; text-transform: uppercase; margin-bottom: 2px; }
+        .stat-value { font-size: 1.1rem; font-weight: 800; color: var(--heading-color); }
+        .combo-active { color: var(--orange) !important; animation: pop 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+        
+        /* Main Container */
+        main { flex: 1; display: flex; justify-content: center; align-items: center; padding: 1rem; position: relative; overflow: hidden; }
+        .card { background: var(--card-bg); width: 100%; max-width: 800px; height: 100%; max-height: 85vh; padding: 2rem; border-radius: 20px; box-shadow: var(--shadow); position: relative; display: flex; flex-direction: column; overflow-y: auto; border: 1px solid var(--border-color); }
+        
+        /* Menu Grid */
+        .menu-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; width: 100%; margin-top: 1rem; }
+        .menu-card { background: var(--bg-color); border: 2px solid var(--border-color); border-radius: 12px; padding: 1.5rem; cursor: pointer; text-align: left; position: relative; overflow: hidden; display: flex; flex-direction: column; }
+        .menu-card:hover { transform: translateY(-3px); border-color: var(--accent-color); box-shadow: var(--btn-shadow); }
+        .menu-card h3 { margin: 0 0 0.5rem 0; color: var(--heading-color); font-size: 1.2rem; display: flex; align-items: center; gap: 0.5rem; }
+        .menu-card p { margin: 0; font-size: 0.9rem; opacity: 0.8; flex: 1; }
+        .menu-badge { position: absolute; top: 1rem; right: 1rem; font-size: 1.5rem; opacity: 0.2; }
+        .menu-card.disabled { opacity: 0.5; pointer-events: none; filter: grayscale(1); }
+        
+        .stat-pill { margin-top: 1rem; font-size: 0.8rem; font-weight: 700; color: var(--green); background: rgba(133, 153, 0, 0.1); padding: 4px 8px; border-radius: 4px; align-self: flex-start; display: none; }
+        .stat-pill.show { display: inline-block; }
+
+        /* Quiz UI */
+        .progress-container { position: absolute; top: 0; left: 0; right: 0; height: 6px; background: transparent; }
+        .progress-bar { height: 100%; background: var(--accent-color); width: 0%; transition: width 0.4s ease; border-radius: 20px; }
+        
+        .q-header { display: flex; justify-content: space-between; margin-bottom: 1.5rem; align-items: center; }
+        .q-tag { font-size: 0.75rem; background: var(--code-bg); color: var(--accent-color); padding: 4px 10px; border-radius: 6px; font-weight: 700; letter-spacing: 0.5px; border: 1px solid var(--border-color); }
+        .q-text { font-size: 1.25rem; font-weight: 700; color: var(--heading-color); line-height: 1.5; margin: 0 0 1.5rem 0; white-space: pre-wrap; }
+        
+        .options-grid { display: grid; gap: 0.8rem; }
+        .option-btn { background: var(--bg-color); border: 2px solid var(--border-color); padding: 1rem 1.2rem; border-radius: 12px; text-align: left; font-size: 1rem; color: var(--text-color); cursor: pointer; position: relative; display: flex; align-items: flex-start; line-height: 1.4; transition: all 0.2s; }
+        .option-key { font-family: 'JetBrains Mono'; font-size: 0.8rem; color: var(--base1); margin-right: 1rem; border: 1px solid var(--border-color); width: 24px; height: 24px; min-width: 24px; display: flex; justify-content: center; align-items: center; border-radius: 6px; margin-top: 1px; flex-shrink: 0; }
+        .option-btn:hover:not(:disabled) { border-color: var(--accent-color); transform: translateX(5px); }
+        .option-btn:disabled { cursor: default; }
+        
+        .option-btn.correct { background-color: rgba(133, 153, 0, 0.1); border-color: var(--green); color: var(--green); }
+        .option-btn.correct .option-key { background: var(--green); color: white; border-color: var(--green); }
+        
+        .option-btn.wrong { background-color: rgba(220, 50, 47, 0.1); border-color: var(--red); color: var(--red); opacity: 0.8; }
+        .option-btn.wrong .option-key { background: var(--red); color: white; border-color: var(--red); }
+
+        .explanation { margin-top: 1.5rem; padding: 1.2rem; background: var(--code-bg); border-radius: 12px; font-size: 0.95rem; border-left: 4px solid var(--accent-color); animation: slideUp 0.3s ease; }
+        .explanation strong { color: var(--accent-color); display: block; margin-bottom: 0.5rem; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px; }
+
+        /* Fill-in-the-blank Type2 specific */
+        .type2-container { background: var(--bg-color); border-radius: 12px; border: 1px solid var(--border-color); padding: 2rem 1.5rem; text-align: center;}
+        .type2-ans-box { font-size: 1.3rem; font-weight: 800; color: var(--green); margin: 1.5rem 0; padding: 1rem; border: 2px dashed var(--green); border-radius: 12px; background: rgba(133, 153, 0, 0.05); }
+
+        /* Results */
+        .result-container { text-align: center; display: flex; flex-direction: column; align-items: center; gap: 1rem; padding-top: 1rem; }
+        .score-circle { width: 120px; height: 120px; border-radius: 50%; border: 8px solid var(--code-bg); display: flex; flex-direction: column; justify-content: center; align-items: center; margin: 0 auto; position: relative; }
+        .score-val { font-size: 2.5rem; font-weight: 800; color: var(--accent-color); line-height: 1; }
+        .score-label { font-size: 0.8rem; opacity: 0.7; }
+        
+        .stat-row { display: flex; justify-content: center; gap: 2rem; width: 100%; margin: 1rem 0; }
+        .stat-box { background: var(--bg-color); padding: 1rem; border-radius: 12px; flex: 1; border: 1px solid var(--border-color); }
+        .stat-box h4 { margin: 0 0 0.5rem 0; font-size: 0.8rem; opacity: 0.7; }
+        .stat-box .val { font-size: 1.4rem; font-weight: 800; }
+        .val.good { color: var(--green); } .val.bad { color: var(--red); }
+
+        /* Common Elements */
+        .btn { padding: 0.8rem 2rem; border: none; border-radius: 10px; font-weight: 700; cursor: pointer; font-size: 1rem; transition: transform 0.1s, box-shadow 0.2s; box-shadow: var(--btn-shadow); display: inline-flex; align-items: center; gap: 0.5rem; justify-content: center; text-decoration: none; }
+        .btn:active { transform: scale(0.96); }
+        .btn-primary { background: var(--blue); color: white; }
+        .btn-secondary { background: var(--base2); color: var(--base01); }
+        .btn-outline { background: transparent; border: 2px solid var(--border-color); color: var(--text-color); }
+        .btn-full { width: 100%; margin-top: 1rem; }
+
+        .theme-toggle { background: none; border: none; font-size: 1.2rem; cursor: pointer; color: var(--text-color); padding: 0.5rem; border-radius: 50%; }
+        .theme-toggle:hover { background: var(--code-bg); }
+
+        .hide { display: none !important; }
+        
+        /* Animations */
+        @keyframes pop { 0% { transform: scale(1); } 50% { transform: scale(1.3); } 100% { transform: scale(1); } }
+        @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        
+        /* 记忆口诀盒美化 */
+        .quiz-mnemonic-box {
+            margin-top: 1.25rem;
+            padding: 1rem;
+            background-color: var(--mnemonic-bg);
+            border: 2px dashed var(--mnemonic-border);
+            border-radius: 12px;
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.02);
+            animation: slideUp 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+        .quiz-mnemonic-title {
+            color: var(--mnemonic-text);
+            font-size: 0.85rem;
+            margin-bottom: 0.4rem;
+            display: block;
+            letter-spacing: 1px;
+            font-weight: 800;
+        }
+        .quiz-mnemonic-text {
+            color: var(--mnemonic-text);
+            font-weight: 700;
+            font-size: 1.05rem;
+            line-height: 1.5;
+            display: block;
+        }
+
+        /* 题目平滑渐显动画 */
+        @keyframes qFadeIn {
+            from { opacity: 0; transform: translateY(12px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .q-fade-in {
+            animation: qFadeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        #confetti-canvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 100; }
+    </style>
+</head>
+<body>
+    <canvas id="confetti-canvas"></canvas>
+
+    <header class="hud">
+        <div class="stat-group">
+            <div class="stat-item">
+                <span class="stat-label">MODE</span>
+                <span class="stat-value" id="hud-mode" style="font-size: 0.9rem">MENU</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-label">SCORE</span>
+                <span class="stat-value" id="hud-score">0</span>
+            </div>
+            <div class="stat-item" id="combo-box">
+                <span class="stat-label">COMBO</span>
+                <span class="stat-value" id="hud-combo">0</span>
+            </div>
+        </div>
+        <div>
+            <a href="../index.html" class="theme-toggle" style="text-decoration:none; margin-right:10px; font-size: 1rem;">🏠</a>
+            <button class="theme-toggle" id="theme-btn" title="切换黑夜/白昼模式">🌗</button>
+        </div>
+    </header>
+
+    <main>
+        <div id="screen-menu" class="card">
+            <h1 style="color: var(--yellow); margin-bottom: 0.5rem;">软件测试期末题库</h1>
+            <p style="opacity: 0.7; margin-bottom: 2rem;">填空题与选择题 · 全7章考点</p>
+            
+            <div class="menu-grid">
+                <div class="menu-card" onclick="app.startMode('mock')" style="border-color: var(--violet); background: rgba(108, 113, 196, 0.05);">
+                    <div class="menu-badge" style="color: var(--violet); opacity:0.15;">🎓</div>
+                    <h3 style="color: var(--violet);">模拟考试</h3>
+                    <p>随机抽取 20 题<br>全书混合 · 实战演练</p>
+                    <div class="stat-pill" id="stat-mock">最高正确率: 0%</div>
+                </div>
+
+                <div class="menu-card" id="btn-mistakes" onclick="app.startMode('mistakes')" style="border-color: var(--red); background: rgba(220, 50, 47, 0.05);">
+                    <div class="menu-badge" style="color: var(--red); opacity:0.15;">🎯</div>
+                    <h3 style="color: var(--red);">错题攻坚</h3>
+                    <p>重做历史错题<br><span id="mistake-count" style="font-weight:bold">0</span> 道待修复</p>
+                </div>
+
+                <div class="menu-card" onclick="app.startMode('part1')">
+                    <div class="menu-badge">📐</div>
+                    <h3>1. 基础与黑白盒</h3>
+                    <p>第 1 - 3 章</p>
+                    <div class="stat-pill" id="stat-part1">最高正确率: 0%</div>
+                </div>
+                
+                <div class="menu-card" onclick="app.startMode('part2')">
+                    <div class="menu-badge">🚀</div>
+                    <h3>2. 性能与安全</h3>
+                    <p>第 4 - 5 章</p>
+                    <div class="stat-pill" id="stat-part2">最高正确率: 0%</div>
+                </div>
+                
+                <div class="menu-card" onclick="app.startMode('part3')">
+                    <div class="menu-badge">🤖</div>
+                    <h3>3. 自动化与App</h3>
+                    <p>第 6 - 7 章</p>
+                    <div class="stat-pill" id="stat-part3">最高正确率: 0%</div>
+                </div>
+            </div>
+            
+            <div style="margin-top: auto; padding-top: 2rem; text-align: center;">
+                <button class="btn btn-outline" onclick="app.clearHistory()" style="font-size: 0.8rem; padding: 0.5rem 1rem;">🗑️ 重置所有进度与错题</button>
+            </div>
+        </div>
+
+        <div id="screen-game" class="card hide">
+            <div class="progress-container"><div class="progress-bar" id="progress-bar"></div></div>
+            
+            <div class="q-header">
+                <span class="q-tag" id="q-tag">Category</span>
+                <span style="font-family: 'JetBrains Mono'; font-weight: 700; opacity: 0.6;" id="q-counter">1/10</span>
+            </div>
+
+            <div id="q-content-area" style="flex:1; overflow-y: auto;">
+                <h2 class="q-text" id="q-text">题目加载中...</h2>
+                
+                <!-- Type 1: 多选题容器 -->
+                <div class="options-grid" id="options-container"></div>
+                
+                <!-- Type 2: 填空题容器 -->
+                <div id="type2-container" class="type2-container hide">
+                    <p style="opacity: 0.8; margin-bottom: 1.5rem;">这是一道填空题。请先在心中想好答案，然后点击下方按钮核对。</p>
+                    <button class="btn btn-primary" id="btn-show-answer">👀 查看正确答案</button>
+                    
+                    <div id="type2-answer-area" class="hide" style="margin-top: 1rem;">
+                        <div class="type2-ans-box" id="type2-correct-answer"></div>
+                        <p style="opacity: 0.8; margin-bottom: 1rem; font-size: 0.9rem;">请诚实地自我评估：</p>
+                        <div style="display: flex; gap: 1rem; justify-content: center;">
+                            <button class="btn btn-outline" id="btn-self-correct" style="color: var(--green); border-color: var(--green);">✅ 我填对了</button>
+                            <button class="btn btn-outline" id="btn-self-wrong" style="color: var(--red); border-color: var(--red);">❌ 我填错了</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="explanation hide" id="explanation">
+                    <strong>来源与解析</strong>
+                    <span id="exp-text"></span>
+                    <div id="mnemonic-area" class="quiz-mnemonic-box hide">
+                        <strong class="quiz-mnemonic-title">💡 记忆口诀</strong>
+                        <span id="mnemonic-text" class="quiz-mnemonic-text"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="actions" style="margin-top: 1.5rem; display: flex; justify-content: flex-end;">
+                <button class="btn btn-primary hide" id="next-btn">下一题 (Enter) ➜</button>
+            </div>
+        </div>
+
+        <div id="screen-result" class="card hide">
+            <h2 style="color: var(--heading-color); margin-bottom: 0;">本次挑战完成!</h2>
+            
+            <div class="result-container">
+                <div class="score-circle">
+                    <span class="score-val" id="res-accuracy">0%</span>
+                    <span class="score-label">正确率</span>
+                </div>
+
+                <div class="stat-row">
+                    <div class="stat-box">
+                        <h4>得分</h4>
+                        <div class="val" style="color:var(--blue)" id="res-score">0</div>
+                    </div>
+                    <div class="stat-box">
+                        <h4>最高连击</h4>
+                        <div class="val" style="color:var(--orange)" id="res-combo">0</div>
+                    </div>
+                    <div class="stat-box">
+                        <h4>错题</h4>
+                        <div class="val bad" id="res-wrong">0</div>
+                    </div>
+                </div>
+
+                <div style="width: 100%; display: grid; gap: 1rem; margin-top: 1rem;">
+                    <button class="btn btn-primary" onclick="app.retrySessionMistakes()" id="btn-retry-session">只做刚才做错的题</button>
+                    <button class="btn btn-secondary" onclick="app.toMenu()">返回主菜单</button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+<script>
+/**
+ * 数据源: 软件测试课后习题 (选择与填空)
+ * 格式: [Type, Question, Options/Answer, CorrectIndex/Null, Explanation, Chapter]
+ * Type: 1=选择题, 2=填空题
+ */
+const rawDB = [
+    [
+        2,
+        "软件从“出生”到“消亡”的过程称为 _____。",
+        [
+            "软件生命周期"
+        ],
+        null,
+        "基础概念",
+        1,
+        "一生有始终，周期贯全程"
+    ],
+    [
+        2,
+        "早期的线性开发模型称为 _____ 开发模型。",
+        [
+            "瀑布"
+        ],
+        null,
+        "瀑布模型是线性的、顺序的",
+        1,
+        "线性不回头，瀑布列一流"
+    ],
+    [
+        2,
+        "引入风险分析的开发模型为 _____ 开发模型。",
+        [
+            "螺旋"
+        ],
+        null,
+        "螺旋模型强调风险分析",
+        1,
+        "风险做分析，螺旋走在前"
+    ],
+    [
+        2,
+        "按照缺陷的严重程度可以将缺陷划分为 _____、_____、_____、_____ 级别。",
+        [
+            "致命、严重、一般、微小"
+        ],
+        null,
+        "常见的四种缺陷严重级别",
+        1,
+        "致命严一般，微小四级看"
+    ],
+    [
+        2,
+        "验证软件单元是否符合软件需求与设计的测试称为 _____。",
+        [
+            "单元测试"
+        ],
+        null,
+        "单元测试定义",
+        1,
+        "单元符设计，单测打地基"
+    ],
+    [
+        2,
+        "对程序的逻辑结构、路径与运行过程进行的测试称为 _____。",
+        [
+            "白盒测试"
+        ],
+        null,
+        "白盒测试关注内部逻辑",
+        1,
+        "逻辑看结构，白盒查里头"
+    ],
+    [
+        2,
+        "有一种测试模型，测试与开发并行进行，这种测试模型称为 _____ 模型。",
+        [
+            "W模型"
+        ],
+        null,
+        "W模型中测试与开发同步",
+        1,
+        "开发测并行，W心连心"
+    ],
+    [
+        1,
+        "下列选项中，哪一项不是软件开发模型？",
+        [
+            "V模型",
+            "快速模型",
+            "螺旋模型",
+            "敏捷模型"
+        ],
+        1,
+        "没有快速模型，只有快速原型模型",
+        1,
+        "开发非模型，快速原型真"
+    ],
+    [
+        1,
+        "下列选项中，哪一项不是影响软件质量的因素？",
+        [
+            "需求模糊",
+            "缺乏规范的文档指导",
+            "使用新技术",
+            "开发人员技术有限"
+        ],
+        2,
+        "使用新技术本身并不是影响质量的不利因素，而管理不当才是",
+        1,
+        "质量受影响，技术非主因"
+    ],
+    [
+        1,
+        "下列哪一项不是软件缺陷产生的原因？",
+        [
+            "需求不明确",
+            "测试用例设计不好",
+            "软件结构复杂",
+            "项目周期短"
+        ],
+        1,
+        "测试用例设计不好会漏测，但不会“产生”系统原生的缺陷",
+        1,
+        "用例设计差，缺陷非它产"
+    ],
+    [
+        1,
+        "关于软件缺陷，下列说法中错误的是（）。",
+        [
+            "软件缺陷是影响正常运行的问题",
+            "缺陷优先级可划分为立即解决、高、正常、低",
+            "缺陷报告有统一的模板，是IEEE制定的",
+            "每个缺陷都有唯一编号"
+        ],
+        2,
+        "每个公司的缺陷报告模板通常是自定义的，不局限于IEEE",
+        1,
+        "模板自定义，不用IEEE"
+    ],
+    [
+        1,
+        "关于软件测试，下列说法中错误的是（）。",
+        [
+            "在早期开发中，测试等同于调试",
+            "使用人工或自动手段运行测定",
+            "检验是否满足需求或弄清预期与实际差异",
+            "测试与开发是两个独立、分离的过程"
+        ],
+        3,
+        "测试应与开发并行，而不是截然分离的",
+        1,
+        "测试开发伴，非分离之谈"
+    ],
+    [
+        1,
+        "下列哪一项不是软件测试的原则？",
+        [
+            "测试应基于客户需求",
+            "测试越晚进行越好",
+            "穷尽测试是不可以的",
+            "遵循GoodEnough原则"
+        ],
+        1,
+        "尽早测试是软件测试的基本原则",
+        1,
+        "测试宜尽早，越晚耗费高"
+    ],
+    [
+        2,
+        "等价类划分就是将输入数据按照输入需求划分为若干个子集，这些子集称为 _____。",
+        [
+            "等价类"
+        ],
+        null,
+        "等价类定义",
+        2,
+        "输入划子集，等价藏玄机"
+    ],
+    [
+        2,
+        "等价类划分法可将输入数据划分为 _____ 和 _____。",
+        [
+            "有效等价类 和 无效等价类"
+        ],
+        null,
+        "有效与无效输入的分类",
+        2,
+        "有效走正途，无效防歧路"
+    ],
+    [
+        2,
+        "_____ 通常作为等价类划分法的补充。",
+        [
+            "边界值分析法"
+        ],
+        null,
+        "边界值常与等价类结合使用",
+        2,
+        "等价防遗漏，边界做助手"
+    ],
+    [
+        2,
+        "因果图中的 _____ 关系要求程序有1个输入和1个输出，输出与输入保持一致。",
+        [
+            "恒等"
+        ],
+        null,
+        "输入输出的直接对应关系",
+        2,
+        "输出一致入，恒等不糊涂"
+    ],
+    [
+        2,
+        "因果图的多个输入之间的约束包括 _____、_____、_____、_____ 4种。",
+        [
+            "E(互斥)、I(包含)、M(屏蔽)、O(唯一)"
+        ],
+        null,
+        "输入约束类型",
+        2,
+        "EMIO配，斥蔽含唯一"
+    ],
+    [
+        2,
+        "决策表通常由 _____、_____、_____、_____ 4部分组成。",
+        [
+            "条件桩、动作桩、条件项、动作项"
+        ],
+        null,
+        "决策表的四大组成部分",
+        2,
+        "桩项有四区，决策最清晰"
+    ],
+    [
+        1,
+        "下列选项中，哪一项不是因果图输入与输入之间的关系？",
+        [
+            "恒等",
+            "或",
+            "要求",
+            "唯一"
+        ],
+        0,
+        "恒等是输入与输出之间的关系",
+        2,
+        "恒等看输出，非入间约束"
+    ],
+    [
+        1,
+        "下列选项中，哪一项是因果图输出之间的约束关系？",
+        [
+            "异",
+            "或",
+            "强制(M)",
+            "要求"
+        ],
+        2,
+        "强制(M)是输出间的唯一约束关系",
+        2,
+        "输出唯强制，其他输入事"
+    ],
+    [
+        1,
+        "下列选项中，哪一项不是正交实验设计法的关键因素？",
+        [
+            "指标",
+            "因子",
+            "因子状态",
+            "正交表"
+        ],
+        3,
+        "正交表是查阅工具，关键因素是指因子、水平/状态和测试指标",
+        2,
+        "因子状态标，正交表是表"
+    ],
+    [
+        2,
+        "语句覆盖的目的是测试程序中的代码是否被执行，它只测试代码中的 _____。",
+        [
+            "可执行语句"
+        ],
+        null,
+        "不包括注释和空行",
+        3,
+        "语句看执行，空行不留名"
+    ],
+    [
+        2,
+        "_____ 的作用是使真假分支均被执行。",
+        [
+            "判定覆盖 (分支覆盖)"
+        ],
+        null,
+        "覆盖每个判定的所有结果",
+        3,
+        "判定看分支，真假结果知"
+    ],
+    [
+        2,
+        "_____ 是指判定语句中的每个条件都要取真、假值各一次。",
+        [
+            "条件覆盖"
+        ],
+        null,
+        "独立覆盖每个逻辑条件",
+        3,
+        "条件看小项，真假走一趟"
+    ],
+    [
+        2,
+        "判定语句 IF(a>1 AND c<1) 中，保证所有条件取值至少一次，同时判定也取值至少一次，这是使用了 _____ 覆盖方法。",
+        [
+            "判定-条件"
+        ],
+        null,
+        "同时满足判定和条件约束",
+        3,
+        "分支与条件，真假双过关"
+    ],
+    [
+        2,
+        "_____ 要求判定语句中所有条件取值的可能组合都至少出现一次。",
+        [
+            "条件组合覆盖"
+        ],
+        null,
+        "最强的条件逻辑覆盖之一",
+        3,
+        "取值做组合，情况不放过"
+    ],
+    [
+        2,
+        "在程序插桩法中，插入到程序中的代码称为 _____。",
+        [
+            "探针"
+        ],
+        null,
+        "探针用于收集程序执行流的信息",
+        3,
+        "程序插桩法，插入叫探针"
+    ],
+    [
+        1,
+        "下列选项中，哪一项不属于逻辑覆盖？",
+        [
+            "语句覆盖",
+            "条件覆盖",
+            "判定覆盖",
+            "判定-语句覆盖"
+        ],
+        3,
+        "没有判定-语句覆盖这种说法",
+        3,
+        "判定条件合，语句无此说"
+    ],
+    [
+        1,
+        "关于逻辑覆盖，下列说法中错误的是（）。",
+        [
+            "语句覆盖不包括空行注释",
+            "判定覆盖考虑每个判定取值",
+            "条件覆盖考虑所有逻辑条件组合",
+            "条件组合覆盖是覆盖率最大的测试方法"
+        ],
+        3,
+        "路径覆盖的覆盖率通常大于条件组合覆盖",
+        3,
+        "组合非最强，路径称大王"
+    ],
+    [
+        1,
+        "关于程序插桩法，下列说法中错误的是（）。",
+        [
+            "往程序中插入测试代码",
+            "分目标代码 and 源代码插桩",
+            "源代码插桩测试代码不参与编译",
+            "目标代码插桩是往二进制中插入"
+        ],
+        2,
+        "源代码插桩后，探针代码必然要和源代码一起参与编译",
+        3,
+        "源码做插桩，编译必须装"
+    ],
+    [
+        2,
+        "吞吐量是指 _____ 内系统能够完成的工作量。",
+        [
+            "单位时间"
+        ],
+        null,
+        "衡量系统处理能力",
+        4,
+        "单位时间量，吞吐来衡量"
+    ],
+    [
+        2,
+        "TPS是指系统 _____ 能够处理的事务 and 交易的数量。",
+        [
+            "每秒"
+        ],
+        null,
+        "TPS: Transactions Per Second",
+        4,
+        "每秒事务数，TPS最靠谱"
+    ],
+    [
+        2,
+        "_____ 确定在满足系统性能指标的情况下，系统所能够承受的最大负载量。",
+        [
+            "负载测试"
+        ],
+        null,
+        "寻找系统最大能力边界",
+        4,
+        "承受最大量，负载显锋芒"
+    ],
+    [
+        2,
+        "点击率是指用户每秒向Web服务器提交的 _____。",
+        [
+            "HTTP请求数"
+        ],
+        null,
+        "点击率非鼠标点击，而是底层HTTP请求",
+        4,
+        "每秒请求数，非鼠标点击"
+    ],
+    [
+        2,
+        "LoadRunner 工具主要由 _____、_____、_____ 3部分组成。",
+        [
+            "VuGen、Controller、Analysis"
+        ],
+        null,
+        "虚拟用户生成器、控制器、分析器",
+        4,
+        "生成控分析，LR三合一"
+    ],
+    [
+        1,
+        "关于性能测试，下列说法中错误的是（）。",
+        [
+            "软件响应慢属于性能问题",
+            "模拟各种负载状态进行测试",
+            "可以发现软件系统的性能瓶颈",
+            "以验证功能完整实现为目的"
+        ],
+        3,
+        "性能测试验证性能指标，功能测试才验证功能",
+        4,
+        "测试测指标，功能另有招"
+    ],
+    [
+        1,
+        "下列选项中，哪一项不是性能测试指标？",
+        [
+            "响应时间",
+            "TPS",
+            "DPH",
+            "吞吐量"
+        ],
+        2,
+        "DPH (Defects Per Hundred) 是质量缺陷指标",
+        4,
+        "DPH算缺陷，非性能指标"
+    ],
+    [
+        1,
+        "瞬间将系统压力加载到最大的性能测试是（）。",
+        [
+            "压力测试",
+            "负载测试",
+            "并发测试",
+            "峰值测试"
+        ],
+        3,
+        "峰值测试 (Spike Testing) 用于测试瞬间的极端高负载",
+        4,
+        "瞬间大压力，峰值一瞬间"
+    ],
+    [
+        1,
+        "关于性能测试流程，下列说法中错误的是（）。",
+        [
+            "并不遵循一般测试流程",
+            "首先要明确测试目标",
+            "设计场景非常重要",
+            "通常需要执行监控"
+        ],
+        0,
+        "性能测试同样有严谨的需求、计划、执行等标准流程",
+        4,
+        "性能有流程，遵循不胡闹"
+    ],
+    [
+        2,
+        "安全测试以发现 _____ 为目标。",
+        [
+            "安全漏洞"
+        ],
+        null,
+        "安全测试核心目的",
+        5,
+        "安全找漏洞，风险防失控"
+    ],
+    [
+        2,
+        "SQL注入攻击的Web应用程序处于 _____ ，因此大多防火墙不会进行拦截。",
+        [
+            "应用层 (或HTTP 80/443端口)"
+        ],
+        null,
+        "攻击载荷藏在正常的HTTP请求中",
+        5,
+        "注入应用层，高墙难支撑"
+    ],
+    [
+        2,
+        "利用XSS攻击的恶意代码一般包括 _____ 和 _____。",
+        [
+            "HTML",
+            "JavaScript"
+        ],
+        null,
+        "XSS主要利用前端脚本语言执行",
+        5,
+        "脚本藏祸害，前端网页在"
+    ],
+    [
+        1,
+        "关于安全测试，下列说法中错误的是（）。",
+        [
+            "主要验证是否符合安全需求",
+            "风险分析属于安全测试的一种",
+            "安全缺陷可以完全避免",
+            "要尽早测试经常测试"
+        ],
+        2,
+        "没有绝对的安全，安全缺陷无法被“完全”避免",
+        5,
+        "绝对安全无，漏洞防不完"
+    ],
+    [
+        1,
+        "下列选项中，哪一项不属于安全测试？",
+        [
+            "静态分析",
+            "漏洞扫描",
+            "渗透测试",
+            "集成测试"
+        ],
+        3,
+        "集成测试是常规功能测试阶段",
+        5,
+        "集成测模块，安全测试外"
+    ],
+    [
+        1,
+        "下列选项中，哪一项是跨站点脚本攻击漏洞？",
+        [
+            "CSRF",
+            "XSS",
+            "SQL注入",
+            "Buffer Overflow"
+        ],
+        1,
+        "XSS 即 Cross-Site Scripting",
+        5,
+        "XSS跨脚本，安全常有它"
+    ],
+    [
+        1,
+        "关于CSRF的说法中，错误的是（）。",
+        [
+            "是一种针对Web的攻击方式",
+            "通常发生在用户未退出登录时",
+            "窃取用户信息伪装成用户执行恶意活动",
+            "防范CSRF不能仅限于Cookie的识别"
+        ],
+        2,
+        "CSRF冒用身份发送请求，但不直接“窃取”信息(如密码)，直接窃取数据是XSS的特点",
+        5,
+        "CSRF伪请求，Cookie不能防"
+    ],
+    [
+        1,
+        "下列选项中，哪一项是抓包工具？",
+        [
+            "AppScan",
+            "Fiddler",
+            "Nmap",
+            "Metasploit"
+        ],
+        1,
+        "Fiddler和Wireshark是著名的网络抓包工具",
+        5,
+        "抓包用Fiddler，扫漏AppScan"
+    ],
+    [
+        2,
+        "软件执行自动化测试的前提条件是 _____。",
+        [
+            "需求稳定、项目周期较长"
+        ],
+        null,
+        "否则自动化脚本的维护成本过高",
+        6,
+        "需求稳期长，自动化最强"
+    ],
+    [
+        2,
+        "自动化测试层次分为 _____、_____、_____。",
+        [
+            "单元测试、接口测试、UI测试"
+        ],
+        null,
+        "经典的测试金字塔模型",
+        6,
+        "单测接口UI，金字塔自动化"
+    ],
+    [
+        2,
+        "单元测试主要测试的是 _____。",
+        [
+            "函数、方法、类的功能"
+        ],
+        null,
+        "测试代码级的最小可执行单元",
+        6,
+        "函数方法类，单测最基础"
+    ],
+    [
+        2,
+        "Selenium的3个核心组件是 _____、_____、_____。",
+        [
+            "Selenium IDE、WebDriver、Selenium Grid"
+        ],
+        null,
+        "Web自动化测试神器三大组件",
+        6,
+        "IDE驱动Grid，组件三剑客"
+    ],
+    [
+        2,
+        "列举常见的Web页面元素的定位方式：_____、_____、_____ 等。",
+        [
+            "id、name、class、xpath、css"
+        ],
+        null,
+        "WebDriver常见的八大定位方式",
+        6,
+        "ID定位常用，xpath最万能"
+    ],
+    [
+        1,
+        "下列选项中，哪一项是不正确的？",
+        [
+            "单元测试主要测试函数功能",
+            "单元测试主要使用白盒方法",
+            "接口测试结合白盒和黑盒",
+            "UI测试时不能修改界面布局进行测试"
+        ],
+        3,
+        "UI自动化测试虽然依赖元素定位，但测试中并非绝对不能修改布局",
+        6,
+        "UI测交互，不仅看皮肤"
+    ],
+    [
+        1,
+        "下列选项中，哪一项不是自动化测试的缺点？",
+        [
+            "对技术要求更高",
+            "迭代快时时间成本高",
+            "具有一致性和重复性的特点",
+            "错误的用例会浪费资源"
+        ],
+        2,
+        "一致性和重复性是自动化测试的核心“优点”",
+        6,
+        "重复是优点，而非缺点看"
+    ],
+    [
+        1,
+        "下列哪一项不属于脚本测试技术？",
+        [
+            "线性测试",
+            "结构化测试脚本",
+            "回归测试脚本",
+            "共享脚本"
+        ],
+        2,
+        "通常脚本架构包括线性、结构化、共享，而回归是测试类型",
+        6,
+        "线性结构共享，回归非脚本"
+    ],
+    [
+        1,
+        "关于持续集成的说法错误的是（）。",
+        [
+            "需要搭建环境并沟通",
+            "有利于提高开发进度和效率",
+            "完全实现自动化，不需要人工处理",
+            "使用容器技术方便部署"
+        ],
+        2,
+        "持续集成依然需要人工编写测试脚本并处理构建失败问题",
+        6,
+        "CI非全自，报错还需人"
+    ],
+    [
+        2,
+        "移动App常见的两大操作系统为 _____ 和 _____。",
+        [
+            "Android 和 iOS"
+        ],
+        null,
+        "当前市场主流两大系统",
+        7,
+        "系统两大营，安卓与iOS"
+    ],
+    [
+        2,
+        "移动App的专项测试包括 _____、_____、_____ 等。",
+        [
+            "交叉/中断测试、弱网测试、耗电量/资源测试"
+        ],
+        null,
+        "App特有的非功能专项测试",
+        7,
+        "交叉网耗电，专项重点看"
+    ],
+    [
+        2,
+        "Appium的测试对象包括 _____、_____ 和 _____。",
+        [
+            "原生应用(Native)、混合应用(Hybrid)、移动Web应用(Web)"
+        ],
+        null,
+        "Appium支持三大App架构类型",
+        7,
+        "原混Web三，Appium全支持"
+    ],
+    [
+        1,
+        "关于移动App，下列说法中错误的是（）。",
+        [
+            "网络可能会从WiFi瞬间切到4G",
+            "满足了移动生活需求",
+            "无法接受键盘鼠标输入",
+            "屏幕窄小信息有限"
+        ],
+        2,
+        "App支持外接键盘或通过系统虚拟键盘获取输入",
+        7,
+        "移动输入多，外设亦能用"
+    ],
+    [
+        1,
+        "下列选项中，哪一项不属于移动App的UI测试？",
+        [
+            "图片测试",
+            "安装测试",
+            "文字测试",
+            "颜色测试"
+        ],
+        1,
+        "安装测试不属于UI界面的视觉测试范畴",
+        7,
+        "字图色归UI，安装归功能"
+    ],
+    [
+        1,
+        "下列工具中，哪一项不是移动App自动化测试工具？",
+        [
+            "Appium",
+            "Monkey",
+            "UI Automator",
+            "JMeter"
+        ],
+        3,
+        "JMeter是接口和性能测试工具，非UI自动化工具",
+        7,
+        "JMeter压接口，Appium测移动"
+    ],
+    [
+        1,
+        "现在比较流行的软件开发模型为螺旋模型。",
+        [
+            "对",
+            "错"
+        ],
+        1,
+        "目​​前流行的是敏捷模型",
+        1,
+        "螺旋重风险，流行是敏捷"
+    ],
+    [
+        1,
+        "软件存在缺陷是由于开发人员水平有限引起的，优秀的程序员可开发出零缺陷软件。",
+        [
+            "对",
+            "错"
+        ],
+        1,
+        "没有零缺陷的软件",
+        1,
+        "零缺陷不行，程序员非神"
+    ],
+    [
+        1,
+        "软件缺陷都存在于程序代码中。",
+        [
+            "对",
+            "错"
+        ],
+        1,
+        "需求和设计文档中也可能存在缺陷",
+        1,
+        "需求有缺陷，代码非唯一"
+    ],
+    [
+        1,
+        "软件测试是为了证明程序无错。",
+        [
+            "对",
+            "错"
+        ],
+        1,
+        "软件测试的目的是发现错误",
+        1,
+        "测试为找错，而非证无错"
+    ],
+    [
+        1,
+        "软件测试H模型融入了探索测试。",
+        [
+            "对",
+            "错"
+        ],
+        0,
+        "H模型将测试看作完全独立的流程",
+        1,
+        "H是独立流，融入探索测"
+    ],
+    [
+        1,
+        "软件测试要投入尽可能多的精力以达到100%的覆盖率。",
+        [
+            "对",
+            "错"
+        ],
+        1,
+        "穷尽测试是不可能的",
+        1,
+        "穷尽办不到，覆率别强求"
+    ],
+    [
+        1,
+        "有效等价类可以捕获程序中的缺陷，而无效等价类不能。",
+        [
+            "对",
+            "错"
+        ],
+        1,
+        "无效等价类测试异常输入，更能发现缺陷",
+        2,
+        "异常走无效，更能捉大Bug"
+    ],
+    [
+        1,
+        "如果程序要求输入值是一个有限区间，可以划分1个有效和1个无效等价类。",
+        [
+            "对",
+            "错"
+        ],
+        1,
+        "通常是1个有效（区间内）和2个无效（小于、大于）等价类",
+        2,
+        "有限区间内，一效两无效"
+    ],
+    [
+        1,
+        "使用边界值方法测试时，只取边界2个值即可完成边界测试。",
+        [
+            "对",
+            "错"
+        ],
+        1,
+        "除了边界本身，还要取稍微偏移边界的值",
+        2,
+        "边界两边偏，只取俩不全"
+    ],
+    [
+        1,
+        "因果图考虑了程序输入、输出之间的各种组合情况。",
+        [
+            "对",
+            "错"
+        ],
+        0,
+        "因果图方法能够考虑多个输入之间的相互组合和制约关系",
+        2,
+        "因果最全面，组合看得清"
+    ],
+    [
+        1,
+        "决策表法是由因果图演变而来的。",
+        [
+            "对",
+            "错"
+        ],
+        0,
+        "决策表通常与因果图结合使用，也可以直接设计",
+        2,
+        "决策因果生，表单更实用"
+    ],
+    [
+        1,
+        "正交实验设计法比较适合复杂的大型项目。",
+        [
+            "对",
+            "错"
+        ],
+        0,
+        "正交实验法能够从大量试验中挑选代表性点，降低测试用例数量，适合复杂项目",
+        2,
+        "正交挑代表，复杂效率高"
+    ],
+    [
+        1,
+        "语句覆盖无法考虑分支组合情况。",
+        [
+            "对",
+            "错"
+        ],
+        0,
+        "语句覆盖只保证每个可执行语句至少执行一次，无法覆盖不同的分支组合",
+        3,
+        "语句覆盖单，分支不管全"
+    ],
+    [
+        1,
+        "目标代码插桩需要重新编译、链接程序。",
+        [
+            "对",
+            "错"
+        ],
+        1,
+        "目标代码是直接操作二进制，不需要重新编译源程序",
+        3,
+        "二进制插桩，无需来编译"
+    ],
+    [
+        1,
+        "语句覆盖可以测试程序中的逻辑错误。",
+        [
+            "对",
+            "错"
+        ],
+        1,
+        "语句覆盖率最弱，很难发现逻辑错误",
+        3,
+        "覆盖率极低，难防逻辑漏"
+    ],
+    [
+        1,
+        "判定-条件覆盖没有考虑判定语句与条件判断的组合情况。",
+        [
+            "对",
+            "错"
+        ],
+        0,
+        "判定-条件覆盖只要求分支和每个条件各取值一次，并未组合它们",
+        3,
+        "条件取真假，判定亦达标"
+    ],
+    [
+        1,
+        "对于源代码插桩，探针具有较好的通用性。",
+        [
+            "对",
+            "错"
+        ],
+        0,
+        "源代码插桩的探针代码通常具有较好的平台和语言通用性",
+        3,
+        "探针入源码，通用好移植"
+    ],
+    [
+        1,
+        "响应时间是指系统对用户请求做出响应所需要的时间。",
+        [
+            "对",
+            "错"
+        ],
+        0,
+        "响应时间是性能测试的核心指标之一",
+        4,
+        "响应时间快，系统首反应"
+    ],
+    [
+        1,
+        "吞吐量的度量单位是请求数/秒。",
+        [
+            "对",
+            "错"
+        ],
+        1,
+        "吞吐量是指单位时间内系统处理的字节数或数据量，请求数/秒通常指吞吐率或并发事务数",
+        4,
+        "吞吐是流量，吞吐率计秒"
+    ],
+    [
+        1,
+        "并发数量增大可能会导致系统响应变慢。",
+        [
+            "对",
+            "错"
+        ],
+        0,
+        "并发增加会导致系统资源竞争加剧，进而使响应时间变长",
+        4,
+        "并发一旦多，资源争抢慢"
+    ],
+    [
+        1,
+        "点击率是Web应用特有的一个指标。",
+        [
+            "对",
+            "错"
+        ],
+        0,
+        "点击率反映了用户对Web服务器的请求压力",
+        4,
+        "Web特有标，点击率压服"
+    ],
+    [
+        1,
+        "压力测试是给系统加压直至系统崩溃，以此确定系统最大负载能力。",
+        [
+            "对",
+            "错"
+        ],
+        0,
+        "压力测试通过破坏性负载测试获取系统极限",
+        4,
+        "测试测极限，不坏不罢休"
+    ],
+    [
+        1,
+        "峰值测试与压力测试是同一个概念。",
+        [
+            "对",
+            "错"
+        ],
+        1,
+        "峰值是瞬间极高压力，压力测试是逐渐增加至崩溃的持续性测试",
+        4,
+        "峰值是瞬间，压力是渐增"
+    ],
+    [
+        1,
+        "安全测试贯穿于软件的整个生命周期。",
+        [
+            "对",
+            "错"
+        ],
+        0,
+        "安全应从需求设计阶段就进行考虑和测试",
+        5,
+        "周期全过程，安全都要跟"
+    ],
+    [
+        1,
+        "安全测试以违反权限与能力的约束为判断依据。",
+        [
+            "对",
+            "错"
+        ],
+        0,
+        "检验系统是否能够抵御非授权的访问或操作",
+        5,
+        "违反约束测，越权是红线"
+    ],
+    [
+        1,
+        "对XSS漏洞，最核心的防御措施就是对用户的输入进行检查和过滤。",
+        [
+            "对",
+            "错"
+        ],
+        0,
+        "过滤和转义是防范XSS的根本",
+        5,
+        "防御XSS，过滤转义先"
+    ],
+    [
+        1,
+        "CSRF漏洞的攻击过程与XSS漏洞攻击相同。",
+        [
+            "对",
+            "错"
+        ],
+        1,
+        "CSRF是跨站请求伪造，XSS是跨站脚本执行，原理和过程不同",
+        5,
+        "CSRF伪请求，XSS注入执"
+    ],
+    [
+        1,
+        "渗透测试主要是扫描软件安全漏洞。",
+        [
+            "对",
+            "错"
+        ],
+        1,
+        "渗透测试不仅扫描，还包括模拟黑客真实攻击以侵入系统",
+        5,
+        "渗透模实攻，漏扫出报告"
+    ],
+    [
+        1,
+        "自动化测试能完成人工测试无法完成的场景。",
+        [
+            "对",
+            "错"
+        ],
+        0,
+        "例如大规模并发性能测试、高强度的重复测试等",
+        6,
+        "并发与重复，自动最合适"
+    ],
+    [
+        1,
+        "软件在升级或者功能发生改变之后不需要进行回归测试。",
+        [
+            "对",
+            "错"
+        ],
+        1,
+        "软件升级或修改后，必须进行回归测试以确保原有功能未受影响",
+        6,
+        "升级要回归，原有功能稳"
+    ],
+    [
+        1,
+        "自动化测试可以达到100%覆盖率。",
+        [
+            "对",
+            "错"
+        ],
+        1,
+        "由于资源限制和路径无限性，任何测试都无法达到100%覆盖率",
+        6,
+        "穷尽不可得，覆盖无百成"
+    ],
+    [
+        1,
+        "自动化测试无须使用人工手动执行，完全由工具完成。",
+        [
+            "对",
+            "错"
+        ],
+        0,
+        "自动化测试由预先编写的脚本和工具自动执行",
+        6,
+        "工具自动跑，脚本最重要"
+    ],
+    [
+        1,
+        "自动化测试可以提高测试效率，却无法保证测试的有效性。",
+        [
+            "对",
+            "错"
+        ],
+        0,
+        "自动化只能按脚本死板执行，有效性取决于用例和脚本的设计水平",
+        6,
+        "死板自动跑，设计定成败"
+    ],
+    [
+        1,
+        "持续集成测试是软件开发、软件测试、项目部署的有效方法。",
+        [
+            "对",
+            "错"
+        ],
+        0,
+        "持续集成将整个流水线自动化，提升交付效率",
+        6,
+        "集成流水线，质量有体现"
+    ],
+    [
+        1,
+        "移动App是指运行在手机的应用程序。",
+        [
+            "对",
+            "错"
+        ],
+        0,
+        "广义的移动App也包括平板电脑等移动终端上的应用",
+        7,
+        "原混Web三，皆是手机App"
+    ],
+    [
+        1,
+        "移动App使用的网络只能是Wi-Fi。",
+        [
+            "对",
+            "错"
+        ],
+        1,
+        "还可以使用蜂窝移动网络（2G/3G/4G/5G）",
+        7,
+        "蜂窝与Wi-Fi，两路连网开"
+    ],
+    [
+        1,
+        "移动App可接受语音输入。",
+        [
+            "对",
+            "错"
+        ],
+        0,
+        "现代移动设备多支持麦克风和语音输入识别",
+        7,
+        "语音多模态，输入范围宽"
+    ],
+    [
+        1,
+        "移动App的切换测试包括删除进程、锁屏、后台切换。",
+        [
+            "对",
+            "错"
+        ],
+        0,
+        "切换测试是App交叉事件与生命周期管理测试的重要部分",
+        7,
+        "锁屏杀进程，切换专项点"
+    ],
+    [
+        1,
+        "Appium使用的是WebDriver协议。",
+        [
+            "对",
+            "错"
+        ],
+        0,
+        "Appium继承了Selenium的WebDriver协议并进行了移动端扩展",
+        7,
+        "Web协议沿，扩展做App"
+    ],
+    [
+        1,
+        "Appium支持C/C++语言。",
+        [
+            "对",
+            "错"
+        ],
+        0,
+        "Appium客户端库支持包括Java、Python、Ruby、C#、C/C++等在内的多种语言",
+        7,
+        "多语皆支持，C语也能行"
+    ],
+    [
+        1,
+        "Monkey测试中的所有事件都是随机的，不带任何主观性。",
+        [
+            "对",
+            "错"
+        ],
+        0,
+        "Monkey发送的是完全随机的用户伪随机事件流",
+        7,
+        "Monkey发随机，不带主观意"
+    ]
+];
+
+class App {
+    constructor() {
+        this.questions = [];
+        try {
+            const rawMistakes = localStorage.getItem('se_quiz_mistakes');
+            this.history = rawMistakes ? JSON.parse(rawMistakes).map(Number).filter(n => !isNaN(n)) : [];
+        } catch (e) {
+            this.history = [];
+        }
+        try {
+            this.stats = JSON.parse(localStorage.getItem('se_quiz_stats')) || {};
+        } catch (e) {
+            this.stats = {};
+        }
+        this.state = {
+            mode: 'menu',
+            qIndex: 0,
+            score: 0,
+            combo: 0,
+            sessionMistakes: [] // 当前会话的错题
+        };
+        this.audioCtx = null;
+        this.initUI();
+    }
+
+    initUI() {
+        // 主题初始化
+        let savedTheme = 'light';
+        try {
+            savedTheme = localStorage.getItem('theme') || 'light';
+        } catch (e) {}
+        document.documentElement.setAttribute('data-theme', savedTheme);
+        document.getElementById('theme-btn').onclick = () => {
+            const current = document.documentElement.getAttribute('data-theme');
+            const next = current === 'light' ? 'dark' : 'light';
+            document.documentElement.setAttribute('data-theme', next);
+            try {
+                localStorage.setItem('theme', next);
+            } catch (e) {}
+        };
+
+        this.updateMenuStats();
+        // 键盘监听
+        document.addEventListener('keydown', (e) => this.handleInput(e));
+
+        // 填空题按钮事件绑定
+        document.getElementById('btn-show-answer').addEventListener('click', () => {
+            document.getElementById('btn-show-answer').classList.add('hide');
+            document.getElementById('type2-answer-area').classList.remove('hide');
+        });
+
+        document.getElementById('btn-self-correct').addEventListener('click', () => {
+            this.handleType2Answer(true);
+        });
+
+        document.getElementById('btn-self-wrong').addEventListener('click', () => {
+            this.handleType2Answer(false);
+        });
+    }
+
+    updateMenuStats() {
+        // 更新错题数量
+        document.getElementById('mistake-count').textContent = this.history.length;
+        const btn = document.getElementById('btn-mistakes');
+        if (this.history.length === 0) {
+            btn.classList.add('disabled');
+        } else {
+            btn.classList.remove('disabled');
+        }
+
+        // 更新各模块的最高正确率
+        ['mock', 'part1', 'part2', 'part3'].forEach(key => {
+            const el = document.getElementById(`stat-${key}`);
+            if (this.stats[key] && this.stats[key].bestAccuracy !== undefined) {
+                el.textContent = `最高正确率: ${this.stats[key].bestAccuracy}%`;
+                el.classList.add('show');
+            } else {
+                el.textContent = `最高正确率: 0%`;
+                el.classList.remove('show');
+            }
+        });
+    }
+
+    // --- 核心逻辑：开始不同模式 ---
+    startMode(mode) {
+        let rawSubset = [];
+        
+        if (mode === 'part1') rawSubset = rawDB.filter(q => q[5] >= 1 && q[5] <= 3);
+        else if (mode === 'part2') rawSubset = rawDB.filter(q => q[5] >= 4 && q[5] <= 5);
+        else if (mode === 'part3') rawSubset = rawDB.filter(q => q[5] >= 6 && q[5] <= 7);
+        else if (mode === 'mistakes') {
+            rawSubset = rawDB.filter((_, idx) => this.history.includes(idx));
+        } else if (mode === 'session_retry') {
+            rawSubset = this.lastSessionWrongData || [];
+        } else if (mode === 'mock') {
+            let all = [...rawDB];
+            this.shuffleArray(all);
+            rawSubset = all.slice(0, 20); // 随机抽取 20 题
+        }
+
+        if (rawSubset.length === 0) {
+            alert("当前模式没有可用的题目！");
+            return;
+        }
+
+        this.state = { mode: mode, qIndex: 0, score: 0, combo: 0, sessionMistakes: [] };
+
+        // 解析数据 + 选项乱序处理
+        this.questions = rawSubset.map(item => {
+            const globalId = rawDB.indexOf(item); 
+            const type = item[0];
+            const originalAnsIndex = item[3];
+            
+            let finalOptions = item[2];
+            let finalAnsIndex = originalAnsIndex;
+
+            // 选择题进行选项乱序
+            if(type === 1) {
+                finalOptions = [...item[2]];
+                const correctAnswerText = item[2][originalAnsIndex];
+                // 如果是判断题 (只有两个选项，且是 对/错 结构)，则不进行选项乱序以保证 A.对 B.错 顺序
+                const isTrueFalse = finalOptions.length === 2 && 
+                                    ((finalOptions[0] === '对' && finalOptions[1] === '错') || 
+                                     (finalOptions[0] === '正确' && finalOptions[1] === '错误'));
+                if (!isTrueFalse) {
+                    for (let i = finalOptions.length - 1; i > 0; i--) {
+                        const j = Math.floor(Math.random() * (i + 1));
+                        [finalOptions[i], finalOptions[j]] = [finalOptions[j], finalOptions[i]];
+                    }
+                }
+                finalAnsIndex = finalOptions.indexOf(correctAnswerText);
+            }
+
+            return {
+                id: globalId,
+                type: type,
+                q: item[1],
+                options: finalOptions,
+                ans: finalAnsIndex,
+                exp: item[4],
+                chapter: item[5],
+                mnemonic: (item[6] !== undefined && item[6] !== null) ? item[6] : ""
+            };
+        });
+
+        // 打乱题目顺序 (如果是分类刷题)
+        if (mode !== 'session_retry') this.shuffleArray(this.questions);
+
+        // UI 切换
+        document.getElementById('screen-menu').classList.add('hide');
+        document.getElementById('screen-result').classList.add('hide');
+        document.getElementById('screen-game').classList.remove('hide');
+        
+        this.updateHUD();
+        this.renderQuestion();
+    }
+
+    renderQuestion() {
+        const q = this.questions[this.state.qIndex];
+        
+        // 触发题目切换的渐显动画
+        const qContentArea = document.getElementById('q-content-area');
+        if (qContentArea) {
+            qContentArea.classList.remove('q-fade-in');
+            void qContentArea.offsetWidth; // 触发 reflow 重置动画
+            qContentArea.classList.add('q-fade-in');
+        }
+        
+        // 进度更新
+        const progress = ((this.state.qIndex) / this.questions.length) * 100;
+        document.getElementById('progress-bar').style.width = `${progress}%`;
+        document.getElementById('q-counter').textContent = `${this.state.qIndex + 1}/${this.questions.length}`;
+        document.getElementById('q-tag').textContent = `第 ${q.chapter} 章 ${q.type === 1 ? '单选题' : '填空题'}`;
+        
+        // 渲染题干
+        document.getElementById('q-text').textContent = q.q;
+        
+        // 重置底部区域
+        document.getElementById('explanation').classList.add('hide');
+        const mnemonicArea = document.getElementById('mnemonic-area');
+        if (mnemonicArea) mnemonicArea.classList.add('hide');
+        const nextBtn = document.getElementById('next-btn');
+        nextBtn.classList.add('hide');
+        nextBtn.onclick = () => this.nextQuestion();
+
+        // 根据题型渲染
+        const optionsContainer = document.getElementById('options-container');
+        const type2Container = document.getElementById('type2-container');
+
+        if (q.type === 1) {
+            // 选择题
+            type2Container.classList.add('hide');
+            optionsContainer.classList.remove('hide');
+            optionsContainer.innerHTML = '';
+            
+            const labels = ['A', 'B', 'C', 'D', 'E', 'F', 'G'];
+            q.options.forEach((opt, idx) => {
+                const btn = document.createElement('button');
+                btn.className = 'option-btn';
+                const label = labels[idx] || String.fromCharCode(65 + idx);
+                btn.innerHTML = `<span class="option-key">${label}</span><span>${opt}</span>`;
+                btn.onclick = () => this.handleType1Answer(idx, btn);
+                optionsContainer.appendChild(btn);
+            });
+        } else {
+            // 填空题
+            optionsContainer.classList.add('hide');
+            type2Container.classList.remove('hide');
+            document.getElementById('type2-correct-answer').textContent = q.options[0];
+            document.getElementById('btn-show-answer').classList.remove('hide');
+            document.getElementById('type2-answer-area').classList.add('hide');
+            document.getElementById('btn-self-correct').disabled = false;
+            document.getElementById('btn-self-wrong').disabled = false;
+        }
+    }
+
+    // --- 选择题评判逻辑 ---
+    handleType1Answer(selectedIndex, btnElement) {
+        if (document.getElementById('explanation').classList.contains('hide') === false) return; // 已答过
+
+        const q = this.questions[this.state.qIndex];
+        if (!q) return;
+        const isCorrect = (selectedIndex === q.ans);
+        const options = document.querySelectorAll('.option-btn');
+        
+        options.forEach(btn => btn.disabled = true);
+        options[q.ans].classList.add('correct');
+
+        if (isCorrect) {
+            this.handleScoreLogic(true, q.id);
+            const mnemonicArea = document.getElementById('mnemonic-area');
+            if (mnemonicArea) mnemonicArea.classList.add('hide');
+        } else {
+            btnElement.classList.add('wrong');
+            this.handleScoreLogic(false, q.id);
+            const mnemonicArea = document.getElementById('mnemonic-area');
+            if (mnemonicArea) {
+                const mnemonicText = q.mnemonic || "熟能生巧，多记多练！";
+                document.getElementById('mnemonic-text').innerHTML = mnemonicText;
+                mnemonicArea.classList.remove('hide');
+            }
+        }
+
+        this.showExplanation(q.exp);
+    }
+
+    // --- 填空题评判逻辑 ---
+    handleType2Answer(isCorrect) {
+        if (document.getElementById('explanation').classList.contains('hide') === false) return; // 已答过
+        
+        const q = this.questions[this.state.qIndex];
+        if (!q) return;
+        document.getElementById('btn-self-correct').disabled = true;
+        document.getElementById('btn-self-wrong').disabled = true;
+
+        this.handleScoreLogic(isCorrect, q.id);
+        if (isCorrect) {
+            const mnemonicArea = document.getElementById('mnemonic-area');
+            if (mnemonicArea) mnemonicArea.classList.add('hide');
+        } else {
+            const mnemonicArea = document.getElementById('mnemonic-area');
+            if (mnemonicArea) {
+                const mnemonicText = q.mnemonic || "熟能生巧，多记多练！";
+                document.getElementById('mnemonic-text').innerHTML = mnemonicText;
+                mnemonicArea.classList.remove('hide');
+            }
+        }
+        this.showExplanation(q.exp);
+    }
+
+    // --- 分数与错题本逻辑 ---
+    handleScoreLogic(isCorrect, globalId) {
+        if (isCorrect) {
+            this.state.combo++;
+            this.state.score += 10 + (this.state.combo * 2); 
+            this.playTone(600 + (this.state.combo * 50));
+            this.triggerComboAnim();
+            
+            // 如果做对且在历史错题中，则移出错题本
+            if (this.history.includes(globalId)) {
+                this.history = this.history.filter(id => id !== globalId);
+                this.saveData();
+            }
+        } else {
+            this.state.combo = 0;
+            this.playTone(150, 'square');
+            
+            // 加入错题本和当前会话错误列表
+            if (!this.history.includes(globalId)) {
+                this.history.push(globalId);
+                this.saveData();
+            }
+            this.state.sessionMistakes.push(this.questions[this.state.qIndex]);
+        }
+        this.updateHUD();
+    }
+
+    showExplanation(expText) {
+        const exp = document.getElementById('explanation');
+        document.getElementById('exp-text').innerHTML = expText;
+        exp.classList.remove('hide');
+        document.getElementById('next-btn').classList.remove('hide');
+    }
+
+    nextQuestion() {
+        this.state.qIndex++;
+        if (this.state.qIndex >= this.questions.length) {
+            this.endSession();
+        } else {
+            this.renderQuestion();
+        }
+    }
+
+    endSession() {
+        document.getElementById('screen-game').classList.add('hide');
+        document.getElementById('screen-result').classList.remove('hide');
+
+        const total = this.questions.length;
+        const wrongCount = this.state.sessionMistakes.length;
+        const correctCount = total - wrongCount;
+        const accuracy = Math.round((correctCount / total) * 100);
+
+        document.getElementById('res-accuracy').textContent = `${accuracy}%`;
+        document.getElementById('res-score').textContent = this.state.score;
+        document.getElementById('res-combo').textContent = this.state.combo;
+        document.getElementById('res-wrong').textContent = wrongCount;
+
+        // 更新历史最高正确率记录
+        if (this.state.mode !== 'session_retry' && this.state.mode !== 'mistakes') {
+            const m = this.state.mode;
+            if (!this.stats[m]) this.stats[m] = { bestAccuracy: 0 };
+            if (accuracy > this.stats[m].bestAccuracy) {
+                this.stats[m].bestAccuracy = accuracy;
+                try {
+                    localStorage.setItem('se_quiz_stats', JSON.stringify(this.stats));
+                } catch (e) {}
+            }
+        }
+
+        if (accuracy === 100) this.fireConfetti();
+
+        const btnRetry = document.getElementById('btn-retry-session');
+        if (wrongCount > 0) {
+            // 保存会话错题引用，并转换为原始数据格式
+            this.lastSessionWrongData = this.state.sessionMistakes.map(q => rawDB[q.id]);
+            btnRetry.classList.remove('hide');
+        } else {
+            btnRetry.classList.add('hide');
+        }
+
+        this.updateMenuStats();
+    }
+
+    retrySessionMistakes() {
+        this.startMode('session_retry');
+    }
+
+    toMenu() {
+        document.getElementById('screen-result').classList.add('hide');
+        document.getElementById('screen-menu').classList.remove('hide');
+        this.updateMenuStats();
+    }
+
+    updateHUD() {
+        let modeName = "N/A";
+        if(this.state.mode==='mock') modeName='模拟考';
+        if(this.state.mode==='mistakes') modeName='错题';
+        if(this.state.mode==='part1') modeName='模块1';
+        if(this.state.mode==='part2') modeName='模块2';
+        if(this.state.mode==='part3') modeName='模块3';
+        if(this.state.mode==='session_retry') modeName='重试';
+        if(this.state.mode==='menu') modeName='MENU';
+        
+        document.getElementById('hud-mode').textContent = modeName;
+        document.getElementById('hud-score').textContent = this.state.score;
+        document.getElementById('hud-combo').textContent = this.state.combo;
+    }
+
+    triggerComboAnim() {
+        const comboEl = document.getElementById('hud-combo');
+        comboEl.classList.remove('combo-active');
+        void comboEl.offsetWidth; // trigger reflow
+        comboEl.classList.add('combo-active');
+    }
+
+    clearHistory() {
+        if(confirm("确定要清空所有错题记录和正确率数据吗？这不可恢复。")) {
+            this.history = [];
+            this.stats = {};
+            this.saveData();
+            this.updateMenuStats();
+        }
+    }
+
+    saveData() {
+        try {
+            localStorage.setItem('se_quiz_mistakes', JSON.stringify(this.history));
+            localStorage.setItem('se_quiz_stats', JSON.stringify(this.stats));
+        } catch (e) {
+            console.error("Failed to save data to localStorage", e);
+        }
+    }
+
+    shuffleArray(array) {
+        for (let i = array.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [array[i], array[j]] = [array[j], array[i]];
+        }
+    }
+
+    handleInput(e) {
+        if (this.state.mode === 'menu' || document.getElementById('screen-game').classList.contains('hide')) return;
+        if (['INPUT', 'TEXTAREA'].includes(e.target.tagName)) return;
+        const nextBtn = document.getElementById('next-btn');
+        
+        // 键盘 Enter 键自动下一题 / 查看答案
+        if (e.key === 'Enter') {
+            const q = this.questions[this.state.qIndex];
+            if (!q) return;
+            
+            if (q.type === 2) {
+                const btnShow = document.getElementById('btn-show-answer');
+                if (btnShow && !btnShow.classList.contains('hide')) {
+                    btnShow.click();
+                    return;
+                }
+            }
+
+            if (nextBtn && !nextBtn.classList.contains('hide')) {
+                this.nextQuestion();
+                return;
+            }
+        }
+        
+        // 键盘 1,2,3,4 选择答案/填空题自我评估
+        if (e.key >= '1' && e.key <= '4') {
+            const q = this.questions[this.state.qIndex];
+            if (q) {
+                if (q.type === 1) {
+                    const options = document.querySelectorAll('.option-btn');
+                    if (options.length > 0 && !options[0].disabled) {
+                        const idx = parseInt(e.key) - 1;
+                        if (options[idx]) options[idx].click();
+                    }
+                } else if (q.type === 2) {
+                    const ansArea = document.getElementById('type2-answer-area');
+                    const btnCorrect = document.getElementById('btn-self-correct');
+                    if (ansArea && !ansArea.classList.contains('hide') && btnCorrect && !btnCorrect.disabled) {
+                        if (e.key === '1') {
+                            btnCorrect.click();
+                        } else if (e.key === '2') {
+                            const btnWrong = document.getElementById('btn-self-wrong');
+                            if (btnWrong) btnWrong.click();
+                        }
+                    }
+                }
+            }
+        }
+
+        // 字母键 Y/N 自我评估支持
+        if (e.key.toLowerCase() === 'y' || e.key.toLowerCase() === 'n') {
+            const q = this.questions[this.state.qIndex];
+            if (q && q.type === 2) {
+                const ansArea = document.getElementById('type2-answer-area');
+                const btnCorrect = document.getElementById('btn-self-correct');
+                if (ansArea && !ansArea.classList.contains('hide') && btnCorrect && !btnCorrect.disabled) {
+                    if (e.key.toLowerCase() === 'y') {
+                        btnCorrect.click();
+                    } else if (e.key.toLowerCase() === 'n') {
+                        const btnWrong = document.getElementById('btn-self-wrong');
+                        if (btnWrong) btnWrong.click();
+                    }
+                }
+            }
+        }
+    }
+
+    playTone(freq, type='sine') {
+        try {
+            if (!this.audioCtx) this.audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            const osc = this.audioCtx.createOscillator();
+            const gain = this.audioCtx.createGain();
+            osc.type = type;
+            osc.frequency.setValueAtTime(freq, this.audioCtx.currentTime);
+            gain.gain.setValueAtTime(0.1, this.audioCtx.currentTime);
+            gain.gain.exponentialRampToValueAtTime(0.001, this.audioCtx.currentTime + 0.3);
+            osc.connect(gain);
+            gain.connect(this.audioCtx.destination);
+            osc.start();
+            osc.stop(this.audioCtx.currentTime + 0.3);
+        } catch(e) {}
+    }
+
+    fireConfetti() {
+        const canvas = document.getElementById('confetti-canvas');
+        const ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        
+        const pieces = [];
+        const colors = ['#268bd2', '#859900', '#b58900', '#cb4b16', '#d33682', '#6c71c4'];
+        
+        for(let i=0; i<100; i++) {
+            pieces.push({
+                x: canvas.width / 2,
+                y: canvas.height / 2 + 100,
+                vx: (Math.random() - 0.5) * 20,
+                vy: (Math.random() - 1) * 20,
+                size: Math.random() * 10 + 5,
+                color: colors[Math.floor(Math.random() * colors.length)],
+                rot: Math.random() * Math.PI,
+                rotSpeed: (Math.random() - 0.5) * 0.2
+            });
+        }
+        
+        let reqId;
+        const animate = () => {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            let active = false;
+            
+            pieces.forEach(p => {
+                p.x += p.vx;
+                p.y += p.vy;
+                p.vy += 0.5; // gravity
+                p.rot += p.rotSpeed;
+                
+                if (p.y < canvas.height) active = true;
+                
+                ctx.save();
+                ctx.translate(p.x, p.y);
+                ctx.rotate(p.rot);
+                ctx.fillStyle = p.color;
+                ctx.fillRect(-p.size/2, -p.size/2, p.size, p.size);
+                ctx.restore();
+            });
+            
+            if(active) reqId = requestAnimationFrame(animate);
+            else ctx.clearRect(0, 0, canvas.width, canvas.height);
+        };
+        animate();
+        setTimeout(() => cancelAnimationFrame(reqId), 5000);
+    }
+}
+
+const app = new App();
+</script>
+</body>
+</html>
