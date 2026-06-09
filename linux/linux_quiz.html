@@ -394,6 +394,55 @@
                 transform: translateX(0) scale(1);
             }
         }
+
+        /* 右上角控制按钮区 */
+        .hud-actions {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .hud-btn {
+            width: 36px;
+            height: 36px;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            background: var(--bg-card);
+            color: var(--text-weak);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            text-decoration: none;
+            transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
+        }
+
+        .hud-btn:hover {
+            background: rgba(31, 27, 24, 0.03);
+            border-color: var(--theme-accent);
+            color: var(--theme-accent);
+            transform: scale(1.05);
+        }
+
+        [data-theme="dark"] .hud-btn:hover {
+            background: rgba(230, 228, 222, 0.03);
+        }
+
+        .hud-btn:active {
+            transform: scale(0.95);
+        }
+
+        .hud-btn i {
+            font-size: 0.95rem;
+        }
+
+        .theme-icon {
+            transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .theme-icon.rotate-animation {
+            transform: rotate(360deg) scale(1.25);
+        }
     </style>
 </head>
 <body>
@@ -414,9 +463,13 @@
                 <span class="stat-value" id="hud-combo">0</span>
             </div>
         </div>
-        <div>
-            <a href="../index.html" class="theme-toggle" style="text-decoration:none; margin-right:10px; font-size: 1rem;">🏠</a>
-            <button class="theme-toggle" id="theme-btn" title="切换黑夜/白昼模式">🌗</button>
+        <div class="hud-actions">
+            <a href="../index.html" class="hud-btn" title="返回首页" aria-label="返回首页">
+                <i class="fa-solid fa-house" aria-hidden="true"></i>
+            </a>
+            <button class="hud-btn" id="theme-btn" title="切换黑夜/白昼模式" aria-label="切换主题">
+                <i class="fa-solid fa-sun theme-icon" id="theme-icon" aria-hidden="true"></i>
+            </button>
         </div>
     </header>
 
@@ -1885,6 +1938,16 @@ class App {
             savedTheme = localStorage.getItem('theme') || 'light';
         } catch (e) {}
         document.documentElement.setAttribute('data-theme', savedTheme);
+        
+        const themeIcon = document.getElementById('theme-icon');
+        if (themeIcon) {
+            if (savedTheme === 'dark') {
+                themeIcon.className = 'fa-solid fa-moon theme-icon';
+            } else {
+                themeIcon.className = 'fa-solid fa-sun theme-icon';
+            }
+        }
+        
         document.getElementById('theme-btn').onclick = () => {
             const current = document.documentElement.getAttribute('data-theme');
             const next = current === 'light' ? 'dark' : 'light';
@@ -1892,6 +1955,18 @@ class App {
             try {
                 localStorage.setItem('theme', next);
             } catch (e) {}
+            
+            const icon = document.getElementById('theme-icon');
+            if (icon) {
+                if (next === 'dark') {
+                    icon.className = 'fa-solid fa-moon theme-icon';
+                } else {
+                    icon.className = 'fa-solid fa-sun theme-icon';
+                }
+                icon.classList.remove('rotate-animation');
+                void icon.offsetWidth; // 触发强制重绘
+                icon.classList.add('rotate-animation');
+            }
         };
 
         this.updateMenuStats();
@@ -2088,10 +2163,10 @@ class App {
             const mnemonicArea = document.getElementById('mnemonic-area');
             if (mnemonicArea) mnemonicArea.classList.add('hide');
             
-            // 答对选择题后直接跳转到下一题，保留 800ms 正确态反馈时间
+            // 答对选择题后直接跳转到下一题，保留 320ms 正确态反馈时间
             setTimeout(() => {
                 this.nextQuestion();
-            }, 800);
+            }, 320);
         } else {
             btnElement.classList.add('wrong');
             this.handleScoreLogic(false, q.id);
