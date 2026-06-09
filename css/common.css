@@ -1,27 +1,73 @@
-@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Lora:ital,wght@0,400;0,600;0,700;1,400&family=Noto+Sans+SC:wght@400;500;700;900&display=swap');
+
+:root {
+    --bg-app: #FAF9F5;              /* 暖米白/燕麦底色 */
+    --bg-card: #FFFFFF;             /* 纯净沙白 */
+    --text-main: #1F1B18;           /* 炭木褐 */
+    --text-weak: #7A7570;           /* 温暖灰褐 */
+    --border-color: rgba(31, 27, 24, 0.08); /* 极细炭墨边框 */
+    
+    --theme-accent: #CC6D4E;        /* 珊瑚红 (Claude 经典红赭) */
+    --theme-green: #548460;         /* 优雅苔绿 */
+    --theme-hex: var(--theme-accent);
+    
+    --font-serif: 'Lora', 'Georgia', 'Noto Sans SC', serif;
+    --font-sans: 'Inter', 'Noto Sans SC', system-ui, -apple-system, sans-serif;
+    
+    --highlight-bg: #F3EBDD;        /* 温暖淡金黄背景 */
+    --highlight-text: #B2533E;      /* 深珊瑚红高亮字 */
+    
+    --list-item-bg: rgba(255, 255, 255, 0.95);
+    --list-item-border: rgba(31, 27, 24, 0.05);
+    --list-item-shadow: 0 1px 3px rgba(31, 27, 24, 0.01), 0 8px 24px rgba(31, 27, 24, 0.02);
+}
+
+[data-theme="dark"] {
+    --bg-app: #141312;              /* 暗炭黑 */
+    --bg-card: #1D1C1A;             /* 暖深炭灰 */
+    --text-main: #E6E4DE;           /* 亮米灰 */
+    --text-weak: #94908A;           /* 暖石灰 */
+    --border-color: rgba(230, 228, 222, 0.1); /* 极细浅墨边框 */
+    
+    --theme-accent: #E08362;        /* 浅珊瑚红 */
+    --theme-green: #72A67E;         /* 嫩苔绿 */
+    --theme-hex: var(--theme-accent);
+    
+    --highlight-bg: rgba(224, 131, 98, 0.15);
+    --highlight-text: #F0A38B;
+    
+    --list-item-bg: rgba(29, 28, 26, 0.95);
+    --list-item-border: rgba(230, 228, 222, 0.06);
+    --list-item-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
 
 body {
-    font-family: 'Noto Sans SC', sans-serif;
-    background-color: #f8fafc;
+    font-family: var(--font-sans);
+    background-color: var(--bg-app);
+    color: var(--text-main);
     overscroll-behavior: none;
     -webkit-tap-highlight-color: transparent;
+    transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 html {
     scroll-behavior: smooth;
+    background-color: var(--bg-app);
 }
 
 button,
 a {
     touch-action: manipulation;
+    font-family: inherit;
 }
 
 .highlight {
-    color: #e11d48;
-    font-weight: 900;
-    background: #ffe4e6;
-    padding: 0 4px;
-    border-radius: 4px;
+    color: var(--highlight-text);
+    background-color: var(--highlight-bg);
+    font-weight: 700;
+    padding: 0.1rem 0.35rem;
+    border-radius: 0.3rem;
+    transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 .math-scroll-wrapper {
@@ -38,11 +84,21 @@ a {
     -webkit-overflow-scrolling: touch;
 }
 
-.math-scroll-wrapper::-webkit-scrollbar { height: 5px; }
-.math-scroll-wrapper::-webkit-scrollbar-thumb { background-color: #cbd5e1; border-radius: 10px; }
+.math-scroll-wrapper::-webkit-scrollbar {
+    height: 5px;
+}
+
+.math-scroll-wrapper::-webkit-scrollbar-thumb {
+    background-color: var(--border-color);
+    border-radius: 10px;
+}
 
 .math-scroll-wrapper .katex-display {
     margin: 0.35rem 0;
+}
+
+h1, h2, h3, .serif-text {
+    font-family: var(--font-serif);
 }
 
 @media (prefers-reduced-motion: reduce) {

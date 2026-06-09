@@ -131,7 +131,7 @@ const templateHtml = fs.readFileSync(templatePath, 'utf8');
 // Replace standard titles
 let newHtml = templateHtml
     .replace('<title>软件测试课后习题汇总</title>', '<title>Linux 基础与应用通关</title>')
-    .replace('<h1>软件测试期末题库</h1>', '<h1 style="color: var(--emerald); margin-bottom: 0.5rem;">Linux 基础通关</h1>')
+    .replace('<h1 style="color: var(--theme-accent); margin-bottom: 0.5rem;">软件测试期末题库</h1>', '<h1 style="color: var(--theme-green); margin-bottom: 0.5rem;">Linux 基础通关</h1>')
     .replace('软件测试期末题库', 'Linux 基础通关')
     .replace('填空题与选择题 · 全7章考点', '选择题与判断题 · 八大模块全覆盖');
 
@@ -143,16 +143,16 @@ newHtml = newHtml
 // Generate the menu options for Linux
 // We have 8 modules, let's group them or display them all
 const newMenuGrid = `
-                <div class="menu-card" onclick="app.startMode('mock')" style="border-color: var(--violet); background: rgba(108, 113, 196, 0.05);">
-                    <div class="menu-badge" style="color: var(--violet); opacity:0.15;">🎓</div>
-                    <h3 style="color: var(--violet);">模拟考试</h3>
+                <div class="menu-card" onclick="app.startMode('mock')" style="border-color: var(--theme-green); background: rgba(84, 132, 96, 0.04);">
+                    <div class="menu-badge" style="color: var(--theme-green); opacity:0.15;">🎓</div>
+                    <h3 style="color: var(--theme-green);">模拟考试</h3>
                     <p>随机抽取 20 题<br>全模块混合 · 实战演练</p>
                     <div class="stat-pill" id="stat-mock">最高正确率: 0%</div>
                 </div>
 
-                <div class="menu-card" id="btn-mistakes" onclick="app.startMode('mistakes')" style="border-color: var(--red); background: rgba(220, 50, 47, 0.05);">
-                    <div class="menu-badge" style="color: var(--red); opacity:0.15;">🎯</div>
-                    <h3 style="color: var(--red);">错题攻坚</h3>
+                <div class="menu-card" id="btn-mistakes" onclick="app.startMode('mistakes')" style="border-color: var(--theme-accent); background: rgba(204, 109, 78, 0.04);">
+                    <div class="menu-badge" style="color: var(--theme-accent); opacity:0.15;">🎯</div>
+                    <h3 style="color: var(--theme-accent);">错题攻坚</h3>
                     <p>重做历史错题<br><span id="mistake-count" style="font-weight:bold">0</span> 道待修复</p>
                 </div>
 
@@ -322,9 +322,9 @@ if (!newHtml.includes('id="mnemonic-area"')) {
         `<div class="explanation" id="explanation">
                     <strong>来源与解析</strong>
                     <span id="exp-text"></span>
-                    <div id="mnemonic-area" class="hide" style="margin-top: 1rem; padding: 0.8rem; background: rgba(108, 113, 196, 0.1); border: 1px dashed var(--violet); border-radius: 8px;">
-                        <strong style="color: var(--violet); font-size: 0.85rem; margin-bottom: 0.3rem; display: block; letter-spacing: 1px;">💡 记忆口诀</strong>
-                        <span id="mnemonic-text" style="color: var(--violet); font-weight: 700; font-size: 0.95rem;"></span>
+                    <div id="mnemonic-area" class="quiz-mnemonic-box hide">
+                        <strong class="quiz-mnemonic-title">💡 记忆口诀</strong>
+                        <span id="mnemonic-text" class="quiz-mnemonic-text"></span>
                     </div>
                 </div>`
     );

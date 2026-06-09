@@ -1,115 +1,210 @@
-.login-bg {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    font-family: 'Noto Sans SC', sans-serif;
-}
+/* Claude 风格登录页专属样式 */
 
-.login-card {
-    background: rgba(255, 255, 255, 0.15);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    border-radius: 2rem;
-    padding: 3rem 2rem 2.5rem;
-    animation: fadeIn 0.5s ease-out;
-}
-
-@keyframes fadeIn {
-    from { opacity: 0; transform: translateY(16px) scale(0.98); }
-    to { opacity: 1; transform: translateY(0) scale(1); }
-}
-
-.login-avatar {
-    width: 80px;
-    height: 80px;
-    border-radius: 50%;
-    background: rgba(255, 255, 255, 0.2);
-    border: 2px solid rgba(255, 255, 255, 0.4);
+html, body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    min-height: 100vh;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 2rem;
-    color: #fff;
+    background-color: var(--bg-app);
+    color: var(--text-main);
+    font-family: var(--font-sans);
+    transition: background-color 0.3s ease, color 0.3s ease;
+    overflow: hidden;
+}
+
+/* 屏幕微光背景 (极简装饰，不影响质感) */
+.scene-glow {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 1;
+    background: radial-gradient(circle at 10% 20%, rgba(204, 109, 78, 0.02), transparent 40%),
+                radial-gradient(circle at 90% 80%, rgba(84, 132, 96, 0.02), transparent 40%);
+}
+
+.login-card {
+    position: relative;
+    z-index: 10;
+    width: min(92vw, 380px);
+    padding: 3.5rem 2.25rem 3rem;
+    border-radius: 24px;
+    background-color: var(--bg-card);
+    border: 1px solid var(--border-color);
+    box-shadow: 0 1px 3px rgba(31, 27, 24, 0.01), 
+                0 12px 40px rgba(31, 27, 24, 0.03);
+    animation: cardIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
+    transition: background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+@keyframes cardIn {
+    0% { opacity: 0; transform: translateY(20px); }
+    100% { opacity: 1; transform: translateY(0); }
+}
+
+.login-avatar {
+    position: relative;
+    width: 64px;
+    height: 64px;
+    margin: 0 auto 2.5rem;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-main);
+    font-size: 24px;
+    background-color: var(--bg-app);
+    border: 1px solid var(--border-color);
+    box-shadow: 0 2px 8px rgba(31, 27, 24, 0.02);
+    transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
 }
 
 .login-field {
     position: relative;
-    margin-bottom: 1.25rem;
+    display: flex;
+    align-items: center;
+    margin-bottom: 1.5rem;
 }
 
 .login-field input {
     width: 100%;
-    height: 50px;
-    padding: 0 50px 0 46px;
+    padding: 14px 40px 14px 36px;
+    background: transparent;
     border: none;
-    border-radius: 14px;
-    background: rgba(255, 255, 255, 0.2);
-    color: #fff;
-    font-size: 0.9rem;
-    font-weight: 500;
     outline: none;
-    transition: background 0.3s, box-shadow 0.3s;
+    color: var(--text-main);
+    font-size: 16px;
+    border-bottom: 1px solid var(--border-color);
+    transition: border-color 0.3s ease;
+    min-height: 48px;
 }
 
 .login-field input::placeholder {
-    color: rgba(255, 255, 255, 0.5);
-}
-
-.login-field input:focus {
-    background: rgba(255, 255, 255, 0.3);
-    box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.15);
+    color: var(--text-weak);
+    opacity: 0.5;
 }
 
 .login-field-icon {
     position: absolute;
-    left: 16px;
-    top: 50%;
-    transform: translateY(-50%);
-    color: rgba(255, 255, 255, 0.5);
-    font-size: 0.85rem;
-    pointer-events: none;
+    left: 8px;
+    color: var(--text-weak);
+    font-size: 14px;
+    transition: color 0.3s ease;
 }
 
-.login-field input:focus ~ .login-field-icon,
-.login-field input:focus + .login-field-icon {
-    color: rgba(255, 255, 255, 0.8);
+/* 居中展开的下划线 */
+.field-underline {
+    position: absolute;
+    left: 50%;
+    bottom: 0;
+    width: 0;
+    height: 1.5px;
+    transform: translateX(-50%);
+    background-color: var(--theme-accent);
+    transition: width 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.login-field:focus-within .field-underline {
+    width: 100%;
+}
+
+.login-field:focus-within .login-field-icon {
+    color: var(--theme-accent);
 }
 
 .toggle-pwd {
     position: absolute;
-    right: 14px;
-    top: 50%;
-    transform: translateY(-50%);
-    background: none;
+    right: 4px;
+    background: transparent;
     border: none;
-    padding: 6px;
-    color: rgba(255, 255, 255, 0.4);
+    color: var(--text-weak);
     cursor: pointer;
-    transition: color 0.2s;
+    font-size: 15px;
+    padding: 12px;
+    transition: color 0.3s ease;
+    min-width: 44px;
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .toggle-pwd:hover {
-    color: rgba(255, 255, 255, 0.8);
+    color: var(--text-main);
 }
 
 .login-btn {
+    position: relative;
     width: 100%;
-    height: 50px;
+    height: 48px;
+    margin: 2.25rem auto 0;
     border: none;
-    border-radius: 14px;
-    background: rgba(255, 255, 255, 0.95);
-    color: #764ba2;
-    font-size: 1.1rem;
-    font-weight: 900;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     cursor: pointer;
-    transition: transform 0.2s, box-shadow 0.2s;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    color: var(--bg-card);
+    font-size: 15px;
+    font-weight: 500;
+    background: var(--text-main);
+    box-shadow: 0 2px 4px rgba(31, 27, 24, 0.05);
+    transition: background-color 0.25s ease, color 0.25s ease, transform 0.2s ease, box-shadow 0.2s ease;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
 }
 
 .login-btn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+    background: var(--theme-accent);
+    color: #FFFFFF;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(204, 109, 78, 0.15);
 }
 
 .login-btn:active {
     transform: translateY(0) scale(0.98);
+}
+
+.login-btn i {
+    transition: transform 0.3s ease;
+    margin-right: 8px;
+}
+
+.login-btn:hover i {
+    transform: translateX(2px);
+}
+
+/* Toast样式定制 */
+#toast {
+    position: fixed;
+    bottom: 6rem;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--bg-card);
+    color: var(--text-main);
+    border: 1px solid var(--border-color);
+    box-shadow: 0 8px 30px rgba(31, 27, 24, 0.08);
+    transition: opacity 0.3s ease;
+    z-index: 50;
+    padding: 0.75rem 1.25rem;
+    border-radius: 16px;
+    font-size: 14px;
+    font-weight: 500;
+    pointer-events: none;
+    opacity: 0;
+}
+
+/* 移动端适配 */
+@media (max-width: 480px) {
+    body {
+        align-items: flex-start;
+        padding-top: 15vh;
+    }
+    .login-card {
+        padding: 3rem 1.75rem 2.5rem;
+        border-radius: 20px;
+    }
 }
