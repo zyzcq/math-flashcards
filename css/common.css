@@ -106,3 +106,71 @@ h1, h2, h3, .serif-text {
         scroll-behavior: auto;
     }
 }
+
+/* ==========================================================================
+   Tailwind Typography (Prose) Claude 风格主题覆盖
+   ========================================================================== */
+.prose {
+    color: var(--text-main) !important;
+    font-family: var(--font-sans) !important;
+    max-width: none !important;
+}
+
+.prose h1, .prose h2, .prose h3, .prose h4 {
+    color: var(--text-main) !important;
+    font-family: var(--font-serif) !important;
+    font-weight: 700 !important;
+}
+
+.prose strong {
+    color: var(--text-main) !important;
+    font-weight: 700 !important;
+}
+
+.prose a {
+    color: var(--theme-accent) !important;
+    text-decoration: underline !important;
+    transition: color 0.2s ease;
+}
+
+.prose a:hover {
+    color: var(--theme-accent) !important;
+    opacity: 0.8;
+}
+
+.prose code {
+    color: var(--highlight-text) !important;
+    background-color: var(--highlight-bg) !important;
+    font-family: 'JetBrains Mono', monospace !important;
+    font-size: 0.85em !important;
+    padding: 0.15rem 0.35rem !important;
+    border-radius: 0.25rem !important;
+    font-weight: 600 !important;
+}
+
+/* 移除反引号默认前后置字符 */
+.prose code::before,
+.prose code::after {
+    content: "" !important;
+}
+
+.prose ul {
+    list-style-type: disc !important;
+    padding-left: 1.5rem !important;
+    margin-top: 0.5rem !important;
+    margin-bottom: 0.5rem !important;
+}
+
+.prose ol {
+    list-style-type: decimal !important;
+    padding-left: 1.5rem !important;
+    margin-top: 0.5rem !important;
+    margin-bottom: 0.5rem !important;
+}
+
+.prose li {
+    margin-top: 0.25rem !important;
+    margin-bottom: 0.25rem !important;
+    line-height: 1.65 !important;
+}
+

@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>复习中 - 记忆闪卡</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.tailwindcss.com?plugins=typography"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
     <script src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
@@ -68,13 +68,13 @@
                 <div class="back-scroll-area">
                     <div class="mnemonic-box" id="tip-box">
                         <div class="font-black text-xs uppercase tracking-wider mb-2 border-b-2 pb-1 inline-block" id="tip-title">🧠 深度记忆解析</div>
-                        <div id="mnemonic-content" class="mnemonic-text"></div>
+                        <div id="mnemonic-content" class="mnemonic-text prose prose-sm"></div>
                     </div>
 
                     <div class="flex-1 mt-1">
                         <div class="text-xs font-bold text-slate-400 uppercase mb-1 border-b border-slate-100 pb-1">答案核对</div>
                         <div class="math-scroll-wrapper" id="a-wrapper">
-                            <div id="a-content"></div>
+                            <div id="a-content" class="prose prose-sm"></div>
                         </div>
                     </div>
                 </div>

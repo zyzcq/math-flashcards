@@ -319,10 +319,10 @@ if (!newHtml.includes('id="mnemonic-area"')) {
                     <strong>来源与解析</strong>
                     <span id="exp-text"></span>
                 </div>`,
-        `<div class="explanation" id="explanation">
+        `<div class="explanation prose prose-sm hide" id="explanation">
                     <strong>来源与解析</strong>
                     <span id="exp-text"></span>
-                    <div id="mnemonic-area" class="quiz-mnemonic-box hide">
+                    <div id="mnemonic-area" class="quiz-mnemonic-box prose prose-sm hide">
                         <strong class="quiz-mnemonic-title">💡 记忆口诀</strong>
                         <span id="mnemonic-text" class="quiz-mnemonic-text"></span>
                     </div>
