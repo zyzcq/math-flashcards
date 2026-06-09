@@ -74,7 +74,7 @@ function requireSession() {
 
 function handleLogout() {
     localStorage.removeItem(SESSION_KEY);
-    window.location.href = 'login.html';
+    window.location.reload();
 }
 
 function getTheme(item) {
