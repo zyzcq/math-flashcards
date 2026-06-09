@@ -1018,6 +1018,16 @@ const appData = {
         cards: []
     },
 
+    wx_quiz: {
+        id: "wx_quiz",
+        title: "微信小程序：开发实战通关",
+        subtitle: "微信小程序课后习题汇总（选择/判断/填空）",
+        themeColor: "emerald",
+        type: "article",
+        url: "wx/wx_quiz.html?v=1.0",
+        cards: []
+    },
+
     se_short_answers: {
         id: "se_short_answers",
         title: "软件测试：核心简答闪卡",
@@ -1369,7 +1379,8 @@ const siteData = [
             appData.linux_quiz,
             appData.linux_short_answers,
             appData.se_quiz,
-            appData.se_short_answers
+            appData.se_short_answers,
+            appData.wx_quiz
         ]
     }
 ];
