@@ -53,41 +53,22 @@ function getDataSource() {
 }
 
 function requireSession() {
-    const urlParams = new URLSearchParams(window.location.search);
-    let viewParam = urlParams.get('view');
     const session = readJson(SESSION_KEY);
 
-    if (viewParam) {
-        // 只有未登录用户才需要持久化分享视图，以防止他们通过返回首页按钮退回普通主页时被拦截重定向到登录页
-        if (!session) {
-            localStorage.setItem('shared_view', viewParam);
-        }
-    } else {
-        // URL 中没有 view 参数，如果未登录，检查是否有缓存的分享视图
-        if (!session) {
-            viewParam = localStorage.getItem('shared_view');
-            if (viewParam) {
-                window.location.href = `index.html?view=${encodeURIComponent(viewParam)}`;
-                return false;
-            }
-        }
-    }
-
     if (!session) {
-        // 未登录但有分享参数，允许作为访客浏览
-        if (viewParam) {
-            if (userDisplay) userDisplay.textContent = '访客';
-            if (logoutBtn) logoutBtn.style.display = 'none';
-            return true;
+        if (userDisplay) userDisplay.textContent = '访客';
+        if (logoutBtn) {
+            logoutBtn.innerHTML = '<i class="fa-solid fa-right-to-bracket" aria-hidden="true"></i> <span>登录</span>';
+            logoutBtn.setAttribute('aria-label', '登录');
         }
-        // 未登录且无分享参数，重定向至登录页
-        localStorage.removeItem(SESSION_KEY);
-        window.location.href = 'login.html';
-        return false;
+        return true;
     }
 
     if (userDisplay) userDisplay.textContent = session.username;
-    if (logoutBtn) logoutBtn.style.display = '';
+    if (logoutBtn) {
+        logoutBtn.innerHTML = '<i class="fa-solid fa-right-from-bracket" aria-hidden="true"></i> <span>退出</span>';
+        logoutBtn.setAttribute('aria-label', '退出登录');
+    }
     return true;
 }
 
@@ -300,10 +281,17 @@ function renderHome() {
     const urlParams = new URLSearchParams(window.location.search);
     const viewParam = urlParams.get('view') || localStorage.getItem('shared_view');
     
-    // 如果有分享/局部分类视图限制，只显示对应的分类
-    const filteredCategories = viewParam 
-        ? categories.filter(cat => cat.categoryId === viewParam)
-        : categories;
+    const session = readJson(SESSION_KEY);
+    const isZyz = session && session.username === 'zyz';
+    
+    let filteredCategories;
+    if (isZyz) {
+        filteredCategories = viewParam 
+            ? categories.filter(cat => cat.categoryId === viewParam)
+            : categories;
+    } else {
+        filteredCategories = categories.filter(cat => cat.categoryId === 'major');
+    }
 
     if (filteredCategories.length === 0) {
         renderEmptyState();
@@ -396,10 +384,20 @@ function bindCategoryControls() {
     syncCategoryActionButton();
 }
 
-function initHome() {
-    if (!requireSession()) return;
+function handleAuthAction() {
+    const session = readJson(SESSION_KEY);
+    if (session) {
+        handleLogout();
+    } else {
+        window.location.href = 'login.html';
+    }
+}
 
-    logoutBtn.addEventListener('click', handleLogout);
+function initHome() {
+    requireSession();
+    if (logoutBtn) {
+        logoutBtn.addEventListener('click', handleAuthAction);
+    }
     renderHome();
 }
 

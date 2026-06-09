@@ -98,37 +98,38 @@
 <script>
     (function checkLogin() {
         const urlParams = new URLSearchParams(window.location.search);
-        let viewParam = urlParams.get('view');
+        const typeParam = urlParams.get('type');
         
-        if (viewParam) {
-            localStorage.setItem('shared_view', viewParam);
-        } else {
-            viewParam = localStorage.getItem('shared_view');
-            // 如果 url 里面没有但 localStorage 有，且没有 session 登录态，重定向以保持 URL 参数一致性
-            if (viewParam && !localStorage.getItem('math_flashcard_session')) {
-                const newParams = new URLSearchParams(window.location.search);
-                newParams.set('view', viewParam);
-                window.location.href = 'study.html?' + newParams.toString();
-                return;
+        // 查找当前闪卡模块的分类 id
+        let categoryId = null;
+        if (typeof siteData !== 'undefined' && Array.isArray(siteData)) {
+            for (const cat of siteData) {
+                if (Array.isArray(cat.items)) {
+                    if (cat.items.some(item => item && item.id === typeParam)) {
+                        categoryId = cat.categoryId;
+                        break;
+                    }
+                }
             }
         }
 
-        // 如果是分享链接并且没有登录态，允许直接访问
-        if (viewParam && !localStorage.getItem('math_flashcard_session')) {
-            return;
-        }
-
-        const session = localStorage.getItem('math_flashcard_session');
-        if (!session) {
-            window.location.href = 'login.html';
-            return;
-        }
-
+        const sessionRaw = localStorage.getItem('math_flashcard_session');
+        let session = null;
         try {
-            const { username } = JSON.parse(session);
-            if (!username) throw new Error('Missing username');
-        } catch (error) {
+            session = sessionRaw ? JSON.parse(sessionRaw) : null;
+        } catch (e) {
             localStorage.removeItem('math_flashcard_session');
+        }
+
+        const isZyz = session && session.username === 'zyz';
+
+        if (categoryId === 'major') {
+            // 专业课对所有人（包括访客）开放，不拦截
+            return;
+        }
+
+        // 非专业课只对 zyz 开放
+        if (!isZyz) {
             window.location.href = 'login.html';
         }
     })();
