@@ -242,8 +242,12 @@ function renderCategory(category, categoryIndex, modules, categoryState) {
                 </span>
                 <i class="fa-solid fa-chevron-down category-chevron" aria-hidden="true"></i>
             </button>
-            <div id="${panelId}" class="study-list" ${expanded ? '' : 'hidden'}>
-                ${items.map(renderModule).join('')}
+            <div id="${panelId}" class="category-content">
+                <div class="category-content-inner">
+                    <div class="study-list">
+                        ${items.map(renderModule).join('')}
+                    </div>
+                </div>
             </div>
         </section>
     `;
@@ -328,11 +332,8 @@ function syncCategoryActionButton() {
 
 function setCategoryExpanded(section, expanded) {
     const button = section.querySelector('[data-category-toggle]');
-    const panel = section.querySelector('.study-list');
-
     section.classList.toggle('is-collapsed', !expanded);
     button?.setAttribute('aria-expanded', String(expanded));
-    if (panel) panel.hidden = !expanded;
 }
 
 function persistCategoryState() {
@@ -393,8 +394,35 @@ function handleAuthAction() {
     }
 }
 
+function initThemeToggle() {
+    const themeBtn = document.getElementById('theme-toggle-btn');
+    const themeIcon = document.getElementById('theme-icon');
+    if (!themeBtn || !themeIcon) return;
+
+    // 获取当前主题并设置图标
+    const savedTheme = localStorage.getItem('theme') || 'light';
+    themeIcon.className = savedTheme === 'dark' ? 'fa-solid fa-moon theme-icon' : 'fa-solid fa-sun theme-icon';
+
+    themeBtn.addEventListener('click', () => {
+        const currentTheme = document.documentElement.getAttribute('data-theme') || 'light';
+        const nextTheme = currentTheme === 'dark' ? 'light' : 'dark';
+        
+        // 应用并保存主题
+        document.documentElement.setAttribute('data-theme', nextTheme);
+        localStorage.setItem('theme', nextTheme);
+        
+        // 旋转加微缩放动画
+        themeIcon.classList.add('rotate-animation');
+        setTimeout(() => {
+            themeIcon.className = nextTheme === 'dark' ? 'fa-solid fa-moon theme-icon' : 'fa-solid fa-sun theme-icon';
+            themeIcon.classList.remove('rotate-animation');
+        }, 400);
+    });
+}
+
 function initHome() {
     requireSession();
+    initThemeToggle();
     if (logoutBtn) {
         logoutBtn.addEventListener('click', handleAuthAction);
     }

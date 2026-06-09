@@ -372,6 +372,28 @@
         }
 
         #confetti-canvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 100; }
+
+        /* 做题卡片 3D 左右侧滑渐变切换 */
+        .q-slide-out {
+            opacity: 0 !important;
+            transform: translateX(-24px) scale(0.985) !important;
+            transition: opacity 0.15s cubic-bezier(0.25, 0.8, 0.25, 1), transform 0.15s cubic-bezier(0.25, 0.8, 0.25, 1) !important;
+        }
+
+        .q-slide-in {
+            animation: qSlideIn 0.38s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        @keyframes qSlideIn {
+            from {
+                opacity: 0;
+                transform: translateX(24px) scale(0.985);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0) scale(1);
+            }
+        }
     </style>
 </head>
 <body>
@@ -1959,12 +1981,13 @@ class App {
     renderQuestion() {
         const q = this.questions[this.state.qIndex];
         
-        // 触发题目切换的渐显动画
-        const qContentArea = document.getElementById('q-content-area');
-        if (qContentArea) {
-            qContentArea.classList.remove('q-fade-in');
-            void qContentArea.offsetWidth; // 触发 reflow 重置动画
-            qContentArea.classList.add('q-fade-in');
+        // 触发做题卡片 3D 侧滑淡入淡出动画
+        const gameScreen = document.getElementById('screen-game');
+        if (gameScreen) {
+            gameScreen.classList.remove('q-slide-out');
+            gameScreen.classList.remove('q-slide-in');
+            void gameScreen.offsetWidth; // 触发 reflow
+            gameScreen.classList.add('q-slide-in');
         }
         
         // 进度更新
@@ -2104,12 +2127,20 @@ class App {
     }
 
     nextQuestion() {
-        this.state.qIndex++;
-        if (this.state.qIndex >= this.questions.length) {
-            this.endSession();
-        } else {
-            this.renderQuestion();
+        const gameScreen = document.getElementById('screen-game');
+        if (gameScreen) {
+            gameScreen.classList.add('q-slide-out');
         }
+
+        setTimeout(() => {
+            this.state.qIndex++;
+            if (this.state.qIndex >= this.questions.length) {
+                if (gameScreen) gameScreen.classList.remove('q-slide-out');
+                this.endSession();
+            } else {
+                this.renderQuestion();
+            }
+        }, 150);
     }
 
     endSession() {
