@@ -376,29 +376,7 @@ if (!newHtml.includes("const mnemonicArea = document.getElementById('mnemonic-ar
     newHtml = newHtml.replace(renderResetOriginal, renderResetNew);
 }
 
-// Fix handleType1Answer to show mnemonic-area when wrong
-const handleType1AnsOriginal = `        if (isCorrect) {
-            this.handleScoreLogic(true, q.id);
-        } else {
-            btnElement.classList.add('wrong');
-            this.handleScoreLogic(false, q.id);
-        }`;
-
-const handleType1AnsNew = `        if (isCorrect) {
-            this.handleScoreLogic(true, q.id);
-            const mnemonicArea = document.getElementById('mnemonic-area');
-            if (mnemonicArea) mnemonicArea.classList.add('hide');
-        } else {
-            btnElement.classList.add('wrong');
-            this.handleScoreLogic(false, q.id);
-            const mnemonicArea = document.getElementById('mnemonic-area');
-            if (mnemonicArea) {
-                document.getElementById('mnemonic-text').innerHTML = q.mnemonic || "熟能生巧，多记多练！";
-                mnemonicArea.classList.remove('hide');
-            }
-        }`;
-
-newHtml = newHtml.replace(handleType1AnsOriginal, handleType1AnsNew);
+// New template already handles correct/wrong state and mnemonic display directly.
 
 // Fix updateMenuStats keys
 newHtml = newHtml.replace(

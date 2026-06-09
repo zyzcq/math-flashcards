@@ -376,7 +376,7 @@
         /* 做题卡片 3D 左右侧滑渐变切换 */
         .q-slide-out {
             opacity: 0 !important;
-            transform: translateX(-24px) scale(0.985) !important;
+            transform: translateX(-10px) scale(0.99) !important;
             transition: opacity 0.15s cubic-bezier(0.25, 0.8, 0.25, 1), transform 0.15s cubic-bezier(0.25, 0.8, 0.25, 1) !important;
         }
 
@@ -387,7 +387,7 @@
         @keyframes qSlideIn {
             from {
                 opacity: 0;
-                transform: translateX(24px) scale(0.985);
+                transform: translateX(10px) scale(0.99);
             }
             to {
                 opacity: 1;
@@ -2087,6 +2087,11 @@ class App {
             this.handleScoreLogic(true, q.id);
             const mnemonicArea = document.getElementById('mnemonic-area');
             if (mnemonicArea) mnemonicArea.classList.add('hide');
+            
+            // 答对选择题后直接跳转到下一题，保留 800ms 正确态反馈时间
+            setTimeout(() => {
+                this.nextQuestion();
+            }, 800);
         } else {
             btnElement.classList.add('wrong');
             this.handleScoreLogic(false, q.id);
@@ -2096,9 +2101,8 @@ class App {
                 document.getElementById('mnemonic-text').innerHTML = mnemonicText;
                 mnemonicArea.classList.remove('hide');
             }
+            this.showExplanation(q.exp);
         }
-
-        this.showExplanation(q.exp);
     }
 
     // --- 填空题评判逻辑 ---
