@@ -1926,6 +1926,7 @@ const siteData = [
                 subtitle: "选择与简答双轨通关",
                 themeColor: "emerald",
                 type: "course",
+                examTime: "2026-06-24T16:10:00+08:00",
                 quiz: appData.linux_quiz,
                 flashcard: appData.linux_short_answers
             },
@@ -1935,6 +1936,7 @@ const siteData = [
                 subtitle: "选择与简答双轨通关",
                 themeColor: "fuchsia",
                 type: "course",
+                examTime: "2026-06-30T08:50:00+08:00",
                 quiz: appData.se_quiz,
                 flashcard: appData.se_short_answers
             },
@@ -1944,6 +1946,7 @@ const siteData = [
                 subtitle: "选择与简答双轨通关",
                 themeColor: "emerald",
                 type: "course",
+                examTime: "2026-06-30T14:00:00+08:00",
                 quiz: appData.wx_quiz,
                 flashcard: appData.wx_short_answers
             },
@@ -1953,6 +1956,7 @@ const siteData = [
                 subtitle: "选择与简答双轨通关",
                 themeColor: "indigo",
                 type: "course",
+                examTime: "2026-06-26T19:00:00+08:00",
                 quiz: appData.ai_quiz,
                 flashcard: appData.ai_short_answers
             }

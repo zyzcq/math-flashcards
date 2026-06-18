@@ -589,10 +589,47 @@
 
 .course-header {
     display: grid;
-    grid-template-columns: 36px minmax(0, 1fr);
+    grid-template-columns: 36px minmax(0, 1fr) auto;
     align-items: center;
     gap: 12px;
     width: 100%;
+}
+
+.exam-badge {
+    padding: 3px 8px;
+    background-color: rgba(239, 68, 68, 0.1);
+    color: #ef4444;
+    border: 1px solid rgba(239, 68, 68, 0.2);
+    border-radius: 12px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+[data-theme="dark"] .exam-badge {
+    background-color: rgba(239, 68, 68, 0.15);
+    color: #f87171;
+    border-color: rgba(239, 68, 68, 0.3);
+}
+
+.exam-alert-card {
+    border: 1px solid rgba(239, 68, 68, 0.3) !important;
+    background: linear-gradient(145deg, var(--bg-card) 60%, rgba(239, 68, 68, 0.03)) !important;
+}
+
+.exam-alert-card .exam-label {
+    background: rgba(239, 68, 68, 0.1) !important;
+    color: #ef4444 !important;
+    font-weight: 600 !important;
+}
+
+[data-theme="dark"] .exam-alert-card {
+    background: linear-gradient(145deg, var(--bg-card) 60%, rgba(239, 68, 68, 0.08)) !important;
+}
+
+[data-theme="dark"] .exam-alert-card .exam-label {
+    background: rgba(239, 68, 68, 0.15) !important;
+    color: #f87171 !important;
 }
 
 .course-actions {

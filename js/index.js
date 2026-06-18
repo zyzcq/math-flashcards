@@ -247,6 +247,7 @@ function renderModule(module) {
                         <strong>${title}</strong>
                         <small>${subtitle}</small>
                     </span>
+                    ${item.examTime ? `<span class="exam-badge">${getExamCountdown(item.examTime)}</span>` : ''}
                 </div>
                 <div class="course-actions">
                     ${item.quiz ? `
@@ -347,6 +348,71 @@ function renderShortcuts(categories) {
         </div>
     `;
 }
+function getExamCountdown(examTimeStr) {
+    if (!examTimeStr) return null;
+    const examDate = new Date(examTimeStr);
+    const now = new Date();
+    const diffMs = examDate - now;
+    
+    if (diffMs < 0) {
+        return "已考完";
+    }
+    const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+    if (diffDays === 0) {
+        const diffHours = Math.floor(diffMs / (1000 * 60 * 60));
+        return diffHours > 0 ? `剩 ${diffHours} 小时` : "即将开考";
+    }
+    return `剩 ${diffDays} 天`;
+}
+
+function getUpcomingExam(categories) {
+    const now = new Date();
+    let closestExam = null;
+    let minDiff = Infinity;
+
+    for (const cat of categories) {
+        if (!cat.items) continue;
+        for (const item of cat.items) {
+            if (item.type === 'course' && item.examTime) {
+                const examDate = new Date(item.examTime);
+                const diffMs = examDate - now;
+                if (diffMs > 0 && diffMs < minDiff) {
+                    minDiff = diffMs;
+                    closestExam = item;
+                }
+            }
+        }
+    }
+    return { closestExam, minDiff };
+}
+
+function renderExamAlertCard(closestExam, minDiff) {
+    const diffDays = Math.floor(minDiff / (1000 * 60 * 60 * 24));
+    let timeText = '';
+    if (diffDays === 0) {
+        const diffHours = Math.floor(minDiff / (1000 * 60 * 60));
+        timeText = diffHours > 0 ? `剩 ${diffHours} 小时` : "即将开考";
+    } else {
+        timeText = `剩 ${diffDays} 天`;
+    }
+
+    const targetUrl = closestExam.quiz ? getTargetUrl(closestExam.quiz) : (closestExam.flashcard ? getTargetUrl(closestExam.flashcard) : '#');
+    const title = escapeHtml(closestExam.title);
+
+    return `
+        <section class="resume-card exam-alert-card" aria-label="考试提醒">
+            <div>
+                <span class="section-label exam-label"><i class="fa-solid fa-clock"></i> 考试倒计时 ${timeText}</span>
+                <h2>${title}</h2>
+                <p>请合理安排复习时间，全力冲刺期末考试</p>
+            </div>
+            <a class="primary-action exam-action" href="${escapeAttribute(targetUrl)}">
+                <span>冲刺复习</span>
+                <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
+            </a>
+        </section>
+    `;
+}
 
 function renderEmptyState() {
     mainContainer.innerHTML = `
@@ -391,9 +457,12 @@ function renderHome() {
     const categoryState = getCategoryState(filteredCategories, activeCategoryIndex);
     const categoryHtml = filteredCategories.map((category, index) => renderCategory(category, index, modules, categoryState)).join('');
 
+    const { closestExam, minDiff } = getUpcomingExam(filteredCategories);
+    const topCardHtml = closestExam ? renderExamAlertCard(closestExam, minDiff) : renderResume(resume);
+
     requestAnimationFrame(() => {
         mainContainer.innerHTML = `
-            ${renderResume(resume)}
+            ${topCardHtml}
             ${renderShortcuts(filteredCategories)}
             ${categoryHtml}
         `;
