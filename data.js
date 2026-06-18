@@ -2087,6 +2087,15 @@ const siteData = [
         }
     });
 
+    const majorCategory = siteData.find(category => category.categoryId === "major");
+    if (majorCategory) {
+        const aiCourse = majorCategory.items.find(item => item.id === "ai_course");
+        if (aiCourse) {
+            aiCourse.quiz = appData.ai_quiz;
+            aiCourse.flashcard = appData.ai_short_answers;
+        }
+    }
+
     const cCategory = siteData.find(category => category.categoryId === "c-language");
     if (!cCategory) return;
 
