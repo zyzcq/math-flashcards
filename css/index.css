@@ -644,6 +644,7 @@
 @media (min-width: 480px) {
     .course-actions {
         flex-direction: row;
+        flex-wrap: wrap;
     }
 }
 
@@ -661,7 +662,6 @@
     font-weight: 600;
     transition: all 0.22s cubic-bezier(0.25, 0.8, 0.25, 1);
     flex: 1;
-    min-width: 0;
 }
 
 .course-action-btn .btn-text {
@@ -670,6 +670,7 @@
     gap: 8px;
     color: var(--text-main);
     font-weight: 700;
+    white-space: nowrap;
 }
 
 .course-action-btn .btn-text i {
@@ -689,6 +690,7 @@
     font-size: 0.65rem;
     font-weight: 600;
     color: var(--text-weak);
+    white-space: nowrap;
 }
 
 /* 按钮的悬浮与聚焦视觉反馈 */
