@@ -2130,3 +2130,14 @@ const siteData = [
     ].filter(Boolean);
 
 })();
+
+window.EXAM_SCHEDULE = [
+    { date: "06.22 (周一)", time: "19:00-21:00", subject: "软件项目规划", status: "未关联" },
+    { date: "06.24 (周三)", time: "16:10-18:10", subject: "Linux 基础", status: "对应《Linux 运维管理》" },
+    { date: "06.26 (周五)", time: "19:00-21:00", subject: "人工智能大模型应用", status: "对应《人工智能导论》" },
+    { date: "06.29 (周一)", time: "08:50-10:50", subject: "工业 App 应用开发", status: "未关联" },
+    { date: "06.30 (周二)", time: "08:50-10:50", subject: "软件测试", status: "对应《软件测试与工程》" },
+    { date: "06.30 (周二)", time: "14:00-16:00", subject: "移动应用开发技术", status: "对应《微信小程序开发》" },
+    { date: "06.30 (周二)", time: "19:00-21:00", subject: "嵌入式系统", status: "未关联" }
+];
+

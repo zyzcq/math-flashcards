@@ -344,7 +344,10 @@ function renderShortcuts(categories) {
                     <a href="#category-${index}">${escapeHtml(category.categoryTitle)}</a>
                 `).join('')}
             </nav>
-            <button type="button" class="category-action" data-category-action="expand">全部展开</button>
+            <div style="display: flex; gap: 8px;">
+                <button type="button" class="category-action" onclick="showExamModal()" style="display: inline-flex; align-items: center; gap: 4px;">📅 考试日程</button>
+                <button type="button" class="category-action" data-category-action="expand">全部展开</button>
+            </div>
         </div>
     `;
 }
@@ -405,6 +408,7 @@ function renderExamAlertCard(closestExam, minDiff) {
                 <span class="section-label exam-label"><i class="fa-solid fa-clock"></i> 考试倒计时 ${timeText}</span>
                 <h2>${title}</h2>
                 <p>请合理安排复习时间，全力冲刺期末考试</p>
+                <button class="view-all-exams-btn" onclick="showExamModal()"><i class="fa-solid fa-calendar-days"></i> 查看全部考试日程</button>
             </div>
             <a class="primary-action exam-action" href="${escapeAttribute(targetUrl)}">
                 <span>冲刺复习</span>
@@ -413,6 +417,72 @@ function renderExamAlertCard(closestExam, minDiff) {
         </section>
     `;
 }
+
+function initExamModal() {
+    if (document.getElementById('exam-schedule-modal')) return;
+
+    const modalOverlay = document.createElement('div');
+    modalOverlay.id = 'exam-schedule-modal';
+    modalOverlay.className = 'modal-overlay';
+    
+    const scheduleRows = (window.EXAM_SCHEDULE || []).map(item => `
+        <tr>
+            <td>${escapeHtml(item.date)}</td>
+            <td>${escapeHtml(item.time)}</td>
+            <td class="exam-subject-td">${escapeHtml(item.subject)}</td>
+            <td class="exam-status-td">${escapeHtml(item.status)}</td>
+        </tr>
+    `).join('');
+
+    modalOverlay.innerHTML = `
+        <div class="exam-modal-content" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+            <div class="modal-header">
+                <h3 id="modal-title">📅 期末考试日程安排</h3>
+                <button class="modal-close-btn" aria-label="关闭窗口" onclick="closeExamModal()">&times;</button>
+            </div>
+            <div style="overflow-x: auto;">
+                <table class="exam-table">
+                    <thead>
+                        <tr>
+                            <th>日期</th>
+                            <th>时间</th>
+                            <th>科目</th>
+                            <th>关联说明</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ${scheduleRows}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    `;
+
+    modalOverlay.addEventListener('click', (e) => {
+        if (e.target === modalOverlay) {
+            closeExamModal();
+        }
+    });
+
+    document.body.appendChild(modalOverlay);
+}
+
+window.showExamModal = function() {
+    initExamModal();
+    const modal = document.getElementById('exam-schedule-modal');
+    if (modal) {
+        modal.classList.add('is-active');
+        document.body.style.overflow = 'hidden';
+    }
+};
+
+window.closeExamModal = function() {
+    const modal = document.getElementById('exam-schedule-modal');
+    if (modal) {
+        modal.classList.remove('is-active');
+        document.body.style.overflow = '';
+    }
+};
 
 function renderEmptyState() {
     mainContainer.innerHTML = `
