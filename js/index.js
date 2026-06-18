@@ -344,10 +344,7 @@ function renderShortcuts(categories) {
                     <a href="#category-${index}">${escapeHtml(category.categoryTitle)}</a>
                 `).join('')}
             </nav>
-            <div style="display: flex; gap: 8px;">
-                <button type="button" class="category-action" onclick="showExamModal()" style="display: inline-flex; align-items: center; gap: 4px;">📅 考试日程</button>
-                <button type="button" class="category-action" data-category-action="expand">全部展开</button>
-            </div>
+            <button type="button" class="category-action" data-category-action="expand">全部展开</button>
         </div>
     `;
 }
