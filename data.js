@@ -1932,6 +1932,24 @@ const siteData = [
         categoryBorder: "border-fuchsia-500",
         items: [
             {
+                id: "sp_course",
+                title: "软件项目规划",
+                subtitle: "选择与简答双轨通关",
+                themeColor: "violet",
+                type: "course",
+                examTime: "2026-06-22T19:00:00+08:00",
+                quiz: {
+                    id: "sp_quiz",
+                    title: "软件项目规划：选择与填空通关",
+                    subtitle: "专业课自测题库 · 答错显示记忆口诀",
+                    themeColor: "violet",
+                    type: "article",
+                    url: "sp/sp_quiz.html",
+                    cards: []
+                },
+                flashcard: null
+            },
+            {
                 id: "linux_course",
                 title: "Linux期末复习",
                 subtitle: "讲义、题库、速背三轨通关",
@@ -2100,7 +2118,131 @@ const siteData = [
                     a: `<div class='sa-list'>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-sky'>平</span>\n    <div class='sa-content'>\n      <b class='sa-title'>(1) 推荐搭建平台</b>：\n      <span class='sa-desc'>推荐使用字节跳动旗下的扣子(Coze)或百度智能体平台。支持无代码、可视化配置并原生提供了向量知识库插件。</span>\n    </div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-rose'>防</span>\n    <div class='sa-content'>\n      <b class='sa-title'>(2) 确保不胡编乱造具体措施</b>：\n      <span class='sa-desc'>① 将展品文档整理入库作为外挂参考；② Prompt 强制指令：“仅基于知识库作答，找不到则明确说不知道，禁自主联想”；③ 调低模型参数 Temperature 至 0 或 0.1 保证回答客观，并开启引文溯源功能。</span>\n    </div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-amber'>流</span>\n    <div class='sa-content'>\n      <b class='sa-title'>(3) 智能体交互运行流程</b>：\n      <span class='sa-desc'>观众扫码提问 $\rightarrow$ 问题向量化并在知识库做相似度匹配 $\rightarrow$ 提取匹配资料片段 $\rightarrow$ 片段和问题组装成提示词输入大模型 $\rightarrow$ 模型依据片段生成客观的事实讲解 $\rightarrow$ 展现给观众手机终端。</span>\n    </div>\n  </div>\n</div>`
                 }
             ]
-        }
+        },
+
+        sp_short_answers: {
+        "id": "sp_short_answers",
+        "title": "软件项目规划：核心简答闪卡",
+        "subtitle": "重点核心简答 · 口诀化拆解",
+        "themeColor": "violet",
+        "type": "flashcard",
+        "cards": [
+                {
+                        "title": "第1章：工程的定义",
+                        "q": "请简述“工程”的定义。",
+                        "tip": "<b>记忆口诀：【设想目标科学知识，有组织人转化实体】</b>",
+                        "a": "<div class='sa-list'>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-violet'>设</span>\n    <div class='sa-content'><b class='sa-title'>设想目标</b>：<span class='sa-desc'>以某组设想的目标为依据。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-violet'>科</span>\n    <div class='sa-content'><b class='sa-title'>科学知识</b>：<span class='sa-desc'>应用科学知识和手段。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-violet'>组</span>\n    <div class='sa-content'><b class='sa-title'>有组织人</b>：<span class='sa-desc'>通过有组织的一群人。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-violet'>转</span>\n    <div class='sa-content'><b class='sa-title'>转化实体</b>：<span class='sa-desc'>将某个现有实体转化为具有预期使用价值的人造产品的过程。</span></div>\n  </div>\n</div>"
+                },
+                {
+                        "title": "第1章：项目的定义与特点",
+                        "q": "请简述项目的定义与特点。",
+                        "tip": "<b>记忆口诀：【一次临时是项目，目的独特关联突】</b>",
+                        "a": "<div class='sa-list'>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-violet'>定</span>\n    <div class='sa-content'><b class='sa-title'>定义</b>：<span class='sa-desc'>人类临时性、一次性的活动，在既定资源、技术和时间约束下为实现特定目标的多项相关工作的总称。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-violet'>目</span>\n    <div class='sa-content'><b class='sa-title'>目的性</b>：<span class='sa-desc'>具有强烈的目的性，包含成果性目标与约束性目标。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-violet'>独</span>\n    <div class='sa-content'><b class='sa-title'>独特性</b>：<span class='sa-desc'>项目是一次性任务，每一个项目都具有独特性。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-violet'>关</span>\n    <div class='sa-content'><b class='sa-title'>关联性</b>：<span class='sa-desc'>目标的关联性与实施活动的相互依赖性。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-violet'>突</span>\n    <div class='sa-content'><b class='sa-title'>冲突性</b>：<span class='sa-desc'>生命周期中充满冲突，需在性能、经费和时间等方面权衡。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-violet'>期</span>\n    <div class='sa-content'><b class='sa-title'>生命周期</b>：<span class='sa-desc'>项目在有限时间内完成，经历概念、规划、实施和结束四个阶段。</span></div>\n  </div>\n</div>"
+                },
+                {
+                        "title": "第1章：生命周期四阶段与工作",
+                        "q": "简述项目生命周期的四个阶段及各阶段的核心工作。",
+                        "tip": "<b>记忆口诀：【概规实结四生命，识别规划监控评】</b>",
+                        "a": "<div class='sa-list'>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-violet'>概</span>\n    <div class='sa-content'><b class='sa-title'>概念阶段</b>：<span class='sa-desc'>需求产生与识别、项目识别与构思、项目可行性研究。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-violet'>规</span>\n    <div class='sa-content'><b class='sa-title'>规划阶段</b>：<span class='sa-desc'>建立项目团队、制定项目规划、完成项目计划书。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-violet'>实</span>\n    <div class='sa-content'><b class='sa-title'>实施阶段</b>：<span class='sa-desc'>执行项目规划、实施项目监控、项目变更控制。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-violet'>结</span>\n    <div class='sa-content'><b class='sa-title'>结束阶段</b>：<span class='sa-desc'>项目竣工与验收、项目交接与结算、项目审计与评价。</span></div>\n  </div>\n</div>"
+                },
+                {
+                        "title": "第2章：系统偏差与控制",
+                        "q": "简述系统偏差与控制的关系。",
+                        "tip": "<b>记忆口诀：【偏差难免需控制，及时发现并调直】</b>",
+                        "a": "<div class='sa-list'>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-violet'>存</span>\n    <div class='sa-content'><b class='sa-title'>偏差不可避免</b>：<span class='sa-desc'>由于系统不确定性和外界干扰存在，系统的运行状况和输出出现偏差是不可避免的。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-violet'>保</span>\n    <div class='sa-content'><b class='sa-title'>保证系统稳定</b>：<span class='sa-desc'>一个好的控制系统可以保证系统的稳定，防止项目失败。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-violet'>调</span>\n    <div class='sa-content'><b class='sa-title'>及时纠偏调整</b>：<span class='sa-desc'>可以及时发现偏差、有效地缩小偏差，并迅速调整偏差，使系统始终按预期轨道运行。</span></div>\n  </div>\n</div>"
+                },
+                {
+                        "title": "第2章：项目控制的三种类型",
+                        "q": "简述项目控制的三种类型及定义。",
+                        "tip": "<b>记忆口诀：【前馈预防过现场，反馈偏差已出场】</b>",
+                        "a": "<div class='sa-list'>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-violet'>前</span>\n    <div class='sa-content'><b class='sa-title'>前馈控制</b>：<span class='sa-desc'>策划/计划阶段对可能产生的偏差进行预测，并采取防范措施，是防患于未然的控制。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-violet'>过</span>\n    <div class='sa-content'><b class='sa-title'>过程控制</b>：<span class='sa-desc'>在项目实施过程中进行现场监督和指导的控制方式。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-violet'>反</span>\n    <div class='sa-content'><b class='sa-title'>反馈控制</b>：<span class='sa-desc'>在项目阶段性或全部工作结束，或偏差发生之后再进行纠偏的控制方式。</span></div>\n  </div>\n</div>"
+                },
+                {
+                        "title": "第2章：项目控制的三大内容",
+                        "q": "简述项目控制的“三大控制”基本内容。",
+                        "tip": "<b>记忆口诀：【进度成本与质量，三大控制保健康】</b>",
+                        "a": "<div class='sa-list'>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-violet'>进</span>\n    <div class='sa-content'><b class='sa-title'>进度控制</b>：<span class='sa-desc'>监督和测量项目的实际进度，发现偏差时及时纠正，确保项目在交付期内完成。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-violet'>成</span>\n    <div class='sa-content'><b class='sa-title'>成本控制</b>：<span class='sa-desc'>监控项目实际发生的支出，对超支及成本变动因素进行分析与管理纠偏。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-violet'>质</span>\n    <div class='sa-content'><b class='sa-title'>质量控制</b>：<span class='sa-desc'>采取质量保证和监控手段，使得项目交付物能够符合预定的质量标准和要求。</span></div>\n  </div>\n</div>"
+                },
+                {
+                        "title": "第2章：负向偏差责任方原因",
+                        "q": "简述可能造成项目负向偏差的 5 个责任方原因。",
+                        "tip": "<b>记忆口诀：【业主承包供应商，第三方与天灾挡】</b>",
+                        "a": "<div class='sa-list'>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-violet'>客</span>\n    <div class='sa-content'><b class='sa-title'>业主(或客户)的原因</b>：<span class='sa-desc'>如未按期履行合同义务，或提供的资源在时间和质量上不符合要求。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-violet'>承</span>\n    <div class='sa-content'><b class='sa-title'>项目承包方的原因</b>：<span class='sa-desc'>自身项目管理不善、技术失误、进度拖沓或估算偏差。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-violet'>三</span>\n    <div class='sa-content'><b class='sa-title'>第三方的原因</b>：<span class='sa-desc'>业主与承包方外的合作企业、相关利益方的干预或协作失误。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-violet'>供</span>\n    <div class='sa-content'><b class='sa-title'>供应商的原因</b>：<span class='sa-desc'>关键材料、外包服务或设备等未按时按质交付。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-violet'>灾</span>\n    <div class='sa-content'><b class='sa-title'>不可抗力的原因</b>：<span class='sa-desc'>由于不确定、不可预见的客观原因，如自然灾害、政策法律突变等。</span></div>\n  </div>\n</div>"
+                },
+                {
+                        "title": "第4章：评估供应商的方法",
+                        "q": "评估潜在供应商时常用的方法有哪些？",
+                        "tip": "<b>记忆口诀：【供应商调查财务析，现场访问三方评】</b>",
+                        "a": "<div class='sa-list'>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-violet'>查</span>\n    <div class='sa-content'><b class='sa-title'>供应商调查</b>：<span class='sa-desc'>向供应商收集信息，进行预筛选或初步排除。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-violet'>财</span>\n    <div class='sa-content'><b class='sa-title'>财务状况分析</b>：<span class='sa-desc'>分析供应商资产状况，确保其具备执行项目的持续生存能力。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-violet'>三</span>\n    <div class='sa-content'><b class='sa-title'>雇用第三方评估</b>：<span class='sa-desc'>利用专业资质评估机构，获取独立、客观的信用和能力评价。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-violet'>访</span>\n    <div class='sa-content'><b class='sa-title'>现场访问</b>：<span class='sa-desc'>获取供应商技术、制造/配送及管理团队的第一手直观信息。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-violet'>质</span>\n    <div class='sa-content'><b class='sa-title'>质量能力分析</b>：<span class='sa-desc'>核验潜在供应商的质保体系与质量管理制度。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-violet'>交</span>\n    <div class='sa-content'><b class='sa-title'>交付能力分析</b>：<span class='sa-desc'>评估其按时交付合格产品或服务的能力。</span></div>\n  </div>\n</div>"
+                },
+                {
+                        "title": "第4章：征求建议书(RFP)内容",
+                        "q": "征求建议书(RFP)通常包含哪些内容？",
+                        "tip": "<b>记忆口诀：【概求技管价附，RFP六内容】</b>",
+                        "a": "<div class='sa-list'>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-violet'>概</span>\n    <div class='sa-content'><b class='sa-title'>采购概述</b>：<span class='sa-desc'>项目的背景、采购范围和合作目的。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-violet'>要</span>\n    <div class='sa-content'><b class='sa-title'>供应商基本要求</b>：<span class='sa-desc'>资质、财务和经验等入围底线。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-violet'>技</span>\n    <div class='sa-content'><b class='sa-title'>技术要求</b>：<span class='sa-desc'>产品/服务的规格、质量及技术指标。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-violet'>管</span>\n    <div class='sa-content'><b class='sa-title'>管理要求</b>：<span class='sa-desc'>项目计划进度安排、沟通协作机制和控制标准。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-violet'>价</span>\n    <div class='sa-content'><b class='sa-title'>价格资料</b>：<span class='sa-desc'>报价格式、付费周期以及结算规则。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-violet'>附</span>\n    <div class='sa-content'><b class='sa-title'>附录</b>：<span class='sa-desc'>合同范本、补充说明图表等其他参考附件。</span></div>\n  </div>\n</div>"
+                },
+                {
+                        "title": "第4章：最常见固定价格合同",
+                        "q": "简述固定价格合同的定义及最常见的 3 种形式。",
+                        "tip": "<b>记忆口诀：【完全奖励经济调，三类固定常常见】</b>",
+                        "a": "<div class='sa-list'>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-violet'>定</span>\n    <div class='sa-content'><b class='sa-title'>固定价格合同</b>：<span class='sa-desc'>为完成一定范围的工作，约定支付固定金额的协议，不管完成工作的成本与努力如何。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-violet'>完</span>\n    <div class='sa-content'><b class='sa-title'>完全固定价格合同</b>：<span class='sa-desc'>价格死锁，供应商承担全部成本上涨和超支的风险。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-violet'>奖</span>\n    <div class='sa-content'><b class='sa-title'>加奖励费合同</b>：<span class='sa-desc'>基于基本固定总价，若供应商在提前完工、技术领先等指标达到约定，给予额外财务奖励。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-violet'>调</span>\n    <div class='sa-content'><b class='sa-title'>固定价格加经济价格调整合同</b>：<span class='sa-desc'>允许在合同期内根据外部经济指标（通胀、物料暴涨等）进行价格校正。</span></div>\n  </div>\n</div>"
+                },
+                {
+                        "title": "第6章：计划实施的定义与内容",
+                        "q": "简述项目计划实施的定义及主要工作内容。",
+                        "tip": "<b>记忆口诀：【计划职能导实施，执行质保团队资】</b>",
+                        "a": "<div class='sa-list'>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-violet'>导</span>\n    <div class='sa-content'><b class='sa-title'>计划的主要职能</b>：<span class='sa-desc'>指导项目实施工作。实施是将计划转变成实际行动的系列过程。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-violet'>执</span>\n    <div class='sa-content'><b class='sa-title'>执行计划开展工作</b>：<span class='sa-desc'>严格按照计划分配资源，并随实际进展修正或具体化任务范围。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-violet'>保</span>\n    <div class='sa-content'><b class='sa-title'>实施质量保证监控</b>：<span class='sa-desc'>采取项目管理和质量监控保障机制，使其符合预设质量。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-violet'>效</span>\n    <div class='sa-content'><b class='sa-title'>提高管理效率</b>：<span class='sa-desc'>培育和提升项目团队效率与项目负责人的高水平控制能力。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-violet'>购</span>\n    <div class='sa-content'><b class='sa-title'>采购与合同管理</b>：<span class='sa-desc'>包括物资采购、招标管理和合同的执行跟进。</span></div>\n  </div>\n</div>"
+                },
+                {
+                        "title": "第6章：项目跟踪与报告",
+                        "q": "简述项目跟踪与报告的定义及作用。",
+                        "tip": "<b>记忆口诀：【跟踪记录加报告，透明度高风险小】</b>",
+                        "a": "<div class='sa-list'>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-violet'>定</span>\n    <div class='sa-content'><b class='sa-title'>跟踪与报告定义</b>：<span class='sa-desc'>在实施过程中对项目状态及内外部因素进行及时的、连续的、系统的记录和报告。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-violet'>透</span>\n    <div class='sa-content'><b class='sa-title'>提高透明度</b>：<span class='sa-desc'>让项目相关利益方、管理人员清晰了解当前项目进度和偏差。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-violet'>险</span>\n    <div class='sa-content'><b class='sa-title'>降低项目风险</b>：<span class='sa-desc'>及时捕捉偏离计划的情况并做预警，为制定纠偏方案提供事实依据。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-violet'>监</span>\n    <div class='sa-content'><b class='sa-title'>主要监督预测工作</b>：<span class='sa-desc'>一是对计划的执行实施监督，二是对影响因素的变化趋势进行预测分析。</span></div>\n  </div>\n</div>"
+                },
+                {
+                        "title": "第6章：项目控制的四大原理",
+                        "q": "简述项目控制的动态控制、系统、信息、弹性四个原理。",
+                        "tip": "<b>记忆口诀：【动态系统信息弹，控制原理四关键】</b>",
+                        "a": "<div class='sa-list'>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-violet'>动</span>\n    <div class='sa-content'><b class='sa-title'>动态控制原理</b>：<span class='sa-desc'>控制是个动态循环过程，产生偏差时需要分析原因、纠错并调整计划。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-violet'>系</span>\n    <div class='sa-content'><b class='sa-title'>系统原理</b>：<span class='sa-desc'>项目是由多模块组成的复杂系统，控制是利用系统科学方法处理整体性偏差。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-violet'>信</span>\n    <div class='sa-content'><b class='sa-title'>信息原理</b>：<span class='sa-desc'>控制过程是不断传输、分析和反馈信息的过程，信息是控制的决策依据。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-violet'>弹</span>\n    <div class='sa-content'><b class='sa-title'>弹性原理</b>：<span class='sa-desc'>由于外部风险存在，控制和计划手段都需保留合适容错弹性空间。</span></div>\n  </div>\n</div>"
+                },
+                {
+                        "title": "第6章：成本控制的内容与依据",
+                        "q": "简述项目成本控制的主要内容和依据。",
+                        "tip": "<b>记忆口诀：【因素施加定偏差，基准计划执行查】</b>",
+                        "a": "<div class='sa-list'>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-violet'>因</span>\n    <div class='sa-content'><b class='sa-title'>影响变化因素</b>：<span class='sa-desc'>对导致成本基准变化的各种外部因素施加影响，使变化朝有利方向发展。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-violet'>定</span>\n    <div class='sa-content'><b class='sa-title'>确定成本偏差</b>：<span class='sa-desc'>测算核对，精确评估实际成本是否产生、产生了多大偏差。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-violet'>施</span>\n    <div class='sa-content'><b class='sa-title'>采取管理措施</b>：<span class='sa-desc'>分析偏差对项目未来进度的综合影响，并实施适用的管理和财务手段纠偏。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-violet'>准</span>\n    <div class='sa-content'><b class='sa-title'>成本基准计划(依据)</b>：<span class='sa-desc'>将成本预算和进度结合，是用以评估实际情况最基础的基准。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-violet'>报</span>\n    <div class='sa-content'><b class='sa-title'>实施执行报告(依据)</b>：<span class='sa-desc'>包含详细的支出信息，是发现预算超标等问题最根本的现实依据。</span></div>\n  </div>\n</div>"
+                },
+                {
+                        "title": "第6章：项目变更的定义与原因",
+                        "q": "简述项目变更的定义及造成变更的 3 个主要原因。",
+                        "tip": "<b>记忆口诀：【计划部分全变更，相关不全不可控】</b>",
+                        "a": "<div class='sa-list'>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-violet'>定</span>\n    <div class='sa-content'><b class='sa-title'>项目变更定义</b>：<span class='sa-desc'>为适应环境相关因素变化、保障目标达成，对原项目计划进行部分或全部变更。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-violet'>相</span>\n    <div class='sa-content'><b class='sa-title'>利益相关者引起的变更</b>：<span class='sa-desc'>如业主、客户、投资者或项目管理层基于新决策或新要求产生的变更。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-violet'>缺</span>\n    <div class='sa-content'><b class='sa-title'>计划不完善引起的变更</b>：<span class='sa-desc'>早期规划存在漏洞或漏项，在执行时必须修改。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-violet'>预</span>\n    <div class='sa-content'><b class='sa-title'>不可预见事件引发的变更</b>：<span class='sa-desc'>受暴风雨、地质不符设计等客观无法防范的因素导致计划发生修改。</span></div>\n  </div>\n</div>"
+                },
+                {
+                        "title": "第6章：项目变更控制的前提",
+                        "q": "简述项目变更控制的前提条件及组成要素。",
+                        "tip": "<b>记忆口诀：【分解报告和计划，变更要求在手行】</b>",
+                        "a": "<div class='sa-list'>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-violet'>分</span>\n    <div class='sa-content'><b class='sa-title'>掌握工作分解</b>：<span class='sa-desc'>对项目工作分解结构（WBS）有精细和透彻的掌握。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-violet'>报</span>\n    <div class='sa-content'><b class='sa-title'>实施进展报告</b>：<span class='sa-desc'>掌握最新、最实时的实施状态与执行进度报告。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-violet'>求</span>\n    <div class='sa-content'><b class='sa-title'>正式变更要求</b>：<span class='sa-desc'>有相关方提交的规范变更申请表。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-violet'>划</span>\n    <div class='sa-content'><b class='sa-title'>参考项目计划</b>：<span class='sa-desc'>以正在执行的原有项目计划书做为对比的评估底板。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-violet'>统</span>\n    <div class='sa-content'><b class='sa-title'>变更控制系统</b>：<span class='sa-desc'>具有变更控制委员会、明确的职责授权和审批流程，以及现场自动变更机制。</span></div>\n  </div>\n</div>"
+                },
+                {
+                        "title": "第6章：变更申请的 6 种结果",
+                        "q": "简述变更申请经过评估后可能产生的 6 种结果。",
+                        "tip": "<b>记忆口诀：【资源时间延交付，资源延期多发拒】</b>",
+                        "a": "<div class='sa-list'>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-violet'>采</span>\n    <div class='sa-content'><b class='sa-title'>在资源和时间内采纳</b>：<span class='sa-desc'>不影响原有进度和资源支出。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-violet'>延</span>\n    <div class='sa-content'><b class='sa-title'>采纳但延长交付进度</b>：<span class='sa-desc'>需要延长项目的周期或里程碑。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-violet'>资</span>\n    <div class='sa-content'><b class='sa-title'>采纳但需要额外资源</b>：<span class='sa-desc'>交付时间不变，但必须追加人员或费用。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-violet'>双</span>\n    <div class='sa-content'><b class='sa-title'>采纳但需额外资源并延期</b>：<span class='sa-desc'>交付期要推迟，且费用也必须追加。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-violet'>多</span>\n    <div class='sa-content'><b class='sa-title'>采纳但采取多次发布策略</b>：<span class='sa-desc'>排定不同发布周期交付成果的优先级。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-violet'>拒</span>\n    <div class='sa-content'><b class='sa-title'>拒绝变更或停止项目</b>：<span class='sa-desc'>变更将严重影响进度从而无法采纳，选择拒绝或停止项目启动新项目。</span></div>\n  </div>\n</div>"
+                },
+                {
+                        "title": "第7章：职能式项目组织的优缺点",
+                        "q": "简述职能式项目组织结构形式的优点和缺点。",
+                        "tip": "<b>记忆口诀：【专业交流专家享，跨部沟通客户伤】</b>",
+                        "a": "<div class='sa-list'>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-violet'>专</span>\n    <div class='sa-content'><b class='sa-title'>主要优点</b>：<span class='sa-desc'>有利于专业人员共同交流提高；专家可跨项目流动提升利用率；提供稳定的职务晋升通道；职能部门是保持技术和管理连续性的基础。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-violet'>局</span>\n    <div class='sa-content'><b class='sa-title'>局限性(缺点)</b>：<span class='sa-desc'>容易只注重部门利益，超出本职能范围的综合问题易被忽视。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-violet'>负</span>\n    <div class='sa-content'><b class='sa-title'>额外工作负担(缺点)</b>：<span class='sa-desc'>成员觉得项目是额外负担，从而影响其积极性。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-violet'>阻</span>\n    <div class='sa-content'><b class='sa-title'>跨部门沟通困难(缺点)</b>：<span class='sa-desc'>各部门更注重自身领域，跨部门协调的沟通阻力巨大。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-violet'>伤</span>\n    <div class='sa-content'><b class='sa-title'>客户利益得不到优先考虑(缺点)</b>：<span class='sa-desc'>职能式架构以部门为核心，项目和客户的利益得不到最优先保障。</span></div>\n  </div>\n</div>"
+                },
+                {
+                        "title": "第7章：项目沟通管理的作用",
+                        "q": "在项目管理中，项目沟通的主要作用是什么？",
+                        "tip": "<b>记忆口诀：【决策基础控制手，人际经理领导有】</b>",
+                        "a": "<div class='sa-list'>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-violet'>策</span>\n    <div class='sa-content'><b class='sa-title'>决策和计划的基础</b>：<span class='sa-desc'>提供准确、完整、及时的信息，从而形成科学合理的项目决策与计划。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-violet'>手</span>\n    <div class='sa-content'><b class='sa-title'>组织和控制管理的手段</b>：<span class='sa-desc'>作为信息上下传递的核心依据，是指导、监控与纠偏工作实施的载体。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-violet'>际</span>\n    <div class='sa-content'><b class='sa-title'>改善人际关系</b>：<span class='sa-desc'>促进项目团队内部沟通，是建立和谐团队和良好外部相关利益者关系的前提。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-violet'>导</span>\n    <div class='sa-content'><b class='sa-title'>成功领导的重要手段</b>：<span class='sa-desc'>项目经理花75%~90%时间用于沟通，用来有效传递管理意图，促使各方理解并彻底执行。</span></div>\n  </div>\n</div>"
+                }
+        ]
+}
     });
 
     const majorCategory = siteData.find(category => category.categoryId === "major");
@@ -2109,6 +2251,10 @@ const siteData = [
         if (aiCourse) {
             aiCourse.quiz = appData.ai_quiz;
             aiCourse.flashcard = appData.ai_short_answers;
+        }
+        const spCourse = majorCategory.items.find(item => item.id === "sp_course");
+        if (spCourse) {
+            spCourse.flashcard = appData.sp_short_answers;
         }
     }
 
@@ -2144,7 +2290,7 @@ const siteData = [
 })();
 
 window.EXAM_SCHEDULE = [
-    { date: "06.22 (周一)", time: "19:00-21:00", subject: "软件项目规划", status: "未关联" },
+    { date: "06.22 (周一)", time: "19:00-21:00", subject: "软件项目规划", status: "已关联" },
     { date: "06.24 (周三)", time: "16:10-18:10", subject: "Linux基础", status: "已关联" },
     { date: "06.26 (周五)", time: "19:00-21:00", subject: "人工智能大模型应用", status: "已关联" },
     { date: "06.29 (周一)", time: "08:50-10:50", subject: "工业 App 应用开发", status: "未关联" },
