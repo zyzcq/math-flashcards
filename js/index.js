@@ -109,6 +109,13 @@ function getCardsCount(item) {
 }
 
 function getProgress(item, progressStore) {
+    if (item && item.type === 'course') {
+        return {
+            quiz: item.quiz ? getProgress(item.quiz, progressStore) : null,
+            flashcard: item.flashcard ? getProgress(item.flashcard, progressStore) : null
+        };
+    }
+
     const total = getCardsCount(item);
     const saved = progressStore?.[item.id];
 
@@ -141,7 +148,31 @@ function getFlatModules(categories, progressStore) {
 }
 
 function getResumeModule(modules) {
-    const flashcards = modules.filter(module => module.item.type !== 'article' && getCardsCount(module.item) > 0);
+    const flatSubModules = [];
+    for (const m of modules) {
+        if (m.item.type === 'course') {
+            if (m.item.quiz) {
+                flatSubModules.push({
+                    item: m.item.quiz,
+                    category: m.category,
+                    categoryIndex: m.categoryIndex,
+                    progress: m.progress.quiz
+                });
+            }
+            if (m.item.flashcard) {
+                flatSubModules.push({
+                    item: m.item.flashcard,
+                    category: m.category,
+                    categoryIndex: m.categoryIndex,
+                    progress: m.progress.flashcard
+                });
+            }
+        } else {
+            flatSubModules.push(m);
+        }
+    }
+
+    const flashcards = flatSubModules.filter(module => module.item.type !== 'article' && getCardsCount(module.item) > 0);
     return flashcards
         .filter(module => module.progress.updatedAt > 0)
         .sort((a, b) => b.progress.updatedAt - a.progress.updatedAt)[0] || flashcards[0] || null;
@@ -174,15 +205,21 @@ function renderResume(resume) {
 }
 
 function renderProgress(item, progress) {
+    if (!item) return '';
     if (item.type === 'article') {
-        return '<span class="item-meta">讲义</span>';
+        const isQuiz = item.id && item.id.includes('quiz');
+        return `<span class="item-meta">${isQuiz ? '客观自测' : '讲义'}</span>`;
     }
 
-    const label = progress.total ? `已看 ${progress.seen}/${progress.total}` : '闪卡';
+    const total = progress?.total || 0;
+    const seen = progress?.seen || 0;
+    const percent = progress?.percent || 0;
+
+    const label = total ? `已看 ${seen}/${total}` : '闪卡';
     return `
         <span class="item-meta">${label}</span>
-        <span class="mini-progress" aria-label="学习进度 ${progress.percent}%">
-            <span style="width: ${progress.percent}%"></span>
+        <span class="mini-progress" aria-label="学习进度 ${percent}%">
+            <span style="width: ${percent}%"></span>
         </span>
     `;
 }
@@ -192,6 +229,51 @@ function renderModule(module) {
     const theme = getTheme(item);
     const title = escapeHtml(item.title);
     const subtitle = escapeHtml(item.subtitle || '');
+
+    if (item.type === 'course') {
+        const quizProgress = progress.quiz;
+        const fcProgress = progress.flashcard;
+        
+        const quizUrl = item.quiz ? getTargetUrl(item.quiz) : '#';
+        const fcUrl = item.flashcard ? getTargetUrl(item.flashcard) : '#';
+        
+        return `
+            <div class="study-item course-card ${theme.tone}" aria-label="${title}">
+                <div class="course-header">
+                    <span class="item-icon" aria-hidden="true">
+                        <i class="fa-solid ${theme.icon}"></i>
+                    </span>
+                    <span class="item-copy">
+                        <strong>${title}</strong>
+                        <small>${subtitle}</small>
+                    </span>
+                </div>
+                <div class="course-actions">
+                    ${item.quiz ? `
+                    <a class="course-action-btn quiz-btn" href="${escapeAttribute(quizUrl)}" aria-label="${title}客观自测">
+                        <span class="btn-text">
+                            <i class="fa-solid fa-clipboard-question"></i> 客观自测
+                        </span>
+                        <span class="btn-status">
+                            ${renderProgress(item.quiz, quizProgress)}
+                        </span>
+                    </a>
+                    ` : ''}
+                    ${item.flashcard ? `
+                    <a class="course-action-btn flashcard-btn" href="${escapeAttribute(fcUrl)}" aria-label="${title}简答闪卡">
+                        <span class="btn-text">
+                            <i class="fa-solid fa-layer-group"></i> 简答闪卡
+                        </span>
+                        <span class="btn-status">
+                            ${renderProgress(item.flashcard, fcProgress)}
+                        </span>
+                    </a>
+                    ` : ''}
+                </div>
+            </div>
+        `;
+    }
+
     const ariaLabel = item.type === 'article'
         ? `${item.title}，打开讲义`
         : `${item.title}，${progress.total} 张闪卡`;

@@ -1920,12 +1920,42 @@ const siteData = [
         categoryId: "major",
         categoryBorder: "border-fuchsia-500",
         items: [
-            appData.linux_quiz,
-            appData.linux_short_answers,
-            appData.se_quiz,
-            appData.se_short_answers,
-            appData.wx_quiz,
-            appData.wx_short_answers
+            {
+                id: "linux_course",
+                title: "Linux 运维管理",
+                subtitle: "选择与简答双轨通关",
+                themeColor: "emerald",
+                type: "course",
+                quiz: appData.linux_quiz,
+                flashcard: appData.linux_short_answers
+            },
+            {
+                id: "se_course",
+                title: "软件测试与工程",
+                subtitle: "选择与简答双轨通关",
+                themeColor: "fuchsia",
+                type: "course",
+                quiz: appData.se_quiz,
+                flashcard: appData.se_short_answers
+            },
+            {
+                id: "wx_course",
+                title: "微信小程序开发",
+                subtitle: "选择与简答双轨通关",
+                themeColor: "emerald",
+                type: "course",
+                quiz: appData.wx_quiz,
+                flashcard: appData.wx_short_answers
+            },
+            {
+                id: "ai_course",
+                title: "人工智能导论",
+                subtitle: "选择与简答双轨通关",
+                themeColor: "indigo",
+                type: "course",
+                quiz: appData.ai_quiz,
+                flashcard: appData.ai_short_answers
+            }
         ]
     }
 ];
@@ -2086,10 +2116,4 @@ const siteData = [
         appData.c_file
     ].filter(Boolean);
 
-    const majorCategory = siteData.find(category => category.categoryId === "major");
-    if (majorCategory) {
-        if (!majorCategory.items.some(item => item.id === "ai_quiz")) {
-            majorCategory.items.push(appData.ai_quiz, appData.ai_short_answers);
-        }
-    }
 })();
