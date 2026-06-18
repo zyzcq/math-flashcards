@@ -213,14 +213,10 @@ function renderProgress(item, progress) {
 
     const total = progress?.total || 0;
     const seen = progress?.seen || 0;
-    const percent = progress?.percent || 0;
 
     const label = total ? `已看 ${seen}/${total}` : '闪卡';
     return `
         <span class="item-meta">${label}</span>
-        <span class="mini-progress" aria-label="学习进度 ${percent}%">
-            <span style="width: ${percent}%"></span>
-        </span>
     `;
 }
 
@@ -316,6 +312,27 @@ function renderCategory(category, categoryIndex, modules, categoryState) {
     const expanded = categoryState[key];
     const panelId = `category-panel-${categoryIndex}`;
 
+    let sortedItems = items;
+    if (category.categoryId === 'major') {
+        const now = new Date();
+        sortedItems = [...items].sort((a, b) => {
+            const timeA = a.item.examTime ? new Date(a.item.examTime) : null;
+            const timeB = b.item.examTime ? new Date(b.item.examTime) : null;
+
+            if (!timeA && !timeB) return 0;
+            if (!timeA) return 1; 
+            if (!timeB) return -1;
+
+            const endedA = timeA - now < 0;
+            const endedB = timeB - now < 0;
+
+            if (endedA && !endedB) return 1;  // 考完的排在后面
+            if (!endedA && endedB) return -1; // 没考完的排在前面
+
+            return timeA - timeB; // 升序排序
+        });
+    }
+
     return `
         <section id="category-${categoryIndex}" class="category-block ${expanded ? '' : 'is-collapsed'}" data-category-key="${escapeAttribute(key)}">
             <button class="category-heading" type="button" data-category-toggle aria-expanded="${expanded}" aria-controls="${panelId}">
@@ -328,7 +345,7 @@ function renderCategory(category, categoryIndex, modules, categoryState) {
             <div id="${panelId}" class="category-content">
                 <div class="category-content-inner">
                     <div class="study-list">
-                        ${items.map(renderModule).join('')}
+                        ${sortedItems.map(renderModule).join('')}
                     </div>
                 </div>
             </div>
@@ -404,7 +421,6 @@ function renderExamAlertCard(closestExam, minDiff) {
             <div>
                 <span class="section-label exam-label"><i class="fa-solid fa-clock"></i> 考试倒计时 ${timeText}</span>
                 <h2>${title}</h2>
-                <p>请合理安排复习时间，全力冲刺期末考试</p>
                 <button class="view-all-exams-btn" onclick="showExamModal()"><i class="fa-solid fa-calendar-days"></i> 查看全部考试日程</button>
             </div>
             <a class="primary-action exam-action" href="${escapeAttribute(targetUrl)}">
