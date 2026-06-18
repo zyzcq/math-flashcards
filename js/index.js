@@ -657,7 +657,7 @@ function initThemeToggle() {
     if (!themeBtn || !themeIcon) return;
 
     // 获取当前主题并设置图标与文档属性
-    const savedTheme = localStorage.getItem('theme') || 'light';
+    const savedTheme = localStorage.getItem('theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
     themeIcon.className = savedTheme === 'dark' ? 'fa-solid fa-moon theme-icon' : 'fa-solid fa-sun theme-icon';
     document.documentElement.setAttribute('data-theme', savedTheme);
 

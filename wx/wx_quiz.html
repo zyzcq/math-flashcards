@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="color-scheme" content="light dark">
     <title>微信小程序课后习题汇总</title>
     <link rel="stylesheet" href="../css/common.css">
     <style>
@@ -2084,7 +2085,7 @@ class App {
         // 主题初始化
         let savedTheme = 'light';
         try {
-            savedTheme = localStorage.getItem('theme') || 'light';
+            savedTheme = localStorage.getItem('theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
         } catch (e) {}
         document.documentElement.setAttribute('data-theme', savedTheme);
         
