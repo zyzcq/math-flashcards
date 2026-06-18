@@ -111,6 +111,7 @@ function getCardsCount(item) {
 function getProgress(item, progressStore) {
     if (item && item.type === 'course') {
         return {
+            lecture: item.lecture ? getProgress(item.lecture, progressStore) : null,
             quiz: item.quiz ? getProgress(item.quiz, progressStore) : null,
             flashcard: item.flashcard ? getProgress(item.flashcard, progressStore) : null
         };
@@ -229,9 +230,11 @@ function renderModule(module) {
     if (item.type === 'course') {
         const quizProgress = progress.quiz;
         const fcProgress = progress.flashcard;
+        const lectureProgress = progress.lecture;
         
         const quizUrl = item.quiz ? getTargetUrl(item.quiz) : '#';
         const fcUrl = item.flashcard ? getTargetUrl(item.flashcard) : '#';
+        const lectureUrl = item.lecture ? getTargetUrl(item.lecture) : '#';
         
         return `
             <div class="study-item course-card ${theme.tone}" aria-label="${title}">
@@ -246,6 +249,16 @@ function renderModule(module) {
                     ${item.examTime ? `<span class="exam-badge">${getExamCountdown(item.examTime)}</span>` : ''}
                 </div>
                 <div class="course-actions">
+                    ${item.lecture ? `
+                    <a class="course-action-btn lecture-btn" href="${escapeAttribute(lectureUrl)}" aria-label="${title}完整讲义">
+                        <span class="btn-text">
+                            <i class="fa-solid fa-book-open"></i> 完整讲义
+                        </span>
+                        <span class="btn-status">
+                            ${renderProgress(item.lecture, lectureProgress)}
+                        </span>
+                    </a>
+                    ` : ''}
                     ${item.quiz ? `
                     <a class="course-action-btn quiz-btn" href="${escapeAttribute(quizUrl)}" aria-label="${title}客观自测">
                         <span class="btn-text">

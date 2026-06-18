@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>考研 3-1-3-1 微周期作息表</title>
+  <style>
+    :root {
+      --bg: #f6f2eb;
+      --card: #fffaf3;
+      --card-2: #ffffff;
+      --text: #2b2118;
+      --muted: #7b6b5d;
+      --line: #e4d7c8;
+      --primary: #d97706;
+      --primary-soft: #fff0d9;
+      --green: #16a34a;
+      --green-soft: #eaf8ee;
+      --blue: #2563eb;
+      --blue-soft: #eaf1ff;
+      --red: #dc2626;
+      --red-soft: #fff0f0;
+      --shadow: 0 16px 40px rgba(72, 45, 18, 0.08);
+      --radius: 18px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC",
+        "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+      background: linear-gradient(180deg, #f8f1e8 0%, #f6f2eb 42%, #f3eee6 100%);
+      color: var(--text);
+      line-height: 1.65;
+    }
+
+    .page {
+      width: min(1120px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 40px 0 56px;
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 24px;
+      align-items: stretch;
+      margin-bottom: 24px;
+    }
+
+    .hero-card,
+    .card {
+      background: rgba(255, 250, 243, 0.92);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+    }
+
+    .hero-card {
+      padding: 32px;
+    }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 12px;
+      border-radius: 999px;
+      background: var(--primary-soft);
+      color: #9a4f00;
+      font-size: 13px;
+      font-weight: 600;
+      margin-bottom: 18px;
+    }
+
+    h1 {
+      margin: 0 0 14px;
+      font-size: clamp(30px, 5vw, 48px);
+      line-height: 1.1;
+      letter-spacing: -0.04em;
+    }
+
+    .subtitle {
+      margin: 0;
+      color: var(--muted);
+      font-size: 17px;
+      max-width: 680px;
+    }
+
+    .hero-note {
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 16px;
+    }
+
+    .note-title {
+      font-size: 18px;
+      font-weight: 700;
+    }
+
+    .note-text {
+      color: var(--muted);
+      margin: 0;
+    }
+
+    .cycle {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+      margin-top: 10px;
+    }
+
+    .cycle-item {
+      padding: 14px;
+      border-radius: 14px;
+      border: 1px solid var(--line);
+      background: var(--card-2);
+    }
+
+    .cycle-item.attack {
+      background: var(--primary-soft);
+      border-color: #f3c689;
+    }
+
+    .cycle-item.rest {
+      background: var(--green-soft);
+      border-color: #b7e4c4;
+    }
+
+    .cycle-day {
+      font-size: 13px;
+      color: var(--muted);
+      margin-bottom: 4px;
+    }
+
+    .cycle-name {
+      font-weight: 700;
+    }
+
+    .section {
+      margin-top: 24px;
+    }
+
+    .section-title {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 14px;
+    }
+
+    h2 {
+      margin: 0;
+      font-size: 24px;
+      letter-spacing: -0.02em;
+    }
+
+    .hint {
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .card {
+      padding: 22px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      overflow: hidden;
+      border-radius: 14px;
+      background: var(--card-2);
+    }
+
+    th,
+    td {
+      text-align: left;
+      padding: 14px 16px;
+      border-bottom: 1px solid #eee2d3;
+      vertical-align: top;
+    }
+
+    th {
+      color: #6b4e32;
+      background: #fff3e2;
+      font-size: 14px;
+      white-space: nowrap;
+    }
+
+    tr:last-child td {
+      border-bottom: 0;
+    }
+
+    td:first-child {
+      width: 160px;
+      font-weight: 700;
+      color: #4b3524;
+      white-space: nowrap;
+    }
+
+    .task {
+      font-weight: 700;
+    }
+
+    .detail {
+      color: var(--muted);
+      font-size: 14px;
+      margin-top: 3px;
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+    }
+
+    .rule-list {
+      display: grid;
+      gap: 12px;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .rule {
+      padding: 16px;
+      border-radius: 14px;
+      background: var(--card-2);
+      border: 1px solid var(--line);
+    }
+
+    .rule strong {
+      display: block;
+      margin-bottom: 4px;
+    }
+
+    .rule span {
+      display: block;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .rest-plan {
+      display: grid;
+      grid-template-columns: 0.9fr 1.1fr;
+      gap: 18px;
+    }
+
+    .rest-box {
+      padding: 18px;
+      border-radius: 14px;
+      border: 1px solid var(--line);
+      background: var(--card-2);
+    }
+
+    .rest-box.good {
+      background: var(--green-soft);
+      border-color: #b7e4c4;
+    }
+
+    .rest-box.bad {
+      background: var(--red-soft);
+      border-color: #f4b4b4;
+    }
+
+    .rest-box h3 {
+      margin: 0 0 8px;
+      font-size: 18px;
+    }
+
+    .rest-box p {
+      margin: 0;
+      color: var(--muted);
+    }
+
+    .checklist {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+    }
+
+    .check {
+      padding: 16px;
+      border-radius: 14px;
+      background: var(--blue-soft);
+      border: 1px solid #c7d9ff;
+    }
+
+    .check-title {
+      font-weight: 700;
+      color: #153e91;
+      margin-bottom: 4px;
+    }
+
+    .check p {
+      margin: 0;
+      color: #53627a;
+      font-size: 14px;
+    }
+
+    .footer {
+      margin-top: 28px;
+      padding: 18px 22px;
+      border-radius: 16px;
+      background: #2b2118;
+      color: #fff8ed;
+    }
+
+    .footer strong {
+      color: #ffd08a;
+    }
+
+    @media (max-width: 860px) {
+      .hero,
+      .grid-2,
+      .rest-plan {
+        grid-template-columns: 1fr;
+      }
+
+      .cycle,
+      .checklist {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      table {
+        display: block;
+        overflow-x: auto;
+      }
+    }
+
+    @media (max-width: 560px) {
+      .page {
+        width: min(100% - 20px, 1120px);
+        padding: 24px 0 40px;
+      }
+
+      .hero-card,
+      .card,
+      .hero-note {
+        padding: 18px;
+      }
+
+      .cycle,
+      .checklist {
+        grid-template-columns: 1fr;
+      }
+
+      td:first-child {
+        white-space: normal;
+      }
+    }
+
+    @media print {
+      body {
+        background: #fff;
+      }
+
+      .hero-card,
+      .card,
+      .hero-note {
+        box-shadow: none;
+      }
+
+      .page {
+        width: 100%;
+        padding: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <section class="hero">
+      <div class="hero-card">
+        <div class="tag">考研状态控盘系统</div>
+        <h1>3-1-3-1 微周期作息表</h1>
+        <p class="subtitle">
+          这不是“每天打鸡血”的作息，而是一个防崩盘系统：连续攻坚三天，第四天强制拔线半天；再攻坚三天，第八天再拔线半天，然后进入下一轮。
+        </p>
+      </div>
+
+      <div class="hero-note">
+        <div>
+          <div class="note-title">8 天一个循环</div>
+          <p class="note-text">
+            目标不是让你每天都满血，而是让你在状态波动时仍然持续推进。
+          </p>
+        </div>
+
+        <div class="cycle">
+          <div class="cycle-item attack">
+            <div class="cycle-day">Day 1-3</div>
+            <div class="cycle-name">高压攻坚</div>
+          </div>
+          <div class="cycle-item rest">
+            <div class="cycle-day">Day 4</div>
+            <div class="cycle-name">拔线半天</div>
+          </div>
+          <div class="cycle-item attack">
+            <div class="cycle-day">Day 5-7</div>
+            <div class="cycle-name">高压攻坚</div>
+          </div>
+          <div class="cycle-item rest">
+            <div class="cycle-day">Day 8</div>
+            <div class="cycle-name">拔线半天</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-title">
+        <h2>攻坚日 SOP</h2>
+        <div class="hint">适用于 Day 1-3、Day 5-7</div>
+      </div>
+
+      <div class="card">
+        <table>
+          <thead>
+            <tr>
+              <th>时间</th>
+              <th>执行内容</th>
+              <th>关键原则</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>08:30</td>
+              <td>
+                <div class="task">强启开机</div>
+                <div class="detail">坐下后直接打开昨天没做完的题，不挑资料，不调环境。</div>
+              </td>
+              <td>用未完成任务启动，不靠心情启动。</td>
+            </tr>
+            <tr>
+              <td>08:40-10:00</td>
+              <td>
+                <div class="task">深潜 1：数学 / 专业课硬题</div>
+                <div class="detail">做最需要前额叶算力的题，比如计算、推导、大题。</div>
+              </td>
+              <td>上午最高算力留给最难任务。</td>
+            </tr>
+            <tr>
+              <td>10:00-10:15</td>
+              <td>
+                <div class="task">离座休息</div>
+                <div class="detail">走动、补水、上厕所，不刷短视频。</div>
+              </td>
+              <td>休息不是奖励，是续航维护。</td>
+            </tr>
+            <tr>
+              <td>10:15-11:45</td>
+              <td>
+                <div class="task">深潜 2：继续主科攻坚</div>
+                <div class="detail">数学刷题、专业课大题、核心章节理解。</div>
+              </td>
+              <td>上午尽量完成当天最硬的 60%。</td>
+            </tr>
+            <tr>
+              <td>11:45-13:30</td>
+              <td>
+                <div class="task">午饭 + 死线午休</div>
+                <div class="detail">13:00 前必须躺下，睡 20-30 分钟即可。</div>
+              </td>
+              <td>午休是下午重新开机的按钮。</td>
+            </tr>
+            <tr>
+              <td>13:30-15:00</td>
+              <td>
+                <div class="task">深潜 3：英语真题 / 专业课输入</div>
+                <div class="detail">英语阅读限时一篇 + 精析，或专业课一小节理解。</div>
+              </td>
+              <td>下午适合“输入 + 分析”型任务。</td>
+            </tr>
+            <tr>
+              <td>15:00-15:20</td>
+              <td>
+                <div class="task">离座休息</div>
+                <div class="detail">必须离开座位，避免在座位上假休息。</div>
+              </td>
+              <td>休息要切断学习场景。</td>
+            </tr>
+            <tr>
+              <td>15:20-16:40</td>
+              <td>
+                <div class="task">机动块</div>
+                <div class="detail">补上午遗留任务、刷政治选择题、整理错题。</div>
+              </td>
+              <td>状态差就降挡，不要硬顶。</td>
+            </tr>
+            <tr>
+              <td>16:40-18:00</td>
+              <td>
+                <div class="task">晚饭 + 散步</div>
+                <div class="detail">吃完走 15-25 分钟，不边吃边刷焦虑内容。</div>
+              </td>
+              <td>把身体从学习压力里拔出来。</td>
+            </tr>
+            <tr>
+              <td>18:30-20:00</td>
+              <td>
+                <div class="task">深潜 4：错题回炉 + 默写</div>
+                <div class="detail">合上书复述框架，回看当天错题，标出明早第一题。</div>
+              </td>
+              <td>主动回忆比反复看笔记有效。</td>
+            </tr>
+            <tr>
+              <td>20:00-21:30</td>
+              <td>
+                <div class="task">软任务收尾</div>
+                <div class="detail">背单词、政治听课、专业课轻量背诵。</div>
+              </td>
+              <td>晚上不再启动高难度新任务。</td>
+            </tr>
+            <tr>
+              <td>21:30</td>
+              <td>
+                <div class="task">强制断电</div>
+                <div class="detail">合书，摆好明天第一道题，停止学习。</div>
+              </td>
+              <td>执行 85% 刹车，把饥饿感留给明天。</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="section grid-2">
+      <div class="card">
+        <h2>拔线日怎么过</h2>
+        <p>
+          Day 4 和 Day 8 的上午可以轻量收尾，下午必须拔线半天。拔线日不是彻底摆烂，而是让系统降温，防止疲劳积压成连续低迷。
+        </p>
+
+        <div class="rest-plan">
+          <div class="rest-box good">
+            <h3>允许做</h3>
+            <p>睡觉、散步、洗澡、轻运动、整理房间、低刺激娱乐、和朋友吃饭。</p>
+          </div>
+          <div class="rest-box bad">
+            <h3>禁止做</h3>
+            <p>补进度、刷学习博主、看焦虑经验帖、短视频刷到凌晨、临时重排计划。</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>状态差时怎么处理</h2>
+        <ul class="rule-list">
+          <li class="rule">
+            <strong>先做 15 分钟测试</strong>
+            <span>如果 15 分钟后进入状态，说明只是启动阻力，继续学。</span>
+          </li>
+          <li class="rule">
+            <strong>如果仍然脑雾，就降挡</strong>
+            <span>改成抄公式、整理错题、背单词、誊写框架，不要硬磕难题。</span>
+          </li>
+          <li class="rule">
+            <strong>不要把一天判死刑</strong>
+            <span>状态差的目标不是爆发，而是让推进条不归零。</span>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-title">
+        <h2>三条执行铁律</h2>
+        <div class="hint">每天只检查这三件事</div>
+      </div>
+
+      <div class="checklist">
+        <div class="check">
+          <div class="check-title">1. 进馆前不美化</div>
+          <p>进图书馆前 15 分钟禁止挑壁纸、换模板、整理桌面、找完美资料。</p>
+        </div>
+        <div class="check">
+          <div class="check-title">2. 到点执行</div>
+          <p>不要每天重新思考“我现在该学什么”。时间表已经替你决定了。</p>
+        </div>
+        <div class="check">
+          <div class="check-title">3. 产出导向</div>
+          <p>不要只写“学数学”，要写“做 12 道题，订正 4 道错题”。</p>
+        </div>
+      </div>
+    </section>
+
+    <div class="footer">
+      <strong>核心判断：</strong>
+      这套作息的价值不是让你每天都满血，而是防止你在高压备考中突然崩盘。你只需要先完整跑 8 天，看启动速度、崩盘频率和有效产出有没有改善。
+    </div>
+  </main>
+</body>
+</html>

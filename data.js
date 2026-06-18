@@ -1690,153 +1690,164 @@ wx_short_answers: {
     }
 ,
 
-    linux_quiz: {
-        id: "linux_quiz",
-        title: "Linux：基础与应用通关",
-        subtitle: "专业课选择/判断自测 · 答错显示记忆口诀",
-        themeColor: "emerald",
-        type: "article",
-        url: "linux/linux_quiz.html?v=1.4",
-        cards: []
-    },
-
-    linux_short_answers: {
-        id: "linux_short_answers",
-        title: "Linux：核心简答与讨论",
-        subtitle: "基础原理与运维安全要点",
-        themeColor: "emerald",
-        type: "flashcard",
-        cards: [
-            {
-                q: "请简述Linux操作系统相比于Windows和macOS的主要优势与劣势。",
-                tip: "<b>记忆口诀：【开源剪裁命令行，生态学习两堵墙】</b>",
-                a: "<div class='flex flex-col gap-3 text-left text-[0.95rem] leading-relaxed'>\n  <div class='flex items-start gap-2.5'>\n    <span class='shrink-0 mt-0.5 w-8 h-6 rounded-md bg-emerald-100 text-emerald-600 flex items-center justify-center font-black text-xs border border-emerald-200 shadow-sm leading-none pt-0.5 px-1'>开</span>\n    <div><b class='text-slate-700'>开源免费</b>：<span class='text-slate-500'>源码开放，可自由修改与定制，无高昂授权费。</span></div>\n  </div>\n  <div class='flex items-start gap-2.5'>\n    <span class='shrink-0 mt-0.5 w-8 h-6 rounded-md bg-emerald-100 text-emerald-600 flex items-center justify-center font-black text-xs border border-emerald-200 shadow-sm leading-none pt-0.5 px-1'>定</span>\n    <div><b class='text-slate-700'>高度定制</b>：<span class='text-slate-500'>可深度裁剪，适合从嵌入式到超算的各类场景。</span></div>\n  </div>\n  <div class='flex items-start gap-2.5'>\n    <span class='shrink-0 mt-0.5 w-8 h-6 rounded-md bg-emerald-100 text-emerald-600 flex items-center justify-center font-black text-xs border border-emerald-200 shadow-sm leading-none pt-0.5 px-1'>命</span>\n    <div><b class='text-slate-700'>命令行强</b>：<span class='text-slate-500'>CLI极其强大，非常适合自动化运维与脚本编程。</span></div>\n  </div>\n  <div class='flex items-start gap-2.5'>\n    <span class='shrink-0 mt-0.5 w-8 h-6 rounded-md bg-emerald-100 text-emerald-600 flex items-center justify-center font-black text-xs border border-emerald-200 shadow-sm leading-none pt-0.5 px-1'>缺生态</span>\n    <div><b class='text-slate-700'>软件生态弱</b>：<span class='text-slate-500'>劣势：桌面端商业软件（如Adobe系列、大型游戏）支持较少。</span></div>\n  </div>\n  <div class='flex items-start gap-2.5'>\n    <span class='shrink-0 mt-0.5 w-8 h-6 rounded-md bg-emerald-100 text-emerald-600 flex items-center justify-center font-black text-xs border border-emerald-200 shadow-sm leading-none pt-0.5 px-1'>缺易用</span>\n    <div><b class='text-slate-700'>学习门槛高</b>：<span class='text-slate-500'>劣势：对普通用户的图形化体验不如Windows/macOS直观。</span></div>\n  </div>\n</div>"
-            },
-            {
-                q: "在Linux服务器上安装图形用户界面(GUI)有哪些优劣势？",
-                tip: "<b>记忆口诀：【图形易用门槛低，耗资面广多危机】</b>",
-                a: "<div class='flex flex-col gap-3 text-left text-[0.95rem] leading-relaxed'>\n  <div class='flex items-start gap-2.5'>\n    <span class='shrink-0 mt-0.5 w-8 h-6 rounded-md bg-emerald-100 text-emerald-600 flex items-center justify-center font-black text-xs border border-emerald-200 shadow-sm leading-none pt-0.5 px-1'>优易用</span>\n    <div><b class='text-slate-700'>降低门槛</b>：<span class='text-slate-500'>优势：图形化操作更直观，适合新手管理员或特定桌面软件环境。</span></div>\n  </div>\n  <div class='flex items-start gap-2.5'>\n    <span class='shrink-0 mt-0.5 w-8 h-6 rounded-md bg-emerald-100 text-emerald-600 flex items-center justify-center font-black text-xs border border-emerald-200 shadow-sm leading-none pt-0.5 px-1'>劣耗资</span>\n    <div><b class='text-slate-700'>资源开销大</b>：<span class='text-slate-500'>劣势：GUI组件会占用大量内存和CPU，降低服务器业务承载力。</span></div>\n  </div>\n  <div class='flex items-start gap-2.5'>\n    <span class='shrink-0 mt-0.5 w-8 h-6 rounded-md bg-emerald-100 text-emerald-600 flex items-center justify-center font-black text-xs border border-emerald-200 shadow-sm leading-none pt-0.5 px-1'>劣面广</span>\n    <div><b class='text-slate-700'>攻击面增加</b>：<span class='text-slate-500'>劣势：安装包增多导致潜在的安全漏洞增加，维护成本变高。</span></div>\n  </div>\n  <div class='flex items-start gap-2.5'>\n    <span class='shrink-0 mt-0.5 w-8 h-6 rounded-md bg-emerald-100 text-emerald-600 flex items-center justify-center font-black text-xs border border-emerald-200 shadow-sm leading-none pt-0.5 px-1'>劣维护</span>\n    <div><b class='text-slate-700'>维护复杂</b>：<span class='text-slate-500'>劣势：图形组件和依赖包增多，补丁、兼容性与故障排查成本都会上升，服务器通常推荐纯CLI环境。</span></div>\n  </div>\n</div>"
-            },
-            {
-                q: "举例说明命令行在查看系统信息时的优势。",
-                tip: "<b>记忆口诀：【快组远批，命令行里藏玄机】</b>",
-                a: "<div class='flex flex-col gap-3 text-left text-[0.95rem] leading-relaxed'>\n  <div class='flex items-start gap-2.5'>\n    <span class='shrink-0 mt-0.5 w-8 h-6 rounded-md bg-emerald-100 text-emerald-600 flex items-center justify-center font-black text-xs border border-emerald-200 shadow-sm leading-none pt-0.5 px-1'>快</span>\n    <div><b class='text-slate-700'>响应极快</b>：<span class='text-slate-500'>无需加载图形界面，直接返回数据，如 `top` 命令瞬间显示资源。</span></div>\n  </div>\n  <div class='flex items-start gap-2.5'>\n    <span class='shrink-0 mt-0.5 w-8 h-6 rounded-md bg-emerald-100 text-emerald-600 flex items-center justify-center font-black text-xs border border-emerald-200 shadow-sm leading-none pt-0.5 px-1'>组</span>\n    <div><b class='text-slate-700'>组合强大</b>：<span class='text-slate-500'>通过管道符 `|` 可以将多个命令组合，如 `ps aux | grep nginx` 精准过滤。</span></div>\n  </div>\n  <div class='flex items-start gap-2.5'>\n    <span class='shrink-0 mt-0.5 w-8 h-6 rounded-md bg-emerald-100 text-emerald-600 flex items-center justify-center font-black text-xs border border-emerald-200 shadow-sm leading-none pt-0.5 px-1'>远</span>\n    <div><b class='text-slate-700'>远程低宽带</b>：<span class='text-slate-500'>SSH远程连接只需极低带宽即可流畅操作，不卡顿。</span></div>\n  </div>\n  <div class='flex items-start gap-2.5'>\n    <span class='shrink-0 mt-0.5 w-8 h-6 rounded-md bg-emerald-100 text-emerald-600 flex items-center justify-center font-black text-xs border border-emerald-200 shadow-sm leading-none pt-0.5 px-1'>批</span>\n    <div><b class='text-slate-700'>易于批处理</b>：<span class='text-slate-500'>能轻松将查询结果接入Shell脚本，实现自动化巡检与告警。</span></div>\n  </div>\n</div>"
-            },
-            {
-                q: "快速修改配置文件(如/etc/hosts)时，Vim与Windows记事本的区别是什么？",
-                tip: "<b>记忆口诀：【端权高批，Vim操作如飞】</b>",
-                a: "<div class='flex flex-col gap-3 text-left text-[0.95rem] leading-relaxed'>\n  <div class='flex items-start gap-2.5'>\n    <span class='shrink-0 mt-0.5 w-8 h-6 rounded-md bg-emerald-100 text-emerald-600 flex items-center justify-center font-black text-xs border border-emerald-200 shadow-sm leading-none pt-0.5 px-1'>端</span>\n    <div><b class='text-slate-700'>终端直改</b>：<span class='text-slate-500'>许多Linux环境默认提供vi/vim，或可快速安装；可直接在终端修改，无需先下载到本地。</span></div>\n  </div>\n  <div class='flex items-start gap-2.5'>\n    <span class='shrink-0 mt-0.5 w-8 h-6 rounded-md bg-emerald-100 text-emerald-600 flex items-center justify-center font-black text-xs border border-emerald-200 shadow-sm leading-none pt-0.5 px-1'>权</span>\n    <div><b class='text-slate-700'>权限控制</b>：<span class='text-slate-500'>Vim可以直接配合 `sudo vim` 提权编辑系统文件，记事本难以处理Linux权限。</span></div>\n  </div>\n  <div class='flex items-start gap-2.5'>\n    <span class='shrink-0 mt-0.5 w-8 h-6 rounded-md bg-emerald-100 text-emerald-600 flex items-center justify-center font-black text-xs border border-emerald-200 shadow-sm leading-none pt-0.5 px-1'>高</span>\n    <div><b class='text-slate-700'>高效跳转</b>：<span class='text-slate-500'>Vim支持强大的快捷键（如 `G` 到末尾，`/` 搜索），无需鼠标拖拽。</span></div>\n  </div>\n  <div class='flex items-start gap-2.5'>\n    <span class='shrink-0 mt-0.5 w-8 h-6 rounded-md bg-emerald-100 text-emerald-600 flex items-center justify-center font-black text-xs border border-emerald-200 shadow-sm leading-none pt-0.5 px-1'>批</span>\n    <div><b class='text-slate-700'>批量替换</b>：<span class='text-slate-500'>Vim支持底线命令模式 `:s` 进行正则表达式级别的精准批量替换。</span></div>\n  </div>\n</div>"
-            },
-            {
-                q: "部署符合等保2.0三级的openEuler用户管理系统，账户管理应采取哪些关键措施？",
-                tip: "<b>记忆口诀：【最小密审权限分，多因认证筑安全】</b>",
-                a: "<div class='flex flex-col gap-3 text-left text-[0.95rem] leading-relaxed'>\n  <div class='flex items-start gap-2.5'>\n    <span class='shrink-0 mt-0.5 w-8 h-6 rounded-md bg-emerald-100 text-emerald-600 flex items-center justify-center font-black text-xs border border-emerald-200 shadow-sm leading-none pt-0.5 px-1'>最小</span>\n    <div><b class='text-slate-700'>最小权限</b>：<span class='text-slate-500'>严格遵循最小权限原则，禁止多用户共享root账号。</span></div>\n  </div>\n  <div class='flex items-start gap-2.5'>\n    <span class='shrink-0 mt-0.5 w-8 h-6 rounded-md bg-emerald-100 text-emerald-600 flex items-center justify-center font-black text-xs border border-emerald-200 shadow-sm leading-none pt-0.5 px-1'>密</span>\n    <div><b class='text-slate-700'>密码策略</b>：<span class='text-slate-500'>结合 `login.defs`、PAM/pwquality 等配置强制密码复杂度、历史限制与定期修改周期（如90天）。</span></div>\n  </div>\n  <div class='flex items-start gap-2.5'>\n    <span class='shrink-0 mt-0.5 w-8 h-6 rounded-md bg-emerald-100 text-emerald-600 flex items-center justify-center font-black text-xs border border-emerald-200 shadow-sm leading-none pt-0.5 px-1'>审</span>\n    <div><b class='text-slate-700'>安全审计</b>：<span class='text-slate-500'>开启严格的登录日志审计（如监控 `/var/log/secure`）。</span></div>\n  </div>\n  <div class='flex items-start gap-2.5'>\n    <span class='shrink-0 mt-0.5 w-8 h-6 rounded-md bg-emerald-100 text-emerald-600 flex items-center justify-center font-black text-xs border border-emerald-200 shadow-sm leading-none pt-0.5 px-1'>权分</span>\n    <div><b class='text-slate-700'>权限分离</b>：<span class='text-slate-500'>使用 `sudo` 进行精细化授权，实现系统管理员、审计员和安全员三权分立。</span></div>\n  </div>\n  <div class='flex items-start gap-2.5'>\n    <span class='shrink-0 mt-0.5 w-8 h-6 rounded-md bg-emerald-100 text-emerald-600 flex items-center justify-center font-black text-xs border border-emerald-200 shadow-sm leading-none pt-0.5 px-1'>多因</span>\n    <div><b class='text-slate-700'>多因素认证</b>：<span class='text-slate-500'>对远程管理入口引入SSH密钥、密码与MFA等组合认证机制。</span></div>\n  </div>\n</div>"
-            },
-            {
-                q: "建立符合ISO 27001标准的openEuler文件管理系统，权限管理及存储优化应采取哪些措施？",
-                tip: "<b>记忆口诀：【精权加密冗快归，数据安全永相随】</b>",
-                a: "<div class='flex flex-col gap-3 text-left text-[0.95rem] leading-relaxed'>\n  <div class='flex items-start gap-2.5'>\n    <span class='shrink-0 mt-0.5 w-8 h-6 rounded-md bg-emerald-100 text-emerald-600 flex items-center justify-center font-black text-xs border border-emerald-200 shadow-sm leading-none pt-0.5 px-1'>精权</span>\n    <div><b class='text-slate-700'>精细权限</b>：<span class='text-slate-500'>除基础 UGO 权限外，利用 ACL (`setfacl`) 实现细粒度的文件访问控制。</span></div>\n  </div>\n  <div class='flex items-start gap-2.5'>\n    <span class='shrink-0 mt-0.5 w-8 h-6 rounded-md bg-emerald-100 text-emerald-600 flex items-center justify-center font-black text-xs border border-emerald-200 shadow-sm leading-none pt-0.5 px-1'>主加</span>\n    <div><b class='text-slate-700'>加密存储</b>：<span class='text-slate-500'>对核心机密数据所在分区进行磁盘级加密（如 LUKS）防止物理窃取。</span></div>\n  </div>\n  <div class='flex items-start gap-2.5'>\n    <span class='shrink-0 mt-0.5 w-8 h-6 rounded-md bg-emerald-100 text-emerald-600 flex items-center justify-center font-black text-xs border border-emerald-200 shadow-sm leading-none pt-0.5 px-1'>冗</span>\n    <div><b class='text-slate-700'>数据冗余</b>：<span class='text-slate-500'>根据业务重要性选择 RAID1/5/6/10 等方案提供冗余容错，避免把RAID0误当作冗余方案。</span></div>\n  </div>\n  <div class='flex items-start gap-2.5'>\n    <span class='shrink-0 mt-0.5 w-8 h-6 rounded-md bg-emerald-100 text-emerald-600 flex items-center justify-center font-black text-xs border border-emerald-200 shadow-sm leading-none pt-0.5 px-1'>快</span>\n    <div><b class='text-slate-700'>定期快照</b>：<span class='text-slate-500'>利用 LVM 快照或支持快照的文件系统/备份系统定期保护关键数据；XFS本身不提供原生快照。</span></div>\n  </div>\n  <div class='flex items-start gap-2.5'>\n    <span class='shrink-0 mt-0.5 w-8 h-6 rounded-md bg-emerald-100 text-emerald-600 flex items-center justify-center font-black text-xs border border-emerald-200 shadow-sm leading-none pt-0.5 px-1'>归</span>\n    <div><b class='text-slate-700'>日志归档</b>：<span class='text-slate-500'>严格控制文件修改权限，并使用审计系统(Auditd)记录所有敏感文件的读写日志。</span></div>\n  </div>\n</div>"
-            }
-        ]
+    linux_review: {
+        "id": "linux_review",
+        "title": "Linux：期末完整复习讲义",
+        "subtitle": "概念、命令、脚本与易错点总整理",
+        "themeColor": "emerald",
+        "type": "article",
+        "url": "linux/linux_review.html?v=1.0",
+        "cards": []
     },
 
     linux_quiz: {
-        id: "linux_quiz",
-        title: "Linux：基础与应用通关",
-        subtitle: "八大模块核心考点（选择/判断）",
-        themeColor: "emerald",
-        type: "article",
-        url: "linux/linux_quiz.html?v=1.3",
-        cards: []
+        "id": "linux_quiz",
+        "title": "Linux：期末自测题库",
+        "subtitle": "判断/选择/命令填空 · 答错看口诀",
+        "themeColor": "emerald",
+        "type": "article",
+        "url": "linux/linux_quiz.html?v=2.0",
+        "cards": []
     },
 
     linux_short_answers: {
-        id: "linux_short_answers",
-        title: "Linux：核心简答与讨论",
-        subtitle: "基础原理与运维安全要点",
-        themeColor: "emerald",
-        type: "flashcard",
-        cards: [
+        "id": "linux_short_answers",
+        "title": "Linux：期末速背闪卡",
+        "subtitle": "简答、命令、脚本模板与高频易错点",
+        "themeColor": "emerald",
+        "type": "flashcard",
+        "cards": [
             {
-                q: "请简述Linux操作系统相比于Windows和macOS的主要优势与劣势。",
-                tip: "<b>记忆口诀：【开源剪裁命令行，生态学习两堵墙】</b>",
-                a: "<div class='sa-list'>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-emerald'>开</span>\n    <div class='sa-content'><b class='sa-title'>开源免费</b>：<span class='sa-desc'>源码开放，可自由修改与定制，无高昂授权费。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-emerald'>定</span>\n    <div class='sa-content'><b class='sa-title'>高度定制</b>：<span class='sa-desc'>可深度裁剪，适合从嵌入式到超算的各类场景。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-emerald'>命</span>\n    <div class='sa-content'><b class='sa-title'>命令行强</b>：<span class='sa-desc'>CLI极其强大，非常适合自动化运维与脚本编程。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-emerald'>缺生态</span>\n    <div class='sa-content'><b class='sa-title'>软件生态弱</b>：<span class='sa-desc'>劣势：桌面端商业软件（如Adobe系列、大型游戏）支持较少。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-emerald'>缺易用</span>\n    <div class='sa-content'><b class='sa-title'>学习门槛高</b>：<span class='sa-desc'>劣势：对普通用户的图形化体验不如Windows/macOS直观。</span></div>\n  </div>\n</div>"
+                "title": "01 环境变量",
+                "q": "环境变量的作用是什么？列举 2 个常见环境变量。",
+                "tip": "<b>记忆口诀：【路径家目录，变量传配置】</b>",
+                "a": "<div class='sa-list'>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-emerald'>作</span>\n    <div class='sa-content'><b class='sa-title'>作用</b>：<span class='sa-desc'>环境变量是在系统运行环境中定义的动态参数，用来向系统和程序传递配置信息，影响命令查找、用户目录、终端行为等。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-emerald'>PATH</span>\n    <div class='sa-content'><b class='sa-title'>PATH</b>：<span class='sa-desc'>决定系统到哪些目录中查找可执行命令。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-emerald'>HOME</span>\n    <div class='sa-content'><b class='sa-title'>HOME</b>：<span class='sa-desc'>记录当前用户主目录路径，例如 <code>/root</code> 或 <code>/home/user</code>。</span></div>\n  </div>\n</div>"
             },
             {
-                q: "在Linux服务器上安装图形用户界面(GUI)有哪些优劣势？",
-                tip: "<b>记忆口诀：【图形易用门槛低，耗资面广多危机】</b>",
-                a: "<div class='sa-list'>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-emerald'>优易用</span>\n    <div class='sa-content'><b class='sa-title'>降低门槛</b>：<span class='sa-desc'>优势：图形化操作更直观，适合新手管理员或特定桌面软件环境。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-emerald'>劣耗资</span>\n    <div class='sa-content'><b class='sa-title'>资源开销大</b>：<span class='sa-desc'>劣势：GUI组件会占用大量内存和CPU，降低服务器业务承载力。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-emerald'>劣面广</span>\n    <div class='sa-content'><b class='sa-title'>攻击面增加</b>：<span class='sa-desc'>劣势：安装包增多导致潜在的安全漏洞增加，维护成本变高。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-emerald'>劣维护</span>\n    <div class='sa-content'><b class='sa-title'>维护复杂</b>：<span class='sa-desc'>劣势：图形组件和依赖包增多，补丁、兼容性与故障排查成本都会上升，服务器通常推荐纯CLI环境。</span></div>\n  </div>\n</div>"
+                "title": "02 Linux 四个特点",
+                "q": "Linux 操作系统有哪些常考特点？",
+                "tip": "<b>记忆口诀：【开多稳移，Linux底气】</b>",
+                "a": "<div class='sa-list'>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-emerald'>开</span>\n    <div class='sa-content'><b class='sa-title'>开源免费</b>：<span class='sa-desc'>源代码开放，可自由使用、学习、修改和分发。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-emerald'>多</span>\n    <div class='sa-content'><b class='sa-title'>多用户多任务</b>：<span class='sa-desc'>允许多个用户同时登录，也允许多个进程并发运行。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-emerald'>稳</span>\n    <div class='sa-content'><b class='sa-title'>稳定安全</b>：<span class='sa-desc'>权限机制严格，内核隔离清晰，长期运行稳定。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-emerald'>移</span>\n    <div class='sa-content'><b class='sa-title'>可移植性强</b>：<span class='sa-desc'>能运行在服务器、嵌入式、桌面、云计算和超级计算机等多类硬件平台。</span></div>\n  </div>\n</div>"
             },
             {
-                q: "举例说明命令行在查看系统信息时的优势。",
-                tip: "<b>记忆口诀：【快组远批，命令行里藏玄机】</b>",
-                a: "<div class='sa-list'>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-emerald'>快</span>\n    <div class='sa-content'><b class='sa-title'>响应极快</b>：<span class='sa-desc'>无需加载图形界面，直接返回数据，如 `top` 命令瞬间显示资源。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-emerald'>组</span>\n    <div class='sa-content'><b class='sa-title'>组合强大</b>：<span class='sa-desc'>通过管道符 `|` 可以将多个命令组合，如 `ps aux | grep nginx` 精准过滤。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-emerald'>远</span>\n    <div class='sa-content'><b class='sa-title'>远程低宽带</b>：<span class='sa-desc'>SSH远程连接只需极低带宽即可流畅操作，不卡顿。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-emerald'>批</span>\n    <div class='sa-content'><b class='sa-title'>易于批处理</b>：<span class='sa-desc'>能轻松将查询结果接入Shell脚本，实现自动化巡检与告警。</span></div>\n  </div>\n</div>"
+                "title": "03 用户与用户组",
+                "q": "用户和用户组的关系、作用是什么？",
+                "tip": "<b>记忆口诀：【一主多附，多人一组】</b>",
+                "a": "<div class='sa-list'>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-emerald'>控</span>\n    <div class='sa-content'><b class='sa-title'>权限控制</b>：<span class='sa-desc'>用于控制文件、目录、进程等系统资源的访问权限，是 Linux 安全机制的基础。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-emerald'>主</span>\n    <div class='sa-content'><b class='sa-title'>主组</b>：<span class='sa-desc'>一个用户必须属于一个主组，创建文件时通常默认归属该主组。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-emerald'>附</span>\n    <div class='sa-content'><b class='sa-title'>附加组</b>：<span class='sa-desc'>一个用户还可以加入多个附加组，以获得额外资源权限。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-emerald'>批</span>\n    <div class='sa-content'><b class='sa-title'>批量授权</b>：<span class='sa-desc'>一个用户组可包含多个用户，对组授权即可批量赋权。</span></div>\n  </div>\n</div>"
             },
             {
-                q: "快速修改配置文件(如/etc/hosts)时，Vim与Windows记事本的区别是什么？",
-                tip: "<b>记忆口诀：【端权高批，Vim操作如飞】</b>",
-                a: "<div class='sa-list'>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-emerald'>端</span>\n    <div class='sa-content'><b class='sa-title'>终端直改</b>：<span class='sa-desc'>许多Linux环境默认提供vi/vim，或可快速安装；可直接在终端修改，无需先下载到本地。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-emerald'>权</span>\n    <div class='sa-content'><b class='sa-title'>权限控制</b>：<span class='sa-desc'>Vim可以直接配合 `sudo vim` 提权编辑系统文件，记事本难以处理Linux权限。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-emerald'>高</span>\n    <div class='sa-content'><b class='sa-title'>高效跳转</b>：<span class='sa-desc'>Vim支持强大的快捷键（如 `G` 到末尾，`/` 搜索），无需鼠标拖拽。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-emerald'>批</span>\n    <div class='sa-content'><b class='sa-title'>批量替换</b>：<span class='sa-desc'>Vim支持底线命令模式 `:s` 进行正则表达式级别的精准批量替换。</span></div>\n  </div>\n</div>"
+                "title": "04 四个核心目录",
+                "q": "/etc、/home、/var、/dev 分别存放什么？",
+                "tip": "<b>记忆口诀：【配置家园，变化设备】</b>",
+                "a": "<div class='sa-list'>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-emerald'>etc</span>\n    <div class='sa-content'><b class='sa-title'>/etc</b>：<span class='sa-desc'>存放系统核心配置文件，如网络配置、账号配置、服务配置。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-emerald'>home</span>\n    <div class='sa-content'><b class='sa-title'>/home</b>：<span class='sa-desc'>普通用户主目录默认存放位置。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-emerald'>var</span>\n    <div class='sa-content'><b class='sa-title'>/var</b>：<span class='sa-desc'>存放经常变化的数据，如日志 <code>/var/log</code>、缓存、队列文件。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-emerald'>dev</span>\n    <div class='sa-content'><b class='sa-title'>/dev</b>：<span class='sa-desc'>设备文件目录。Linux 中硬件设备通常以文件形式出现在这里。</span></div>\n  </div>\n</div>"
             },
             {
-                q: "部署符合等保2.0三级的openEuler用户管理系统，账户管理应采取哪些关键措施？",
-                tip: "<b>记忆口诀：【最小密审权限分，多因认证筑安全】</b>",
-                a: "<div class='sa-list'>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-emerald'>最小</span>\n    <div class='sa-content'><b class='sa-title'>最小权限</b>：<span class='sa-desc'>严格遵循最小权限原则，禁止多用户共享root账号。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-emerald'>密</span>\n    <div class='sa-content'><b class='sa-title'>密码策略</b>：<span class='sa-desc'>结合 `login.defs`、PAM/pwquality 等配置强制密码复杂度、历史限制与定期修改周期（如90天）。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-emerald'>审</span>\n    <div class='sa-content'><b class='sa-title'>安全审计</b>：<span class='sa-desc'>开启严格的登录日志审计（如监控 `/var/log/secure`）。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-emerald'>权分</span>\n    <div class='sa-content'><b class='sa-title'>权限分离</b>：<span class='sa-desc'>使用 `sudo` 进行精细化授权，实现系统管理员、审计员和安全员三权分立。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-emerald'>多因</span>\n    <div class='sa-content'><b class='sa-title'>多因素认证</b>：<span class='sa-desc'>对远程管理入口引入SSH密钥、密码与MFA等组合认证机制。</span></div>\n  </div>\n</div>"
+                "title": "05 文本三剑客",
+                "q": "grep、sed、awk 各自适合做什么？",
+                "tip": "<b>记忆口诀：【搜改列，三剑客】</b>",
+                "a": "<div class='sa-list'>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-emerald'>grep</span>\n    <div class='sa-content'><b class='sa-title'>grep 搜索过滤</b>：<span class='sa-desc'>按关键字或正则匹配文本行，适合“找包含某词的行”。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-emerald'>sed</span>\n    <div class='sa-content'><b class='sa-title'>sed 流编辑</b>：<span class='sa-desc'>按行进行替换、删除、新增等非交互式编辑；默认不改原文件，加 <code>-i</code> 才原地修改。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-emerald'>awk</span>\n    <div class='sa-content'><b class='sa-title'>awk 列处理</b>：<span class='sa-desc'>按字段处理列状数据，适合提取、统计、格式化输出。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-emerald'>cut</span>\n    <div class='sa-content'><b class='sa-title'>cut 补充</b>：<span class='sa-desc'>也常用于简单按列截取，尤其是固定分隔符场景。</span></div>\n  </div>\n</div>"
             },
             {
-                q: "建立符合ISO 27001标准的openEuler文件管理系统，权限管理及存储优化应采取哪些措施？",
-                tip: "<b>记忆口诀：【精权加密冗快归，数据安全永相随】</b>",
-                a: "<div class='sa-list'>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-emerald'>精权</span>\n    <div class='sa-content'><b class='sa-title'>精细权限</b>：<span class='sa-desc'>除基础 UGO 权限外，利用 ACL (`setfacl`) 实现细粒度的文件访问控制。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-emerald'>主加</span>\n    <div class='sa-content'><b class='sa-title'>加密存储</b>：<span class='sa-desc'>对核心机密数据所在分区进行磁盘级加密（如 LUKS）防止物理窃取。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-emerald'>冗</span>\n    <div class='sa-content'><b class='sa-title'>数据冗余</b>：<span class='sa-desc'>根据业务重要性选择 RAID1/5/6/10 等方案提供冗余容错，避免把RAID0误当作冗余方案。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-emerald'>快</span>\n    <div class='sa-content'><b class='sa-title'>定期快照</b>：<span class='sa-desc'>利用 LVM 快照或支持快照的文件系统/备份系统定期保护关键数据；XFS本身不提供原生快照。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-emerald'>归</span>\n    <div class='sa-content'><b class='sa-title'>日志归档</b>：<span class='sa-desc'>严格控制文件修改权限，并使用审计系统(Auditd)记录所有敏感文件的读写日志。</span></div>\n  </div>\n</div>"
-            }
-        ]
-    }
-,
-
-    linux_quiz: {
-        id: "linux_quiz",
-        title: "Linux：基础与应用通关",
-        subtitle: "八大模块核心考点（选择/判断）",
-        themeColor: "emerald",
-        type: "article",
-        url: "linux/linux_quiz.html?v=1.3",
-        cards: []
-    },
-
-    linux_short_answers: {
-        id: "linux_short_answers",
-        title: "Linux：核心简答与讨论",
-        subtitle: "基础原理与运维安全要点",
-        themeColor: "emerald",
-        type: "flashcard",
-        cards: [
-            {
-                q: "请简述Linux操作系统相比于Windows和macOS的主要优势与劣势。",
-                tip: "<b>记忆口诀：【开源剪裁命令行，生态学习两堵墙】</b>",
-                a: "<div class='sa-list'>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-emerald'>开</span>\n    <div class='sa-content'><b class='sa-title'>开源免费</b>：<span class='sa-desc'>源码开放，可自由修改与定制，无高昂授权费。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-emerald'>定</span>\n    <div class='sa-content'><b class='sa-title'>高度定制</b>：<span class='sa-desc'>可深度裁剪，适合从嵌入式到超算的各类场景。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-emerald'>命</span>\n    <div class='sa-content'><b class='sa-title'>命令行强</b>：<span class='sa-desc'>CLI极其强大，非常适合自动化运维与脚本编程。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-emerald'>缺生态</span>\n    <div class='sa-content'><b class='sa-title'>软件生态弱</b>：<span class='sa-desc'>劣势：桌面端商业软件（如Adobe系列、大型游戏）支持较少。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-emerald'>缺易用</span>\n    <div class='sa-content'><b class='sa-title'>学习门槛高</b>：<span class='sa-desc'>劣势：对普通用户的图形化体验不如Windows/macOS直观。</span></div>\n  </div>\n</div>"
+                "title": "06 文件权限含义",
+                "q": "r、w、x 对文件分别是什么意思？",
+                "tip": "<b>记忆口诀：【文件读写跑】</b>",
+                "a": "<div class='sa-list'>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-emerald'>r</span>\n    <div class='sa-content'><b class='sa-title'>读</b>：<span class='sa-desc'>允许查看文件内容。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-emerald'>w</span>\n    <div class='sa-content'><b class='sa-title'>写</b>：<span class='sa-desc'>允许修改或清空文件内容；删除文件本身主要看所在目录的写权限。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-emerald'>x</span>\n    <div class='sa-content'><b class='sa-title'>执行</b>：<span class='sa-desc'>允许把文件作为程序或脚本运行。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-emerald'>744</span>\n    <div class='sa-content'><b class='sa-title'>chmod 744</b>：<span class='sa-desc'>所有者 <code>rwx</code>，组用户 <code>r--</code>，其他用户 <code>r--</code>。</span></div>\n  </div>\n</div>"
             },
             {
-                q: "在Linux服务器上安装图形用户界面(GUI)有哪些优劣势？",
-                tip: "<b>记忆口诀：【图形易用门槛低，耗资面广多危机】</b>",
-                a: "<div class='sa-list'>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-emerald'>优易用</span>\n    <div class='sa-content'><b class='sa-title'>降低门槛</b>：<span class='sa-desc'>优势：图形化操作更直观，适合新手管理员或特定桌面软件环境。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-emerald'>劣耗资</span>\n    <div class='sa-content'><b class='sa-title'>资源开销大</b>：<span class='sa-desc'>劣势：GUI组件会占用大量内存和CPU，降低服务器业务承载力。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-emerald'>劣面广</span>\n    <div class='sa-content'><b class='sa-title'>攻击面增加</b>：<span class='sa-desc'>劣势：安装包增多导致潜在的安全漏洞增加，维护成本变高。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-emerald'>劣维护</span>\n    <div class='sa-content'><b class='sa-title'>维护复杂</b>：<span class='sa-desc'>劣势：图形组件和依赖包增多，补丁、兼容性与故障排查成本都会上升，服务器通常推荐纯CLI环境。</span></div>\n  </div>\n</div>"
+                "title": "07 目录权限含义",
+                "q": "r、w、x 对目录分别是什么意思？",
+                "tip": "<b>记忆口诀：【目录能看能改能进去】</b>",
+                "a": "<div class='sa-list'>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-emerald'>r</span>\n    <div class='sa-content'><b class='sa-title'>读目录</b>：<span class='sa-desc'>允许列出目录里的文件名，常对应 <code>ls</code>。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-emerald'>w</span>\n    <div class='sa-content'><b class='sa-title'>写目录</b>：<span class='sa-desc'>允许在目录中创建、删除、重命名文件。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-emerald'>x</span>\n    <div class='sa-content'><b class='sa-title'>进入目录</b>：<span class='sa-desc'>允许 <code>cd</code> 进入目录，也允许访问目录下已知名称的文件。目录没有 <code>x</code> 经常会“看得到但进不去”。</span></div>\n  </div>\n</div>"
             },
             {
-                q: "举例说明命令行在查看系统信息时的优势。",
-                tip: "<b>记忆口诀：【快组远批，命令行里藏玄机】</b>",
-                a: "<div class='sa-list'>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-emerald'>快</span>\n    <div class='sa-content'><b class='sa-title'>响应极快</b>：<span class='sa-desc'>无需加载图形界面，直接返回数据，如 `top` 命令瞬间显示资源。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-emerald'>组</span>\n    <div class='sa-content'><b class='sa-title'>组合强大</b>：<span class='sa-desc'>通过管道符 `|` 可以将多个命令组合，如 `ps aux | grep nginx` 精准过滤。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-emerald'>远</span>\n    <div class='sa-content'><b class='sa-title'>远程低宽带</b>：<span class='sa-desc'>SSH远程连接只需极低带宽即可流畅操作，不卡顿。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-emerald'>批</span>\n    <div class='sa-content'><b class='sa-title'>易于批处理</b>：<span class='sa-desc'>能轻松将查询结果接入Shell脚本，实现自动化巡检与告警。</span></div>\n  </div>\n</div>"
+                "title": "08 软链接与硬链接",
+                "q": "软链接和硬链接有什么区别？",
+                "tip": "<b>记忆口诀：【软路硬号，跨区看软】</b>",
+                "a": "<div class='sa-list'>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-emerald'>软</span>\n    <div class='sa-content'><b class='sa-title'>软链接</b>：<span class='sa-desc'>保存目标路径的新文件，类似快捷方式；可跨文件系统，可指向目录。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-emerald'>硬</span>\n    <div class='sa-content'><b class='sa-title'>硬链接</b>：<span class='sa-desc'>原文件的另一个文件名，inode 相同；不能跨文件系统，通常不能指向目录。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-emerald'>删</span>\n    <div class='sa-content'><b class='sa-title'>删除原文件</b>：<span class='sa-desc'>软链接会失效；硬链接仍可访问数据。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-emerald'>坑</span>\n    <div class='sa-content'><b class='sa-title'>高频坑</b>：<span class='sa-desc'>“软链接不能跨文件系统，硬链接可以”是反的。</span></div>\n  </div>\n</div>"
             },
             {
-                q: "快速修改配置文件(如/etc/hosts)时，Vim与Windows记事本的区别是什么？",
-                tip: "<b>记忆口诀：【端权高批，Vim操作如飞】</b>",
-                a: "<div class='sa-list'>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-emerald'>端</span>\n    <div class='sa-content'><b class='sa-title'>终端直改</b>：<span class='sa-desc'>许多Linux环境默认提供vi/vim，或可快速安装；可直接在终端修改，无需先下载到本地。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-emerald'>权</span>\n    <div class='sa-content'><b class='sa-title'>权限控制</b>：<span class='sa-desc'>Vim可以直接配合 `sudo vim` 提权编辑系统文件，记事本难以处理Linux权限。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-emerald'>高</span>\n    <div class='sa-content'><b class='sa-title'>高效跳转</b>：<span class='sa-desc'>Vim支持强大的快捷键（如 `G` 到末尾，`/` 搜索），无需鼠标拖拽。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-emerald'>批</span>\n    <div class='sa-content'><b class='sa-title'>批量替换</b>：<span class='sa-desc'>Vim支持底线命令模式 `:s` 进行正则表达式级别的精准批量替换。</span></div>\n  </div>\n</div>"
+                "title": "09 程序与进程",
+                "q": "程序和进程的区别是什么？如何查看进程？",
+                "tip": "<b>记忆口诀：【程序静，进程动】</b>",
+                "a": "<div class='sa-list'>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-emerald'>程序</span>\n    <div class='sa-content'><b class='sa-title'>程序</b>：<span class='sa-desc'>磁盘上的静态代码和指令集合。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-emerald'>进程</span>\n    <div class='sa-content'><b class='sa-title'>进程</b>：<span class='sa-desc'>程序在内存中的一次运行实例，有 PID、状态和生命周期。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-emerald'>ps</span>\n    <div class='sa-content'><b class='sa-title'>ps</b>：<span class='sa-desc'>查看进程快照，如 <code>ps -ef</code>。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-emerald'>top</span>\n    <div class='sa-content'><b class='sa-title'>top</b>：<span class='sa-desc'>动态实时查看进程和系统资源占用。</span></div>\n  </div>\n</div>"
             },
             {
-                q: "部署符合等保2.0三级的openEuler用户管理系统，账户管理应采取哪些关键措施？",
-                tip: "<b>记忆口诀：【最小密审权限分，多因认证筑安全】</b>",
-                a: "<div class='sa-list'>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-emerald'>最小</span>\n    <div class='sa-content'><b class='sa-title'>最小权限</b>：<span class='sa-desc'>严格遵循最小权限原则，禁止多用户共享root账号。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-emerald'>密</span>\n    <div class='sa-content'><b class='sa-title'>密码策略</b>：<span class='sa-desc'>结合 `login.defs`、PAM/pwquality 等配置强制密码复杂度、历史限制与定期修改周期（如90天）。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-emerald'>审</span>\n    <div class='sa-content'><b class='sa-title'>安全审计</b>：<span class='sa-desc'>开启严格的登录日志审计（如监控 `/var/log/secure`）。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-emerald'>权分</span>\n    <div class='sa-content'><b class='sa-title'>权限分离</b>：<span class='sa-desc'>使用 `sudo` 进行精细化授权，实现系统管理员、审计员和安全员三权分立。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-emerald'>多因</span>\n    <div class='sa-content'><b class='sa-title'>多因素认证</b>：<span class='sa-desc'>对远程管理入口引入SSH密钥、密码与MFA等组合认证机制。</span></div>\n  </div>\n</div>"
+                "title": "10 查看与杀死进程",
+                "q": "查看进程并终止进程的常用方法有哪些？",
+                "tip": "<b>记忆口诀：【查PID，kill终止】</b>",
+                "a": "<div class='sa-list'>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-emerald'>查</span>\n    <div class='sa-content'><b class='sa-title'>查找进程</b>：<span class='sa-desc'><code>ps -ef | grep 进程名</code> 可以先找到 PID。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-emerald'>停</span>\n    <div class='sa-content'><b class='sa-title'>正常终止</b>：<span class='sa-desc'><code>kill PID</code> 发送默认终止信号。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-emerald'>强</span>\n    <div class='sa-content'><b class='sa-title'>强制终止</b>：<span class='sa-desc'><code>kill -9 PID</code> 用于无响应进程，考试常问但实际应谨慎。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-emerald'>名</span>\n    <div class='sa-content'><b class='sa-title'>按名称终止</b>：<span class='sa-desc'><code>killall 进程名</code> 可按进程名终止。</span></div>\n  </div>\n</div>"
             },
             {
-                q: "建立符合ISO 27001标准的openEuler文件管理系统，权限管理及存储优化应采取哪些措施？",
-                tip: "<b>记忆口诀：【精权加密冗快归，数据安全永相随】</b>",
-                a: "<div class='sa-list'>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-emerald'>精权</span>\n    <div class='sa-content'><b class='sa-title'>精细权限</b>：<span class='sa-desc'>除基础 UGO 权限外，利用 ACL (`setfacl`) 实现细粒度的文件访问控制。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-emerald'>主加</span>\n    <div class='sa-content'><b class='sa-title'>加密存储</b>：<span class='sa-desc'>对核心机密数据所在分区进行磁盘级加密（如 LUKS）防止物理窃取。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-emerald'>冗</span>\n    <div class='sa-content'><b class='sa-title'>数据冗余</b>：<span class='sa-desc'>根据业务重要性选择 RAID1/5/6/10 等方案提供冗余容错，避免把RAID0误当作冗余方案。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-emerald'>快</span>\n    <div class='sa-content'><b class='sa-title'>定期快照</b>：<span class='sa-desc'>利用 LVM 快照或支持快照的文件系统/备份系统定期保护关键数据；XFS本身不提供原生快照。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-emerald'>归</span>\n    <div class='sa-content'><b class='sa-title'>日志归档</b>：<span class='sa-desc'>严格控制文件修改权限，并使用审计系统(Auditd)记录所有敏感文件的读写日志。</span></div>\n  </div>\n</div>"
+                "title": "11 系统安全措施",
+                "q": "Linux 系统安全的 3 个基础措施是什么？",
+                "tip": "<b>记忆口诀：【账号权限网络，安全三件套】</b>",
+                "a": "<div class='sa-list'>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-emerald'>账</span>\n    <div class='sa-content'><b class='sa-title'>账号管理</b>：<span class='sa-desc'>设置强密码，禁止 root 直接 SSH 远程登录，按最小权限分配 sudo。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-emerald'>权</span>\n    <div class='sa-content'><b class='sa-title'>权限控制</b>：<span class='sa-desc'>核心配置文件严格限制读写权限，必要时启用 SELinux。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-emerald'>网</span>\n    <div class='sa-content'><b class='sa-title'>网络防御</b>：<span class='sa-desc'>开启 firewalld/iptables，关闭不必要端口和服务，优先使用 SSH。</span></div>\n  </div>\n</div>"
+            },
+            {
+                "title": "12 内核、Shell 与发行版",
+                "q": "内核、Shell、发行版常考点怎么背？",
+                "tip": "<b>记忆口诀：【内核管资源，Shell接用户】</b>",
+                "a": "<div class='sa-list'>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-emerald'>内核</span>\n    <div class='sa-content'><b class='sa-title'>Kernel</b>：<span class='sa-desc'>负责进程调度、内存管理、文件系统、设备驱动等核心功能。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-emerald'>Shell</span>\n    <div class='sa-content'><b class='sa-title'>Shell</b>：<span class='sa-desc'>命令解释器，是用户和内核之间的接口或桥梁，不是内核的一部分。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-emerald'>bash</span>\n    <div class='sa-content'><b class='sa-title'>bash</b>：<span class='sa-desc'>常见默认命令行解释器。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-emerald'>欧拉</span>\n    <div class='sa-content'><b class='sa-title'>openEuler</b>：<span class='sa-desc'>国产开源 Linux 发行版，华为主导并由社区共建。</span></div>\n  </div>\n</div>"
+            },
+            {
+                "title": "13 用户账号文件",
+                "q": "/etc/passwd 和 /etc/shadow 有什么区别？",
+                "tip": "<b>记忆口诀：【passwd明信息，shadow藏密码】</b>",
+                "a": "<div class='sa-list'>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-emerald'>pass</span>\n    <div class='sa-content'><b class='sa-title'>/etc/passwd</b>：<span class='sa-desc'>保存用户基本信息，如用户名、UID、GID、主目录、登录 Shell；不保存真实密码。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-emerald'>shadow</span>\n    <div class='sa-content'><b class='sa-title'>/etc/shadow</b>：<span class='sa-desc'>保存加密后的密码哈希和密码有效期等敏感信息，普通用户不可读。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-emerald'>root</span>\n    <div class='sa-content'><b class='sa-title'>root UID</b>：<span class='sa-desc'>超级管理员 <code>root</code> 的 UID 永远是 <code>0</code>。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-emerald'>系统</span>\n    <div class='sa-content'><b class='sa-title'>系统用户</b>：<span class='sa-desc'>常用于运行后台服务，通常禁止登录。</span></div>\n  </div>\n</div>"
+            },
+            {
+                "title": "14 挂载与文件系统",
+                "q": "mount、umount、ext4、NFS 怎么区分？",
+                "tip": "<b>记忆口诀：【mount挂载，umount卸载】</b>",
+                "a": "<div class='sa-list'>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-emerald'>mount</span>\n    <div class='sa-content'><b class='sa-title'>挂载</b>：<span class='sa-desc'><code>mount</code> 用于把设备或文件系统接入 Linux 目录树。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-emerald'>umount</span>\n    <div class='sa-content'><b class='sa-title'>卸载</b>：<span class='sa-desc'><code>umount</code> 用于卸载，拼写没有字母 n。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-emerald'>ext4</span>\n    <div class='sa-content'><b class='sa-title'>ext4</b>：<span class='sa-desc'>常见本地 Linux 文件系统。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-emerald'>NFS</span>\n    <div class='sa-content'><b class='sa-title'>NFS</b>：<span class='sa-desc'>Network File System，网络文件系统。</span></div>\n  </div>\n</div>"
+            },
+            {
+                "title": "15 软件包体系",
+                "q": "rpm/deb/yum/dnf/apt 分别属于什么体系？",
+                "tip": "<b>记忆口诀：【红帽rpm，德乌deb】</b>",
+                "a": "<div class='sa-list'>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-emerald'>rpm</span>\n    <div class='sa-content'><b class='sa-title'>RPM 体系</b>：<span class='sa-desc'>RedHat、CentOS、openEuler 常见包格式是 <code>.rpm</code>。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-emerald'>dnf</span>\n    <div class='sa-content'><b class='sa-title'>yum/dnf</b>：<span class='sa-desc'>RPM 体系常用高级包管理工具；openEuler/RHEL 新版本常用 dnf。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-emerald'>deb</span>\n    <div class='sa-content'><b class='sa-title'>DEB 体系</b>：<span class='sa-desc'>Debian、Ubuntu 常见包格式是 <code>.deb</code>。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-emerald'>apt</span>\n    <div class='sa-content'><b class='sa-title'>apt/apt-get</b>：<span class='sa-desc'>Debian/Ubuntu 体系常用高级包管理工具。</span></div>\n  </div>\n</div>"
+            },
+            {
+                "title": "16 RAID 高频区别",
+                "q": "RAID 0 和 RAID 1 的优缺点是什么？",
+                "tip": "<b>记忆口诀：【0提速无备份，1镜像保安全】</b>",
+                "a": "<div class='sa-list'>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-emerald'>R0</span>\n    <div class='sa-content'><b class='sa-title'>RAID 0</b>：<span class='sa-desc'>条带化，读写快，但无冗余，任一磁盘损坏都可能导致数据丢失。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-emerald'>R1</span>\n    <div class='sa-content'><b class='sa-title'>RAID 1</b>：<span class='sa-desc'>镜像备份，安全性高，但磁盘利用率通常只有 50%。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-emerald'>坑</span>\n    <div class='sa-content'><b class='sa-title'>高频坑</b>：<span class='sa-desc'>“RAID 0 最安全”是错误的。</span></div>\n  </div>\n</div>"
+            },
+            {
+                "title": "17 命令实操速查",
+                "q": "这些命令题需要能自己写出来。",
+                "tip": "<b>记忆口诀：【需求到命令，参数要会说】</b>",
+                "a": "<div class='sa-list'>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-emerald'>详</span>\n    <div class='sa-content'><b class='sa-title'>显示所有文件详细信息</b>：<span class='sa-desc'><code>ls -la</code></span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-emerald'>建</span>\n    <div class='sa-content'><b class='sa-title'>递归创建多层目录</b>：<span class='sa-desc'><code>mkdir -p /data/log/server</code></span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-emerald'>复</span>\n    <div class='sa-content'><b class='sa-title'>复制文件到目录</b>：<span class='sa-desc'><code>cp file.txt /tmp/backup/</code></span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-emerald'>移</span>\n    <div class='sa-content'><b class='sa-title'>移动日志文件</b>：<span class='sa-desc'><code>mv /home/*.log /tmp/</code></span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-emerald'>删</span>\n    <div class='sa-content'><b class='sa-title'>递归强制删除目录</b>：<span class='sa-desc'><code>rm -rf /test</code></span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-emerald'>尾</span>\n    <div class='sa-content'><b class='sa-title'>查看日志最后15行</b>：<span class='sa-desc'><code>tail -n 15 /var/log/messages</code></span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-emerald'>跟</span>\n    <div class='sa-content'><b class='sa-title'>实时追踪日志</b>：<span class='sa-desc'><code>tail -f /var/log/messages</code></span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-emerald'>搜</span>\n    <div class='sa-content'><b class='sa-title'>查找包含 Listen 的行</b>：<span class='sa-desc'><code>grep &quot;Listen&quot; app.conf</code></span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-emerald'>数</span>\n    <div class='sa-content'><b class='sa-title'>统计 passwd 行数</b>：<span class='sa-desc'><code>wc -l /etc/passwd</code></span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-emerald'>权</span>\n    <div class='sa-content'><b class='sa-title'>设置 744 权限</b>：<span class='sa-desc'><code>chmod 744 run.sh</code></span></div>\n  </div>\n</div>"
+            },
+            {
+                "title": "18 Shell 模板：检测目录",
+                "q": "写出检测目录是否存在并列出内容的脚本。",
+                "tip": "<b>记忆口诀：【读入目录，-d判断】</b>",
+                "a": "<pre><code class=\"language-bash\">#!/bin/bash\nread -p &quot;请输入要检测的目录路径: &quot; dir_path\nif [ -d &quot;$dir_path&quot; ]; then\n    echo &quot;目录存在，文件有：&quot;\n    ls &quot;$dir_path&quot;\nelse\n    echo &quot;提示：该目录不存在！&quot;\nfi</code></pre><p><b>易错点：</b>变量加双引号，目录判断用 <code>-d</code>。</p>"
+            },
+            {
+                "title": "19 Shell 模板：检查文件",
+                "q": "写出检查文件是否存在并显示内容的脚本。",
+                "tip": "<b>记忆口诀：【文件存在用-f，内容交给cat】</b>",
+                "a": "<pre><code class=\"language-bash\">#!/bin/bash\nread -p &quot;请输入文件名字: &quot; file_name\nif [ -f &quot;$file_name&quot; ]; then\n    echo &quot;文件存在，内容如下：&quot;\n    cat &quot;$file_name&quot;\nelse\n    echo &quot;文件不存在&quot;\nfi</code></pre><p><b>易错点：</b>普通文件判断用 <code>-f</code>，不是 <code>-d</code>。</p>"
+            },
+            {
+                "title": "20 Shell 模板：1 到 20 求和",
+                "q": "写出计算 1 到 20 整数和的脚本。",
+                "tip": "<b>记忆口诀：【sum初值零，循环累加】</b>",
+                "a": "<pre><code class=\"language-bash\">#!/bin/bash\nsum=0\nfor (( i=1; i&lt;=20; i++ ))\ndo\n    sum=$((sum + i))\ndone\necho &quot;1~20的整数和为: $sum&quot;</code></pre><p><b>易错点：</b>算术运算用 <code>$((...))</code>，循环边界是 <code>i&lt;=20</code>。</p>"
+            },
+            {
+                "title": "21 Shell 模板：奇数和",
+                "q": "写出计算 1 到 20 之间奇数和的脚本。",
+                "tip": "<b>记忆口诀：【步长为二，只加奇数】</b>",
+                "a": "<pre><code class=\"language-bash\">#!/bin/bash\nsum=0\nfor (( i=1; i&lt;=20; i+=2 ))\ndo\n    sum=$((sum + i))\ndone\necho &quot;1~20之间的奇数和为: $sum&quot;</code></pre><p><b>易错点：</b>最直接写法是 <code>i+=2</code>，从 1 开始。</p>"
+            },
+            {
+                "title": "22 考前易错点总表",
+                "q": "考前最后 10 分钟最该看哪些坑？",
+                "tip": "<b>记忆口诀：【反着问最容易丢分】</b>",
+                "a": "<div class='sa-list'>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-emerald'>sed</span>\n    <div class='sa-content'><b class='sa-title'>sed 默认不改原文件</b>：<span class='sa-desc'>只有加 <code>-i</code> 才会直接修改原文件。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-emerald'>链</span>\n    <div class='sa-content'><b class='sa-title'>软硬链接别写反</b>：<span class='sa-desc'>软链接可跨文件系统，硬链接不可跨文件系统。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-emerald'>账</span>\n    <div class='sa-content'><b class='sa-title'>passwd 不存真实密码</b>：<span class='sa-desc'>真实密码哈希在 /etc/shadow。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-emerald'>远</span>\n    <div class='sa-content'><b class='sa-title'>SSH 比 Telnet 安全</b>：<span class='sa-desc'>SSH 加密传输，Telnet 明文传输。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-emerald'>卸</span>\n    <div class='sa-content'><b class='sa-title'>umount 拼写</b>：<span class='sa-desc'>卸载命令是 umount，不是 unmount。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-emerald'>盘</span>\n    <div class='sa-content'><b class='sa-title'>Linux 无 C/D 盘</b>：<span class='sa-desc'>Linux 是从 / 开始的单根目录树。</span></div>\n  </div>\n</div>"
             }
         ]
     }
@@ -1922,11 +1933,12 @@ const siteData = [
         items: [
             {
                 id: "linux_course",
-                title: "Linux基础",
-                subtitle: "选择与简答双轨通关",
+                title: "Linux期末复习",
+                subtitle: "讲义、题库、速背三轨通关",
                 themeColor: "emerald",
                 type: "course",
                 examTime: "2026-06-24T16:10:00+08:00",
+                lecture: appData.linux_review,
                 quiz: appData.linux_quiz,
                 flashcard: appData.linux_short_answers
             },
