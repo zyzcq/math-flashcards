@@ -420,12 +420,13 @@ function getUpcomingExam(categories) {
 }
 
 function renderExamAlertCard(closestExam, minDiff) {
-    const diffDays = Math.floor(minDiff / (1000 * 60 * 60 * 24));
+    const oneDayMs = 1000 * 60 * 60 * 24;
     let timeText = '';
-    if (diffDays === 0) {
+    if (minDiff < oneDayMs) {
         const diffHours = Math.floor(minDiff / (1000 * 60 * 60));
         timeText = diffHours > 0 ? `剩 ${diffHours} 小时` : "即将开考";
     } else {
+        const diffDays = Math.ceil(minDiff / oneDayMs);
         timeText = `剩 ${diffDays} 天`;
     }
 
