@@ -1,2 +1,7 @@
 # Local cloned repositories
 tailwindcss-typography/
+
+# Skills and Agent settings (do not push to github)
+skills/
+.agents/
+node_modules/
