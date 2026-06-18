@@ -777,7 +777,7 @@
     border: 1px solid var(--border-color);
     border-radius: 16px;
     width: 92%;
-    max-width: 580px;
+    max-width: 640px; /* 扩展宽度以防在窄屏下挤压换行 */
     padding: 24px;
     box-shadow: 0 24px 48px rgba(0, 0, 0, 0.18);
     transform: scale(0.95) translateY(10px);
@@ -801,7 +801,7 @@
 
 .modal-header h3 {
     margin: 0;
-    font-size: 1.2rem;
+    font-size: 1.25rem;
     color: var(--text-main);
     font-weight: 700;
     display: flex;
@@ -832,20 +832,21 @@
 .exam-table {
     width: 100%;
     border-collapse: collapse;
-    font-size: 0.85rem;
+    font-size: 0.88rem;
     text-align: left;
 }
 
 .exam-table th, .exam-table td {
-    padding: 12px 14px;
+    padding: 14px 12px; /* 增加行距，展现舒缓高级感 */
     border-bottom: 1px solid var(--border-color);
 }
 
 .exam-table th {
     color: var(--text-weak);
     font-weight: 600;
-    background: rgba(0, 0, 0, 0.015);
+    background: rgba(0, 0, 0, 0.01);
     white-space: nowrap;
+    border-bottom: 2px solid var(--border-color); /* 表头双像素边框，增强层次感 */
 }
 
 [data-theme="dark"] .exam-table th {
@@ -856,12 +857,21 @@
     color: var(--text-main);
 }
 
+.exam-table td.exam-date-td,
+.exam-table td.exam-time-td {
+    white-space: nowrap; /* 绝对禁止日期和时间折行 */
+}
+
+.exam-table td.exam-date-td {
+    font-weight: 600;
+}
+
 .exam-table tr:last-child td {
     border-bottom: none;
 }
 
 .exam-table tr:hover {
-    background: rgba(0, 0, 0, 0.01);
+    background: rgba(0, 0, 0, 0.008);
 }
 
 [data-theme="dark"] .exam-table tr:hover {
@@ -873,15 +883,33 @@
     color: var(--text-main);
 }
 
-.exam-table .exam-status-td {
-    font-size: 0.8rem;
+/* 状态徽章设计 (Rich Aesthetics) */
+.status-badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 0.78rem;
     font-weight: 500;
-    color: var(--theme-accent);
+    white-space: nowrap;
 }
 
-.exam-table .exam-status-td:empty::before {
-    content: "—";
+.status-badge.status-unlinked {
+    background-color: var(--bg-hover-item);
     color: var(--text-weak);
+    border: 1px solid var(--border-color);
+}
+
+.status-badge.status-linked {
+    background-color: rgba(16, 185, 129, 0.08);
+    color: #10b981;
+    border: 1px solid rgba(16, 185, 129, 0.15);
+}
+
+[data-theme="dark"] .status-badge.status-linked {
+    background-color: rgba(52, 211, 153, 0.1);
+    color: #34d399;
+    border-color: rgba(52, 211, 153, 0.2);
 }
 
 /* 查看全部考试日程按钮 (考试提醒卡片内) */

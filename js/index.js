@@ -422,14 +422,21 @@ function initExamModal() {
     modalOverlay.id = 'exam-schedule-modal';
     modalOverlay.className = 'modal-overlay';
     
-    const scheduleRows = (window.EXAM_SCHEDULE || []).map(item => `
-        <tr>
-            <td>${escapeHtml(item.date)}</td>
-            <td>${escapeHtml(item.time)}</td>
-            <td class="exam-subject-td">${escapeHtml(item.subject)}</td>
-            <td class="exam-status-td">${escapeHtml(item.status)}</td>
-        </tr>
-    `).join('');
+    const scheduleRows = (window.EXAM_SCHEDULE || []).map(item => {
+        const isLinked = item.status && item.status.startsWith('对应');
+        const statusHtml = isLinked 
+            ? `<span class="status-badge status-linked">${escapeHtml(item.status)}</span>`
+            : `<span class="status-badge status-unlinked">未关联</span>`;
+            
+        return `
+            <tr>
+                <td class="exam-date-td">${escapeHtml(item.date)}</td>
+                <td class="exam-time-td">${escapeHtml(item.time)}</td>
+                <td class="exam-subject-td">${escapeHtml(item.subject)}</td>
+                <td>${statusHtml}</td>
+            </tr>
+        `;
+    }).join('');
 
     modalOverlay.innerHTML = `
         <div class="exam-modal-content" role="dialog" aria-modal="true" aria-labelledby="modal-title">
