@@ -1,39 +1,424 @@
 <!DOCTYPE html>
-<html lang="zh-CN"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"><title>Linux 期末完整复习讲义</title><link rel="stylesheet" href="../css/common.css"><style>
-body{margin:0;background:var(--bg-app);color:var(--text-main)}.review-shell{width:min(1080px,calc(100% - 32px));margin:0 auto;padding:22px 0 56px}.review-topbar{position:sticky;top:0;z-index:20;backdrop-filter:blur(16px);background:color-mix(in srgb,var(--bg-app) 84%,transparent);border-bottom:1px solid var(--border-color)}.review-topbar__inner{width:min(1080px,calc(100% - 32px));min-height:56px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:14px}.review-topbar a{color:var(--text-weak);text-decoration:none;font-weight:700;font-size:.86rem}.review-title{padding:26px 0 12px}.review-title h1{margin:0 0 8px;font-size:clamp(1.8rem,4vw,3rem);letter-spacing:0}.review-title p{margin:0;color:var(--text-weak);line-height:1.7}.review-nav{display:flex;gap:8px;overflow-x:auto;padding:12px 0 18px}.review-nav a{flex:0 0 auto;border:1px solid var(--border-color);border-radius:8px;padding:8px 10px;color:var(--text-weak);background:var(--bg-card);text-decoration:none;font-size:.82rem;font-weight:700}.review-section{padding:24px 0;border-top:1px solid var(--border-color)}.review-section h2{margin:0 0 14px;font-size:1.42rem}.review-section h3{margin:20px 0 10px;font-size:1.05rem}p,li{line-height:1.8}table{width:100%;border-collapse:collapse;background:var(--bg-card);border:1px solid var(--border-color);border-radius:8px;overflow:hidden;display:block;overflow-x:auto}thead{background:rgba(84,132,96,.08)}th,td{padding:11px 12px;border-bottom:1px solid var(--border-color);text-align:left;line-height:1.65;vertical-align:top;white-space:nowrap}td:last-child,th:last-child{white-space:normal}code{color:var(--highlight-text);background:var(--highlight-bg);padding:.13rem .34rem;border-radius:5px;font-weight:700}pre{overflow-x:auto;background:#171a1f;color:#f4f7f4;padding:16px;border-radius:8px;line-height:1.65}pre code{color:inherit;background:transparent;padding:0;font-weight:500}.route-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin-top:16px}.route-grid span,.fact-list p{background:var(--bg-card);border:1px solid var(--border-color);border-radius:8px;padding:12px}.fact-list{display:grid;gap:10px}.check-list{background:var(--bg-card);border:1px solid var(--border-color);border-radius:8px;padding:18px 22px 18px 36px}@media(max-width:640px){.review-topbar__inner{align-items:flex-start;flex-direction:column;padding:10px 0}th,td{white-space:normal}}
-</style><script>document.documentElement.setAttribute('data-theme',localStorage.getItem('theme')||'light');</script></head><body><header class="review-topbar"><div class="review-topbar__inner"><a href="../index.html">返回首页</a><a href="linux_quiz.html?v=2.0">进入自测题库</a></div></header><main class="review-shell"><section class="review-title"><h1>Linux 期末完整复习讲义</h1><p>按期末题型整理：概念辨析、简答背诵、命令实操、Shell 模板和易错点。目标很朴素：能判断、能填空、能写命令、能默脚本。</p></section><nav class="review-nav" aria-label="复习目录"><a href="#s1">考试范围与复习路线</a><a href="#s2">系统基础高频点</a><a href="#s3">目录结构速记</a><a href="#s4">用户、组与账号文件</a><a href="#s5">权限与链接</a><a href="#s6">文本处理三剑客</a><a href="#s7">进程、网络、挂载与包管理</a><a href="#s8">命令实操速查表</a><a href="#s9">Shell 脚本模板</a><a href="#s10">考前 30 分钟清单</a></nav><section class="review-section" id="s1"><h2>1. 考试范围与复习路线</h2><p>这份资料按期末常见题型组织：判断/选择靠概念辨析，填空靠关键词，命令题靠自己写，Shell 题靠模板默写。复习顺序建议：先通读讲义，再刷自测，最后背闪卡里的脚本模板。</p><div class="route-grid"><span>1. 系统基础</span><span>2. 用户权限</span><span>3. 文件与目录</span><span>4. 命令工具</span><span>5. 进程网络</span><span>6. Shell脚本</span></div></section>
-<section class="review-section" id="s2"><h2>2. 系统基础高频点</h2><table><thead><tr><th>考点</th><th>标准记忆</th><th>易错提醒</th></tr></thead><tbody><tr><td>Linux 特点</td><td>免费开源、多用户、多任务、稳定安全、可移植性强</td><td>“只能服务器用”是错的</td></tr><tr><td>内核</td><td>负责进程调度、内存管理、文件系统、设备驱动</td><td>Shell 不是内核</td></tr><tr><td>Shell</td><td>命令解释器，用户与内核之间的桥梁</td><td>脚本解释执行，不需要编译</td></tr><tr><td>openEuler</td><td>国产开源 Linux 发行版，华为主导</td><td>属于 Linux 发行版</td></tr><tr><td>默认 Shell</td><td>常见为 bash</td><td>不要写成 cmd</td></tr></tbody></table></section>
-<section class="review-section" id="s3"><h2>3. 目录结构速记</h2><div class="fact-list"><p><b>/etc</b>：系统配置文件，如账号、网络、服务配置。</p><p><b>/home</b>：普通用户主目录。</p><p><b>/var</b>：经常变化的数据，如 <code>/var/log</code> 日志。</p><p><b>/dev</b>：设备文件目录，体现“一切皆文件”。</p><p><b>总结构</b>：Linux 没有 C/D 盘，是从 <code>/</code> 开始的单根树状目录，文件名区分大小写。</p></div></section>
-<section class="review-section" id="s4"><h2>4. 用户、组与账号文件</h2><table><thead><tr><th>项目</th><th>答案</th></tr></thead><tbody><tr><td>root UID</td><td><code>0</code></td></tr><tr><td>/etc/passwd</td><td>保存用户基本信息，不保存真实密码</td></tr><tr><td>/etc/shadow</td><td>保存加密后的密码哈希和密码策略</td></tr><tr><td>用户与组</td><td>一个用户有一个主组，可以有多个附加组；一个组可包含多个用户</td></tr><tr><td>系统用户</td><td>常用于运行服务进程，通常禁止登录</td></tr></tbody></table></section>
-<section class="review-section" id="s5"><h2>5. 权限与链接</h2><h3>权限含义</h3><table><thead><tr><th>权限</th><th>对文件</th><th>对目录</th></tr></thead><tbody><tr><td>r</td><td>查看文件内容</td><td>列出目录文件名</td></tr><tr><td>w</td><td>修改文件内容</td><td>创建、删除、重命名目录内文件</td></tr><tr><td>x</td><td>作为程序/脚本执行</td><td>进入目录、访问下级路径</td></tr></tbody></table><h3>软硬链接</h3><p>软链接保存目标路径，类似快捷方式，可跨文件系统，可指向目录；硬链接共享 inode，是原文件别名，不能跨文件系统，通常不能指向目录。删除原文件后，软链接失效，硬链接不受影响。</p></section>
-<section class="review-section" id="s6"><h2>6. 文本处理三剑客</h2><div class="fact-list"><p><b>grep</b>：搜索过滤文本行，例如 <code>grep "Listen" app.conf</code>。</p><p><b>sed</b>：流编辑器，按行替换/删除/新增；默认不改原文件，加 <code>-i</code> 才原地修改。</p><p><b>awk</b>：按列提取、统计、格式化输出，适合处理表格化文本。</p><p><b>cut</b>：简单列截取，常作为 awk 的轻量替代。</p></div></section>
-<section class="review-section" id="s7"><h2>7. 进程、网络、挂载与包管理</h2><table><thead><tr><th>考点</th><th>结论</th></tr></thead><tbody><tr><td>程序 vs 进程</td><td>程序静态，进程动态，是程序的一次执行</td></tr><tr><td>查看进程</td><td><code>ps -ef</code>、<code>top</code></td></tr><tr><td>杀死进程</td><td><code>kill PID</code>，强制用 <code>kill -9 PID</code></td></tr><tr><td>远程登录</td><td>SSH 加密安全，Telnet 明文不安全</td></tr><tr><td>挂载/卸载</td><td><code>mount</code> 挂载，<code>umount</code> 卸载</td></tr><tr><td>包管理</td><td>RPM 体系用 <code>.rpm</code>、<code>yum/dnf</code>；Debian 体系用 <code>.deb</code>、<code>apt</code></td></tr><tr><td>RAID</td><td>RAID0 提速无冗余；RAID1 镜像安全但利用率低</td></tr></tbody></table></section>
-<section class="review-section" id="s8"><h2>8. 命令实操速查表</h2><table><thead><tr><th>需求</th><th>命令</th><th>考点</th></tr></thead><tbody><tr><td>显示所有文件详细信息</td><td><code>ls -la</code></td><td><code>-l</code> 详细，<code>-a</code> 隐藏</td></tr><tr><td>递归创建目录</td><td><code>mkdir -p /data/log/server</code></td><td><code>-p</code> 创建父目录</td></tr><tr><td>复制文件</td><td><code>cp file.txt /tmp/backup/</code></td><td>cp copy</td></tr><tr><td>移动日志</td><td><code>mv /home/*.log /tmp/</code></td><td><code>*</code> 通配</td></tr><tr><td>递归强删</td><td><code>rm -rf /test</code></td><td>危险命令，考试会写，实际慎用</td></tr><tr><td>查看最后 15 行</td><td><code>tail -n 15 /var/log/messages</code></td><td><code>-n</code> 指定行数</td></tr><tr><td>实时看日志</td><td><code>tail -f /var/log/messages</code></td><td><code>-f</code> follow</td></tr><tr><td>查 Listen</td><td><code>grep "Listen" app.conf</code></td><td>grep 搜索</td></tr><tr><td>统计行数</td><td><code>wc -l /etc/passwd</code></td><td><code>-l</code> lines</td></tr><tr><td>设置 744</td><td><code>chmod 744 run.sh</code></td><td>rwx=7，r--=4</td></tr></tbody></table></section>
-<section class="review-section" id="s9"><h2>9. Shell 脚本模板</h2><h3>检测目录</h3><pre><code class="language-bash">#!/bin/bash
-read -p &quot;请输入要检测的目录路径: &quot; dir_path
-if [ -d &quot;$dir_path&quot; ]; then
-    echo &quot;目录存在，文件有：&quot;
-    ls &quot;$dir_path&quot;
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>Linux 期末完整复习讲义 (极速提分版)</title>
+    <link rel="stylesheet" href="../css/common.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --emerald-50: #ecfdf5;
+            --emerald-100: #d1fae5;
+            --emerald-500: #10b981;
+            --emerald-600: #059669;
+            --emerald-700: #047857;
+            --rose-50: #fff1f2;
+            --rose-500: #f43f5e;
+            --sky-50: #f0f9ff;
+            --sky-500: #0ea5e9;
+        }
+        [data-theme="dark"] {
+            --emerald-50: rgba(16, 185, 129, 0.1);
+            --emerald-100: rgba(16, 185, 129, 0.2);
+            --emerald-500: #34d399;
+            --emerald-600: #10b981;
+            --emerald-700: #059669;
+            --rose-50: rgba(244, 63, 94, 0.1);
+            --rose-500: #fb7185;
+            --sky-50: rgba(14, 165, 233, 0.1);
+            --sky-500: #38bdf8;
+        }
+        body { margin: 0; background: var(--bg-app); color: var(--text-main); line-height: 1.6; }
+        .review-container { width: min(1080px, calc(100% - 32px)); margin: 0 auto; padding: 20px 0; padding-bottom: 80px; }
+        
+        /* Header */
+        .header-card { background: var(--bg-card); border-radius: 16px; padding: 35px 20px; text-align: center; box-shadow: var(--list-item-shadow); border: 1px solid var(--border-color); margin-bottom: 30px; position: relative; overflow: hidden; }
+        .header-card::before { content: ""; position: absolute; top: 0; left: 0; width: 100%; height: 6px; background: linear-gradient(90deg, var(--emerald-500), var(--sky-500)); }
+        .title { font-size: clamp(1.8rem, 4vw, 2.5rem); font-weight: 800; margin: 0 0 12px 0; color: var(--text-main); letter-spacing: -0.5px; }
+        .subtitle { color: var(--text-weak); font-size: 1.05rem; margin: 0; font-weight: 500; }
+        
+        /* Nav */
+        .toc-nav { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 35px; justify-content: center; }
+        .toc-nav a { padding: 8px 16px; background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 20px; color: var(--text-main); text-decoration: none; font-weight: 600; font-size: 0.9rem; transition: all 0.2s; box-shadow: 0 2px 4px rgba(31,27,24,0.02); }
+        .toc-nav a:hover { background: var(--emerald-50); color: var(--emerald-600); border-color: var(--emerald-100); transform: translateY(-2px); box-shadow: 0 4px 8px rgba(31,27,24,0.04); }
+        
+        /* Section styling */
+        .section-card { background: var(--bg-card); border-radius: 16px; padding: 28px; margin-bottom: 28px; box-shadow: var(--list-item-shadow); border: 1px solid var(--border-color); }
+        .section-header { display: flex; align-items: center; gap: 14px; margin-bottom: 22px; border-bottom: 2px solid var(--emerald-50); padding-bottom: 16px; }
+        .section-icon { display: flex; align-items: center; justify-content: center; width: 44px; height: 44px; border-radius: 12px; background: var(--emerald-50); color: var(--emerald-600); font-size: 1.3rem; flex-shrink: 0; }
+        .section-card h2 { margin: 0; font-size: 1.45rem; color: var(--text-main); font-weight: 800; }
+        .section-card h3 { margin: 24px 0 12px 0; font-size: 1.15rem; font-weight: 700; color: var(--text-main); display: flex; align-items: center; gap: 8px; }
+        .section-card h3 i { color: var(--text-weak); font-size: 1rem; }
+        
+        /* Mnemonic Box */
+        .mnemonic-box { background: linear-gradient(135deg, var(--emerald-50), var(--sky-50)); border: 1px solid var(--emerald-100); border-radius: 12px; padding: 18px 22px; margin-bottom: 22px; display: flex; gap: 16px; align-items: flex-start; }
+        .mnemonic-icon { font-size: 1.6rem; margin-top: 2px; }
+        .mnemonic-content h4 { margin: 0 0 6px 0; color: var(--emerald-700); font-size: 0.95rem; text-transform: uppercase; letter-spacing: 1px; }
+        .mnemonic-text { font-size: 1.15rem; font-weight: 800; color: var(--text-main); letter-spacing: 0.5px; margin: 0; line-height: 1.4; }
+        
+        /* Grid/Lists */
+        .concept-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; }
+        .concept-item { border: 1px solid var(--border-color); border-radius: 12px; padding: 18px; transition: transform 0.2s, box-shadow 0.2s; background: var(--bg-card); }
+        .concept-item:hover { transform: translateY(-2px); border-color: var(--emerald-100); box-shadow: 0 6px 16px rgba(31,27,24,0.04); }
+        .concept-title { font-weight: 800; color: var(--emerald-600); margin-bottom: 10px; display: flex; align-items: center; gap: 8px; font-size: 1.05rem; }
+        .concept-desc { margin: 0; color: var(--text-main); font-size: 0.95rem; line-height: 1.6; }
+        
+        /* Tables */
+        .table-wrapper { overflow-x: auto; margin-top: 14px; border-radius: 12px; border: 1px solid var(--border-color); }
+        table { width: 100%; border-collapse: collapse; min-width: 600px; }
+        th, td { padding: 14px 16px; text-align: left; border-bottom: 1px solid var(--border-color); line-height: 1.5; }
+        th { background: rgba(16, 185, 129, 0.05); font-weight: 700; color: var(--text-main); white-space: nowrap; }
+        tr:last-child td { border-bottom: none; }
+        
+        /* Warning Box */
+        .warning-box { background: var(--rose-50); border-left: 4px solid var(--rose-500); padding: 14px 18px; border-radius: 0 10px 10px 0; margin-top: 20px; font-size: 0.95rem; color: var(--text-main); display: flex; gap: 12px; align-items: flex-start; }
+        .warning-box i { color: var(--rose-500); margin-top: 3px; font-size: 1.1rem; }
+        .warning-box div { flex: 1; line-height: 1.6; }
+        
+        /* Code blocks */
+        pre { background: #1A1B1E; color: #E4E5E7; padding: 18px; border-radius: 12px; overflow-x: auto; font-family: 'Consolas', 'Monaco', monospace; font-size: 0.95rem; line-height: 1.6; border: 1px solid rgba(0,0,0,0.1); }
+        code { font-family: 'Consolas', 'Monaco', monospace; background: var(--highlight-bg); color: var(--highlight-text); padding: 2px 6px; border-radius: 5px; font-weight: 700; font-size: 0.9em; }
+        pre code { background: none; color: inherit; padding: 0; font-weight: normal; font-size: 1em; }
+
+        /* Topbar */
+        .topbar { position: sticky; top: 0; z-index: 100; backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); background: color-mix(in srgb, var(--bg-app) 85%, transparent); border-bottom: 1px solid var(--border-color); padding: 14px 0; }
+        .topbar-inner { width: min(1080px, calc(100% - 32px)); margin: 0 auto; display: flex; justify-content: space-between; align-items: center; }
+        .topbar a { text-decoration: none; color: var(--text-weak); font-weight: 700; font-size: 0.9rem; display: flex; align-items: center; gap: 6px; transition: color 0.2s; }
+        .topbar a:hover { color: var(--emerald-600); }
+
+        @media (max-width: 640px) {
+            .section-card { padding: 20px 16px; }
+            .header-card { padding: 25px 16px; }
+        }
+    </style>
+</head>
+<body>
+    <header class="topbar">
+        <div class="topbar-inner">
+            <a href="../index.html"><i class="fa-solid fa-arrow-left"></i> 返回首页</a>
+            <a href="linux_quiz.html?v=2.0" style="color: var(--emerald-600);"><i class="fa-solid fa-pen-to-square"></i> 进入题库自测</a>
+        </div>
+    </header>
+
+    <main class="review-container">
+        <div class="header-card">
+            <h1 class="title">Linux 期末极速提分讲义</h1>
+            <p class="subtitle">记忆口诀法 × 核心考点梳理 × 易错避坑总结</p>
+        </div>
+
+        <nav class="toc-nav">
+            <a href="#s1">1. 基础与目录</a>
+            <a href="#s2">2. 用户与权限</a>
+            <a href="#s3">3. 链接与文本处理</a>
+            <a href="#s4">4. 进程与网络</a>
+            <a href="#s5">5. 存储与包管理</a>
+            <a href="#s6">6. 必考命令全集</a>
+            <a href="#s7">7. Shell脚本模板</a>
+        </nav>
+        
+        <!-- Section 1: 基础与目录 -->
+        <section class="section-card" id="s1">
+            <div class="section-header">
+                <div class="section-icon"><i class="fa-brands fa-linux"></i></div>
+                <h2>1. 系统基础与目录结构</h2>
+            </div>
+            
+            <div class="mnemonic-box">
+                <div class="mnemonic-icon">🧠</div>
+                <div class="mnemonic-content">
+                    <h4>特点与目录口诀</h4>
+                    <p class="mnemonic-text">开多稳移，配置家园，变化设备</p>
+                </div>
+            </div>
+
+            <div class="concept-grid">
+                <div class="concept-item">
+                    <div class="concept-title"><i class="fa-solid fa-star"></i> 四大特点 (开多稳移)</div>
+                    <p class="concept-desc"><b>开</b>源免费、<b>多</b>用户多任务、<b>稳</b>定安全、可<b>移</b>植性强。</p>
+                </div>
+                <div class="concept-item">
+                    <div class="concept-title"><i class="fa-solid fa-microchip"></i> 内核 (Kernel)</div>
+                    <p class="concept-desc">系统的核心，负责<b>进程调度、内存管理、文件系统、设备驱动</b>。</p>
+                </div>
+                <div class="concept-item">
+                    <div class="concept-title"><i class="fa-solid fa-terminal"></i> Shell</div>
+                    <p class="concept-desc">命令解释器，是<b>用户和内核之间的桥梁</b>。(注意：Shell 不是内核的一部分)</p>
+                </div>
+            </div>
+
+            <h3><i class="fa-solid fa-folder-open"></i> 核心目录 (单根目录树 <code>/</code>)</h3>
+            <div class="table-wrapper">
+                <table>
+                    <tr><th>目录</th><th>作用</th><th>说明记忆</th></tr>
+                    <tr><td><code>/etc</code></td><td>核心配置文件</td><td>配置 (etc=everything to configure)</td></tr>
+                    <tr><td><code>/home</code></td><td>普通用户主目录</td><td>家园 (注：超级管理员主目录在 <code>/root</code>)</td></tr>
+                    <tr><td><code>/var</code></td><td>变化的数据</td><td>变化 (var=variable)，如 <code>/var/log</code> 存放日志</td></tr>
+                    <tr><td><code>/dev</code></td><td>设备文件</td><td>设备 (dev=device)，体现Linux“一切皆文件”</td></tr>
+                </table>
+            </div>
+            
+            <div class="warning-box">
+                <i class="fa-solid fa-triangle-exclamation"></i>
+                <div><b>易错提醒：</b><br>1. Linux 是从 <code>/</code> 开始的单根树状目录，绝对没有 C盘、D盘的概念。<br>2. 文件名严格区分大小写。<br>3. openEuler 是国产开源发行版，归属于 Linux 发行版大家族。</div>
+            </div>
+        </section>
+
+        <!-- Section 2: 用户与权限 -->
+        <section class="section-card" id="s2">
+            <div class="section-header">
+                <div class="section-icon"><i class="fa-solid fa-user-shield"></i></div>
+                <h2>2. 用户、组与权限管理</h2>
+            </div>
+            
+            <div class="mnemonic-box">
+                <div class="mnemonic-icon">🧠</div>
+                <div class="mnemonic-content">
+                    <h4>账号与权限口诀</h4>
+                    <p class="mnemonic-text">passwd明信息，shadow藏密码；<br>文件读写跑，目录看改进</p>
+                </div>
+            </div>
+
+            <div class="concept-grid">
+                <div class="concept-item">
+                    <div class="concept-title"><i class="fa-solid fa-id-card"></i> 账号文件区别</div>
+                    <p class="concept-desc"><code>/etc/passwd</code> 保存基本信息(用户名, UID, 登录Shell等)，<b>绝对不存真实密码</b>。<br><code>/etc/shadow</code> 保存加密密码哈希，仅 root 可读，保护安全。</p>
+                </div>
+                <div class="concept-item">
+                    <div class="concept-title"><i class="fa-solid fa-users"></i> 主组与附加组</div>
+                    <p class="concept-desc">用户创建文件时默认归属<b>主组</b>(且必须有一个主组)，还可以加入多个<b>附加组</b>获取额外权限。<code>root</code> 的 UID 永远是 <code>0</code>。</p>
+                </div>
+            </div>
+
+            <h3><i class="fa-solid fa-key"></i> 权限位计算与含义 (重点)</h3>
+            <p>权限分三种：<code>r</code> (读) = 4, <code>w</code> (写) = 2, <code>x</code> (执行) = 1。没有权限就是 0 或 <code>-</code>。</p>
+            <div class="table-wrapper">
+                <table>
+                    <tr><th>权限组合</th><th>数字</th><th>对【文件】的含义</th><th>对【目录】的含义</th></tr>
+                    <tr><td><code>rwx</code></td><td>7 (4+2+1)</td><td>读写跑(执行)</td><td>看(ls)改(创建/删除)进(cd)</td></tr>
+                    <tr><td><code>rw-</code></td><td>6 (4+2)</td><td>读写，不能执行</td><td>能看能改，但<b>进不去</b>(缺x不能cd)</td></tr>
+                    <tr><td><code>r-x</code></td><td>5 (4+1)</td><td>只读和执行</td><td>能看能进，不能在目录里新建/删除</td></tr>
+                    <tr><td><code>r--</code></td><td>4 (4+0+0)</td><td>只读</td><td>只能列出文件名，看不了详情也进不去</td></tr>
+                </table>
+            </div>
+            <p style="margin-top: 10px;"><b>举一反三：</b>执行 <code>chmod 755 run.sh</code> 意为：所有者拥有 <code>rwx(7)</code>，所属组拥有 <code>r-x(5)</code>，其他人拥有 <code>r-x(5)</code>。</p>
+        </section>
+
+        <!-- Section 3: 文件与文本处理 -->
+        <section class="section-card" id="s3">
+            <div class="section-header">
+                <div class="section-icon"><i class="fa-solid fa-file-lines"></i></div>
+                <h2>3. 链接与文本三剑客</h2>
+            </div>
+            
+            <div class="mnemonic-box">
+                <div class="mnemonic-icon">🧠</div>
+                <div class="mnemonic-content">
+                    <h4>链接与文本口诀</h4>
+                    <p class="mnemonic-text">软路硬号，跨区看软；搜改列，三剑客</p>
+                </div>
+            </div>
+
+            <h3><i class="fa-solid fa-link"></i> 软硬链接高频对比</h3>
+            <div class="table-wrapper">
+                <table>
+                    <tr><th>特性</th><th>软链接 (Soft/Symbolic Link)</th><th>硬链接 (Hard Link)</th></tr>
+                    <tr><td><b>底层原理</b></td><td>保存目标路径的新文件 (快捷方式)</td><td>同一个文件内容的不同文件名 (同inode号)</td></tr>
+                    <tr><td><b>跨文件系统</b></td><td><span style="color:var(--emerald-600);font-weight:bold">可以跨越 (推荐)</span></td><td><span style="color:var(--rose-500);font-weight:bold">不可以</span></td></tr>
+                    <tr><td><b>指向目录</b></td><td>可以</td><td>通常不可以 (防止形成死循环)</td></tr>
+                    <tr><td><b>原文件被删</b></td><td>链接失效，红底闪烁 (变成死链接)</td><td>不受影响，依然可以访问数据内容</td></tr>
+                </table>
+            </div>
+
+            <h3><i class="fa-solid fa-wand-magic-sparkles"></i> 文本三剑客 (必考)</h3>
+            <div class="concept-grid">
+                <div class="concept-item">
+                    <div class="concept-title"><code>grep</code> (搜)</div>
+                    <p class="concept-desc">按关键字或正则表达式搜索过滤文本行。<br>例: <code>grep "Error" log.txt</code> 找报错行。</p>
+                </div>
+                <div class="concept-item">
+                    <div class="concept-title"><code>sed</code> (改)</div>
+                    <p class="concept-desc">流编辑器，非交互式按行替换/删除/新增。<br><b>坑：</b>默认不改原文件，加 <code>-i</code> 才原地修改！</p>
+                </div>
+                <div class="concept-item">
+                    <div class="concept-title"><code>awk</code> (列)</div>
+                    <p class="concept-desc">按指定分隔符分割字段，适合处理表格列数据。<br>例: 提取第一列 <code>awk '{print $1}'</code></p>
+                </div>
+            </div>
+            <p style="margin-top:12px;font-size:0.95rem;color:var(--text-weak)">补充知识：<code>find</code> 侧重于根据文件名、大小在磁盘找文件；<code>grep</code> 侧重于在文本<b>内容</b>中找字符串。</p>
+        </section>
+
+        <!-- Section 4: 进程与网络 -->
+        <section class="section-card" id="s4">
+            <div class="section-header">
+                <div class="section-icon"><i class="fa-solid fa-network-wired"></i></div>
+                <h2>4. 进程、网络与安全</h2>
+            </div>
+            
+            <div class="mnemonic-box">
+                <div class="mnemonic-icon">🧠</div>
+                <div class="mnemonic-content">
+                    <h4>进程与安全口诀</h4>
+                    <p class="mnemonic-text">程序静进程动，查PID，kill终止</p>
+                </div>
+            </div>
+
+            <div class="concept-grid">
+                <div class="concept-item">
+                    <div class="concept-title"><i class="fa-solid fa-microchip"></i> 进程基础管理</div>
+                    <p class="concept-desc">
+                        <b>程序</b>是磁盘上静态的代码，<b>进程</b>是内存中动态的运行实例。<br>
+                        查看：<code>ps -ef</code> (看全部快照), <code>top</code> (实时动态资源占用)<br>
+                        终止：<code>kill PID</code> (发终止信号), <code>kill -9 PID</code> (强杀)<br>
+                        挂起后台运行：命令末尾加 <code>&amp;</code>
+                    </p>
+                </div>
+                <div class="concept-item">
+                    <div class="concept-title"><i class="fa-solid fa-shield-halved"></i> 网络防御与安全</div>
+                    <p class="concept-desc">
+                        <b>系统安全三件套</b>：账号管理、权限控制、网络防御。<br>
+                        <b>远程协议</b>：SSH 是加密安全传输，目前绝对主流；Telnet 是明文传输，极容易被抓包，不安全。<br>
+                        <b>看端口</b>：<code>netstat -tulnp</code> 或 <code>ss -tulnp</code> 查监听。
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 5: 存储与包管理 -->
+        <section class="section-card" id="s5">
+            <div class="section-header">
+                <div class="section-icon"><i class="fa-solid fa-hard-drive"></i></div>
+                <h2>5. 存储挂载、包管理与 RAID</h2>
+            </div>
+            
+            <h3><i class="fa-solid fa-server"></i> RAID 阵列常考对比</h3>
+            <p><b>记忆口诀：【0提速无备份，1镜像保安全】</b></p>
+            <div class="table-wrapper">
+                <table>
+                    <tr><th>类型</th><th>工作原理</th><th>优缺点与应用场景</th></tr>
+                    <tr><td><b>RAID 0</b></td><td>条带化 (Striping)</td><td>读写极快，但<b>无冗余</b>，坏一块盘数据全毁。适合缓存、草稿盘。</td></tr>
+                    <tr><td><b>RAID 1</b></td><td>镜像备份 (Mirroring)</td><td>安全性极高，但空间利用率仅 <b>50%</b>，成本高。适合系统盘、核心数据。</td></tr>
+                </table>
+            </div>
+            
+            <div class="concept-grid" style="margin-top: 20px;">
+                <div class="concept-item">
+                    <div class="concept-title"><i class="fa-solid fa-usb"></i> 磁盘挂载 (Mount)</div>
+                    <p class="concept-desc">Linux必须把设备挂载到目录树节点才能访问。<br>挂载：<code>mount /dev/sdb1 /data</code><br>卸载：<code>umount /data</code> (注意拼写没有字母n!)<br>常见文件系统：<code>ext4</code> (本地系统), <code>NFS</code> (网络共享系统)。</p>
+                </div>
+                <div class="concept-item">
+                    <div class="concept-title"><i class="fa-solid fa-box-open"></i> 两大软件包体系</div>
+                    <p class="concept-desc"><b>红帽系 (CentOS/openEuler/RHEL):</b><br>底层包格式为 <code>.rpm</code>，高级依赖管理工具为 <code>yum</code> 或新一代 <code>dnf</code>。<br><b>Debian系 (Ubuntu/Kali):</b><br>底层包格式为 <code>.deb</code>，高级工具为 <code>apt</code> / <code>apt-get</code>。</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 6: 命令大全 -->
+        <section class="section-card" id="s6">
+            <div class="section-header">
+                <div class="section-icon"><i class="fa-solid fa-keyboard"></i></div>
+                <h2>6. 必写实操命令大全</h2>
+            </div>
+            <p style="color:var(--text-weak); font-size:0.95rem;">⚠️ 提示：期末简答或填空题通常要求直接手写命令，特别注意参数含义及空格。</p>
+            
+            <div class="table-wrapper">
+                <table>
+                    <tr><th>需求场景</th><th>满分命令写法</th><th>关键参数记忆法</th></tr>
+                    <tr><td>显示所有文件详细信息</td><td><code>ls -la</code></td><td><code>-l</code> (long)详细, <code>-a</code> (all)显示隐藏文件(点开头)</td></tr>
+                    <tr><td>递归创建多层嵌套目录</td><td><code>mkdir -p /data/log/web</code></td><td><code>-p</code> (parents) 父目录不存在时自动创建</td></tr>
+                    <tr><td>复制文件到指定目录</td><td><code>cp file1.txt /tmp/backup/</code></td><td><code>cp</code> 源文件 目标路径</td></tr>
+                    <tr><td>移动文件 / 重命名</td><td><code>mv a.txt b.txt</code></td><td><code>mv</code> 在同目录下即为重命名，不同目录即为移动</td></tr>
+                    <tr><td>递归强制删除目录</td><td><code>rm -rf /test</code></td><td><code>-r</code> (recursive)递归, <code>-f</code> (force)强制免确认，危险操作！</td></tr>
+                    <tr><td>查看日志文件最后 15 行</td><td><code>tail -n 15 /var/log/syslog</code></td><td><code>-n</code> (number) 指定查看的行数</td></tr>
+                    <tr><td>动态实时追踪日志刷出</td><td><code>tail -f /var/log/syslog</code></td><td><code>-f</code> (follow) 实时跟踪末尾变化，常用于查错</td></tr>
+                    <tr><td>打包并压缩成 tar.gz</td><td><code>tar -czvf app.tar.gz ./app</code></td><td><code>-c</code>(创建) <code>-z</code>(gzip压缩) <code>-v</code>(显示过程) <code>-f</code>(指定文件名)</td></tr>
+                    <tr><td>解压 tar.gz 压缩包</td><td><code>tar -xzvf app.tar.gz</code></td><td><code>-x</code>(解压 extract)，其余同上</td></tr>
+                    <tr><td>统计 passwd 文件有多少行</td><td><code>wc -l /etc/passwd</code></td><td><code>-l</code> (lines) 仅统计行数</td></tr>
+                    <tr><td>设置权限：所有者全权，其他读</td><td><code>chmod 744 run.sh</code></td><td>7(rwx), 4(r--), 4(r--)</td></tr>
+                </table>
+            </div>
+
+            <h3 style="margin-top: 25px;"><i class="fa-solid fa-pen"></i> Vim 编辑器核心快捷键 (高频考点)</h3>
+            <p style="color:var(--text-weak); font-size:0.95rem; margin-top:-5px;">Vim 有模式之分：打开默认是<b>命令模式</b>，按键被当作命令；按 <code>i</code> 等进入<b>插入模式</b>打字；任何时候按 <code>ESC</code> 回到命令模式。</p>
+            <div class="concept-grid">
+                <div class="concept-item">
+                    <div class="concept-title">切换进入插入模式</div>
+                    <p class="concept-desc"><code>i</code> : 在当前光标前插入。<br><code>o</code> : 在当前行下方新开一行插入。<br><code>a</code> : 在当前光标后追加。</p>
+                </div>
+                <div class="concept-item">
+                    <div class="concept-title">保存与退出 (需在命令模式)</div>
+                    <p class="concept-desc">输入 <code>:w</code> 保存，<code>:q</code> 退出。<br>输入 <code>:wq</code> 或 <code>:x</code> 保存并退出。<br>输入 <code>:q!</code> 强制退出且不保存修改。</p>
+                </div>
+                <div class="concept-item">
+                    <div class="concept-title">命令模式快捷编辑</div>
+                    <p class="concept-desc"><code>yy</code> 复制当前行，<code>p</code> 在下方粘贴。<br><code>dd</code> 删除(剪切)当前行。<br><code>u</code> 撤销上一步操作。</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 7: Shell 脚本 -->
+        <section class="section-card" id="s7">
+            <div class="section-header">
+                <div class="section-icon"><i class="fa-solid fa-code"></i></div>
+                <h2>7. 核心 Shell 脚本默写模板</h2>
+            </div>
+            
+            <div class="warning-box" style="margin-top: 0; margin-bottom: 20px; border-radius: 10px; border-left-color: var(--emerald-500); background: var(--emerald-50);">
+                <i class="fa-solid fa-circle-info" style="color: var(--emerald-600);"></i>
+                <div><b>默写关键规则：</b><br>1. 第一行必须写 <code>#!/bin/bash</code> 指定解释器。<br>2. <code>if</code> 后的 <code>[ ]</code> 括号内侧，<b>两边必须各有一个空格</b>！(如 <code>[ -f file ]</code>)。<br>3. 变量赋值时，等号两边<b>绝对不能</b>有空格！(如 <code>sum=0</code>，错写为 <code>sum = 0</code> 扣全分)。</div>
+            </div>
+
+            <div class="concept-grid">
+                <div class="concept-item" style="grid-column: 1 / -1;">
+                    <div class="concept-title">模板 1：检测文件是否存在，存在则读取 (判断 <code>-f</code>)</div>
+<pre><code>#!/bin/bash
+read -p "请输入文件名字: " file_name
+if [ -f "$file_name" ]; then
+    echo "文件存在，内容如下："
+    cat "$file_name"
 else
-    echo &quot;提示：该目录不存在！&quot;
-fi</code></pre><h3>检查文件</h3><pre><code class="language-bash">#!/bin/bash
-read -p &quot;请输入文件名字: &quot; file_name
-if [ -f &quot;$file_name&quot; ]; then
-    echo &quot;文件存在，内容如下：&quot;
-    cat &quot;$file_name&quot;
+    echo "提示：文件不存在！"
+fi</code></pre>
+                </div>
+                
+                <div class="concept-item" style="grid-column: 1 / -1;">
+                    <div class="concept-title">模板 2：检测目录是否存在，存在则查看 (判断 <code>-d</code>)</div>
+<pre><code>#!/bin/bash
+read -p "请输入要检测的目录路径: " dir_path
+if [ -d "$dir_path" ]; then
+    echo "目录存在，里面的文件有："
+    ls "$dir_path"
 else
-    echo &quot;文件不存在&quot;
-fi</code></pre><h3>1 到 20 求和</h3><pre><code class="language-bash">#!/bin/bash
+    echo "提示：该目录不存在！"
+fi</code></pre>
+                </div>
+
+                <div class="concept-item">
+                    <div class="concept-title">模板 3：for 循环 1~20 整数求和</div>
+                    <p style="font-size:0.9rem; color:var(--text-weak); margin-top:-5px; margin-bottom:10px;">算术累加操作必须用 <code>$(( ))</code> 包裹起来计算。</p>
+<pre><code>#!/bin/bash
 sum=0
-for (( i=1; i&lt;=20; i++ ))
+for (( i=1; i<=20; i++ ))
 do
     sum=$((sum + i))
 done
-echo &quot;1~20的整数和为: $sum&quot;</code></pre><h3>1 到 20 奇数和</h3><pre><code class="language-bash">#!/bin/bash
+echo "1~20的整数和为: $sum"</code></pre>
+                </div>
+
+                <div class="concept-item">
+                    <div class="concept-title">模板 4：1~20 奇数和 / 偶数和</div>
+                    <p style="font-size:0.9rem; color:var(--text-weak); margin-top:-5px; margin-bottom:10px;">奇数从1开始每次+2；若考偶数，只需改初值 <code>i=2</code>。</p>
+<pre><code>#!/bin/bash
 sum=0
-for (( i=1; i&lt;=20; i+=2 ))
+for (( i=1; i<=20; i+=2 )) 
 do
     sum=$((sum + i))
 done
-echo &quot;1~20之间的奇数和为: $sum&quot;</code></pre></section>
-<section class="review-section" id="s10"><h2>10. 考前 30 分钟清单</h2><ul class="check-list"><li><code>/etc/passwd</code> 不存真实密码，<code>/etc/shadow</code> 存密码哈希。</li><li><code>root</code> 的 UID 是 <code>0</code>。</li><li>硬链接不能跨文件系统，软链接可以。</li><li><code>sed</code> 默认不改原文件，加 <code>-i</code> 才原地改。</li><li><code>SSH</code> 加密，<code>Telnet</code> 明文。</li><li><code>mount</code> 挂载，<code>umount</code> 卸载。</li><li>Linux 是单根目录结构，没有 C/D 盘。</li><li>RAID0 提速无冗余，RAID1 镜像更安全。</li><li>命令题必须自己能写：<code>mkdir -p</code>、<code>tail -f</code>、<code>wc -l</code>、<code>chmod 744</code>。</li></ul></section></main></body></html>
+echo "1~20奇数和为: $sum"</code></pre>
+                </div>
+            </div>
+        </section>
+        
+    </main>
+</body>
+</html>
