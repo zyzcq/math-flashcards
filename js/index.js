@@ -416,7 +416,10 @@ function renderExamAlertCard(closestExam, minDiff) {
 }
 
 function initExamModal() {
-    if (document.getElementById('exam-schedule-modal')) return;
+    const oldModal = document.getElementById('exam-schedule-modal');
+    if (oldModal) {
+        oldModal.remove();
+    }
 
     const modalOverlay = document.createElement('div');
     modalOverlay.id = 'exam-schedule-modal';
