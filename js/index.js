@@ -387,11 +387,14 @@ function getExamCountdown(examTimeStr) {
     if (diffMs < 0) {
         return "已考完";
     }
-    const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
-    if (diffDays === 0) {
+    
+    const oneDayMs = 1000 * 60 * 60 * 24;
+    if (diffMs < oneDayMs) {
         const diffHours = Math.floor(diffMs / (1000 * 60 * 60));
         return diffHours > 0 ? `剩 ${diffHours} 小时` : "即将开考";
     }
+    
+    const diffDays = Math.ceil(diffMs / oneDayMs);
     return `剩 ${diffDays} 天`;
 }
 
