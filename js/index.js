@@ -442,7 +442,7 @@ function initExamModal() {
     modalOverlay.className = 'modal-overlay';
     
     const scheduleRows = (window.EXAM_SCHEDULE || []).map(item => {
-        const isLinked = item.status && item.status.startsWith('对应');
+        const isLinked = item.status && (item.status === '已关联' || item.status.startsWith('对应'));
         const statusHtml = isLinked 
             ? `<span class="status-badge status-linked">${escapeHtml(item.status)}</span>`
             : `<span class="status-badge status-unlinked">未关联</span>`;
