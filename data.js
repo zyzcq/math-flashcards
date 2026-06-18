@@ -1635,6 +1635,16 @@ wx_short_answers: {
         ]
 },
 
+    linux_review: {
+        "id": "linux_review",
+        "title": "Linux：期末复习讲义",
+        "subtitle": "核心考点 · 速记口诀 · 避坑指南",
+        "themeColor": "emerald",
+        "type": "article",
+        "url": "linux/linux_review.html?v=2.0",
+        "cards": []
+    },
+
     linux_quiz: {
         "id": "linux_quiz",
         "title": "Linux：期末自测题库",
