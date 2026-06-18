@@ -101,11 +101,18 @@
         const typeParam = urlParams.get('type');
         
         // 查找当前闪卡模块的分类 id
+        function matchesModule(item, moduleId) {
+            if (!item || !moduleId) return false;
+            return item.id === moduleId
+                || item.quiz?.id === moduleId
+                || item.flashcard?.id === moduleId;
+        }
+
         let categoryId = null;
         if (typeof siteData !== 'undefined' && Array.isArray(siteData)) {
             for (const cat of siteData) {
                 if (Array.isArray(cat.items)) {
-                    if (cat.items.some(item => item && item.id === typeParam)) {
+                    if (cat.items.some(item => matchesModule(item, typeParam))) {
                         categoryId = cat.categoryId;
                         break;
                     }
