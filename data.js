@@ -1572,133 +1572,68 @@ wx_short_answers: {
 },
 
     se_short_answers: {
-        id: "se_short_answers",
-        title: "软件测试：核心简答闪卡",
-        subtitle: "1-7章高频简答 · 口诀化拆解",
-        themeColor: "fuchsia",
-        type: "flashcard",
-        cards: [
-            {
-                title: "第1章：缺陷处理流程",
-                q: "请简述软件缺陷的处理流程。",
-                tip: "<b>记忆口诀：【缺陷提分确认先，修复回归闭环圆】</b>",
-                a: "<div class='sa-list'>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-fuchsia'>提</span>\n    <div class='sa-content'><b class='sa-title'>提交缺陷</b>：<span class='sa-desc'>测试人员发现Bug，录入系统并提交。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-fuchsia'>分</span>\n    <div class='sa-content'><b class='sa-title'>分配缺陷</b>：<span class='sa-desc'>主管审核后分配给相应开发人员进行处理。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-fuchsia'>确</span>\n    <div class='sa-content'><b class='sa-title'>确认缺陷</b>：<span class='sa-desc'>开发确认该缺陷属实，准备进行修复。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-fuchsia'>修</span>\n    <div class='sa-content'><b class='sa-title'>修复缺陷</b>：<span class='sa-desc'>开发修改代码，解决问题后提交修复版本。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-fuchsia'>回</span>\n    <div class='sa-content'><b class='sa-title'>回归测试</b>：<span class='sa-desc'>测试验证原Bug已修复，且无新Bug引入。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-fuchsia'>关</span>\n    <div class='sa-content'><b class='sa-title'>关闭缺陷</b>：<span class='sa-desc'>验证通过后，正式关闭该缺陷状态。</span></div>\n  </div>\n</div>"
-            },
-            {
-                title: "第1章：测试基本流程",
-                q: "请简述软件测试的基本流程。",
-                tip: "<b>记忆口诀：【需求计划设用例，执行评估总结齐】</b>",
-                a: "<div class='sa-list'>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-fuchsia'>需</span>\n    <div class='sa-content'><b class='sa-title'>需求分析</b>：<span class='sa-desc'>熟悉业务逻辑，弄清“测什么”，提取测试点。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-fuchsia'>计</span>\n    <div class='sa-content'><b class='sa-title'>制定计划</b>：<span class='sa-desc'>编写计划文档，确定资源、进度与策略。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-fuchsia'>设</span>\n    <div class='sa-content'><b class='sa-title'>设计用例</b>：<span class='sa-desc'>运用白盒/黑盒方法设计测试步骤与预期输出。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-fuchsia'>执</span>\n    <div class='sa-content'><b class='sa-title'>执行测试</b>：<span class='sa-desc'>搭建环境，执行用例，记录结果并提交缺陷。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-fuchsia'>估</span>\n    <div class='sa-content'><b class='sa-title'>质量估算</b>：<span class='sa-desc'>分析缺陷数据，进行质量评估。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-fuchsia'>结</span>\n    <div class='sa-content'><b class='sa-title'>测试总结</b>：<span class='sa-desc'>输出质量报告与测试总结。</span></div>\n  </div>\n</div>"
-            },
-            {
-                title: "第2章：等价类划分",
-                q: "请简述等价类划分法的原则。",
-                tip: "<b>记忆口诀：【有效无效分两端，编号用例逐个盖】</b>",
-                a: "<div class='sa-list'>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-fuchsia'>区</span>\n    <div class='sa-content'><b class='sa-title'>区间划分</b>：<span class='sa-desc'>规定输入范围，划分1个有效和2个无效等价类。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-fuchsia'>数</span>\n    <div class='sa-content'><b class='sa-title'>数值划分</b>：<span class='sa-desc'>规定输入个数，划分1个有效和2个无效等价类。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-fuchsia'>集</span>\n    <div class='sa-content'><b class='sa-title'>集合划分</b>：<span class='sa-desc'>规定一组有效值，有效为集合内，无效为集合外。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-fuchsia'>必</span>\n    <div class='sa-content'><b class='sa-title'>必满足条件</b>：<span class='sa-desc'>输入需遵守某种规则，有效为遵守，无效为不遵守。</span></div>\n  </div>\n</div>"
-            },
-            {
-                title: "第2章：决策表合并",
-                q: "请简述决策表条件项的合并规则。",
-                tip: "<b>记忆口诀：【动作一致条件单，合并一列化繁难】</b>",
-                a: "<div class='sa-list'>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-fuchsia'>同</span>\n    <div class='sa-content'><b class='sa-title'>动作相同</b>：<span class='sa-desc'>若两条或多条规则的执行结果完全相同。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-fuchsia'>单不</span>\n    <div class='sa-content'><b class='sa-title'>单一不同</b>：<span class='sa-desc'>且只有一个条件项的取值不同（一真一假）。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-fuchsia'>合</span>\n    <div class='sa-content'><b class='sa-title'>合并为一</b>：<span class='sa-desc'>则可将此条件视为无关紧要的“无关项”(-)，合并为一条。</span></div>\n  </div>\n</div>"
-            },
-            {
-                title: "第2章：正交实验设计",
-                q: "请简述正交实验设计法测试用例的设计步骤。",
-                tip: "<b>记忆口诀：【因子状态筛选先，正交表上映射完】</b>",
-                a: "<div class='sa-list'>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-fuchsia'>提</span>\n    <div class='sa-content'><b class='sa-title'>提取因子状态</b>：<span class='sa-desc'>确定影响系统的输入参数及可选值。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-fuchsia'>筛</span>\n    <div class='sa-content'><b class='sa-title'>加权筛选</b>：<span class='sa-desc'>精简非核心因子，减轻测试工作量。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-fuchsia'>配</span>\n    <div class='sa-content'><b class='sa-title'>匹配正交表</b>：<span class='sa-desc'>根据因子数和状态数选择契合的标准正交表。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-fuchsia'>映</span>\n    <div class='sa-content'><b class='sa-title'>映射生成</b>：<span class='sa-desc'>用真实的因子与状态代入正交表各行生成用例。</span></div>\n  </div>\n</div>"
-            },
-            {
-                title: "第3章：逻辑覆盖",
-                q: "请简述逻辑覆盖的几种方法及区别。",
-                tip: "<b>记忆口诀：【语判条件组覆盖，路径最强保质量】</b>",
-                a: "<div class='sa-list'>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-fuchsia'>语</span>\n    <div class='sa-content'><b class='sa-title'>语句覆盖</b>：<span class='sa-desc'>每行可执行代码至少运行一次。(最弱)</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-fuchsia'>判</span>\n    <div class='sa-content'><b class='sa-title'>判定覆盖</b>：<span class='sa-desc'>每个判定的真/假分支都至少执行一次。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-fuchsia'>条</span>\n    <div class='sa-content'><b class='sa-title'>条件覆盖</b>：<span class='sa-desc'>判定中每个子条件的真/假取值都出现一次。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-fuchsia'>判条</span>\n    <div class='sa-content'><b class='sa-title'>判定-条件</b>：<span class='sa-desc'>同时满足判定和条件的覆盖指标。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-fuchsia'>组</span>\n    <div class='sa-content'><b class='sa-title'>条件组合</b>：<span class='sa-desc'>每个判定中子条件真假的各种组合各出现一次。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-fuchsia'>路</span>\n    <div class='sa-content'><b class='sa-title'>路径覆盖</b>：<span class='sa-desc'>程序所有可能的代码执行路径全部被覆盖。(最强)</span></div>\n  </div>\n</div>"
-            },
-            {
-                title: "第3章：目标代码插桩",
-                q: "请简述目标代码插桩的3种执行模式。",
-                tip: "<b>记忆口诀：【即时解释与探测，目标插桩三套客】</b>",
-                a: "<div class='sa-list'>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-fuchsia'>即</span>\n    <div class='sa-content'><b class='sa-title'>即时执行</b>：<span class='sa-desc'>在基本块即将被CPU执行前进行动态分析与插桩。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-fuchsia'>释</span>\n    <div class='sa-content'><b class='sa-title'>解释执行</b>：<span class='sa-desc'>在虚拟机或解释引擎中解释运行目标代码时进行拦截。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-fuchsia'>探</span>\n    <div class='sa-content'><b class='sa-title'>探测执行</b>：<span class='sa-desc'>用跳转指令(JMP)替换目标代码，跳转到分析例程后返回。</span></div>\n  </div>\n</div>"
-            },
-            {
-                title: "第4章：性能测试指标",
-                q: "请简述常用的性能测试指标。",
-                tip: "<b>记忆口诀：【时间吞吐并发数，资源利用性能驻】</b>",
-                a: "<div class='sa-list'>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-fuchsia'>时</span>\n    <div class='sa-content'><b class='sa-title'>响应时间</b>：<span class='sa-desc'>系统处理请求并返回结果所耗费的耗时。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-fuchsia'>吞</span>\n    <div class='sa-content'><b class='sa-title'>吞吐量</b>：<span class='sa-desc'>单位时间内系统能处理的数据字节数或工作量。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-fuchsia'>并</span>\n    <div class='sa-content'><b class='sa-title'>并发用户数</b>：<span class='sa-desc'>同一时间发送请求或建立长连接的用户总量。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-fuchsia'>T</span>\n    <div class='sa-content'><b class='sa-title'>TPS</b>：<span class='sa-desc'>每秒事务数，即每秒系统成功执行的业务事务数量。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-fuchsia'>资</span>\n    <div class='sa-content'><b class='sa-title'>资源利用率</b>：<span class='sa-desc'>CPU 占用、内存消耗、网络/磁盘 I/O 等百分比。</span></div>\n  </div>\n</div>"
-            },
-            {
-                title: "第4章：性能测试类型",
-                q: "请简述常见的性能测试种类。",
-                tip: "<b>记忆口诀：【载压并发峰值现，配置可靠性能检】</b>",
-                a: "<div class='sa-list'>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-fuchsia'>载</span>\n    <div class='sa-content'><b class='sa-title'>负载测试</b>：<span class='sa-desc'>逐步加压以测出满足指标下的最大可用容量。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-fuchsia'>压</span>\n    <div class='sa-content'><b class='sa-title'>压力测试</b>：<span class='sa-desc'>极端加压至系统崩溃，查找系统最薄弱的瓶颈。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-fuchsia'>并</span>\n    <div class='sa-content'><b class='sa-title'>并发测试</b>：<span class='sa-desc'>极短时间内发同类请求，排查死锁与资源争用。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-fuchsia'>峰</span>\n    <div class='sa-content'><b class='sa-title'>峰值测试</b>：<span class='sa-desc'>突发性流量测试，检验瞬间脉冲压力下的自愈能力。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-fuchsia'>配</span>\n    <div class='sa-content'><b class='sa-title'>配置测试</b>：<span class='sa-desc'>更改软硬件配置寻找系统的最佳调优方案。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-fuchsia'>靠</span>\n    <div class='sa-content'><b class='sa-title'>可靠性测试</b>：<span class='sa-desc'>高负载下稳定工作较长周期，验证是否崩溃或漏内存。</span></div>\n  </div>\n</div>"
-            },
-            {
-                title: "第4章：LoadRunner组成",
-                q: "请简述LoadRunner的组成部分及其作用。",
-                tip: "<b>记忆口诀：【VuGen录制脚本忙，Control控场分析强】</b>",
-                a: "<div class='sa-list'>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-fuchsia'>Vu</span>\n    <div class='sa-content'><b class='sa-title'>VuGen</b>：<span class='sa-desc'>虚拟用户生成器：负责脚本的录制、编辑与调试。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-fuchsia'>控</span>\n    <div class='sa-content'><b class='sa-title'>Controller</b>：<span class='sa-desc'>控制器：定义并执行性能场景，管理压力机。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-fuchsia'>分</span>\n    <div class='sa-content'><b class='sa-title'>Analysis</b>：<span class='sa-desc'>分析器：汇聚压测指标，生成分析图表与报告。</span></div>\n  </div>\n</div>"
-            },
-            {
-                title: "第5章：安全与常规测试",
-                q: "请简述安全测试与常规测试的区别。",
-                tip: "<b>记忆口诀：【常规测需求，安全查漏洞；常规正向走，安全逆向谋】</b>",
-                a: "<div class='sa-list'>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-fuchsia'>目</span>\n    <div class='sa-content'><b class='sa-title'>目标不同</b>：<span class='sa-desc'>常规测“是否符合需求”；安全测“是否存在漏洞”。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-fuchsia'>思</span>\n    <div class='sa-content'><b class='sa-title'>思维不同</b>：<span class='sa-desc'>常规走正向思维验证；安全走逆向破坏思维找缺口。</span></div>\n  </div>\n</div>"
-            },
-            {
-                title: "第5章：安全测试原则",
-                q: "请简述安全测试的基本原则。",
-                tip: "<b>记忆口诀：【意早全独防未然，安全测试记心田】</b>",
-                a: "<div class='sa-list'>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-fuchsia'>意</span>\n    <div class='sa-content'><b class='sa-title'>安全意识</b>：<span class='sa-desc'>全员建立“输入不可信”的安全防范和编码理念。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-fuchsia'>早</span>\n    <div class='sa-content'><b class='sa-title'>尽早测试</b>：<span class='sa-desc'>贯穿整个软件生命周期，且需经常频繁测试。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-fuchsia'>全</span>\n    <div class='sa-content'><b class='sa-title'>全面综合</b>：<span class='sa-desc'>从网络、数据、系统、代码逻辑等多维度覆盖。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-fuchsia'>独</span>\n    <div class='sa-content'><b class='sa-title'>独立团队</b>：<span class='sa-desc'>引入独立的、具备黑客视角的专业安全测试队伍。</span></div>\n  </div>\n</div>"
-            },
-            {
-                title: "第5章：XSS攻击防护",
-                q: "请简述XSS的攻击原理及防范措施。",
-                tip: "<b>记忆口诀：【脚本注入生漏洞，过滤转义HttpOnly】</b>",
-                a: "<div class='sa-list'>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-fuchsia'>注</span>\n    <div class='sa-content'><b class='sa-title'>注入脚本</b>：<span class='sa-desc'>攻击者在页面注入恶意HTML/JS代码，盗取用户信息。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-fuchsia'>滤</span>\n    <div class='sa-content'><b class='sa-title'>输入过滤</b>：<span class='sa-desc'>对用户提交的数据严格过滤敏感标签(如script)。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-fuchsia'>转</span>\n    <div class='sa-content'><b class='sa-title'>转义输出</b>：<span class='sa-desc'>对输出到页面的数据进行实体转义。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-fuchsia'>H</span>\n    <div class='sa-content'><b class='sa-title'>HttpOnly</b>：<span class='sa-desc'>给Cookie设置HttpOnly，防范JS读取拦截。</span></div>\n  </div>\n</div>"
-            },
-            {
-                title: "第6章：持续集成过程",
-                q: "请简述持续集成的基本过程。",
-                tip: "<b>记忆口诀：【提交拉取构测报，自动集成效率高】</b>",
-                a: "<div class='sa-list'>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-fuchsia'>提</span>\n    <div class='sa-content'><b class='sa-title'>代码提交</b>：<span class='sa-desc'>开发将代码推送至中心版本库。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-fuchsia'>拉</span>\n    <div class='sa-content'><b class='sa-title'>拉取分支</b>：<span class='sa-desc'>CI服务器自动监听并拉取最新变动代码。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-fuchsia'>构</span>\n    <div class='sa-content'><b class='sa-title'>自动构建</b>：<span class='sa-desc'>运行脚本进行编译、依赖包打入等打包动作。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-fuchsia'>测</span>\n    <div class='sa-content'><b class='sa-title'>自动化测试</b>：<span class='sa-desc'>自动跑单元测试、接口或UI回归用例。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-fuchsia'>报</span>\n    <div class='sa-content'><b class='sa-title'>发送报告</b>：<span class='sa-desc'>如果跑挂立即通知开发；全通过则发布产物。</span></div>\n  </div>\n</div>"
-            },
-            {
-                title: "第6章：CI框架与容器",
-                q: "请简述传统持续集成框架和持续集成容器的区别。",
-                tip: "<b>记忆口诀：【容器轻快开销小，环境一致免烦恼】</b>",
-                a: "<div class='sa-list'>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-fuchsia'>开销</span>\n    <div class='sa-content'><b class='sa-title'>启动与开销</b>：<span class='sa-desc'>传统机启动慢资源大；容器(Docker)毫秒级启动资源小。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-fuchsia'>环境</span>\n    <div class='sa-content'><b class='sa-title'>环境一致性</b>：<span class='sa-desc'>传统机容易被弄脏；容器基于纯净镜像，保证环境绝对一致。</span></div>\n  </div>\n</div>"
-            },
-            {
-                title: "第6章：自动化测试技术",
-                q: "请简述自动化测试使用的技术。",
-                tip: "<b>记忆口诀：【录制回放脚本基，数关驱动显威力】</b>",
-                a: "<div class='sa-list'>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-fuchsia'>录放</span>\n    <div class='sa-content'><b class='sa-title'>录制与回放</b>：<span class='sa-desc'>录下操作并回放，简单但极难维护。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-fuchsia'>脚</span>\n    <div class='sa-content'><b class='sa-title'>脚本技术</b>：<span class='sa-desc'>包含线性、结构化(加控制流)、共享(函数复用)等。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-fuchsia'>数</span>\n    <div class='sa-content'><b class='sa-title'>数据驱动</b>：<span class='sa-desc'>DDT：数据和代码解耦，读取文件数据跑批量。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-fuchsia'>关</span>\n    <div class='sa-content'><b class='sa-title'>关键字驱动</b>：<span class='sa-desc'>KDT：操作封装成表格，不写代码直接填表测试。</span></div>\n  </div>\n</div>"
-            },
-            {
-                title: "第7章：移动App测试差异",
-                q: "什么是移动App？与传统软件测试的区别是什么？",
-                tip: "<b>记忆口诀：【网专交海适配全，移动测试非一般】</b>",
-                a: "<div class='sa-list'>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-fuchsia'>定</span>\n    <div class='sa-content'><b class='sa-title'>定义</b>：<span class='sa-desc'>运行在智能手机、平板等移动终端上的应用软件。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-fuchsia'>专</span>\n    <div class='sa-content'><b class='sa-title'>专项性能</b>：<span class='sa-desc'>需特别监控电池电量、移动数据流量的消耗。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-fuchsia'>网</span>\n    <div class='sa-content'><b class='sa-title'>网络多变</b>：<span class='sa-desc'>要模拟 Wi-Fi/4G/5G 切换、断网弱网及丢包限速。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-fuchsia'>交</span>\n    <div class='sa-content'><b class='sa-title'>交叉中断</b>：<span class='sa-desc'>测试使用中遇到电话、短信、低电弹窗的自愈表现。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-fuchsia'>海</span>\n    <div class='sa-content'><b class='sa-title'>海量兼容</b>：<span class='sa-desc'>适配各种魔改系统版本及各异的手机分辨率。</span></div>\n  </div>\n</div>"
-            },
-            {
-                title: "第7章：移动App专项测试",
-                q: "请简述移动App的专项测试都有哪些。",
-                tip: "<b>记忆口诀：【网流中断测性能，安全升级要分明】</b>",
-                a: "<div class='sa-list'>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-fuchsia'>网</span>\n    <div class='sa-content'><b class='sa-title'>网络测试</b>：<span class='sa-desc'>弱网/丢包/网络切换测试。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-fuchsia'>容</span>\n    <div class='sa-content'><b class='sa-title'>兼容测试</b>：<span class='sa-desc'>海量系统版本及不同分辨率屏幕的兼容性测试。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-fuchsia'>中</span>\n    <div class='sa-content'><b class='sa-title'>中断测试</b>：<span class='sa-desc'>来电、短信等外部中断事件测试。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-fuchsia'>能</span>\n    <div class='sa-content'><b class='sa-title'>性能专项</b>：<span class='sa-desc'>电量、流量、冷启动、内存CPU等消耗专项。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-fuchsia'>安</span>\n    <div class='sa-content'><b class='sa-title'>安全权限</b>：<span class='sa-desc'>敏感数据存储、应用权限调用检测。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-fuchsia'>升</span>\n    <div class='sa-content'><b class='sa-title'>安装升级</b>：<span class='sa-desc'>干净安装、卸载及覆盖升级测试。</span></div>\n  </div>\n</div>"
-            }
+        "id": "se_short_answers",
+        "title": "软件测试：核心简答闪卡",
+        "subtitle": "高频考点核心简答 · 口诀化拆解",
+        "themeColor": "fuchsia",
+        "type": "flashcard",
+        "cards": [
+                {
+                        "title": "第1章：测试定义、目的与原则",
+                        "q": "请简述软件测试的定义、目的与原则。",
+                        "tip": "<b>记忆口诀：【定义验证找漏洞，目的提升信誉度，原则早测抓关键】</b>",
+                        "a": "<div class='sa-list'>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-fuchsia'>定</span>\n    <div class='sa-content'><b class='sa-title'>定义</b>：<span class='sa-desc'>通过手动或自动化手段，评估软件系统的过程，验证其是否满足规约，或发现实际结果与预期之间的差异。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-fuchsia'>目</span>\n    <div class='sa-content'><b class='sa-title'>目的</b>：<span class='sa-desc'>发现潜在缺陷、评估质量、提供发布信心，并帮助降低维护成本和发布风险。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-fuchsia'>原</span>\n    <div class='sa-content'><b class='sa-title'>原则</b>：<span class='sa-desc'>尽早测试；穷尽测试不可能；缺陷集群性（二八定律）；谨防杀虫剂效应；测试受制于具体背景。</span></div>\n  </div>\n</div>"
+                },
+                {
+                        "title": "第1章：测试基本流程",
+                        "q": "请简述软件测试的基本流程。",
+                        "tip": "<b>记忆口诀：【需求分析定计划，用例设计执行抓，评估报告闭环圆】</b>",
+                        "a": "<div class='sa-list'>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-fuchsia'>需</span>\n    <div class='sa-content'><b class='sa-title'>需求分析</b>：<span class='sa-desc'>熟悉业务，理清测试范围，提取并细化测试点。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-fuchsia'>计</span>\n    <div class='sa-content'><b class='sa-title'>制定计划</b>：<span class='sa-desc'>确定测试策略、进度、资源预算与职责，撰写计划书。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-fuchsia'>设</span>\n    <div class='sa-content'><b class='sa-title'>用例设计</b>：<span class='sa-desc'>使用黑盒/白盒技术，设计具体用例和预期输出。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-fuchsia'>执</span>\n    <div class='sa-content'><b class='sa-title'>测试执行</b>：<span class='sa-desc'>搭建环境，执行用例，记录结果并提交管理缺陷。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-fuchsia'>评</span>\n    <div class='sa-content'><b class='sa-title'>质量评估</b>：<span class='sa-desc'>执行回归测试，统计缺陷数据，评估系统是否达标。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-fuchsia'>告</span>\n    <div class='sa-content'><b class='sa-title'>总结报告</b>：<span class='sa-desc'>归纳过程数据，编写测试报告并收尾。</span></div>\n  </div>\n</div>"
+                },
+                {
+                        "title": "第2章：黑盒测试定义及设计方法",
+                        "q": "请简述黑盒测试的定义及常用的用例设计方法。",
+                        "tip": "<b>记忆口诀：【不看代码看规格，等价边界因果图】</b>",
+                        "a": "<div class='sa-list'>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-fuchsia'>定</span>\n    <div class='sa-content'><b class='sa-title'>定义</b>：<span class='sa-desc'>又称功能测试。不考虑内部逻辑与结构，仅根据需求规格说明书验证输入与输出是否符合预期。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-fuchsia'>等</span>\n    <div class='sa-content'><b class='sa-title'>等价类划分法</b>：<span class='sa-desc'>将输入域划分为有效与无效类，并在每一类中选取代表性数据。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-fuchsia'>边</span>\n    <div class='sa-content'><b class='sa-title'>边界值分析法</b>：<span class='sa-desc'>重点测试输入输出边界值（如刚好等于、刚好小于或大于边界的值）。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-fuchsia'>因</span>\n    <div class='sa-content'><b class='sa-title'>因果图/决策表</b>：<span class='sa-desc'>分析输入条件（因）与输出动作（果）之间的逻辑组合关系。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-fuchsia'>错</span>\n    <div class='sa-content'><b class='sa-title'>错误推测法</b>：<span class='sa-desc'>根据测试人员的直觉和经验，列举可能的错误场景设计用例。</span></div>\n  </div>\n</div>"
+                },
+                {
+                        "title": "第2章：因果图中的约束与关系",
+                        "q": "因果图法中，因果关系及常见的输入输出约束有哪些？",
+                        "tip": "<b>记忆口诀：【非或与，恒同异；最大唯一，若因得果】</b>",
+                        "a": "<div class='sa-list'>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-fuchsia'>系</span>\n    <div class='sa-content'><b class='sa-title'>因果关系</b>：<span class='sa-desc'>恒等（因发果发）、非（因发果不发）、或（任一因发则果发）、与（因全发果才发）。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-fuchsia'>入</span>\n    <div class='sa-content'><b class='sa-title'>输入约束</b>：<span class='sa-desc'>互斥（E，至多一发）；包含（I，至少一发）；唯一（O，必有且仅有一发）；要求（R，若A发则B必发）。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-fuchsia'>出</span>\n    <div class='sa-content'><b class='sa-title'>输出约束</b>：<span class='sa-desc'>屏蔽（M，若果A发，则果B必须不发）。</span></div>\n  </div>\n</div>"
+                },
+                {
+                        "title": "第2章：决策表设计步骤",
+                        "q": "简述利用“决策表法”设计测试用例的步骤。",
+                        "tip": "<b>记忆口诀：【列条件，定动作，组规则，合简化】</b>",
+                        "a": "<div class='sa-list'>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-fuchsia'>列</span>\n    <div class='sa-content'><b class='sa-title'>列出条件与动作</b>：<span class='sa-desc'>分析需求，确定所有的输入条件桩和动作输出桩。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-fuchsia'>填</span>\n    <div class='sa-content'><b class='sa-title'>填写规则组合</b>：<span class='sa-desc'>填入条件的真假组合（条件项），对应勾选预期采取的动作（动作项）。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-fuchsia'>简</span>\n    <div class='sa-content'><b class='sa-title'>简化与合并</b>：<span class='sa-desc'>若多条规则动作相同，且部分条件变化不影响结果，则合并简化决策表。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-fuchsia'>转</span>\n    <div class='sa-content'><b class='sa-title'>生成测试用例</b>：<span class='sa-desc'>将决策表中简化后的每一列规则对应编写为具体测试用例。</span></div>\n  </div>\n</div>"
+                },
+                {
+                        "title": "第5章：接口测试定义、原理与流程",
+                        "q": "简述“接口测试”的定义、流程及基本原理。",
+                        "tip": "<b>记忆口诀：【数据交互不看图，需求用例抓报文】</b>",
+                        "a": "<div class='sa-list'>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-fuchsia'>定</span>\n    <div class='sa-content'><b class='sa-title'>定义</b>：<span class='sa-desc'>测试系统组件间接口的测试。用于检测外部与系统、或内部模块间数据交互逻辑，不依赖前端UI。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-fuchsia'>理</span>\n    <div class='sa-content'><b class='sa-title'>基本原理</b>：<span class='sa-desc'>通过模拟客户端向服务器发送请求报文，服务器处理后返回响应报文，测试人员验证响应的状态码、格式与业务内容。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-fuchsia'>程</span>\n    <div class='sa-content'><b class='sa-title'>接口测试流程</b>：<span class='sa-desc'>分析需求文档（如Swagger） $\rightarrow$ 设计测试用例 $\rightarrow$ 准备测试数据并写脚本 $\rightarrow$ 发送请求并校验响应 $\rightarrow$ 跟踪接口缺陷与回归。</span></div>\n  </div>\n</div>"
+                },
+                {
+                        "title": "第5章：HTTP 请求方法及作用",
+                        "q": "请列举 HTTP 协议中常见的请求方法（Request Method）及各自作用。",
+                        "tip": "<b>记忆口诀：【GET查POST建，PUT改DELETE删，HEAD只头PATCH片】</b>",
+                        "a": "<div class='sa-list'>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-fuchsia'>GET</span>\n    <div class='sa-content'><b class='sa-title'>GET</b>：<span class='sa-desc'>获取特定的资源，做数据查询，幂等且安全。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-fuchsia'>POS</span>\n    <div class='sa-content'><b class='sa-title'>POST</b>：<span class='sa-desc'>提交数据，用于新建资源或提交表单，非幂等。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-fuchsia'>PUT</span>\n    <div class='sa-content'><b class='sa-title'>PUT</b>：<span class='sa-desc'>发送数据，用以覆盖替换/更新指定的资源，幂等。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-fuchsia'>DEL</span>\n    <div class='sa-content'><b class='sa-title'>DELETE</b>：<span class='sa-desc'>请求服务器删除指定的资源，幂等。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-fuchsia'>HEA</span>\n    <div class='sa-content'><b class='sa-title'>HEAD</b>：<span class='sa-desc'>与GET类似，但只返回响应头部，用来获取元信息。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-fuchsia'>PAT</span>\n    <div class='sa-content'><b class='sa-title'>PATCH</b>：<span class='sa-desc'>用于对已知资源进行局部的增量修改。</span></div>\n  </div>\n</div>"
+                },
+                {
+                        "title": "第6章：Selenium 八大定位方式",
+                        "q": "在自动化测试中，Selenium 常用的“八大定位方式”有哪些？",
+                        "tip": "<b>记忆口诀：【ID名类标连部，XPath selector路】</b>",
+                        "a": "<div class='sa-list'>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-fuchsia'>ID</span>\n    <div class='sa-content'><b class='sa-title'>id 定位</b>：<span class='sa-desc'>通过元素唯一 id 属性定位，首选、速度最快。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-fuchsia'>NAM</span>\n    <div class='sa-content'><b class='sa-title'>name / class name 定位</b>：<span class='sa-desc'>通过元素的 name 属性或 class 类名进行定位。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-fuchsia'>TAG</span>\n    <div class='sa-content'><b class='sa-title'>tag name 定位</b>：<span class='sa-desc'>通过 HTML 标签名称（如 input）进行定位。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-fuchsia'>LNK</span>\n    <div class='sa-content'><b class='sa-title'>link / partial link 定位</b>：<span class='sa-desc'>根据超链接（a 标签）的完整文本或局部文本进行定位。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-fuchsia'>PTH</span>\n    <div class='sa-content'><b class='sa-title'>XPath 定位</b>：<span class='sa-desc'>利用 XML 路径查找，功能强大，支持绝对与相对路径定位。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-fuchsia'>CSS</span>\n    <div class='sa-content'><b class='sa-title'>CSS Selector 定位</b>：<span class='sa-desc'>使用 CSS 选择器定位元素，通常比 XPath 速度更快。</span></div>\n  </div>\n</div>"
+                },
+                {
+                        "title": "第7章：App 专项测试内容",
+                        "q": "简述移动端 App 专项测试（非功能性测试）包含的核心内容。",
+                        "tip": "<b>记忆口诀：【兼容安装性能卡，网络交叉电池挖】</b>",
+                        "a": "<div class='sa-list'>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-fuchsia'>容</span>\n    <div class='sa-content'><b class='sa-title'>兼容性与安装升级</b>：<span class='sa-desc'>不同系统版本、分辨率、品牌的真机兼容性；全新安装、卸载、升级数据迁移及低空间表现。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-fuchsia'>能</span>\n    <div class='sa-content'><b class='sa-title'>性能与电池消耗</b>：<span class='sa-desc'>监控 App 资源消耗，如 CPU 占用率、内存泄漏、帧率（FPS）及电量、流量。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-fuchsia'>网</span>\n    <div class='sa-content'><b class='sa-title'>网络环境测试</b>：<span class='sa-desc'>强网、弱网（2G/3G/延时丢包）、无网环境下的重连机制、超时处理与数据缓存。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-fuchsia'>插</span>\n    <div class='sa-content'><b class='sa-title'>交叉事件（干扰）测试</b>：<span class='sa-desc'>运行时来电、短信、低电弹窗、拔插电源、切换网络或锁屏等外部干扰对 App 状态的影响。</span></div>\n  </div>\n</div>"
+                }
         ]
-    }
-,
-
-    linux_review: {
-        "id": "linux_review",
-        "title": "Linux：期末完整复习讲义",
-        "subtitle": "概念、命令、脚本与易错点总整理",
-        "themeColor": "emerald",
-        "type": "article",
-        "url": "linux/linux_review.html?v=1.0",
-        "cards": []
-    },
+},
 
     linux_quiz: {
         "id": "linux_quiz",
