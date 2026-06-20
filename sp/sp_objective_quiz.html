@@ -1,0 +1,2773 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="color-scheme" content="light dark">
+    <title>软件项目规划能力测试：选择与判断</title>
+    <link rel="stylesheet" href="../css/common.css">
+    <style>
+        :root {
+            /* 引用自 common.css 的色彩与字体，这里作为 quiz 专属映射 */
+            --bg-color: var(--bg-app);
+            --card-bg: var(--bg-card);
+            --text-color: var(--text-main);
+            --heading-color: var(--text-main);
+            --accent-color: #7c3aed;
+            --theme-accent: #7c3aed;
+            --border-color: rgba(31, 27, 24, 0.08);
+            --shadow: 0 1px 3px rgba(31, 27, 24, 0.01), 0 8px 30px rgba(31, 27, 24, 0.02);
+            --code-bg: rgba(31, 27, 24, 0.03);
+            --btn-shadow: 0 2px 6px rgba(31, 27, 24, 0.04);
+
+            /* 口诀框变量 - 浅色 */
+            --mnemonic-bg: rgba(124, 58, 237, 0.04);
+            --mnemonic-border: rgba(124, 58, 237, 0.3);
+            --mnemonic-text: var(--theme-accent);
+        }
+
+        [data-theme="dark"] {
+            --border-color: rgba(230, 228, 222, 0.08);
+            --shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+            --code-bg: rgba(230, 228, 222, 0.04);
+            --btn-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+
+            /* 口诀框变量 - 深色 */
+            --mnemonic-bg: rgba(144, 97, 249, 0.06);
+            --mnemonic-border: rgba(144, 97, 249, 0.3);
+            --mnemonic-text: var(--theme-accent);
+        }
+
+        * { 
+            box-sizing: border-box; 
+            transition: background-color 0.25s ease, color 0.25s ease, border-color 0.25s ease, transform 0.2s ease, box-shadow 0.25s ease; 
+            -webkit-tap-highlight-color: transparent; 
+        }
+        
+        body { 
+            margin: 0; 
+            font-family: var(--font-sans); 
+            background-color: var(--bg-color); 
+            color: var(--text-color); 
+            height: 100vh; 
+            display: flex; 
+            flex-direction: column; 
+            overflow: hidden; 
+            user-select: none; 
+        }
+
+        /* HUD Header */
+        .hud { 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            padding: 0 2rem; 
+            height: 60px; 
+            background: var(--bg-card); 
+            border-bottom: 1px solid var(--border-color); 
+            z-index: 10; 
+            flex-shrink: 0; 
+            box-shadow: 0 1px 2px rgba(31, 27, 24, 0.01);
+        }
+        .stat-group { display: flex; gap: 2rem; }
+        .stat-item { display: flex; flex-direction: column; align-items: center; justify-content: center; line-height: 1.2; }
+        .stat-label { font-size: 0.7rem; color: var(--text-weak); letter-spacing: 0.05em; font-weight: 500; text-transform: uppercase; margin-bottom: 3px; }
+        .stat-value { font-family: var(--font-serif); font-size: 1.15rem; font-weight: 600; color: var(--text-main); }
+        .combo-active { color: var(--theme-accent) !important; animation: pop 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+        
+        /* Main Container */
+        main { flex: 1; display: flex; justify-content: center; align-items: center; padding: 1.5rem; position: relative; overflow: hidden; }
+        .card { 
+            background: var(--card-bg); 
+            width: 100%; 
+            max-width: 820px; 
+            height: 100%; 
+            max-height: 85vh; 
+            padding: 2.5rem; 
+            border-radius: 20px; 
+            box-shadow: var(--shadow); 
+            position: relative; 
+            display: flex; 
+            flex-direction: column; 
+            overflow-y: auto; 
+            border: 1px solid var(--border-color); 
+        }
+        
+        /* Menu Grid */
+        .menu-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; width: 100%; margin-top: 1rem; }
+        .menu-card { 
+            background: var(--bg-card); 
+            border: 1px solid var(--border-color); 
+            border-radius: 14px; 
+            padding: 1.75rem; 
+            cursor: pointer; 
+            text-align: left; 
+            position: relative; 
+            overflow: hidden; 
+            display: flex; 
+            flex-direction: column; 
+            box-shadow: 0 1px 3px rgba(31, 27, 24, 0.01);
+        }
+        .menu-card:hover { 
+            transform: translateY(-2px); 
+            border-color: var(--accent-color); 
+            box-shadow: 0 6px 20px rgba(31, 27, 24, 0.03); 
+        }
+        .menu-card h3 { 
+            margin: 0 0 0.6rem 0; 
+            color: var(--heading-color); 
+            font-family: var(--font-serif);
+            font-size: 1.25rem; 
+            font-weight: 600;
+            display: flex; 
+            align-items: center; 
+            gap: 0.5rem; 
+        }
+        .menu-card p { margin: 0; font-size: 0.9rem; color: var(--text-weak); line-height: 1.5; flex: 1; }
+        .menu-badge { position: absolute; top: 1.25rem; right: 1.25rem; font-size: 1.4rem; color: var(--accent-color); opacity: 0.15; }
+        .menu-card.disabled { opacity: 0.4; pointer-events: none; filter: grayscale(1); }
+        
+        .stat-pill { 
+            margin-top: 1rem; 
+            font-size: 0.75rem; 
+            font-weight: 600; 
+            color: var(--theme-green); 
+            background: rgba(84, 132, 96, 0.08); 
+            padding: 4px 10px; 
+            border-radius: 6px; 
+            align-self: flex-start; 
+            display: none; 
+            border: 1px solid rgba(84, 132, 96, 0.15);
+        }
+        .stat-pill.show { display: inline-block; }
+
+        /* Quiz UI */
+        .progress-container { position: absolute; top: 0; left: 0; right: 0; height: 4px; background: transparent; }
+        .progress-bar { height: 100%; background: var(--accent-color); width: 0%; transition: width 0.4s cubic-bezier(0.16, 1, 0.3, 1); }
+        
+        .q-header { display: flex; justify-content: space-between; margin-bottom: 1.5rem; align-items: center; }
+        .q-tag { 
+            font-size: 0.75rem; 
+            background: var(--code-bg); 
+            color: var(--accent-color); 
+            padding: 4px 10px; 
+            border-radius: 6px; 
+            font-weight: 600; 
+            letter-spacing: 0.5px; 
+            border: 1px solid var(--border-color); 
+        }
+        .q-text { 
+            font-size: 1.3rem; 
+            font-weight: 700; 
+            color: var(--heading-color); 
+            line-height: 1.6; 
+            margin: 0 0 2rem 0; 
+            white-space: pre-wrap; 
+            letter-spacing: 0.015em;
+        }
+        
+        .options-grid { display: grid; gap: 0.8rem; }
+        .option-btn { 
+            background: var(--bg-card); 
+            border: 1px solid var(--border-color); 
+            padding: 1.1rem 1.4rem; 
+            border-radius: 12px; 
+            text-align: left; 
+            font-size: 0.95rem; 
+            color: var(--text-color); 
+            cursor: pointer; 
+            position: relative; 
+            display: flex; 
+            align-items: flex-start; 
+            line-height: 1.5; 
+            box-shadow: 0 1px 2px rgba(31, 27, 24, 0.01);
+        }
+        .option-key { 
+            font-family: 'JetBrains Mono', monospace; 
+            font-size: 0.8rem; 
+            color: var(--text-weak); 
+            margin-right: 1rem; 
+            border: 1px solid var(--border-color); 
+            width: 24px; 
+            height: 24px; 
+            min-width: 24px; 
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            border-radius: 6px; 
+            margin-top: 1px; 
+            flex-shrink: 0; 
+            background: var(--bg-color);
+            transition: all 0.2s ease;
+        }
+        .option-btn:hover:not(:disabled) { 
+            border-color: var(--accent-color); 
+            transform: translateX(3px); 
+            box-shadow: 0 4px 12px rgba(31, 27, 24, 0.02);
+        }
+        .option-btn:disabled { cursor: default; }
+        
+        .option-btn.correct { 
+            background-color: rgba(84, 132, 96, 0.08) !important; 
+            border-color: var(--theme-green) !important; 
+            color: var(--theme-green) !important; 
+        }
+        .option-btn.correct .option-key { 
+            background: var(--theme-green) !important; 
+            color: white !important; 
+            border-color: var(--theme-green) !important; 
+        }
+        
+        .option-btn.wrong { 
+            background-color: rgba(204, 109, 78, 0.08) !important; 
+            border-color: var(--accent-color) !important; 
+            color: var(--accent-color) !important; 
+            opacity: 0.9; 
+        }
+        .option-btn.wrong .option-key { 
+            background: var(--accent-color) !important; 
+            color: white !important; 
+            border-color: var(--accent-color) !important; 
+        }
+
+        .option-btn.selected {
+            border-color: var(--accent-color);
+            background: rgba(124, 58, 237, 0.06);
+            box-shadow: 0 4px 12px rgba(124, 58, 237, 0.08);
+        }
+
+        .explanation { 
+            margin-top: 1.5rem; 
+            padding: 1.2rem; 
+            background: var(--code-bg); 
+            border-radius: 12px; 
+            font-size: 0.95rem; 
+            border-left: 3px solid var(--accent-color); 
+            animation: slideUp 0.3s ease; 
+            line-height: 1.6;
+        }
+        .explanation strong { 
+            color: var(--accent-color); 
+            display: block; 
+            margin-bottom: 0.5rem; 
+            font-size: 0.85rem; 
+            text-transform: uppercase; 
+            letter-spacing: 1px; 
+            font-weight: 700;
+        }
+
+        /* Fill-in-the-blank Type2 specific */
+        .type2-container { 
+            background: var(--bg-card); 
+            border-radius: 12px; 
+            border: 1px solid var(--border-color); 
+            padding: 2.5rem 1.5rem; 
+            text-align: center;
+            box-shadow: 0 1px 2px rgba(31, 27, 24, 0.01);
+        }
+        .type2-ans-box { 
+            font-family: var(--font-serif);
+            font-size: 1.4rem; 
+            font-weight: 700; 
+            color: var(--theme-green); 
+            margin: 1.5rem 0; 
+            padding: 1rem; 
+            border: 1.5px dashed var(--theme-green); 
+            border-radius: 12px; 
+            background: rgba(84, 132, 96, 0.04); 
+        }
+
+        /* Results */
+        .result-container { text-align: center; display: flex; flex-direction: column; align-items: center; gap: 1.25rem; padding-top: 1rem; }
+        .score-circle { 
+            width: 120px; 
+            height: 120px; 
+            border-radius: 50%; 
+            border: 4px solid var(--border-color); 
+            display: flex; 
+            flex-direction: column; 
+            justify-content: center; 
+            align-items: center; 
+            margin: 0 auto; 
+            position: relative; 
+            background: var(--bg-card);
+        }
+        .score-val { font-family: var(--font-serif); font-size: 2.6rem; font-weight: 700; color: var(--accent-color); line-height: 1; }
+        .score-label { font-size: 0.75rem; color: var(--text-weak); margin-top: 2px; }
+        
+        .stat-row { display: flex; justify-content: center; gap: 1.5rem; width: 100%; margin: 1rem 0; }
+        .stat-box { 
+            background: var(--bg-card); 
+            padding: 1.25rem; 
+            border-radius: 14px; 
+            flex: 1; 
+            border: 1px solid var(--border-color); 
+            box-shadow: 0 1px 2px rgba(31, 27, 24, 0.01);
+        }
+        .stat-box h4 { margin: 0 0 0.5rem 0; font-size: 0.75rem; color: var(--text-weak); font-weight: 500; }
+        .stat-box .val { font-family: var(--font-serif); font-size: 1.5rem; font-weight: 700; }
+        .val.good { color: var(--theme-green); } 
+        .val.bad { color: var(--accent-color); }
+
+        /* Common Elements */
+        .btn { 
+            padding: 0.8rem 2rem; 
+            border: none; 
+            border-radius: 10px; 
+            font-weight: 500; 
+            cursor: pointer; 
+            font-size: 0.95rem; 
+            transition: all 0.2s ease; 
+            box-shadow: var(--btn-shadow); 
+            display: inline-flex; 
+            align-items: center; 
+            gap: 0.5rem; 
+            justify-content: center; 
+            text-decoration: none; 
+        }
+        .btn:active { transform: scale(0.98); }
+        .btn-primary { background: var(--text-main); color: var(--bg-card); }
+        .btn-primary:hover { background: var(--accent-color); color: white; }
+        .btn-secondary { background: var(--bg-color); color: var(--text-weak); border: 1px solid var(--border-color); }
+        .btn-secondary:hover { background: var(--bg-card); color: var(--text-main); border-color: var(--text-main); }
+        .btn-outline { background: transparent; border: 1px solid var(--border-color); color: var(--text-color); }
+        .btn-outline:hover { border-color: var(--text-main); color: var(--text-main); }
+        .btn-full { width: 100%; margin-top: 1rem; }
+
+        .theme-toggle { background: none; border: none; font-size: 1.2rem; cursor: pointer; color: var(--text-color); padding: 0.5rem; border-radius: 50%; display: flex; align-items: center; justify-content: center; transition: background-color 0.2s; }
+        .theme-toggle:hover { background: var(--code-bg); }
+
+        .hide { display: none !important; }
+        
+        /* Animations */
+        @keyframes pop { 0% { transform: scale(1); } 50% { transform: scale(1.15); } 100% { transform: scale(1); } }
+        @keyframes slideUp { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
+        
+        /* 记忆口诀盒美化 */
+        .quiz-mnemonic-box {
+            margin-top: 1.25rem;
+            padding: 1.2rem;
+            background-color: var(--mnemonic-bg);
+            border: 1.5px dashed var(--mnemonic-border);
+            border-radius: 12px;
+            animation: slideUp 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+            text-align: left;
+        }
+        .quiz-mnemonic-title {
+            color: var(--mnemonic-text);
+            font-family: var(--font-serif);
+            font-size: 0.85rem;
+            margin-bottom: 0.5rem;
+            display: block;
+            letter-spacing: 0.05em;
+            font-weight: 700;
+        }
+        .quiz-mnemonic-text {
+            color: var(--mnemonic-text);
+            font-weight: 700;
+            font-size: 1.05rem;
+            line-height: 1.5;
+            display: block;
+        }
+
+        /* 题目平滑渐显动画 */
+        @keyframes qFadeIn {
+            from { opacity: 0; transform: translateY(8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .q-fade-in {
+            animation: qFadeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        #confetti-canvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 100; }
+
+        /* 做题卡片 3D 左右侧滑渐变切换 */
+        .q-slide-out {
+            opacity: 0 !important;
+            transform: translateX(-10px) scale(0.99) !important;
+            transition: opacity 0.15s cubic-bezier(0.25, 0.8, 0.25, 1), transform 0.15s cubic-bezier(0.25, 0.8, 0.25, 1) !important;
+        }
+
+        .q-slide-in {
+            animation: qSlideIn 0.38s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        @keyframes qSlideIn {
+            from {
+                opacity: 0;
+                transform: translateX(10px) scale(0.99);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0) scale(1);
+            }
+        }
+
+        /* 右上角控制按钮区 */
+        .hud-actions {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .hud-btn {
+            width: 36px;
+            height: 36px;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            background: var(--bg-card);
+            color: var(--text-weak);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            text-decoration: none;
+            transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
+        }
+
+        .hud-btn:hover {
+            background: rgba(31, 27, 24, 0.03);
+            border-color: var(--theme-accent);
+            color: var(--theme-accent);
+            transform: scale(1.05);
+        }
+
+        [data-theme="dark"] .hud-btn:hover {
+            background: rgba(230, 228, 222, 0.03);
+        }
+
+        .hud-btn:active {
+            transform: scale(0.95);
+        }
+
+        .hud-btn i {
+            font-size: 0.95rem;
+        }
+
+        .theme-icon {
+            transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .theme-icon.rotate-animation {
+            transform: rotate(360deg) scale(1.25);
+        }
+    </style>
+</head>
+<body>
+    <canvas id="confetti-canvas"></canvas>
+
+    <header class="hud">
+        <div class="stat-group">
+            <div class="stat-item">
+                <span class="stat-label">MODE</span>
+                <span class="stat-value" id="hud-mode" style="font-size: 0.9rem">MENU</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-label">SCORE</span>
+                <span class="stat-value" id="hud-score">0</span>
+            </div>
+            <div class="stat-item" id="combo-box">
+                <span class="stat-label">COMBO</span>
+                <span class="stat-value" id="hud-combo">0</span>
+            </div>
+        </div>
+        <div class="hud-actions">
+            <a href="../index.html" class="hud-btn" title="返回首页" aria-label="返回首页">
+                <i class="fa-solid fa-house" aria-hidden="true"></i>
+            </a>
+            <button class="hud-btn" id="theme-btn" title="切换黑夜/白昼模式" aria-label="切换主题">
+                <i class="fa-solid fa-sun theme-icon" id="theme-icon" aria-hidden="true"></i>
+            </button>
+        </div>
+    </header>
+
+    <main>
+        <div id="screen-menu" class="card">
+            <h1 style="color: var(--theme-accent); margin-bottom: 0.5rem;">软件项目规划能力测试</h1>
+            <p style="opacity: 0.7; margin-bottom: 2rem;">判断题、单选题与多选题 · 全 7 章考点</p>
+            
+            <div class="menu-grid">
+                <div class="menu-card" onclick="app.startMode('mock')" style="border-color: var(--theme-green); background: rgba(84, 132, 96, 0.04);">
+                    <div class="menu-badge" style="color: var(--theme-green); opacity:0.15;">🎓</div>
+                    <h3 style="color: var(--theme-green);">模拟考试</h3>
+                    <p>随机抽取 20 题<br>全书混合 · 实战演练</p>
+                    <div class="stat-pill" id="stat-mock">最高正确率: 0%</div>
+                </div>
+ 
+                <div class="menu-card" id="btn-mistakes" onclick="app.startMode('mistakes')" style="border-color: var(--theme-accent); background: rgba(124, 58, 237, 0.04);">
+                    <div class="menu-badge" style="color: var(--theme-accent); opacity:0.15;">🎯</div>
+                    <h3 style="color: var(--theme-accent);">错题攻坚</h3>
+                    <p>重做历史错题<br><span id="mistake-count" style="font-weight:bold">0</span> 道待修复</p>
+                </div>
+
+                <div class="menu-card" onclick="app.startMode('part1')">
+                    <div class="menu-badge">📐</div>
+                    <h3>1. 概述与计划控制</h3>
+                    <p>第 1 - 2 章</p>
+                    <div class="stat-pill" id="stat-part1">最高正确率: 0%</div>
+                </div>
+                
+                <div class="menu-card" onclick="app.startMode('part2')">
+                    <div class="menu-badge">🚀</div>
+                    <h3>2. 进度、采购、成本质量</h3>
+                    <p>第 3 - 5 章</p>
+                    <div class="stat-pill" id="stat-part2">最高正确率: 0%</div>
+                </div>
+                
+                <div class="menu-card" onclick="app.startMode('part3')">
+                    <div class="menu-badge">🤖</div>
+                    <h3>3. 控制实施与组织沟通</h3>
+                    <p>第 6 - 7 章</p>
+                    <div class="stat-pill" id="stat-part3">最高正确率: 0%</div>
+                </div>
+            </div>
+            
+            <div style="margin-top: auto; padding-top: 2rem; text-align: center;">
+                <button class="btn btn-outline" onclick="app.clearHistory()" style="font-size: 0.8rem; padding: 0.5rem 1rem;">🗑️ 重置所有进度与错题</button>
+            </div>
+        </div>
+
+        <div id="screen-game" class="card hide">
+            <div class="progress-container"><div class="progress-bar" id="progress-bar"></div></div>
+            
+            <div class="q-header">
+                <span class="q-tag" id="q-tag">Category</span>
+                <span style="font-family: 'JetBrains Mono'; font-weight: 700; opacity: 0.6;" id="q-counter">1/10</span>
+            </div>
+
+            <div id="q-content-area" style="flex:1; overflow-y: auto;">
+                <h2 class="q-text" id="q-text">题目加载中...</h2>
+                
+                <!-- Type 1: 多选题容器 -->
+                <div class="options-grid" id="options-container"></div>
+                
+                <!-- Type 2: 填空题容器 -->
+                <div id="type2-container" class="type2-container hide">
+                    <p style="opacity: 0.8; margin-bottom: 1.5rem;">这是一道填空题。请先在心中想好答案，然后点击下方按钮核对。</p>
+                    <button class="btn btn-primary" id="btn-show-answer">👀 查看正确答案</button>
+                    
+                    <div id="type2-answer-area" class="hide" style="margin-top: 1rem;">
+                        <div class="type2-ans-box" id="type2-correct-answer"></div>
+                        <p style="opacity: 0.8; margin-bottom: 1rem; font-size: 0.9rem;">请诚实地自我评估：</p>
+                        <div style="display: flex; gap: 1rem; justify-content: center;">
+                            <button class="btn btn-outline" id="btn-self-correct" style="color: var(--green); border-color: var(--green);">✅ 我填对了</button>
+                            <button class="btn btn-outline" id="btn-self-wrong" style="color: var(--red); border-color: var(--red);">❌ 我填错了</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="explanation prose prose-sm hide" id="explanation">
+                    <strong>来源与解析</strong>
+                    <span id="exp-text"></span>
+                    <div id="mnemonic-area" class="quiz-mnemonic-box prose prose-sm hide">
+                        <strong class="quiz-mnemonic-title">💡 记忆口诀</strong>
+                        <span id="mnemonic-text" class="quiz-mnemonic-text"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="actions" style="margin-top: 1.5rem; display: flex; justify-content: flex-end;">
+                <button class="btn btn-primary hide" id="next-btn">下一题 (Enter) ➜</button>
+            </div>
+        </div>
+
+        <div id="screen-result" class="card hide">
+            <h2 style="color: var(--heading-color); margin-bottom: 0;">本次挑战完成!</h2>
+            
+            <div class="result-container">
+                <div class="score-circle">
+                    <span class="score-val" id="res-accuracy">0%</span>
+                    <span class="score-label">正确率</span>
+                </div>
+
+                <div class="stat-row">
+                    <div class="stat-box">
+                        <h4>得分</h4>
+                        <div class="val" style="color:var(--blue)" id="res-score">0</div>
+                    </div>
+                    <div class="stat-box">
+                        <h4>最高连击</h4>
+                        <div class="val" style="color:var(--orange)" id="res-combo">0</div>
+                    </div>
+                    <div class="stat-box">
+                        <h4>错题</h4>
+                        <div class="val bad" id="res-wrong">0</div>
+                    </div>
+                </div>
+
+                <div style="width: 100%; display: grid; gap: 1rem; margin-top: 1rem;">
+                    <button class="btn btn-primary" onclick="app.retrySessionMistakes()" id="btn-retry-session">只做刚才做错的题</button>
+                    <button class="btn btn-secondary" onclick="app.toMenu()">返回主菜单</button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+<script>
+/**
+ * 数据源: 软件项目规划能力测试题（选择与判断）
+ * 格式: [Type, Question, Options/Answer, CorrectIndex/Null, Explanation, Chapter]
+ * Type: 1=客观题；第8位 multi=true 表示多选题
+ */
+const rawDB = [
+  [
+    1,
+    "项目管理的目标就是按时完成任务。",
+    [
+      "A. 正确",
+      "B. 错误"
+    ],
+    1,
+    "项目管理目标不仅包括时间，还包括范围、成本、质量、资源等多重目标。",
+    1,
+    "绝对说法多留心，概念不符判错误。",
+    false
+  ],
+  [
+    1,
+    "项目是为完成某一独特的产品、服务或任务所做的一次性努力。",
+    [
+      "A. 正确",
+      "B. 错误"
+    ],
+    0,
+    "项目具有临时性、一次性和独特性。",
+    1,
+    "判断先抓关键词，符合定义选正确。",
+    false
+  ],
+  [
+    1,
+    "每一个项目阶段的结束必须以某种可交付成果为标志。",
+    [
+      "A. 正确",
+      "B. 错误"
+    ],
+    0,
+    "阶段结束通常以可交付成果、评审或阶段性成果为标志。",
+    1,
+    "判断先抓关键词，符合定义选正确。",
+    false
+  ],
+  [
+    1,
+    "项目生命周期可归纳为4个阶段，这4个阶段的划分通常是固定不变的。",
+    [
+      "A. 正确",
+      "B. 错误"
+    ],
+    1,
+    "项目生命周期阶段可按行业和项目特点裁剪，并非固定不变。",
+    1,
+    "绝对说法多留心，概念不符判错误。",
+    false
+  ],
+  [
+    1,
+    "项目管理成熟度模型的概念主要来源于软件行业的能力成熟度模型。",
+    [
+      "A. 正确",
+      "B. 错误"
+    ],
+    0,
+    "项目管理成熟度模型借鉴了软件能力成熟度模型的思想。",
+    1,
+    "判断先抓关键词，符合定义选正确。",
+    false
+  ],
+  [
+    1,
+    "以下各项都是项目的特点，除了（ ）。",
+    [
+      "A. 有始有终",
+      "B. 临时性",
+      "C. 重复性",
+      "D. 独特性"
+    ],
+    2,
+    "项目不是重复运营，重复性属于运作管理特征。",
+    1,
+    "项目临时且独特，重复运营要排除。",
+    false
+  ],
+  [
+    1,
+    "随着项目生命周期的进展，资源的投入通常（ ）。",
+    [
+      "A. 逐渐变大",
+      "B. 逐渐变小",
+      "C. 先变大再变小",
+      "D. 先变小再变大"
+    ],
+    2,
+    "项目资源投入一般在实施阶段达到峰值，前期和收尾较低。",
+    1,
+    "资源投入像小山，中间高来两头缓。",
+    false
+  ],
+  [
+    1,
+    "下列表述正确的是（ ）。",
+    [
+      "A. 项目的生命周期只是开始到结束的一段时间",
+      "B. 所有项目阶段都只能归纳为启动、执行、收尾三阶段",
+      "C. 失败的项目也存在收尾阶段",
+      "D. 项目生命周期是循环往复的一段时间"
+    ],
+    2,
+    "无论成功或失败，项目都需要进行收尾、交接或终止处理。",
+    1,
+    "项目成败都收尾，资料交接别漏归。",
+    false
+  ],
+  [
+    1,
+    "项目的“一次性”含义是指（ ）。",
+    [
+      "A. 项目持续的时间很短",
+      "B. 项目有确定的开始和结束时间",
+      "C. 项目将在任意不确定时间结束",
+      "D. 项目可以在任何时候取消"
+    ],
+    1,
+    "一次性强调项目有明确的开始和结束，而不是周期性重复。",
+    1,
+    "一次不是时间短，有始有终才算准。",
+    false
+  ],
+  [
+    1,
+    "科兹纳（Kerzner）项目管理成熟度模型的最高级是（ ）。",
+    [
+      "A. 基准比较级",
+      "B. 持续改进级",
+      "C. 通用过程级",
+      "D. 单一方法级"
+    ],
+    1,
+    "Kerzner PMMM 的最高层级是持续改进级。",
+    1,
+    "成熟最高看改进，持续优化往前进。",
+    false
+  ],
+  [
+    1,
+    "项目生命周期的阶段通常包括（ ）。",
+    [
+      "A. 实施阶段",
+      "B. 结束阶段",
+      "C. 概念阶段",
+      "D. 规划阶段",
+      "E. 启动阶段"
+    ],
+    [
+      0,
+      1,
+      2,
+      3
+    ],
+    "常见生命周期可归纳为概念、规划、实施和结束阶段。",
+    1,
+    "概念规划实施收，四段生命周期走。",
+    true
+  ],
+  [
+    1,
+    "项目管理的特点包括（ ）。",
+    [
+      "A. 对象的特殊性",
+      "B. 管理的系统性",
+      "C. 管理的重复性",
+      "D. 管理的自发性",
+      "E. 管理方法的开放性"
+    ],
+    [
+      0,
+      1,
+      4
+    ],
+    "项目管理对象特殊，需要系统化方法，也强调开放和综合应用。",
+    1,
+    "对象特殊系统管，方法开放来通关。",
+    true
+  ],
+  [
+    1,
+    "下列属于项目特点的是（ ）。",
+    [
+      "A. 目的性",
+      "B. 冲突性",
+      "C. 生产性",
+      "D. 独特性",
+      "E. 自发性"
+    ],
+    [
+      0,
+      1,
+      3
+    ],
+    "项目具有目的性、独特性、临时性，并常伴随资源和目标冲突。",
+    1,
+    "目的独特有冲突，项目特征别记糊。",
+    true
+  ],
+  [
+    1,
+    "项目管理过程可由（ ）组成。",
+    [
+      "A. 计划过程",
+      "B. 启动过程",
+      "C. 执行和控制过程",
+      "D. 收尾过程",
+      "E. 组织过程"
+    ],
+    [
+      0,
+      1,
+      2,
+      3
+    ],
+    "项目管理过程通常包括启动、计划、执行/控制和收尾。",
+    1,
+    "启计执控再收尾，过程闭环才完整。",
+    true
+  ],
+  [
+    1,
+    "项目基线是特指项目的规范、应用标准、进度指标、成本指标，以及人员和其他资源使用指标等。",
+    [
+      "A. 正确",
+      "B. 错误"
+    ],
+    0,
+    "项目基线可作为项目控制与比较的基础。",
+    2,
+    "判断先抓关键词，符合定义选正确。",
+    false
+  ],
+  [
+    1,
+    "概念性计划通常称为自下而上的计划。",
+    [
+      "A. 正确",
+      "B. 错误"
+    ],
+    1,
+    "概念性计划偏总体和高层规划，通常不是自下而上的详细计划。",
+    2,
+    "绝对说法多留心，概念不符判错误。",
+    false
+  ],
+  [
+    1,
+    "变更控制计划主要规定处理变更的步骤、程序，确定变更行动的准则。",
+    [
+      "A. 正确",
+      "B. 错误"
+    ],
+    0,
+    "变更控制计划明确变更流程、审批程序和行动准则。",
+    2,
+    "判断先抓关键词，符合定义选正确。",
+    false
+  ],
+  [
+    1,
+    "正向偏差意味着进度超前或实际花费小于计划花费，这对项目来说一定是好消息。",
+    [
+      "A. 正确",
+      "B. 错误"
+    ],
+    1,
+    "正向偏差也可能意味着范围、质量或资源安排存在问题，不能一概视为好消息。",
+    2,
+    "绝对说法多留心，概念不符判错误。",
+    false
+  ],
+  [
+    1,
+    "过程控制是在项目实施过程中进行现场监督和指导的控制。",
+    [
+      "A. 正确",
+      "B. 错误"
+    ],
+    0,
+    "过程控制又称现场控制，发生在项目实施过程中。",
+    2,
+    "判断先抓关键词，符合定义选正确。",
+    false
+  ],
+  [
+    1,
+    "将项目进度、成本、质量和范围作为项目管理目标，体现了项目管理的（ ）特点。",
+    [
+      "A. 多目标性",
+      "B. 层次性",
+      "C. 系统性",
+      "D. 优先性"
+    ],
+    0,
+    "项目管理往往同时追求多个互相关联的目标。",
+    2,
+    "进成质范多目标，平衡控制才牢靠。",
+    false
+  ],
+  [
+    1,
+    "项目已经落后于进度，且规划阶段未考虑若干时间制约因素，项目经理首先应（ ）。",
+    [
+      "A. 制订项目进度计划",
+      "B. 控制项目进度计划",
+      "C. 为项目活动排序",
+      "D. 快速跟进项目进度计划"
+    ],
+    1,
+    "已处于执行并发现落后时，首先应进入进度控制，分析偏差并采取纠偏措施。",
+    2,
+    "落后先控再纠偏，别急重排乱开篇。",
+    false
+  ],
+  [
+    1,
+    "项目目标的（ ）是项目管理最基本的方法论。",
+    [
+      "A. 定量控制",
+      "B. 定性控制",
+      "C. 动态控制",
+      "D. 静态控制"
+    ],
+    2,
+    "项目目标管理强调计划值与实际值的比较、纠偏和动态调整。",
+    2,
+    "计划实际常比较，动态控制最重要。",
+    false
+  ],
+  [
+    1,
+    "项目目标控制的动态原理包含（ ）。",
+    [
+      "A. 项目目标分解",
+      "B. 项目目标计划值和实际值的比较",
+      "C. 纠偏行为",
+      "D. 目标调整",
+      "E. 确定目标的计划值"
+    ],
+    [
+      1,
+      2,
+      3,
+      4
+    ],
+    "动态控制以计划值为基准，将实际值与计划值比较，并根据偏差纠偏或调整目标。",
+    2,
+    "定值比较再纠偏，必要调整成闭环。",
+    true
+  ],
+  [
+    1,
+    "项目范围变更控制的依据一般包括（ ）。",
+    [
+      "A. 工作分解结构",
+      "B. 项目绩效报告",
+      "C. 来自项目内外部的变更请求",
+      "D. 项目范围管理计划",
+      "E. 项目利益相关者的需求"
+    ],
+    [
+      0,
+      1,
+      2,
+      3
+    ],
+    "范围变更控制常依据WBS、绩效报告、变更请求和范围管理计划。",
+    2,
+    "范围变更看四件，分解报告请求计划。",
+    true
+  ],
+  [
+    1,
+    "项目成本计划包括（ ）。",
+    [
+      "A. 项目资源计划",
+      "B. 项目成本估算",
+      "C. 项目成本偏差",
+      "D. 项目成本控制",
+      "E. 项目成本预算"
+    ],
+    [
+      0,
+      1,
+      4
+    ],
+    "成本计划一般包含资源计划、成本估算和成本预算。",
+    2,
+    "资源估算加预算，成本计划三步算。",
+    true
+  ],
+  [
+    1,
+    "项目控制系统包括的要素有（ ）。",
+    [
+      "A. 措施",
+      "B. 信息",
+      "C. 资源",
+      "D. 范围",
+      "E. 反馈"
+    ],
+    [
+      0,
+      1,
+      2,
+      4
+    ],
+    "控制系统需要信息、反馈、资源和纠偏措施支撑。",
+    2,
+    "信息反馈配资源，控制措施来纠偏。",
+    true
+  ],
+  [
+    1,
+    "项目的进度、成本和质量三者之间的关系是对立统一的。",
+    [
+      "A. 正确",
+      "B. 错误"
+    ],
+    0,
+    "时间、成本、质量相互制约又共同服务于项目目标。",
+    3,
+    "判断先抓关键词，符合定义选正确。",
+    false
+  ],
+  [
+    1,
+    "项目的进度计划表明了项目各项工作的先后顺序以及每个项目工作的历时。",
+    [
+      "A. 正确",
+      "B. 错误"
+    ],
+    0,
+    "进度计划需要体现工作顺序、持续时间及相关安排。",
+    3,
+    "判断先抓关键词，符合定义选正确。",
+    false
+  ],
+  [
+    1,
+    "关键路线就是完成项目时间最短的路线。",
+    [
+      "A. 正确",
+      "B. 错误"
+    ],
+    1,
+    "关键路线是项目网络中总持续时间最长、决定项目工期的路线。",
+    3,
+    "绝对说法多留心，概念不符判错误。",
+    false
+  ],
+  [
+    1,
+    "计划评审技术的工作工期不是固定的，而是用期望值表示的。",
+    [
+      "A. 正确",
+      "B. 错误"
+    ],
+    0,
+    "PERT采用乐观、最可能、悲观时间估计期望工期。",
+    3,
+    "判断先抓关键词，符合定义选正确。",
+    false
+  ],
+  [
+    1,
+    "资源对项目的进度计划、成本计划等没有直接影响。",
+    [
+      "A. 正确",
+      "B. 错误"
+    ],
+    1,
+    "资源数量、可得性和价格都会直接影响进度与成本。",
+    3,
+    "绝对说法多留心，概念不符判错误。",
+    false
+  ],
+  [
+    1,
+    "在任务赶工时，应该集中于（ ）。",
+    [
+      "A. 路线的非关键工作",
+      "B. 耗费资源多的工作",
+      "C. 关键路线的工作",
+      "D. 降低成本、加速执行"
+    ],
+    2,
+    "赶工应优先压缩关键路径上的工期，否则不一定缩短总工期。",
+    3,
+    "赶工盯住关键线，压错工作白花钱。",
+    false
+  ],
+  [
+    1,
+    "只有一个人执行房屋装修项目，装修门和窗的顺序只能使用（ ）逻辑关系。",
+    [
+      "A. 完成到开始",
+      "B. 完成到完成",
+      "C. 开始到开始",
+      "D. 开始到完成"
+    ],
+    0,
+    "同一资源无法并行完成两个活动，只能一个完成后另一个开始。",
+    3,
+    "一人干活不能并，完成到开始最清。",
+    false
+  ],
+  [
+    1,
+    "某项工作乐观时间3天，最可能时间6天，悲观时间9天，此任务期望工期为（ ）。",
+    [
+      "A. 5天",
+      "B. 6天",
+      "C. 9天",
+      "D. 8天"
+    ],
+    1,
+    "PERT期望时间=(乐观+4×最可能+悲观)/6=(3+24+9)/6=6天。",
+    3,
+    "三四六加悲观，除以六得期望。",
+    false
+  ],
+  [
+    1,
+    "关于关键路线的正确描述是（ ）。",
+    [
+      "A. 耗时最短的路线",
+      "B. 耗时最长的路线",
+      "C. 网络图中最多存在一条关键路线",
+      "D. 关键路线工作延误不影响项目完工"
+    ],
+    1,
+    "关键路线是总工期最长的路径，决定项目最短完成时间。",
+    3,
+    "关键路线最长路，延误一天全局误。",
+    false
+  ],
+  [
+    1,
+    "项目进度计划常用的编制方式有（ ）。",
+    [
+      "A. WBS",
+      "B. 里程碑",
+      "C. 甘特图",
+      "D. 网络图",
+      "E. 三个时间估计法"
+    ],
+    [
+      1,
+      2,
+      3,
+      4
+    ],
+    "里程碑、甘特图、网络图和三点估计都可用于进度计划编制。",
+    3,
+    "里程甘特网络图，三点估计排进度。",
+    true
+  ],
+  [
+    1,
+    "下列有关关键路线法和计划评审技术的表述正确的是（ ）。",
+    [
+      "A. 关键路线法适用于以往有类似经验的项目",
+      "B. 计划评审技术更多应用于研发项目",
+      "C. 任务工期无法准确估计时一般采用计划评审技术",
+      "D. 关键路线法属于非肯定型方法",
+      "E. 网络计划的基本形式包括关键路线法和计划评审技术"
+    ],
+    [
+      0,
+      1,
+      2,
+      4
+    ],
+    "CPM偏确定型，PERT偏不确定型，适合研发和不确定工期估计。",
+    3,
+    "确定用CPM，不定PERT来估时。",
+    true
+  ],
+  [
+    1,
+    "关于时差，下列表述正确的是（ ）。",
+    [
+      "A. 进度计划修改后关键路线不会改变",
+      "B. 总时差为负表示提前完成项目",
+      "C. 总时差为正表示在预定时间内有余量",
+      "D. 总时差为正表示无法完成项目",
+      "E. 自由时差为负表示在预定时间内无法完成项目"
+    ],
+    [
+      2,
+      4
+    ],
+    "总时差为正说明存在时间余量；负时差通常说明按预定时间存在压力。",
+    3,
+    "正差有余负差紧，关键时差要分清。",
+    true
+  ],
+  [
+    1,
+    "根据项目所需资源的可得性，资源主要可分为（ ）。",
+    [
+      "A. 可以持续使用的资源",
+      "B. 不可再生资源",
+      "C. 消耗性资源",
+      "D. 双重限制性资源",
+      "E. 没有限制的资源"
+    ],
+    [
+      0,
+      1,
+      2,
+      3
+    ],
+    "资源可按可得性分为可持续使用、消耗性、不可再生和双重限制资源等。",
+    3,
+    "资源分类看可得，持续消耗双限制。",
+    true
+  ],
+  [
+    1,
+    "通过工作分解结构（WBS）可达到的目的有（ ）。",
+    [
+      "A. 准确说明项目目标",
+      "B. 为项目控制奠定基础",
+      "C. 全面改进项目沟通",
+      "D. 识别关键工作和各项子工作",
+      "E. 了解工作包之间的逻辑关系"
+    ],
+    [
+      0,
+      1,
+      2,
+      3
+    ],
+    "WBS用于分解范围、明确工作、支持控制与沟通；逻辑关系主要由网络计划体现。",
+    3,
+    "WBS拆范围，目标控制沟通强。",
+    true
+  ],
+  [
+    1,
+    "项目的采购是站在卖方的角度进行的。",
+    [
+      "A. 正确",
+      "B. 错误"
+    ],
+    1,
+    "项目采购通常是买方为满足项目需要而获取外部资源。",
+    4,
+    "绝对说法多留心，概念不符判错误。",
+    false
+  ],
+  [
+    1,
+    "一般来说，对比公开招标采购，邀请招标采购能找到更少的投标者。",
+    [
+      "A. 正确",
+      "B. 错误"
+    ],
+    0,
+    "邀请招标面向特定供应商，投标者数量通常少于公开招标。",
+    4,
+    "判断先抓关键词，符合定义选正确。",
+    false
+  ],
+  [
+    1,
+    "在选择供应商时，成本是唯一的决定因素。",
+    [
+      "A. 正确",
+      "B. 错误"
+    ],
+    1,
+    "供应商选择还要考虑质量、交付、能力、信誉、风险等因素。",
+    4,
+    "绝对说法多留心，概念不符判错误。",
+    false
+  ],
+  [
+    1,
+    "只有合同双方都履行完各自义务时，合同才能终止。",
+    [
+      "A. 正确",
+      "B. 错误"
+    ],
+    1,
+    "合同还可能因违约、解除、不可抗力、协议终止等原因终止。",
+    4,
+    "绝对说法多留心，概念不符判错误。",
+    false
+  ],
+  [
+    1,
+    "征求建议书是买方和供应商将来工作关系的基础。",
+    [
+      "A. 正确",
+      "B. 错误"
+    ],
+    0,
+    "RFP描述需求和工作关系，是后续建议、评审与合同的基础。",
+    4,
+    "判断先抓关键词，符合定义选正确。",
+    false
+  ],
+  [
+    1,
+    "某公司每年需要A零件300件，自制固定成本300元、单位变动成本7元；外购单价8元。该公司应（ ）。",
+    [
+      "A. 自制",
+      "B. 外购",
+      "C. 两者效果一样",
+      "D. 不能确定"
+    ],
+    2,
+    "自制总成本=300+7×300=2400元，外购成本=8×300=2400元，两者相同。",
+    4,
+    "自制外购先算账，成本相同都一样。",
+    false
+  ],
+  [
+    1,
+    "将大部分风险转移给买方的合同类型是（ ）。",
+    [
+      "A. 成本加奖励费合同",
+      "B. 人工费加原材料费合同",
+      "C. 固定价格加经济价格调整合同",
+      "D. 固定价格加奖励费合同"
+    ],
+    0,
+    "成本补偿类合同中买方承担较多成本风险。",
+    4,
+    "成本补偿买方担，固定价格卖方险。",
+    false
+  ],
+  [
+    1,
+    "项目需要的材料只有拥有专利的卖方能够提供，规划时主要应关注（ ）。",
+    [
+      "A. 卖方破产",
+      "B. 相关法律",
+      "C. 将要使用的合同类型",
+      "D. 卖方竞争"
+    ],
+    1,
+    "专利材料涉及知识产权、授权与合规，应重点关注相关法律问题。",
+    4,
+    "专利材料先合法，合同采购别踩法。",
+    false
+  ],
+  [
+    1,
+    "团队无法准确说明长期分包工作的具体内容，应使用（ ）合同类型。",
+    [
+      "A. 人工费加原材料费合同",
+      "B. 成本加回报费合同",
+      "C. 成本加固定费合同",
+      "D. 固定价格加经济价格调整合同"
+    ],
+    0,
+    "当工作范围难以准确界定时，人工费加原材料费合同较为灵活。",
+    4,
+    "范围难定别固定，工料合同更灵活。",
+    false
+  ],
+  [
+    1,
+    "邀请招标的特点是（ ）。",
+    [
+      "A. 不使用公开公告形式",
+      "B. 接受邀请的单位才是合格投标人",
+      "C. 投标人数量有限",
+      "D. 不要求供应商资质",
+      "E. 应邀单位通常需有3家以上"
+    ],
+    [
+      0,
+      1,
+      2,
+      4
+    ],
+    "邀请招标面向被邀请且具备资质的供应商，数量有限但需形成竞争。",
+    4,
+    "邀请不公告，合格被邀来投标。",
+    true
+  ],
+  [
+    1,
+    "项目采购计划的制订应注意（ ）。",
+    [
+      "A. 采购物料质量和性能符合项目要求",
+      "B. 明确规定采购物料衔接问题",
+      "C. 采购数量应尽量多",
+      "D. 对整个采购过程进行协调管理",
+      "E. 制订采购计划是采购管理的第一步"
+    ],
+    [
+      0,
+      1,
+      3,
+      4
+    ],
+    "采购数量不是越多越好，应服从项目需求、成本和库存约束。",
+    4,
+    "质量衔接要协调，数量过多不可要。",
+    true
+  ],
+  [
+    1,
+    "对供应商评估包括（ ）。",
+    [
+      "A. 价格",
+      "B. 质量",
+      "C. 交付能力",
+      "D. 信息协调能力",
+      "E. 生存能力"
+    ],
+    [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "供应商评估应综合价格、质量、交付、协同和持续经营能力。",
+    4,
+    "价质交付协同生，供应评估五项清。",
+    true
+  ],
+  [
+    1,
+    "成本补偿合同包括（ ）。",
+    [
+      "A. 成本加固定费合同",
+      "B. 单价合同",
+      "C. 成本加奖励费合同",
+      "D. 固定价格加奖励费合同",
+      "E. 成本加回报费合同"
+    ],
+    [
+      0,
+      2,
+      4
+    ],
+    "成本补偿类合同包括成本加固定费、成本加奖励费、成本加回报费等。",
+    4,
+    "成本加费有三类，固定奖励回报配。",
+    true
+  ],
+  [
+    1,
+    "招投标过程中被禁止的行为是（ ）。",
+    [
+      "A. 采取低价策略",
+      "B. 投标人之间约定抬高投标价格",
+      "C. 投标人内部竞价并内定中标人",
+      "D. 招标人提出工程条件和要求",
+      "E. 投标人以低于成本的报价竞标"
+    ],
+    [
+      1,
+      2,
+      4
+    ],
+    "串通投标、内定中标、低于成本恶性竞标属于禁止行为。",
+    4,
+    "串标内定低成本，招标红线不能碰。",
+    true
+  ],
+  [
+    1,
+    "人工成本就是员工的工资。",
+    [
+      "A. 正确",
+      "B. 错误"
+    ],
+    1,
+    "人工成本除工资外，还可能包括福利、保险、培训、管理等相关费用。",
+    5,
+    "绝对说法多留心，概念不符判错误。",
+    false
+  ],
+  [
+    1,
+    "缩短项目的工作时间，往往以减少项目的成本为代价。",
+    [
+      "A. 正确",
+      "B. 错误"
+    ],
+    1,
+    "缩短工期常需赶工、增加资源或加班，通常会增加成本。",
+    5,
+    "绝对说法多留心，概念不符判错误。",
+    false
+  ],
+  [
+    1,
+    "一般情况下，成本估算和成本预算可以采用同样的方法。",
+    [
+      "A. 正确",
+      "B. 错误"
+    ],
+    0,
+    "成本估算和预算在方法上可有重叠，如类比、参数、WBS等。",
+    5,
+    "判断先抓关键词，符合定义选正确。",
+    false
+  ],
+  [
+    1,
+    "项目质量计划的实际执行情况是项目质量控制的最基本依据。",
+    [
+      "A. 正确",
+      "B. 错误"
+    ],
+    0,
+    "质量控制需要依据质量计划及执行情况检查偏差。",
+    5,
+    "判断先抓关键词，符合定义选正确。",
+    false
+  ],
+  [
+    1,
+    "质量成本是全面质量管理活动的经济表现，是实现项目规定质量目标所需要的全部费用。",
+    [
+      "A. 正确",
+      "B. 错误"
+    ],
+    0,
+    "质量成本体现为预防、鉴定、内部失败、外部失败等成本。",
+    5,
+    "判断先抓关键词，符合定义选正确。",
+    false
+  ],
+  [
+    1,
+    "将项目任务分解，通过估算最小任务成本并汇总确定项目总成本的方法是（ ）。",
+    [
+      "A. 经验估算法",
+      "B. 类比估算法",
+      "C. 参数估算法",
+      "D. 基于WBS的全面成本估算"
+    ],
+    3,
+    "基于WBS的估算从工作包或最小任务逐级汇总。",
+    5,
+    "任务分解逐级算，WBS估算最全面。",
+    false
+  ],
+  [
+    1,
+    "项目质量控制和项目质量保证的关系是（ ）。",
+    [
+      "A. 截然分开的",
+      "B. 有不同的目标",
+      "C. 相互交叉、相互重叠的",
+      "D. 采用相同的方法"
+    ],
+    2,
+    "质量保证偏过程，质量控制偏结果检查，但二者在实践中相互交叉。",
+    5,
+    "保证看过程，控制查结果，二者交叉莫割裂。",
+    false
+  ],
+  [
+    1,
+    "在成本/收益分析中，项目质量收益是指（ ）。",
+    [
+      "A. 质量活动带来的全部好处",
+      "B. 满足质量要求而减少返工获得的好处",
+      "C. 降低质量要求所减少的成本",
+      "D. 质量提高所增加收益与增加成本之差"
+    ],
+    1,
+    "质量收益常体现为因满足质量要求而减少返工、缺陷和损失。",
+    5,
+    "质量达标少返工，收益自然往上冲。",
+    false
+  ],
+  [
+    1,
+    "项目质量审计发生在项目质量管理中的（ ）阶段。",
+    [
+      "A. 质量保证",
+      "B. 质量管理计划",
+      "C. 质量控制",
+      "D. 质量改进"
+    ],
+    0,
+    "质量审计是质量保证的重要工具，用于检查过程是否符合要求。",
+    5,
+    "质量审计查过程，保证阶段常使用。",
+    false
+  ],
+  [
+    1,
+    "项目成本估算的方法包括（ ）。",
+    [
+      "A. 经验估算法",
+      "B. 类比估算法",
+      "C. 参数估算法",
+      "D. 基于WBS的全面成本估算",
+      "E. 固定成本法"
+    ],
+    [
+      0,
+      1,
+      2,
+      3
+    ],
+    "常用成本估算方法包括经验、类比、参数和WBS估算。",
+    5,
+    "经验类比参数法，WBS汇总也要抓。",
+    true
+  ],
+  [
+    1,
+    "影响项目成本的因素中，下列表述正确的是（ ）。",
+    [
+      "A. 延长项目工期一定会减少成本",
+      "B. 项目质量要求越高成本通常越高",
+      "C. 项目活动越复杂成本通常越高",
+      "D. 资源数量对项目成本影响较大",
+      "E. 经验丰富团队成本变化相对较少"
+    ],
+    [
+      1,
+      2,
+      3,
+      4
+    ],
+    "质量、复杂度、资源消耗与团队经验都会影响成本；延长工期不一定降低成本。",
+    5,
+    "质量复杂资源队，成本变化都相关。",
+    true
+  ],
+  [
+    1,
+    "质量策划的常用方法是（ ）。",
+    [
+      "A. 成本/收益法",
+      "B. 质量政策",
+      "C. 质量标杆法",
+      "D. 质量成本分析",
+      "E. 流程图法"
+    ],
+    [
+      0,
+      2,
+      3,
+      4
+    ],
+    "质量策划常用成本收益、标杆、质量成本、流程图等方法。",
+    5,
+    "收益标杆质量费，流程图法来策划。",
+    true
+  ],
+  [
+    1,
+    "下列有关流程图的表述正确的是（ ）。",
+    [
+      "A. 描述项目活动之间的相互关系",
+      "B. 有助于发现可能产生质量问题的环节",
+      "C. 难以明确质量管理责任",
+      "D. 有助于找出解决质量问题的方法",
+      "E. 可用于分析质量因素和编制质量计划"
+    ],
+    [
+      0,
+      1,
+      3,
+      4
+    ],
+    "流程图能展示流程关系、识别问题环节并支持质量计划和改进。",
+    5,
+    "流程一画关系明，问题方法都看清。",
+    true
+  ],
+  [
+    1,
+    "PDCA循环中，质量管理的计划职能主要包括（ ）。",
+    [
+      "A. 明确需要改进的地方及目标",
+      "B. 制订实现质量目标的行动方案",
+      "C. 将质量目标值转换为实际值",
+      "D. 对实施过程进行检查",
+      "E. 分析原因并纠正不合格"
+    ],
+    [
+      0,
+      1
+    ],
+    "PDCA中的Plan强调确定目标和制定行动方案；检查和纠正属于后续环节。",
+    5,
+    "计划先定目标，再把方案制订好。",
+    true
+  ],
+  [
+    1,
+    "项目控制的过程也是一个信息传递和反馈的过程。",
+    [
+      "A. 正确",
+      "B. 错误"
+    ],
+    0,
+    "信息是项目控制的依据，控制过程离不开传递和反馈。",
+    6,
+    "判断先抓关键词，符合定义选正确。",
+    false
+  ],
+  [
+    1,
+    "进度控制就是压缩项目工期，尽量少花时间在项目上。",
+    [
+      "A. 正确",
+      "B. 错误"
+    ],
+    1,
+    "进度控制是监控、比较、分析和纠偏，不等同于一味压缩工期。",
+    6,
+    "绝对说法多留心，概念不符判错误。",
+    false
+  ],
+  [
+    1,
+    "项目变更申请可以由项目业主或项目团队提出，但不能由其他干系人提出。",
+    [
+      "A. 正确",
+      "B. 错误"
+    ],
+    1,
+    "项目干系人也可能提出变更请求。",
+    6,
+    "绝对说法多留心，概念不符判错误。",
+    false
+  ],
+  [
+    1,
+    "成本控制就是尽可能地少花钱。",
+    [
+      "A. 正确",
+      "B. 错误"
+    ],
+    1,
+    "成本控制是保证成本与预算、范围、质量目标协调，而非简单少花钱。",
+    6,
+    "绝对说法多留心，概念不符判错误。",
+    false
+  ],
+  [
+    1,
+    "项目进度监控的结果通过项目进展报告形式向有关部门和人员报告。",
+    [
+      "A. 正确",
+      "B. 错误"
+    ],
+    0,
+    "进度监控结果需要通过报告机制进行沟通。",
+    6,
+    "判断先抓关键词，符合定义选正确。",
+    false
+  ],
+  [
+    1,
+    "运用动态控制原理实施项目进度控制，首先应进行（ ）。",
+    [
+      "A. 对进度总目标逐层分解",
+      "B. 定期比较计划值与实际值",
+      "C. 分析进度偏差原因及影响",
+      "D. 收集工程进度实际值"
+    ],
+    0,
+    "动态控制首先要将总目标分解，形成可比较的计划目标。",
+    6,
+    "动态控制先分解，再比实际查偏差。",
+    false
+  ],
+  [
+    1,
+    "已知BCWS=220元，BCWP=200元，ACWP=250元，则CV为（ ）。",
+    [
+      "A. 30",
+      "B. 50",
+      "C. -30",
+      "D. -50"
+    ],
+    3,
+    "成本偏差CV=BCWP-ACWP=200-250=-50，表示成本超支。",
+    6,
+    "挣值减实耗，CV负数成本超。",
+    false
+  ],
+  [
+    1,
+    "能够找出发生次数少但对项目质量影响程度大的问题的方法是（ ）。",
+    [
+      "A. 趋势分析",
+      "B. 质量检查表",
+      "C. 控制图",
+      "D. 帕累托图"
+    ],
+    3,
+    "帕累托图用于识别少数关键问题，符合二八原则。",
+    6,
+    "少数关键影响大，帕累托图抓住它。",
+    false
+  ],
+  [
+    1,
+    "进度控制的重要作用是（ ）。",
+    [
+      "A. 判断活动所需时间",
+      "B. 判断是否需对进度偏差采取纠偏措施",
+      "C. 评价范围定义是否足以支持进度计划",
+      "D. 保持团队士气"
+    ],
+    1,
+    "进度控制的核心是发现偏差并决定是否、如何纠偏。",
+    6,
+    "进度偏差先判断，该不该纠偏再行动。",
+    false
+  ],
+  [
+    1,
+    "关于变更的描述不正确的是（ ）。",
+    [
+      "A. 项目经理单独做出变更决策",
+      "B. 变更发生时跟踪并记录",
+      "C. 就变更事项通知管理层",
+      "D. 避免回避变更"
+    ],
+    0,
+    "重大变更通常需按变更控制流程审批，不能由项目经理单独随意决策。",
+    6,
+    "变更不是一人定，流程审批才算稳。",
+    false
+  ],
+  [
+    1,
+    "与网络计划相比，甘特图进度计划法的特点有（ ）。",
+    [
+      "A. 适用于手工制订计划",
+      "B. 工作之间逻辑关系表达清楚",
+      "C. 能确定关键工作和关键路线",
+      "D. 调整只能用手工方式时工作量较大",
+      "E. 直观比较实际进度与计划进度偏差"
+    ],
+    [
+      0,
+      3,
+      4
+    ],
+    "甘特图直观、适合简单计划，但逻辑关系和关键路径表达不如网络图。",
+    6,
+    "甘特直观好比较，逻辑关键弱一些。",
+    true
+  ],
+  [
+    1,
+    "质量控制中常用的工具有（ ）。",
+    [
+      "A. 控制图",
+      "B. 流程图",
+      "C. 帕累托图",
+      "D. 质量检查表",
+      "E. 趋势分析"
+    ],
+    [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "控制图、流程图、帕累托图、检查表和趋势分析都是常用质量控制工具。",
+    6,
+    "控流帕检趋，质量工具要背齐。",
+    true
+  ],
+  [
+    1,
+    "在矩阵式组织结构中，项目工作通常需要部门与项目经理共同协调管理。",
+    [
+      "A. 正确",
+      "B. 错误"
+    ],
+    0,
+    "矩阵式组织具有双重结构和双重领导，需要职能部门与项目经理协同。",
+    7,
+    "判断先抓关键词，符合定义选正确。",
+    false
+  ],
+  [
+    1,
+    "项目经理是项目的关键人物。",
+    [
+      "A. 正确",
+      "B. 错误"
+    ],
+    0,
+    "项目经理负责计划、组织、协调、控制，是项目成功的关键角色。",
+    7,
+    "判断先抓关键词，符合定义选正确。",
+    false
+  ],
+  [
+    1,
+    "职能式与项目式组织结构类似，其资源可以灵活共享。",
+    [
+      "A. 正确",
+      "B. 错误"
+    ],
+    1,
+    "职能式和项目式在权力、资源归属和沟通方式上差异明显。",
+    7,
+    "绝对说法多留心，概念不符判错误。",
+    false
+  ],
+  [
+    1,
+    "选择项目经理时，必须考虑候选人的经验和能力。",
+    [
+      "A. 正确",
+      "B. 错误"
+    ],
+    0,
+    "项目经理需要管理、沟通、技术理解和协调等综合能力。",
+    7,
+    "判断先抓关键词，符合定义选正确。",
+    false
+  ],
+  [
+    1,
+    "项目团队建设是一个持续的过程。",
+    [
+      "A. 正确",
+      "B. 错误"
+    ],
+    0,
+    "团队建设贯穿项目生命周期，而非一次性活动。",
+    7,
+    "判断先抓关键词，符合定义选正确。",
+    false
+  ],
+  [
+    1,
+    "在以下组织结构形式中，最为机动灵活的是（ ）。",
+    [
+      "A. 项目式",
+      "B. 职能式",
+      "C. 矩阵式",
+      "D. 组合式"
+    ],
+    2,
+    "矩阵式兼顾职能资源和项目目标，通常较为灵活。",
+    7,
+    "矩阵双向调资源，机动灵活好协同。",
+    false
+  ],
+  [
+    1,
+    "以下各项是项目经理的职责，除了（ ）。",
+    [
+      "A. 计划",
+      "B. 指导项目实施",
+      "C. 公司战略决策",
+      "D. 控制项目团队"
+    ],
+    2,
+    "公司战略决策属于高层管理职责，不是项目经理的直接职责。",
+    7,
+    "经理管项目，战略归高层。",
+    false
+  ],
+  [
+    1,
+    "团队的发展基于（ ）。",
+    [
+      "A. 项目的组织结构",
+      "B. 公司规章制度",
+      "C. 团队成员的发展",
+      "D. 项目团队规模"
+    ],
+    2,
+    "团队发展依赖成员能力、协作和成熟度的持续提升。",
+    7,
+    "成员成长团队强，绩效提升有方向。",
+    false
+  ],
+  [
+    1,
+    "职能式组织结构的优点有（ ）。",
+    [
+      "A. 沟通简单",
+      "B. 有利于提高部门专业化水平",
+      "C. 最大限度地利用资源",
+      "D. 每个团队成员都有明确责任和权力",
+      "E. 客户利益得到优先考虑"
+    ],
+    [
+      1,
+      2,
+      3
+    ],
+    "职能式有利于专业化和资源利用，但跨部门沟通与客户优先性较弱。",
+    7,
+    "职能专业资源强，客户优先常不彰。",
+    true
+  ],
+  [
+    1,
+    "项目团队的特点主要表现为（ ）。",
+    [
+      "A. 具有明确清晰的目标",
+      "B. 成员角色互补",
+      "C. 单独解决问题",
+      "D. 共同承担责任",
+      "E. 良好沟通和高度合作互助"
+    ],
+    [
+      0,
+      1,
+      3,
+      4
+    ],
+    "项目团队强调共同目标、互补协作、责任共担和良好沟通。",
+    7,
+    "目标清楚互补强，沟通合作共担当。",
+    true
+  ],
+  [
+    1,
+    "项目经理的权利包括（ ）。",
+    [
+      "A. 挑选项目团队成员",
+      "B. 项目生产指标权",
+      "C. 对项目团队资源进行分配",
+      "D. 决定项目预算",
+      "E. 技术决策权"
+    ],
+    [
+      0,
+      2,
+      3,
+      4
+    ],
+    "项目经理通常拥有团队组建、资源分配、预算和技术方案相关决策权。",
+    7,
+    "选人配资定预算，技术决策在权限。",
+    true
+  ],
+  [
+    1,
+    "下列属于矩阵式组织结构特点的是（ ）。",
+    [
+      "A. 命令单一",
+      "B. 双重结构、双重领导",
+      "C. 管理专业化",
+      "D. 适宜于简单生产的小企业",
+      "E. 适用于任务较多且需跨部门协调的项目"
+    ],
+    [
+      1,
+      2,
+      4
+    ],
+    "矩阵式具有双重领导，保留职能专业化，适合跨部门项目。",
+    7,
+    "矩阵双重又专业，跨部项目更合适。",
+    true
+  ],
+  [
+    1,
+    "项目团队组建过程中，项目经理通常要向入选成员说明（ ）。",
+    [
+      "A. 项目目标与意义",
+      "B. 项目各工作范围",
+      "C. 项目团队费用来源",
+      "D. 团队成员具体工作计划",
+      "E. 选择团队成员的标准"
+    ],
+    [
+      0,
+      1,
+      3,
+      4
+    ],
+    "组建团队时应说明目标、范围、职责计划和选择标准，费用来源通常不是重点。",
+    7,
+    "目标范围职责明，标准计划讲清清。",
+    true
+  ]
+];
+
+class App {
+    constructor() {
+        this.questions = [];
+        try {
+            const rawMistakes = localStorage.getItem('sp_objective_quiz_mistakes');
+            this.history = rawMistakes ? JSON.parse(rawMistakes).map(Number).filter(n => !isNaN(n)) : [];
+        } catch (e) {
+            this.history = [];
+        }
+        try {
+            this.stats = JSON.parse(localStorage.getItem('sp_objective_quiz_stats')) || {};
+        } catch (e) {
+            this.stats = {};
+        }
+        this.state = {
+            mode: 'menu',
+            qIndex: 0,
+            score: 0,
+            combo: 0,
+            sessionMistakes: [] // 当前会话的错题
+        };
+        this.audioCtx = null;
+        this.initUI();
+    }
+
+    initUI() {
+        // 主题初始化
+        let savedTheme = 'light';
+        try {
+            savedTheme = localStorage.getItem('theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+        } catch (e) {}
+        document.documentElement.setAttribute('data-theme', savedTheme);
+        
+        const themeIcon = document.getElementById('theme-icon');
+        if (themeIcon) {
+            if (savedTheme === 'dark') {
+                themeIcon.className = 'fa-solid fa-moon theme-icon';
+            } else {
+                themeIcon.className = 'fa-solid fa-sun theme-icon';
+            }
+        }
+        
+        document.getElementById('theme-btn').onclick = () => {
+            const current = document.documentElement.getAttribute('data-theme');
+            const next = current === 'light' ? 'dark' : 'light';
+            document.documentElement.setAttribute('data-theme', next);
+            try {
+                localStorage.setItem('theme', next);
+            } catch (e) {}
+            
+            const icon = document.getElementById('theme-icon');
+            if (icon) {
+                if (next === 'dark') {
+                    icon.className = 'fa-solid fa-moon theme-icon';
+                } else {
+                    icon.className = 'fa-solid fa-sun theme-icon';
+                }
+                icon.classList.remove('rotate-animation');
+                void icon.offsetWidth; // 触发强制重绘
+                icon.classList.add('rotate-animation');
+            }
+        };
+
+        this.updateMenuStats();
+        // 键盘监听
+        document.addEventListener('keydown', (e) => this.handleInput(e));
+
+        // 填空题按钮事件绑定
+        document.getElementById('btn-show-answer').addEventListener('click', () => {
+            document.getElementById('btn-show-answer').classList.add('hide');
+            document.getElementById('type2-answer-area').classList.remove('hide');
+        });
+
+        document.getElementById('btn-self-correct').addEventListener('click', () => {
+            this.handleType2Answer(true);
+        });
+
+        document.getElementById('btn-self-wrong').addEventListener('click', () => {
+            this.handleType2Answer(false);
+        });
+    }
+
+    updateMenuStats() {
+        // 更新错题数量
+        document.getElementById('mistake-count').textContent = this.history.length;
+        const btn = document.getElementById('btn-mistakes');
+        if (this.history.length === 0) {
+            btn.classList.add('disabled');
+        } else {
+            btn.classList.remove('disabled');
+        }
+
+        // 更新各模块的最高正确率
+        ['mock', 'part1', 'part2', 'part3'].forEach(key => {
+            const el = document.getElementById(`stat-${key}`);
+            if (this.stats[key] && this.stats[key].bestAccuracy !== undefined) {
+                el.textContent = `最高正确率: ${this.stats[key].bestAccuracy}%`;
+                el.classList.add('show');
+            } else {
+                el.textContent = `最高正确率: 0%`;
+                el.classList.remove('show');
+            }
+        });
+    }
+
+    // --- 核心逻辑：开始不同模式 ---
+    startMode(mode) {
+        let rawSubset = [];
+        
+        if (mode === 'part1') rawSubset = rawDB.filter(q => q[5] >= 1 && q[5] <= 2);
+        else if (mode === 'part2') rawSubset = rawDB.filter(q => q[5] >= 3 && q[5] <= 5);
+        else if (mode === 'part3') rawSubset = rawDB.filter(q => q[5] >= 6 && q[5] <= 7);
+        else if (mode === 'mistakes') {
+            rawSubset = rawDB.filter((_, idx) => this.history.includes(idx));
+        } else if (mode === 'session_retry') {
+            rawSubset = this.lastSessionWrongData || [];
+        } else if (mode === 'mock') {
+            let all = [...rawDB];
+            this.shuffleArray(all);
+            rawSubset = all.slice(0, 20); // 随机抽取 20 题
+        }
+
+        if (rawSubset.length === 0) {
+            alert("当前模式没有可用的题目！");
+            return;
+        }
+
+        this.state = { mode: mode, qIndex: 0, score: 0, combo: 0, sessionMistakes: [] };
+
+        // 解析数据 + 选项乱序处理
+        this.questions = rawSubset.map(item => {
+            const globalId = rawDB.indexOf(item); 
+            const type = item[0];
+            const originalAnsIndex = item[3];
+            const isMulti = item[7] === true;
+            
+            let finalOptions = item[2];
+            let finalAnsIndex = originalAnsIndex;
+
+            // 选择题进行选项乱序
+            if(type === 1) {
+                finalOptions = [...item[2]];
+                const correctAnswerText = Array.isArray(originalAnsIndex)
+                    ? originalAnsIndex.map(idx => item[2][idx])
+                    : item[2][originalAnsIndex];
+                // 如果是判断题 (只有两个选项，且是 对/错 结构)，则不进行选项乱序以保证 A.对 B.错 顺序
+                const normalizeOption = text => String(text).replace(/^[A-G][.、]\s*/, '').trim();
+                const isTrueFalse = finalOptions.length === 2 &&
+                                    ((normalizeOption(finalOptions[0]) === '对' && normalizeOption(finalOptions[1]) === '错') ||
+                                     (normalizeOption(finalOptions[0]) === '正确' && normalizeOption(finalOptions[1]) === '错误'));
+                if (!isTrueFalse) {
+                    for (let i = finalOptions.length - 1; i > 0; i--) {
+                        const j = Math.floor(Math.random() * (i + 1));
+                        [finalOptions[i], finalOptions[j]] = [finalOptions[j], finalOptions[i]];
+                    }
+                }
+                finalAnsIndex = Array.isArray(correctAnswerText)
+                    ? correctAnswerText.map(text => finalOptions.indexOf(text)).sort((a, b) => a - b)
+                    : finalOptions.indexOf(correctAnswerText);
+            }
+
+            return {
+                id: globalId,
+                type: type,
+                q: item[1],
+                options: finalOptions,
+                ans: finalAnsIndex,
+                multi: isMulti,
+                exp: item[4],
+                chapter: item[5],
+                mnemonic: (item[6] !== undefined && item[6] !== null) ? item[6] : ""
+            };
+        });
+
+        // 打乱题目顺序 (如果是分类刷题)
+        if (mode !== 'session_retry') this.shuffleArray(this.questions);
+
+        // UI 切换
+        document.getElementById('screen-menu').classList.add('hide');
+        document.getElementById('screen-result').classList.add('hide');
+        document.getElementById('screen-game').classList.remove('hide');
+        
+        this.updateHUD();
+        this.renderQuestion();
+    }
+
+    renderQuestion() {
+        const q = this.questions[this.state.qIndex];
+        
+        // 触发做题卡片 3D 侧滑淡入淡出动画
+        const gameScreen = document.getElementById('screen-game');
+        if (gameScreen) {
+            gameScreen.classList.remove('q-slide-out');
+            gameScreen.classList.remove('q-slide-in');
+            void gameScreen.offsetWidth; // 触发 reflow
+            gameScreen.classList.add('q-slide-in');
+        }
+        
+        // 进度更新
+        const progress = ((this.state.qIndex) / this.questions.length) * 100;
+        document.getElementById('progress-bar').style.width = `${progress}%`;
+        document.getElementById('q-counter').textContent = `${this.state.qIndex + 1}/${this.questions.length}`;
+        document.getElementById('q-tag').textContent = `第 ${q.chapter} 章 ${q.multi ? '多选题' : (q.type === 1 ? '单选/判断题' : '填空题')}`;
+        
+        // 渲染题干
+        document.getElementById('q-text').textContent = q.q;
+        
+        // 重置底部区域
+        document.getElementById('explanation').classList.add('hide');
+        const mnemonicArea = document.getElementById('mnemonic-area');
+        if (mnemonicArea) mnemonicArea.classList.add('hide');
+        const nextBtn = document.getElementById('next-btn');
+        nextBtn.classList.add('hide');
+        nextBtn.onclick = () => this.nextQuestion();
+
+        // 根据题型渲染
+        const optionsContainer = document.getElementById('options-container');
+        const type2Container = document.getElementById('type2-container');
+
+        if (q.type === 1) {
+            // 选择题
+            type2Container.classList.add('hide');
+            optionsContainer.classList.remove('hide');
+            optionsContainer.innerHTML = '';
+            
+            const labels = ['A', 'B', 'C', 'D', 'E', 'F', 'G'];
+            q.options.forEach((opt, idx) => {
+                const btn = document.createElement('button');
+                btn.className = 'option-btn';
+                const label = labels[idx] || String.fromCharCode(65 + idx);
+                btn.innerHTML = `<span class="option-key">${label}</span><span>${opt}</span>`;
+                btn.onclick = () => q.multi ? this.toggleMultiAnswer(idx, btn) : this.handleType1Answer(idx, btn);
+                optionsContainer.appendChild(btn);
+            });
+
+            if (q.multi) {
+                const submitBtn = document.createElement('button');
+                submitBtn.className = 'btn btn-primary btn-full';
+                submitBtn.textContent = '提交答案';
+                submitBtn.onclick = () => this.handleMultiAnswer();
+                optionsContainer.appendChild(submitBtn);
+            }
+        } else {
+            // 填空题
+            optionsContainer.classList.add('hide');
+            type2Container.classList.remove('hide');
+            document.getElementById('type2-correct-answer').textContent = q.options[0];
+            document.getElementById('btn-show-answer').classList.remove('hide');
+            document.getElementById('type2-answer-area').classList.add('hide');
+            document.getElementById('btn-self-correct').disabled = false;
+            document.getElementById('btn-self-wrong').disabled = false;
+        }
+    }
+
+    // --- 选择题评判逻辑 ---
+    toggleMultiAnswer(selectedIndex, btnElement) {
+        if (document.getElementById('explanation').classList.contains('hide') === false) return;
+        const q = this.questions[this.state.qIndex];
+        if (!q || !q.multi) return;
+        if (!Array.isArray(q.selected)) q.selected = [];
+
+        if (q.selected.includes(selectedIndex)) {
+            q.selected = q.selected.filter(idx => idx !== selectedIndex);
+            btnElement.classList.remove('selected');
+        } else {
+            q.selected.push(selectedIndex);
+            q.selected.sort((a, b) => a - b);
+            btnElement.classList.add('selected');
+        }
+    }
+
+    handleMultiAnswer() {
+        if (document.getElementById('explanation').classList.contains('hide') === false) return;
+
+        const q = this.questions[this.state.qIndex];
+        if (!q || !q.multi) return;
+
+        const selected = Array.isArray(q.selected) ? q.selected.slice().sort((a, b) => a - b) : [];
+        if (selected.length === 0) {
+            alert('请至少选择一个选项。');
+            return;
+        }
+
+        const correct = Array.isArray(q.ans) ? q.ans.slice().sort((a, b) => a - b) : [q.ans];
+        const isCorrect = selected.length === correct.length && selected.every((idx, pos) => idx === correct[pos]);
+        const options = document.querySelectorAll('.option-btn');
+
+        options.forEach((btn, idx) => {
+            btn.disabled = true;
+            if (correct.includes(idx)) btn.classList.add('correct');
+            else if (selected.includes(idx)) btn.classList.add('wrong');
+        });
+
+        this.handleScoreLogic(isCorrect, q.id);
+
+        if (isCorrect) {
+            const mnemonicArea = document.getElementById('mnemonic-area');
+            if (mnemonicArea) mnemonicArea.classList.add('hide');
+            setTimeout(() => {
+                this.nextQuestion();
+            }, 420);
+        } else {
+            const mnemonicArea = document.getElementById('mnemonic-area');
+            if (mnemonicArea) {
+                const mnemonicText = q.mnemonic || "熟能生巧，多记多练！";
+                document.getElementById('mnemonic-text').innerHTML = mnemonicText;
+                mnemonicArea.classList.remove('hide');
+            }
+            this.showExplanation(q.exp);
+        }
+    }
+
+    handleType1Answer(selectedIndex, btnElement) {
+        if (document.getElementById('explanation').classList.contains('hide') === false) return; // 已答过
+
+        const q = this.questions[this.state.qIndex];
+        if (!q) return;
+        if (q.multi) {
+            this.toggleMultiAnswer(selectedIndex, btnElement);
+            return;
+        }
+        const isCorrect = (selectedIndex === q.ans);
+        const options = document.querySelectorAll('.option-btn');
+        
+        options.forEach(btn => btn.disabled = true);
+        options[q.ans].classList.add('correct');
+
+        if (isCorrect) {
+            this.handleScoreLogic(true, q.id);
+            const mnemonicArea = document.getElementById('mnemonic-area');
+            if (mnemonicArea) mnemonicArea.classList.add('hide');
+            
+            // 答对选择题后直接跳转到下一题，保留 320ms 正确态反馈时间
+            setTimeout(() => {
+                this.nextQuestion();
+            }, 320);
+        } else {
+            btnElement.classList.add('wrong');
+            this.handleScoreLogic(false, q.id);
+            const mnemonicArea = document.getElementById('mnemonic-area');
+            if (mnemonicArea) {
+                const mnemonicText = q.mnemonic || "熟能生巧，多记多练！";
+                document.getElementById('mnemonic-text').innerHTML = mnemonicText;
+                mnemonicArea.classList.remove('hide');
+            }
+            this.showExplanation(q.exp);
+        }
+    }
+
+    // --- 填空题评判逻辑 ---
+    handleType2Answer(isCorrect) {
+        if (document.getElementById('explanation').classList.contains('hide') === false) return; // 已答过
+        
+        const q = this.questions[this.state.qIndex];
+        if (!q) return;
+        document.getElementById('btn-self-correct').disabled = true;
+        document.getElementById('btn-self-wrong').disabled = true;
+
+        this.handleScoreLogic(isCorrect, q.id);
+        if (isCorrect) {
+            const mnemonicArea = document.getElementById('mnemonic-area');
+            if (mnemonicArea) mnemonicArea.classList.add('hide');
+        } else {
+            const mnemonicArea = document.getElementById('mnemonic-area');
+            if (mnemonicArea) {
+                const mnemonicText = q.mnemonic || "熟能生巧，多记多练！";
+                document.getElementById('mnemonic-text').innerHTML = mnemonicText;
+                mnemonicArea.classList.remove('hide');
+            }
+        }
+        this.showExplanation(q.exp);
+    }
+
+    // --- 分数与错题本逻辑 ---
+    handleScoreLogic(isCorrect, globalId) {
+        if (isCorrect) {
+            this.state.combo++;
+            this.state.score += 10 + (this.state.combo * 2); 
+            this.playTone(600 + (this.state.combo * 50));
+            this.triggerComboAnim();
+            
+            // 如果做对且在历史错题中，则移出错题本
+            if (this.history.includes(globalId)) {
+                this.history = this.history.filter(id => id !== globalId);
+                this.saveData();
+            }
+        } else {
+            this.state.combo = 0;
+            this.playTone(150, 'square');
+            
+            // 加入错题本和当前会话错误列表
+            if (!this.history.includes(globalId)) {
+                this.history.push(globalId);
+                this.saveData();
+            }
+            this.state.sessionMistakes.push(this.questions[this.state.qIndex]);
+        }
+        this.updateHUD();
+    }
+
+    showExplanation(expText) {
+        const exp = document.getElementById('explanation');
+        document.getElementById('exp-text').innerHTML = expText;
+        exp.classList.remove('hide');
+        document.getElementById('next-btn').classList.remove('hide');
+    }
+
+    nextQuestion() {
+        const gameScreen = document.getElementById('screen-game');
+        if (gameScreen) {
+            gameScreen.classList.add('q-slide-out');
+        }
+
+        setTimeout(() => {
+            this.state.qIndex++;
+            if (this.state.qIndex >= this.questions.length) {
+                if (gameScreen) gameScreen.classList.remove('q-slide-out');
+                this.endSession();
+            } else {
+                this.renderQuestion();
+            }
+        }, 150);
+    }
+
+    endSession() {
+        document.getElementById('screen-game').classList.add('hide');
+        document.getElementById('screen-result').classList.remove('hide');
+
+        const total = this.questions.length;
+        const wrongCount = this.state.sessionMistakes.length;
+        const correctCount = total - wrongCount;
+        const accuracy = Math.round((correctCount / total) * 100);
+
+        document.getElementById('res-accuracy').textContent = `${accuracy}%`;
+        document.getElementById('res-score').textContent = this.state.score;
+        document.getElementById('res-combo').textContent = this.state.combo;
+        document.getElementById('res-wrong').textContent = wrongCount;
+
+        // 更新历史最高正确率记录
+        if (this.state.mode !== 'session_retry' && this.state.mode !== 'mistakes') {
+            const m = this.state.mode;
+            if (!this.stats[m]) this.stats[m] = { bestAccuracy: 0 };
+            if (accuracy > this.stats[m].bestAccuracy) {
+                this.stats[m].bestAccuracy = accuracy;
+                try {
+                    localStorage.setItem('sp_objective_quiz_stats', JSON.stringify(this.stats));
+                } catch (e) {}
+            }
+        }
+
+        if (accuracy === 100) this.fireConfetti();
+
+        const btnRetry = document.getElementById('btn-retry-session');
+        if (wrongCount > 0) {
+            // 保存会话错题引用，并转换为原始数据格式
+            this.lastSessionWrongData = this.state.sessionMistakes.map(q => rawDB[q.id]);
+            btnRetry.classList.remove('hide');
+        } else {
+            btnRetry.classList.add('hide');
+        }
+
+        this.updateMenuStats();
+    }
+
+    retrySessionMistakes() {
+        this.startMode('session_retry');
+    }
+
+    toMenu() {
+        document.getElementById('screen-result').classList.add('hide');
+        document.getElementById('screen-menu').classList.remove('hide');
+        this.updateMenuStats();
+    }
+
+    updateHUD() {
+        let modeName = "N/A";
+        if(this.state.mode==='mock') modeName='模拟考';
+        if(this.state.mode==='mistakes') modeName='错题';
+        if(this.state.mode==='part1') modeName='概述与计划';
+        if(this.state.mode==='part2') modeName='进度/采购/质量';
+        if(this.state.mode==='part3') modeName='控制与组织';
+        if(this.state.mode==='session_retry') modeName='重试';
+        if(this.state.mode==='menu') modeName='MENU';
+        
+        document.getElementById('hud-mode').textContent = modeName;
+        document.getElementById('hud-score').textContent = this.state.score;
+        document.getElementById('hud-combo').textContent = this.state.combo;
+    }
+
+    triggerComboAnim() {
+        const comboEl = document.getElementById('hud-combo');
+        comboEl.classList.remove('combo-active');
+        void comboEl.offsetWidth; // trigger reflow
+        comboEl.classList.add('combo-active');
+    }
+
+    clearHistory() {
+        if(confirm("确定要清空所有错题记录和正确率数据吗？这不可恢复。")) {
+            this.history = [];
+            this.stats = {};
+            this.saveData();
+            this.updateMenuStats();
+        }
+    }
+
+    saveData() {
+        try {
+            localStorage.setItem('sp_objective_quiz_mistakes', JSON.stringify(this.history));
+            localStorage.setItem('sp_objective_quiz_stats', JSON.stringify(this.stats));
+        } catch (e) {
+            console.error("Failed to save data to localStorage", e);
+        }
+    }
+
+    shuffleArray(array) {
+        for (let i = array.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [array[i], array[j]] = [array[j], array[i]];
+        }
+    }
+
+    handleInput(e) {
+        if (this.state.mode === 'menu' || document.getElementById('screen-game').classList.contains('hide')) return;
+        if (['INPUT', 'TEXTAREA'].includes(e.target.tagName)) return;
+        const nextBtn = document.getElementById('next-btn');
+        
+        // 键盘 Enter 键自动下一题 / 查看答案
+        if (e.key === 'Enter') {
+            const q = this.questions[this.state.qIndex];
+            if (!q) return;
+
+            if (q.multi && nextBtn && nextBtn.classList.contains('hide')) {
+                this.handleMultiAnswer();
+                return;
+            }
+            
+            if (q.type === 2) {
+                const btnShow = document.getElementById('btn-show-answer');
+                if (btnShow && !btnShow.classList.contains('hide')) {
+                    btnShow.click();
+                    return;
+                }
+            }
+
+            if (nextBtn && !nextBtn.classList.contains('hide')) {
+                this.nextQuestion();
+                return;
+            }
+        }
+        
+        // 键盘 1,2,3,4 选择答案/填空题自我评估
+        if (e.key >= '1' && e.key <= '4') {
+            const q = this.questions[this.state.qIndex];
+            if (q) {
+                if (q.type === 1) {
+                    const options = document.querySelectorAll('.option-btn');
+                    if (options.length > 0 && !options[0].disabled) {
+                        const idx = parseInt(e.key) - 1;
+                        if (options[idx]) options[idx].click();
+                    }
+                } else if (q.type === 2) {
+                    const ansArea = document.getElementById('type2-answer-area');
+                    const btnCorrect = document.getElementById('btn-self-correct');
+                    if (ansArea && !ansArea.classList.contains('hide') && btnCorrect && !btnCorrect.disabled) {
+                        if (e.key === '1') {
+                            btnCorrect.click();
+                        } else if (e.key === '2') {
+                            const btnWrong = document.getElementById('btn-self-wrong');
+                            if (btnWrong) btnWrong.click();
+                        }
+                    }
+                }
+            }
+        }
+
+        // 字母键 Y/N 自我评估支持
+        if (e.key.toLowerCase() === 'y' || e.key.toLowerCase() === 'n') {
+            const q = this.questions[this.state.qIndex];
+            if (q && q.type === 2) {
+                const ansArea = document.getElementById('type2-answer-area');
+                const btnCorrect = document.getElementById('btn-self-correct');
+                if (ansArea && !ansArea.classList.contains('hide') && btnCorrect && !btnCorrect.disabled) {
+                    if (e.key.toLowerCase() === 'y') {
+                        btnCorrect.click();
+                    } else if (e.key.toLowerCase() === 'n') {
+                        const btnWrong = document.getElementById('btn-self-wrong');
+                        if (btnWrong) btnWrong.click();
+                    }
+                }
+            }
+        }
+    }
+
+    playTone(freq, type='sine') {
+        try {
+            if (!this.audioCtx) this.audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            const osc = this.audioCtx.createOscillator();
+            const gain = this.audioCtx.createGain();
+            osc.type = type;
+            osc.frequency.setValueAtTime(freq, this.audioCtx.currentTime);
+            gain.gain.setValueAtTime(0.1, this.audioCtx.currentTime);
+            gain.gain.exponentialRampToValueAtTime(0.001, this.audioCtx.currentTime + 0.3);
+            osc.connect(gain);
+            gain.connect(this.audioCtx.destination);
+            osc.start();
+            osc.stop(this.audioCtx.currentTime + 0.3);
+        } catch(e) {}
+    }
+
+    fireConfetti() {
+        const canvas = document.getElementById('confetti-canvas');
+        const ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        
+        const pieces = [];
+        const colors = ['#268bd2', '#859900', '#b58900', '#cb4b16', '#d33682', '#6c71c4'];
+        
+        for(let i=0; i<100; i++) {
+            pieces.push({
+                x: canvas.width / 2,
+                y: canvas.height / 2 + 100,
+                vx: (Math.random() - 0.5) * 20,
+                vy: (Math.random() - 1) * 20,
+                size: Math.random() * 10 + 5,
+                color: colors[Math.floor(Math.random() * colors.length)],
+                rot: Math.random() * Math.PI,
+                rotSpeed: (Math.random() - 0.5) * 0.2
+            });
+        }
+        
+        let reqId;
+        const animate = () => {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            let active = false;
+            
+            pieces.forEach(p => {
+                p.x += p.vx;
+                p.y += p.vy;
+                p.vy += 0.5; // gravity
+                p.rot += p.rotSpeed;
+                
+                if (p.y < canvas.height) active = true;
+                
+                ctx.save();
+                ctx.translate(p.x, p.y);
+                ctx.rotate(p.rot);
+                ctx.fillStyle = p.color;
+                ctx.fillRect(-p.size/2, -p.size/2, p.size, p.size);
+                ctx.restore();
+            });
+            
+            if(active) reqId = requestAnimationFrame(animate);
+            else ctx.clearRect(0, 0, canvas.width, canvas.height);
+        };
+        animate();
+        setTimeout(() => cancelAnimationFrame(reqId), 5000);
+    }
+}
+
+const app = new App();
+</script>
+</body>
+</html>

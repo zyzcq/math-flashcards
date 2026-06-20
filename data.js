@@ -1895,6 +1895,16 @@ const siteData = [
                 flashcard: null
             },
             {
+                id: "sp_objective_quiz",
+                title: "软件项目规划能力测试",
+                subtitle: "选择与判断 93 题 · 支持多选",
+                themeColor: "violet",
+                type: "article",
+                examTime: "2026-06-22T19:00:00+08:00",
+                url: "sp/sp_objective_quiz.html",
+                cards: []
+            },
+            {
                 id: "linux_course",
                 title: "Linux期末复习",
                 subtitle: "讲义、题库、速背三轨通关",
