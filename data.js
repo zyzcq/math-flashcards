@@ -1892,17 +1892,16 @@ const siteData = [
                     url: "sp/sp_quiz.html",
                     cards: []
                 },
-                flashcard: null
-            },
-            {
-                id: "sp_objective_quiz",
-                title: "软件项目规划能力测试",
-                subtitle: "选择与判断 93 题 · 支持多选",
-                themeColor: "violet",
-                type: "article",
-                examTime: "2026-06-22T19:00:00+08:00",
-                url: "sp/sp_objective_quiz.html",
-                cards: []
+                flashcard: null,
+                homework: {
+                    id: "sp_objective_quiz",
+                    title: "课后题",
+                    subtitle: "选择与判断 93 题 · 支持多选",
+                    themeColor: "violet",
+                    type: "article",
+                    url: "sp/sp_objective_quiz.html",
+                    cards: []
+                }
             },
             {
                 id: "linux_course",

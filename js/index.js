@@ -113,7 +113,8 @@ function getProgress(item, progressStore) {
         return {
             lecture: item.lecture ? getProgress(item.lecture, progressStore) : null,
             quiz: item.quiz ? getProgress(item.quiz, progressStore) : null,
-            flashcard: item.flashcard ? getProgress(item.flashcard, progressStore) : null
+            flashcard: item.flashcard ? getProgress(item.flashcard, progressStore) : null,
+            homework: item.homework ? getProgress(item.homework, progressStore) : null
         };
     }
 
@@ -168,6 +169,14 @@ function getResumeModule(modules) {
                     progress: m.progress.flashcard
                 });
             }
+            if (m.item.homework) {
+                flatSubModules.push({
+                    item: m.item.homework,
+                    category: m.category,
+                    categoryIndex: m.categoryIndex,
+                    progress: m.progress.homework
+                });
+            }
         } else {
             flatSubModules.push(m);
         }
@@ -208,6 +217,9 @@ function renderResume(resume) {
 function renderProgress(item, progress) {
     if (!item) return '';
     if (item.type === 'article') {
+        if (item.title === '课后题') {
+            return `<span class="item-meta">课后题</span>`;
+        }
         const isQuiz = item.id && item.id.includes('quiz');
         return `<span class="item-meta">${isQuiz ? '客观自测' : '讲义'}</span>`;
     }
@@ -231,10 +243,12 @@ function renderModule(module) {
         const quizProgress = progress.quiz;
         const fcProgress = progress.flashcard;
         const lectureProgress = progress.lecture;
+        const homeworkProgress = progress.homework;
         
         const quizUrl = item.quiz ? getTargetUrl(item.quiz) : '#';
         const fcUrl = item.flashcard ? getTargetUrl(item.flashcard) : '#';
         const lectureUrl = item.lecture ? getTargetUrl(item.lecture) : '#';
+        const homeworkUrl = item.homework ? getTargetUrl(item.homework) : '#';
         
         return `
             <div class="study-item course-card ${theme.tone}" aria-label="${title}">
@@ -276,6 +290,16 @@ function renderModule(module) {
                         </span>
                         <span class="btn-status">
                             ${renderProgress(item.flashcard, fcProgress)}
+                        </span>
+                    </a>
+                    ` : ''}
+                    ${item.homework ? `
+                    <a class="course-action-btn quiz-btn" href="${escapeAttribute(homeworkUrl)}" aria-label="${title}课后题">
+                        <span class="btn-text">
+                            <i class="fa-solid fa-clipboard-list"></i> 课后题
+                        </span>
+                        <span class="btn-status">
+                            ${renderProgress(item.homework, homeworkProgress)}
                         </span>
                     </a>
                     ` : ''}
