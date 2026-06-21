@@ -1896,7 +1896,7 @@ const siteData = [
                 homework: {
                     id: "sp_objective_quiz",
                     title: "课后题",
-                    subtitle: "选择与判断 93 题 · 支持多选",
+                    subtitle: "选择与判断 63 题 · 单选/判断",
                     themeColor: "violet",
                     type: "article",
                     url: "sp/sp_objective_quiz.html",
@@ -2252,4 +2252,3 @@ window.EXAM_SCHEDULE = [
     { date: "06.30 (周二)", time: "14:00-16:00", subject: "移动应用开发技术", status: "已关联" },
     { date: "06.30 (周二)", time: "19:00-21:00", subject: "嵌入式系统", status: "未关联" }
 ];
-
