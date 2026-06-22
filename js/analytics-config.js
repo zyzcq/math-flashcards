@@ -1,7 +1,7 @@
 window.MATH_FLASHCARDS_ANALYTICS = {
     enabled: true,
-    provider: 'cloudflare',
-    dashboardUrl: '',
+    provider: 'baidu',
+    dashboardUrl: 'https://tongji.baidu.com/',
     respectDoNotTrack: false,
     excludePaths: [
         '/admin.html'
@@ -16,7 +16,7 @@ window.MATH_FLASHCARDS_ANALYTICS = {
     },
 
     baidu: {
-        siteId: ''
+        siteId: '46360fbaa4e087be7ad3b2e293657e31'
     },
 
     plausible: {
