@@ -16,6 +16,8 @@ const themeStyles = {
 const mainContainer = document.getElementById('main-container');
 const userDisplay = document.getElementById('user-display');
 const logoutBtn = document.getElementById('logout-btn');
+const homeSession = document.querySelector('.home-session');
+let adminBtn = null;
 
 function escapeHtml(value) {
     return String(value ?? '').replace(/[&<>"']/g, char => ({
@@ -52,10 +54,34 @@ function getDataSource() {
     };
 }
 
+function syncAdminButton(session) {
+    const isAdmin = session?.username === 'zyz';
+
+    if (!homeSession) return;
+
+    if (!isAdmin) {
+        adminBtn?.remove();
+        adminBtn = null;
+        return;
+    }
+
+    if (adminBtn) return;
+
+    adminBtn = document.createElement('a');
+    adminBtn.className = 'admin-button';
+    adminBtn.href = 'admin.html';
+    adminBtn.setAttribute('aria-label', '打开管理后台');
+    adminBtn.innerHTML = '<i class="fa-solid fa-chart-simple" aria-hidden="true"></i><span>后台</span>';
+
+    const themeBtn = document.getElementById('theme-toggle-btn');
+    homeSession.insertBefore(adminBtn, themeBtn || logoutBtn || null);
+}
+
 function requireSession() {
     const session = readJson(SESSION_KEY);
 
     if (!session) {
+        syncAdminButton(null);
         if (userDisplay) userDisplay.textContent = '访客';
         if (logoutBtn) {
             logoutBtn.innerHTML = '<i class="fa-solid fa-right-to-bracket" aria-hidden="true"></i> <span>登录</span>';
@@ -64,6 +90,7 @@ function requireSession() {
         return true;
     }
 
+    syncAdminButton(session);
     if (userDisplay) userDisplay.textContent = session.username;
     if (logoutBtn) {
         logoutBtn.innerHTML = '<i class="fa-solid fa-right-from-bracket" aria-hidden="true"></i> <span>退出</span>';
@@ -73,6 +100,22 @@ function requireSession() {
 }
 
 function handleLogout() {
+    try {
+        const body = new Blob(['{}'], { type: 'application/json' });
+        if (navigator.sendBeacon) {
+            navigator.sendBeacon('/api/logout', body);
+        } else {
+            fetch('/api/logout', {
+                method: 'POST',
+                credentials: 'same-origin',
+                headers: { 'Content-Type': 'application/json' },
+                body: '{}',
+                keepalive: true
+            }).catch(() => {});
+        }
+    } catch {
+        // Static previews do not have the backend endpoint.
+    }
     localStorage.removeItem(SESSION_KEY);
     window.location.reload();
 }

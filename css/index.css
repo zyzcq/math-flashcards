@@ -45,7 +45,7 @@
     font-size: clamp(1.9rem, 4.5vw, 2.6rem);
     font-weight: 700;               /* 适度降低粗度，更有雅致感 */
     line-height: 1.15;
-    letter-spacing: -0.01em;
+    letter-spacing: 0;
     font-family: var(--font-serif);
 }
 
@@ -65,6 +65,7 @@
 }
 
 .user-chip,
+.admin-button,
 .logout-button {
     min-height: 36px;
     border-radius: 8px;             /* 统一改用轻质偏方圆角 */
@@ -86,6 +87,7 @@
     text-overflow: ellipsis;
 }
 
+.admin-button,
 .logout-button {
     gap: 7px;
     padding: 0 12px;
@@ -96,6 +98,19 @@
     font-weight: 600;
     cursor: pointer;
     transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+}
+
+.admin-button {
+    color: var(--bg-card);
+    background: var(--text-main);
+    text-decoration: none;
+}
+
+.admin-button:hover,
+.admin-button:focus-visible {
+    background: var(--theme-accent);
+    border-color: var(--theme-accent);
+    color: #FFFFFF;
 }
 
 .logout-button:hover,
@@ -479,6 +494,7 @@
 .category-tabs a:focus-visible,
 .category-action:focus-visible,
 .category-heading:focus-visible,
+.admin-button:focus-visible,
 .logout-button:focus-visible {
     outline: 2px solid var(--theme-accent);
     outline-offset: 3px;
@@ -550,10 +566,12 @@
         flex-wrap: wrap;
     }
 
+    .admin-button span,
     .logout-button span {
         display: none;
     }
 
+    .admin-button,
     .logout-button {
         width: 36px;
         padding: 0;
@@ -933,5 +951,3 @@
 .view-all-exams-btn:hover {
     opacity: 0.8;
 }
-
-

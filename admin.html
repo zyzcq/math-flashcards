@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="color-scheme" content="light dark">
+    <title>访问管理</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/common.css">
+    <link rel="stylesheet" href="css/admin.css">
+    <script>
+        (function() {
+            const savedTheme = localStorage.getItem('theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+            document.documentElement.setAttribute('data-theme', savedTheme);
+        })();
+    </script>
+</head>
+<body class="admin-page">
+    <header class="admin-header">
+        <div class="admin-title">
+            <a href="index.html" class="back-link">
+                <i class="fa-solid fa-angle-left" aria-hidden="true"></i>
+                <span>返回网站</span>
+            </a>
+            <h1>访问管理</h1>
+            <p id="status-text">正在连接后端</p>
+        </div>
+        <div class="admin-actions">
+            <span id="admin-user" class="admin-user">zyz</span>
+            <button type="button" id="refresh-btn" class="icon-button" aria-label="刷新统计" title="刷新统计">
+                <i class="fa-solid fa-rotate-right" aria-hidden="true"></i>
+            </button>
+            <button type="button" id="logout-btn" class="text-button">
+                <i class="fa-solid fa-right-from-bracket" aria-hidden="true"></i>
+                <span>退出</span>
+            </button>
+        </div>
+    </header>
+
+    <main class="admin-main">
+        <section class="metric-grid" aria-label="访问概览">
+            <article class="metric-card">
+                <span>总访问</span>
+                <strong id="metric-total">0</strong>
+            </article>
+            <article class="metric-card">
+                <span>独立访客</span>
+                <strong id="metric-unique">0</strong>
+            </article>
+            <article class="metric-card">
+                <span>今日访问</span>
+                <strong id="metric-today">0</strong>
+            </article>
+            <article class="metric-card">
+                <span>今日访客</span>
+                <strong id="metric-today-unique">0</strong>
+            </article>
+            <article class="metric-card">
+                <span>活跃访客</span>
+                <strong id="metric-active">0</strong>
+            </article>
+            <article class="metric-card">
+                <span>页面数量</span>
+                <strong id="metric-pages">0</strong>
+            </article>
+        </section>
+
+        <section class="admin-panel">
+            <div class="panel-header">
+                <h2>页面访问</h2>
+            </div>
+            <div id="page-list" class="page-list"></div>
+        </section>
+
+        <section class="admin-panel">
+            <div class="panel-header">
+                <h2>最近访问</h2>
+            </div>
+            <div class="table-wrap">
+                <table class="visit-table">
+                    <thead>
+                        <tr>
+                            <th>时间</th>
+                            <th>页面</th>
+                            <th>访客</th>
+                            <th>设备</th>
+                        </tr>
+                    </thead>
+                    <tbody id="recent-visits"></tbody>
+                </table>
+            </div>
+        </section>
+
+        <section class="admin-panel danger-panel">
+            <div class="panel-header">
+                <h2>数据管理</h2>
+                <button type="button" id="reset-btn" class="danger-button">
+                    <i class="fa-solid fa-trash-can" aria-hidden="true"></i>
+                    <span>清空统计</span>
+                </button>
+            </div>
+        </section>
+    </main>
+
+    <div id="toast" role="status" aria-live="polite"></div>
+    <script src="js/admin.js"></script>
+</body>
+</html>
