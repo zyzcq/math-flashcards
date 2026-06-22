@@ -60,6 +60,39 @@ function setStatus(message) {
     if (elements.status) elements.status.textContent = message;
 }
 
+function getAnalyticsConfig() {
+    return window.MATH_FLASHCARDS_ANALYTICS || {};
+}
+
+function renderThirdPartyFallback() {
+    const config = getAnalyticsConfig();
+    const provider = config.provider || 'third-party';
+    const dashboardUrl = String(config.dashboardUrl || '').trim();
+
+    renderMetrics({});
+    renderRecentVisits([]);
+    setStatus('当前使用第三方统计');
+
+    if (elements.resetBtn) {
+        elements.resetBtn.disabled = true;
+        elements.resetBtn.title = '第三方统计数据需要在统计平台后台管理';
+    }
+
+    const dashboardLink = dashboardUrl
+        ? `<a class="text-button" href="${escapeHtml(dashboardUrl)}" target="_blank" rel="noreferrer">
+                <i class="fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i>
+                <span>打开统计后台</span>
+           </a>`
+        : '<span class="empty-state">请先在 js/analytics-config.js 填入统计平台 ID 和 dashboardUrl</span>';
+
+    elements.pageList.innerHTML = `
+        <div class="empty-state">
+            <p>GitHub Pages 不能运行 Node 后端，访问数据会发送到 ${escapeHtml(provider)}。</p>
+            ${dashboardLink}
+        </div>
+    `;
+}
+
 function redirectToLogin() {
     window.location.href = 'login.html?next=admin.html';
 }
@@ -137,7 +170,7 @@ function renderStats(data) {
 
 async function loadStats() {
     try {
-        setStatus('正在刷新统计');
+        setStatus('??????');
         const data = await requestJson('/api/admin/stats');
         renderStats(data);
     } catch (error) {
@@ -145,8 +178,8 @@ async function loadStats() {
             redirectToLogin();
             return;
         }
-        setStatus('后端连接失败');
-        showToast('请通过 npm start 启动后端');
+        renderThirdPartyFallback();
+        showToast('?????????????');
     }
 }
 
@@ -164,8 +197,7 @@ async function checkSession() {
         }));
         return true;
     } catch {
-        setStatus('后端连接失败');
-        showToast('请通过 npm start 启动后端');
+        renderThirdPartyFallback();
         return false;
     }
 }
@@ -201,8 +233,10 @@ async function initAdmin() {
     elements.resetBtn?.addEventListener('click', handleReset);
 
     const ok = await checkSession();
-    if (ok) await loadStats();
-    window.setInterval(loadStats, 60000);
+    if (ok) {
+        await loadStats();
+        window.setInterval(loadStats, 60000);
+    }
 }
 
 document.addEventListener('DOMContentLoaded', initAdmin);

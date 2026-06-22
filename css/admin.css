@@ -130,6 +130,11 @@
     background: rgba(239, 68, 68, 0.1);
 }
 
+.danger-button:disabled {
+    cursor: not-allowed;
+    opacity: 0.55;
+}
+
 .admin-main {
     display: flex;
     flex-direction: column;
@@ -299,6 +304,16 @@
     font-size: 0.86rem;
     font-weight: 600;
     text-align: center;
+}
+
+.empty-state p {
+    margin: 0 0 14px;
+}
+
+.empty-state .text-button {
+    margin: 0 auto;
+    width: fit-content;
+    text-decoration: none;
 }
 
 #toast {
