@@ -78,7 +78,25 @@ const appData = {
             "title": "第二章 软件分类",
             "q": "系统软件、支撑软件、应用软件分类方式主要有哪些？",
             "tip": "<b>记忆口诀：系统管资源，支撑助开发，应用解问题</b><ul><li>系统软件：处理器、存储器、设备、文件管理</li><li>支撑软件：软件工具、软件开发环境</li><li>应用软件：办公软件、嵌入式软件、文字处理、图形图像、通信等</li></ul>",
-            "a": "<div class='sa-list'><div class='sa-item'><span class='sa-badge sa-badge-blue'>系统软件</span><div class='sa-content'><b class='sa-title'>系统软件</b>：<span class='sa-desc'>主要负责管理、调度和控制硬件及软件资源。包括处理器管理（CPU时间分配）、存储器管理（内存分配回收等）、设备管理（I/O设备管理）、文件管理（软件资源管理）。</span></div></div><div class='sa-item'><span class='sa-badge sa-badge-blue'>支撑软件</span><div class='sa-content'><b class='sa-title'>支撑软件</b>：<span class='sa-desc'>为应用软件提供设计、开发、测试、评估、运行检测等辅助功能。分为软件工具（提供特定功能，如项目管理、软件分析等）和软件开发环境（一系列软件工具的集成，如集成开发环境）。</span></div></div><div class='sa-item'><span class='sa-badge sa-badge-blue'>应用软件</span><div class='sa-content'><b class='sa-title'>应用软件</b>：<span class='sa-desc'>为解决实际问题而应用于特定领域的专用软件。按交互方式分为办公软件和嵌入式软件；按功能分为文字处理软件（如Word、WPS）、图形图像处理软件（如Photoshop、机械绘图软件）、媒体播放软件、通信软件（如电子邮件、语音视频通信）等。</span></div></div></div>"
+            "a": "<div class='sa-list'><div class='sa-item'><span class='sa-badge sa-badge-blue'>系统软件</span><div class='sa-content'><b class='sa-title'>系统软件</b>：<span class='sa-desc'>主要负责管理、调度 and 控制硬件及软件资源。包括处理器管理（CPU时间分配）、存储器管理（内存分配回收等）、设备管理（I/O设备管理）、文件管理（软件资源管理）。</span></div></div><div class='sa-item'><span class='sa-badge sa-badge-blue'>支撑软件</span><div class='sa-content'><b class='sa-title'>支撑软件</b>：<span class='sa-desc'>为应用软件提供设计、开发、测试、评估、运行检测等辅助功能。分为软件工具（提供特定功能，如项目管理、软件分析等）和软件开发环境（一系列软件工具的集成，如集成开发环境）。</span></div></div><div class='sa-item'><span class='sa-badge sa-badge-blue'>应用软件</span><div class='sa-content'><b class='sa-title'>应用软件</b>：<span class='sa-desc'>为解决实际问题而应用于特定领域的专用软件。按交互方式分为办公软件和嵌入式软件；按功能分为文字处理软件（如Word、WPS）、图形图像处理软件（如Photoshop、机械绘图软件）、媒体播放软件、通信软件（如电子邮件、语音视频通信）等。</span></div></div></div>"
+        },
+        {
+            "title": "第二章 工业软件类别与作用",
+            "q": "工业软件主要包含哪些类别？各有何作用？",
+            "tip": "<b>记忆口诀：研发设计创产品，生产控制连车间，经营管理谋全局，运维服务保长远</b>",
+            "a": "<div class='sa-list'>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-blue'>设</span>\n    <div class='sa-content'><b class='sa-title'>研发设计类软件 (CAD/CAE/PLM)</b>：<span class='sa-desc'>用于产品设计、仿真、工艺规划与生命周期管理，是工业知识数字化创造的核心。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-blue'>控</span>\n    <div class='sa-content'><b class='sa-title'>生产控制类软件 (MES/SCADA/DCS)</b>：<span class='sa-desc'>用于车间现场生产调度、设备运行监控、数据采集及生产过程闭环控制。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-blue'>管</span>\n    <div class='sa-content'><b class='sa-title'>经营管理类软件 (ERP/SCM/CRM)</b>：<span class='sa-desc'>用于企业财务、采购、生产计划、销售与供应链的协同和资源优化。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-blue'>维</span>\n    <div class='sa-content'><b class='sa-title'>运维服务类软件 (MRO/PHM)</b>：<span class='sa-desc'>用于工业现场复杂装备的运行状态监测、故障预测性维护与设备维护保养。</span></div>\n  </div>\n</div>"
+        },
+        {
+            "title": "第二章 数据库技术与问题解决",
+            "q": "什么是数据库技术？能解决什么样的问题？",
+            "tip": "<b>记忆口诀：集中管理存数据，独立共享防冗余，数据安全一致取</b>",
+            "a": "<div class='sa-list'>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-blue'>定</span>\n    <div class='sa-content'><b class='sa-title'>数据库技术定义</b>：<span class='sa-desc'>研究如何对数据进行科学合理的组织、存储、维护、检索和共享的一门计算机基础技术。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-blue'>冗</span>\n    <div class='sa-content'><b class='sa-title'>解决数据冗余与不一致</b>：<span class='sa-desc'>防止相同数据在多处重复存储（减少物理空间开销），并杜绝因多处更新不一致导致的数据混乱。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-blue'>独</span>\n    <div class='sa-content'><b class='sa-title'>解决程序与数据强耦合</b>：<span class='sa-desc'>提供高水平的逻辑/物理数据独立性，让程序无需因底层数据物理存储格式变化而做大面积修改。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-blue'>控</span>\n    <div class='sa-content'><b class='sa-title'>解决共享与安全控制难题</b>：<span class='sa-desc'>支持多用户并发安全存取，提供数据完整性约束，保障敏感数据的安全存取权限。</span></div>\n  </div>\n</div>"
+        },
+        {
+            "title": "第二章 数据库关键技术",
+            "q": "数据库关键技术包含哪些？",
+            "tip": "<b>记忆口诀：建模查询并并发，恢复安全五门花</b>",
+            "a": "<div class='sa-list'>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-blue'>模</span>\n    <div class='sa-content'><b class='sa-title'>数据建模技术</b>：<span class='sa-desc'>研究如何将现实世界的概念实体转换为计算机中数据库管理系统能够理解的关系模型、键值模型等。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-blue'>查</span>\n    <div class='sa-content'><b class='sa-title'>查询优化技术</b>：<span class='sa-desc'>自动解析用户的 SQL 请求，生成最高效的数据检索路径（如选择合适的索引与连接算法），提升速度。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-blue'>并</span>\n    <div class='sa-content'><b class='sa-title'>并发控制技术</b>：<span class='sa-desc'>在多用户同时读写数据时，利用封锁协议（如两阶段锁）、多版本并发控制等技术，防止出现脏读、幻读等事务冲突。</span></div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-blue'>复</span>\n    <div class='sa-content'><b class='sa-title'>数据库恢复技术</b>：<span class='sa-desc'>在系统突然崩溃、停电或硬件损坏时，利用事务日志与检查点，将数据回滚或重做，确保 ACID 特性不受损。</span></div>\n  </div>\n</div>"
         },
         {
             "title": "3.2 数字传感技术",

@@ -23,6 +23,7 @@
             --gold-500: #f59e0b;
             --accent-glow: rgba(59, 130, 246, 0.25);
             --xp-bar-bg: rgba(226, 232, 240, 0.8);
+            --loading-bg: #0f172a;
         }
         [data-theme="dark"] {
             --blue-50: rgba(37, 99, 235, 0.1);
@@ -34,12 +35,27 @@
             --gold-500: #fb923c;
             --accent-glow: rgba(59, 130, 246, 0.4);
             --xp-bar-bg: rgba(51, 65, 85, 0.6);
+            --loading-bg: #020617;
         }
         body { margin: 0; background: var(--bg-app); color: var(--text-main); line-height: 1.6; user-select: none; }
         .review-container { width: min(1080px, calc(100% - 32px)); margin: 0 auto; padding: 20px 0; padding-bottom: 80px; }
 
-        /* Canvas Overlay for Confetti and Level Up screen */
-        #game-canvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 1200; }
+        /* Game Canvas overlay */
+        #game-canvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 1300; }
+
+        /* Game Opening Loading Screen */
+        .loading-screen { position: fixed; top:0; left:0; width:100%; height:100%; background: var(--loading-bg); z-index: 2000; display: flex; flex-direction: column; align-items: center; justify-content: center; transition: opacity 0.5s ease, visibility 0.5s ease; color: white; }
+        .loading-screen.hide { opacity: 0; visibility: hidden; }
+        .loading-logo { font-size: 3.5rem; margin-bottom: 20px; animation: float 2s infinite alternate; }
+        .loading-title { font-size: 1.8rem; font-weight: 900; margin-bottom: 10px; letter-spacing: 2px; text-shadow: 0 0 10px var(--blue-500); }
+        .loading-subtitle { font-size: 0.9rem; opacity: 0.7; margin-bottom: 30px; }
+        .loading-bar-outer { width: 260px; height: 12px; border: 2px solid var(--blue-500); border-radius: 10px; overflow: hidden; padding: 1px; }
+        .loading-bar-inner { height: 100%; width: 0%; background: var(--blue-500); border-radius: 8px; transition: width 0.1s linear; }
+
+        @keyframes float {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(-10px); }
+        }
 
         /* Player Status HUD */
         .hud-panel { display: flex; flex-wrap: wrap; gap: 15px; align-items: center; background: var(--bg-card); border: 2px solid var(--blue-500); border-radius: 16px; padding: 15px 20px; box-shadow: 0 10px 25px var(--accent-glow); margin-bottom: 25px; }
@@ -51,6 +67,10 @@
         .xp-text { font-family: 'JetBrains Mono', monospace; font-size: 0.8rem; font-weight: bold; color: var(--text-weak); }
         .xp-bar-outer { width: 100%; height: 10px; background: var(--xp-bar-bg); border-radius: 10px; overflow: hidden; border: 1px solid var(--border-color); }
         .xp-bar-inner { height: 100%; width: 0%; background: linear-gradient(90deg, var(--blue-500), var(--sky-500)); transition: width 0.5s cubic-bezier(0.1, 0.8, 0.3, 1); }
+        
+        /* Audio Toggle Button */
+        .audio-toggle { width: 36px; height: 36px; border-radius: 50%; border: 1px solid var(--border-color); background: var(--bg-card); color: var(--text-main); display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.2s; }
+        .audio-toggle:hover { background: var(--blue-50); color: var(--blue-600); border-color: var(--blue-500); }
 
         /* Topbar & Sticky Roadmap Nav */
         .topbar { position: sticky; top: 0; z-index: 100; backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); background: color-mix(in srgb, var(--bg-app) 85%, transparent); border-bottom: 1px solid var(--border-color); padding: 10px 0; }
@@ -72,12 +92,6 @@
         .station text { fill: var(--text-weak); font-family: system-ui, sans-serif; font-size: 10px; font-weight: 600; text-anchor: middle; transition: all 0.3s ease; }
         .station.active text { fill: var(--blue-600); font-weight: 800; font-size: 11px; }
 
-        /* Header */
-        .header-card { background: var(--bg-card); border-radius: 16px; padding: 30px 20px; text-align: center; box-shadow: var(--list-item-shadow); border: 1px solid var(--border-color); margin-top: 15px; margin-bottom: 25px; position: relative; overflow: hidden; }
-        .header-card::before { content: ""; position: absolute; top: 0; left: 0; width: 100%; height: 6px; background: linear-gradient(90deg, var(--blue-500), var(--sky-500)); }
-        .title { font-size: clamp(1.6rem, 4vw, 2.2rem); font-weight: 800; margin: 0 0 8px 0; color: var(--text-main); letter-spacing: -0.5px; }
-        .subtitle { color: var(--text-weak); font-size: 1rem; margin: 0; font-weight: 500; }
-
         /* Section Cards */
         .section-card { background: var(--bg-card); border-radius: 16px; padding: 25px; margin-bottom: 25px; box-shadow: var(--list-item-shadow); border: 2px solid var(--border-color); transition: border-color 0.3s, box-shadow 0.3s; scroll-margin-top: 130px; }
         .section-card:hover { border-color: var(--blue-500); box-shadow: 0 10px 30px -10px var(--accent-glow); }
@@ -94,10 +108,15 @@
         .card-item-header { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; }
         .card-title { font-weight: 800; color: var(--blue-600); font-size: 1.05rem; display: flex; align-items: center; gap: 6px; }
         .card-title .star-icon { color: var(--gold-400); font-size: 0.95rem; display: none; }
-        .card-item.mastered .card-title .star-icon { display: inline-block; }
+        .card-item.mastered .card-title .star-icon { display: inline-block; animation: starPop 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
         .card-badge { display: inline-flex; align-items: center; gap: 4px; padding: 4px 8px; font-size: 0.75rem; font-weight: 700; color: var(--blue-600); background: var(--blue-50); border: 1px solid var(--blue-100); border-radius: 6px; cursor: pointer; transition: all 0.2s; }
         .card-badge:hover { background: var(--blue-600); color: white; border-color: var(--blue-600); }
         .card-q { font-size: 0.95rem; font-weight: 700; color: var(--text-main); margin: 0; }
+
+        @keyframes starPop {
+            0% { transform: scale(0); rotate: -180deg; }
+            100% { transform: scale(1); rotate: 0deg; }
+        }
 
         /* Modal Overlay */
         .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px); display: flex; align-items: center; justify-content: center; z-index: 1000; opacity: 0; pointer-events: none; transition: opacity 0.3s ease; }
@@ -126,6 +145,23 @@
         .modal-btn-master { background: var(--gold-400); color: #1e293b; }
         .modal-btn-master:hover { background: var(--gold-500); transform: scale(1.02); }
 
+        /* Level Up Splash Overlay */
+        .level-up-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(15, 23, 42, 0.85); backdrop-filter: blur(8px); display: flex; align-items: center; justify-content: center; z-index: 1500; opacity: 0; pointer-events: none; transition: opacity 0.4s ease; }
+        .level-up-overlay.show { opacity: 1; pointer-events: auto; }
+        .level-up-box { background: var(--bg-card); border: 3px solid var(--gold-400); border-radius: 24px; padding: 40px 30px; text-align: center; max-width: 360px; width: calc(100% - 32px); box-shadow: 0 0 50px rgba(251, 191, 36, 0.4); transform: scale(0.8); transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); position: relative; }
+        .level-up-overlay.show .level-up-box { transform: scale(1); }
+        .level-up-banner { font-size: 2.2rem; font-weight: 900; color: var(--gold-400); text-shadow: 0 0 15px rgba(251, 191, 36, 0.6); margin-bottom: 10px; letter-spacing: 2px; }
+        .level-up-title { font-size: 1.3rem; font-weight: 800; color: var(--text-main); margin-bottom: 8px; }
+        .level-up-subtitle { font-size: 0.9rem; color: var(--text-weak); margin-bottom: 25px; line-height: 1.5; }
+        .level-up-btn { background: linear-gradient(135deg, var(--gold-400), var(--gold-500)); color: #0f172a; font-weight: 900; border: none; border-radius: 12px; width: 100%; height: 46px; font-size: 1rem; cursor: pointer; transition: all 0.2s; box-shadow: 0 4px 12px rgba(245, 158, 11, 0.3); }
+        .level-up-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 18px rgba(245, 158, 11, 0.5); }
+        
+        .glow-ring { position: absolute; top: -50px; left: calc(50% - 50px); width: 100px; height: 100px; border-radius: 50%; background: radial-gradient(circle, rgba(251, 191, 36, 0.2) 0%, transparent 70%); animation: rotateGlow 3s linear infinite; pointer-events: none; }
+        @keyframes rotateGlow {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
         @keyframes bounce {
             0% { transform: translateY(0); }
             100% { transform: translateY(-4px); }
@@ -150,6 +186,16 @@
     <script defer src="../js/analytics.js"></script>
 </head>
 <body>
+
+    <!-- Game Opening Loading Screen -->
+    <div class="loading-screen" id="loading-screen">
+        <div class="loading-logo">🔮</div>
+        <div class="loading-title">智能制造冒险世界</div>
+        <div class="loading-subtitle">正在构筑冒险大陆与关卡堡垒...</div>
+        <div class="loading-bar-outer">
+            <div class="loading-bar-inner" id="loading-bar"></div>
+        </div>
+    </div>
 
     <canvas id="game-canvas"></canvas>
 
@@ -222,12 +268,15 @@
                         <span>勇者 ZYZ</span>
                         <span class="level-badge" id="level-txt">LV.1 制造小白</span>
                     </span>
-                    <span class="xp-text" id="xp-txt">EXP: 0 / 46</span>
+                    <span class="xp-text" id="xp-txt">EXP: 0 / 49</span>
                 </div>
                 <div class="xp-bar-outer">
                     <div class="xp-bar-inner" id="xp-bar"></div>
                 </div>
             </div>
+            <button class="audio-toggle" id="audio-btn" onclick="toggleMute()" title="切换音效开关" aria-label="静音切换">
+                <i class="fa-solid fa-volume-high" id="audio-icon"></i>
+            </button>
         </div>
 
         <div id="sections-wrapper">
@@ -272,6 +321,17 @@
         </div>
     </div>
 
+    <!-- Level Up Splash Modal -->
+    <div class="level-up-overlay" id="level-up-modal">
+        <div class="level-up-box">
+            <div class="glow-ring"></div>
+            <div class="level-up-banner">LEVEL UP!</div>
+            <div class="level-up-title" id="l-up-title">解锁新称号</div>
+            <p class="level-up-subtitle">您的智能制造防御力与决策力得到了飞跃提升！</p>
+            <button class="level-up-btn" onclick="closeLevelUpModal()">继续冒险</button>
+        </div>
+    </div>
+
     <script src="../data.js"></script>
     <script>
         const katexOptions = {
@@ -300,8 +360,8 @@
         let activeModalIndex = -1;
         let masteredCards = new Set();
         let currentLevel = 1;
+        let isMuted = false;
 
-        // Player Level titles
         const levelTitles = [
             "LV.1 制造小白",
             "LV.2 工业入门",
@@ -314,9 +374,10 @@
             "LV.9 智能制造大师"
         ];
 
-        // 8-bit Sound effects generator
+        // 8-bit Sound effects synthesizer
         let audioCtx = null;
         function playTone(freqs, type='sine', duration=0.2, volume=0.08) {
+            if (isMuted) return;
             try {
                 if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
                 
@@ -330,10 +391,10 @@
                     freqs.forEach((freq, idx) => {
                         const osc = audioCtx.createOscillator();
                         osc.type = type;
-                        osc.frequency.setValueAtTime(freq, now + (idx * 0.1));
+                        osc.frequency.setValueAtTime(freq, now + (idx * 0.08));
                         osc.connect(gainNode);
-                        osc.start(now + (idx * 0.1));
-                        osc.stop(now + (idx * 0.1) + 0.15);
+                        osc.start(now + (idx * 0.08));
+                        osc.stop(now + (idx * 0.08) + 0.12);
                     });
                 } else {
                     const osc = audioCtx.createOscillator();
@@ -398,7 +459,34 @@
         }
         requestAnimationFrame(animateParticles);
 
+        // Simulated Loading Screen progress
+        function startLoading() {
+            const bar = document.getElementById('loading-bar');
+            let progress = 0;
+            const interval = setInterval(() => {
+                progress += Math.random() * 15;
+                if (progress >= 100) {
+                    progress = 100;
+                    clearInterval(interval);
+                    setTimeout(() => {
+                        document.getElementById('loading-screen').classList.add('hide');
+                        // Play adventure overture: C4 -> G4 -> C5
+                        playTone([261.63, 392.00, 523.25], 'triangle', 0.5, 0.1);
+                    }, 400);
+                }
+                bar.style.width = `${progress}%`;
+            }, 80);
+        }
+
         function initReview() {
+            // Muted settings
+            try {
+                isMuted = localStorage.getItem('ia_review_muted') === 'true';
+                updateAudioIcon();
+            } catch(e) {}
+
+            startLoading();
+
             try {
                 const saved = localStorage.getItem('ia_review_mastered');
                 if (saved) {
@@ -506,7 +594,7 @@
                 renderMathInElement(sectionsWrapper, katexOptions);
             }
 
-            updateHUD();
+            updateHUD(true); // silent update on startup
             setupScrollObserver();
         }
 
@@ -518,17 +606,19 @@
             }
         }
 
-        function updateHUD() {
+        function updateHUD(silent = false) {
             const total = iaCards.length;
             const exp = masteredCards.size;
             
             let calculatedLevel = 1 + Math.floor((exp / total) * 8);
             if (calculatedLevel > 9) calculatedLevel = 9;
 
-            if (calculatedLevel > currentLevel) {
+            if (!silent && calculatedLevel > currentLevel) {
                 currentLevel = calculatedLevel;
-                setTimeout(() => playTone([523, 659, 784, 1046], 'triangle', 0.6, 0.12), 200);
-                createConfetti(window.innerWidth / 2, window.innerHeight / 2);
+                // Show Level Up Modal and trigger victory effect
+                showLevelUpModal();
+            } else {
+                currentLevel = calculatedLevel;
             }
 
             document.getElementById('level-txt').textContent = levelTitles[currentLevel - 1];
@@ -552,6 +642,43 @@
             });
         }
 
+        // Level Up popup logic
+        function showLevelUpModal() {
+            document.getElementById('l-up-title').textContent = `晋升为【${levelTitles[currentLevel - 1]}】`;
+            document.getElementById('level-up-modal').class = 'level-up-overlay show';
+            document.getElementById('level-up-modal').classList.add('show');
+            // Play victory melody: C5 -> E5 -> G5 -> C6
+            playTone([523.25, 659.25, 784.00, 1046.50], 'triangle', 0.6, 0.12);
+            // Spawn heavy sparks
+            createConfetti(window.innerWidth / 2, window.innerHeight / 2 - 100);
+        }
+
+        function closeLevelUpModal() {
+            playTone(400, 'sine', 0.1);
+            document.getElementById('level-up-modal').classList.remove('show');
+        }
+
+        // Mute logic
+        function toggleMute() {
+            isMuted = !isMuted;
+            try {
+                localStorage.setItem('ia_review_muted', String(isMuted));
+            } catch(e) {}
+            updateAudioIcon();
+            if (!isMuted) {
+                playTone(600, 'sine', 0.1);
+            }
+        }
+
+        function updateAudioIcon() {
+            const icon = document.getElementById('audio-icon');
+            if (isMuted) {
+                icon.className = 'fa-solid fa-volume-mute';
+            } else {
+                icon.className = 'fa-solid fa-volume-high';
+            }
+        }
+
         function setupScrollObserver() {
             const stations = document.querySelectorAll('.station');
             const sections = sectionInfo.map(sec => document.getElementById(sec.id)).filter(Boolean);
@@ -572,7 +699,7 @@
                             const target = station.getAttribute('data-target');
                             if (target === sectionId) {
                                 if (!station.classList.contains('active')) {
-                                    playTone(500, 'sine', 0.05, 0.03);
+                                    playTone(500, 'sine', 0.05, 0.02);
                                 }
                                 station.classList.add('active');
                                 const container = document.querySelector('.roadmap-container');
@@ -607,7 +734,7 @@
             const card = iaCards[index];
             if (!card) return;
 
-            playTone([350, 250], 'sine', 0.15, 0.05);
+            playTone([350, 250], 'sine', 0.15, 0.04);
 
             activeModalIndex = index;
             document.getElementById('m-header').textContent = card.title;
@@ -635,7 +762,7 @@
         }
 
         function hideModal() {
-            playTone([250, 350], 'sine', 0.15, 0.05);
+            playTone([250, 350], 'sine', 0.15, 0.04);
             const overlay = document.getElementById('modal-overlay');
             overlay.classList.remove('show');
             activeModalIndex = -1;
@@ -673,6 +800,7 @@
                 document.getElementById(`card-item-${index}`).classList.add('mastered');
                 document.querySelector(`#card-item-${index} .card-badge`).innerHTML = `<i class="fa-solid fa-crown"></i> 重新演练`;
                 
+                // Coin double-beep sound: 523Hz -> 659Hz
                 playTone([523, 659], 'sine', 0.25, 0.08);
                 createConfetti(e.clientX, e.clientY);
             }
