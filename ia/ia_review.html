@@ -6,7 +6,7 @@
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>工业 App 智能制造冒险讲义</title>
+    <title>工业 App 智能制造冒险大纲</title>
     <link rel="stylesheet" href="../css/common.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
@@ -19,11 +19,16 @@
             --blue-500: #3b82f6;
             --blue-600: #2563eb;
             --blue-700: #1d4ed8;
+            --rose-50: #fff1f2;
+            --rose-100: #ffe4e6;
+            --rose-600: #e11d48;
             --gold-400: #fbbf24;
             --gold-500: #f59e0b;
-            --accent-glow: rgba(59, 130, 246, 0.25);
+            --accent-glow: rgba(37, 99, 235, 0.15);
             --xp-bar-bg: rgba(226, 232, 240, 0.8);
             --loading-bg: #0f172a;
+            --neon-shadow: 0 0 10px rgba(37, 99, 235, 0.5);
+            --gold-glow: rgba(251, 191, 36, 0.35);
         }
         [data-theme="dark"] {
             --blue-50: rgba(37, 99, 235, 0.1);
@@ -31,149 +36,719 @@
             --blue-500: #60a5fa;
             --blue-600: #3b82f6;
             --blue-700: #2563eb;
+            --rose-50: rgba(225, 29, 72, 0.15);
+            --rose-100: rgba(225, 29, 72, 0.25);
+            --rose-600: #fb7185;
             --gold-400: #fbbf24;
             --gold-500: #fb923c;
-            --accent-glow: rgba(59, 130, 246, 0.4);
+            --accent-glow: rgba(59, 130, 246, 0.35);
             --xp-bar-bg: rgba(51, 65, 85, 0.6);
             --loading-bg: #020617;
+            --neon-shadow: 0 0 15px rgba(59, 130, 246, 0.6);
         }
-        body { margin: 0; background: var(--bg-app); color: var(--text-main); line-height: 1.6; user-select: none; }
-        .review-container { width: min(1080px, calc(100% - 32px)); margin: 0 auto; padding: 20px 0; padding-bottom: 80px; }
 
-        /* Game Canvas overlay */
-        #game-canvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 1300; }
+        body { 
+            margin: 0; 
+            background: var(--bg-app); 
+            color: var(--text-main); 
+            line-height: 1.6; 
+            user-select: none; 
+            -webkit-user-select: none;
+        }
+        
+        .review-container { 
+            width: min(1080px, calc(100% - 32px)); 
+            margin: 0 auto; 
+            padding: 20px 0; 
+            padding-bottom: 80px; 
+        }
 
-        /* Game Opening Loading Screen */
-        .loading-screen { position: fixed; top:0; left:0; width:100%; height:100%; background: var(--loading-bg); z-index: 2000; display: flex; flex-direction: column; align-items: center; justify-content: center; transition: opacity 0.5s ease, visibility 0.5s ease; color: white; }
-        .loading-screen.hide { opacity: 0; visibility: hidden; }
-        .loading-logo { font-size: 3.5rem; margin-bottom: 20px; animation: float 2s infinite alternate; }
-        .loading-title { font-size: 1.8rem; font-weight: 900; margin-bottom: 10px; letter-spacing: 2px; text-shadow: 0 0 10px var(--blue-500); }
-        .loading-subtitle { font-size: 0.9rem; opacity: 0.7; margin-bottom: 30px; }
-        .loading-bar-outer { width: 260px; height: 12px; border: 2px solid var(--blue-500); border-radius: 10px; overflow: hidden; padding: 1px; }
-        .loading-bar-inner { height: 100%; width: 0%; background: var(--blue-500); border-radius: 8px; transition: width 0.1s linear; }
+        /* Canvas Particle overlay */
+        #game-canvas { 
+            position: fixed; 
+            top: 0; 
+            left: 0; 
+            width: 100%; 
+            height: 100%; 
+            pointer-events: none; 
+            z-index: 2000; 
+        }
+
+        /* Loading Screen */
+        .loading-screen { 
+            position: fixed; 
+            top: 0; 
+            left: 0; 
+            width: 100%; 
+            height: 100%; 
+            background: var(--loading-bg); 
+            z-index: 3000; 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            justify-content: center; 
+            transition: opacity 0.5s ease, visibility 0.5s ease; 
+            color: white; 
+        }
+        .loading-screen.hide { 
+            opacity: 0; 
+            visibility: hidden; 
+        }
+        .loading-logo { 
+            font-size: 3.5rem; 
+            margin-bottom: 20px; 
+            animation: float 2s infinite alternate; 
+        }
+        .loading-title { 
+            font-size: 1.8rem; 
+            font-weight: 900; 
+            margin-bottom: 10px; 
+            letter-spacing: 2px; 
+            text-shadow: var(--neon-shadow); 
+        }
+        .loading-subtitle { 
+            font-size: 0.9rem; 
+            opacity: 0.7; 
+            margin-bottom: 30px; 
+        }
+        .loading-bar-outer { 
+            width: 260px; 
+            height: 12px; 
+            border: 2px solid var(--blue-500); 
+            border-radius: 10px; 
+            overflow: hidden; 
+            padding: 1px; 
+        }
+        .loading-bar-inner { 
+            height: 100%; 
+            width: 0%; 
+            background: var(--blue-500); 
+            border-radius: 8px; 
+            transition: width 0.1s linear; 
+        }
 
         @keyframes float {
             0% { transform: translateY(0); }
             100% { transform: translateY(-10px); }
         }
 
-        /* Player Status HUD */
-        .hud-panel { display: flex; flex-wrap: wrap; gap: 15px; align-items: center; background: var(--bg-card); border: 2px solid var(--blue-500); border-radius: 16px; padding: 15px 20px; box-shadow: 0 10px 25px var(--accent-glow); margin-bottom: 25px; }
-        .hud-avatar { width: 50px; height: 50px; border-radius: 50%; background: linear-gradient(135deg, var(--blue-500), var(--sky-500)); border: 3px solid var(--blue-100); display: flex; align-items: center; justify-content: center; color: white; font-size: 1.8rem; font-weight: bold; }
-        .hud-info { flex: 1; min-width: 200px; display: flex; flex-direction: column; gap: 4px; }
-        .hud-meta { display: flex; justify-content: space-between; align-items: center; }
-        .player-name { font-weight: 800; font-size: 1.1rem; display: flex; align-items: center; gap: 6px; }
-        .level-badge { background: var(--blue-600); color: white; padding: 2px 8px; border-radius: 6px; font-size: 0.75rem; font-weight: 900; text-transform: uppercase; }
-        .xp-text { font-family: 'JetBrains Mono', monospace; font-size: 0.8rem; font-weight: bold; color: var(--text-weak); }
-        .xp-bar-outer { width: 100%; height: 10px; background: var(--xp-bar-bg); border-radius: 10px; overflow: hidden; border: 1px solid var(--border-color); }
-        .xp-bar-inner { height: 100%; width: 0%; background: linear-gradient(90deg, var(--blue-500), var(--sky-500)); transition: width 0.5s cubic-bezier(0.1, 0.8, 0.3, 1); }
+        /* Player Status HUD Panel */
+        .hud-panel { 
+            display: flex; 
+            flex-wrap: wrap; 
+            gap: 15px; 
+            align-items: center; 
+            background: var(--bg-card); 
+            border: 2px solid var(--blue-500); 
+            border-radius: 16px; 
+            padding: 15px 20px; 
+            box-shadow: 0 10px 25px var(--accent-glow); 
+            margin-bottom: 25px; 
+            position: relative;
+        }
+        .hud-avatar { 
+            width: 50px; 
+            height: 50px; 
+            border-radius: 50%; 
+            background: linear-gradient(135deg, var(--blue-500), var(--sky-500)); 
+            border: 3px solid var(--blue-100); 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            color: white; 
+            font-size: 1.8rem; 
+        }
+        .hud-info { 
+            flex: 1; 
+            min-width: 200px; 
+            display: flex; 
+            flex-direction: column; 
+            gap: 6px; 
+        }
+        .hud-meta { 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+        }
+        .player-name { 
+            font-weight: 800; 
+            font-size: 1.1rem; 
+            display: flex; 
+            align-items: center; 
+            gap: 8px; 
+        }
+        .level-badge { 
+            background: var(--blue-600); 
+            color: white; 
+            padding: 2px 8px; 
+            border-radius: 6px; 
+            font-size: 0.75rem; 
+            font-weight: 900; 
+            text-transform: uppercase; 
+            box-shadow: var(--neon-shadow);
+        }
+        .xp-text { 
+            font-family: 'JetBrains Mono', monospace; 
+            font-size: 0.8rem; 
+            font-weight: bold; 
+            color: var(--text-weak); 
+        }
+        .xp-bar-outer { 
+            width: 100%; 
+            height: 10px; 
+            background: var(--xp-bar-bg); 
+            border-radius: 10px; 
+            overflow: hidden; 
+            border: 1px solid var(--border-color); 
+        }
+        .xp-bar-inner { 
+            height: 100%; 
+            width: 0%; 
+            background: linear-gradient(90deg, var(--blue-500), var(--sky-500)); 
+            transition: width 0.5s cubic-bezier(0.1, 0.8, 0.3, 1); 
+        }
         
-        /* Audio Toggle Button */
-        .audio-toggle { width: 36px; height: 36px; border-radius: 50%; border: 1px solid var(--border-color); background: var(--bg-card); color: var(--text-main); display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.2s; }
-        .audio-toggle:hover { background: var(--blue-50); color: var(--blue-600); border-color: var(--blue-500); }
-
-        /* Topbar & Sticky Roadmap Nav */
-        .topbar { position: sticky; top: 0; z-index: 100; backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); background: color-mix(in srgb, var(--bg-app) 85%, transparent); border-bottom: 1px solid var(--border-color); padding: 10px 0; }
-        .topbar-inner { width: min(1080px, calc(100% - 32px)); margin: 0 auto; display: flex; flex-direction: column; gap: 8px; }
-        .topbar-header { display: flex; justify-content: space-between; align-items: center; }
-        .topbar a { text-decoration: none; color: var(--text-weak); font-weight: 700; font-size: 0.9rem; display: flex; align-items: center; gap: 6px; transition: color 0.2s; }
-        .topbar a:hover { color: var(--blue-600); }
-
-        /* SVG Roadmap Styling */
-        .roadmap-container { width: 100%; overflow-x: auto; padding: 6px 0; -webkit-overflow-scrolling: touch; }
-        .roadmap-container::-webkit-scrollbar { height: 4px; }
-        .roadmap-container::-webkit-scrollbar-thumb { background: var(--border-color); border-radius: 4px; }
-        .roadmap-svg { display: block; min-width: 900px; height: 50px; }
-        .roadmap-line { fill: none; stroke: var(--border-color); stroke-width: 4; }
-        .roadmap-progress-line { fill: none; stroke: var(--blue-500); stroke-width: 4; stroke-dasharray: 800; stroke-dashoffset: 800; transition: stroke-dashoffset 0.1s ease; }
-        .station { cursor: pointer; }
-        .station circle { fill: var(--bg-card); stroke: var(--border-color); stroke-width: 3; transition: all 0.3s ease; }
-        .station.active circle { fill: var(--blue-500); stroke: var(--blue-600); filter: drop-shadow(0 0 8px var(--blue-500)); }
-        .station text { fill: var(--text-weak); font-family: system-ui, sans-serif; font-size: 10px; font-weight: 600; text-anchor: middle; transition: all 0.3s ease; }
-        .station.active text { fill: var(--blue-600); font-weight: 800; font-size: 11px; }
-
-        /* Section Cards */
-        .section-card { background: var(--bg-card); border-radius: 16px; padding: 25px; margin-bottom: 25px; box-shadow: var(--list-item-shadow); border: 2px solid var(--border-color); transition: border-color 0.3s, box-shadow 0.3s; scroll-margin-top: 130px; }
-        .section-card:hover { border-color: var(--blue-500); box-shadow: 0 10px 30px -10px var(--accent-glow); }
-        .section-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid var(--blue-50); padding-bottom: 12px; margin-bottom: 20px; }
-        .section-title-wrap { display: flex; align-items: center; gap: 14px; }
-        .section-icon { display: flex; align-items: center; justify-content: center; width: 40px; height: 40px; border-radius: 10px; background: var(--blue-50); color: var(--blue-600); font-size: 1.2rem; font-weight: bold; flex-shrink: 0; }
-        .section-card h2 { margin: 0; font-size: 1.35rem; color: var(--text-main); font-weight: 800; }
-        .section-star-status { font-family: 'JetBrains Mono', monospace; font-size: 0.85rem; font-weight: 800; color: var(--gold-500); background: var(--blue-50); padding: 4px 10px; border-radius: 20px; border: 1px solid var(--blue-100); display: flex; align-items: center; gap: 4px; }
-
-        /* Mini-Card Item styling */
-        .card-list { display: flex; flex-direction: column; gap: 16px; }
-        .card-item { border: 1px solid var(--border-color); border-radius: 12px; padding: 18px; background: var(--bg-card); display: flex; flex-direction: column; gap: 8px; position: relative; transition: all 0.3s; }
-        .card-item.mastered { border-color: var(--gold-400); background: linear-gradient(to right, var(--bg-card), rgba(251, 191, 36, 0.02)); }
-        .card-item-header { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; }
-        .card-title { font-weight: 800; color: var(--blue-600); font-size: 1.05rem; display: flex; align-items: center; gap: 6px; }
-        .card-title .star-icon { color: var(--gold-400); font-size: 0.95rem; display: none; }
-        .card-item.mastered .card-title .star-icon { display: inline-block; animation: starPop 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
-        .card-badge { display: inline-flex; align-items: center; gap: 4px; padding: 4px 8px; font-size: 0.75rem; font-weight: 700; color: var(--blue-600); background: var(--blue-50); border: 1px solid var(--blue-100); border-radius: 6px; cursor: pointer; transition: all 0.2s; }
-        .card-badge:hover { background: var(--blue-600); color: white; border-color: var(--blue-600); }
-        .card-q { font-size: 0.95rem; font-weight: 700; color: var(--text-main); margin: 0; }
-
-        @keyframes starPop {
-            0% { transform: scale(0); rotate: -180deg; }
-            100% { transform: scale(1); rotate: 0deg; }
+        .hud-controls {
+            display: flex;
+            align-items: center;
+            gap: 12px;
         }
 
-        /* Modal Overlay */
-        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px); display: flex; align-items: center; justify-content: center; z-index: 1000; opacity: 0; pointer-events: none; transition: opacity 0.3s ease; }
-        .modal-overlay.show { opacity: 1; pointer-events: auto; }
+        /* Mode Toggles */
+        .mode-toggles {
+            display: flex;
+            background: var(--bg-app);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 3px;
+            gap: 4px;
+        }
+        .mode-btn {
+            border: none;
+            background: transparent;
+            color: var(--text-weak);
+            padding: 6px 14px;
+            border-radius: 9px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.25s;
+        }
+        .mode-btn.active {
+            background: var(--blue-600);
+            color: white;
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.25);
+        }
 
-        /* Modal Card flip container */
-        .modal-card-container { width: min(480px, calc(100% - 32px)); height: 380px; perspective: 1000px; }
-        .modal-card { width: 100%; height: 100%; position: relative; transform-style: preserve-3d; transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1); cursor: pointer; }
-        .modal-card.flipped { transform: rotateY(180deg); }
+        /* Audio Toggle */
+        .audio-toggle { 
+            width: 36px; 
+            height: 36px; 
+            border-radius: 50%; 
+            border: 1px solid var(--border-color); 
+            background: var(--bg-card); 
+            color: var(--text-main); 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            cursor: pointer; 
+            transition: all 0.2s; 
+        }
+        .audio-toggle:hover { 
+            background: var(--blue-50); 
+            color: var(--blue-600); 
+            border-color: var(--blue-500); 
+        }
 
-        .modal-face { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; -webkit-backface-visibility: hidden; border-radius: 16px; padding: 25px; box-shadow: 0 20px 50px rgba(0,0,0,0.15); display: flex; flex-direction: column; overflow: hidden; background: var(--bg-card); border: 1px solid var(--border-color); }
-        .modal-face-front { background: linear-gradient(135deg, var(--blue-600), var(--blue-700)); color: white; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; }
-        .modal-face-front h3 { font-size: 1.1rem; opacity: 0.8; margin: 0 0 10px 0; text-transform: uppercase; letter-spacing: 2px; }
-        .modal-face-front p { font-size: 1.3rem; font-weight: 800; margin: 0 0 20px 0; line-height: 1.4; padding: 0 10px; }
-        .modal-face-front .action-tip { font-size: 0.8rem; opacity: 0.7; display: flex; align-items: center; gap: 6px; animation: bounce 1s infinite alternate; }
+        /* Topbar & Sticky SVG Nav */
+        .topbar { 
+            position: sticky; 
+            top: 0; 
+            z-index: 100; 
+            backdrop-filter: blur(12px); 
+            -webkit-backdrop-filter: blur(12px); 
+            background: color-mix(in srgb, var(--bg-app) 85%, transparent); 
+            border-bottom: 1px solid var(--border-color); 
+            padding: 10px 0; 
+        }
+        .topbar-inner { 
+            width: min(1080px, calc(100% - 32px)); 
+            margin: 0 auto; 
+            display: flex; 
+            flex-direction: column; 
+            gap: 8px; 
+        }
+        .topbar-header { 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+        }
+        .topbar a { 
+            text-decoration: none; 
+            color: var(--text-weak); 
+            font-weight: 700; 
+            font-size: 0.9rem; 
+            display: flex; 
+            align-items: center; 
+            gap: 6px; 
+            transition: color 0.2s; 
+        }
+        .topbar a:hover { 
+            color: var(--blue-600); 
+        }
+
+        /* SVG Roadmap Styling */
+        .roadmap-container { 
+            width: 100%; 
+            overflow-x: auto; 
+            padding: 6px 0; 
+            -webkit-overflow-scrolling: touch; 
+        }
+        .roadmap-container::-webkit-scrollbar { 
+            height: 4px; 
+        }
+        .roadmap-container::-webkit-scrollbar-thumb { 
+            background: var(--border-color); 
+            border-radius: 4px; 
+        }
+        .roadmap-svg { 
+            display: block; 
+            min-width: 900px; 
+            height: 50px; 
+        }
+        .roadmap-line { 
+            fill: none; 
+            stroke: var(--border-color); 
+            stroke-width: 4; 
+        }
+        .roadmap-progress-line { 
+            fill: none; 
+            stroke: var(--blue-500); 
+            stroke-width: 4; 
+            stroke-dasharray: 900; 
+            stroke-dashoffset: 900; 
+            transition: stroke-dashoffset 0.1s ease; 
+        }
+        .station { 
+            cursor: pointer; 
+        }
+        .station circle { 
+            fill: var(--bg-card); 
+            stroke: var(--border-color); 
+            stroke-width: 3; 
+            transition: all 0.3s ease; 
+        }
+        .station.active circle { 
+            fill: var(--blue-500); 
+            stroke: var(--blue-600); 
+            filter: drop-shadow(0 0 8px var(--blue-500)); 
+        }
+        .station text { 
+            fill: var(--text-weak); 
+            font-family: system-ui, sans-serif; 
+            font-size: 10px; 
+            font-weight: 600; 
+            text-anchor: middle; 
+            transition: all 0.3s ease; 
+        }
+        .station.active text { 
+            fill: var(--blue-600); 
+            font-weight: 800; 
+            font-size: 11px; 
+        }
+
+        /* Section Cards */
+        .section-card { 
+            background: var(--bg-card); 
+            border-radius: 16px; 
+            padding: 25px; 
+            margin-bottom: 25px; 
+            box-shadow: var(--list-item-shadow); 
+            border: 2px solid var(--border-color); 
+            transition: border-color 0.3s, box-shadow 0.3s; 
+            scroll-margin-top: 130px; 
+        }
+        .section-card:hover { 
+            border-color: var(--blue-500); 
+            box-shadow: 0 10px 30px -10px var(--accent-glow); 
+        }
+        .section-header { 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            border-bottom: 2px solid var(--blue-50); 
+            padding-bottom: 12px; 
+            margin-bottom: 20px; 
+        }
+        .section-title-wrap { 
+            display: flex; 
+            align-items: center; 
+            gap: 14px; 
+        }
+        .section-icon { 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            width: 40px; 
+            height: 40px; 
+            border-radius: 10px; 
+            background: var(--blue-50); 
+            color: var(--blue-600); 
+            font-size: 1.2rem; 
+            font-weight: bold; 
+            flex-shrink: 0; 
+        }
+        .section-card h2 { 
+            margin: 0; 
+            font-size: 1.35rem; 
+            color: var(--text-main); 
+            font-weight: 800; 
+        }
+        .section-star-status { 
+            font-family: 'JetBrains Mono', monospace; 
+            font-size: 0.85rem; 
+            font-weight: 800; 
+            color: var(--text-weak); 
+            background: var(--blue-50); 
+            padding: 4px 12px; 
+            border-radius: 20px; 
+            border: 1px solid var(--border-color); 
+            display: flex; 
+            align-items: center; 
+            gap: 6px; 
+            transition: all 0.3s;
+        }
+        .section-star-status.perfect {
+            color: var(--gold-500);
+            border-color: var(--gold-400);
+            box-shadow: 0 0 10px var(--gold-glow);
+        }
+
+        /* Card list and cards */
+        .card-list { 
+            display: flex; 
+            flex-direction: column; 
+            gap: 20px; 
+        }
+        .card-item { 
+            border: 1px solid var(--border-color); 
+            border-radius: 14px; 
+            padding: 20px; 
+            background: var(--bg-card); 
+            display: flex; 
+            flex-direction: column; 
+            gap: 12px; 
+            position: relative; 
+            transition: all 0.35s cubic-bezier(0.25, 1, 0.5, 1); 
+        }
+        .card-item.mastered { 
+            border-color: var(--gold-400) !important; 
+            background: linear-gradient(135deg, var(--bg-card), rgba(251, 191, 36, 0.02)) !important; 
+            box-shadow: 0 8px 25px rgba(251, 191, 36, 0.08) !important;
+        }
+        .card-item-header { 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            gap: 12px; 
+            border-bottom: 1px dashed var(--border-color);
+            padding-bottom: 8px;
+        }
+        .card-title { 
+            font-weight: 800; 
+            color: var(--blue-600); 
+            font-size: 0.95rem; 
+            display: flex; 
+            align-items: center; 
+            gap: 4px; 
+        }
+        .card-q { 
+            font-size: 1.15rem; 
+            font-weight: 800; 
+            color: var(--text-main); 
+            margin: 0; 
+            line-height: 1.4;
+            border-left: 4px solid var(--blue-500);
+            padding-left: 10px;
+        }
+
+        .badge-group {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
         
-        .modal-face-back { transform: rotateY(180deg); }
-        .modal-scroll-area { flex: 1; overflow-y: auto; display: flex; flex-direction: column; gap: 15px; }
-        .modal-mnemonic { background: var(--blue-50); border: 1px solid var(--blue-100); border-radius: 10px; padding: 12px 16px; color: var(--blue-700); font-size: 0.9rem; }
-        .modal-mnemonic h4 { margin: 0 0 4px 0; font-size: 0.8rem; font-weight: 800; opacity: 0.8; text-transform: uppercase; }
-        .modal-answer-title { font-size: 0.8rem; font-weight: 800; color: var(--text-weak); text-transform: uppercase; border-bottom: 1px solid var(--border-color); padding-bottom: 4px; margin-bottom: 4px; }
-        .modal-actions { display: flex; gap: 12px; margin-top: 10px; padding-top: 10px; border-top: 1px solid var(--border-color); }
-        .modal-btn { flex: 1; height: 38px; border-radius: 8px; border: none; font-weight: bold; font-size: 0.85rem; display: flex; align-items: center; justify-content: center; gap: 6px; cursor: pointer; transition: all 0.2s; }
-        .modal-btn-retry { background: var(--blue-50); color: var(--blue-600); border: 1px solid var(--blue-100); }
-        .modal-btn-retry:hover { background: var(--blue-100); }
-        .modal-btn-master { background: var(--gold-400); color: #1e293b; }
-        .modal-btn-master:hover { background: var(--gold-500); transform: scale(1.02); }
-
-        /* Level Up Splash Overlay */
-        .level-up-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(15, 23, 42, 0.85); backdrop-filter: blur(8px); display: flex; align-items: center; justify-content: center; z-index: 1500; opacity: 0; pointer-events: none; transition: opacity 0.4s ease; }
-        .level-up-overlay.show { opacity: 1; pointer-events: auto; }
-        .level-up-box { background: var(--bg-card); border: 3px solid var(--gold-400); border-radius: 24px; padding: 40px 30px; text-align: center; max-width: 360px; width: calc(100% - 32px); box-shadow: 0 0 50px rgba(251, 191, 36, 0.4); transform: scale(0.8); transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); position: relative; }
-        .level-up-overlay.show .level-up-box { transform: scale(1); }
-        .level-up-banner { font-size: 2.2rem; font-weight: 900; color: var(--gold-400); text-shadow: 0 0 15px rgba(251, 191, 36, 0.6); margin-bottom: 10px; letter-spacing: 2px; }
-        .level-up-title { font-size: 1.3rem; font-weight: 800; color: var(--text-main); margin-bottom: 8px; }
-        .level-up-subtitle { font-size: 0.9rem; color: var(--text-weak); margin-bottom: 25px; line-height: 1.5; }
-        .level-up-btn { background: linear-gradient(135deg, var(--gold-400), var(--gold-500)); color: #0f172a; font-weight: 900; border: none; border-radius: 12px; width: 100%; height: 46px; font-size: 1rem; cursor: pointer; transition: all 0.2s; box-shadow: 0 4px 12px rgba(245, 158, 11, 0.3); }
-        .level-up-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 18px rgba(245, 158, 11, 0.5); }
+        .key-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            padding: 3px 8px;
+            font-size: 0.72rem;
+            font-weight: 800;
+            color: var(--rose-600);
+            background: var(--rose-50);
+            border: 1px solid var(--rose-100);
+            border-radius: 20px;
+            animation: pulseGlow 1.8s infinite alternate;
+        }
         
-        .glow-ring { position: absolute; top: -50px; left: calc(50% - 50px); width: 100px; height: 100px; border-radius: 50%; background: radial-gradient(circle, rgba(251, 191, 36, 0.2) 0%, transparent 70%); animation: rotateGlow 3s linear infinite; pointer-events: none; }
+        @keyframes pulseGlow {
+            0% { box-shadow: 0 0 0 0 rgba(225, 29, 72, 0.2); }
+            100% { box-shadow: 0 0 0 5px rgba(225, 29, 72, 0.3); }
+        }
+
+        /* Frosted Glass Recite Mask */
+        .concept-a-wrap {
+            position: relative;
+            border-radius: 10px;
+            overflow: hidden;
+            min-height: 80px;
+            transition: all 0.3s;
+            background: rgba(30, 41, 59, 0.2);
+            border: 1px solid var(--border-color);
+        }
+        
+        .recite-mask {
+            position: absolute;
+            top: 0; 
+            left: 0; 
+            width: 100%; 
+            height: 100%;
+            background: rgba(15, 23, 42, 0.75);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 10;
+            transition: opacity 0.4s cubic-bezier(0.25, 1, 0.5, 1), visibility 0.4s;
+            border-radius: 10px;
+        }
+        .recite-mask:hover {
+            background: rgba(15, 23, 42, 0.65);
+        }
+        
+        .recite-mask-content {
+            text-align: center;
+            color: var(--blue-400);
+            font-size: 0.85rem;
+            font-weight: 700;
+            pointer-events: none;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            text-shadow: 0 0 10px rgba(59, 130, 246, 0.4);
+            border: 1px dashed rgba(59, 130, 246, 0.4);
+            padding: 12px 24px;
+            border-radius: 12px;
+            background: rgba(30, 41, 59, 0.5);
+            animation: pulseGlowCyan 2s infinite alternate;
+        }
+        
+        @keyframes pulseGlowCyan {
+            0% { box-shadow: 0 0 0 0 rgba(14, 165, 233, 0.2); }
+            100% { box-shadow: 0 0 0 6px rgba(14, 165, 233, 0.3); }
+        }
+
+        .recite-mask.hidden-mask {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+        }
+
+        /* Real answer content area */
+        .real-answer-content {
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .concept-mnemonic { 
+            display: flex; 
+            gap: 12px; 
+            background: rgba(245, 158, 11, 0.06); 
+            border: 1px solid rgba(245, 158, 11, 0.3); 
+            border-radius: 8px; 
+            padding: 12px 16px; 
+            color: var(--text-main); 
+            font-size: 0.95rem; 
+        }
+        .mnemonic-icon { 
+            font-size: 1.25rem; 
+            line-height: 1; 
+        }
+        .mnemonic-content { 
+            flex: 1; 
+        }
+        .mnemonic-content strong { 
+            color: var(--gold-500); 
+            font-weight: 900; 
+        }
+
+        .concept-a-detail {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .concept-a-title { 
+            font-size: 0.82rem; 
+            font-weight: 800; 
+            color: var(--text-weak); 
+            text-transform: uppercase; 
+            display: block; 
+            border-bottom: 1px solid var(--border-color); 
+            padding-bottom: 4px; 
+        }
+
+        /* Card Actions and Buttons */
+        .card-actions {
+            display: flex;
+            justify-content: flex-end;
+            border-top: 1px solid var(--border-color);
+            padding-top: 12px;
+            margin-top: 4px;
+        }
+
+        .master-btn {
+            border: none;
+            padding: 8px 20px;
+            font-weight: bold;
+            font-size: 0.85rem;
+            border-radius: 8px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        
+        .btn-blue {
+            background: var(--blue-50);
+            color: var(--blue-600);
+            border: 1px solid var(--blue-100);
+        }
+        .btn-blue:hover {
+            background: var(--blue-600);
+            color: white;
+            transform: translateY(-2px);
+        }
+        
+        .btn-gold {
+            background: linear-gradient(135deg, var(--gold-400), var(--gold-500));
+            color: #1e293b;
+            box-shadow: 0 4px 12px rgba(245, 158, 11, 0.2);
+        }
+        .btn-gold:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 6px 15px rgba(245, 158, 11, 0.4);
+        }
+
+        /* Level Up Modal overlay */
+        .level-up-overlay { 
+            position: fixed; 
+            top: 0; 
+            left: 0; 
+            width: 100%; 
+            height: 100%; 
+            background: rgba(15, 23, 42, 0.9); 
+            backdrop-filter: blur(8px); 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            z-index: 2500; 
+            opacity: 0; 
+            pointer-events: none; 
+            transition: opacity 0.4s ease; 
+        }
+        .level-up-overlay.show { 
+            opacity: 1; 
+            pointer-events: auto; 
+        }
+        .level-up-box { 
+            background: var(--bg-card); 
+            border: 3px solid var(--gold-400); 
+            border-radius: 24px; 
+            padding: 40px 30px; 
+            text-align: center; 
+            max-width: 360px; 
+            width: calc(100% - 32px); 
+            box-shadow: 0 0 50px rgba(251, 191, 36, 0.4); 
+            transform: scale(0.8); 
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
+            position: relative; 
+        }
+        .level-up-overlay.show .level-up-box { 
+            transform: scale(1); 
+        }
+        .level-up-banner { 
+            font-size: 2.2rem; 
+            font-weight: 900; 
+            color: var(--gold-400); 
+            text-shadow: 0 0 15px rgba(251, 191, 36, 0.6); 
+            margin-bottom: 10px; 
+            letter-spacing: 2px; 
+        }
+        .level-up-title { 
+            font-size: 1.3rem; 
+            font-weight: 800; 
+            color: var(--text-main); 
+            margin-bottom: 8px; 
+        }
+        .level-up-subtitle { 
+            font-size: 0.9rem; 
+            color: var(--text-weak); 
+            margin-bottom: 25px; 
+            line-height: 1.5; 
+        }
+        .level-up-btn { 
+            background: linear-gradient(135deg, var(--gold-400), var(--gold-500)); 
+            color: #0f172a; 
+            font-weight: 900; 
+            border: none; 
+            border-radius: 12px; 
+            width: 100%; 
+            height: 46px; 
+            font-size: 1rem; 
+            cursor: pointer; 
+            transition: all 0.2s; 
+            box-shadow: 0 4px 12px rgba(245, 158, 11, 0.3); 
+        }
+        .level-up-btn:hover { 
+            transform: translateY(-2px); 
+            box-shadow: 0 6px 18px rgba(245, 158, 11, 0.5); 
+        }
+
+        .glow-ring { 
+            position: absolute; 
+            top: -50px; 
+            left: calc(50% - 50px); 
+            width: 100px; 
+            height: 100px; 
+            border-radius: 50%; 
+            background: radial-gradient(circle, rgba(251, 191, 36, 0.2) 0%, transparent 70%); 
+            animation: rotateGlow 3s linear infinite; 
+            pointer-events: none; 
+        }
+        
         @keyframes rotateGlow {
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
         }
 
-        @keyframes bounce {
-            0% { transform: translateY(0); }
-            100% { transform: translateY(-4px); }
-        }
-
-        .close-btn { position: absolute; top: 12px; right: 12px; width: 32px; height: 32px; border-radius: 50%; border: none; background: rgba(0,0,0,0.1); color: var(--text-main); font-size: 1rem; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.2s; z-index: 1010; }
-        .close-btn:hover { background: rgba(0,0,0,0.2); }
-
         @media (max-width: 640px) {
             .section-card { padding: 18px 15px; }
-            .hud-panel { padding: 12px 15px; gap: 10px; }
+            .hud-panel { padding: 12px 15px; gap: 12px; }
             .hud-avatar { width: 40px; height: 40px; font-size: 1.4rem; }
+            .hud-controls { width: 100%; justify-content: space-between; margin-top: 5px; }
+            .card-item { padding: 16px 12px; }
+            .card-q { font-size: 1.05rem; }
         }
     </style>
     <script>
@@ -189,14 +764,15 @@
 
     <!-- Game Opening Loading Screen -->
     <div class="loading-screen" id="loading-screen">
-        <div class="loading-logo">🔮</div>
-        <div class="loading-title">智能制造冒险世界</div>
-        <div class="loading-subtitle">正在构筑冒险大陆与关卡堡垒...</div>
+        <div class="loading-logo">⚡</div>
+        <div class="loading-title">智能制造冒险讲义</div>
+        <div class="loading-subtitle">正在部署工业流水线与复习图谱...</div>
         <div class="loading-bar-outer">
             <div class="loading-bar-inner" id="loading-bar"></div>
         </div>
     </div>
 
+    <!-- Confetti Particle Canvas -->
     <canvas id="game-canvas"></canvas>
 
     <header class="topbar">
@@ -206,44 +782,44 @@
                     <i class="fa-solid fa-angle-left"></i>
                     <span>返回首页</span>
                 </a>
-                <span style="font-weight: 800; font-size: 0.95rem; color: var(--blue-600);">工业 App 智能制造冒险</span>
+                <span style="font-weight: 800; font-size: 0.95rem; color: var(--blue-600);">工业 App 冒险大纲讲义</span>
             </div>
             
             <div class="roadmap-container">
                 <svg class="roadmap-svg" viewBox="0 0 1000 50">
-                    <!-- Base line -->
+                    <!-- Path base line -->
                     <path class="roadmap-line" d="M 50 25 L 950 25" />
-                    <!-- Progress line -->
+                    <!-- Electrified Progress Line -->
                     <path id="svg-progress-line" class="roadmap-progress-line" d="M 50 25 L 950 25" />
                     
-                    <!-- Stations -->
+                    <!-- Chapter nodes -->
                     <g class="station" onclick="scrollToSection('ch1')" data-target="ch1" transform="translate(50, 0)">
                         <circle cx="0" cy="25" r="7" />
                         <text x="0" y="45">范式神殿</text>
                     </g>
                     <g class="station" onclick="scrollToSection('ch2')" data-target="ch2" transform="translate(162, 0)">
                         <circle cx="0" cy="25" r="7" />
-                        <text x="0" y="45">硅片要塞</text>
+                        <text x="0" y="45">集成电路</text>
                     </g>
                     <g class="station" onclick="scrollToSection('ch3')" data-target="ch3" transform="translate(274, 0)">
                         <circle cx="0" cy="25" r="7" />
-                        <text x="0" y="45">感知枢纽</text>
+                        <text x="0" y="45">感知控制</text>
                     </g>
                     <g class="station" onclick="scrollToSection('ch4')" data-target="ch4" transform="translate(386, 0)">
                         <circle cx="0" cy="25" r="7" />
-                        <text x="0" y="45">数据云海</text>
+                        <text x="0" y="45">云端边缘</text>
                     </g>
                     <g class="station" onclick="scrollToSection('ch5')" data-target="ch5" transform="translate(498, 0)">
                         <circle cx="0" cy="25" r="7" />
-                        <text x="0" y="45">生态堡垒</text>
+                        <text x="0" y="45">APP生态</text>
                     </g>
                     <g class="station" onclick="scrollToSection('ch6')" data-target="ch6" transform="translate(610, 0)">
                         <circle cx="0" cy="25" r="7" />
-                        <text x="0" y="45">安全网关</text>
+                        <text x="0" y="45">互联网安全</text>
                     </g>
                     <g class="station" onclick="scrollToSection('ch7')" data-target="ch7" transform="translate(722, 0)">
                         <circle cx="0" cy="25" r="7" />
-                        <text x="0" y="45">智能圣殿</text>
+                        <text x="0" y="45">联邦学习</text>
                     </g>
                     <g class="station" onclick="scrollToSection('ch8')" data-target="ch8" transform="translate(834, 0)">
                         <circle cx="0" cy="25" r="7" />
@@ -251,7 +827,7 @@
                     </g>
                     <g class="station" onclick="scrollToSection('ch9')" data-target="ch9" transform="translate(950, 0)">
                         <circle cx="0" cy="25" r="8" style="stroke-width: 4;" />
-                        <text x="0" y="45" style="font-weight: 800;">终极决战</text>
+                        <text x="0" y="45" style="font-weight: 800;">设备点检</text>
                     </g>
                 </svg>
             </div>
@@ -259,13 +835,13 @@
     </header>
 
     <main class="review-container">
-        <!-- Player HUD Panel -->
+        <!-- Player Level & Progress HUD Panel -->
         <div class="hud-panel">
             <div class="hud-avatar">🛡️</div>
             <div class="hud-info">
                 <div class="hud-meta">
                     <span class="player-name">
-                        <span>勇者 ZYZ</span>
+                        <span>智能勇者 ZYZ</span>
                         <span class="level-badge" id="level-txt">LV.1 制造小白</span>
                     </span>
                     <span class="xp-text" id="xp-txt">EXP: 0 / 49</span>
@@ -274,61 +850,35 @@
                     <div class="xp-bar-inner" id="xp-bar"></div>
                 </div>
             </div>
-            <button class="audio-toggle" id="audio-btn" onclick="toggleMute()" title="切换音效开关" aria-label="静音切换">
-                <i class="fa-solid fa-volume-high" id="audio-icon"></i>
-            </button>
+            <div class="hud-controls">
+                <div class="mode-toggles">
+                    <button class="mode-btn active" id="btn-mode-read" onclick="setGlobalMode('read')" title="显示所有内容进行线性阅读">
+                        <i class="fa-solid fa-book-open"></i> 阅读
+                    </button>
+                    <button class="mode-btn" id="btn-mode-recite" onclick="setGlobalMode('recite')" title="遮盖卡片答案进行隐写自测">
+                        <i class="fa-solid fa-user-ninja"></i> 自测
+                    </button>
+                </div>
+                <button class="audio-toggle" id="audio-btn" onclick="toggleMute()" title="静音切换">
+                    <i class="fa-solid fa-volume-high" id="audio-icon"></i>
+                </button>
+            </div>
         </div>
 
+        <!-- Section List Wrapper -->
         <div id="sections-wrapper">
-            <!-- Dynamically generated sections will reside here -->
+            <!-- Rendered by JS -->
         </div>
     </main>
 
-    <!-- Mini-Modal For In-Place Flashcard背诵 -->
-    <div class="modal-overlay" id="modal-overlay" onclick="closeModal(event)">
-        <button class="close-btn" onclick="hideModal()"><i class="fa-solid fa-xmark"></i></button>
-        <div class="modal-card-container">
-            <div class="modal-card" id="modal-card" onclick="flipModalCard(event)">
-                <div class="modal-face modal-face-front">
-                    <h3 id="m-header">章节名称</h3>
-                    <p id="m-q">问题描述加载中...</p>
-                    <div class="action-tip">
-                        <span>点击卡片翻转</span>
-                        <i class="fa-solid fa-arrow-rotate-right"></i>
-                    </div>
-                </div>
-                <div class="modal-face modal-face-back" onclick="event.stopPropagation()">
-                    <div class="modal-scroll-area">
-                        <div class="modal-mnemonic">
-                            <h4>🧠 记忆口诀</h4>
-                            <div id="m-tip">口诀内容加载中...</div>
-                        </div>
-                        <div style="flex:1; display:flex; flex-direction:column;">
-                            <div class="modal-answer-title">参考答案核对</div>
-                            <div id="m-a" class="prose prose-sm" style="flex:1; overflow-y:auto; max-height:160px;"></div>
-                        </div>
-                        <div class="modal-actions">
-                            <button class="modal-btn modal-btn-retry" onclick="flipModalCard(event)">
-                                <i class="fa-solid fa-arrow-left"></i> 再想想
-                            </button>
-                            <button class="modal-btn modal-btn-master" id="btn-master" onclick="masterCard(event)">
-                                <i class="fa-solid fa-crown"></i> 彻底降服
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Level Up Splash Modal -->
+    <!-- Level Up Splash Modal Overlay -->
     <div class="level-up-overlay" id="level-up-modal">
         <div class="level-up-box">
             <div class="glow-ring"></div>
             <div class="level-up-banner">LEVEL UP!</div>
             <div class="level-up-title" id="l-up-title">解锁新称号</div>
             <p class="level-up-subtitle">您的智能制造防御力与决策力得到了飞跃提升！</p>
-            <button class="level-up-btn" onclick="closeLevelUpModal()">继续冒险</button>
+            <button class="level-up-btn" onclick="closeLevelUpModal()">继续复习</button>
         </div>
     </div>
 
@@ -345,22 +895,29 @@
         };
 
         const sectionInfo = [
-            { id: "ch1", name: "第一关：范式神殿 (三类范式与制造金字塔)", prefix: "第一章" },
-            { id: "ch2", name: "第二关：硅片要塞 (数字/集成电路与软件基础)", prefix: "第二章" },
-            { id: "ch3", name: "第三关：感知枢纽 (数字传感与控制技术)", prefix: "3." },
-            { id: "ch4", name: "第四关：数据云海 (云技术与边缘计算架构)", prefix: "4." },
-            { id: "ch5", name: "第五关：生态堡垒 (工业 APP 生态构建与问题)", prefix: "5." },
+            { id: "ch1", name: "第一关：范式神殿 (三类范式与金字塔)", prefix: "第一章" },
+            { id: "ch2", name: "第二关：集成电路 (计算机硬件与软件基础)", prefix: "第二章" },
+            { id: "ch3", name: "第三关：感知控制 (数字传感与控制技术)", prefix: "3." },
+            { id: "ch4", name: "第四关：数据云海 (有线/无线通信及云端边缘)", prefix: "4." },
+            { id: "ch5", name: "第五关：生态堡垒 (工业 APP 及其生态体系)", prefix: "5." },
             { id: "ch6", name: "第六关：安全网关 (工业互联网及安全要素)", prefix: "6." },
             { id: "ch7", name: "第七关：智能圣殿 (大数据智能与联邦学习)", prefix: "第七章" },
             { id: "ch8", name: "第八关：数字孪生 (数字孪生系统与关键技术)", prefix: "第八章" },
-            { id: "ch9", name: "终极决战：点检试炼 (实验 7 智能设备点检)", prefix: "实验7" }
+            { id: "ch9", name: "终极决战：设备点检 (实验 7 智能设备点检 APP)", prefix: "实验7" }
+        ];
+
+        // Key high-frequency exam node keywords
+        const keyKeywords = [
+            "范式主要特征", "赋能技术", "五层次的金字塔", "作用各是什么", "哪几个工序", "工业软件类别",
+            "数据库关键技术", "传感器", "控制技术", "边缘计算", "生态体系", "网络安全", "联邦学习", 
+            "工业智能的定义", "数字孪生中的关键技术", "实验7"
         ];
 
         let iaCards = [];
-        let activeModalIndex = -1;
         let masteredCards = new Set();
         let currentLevel = 1;
         let isMuted = false;
+        let reciteModeActive = false; // 全局隐写遮罩模式
 
         const levelTitles = [
             "LV.1 制造小白",
@@ -374,7 +931,7 @@
             "LV.9 智能制造大师"
         ];
 
-        // 8-bit Sound effects synthesizer
+        // 8-bit Sound synthesizer via Web Audio API
         let audioCtx = null;
         function playTone(freqs, type='sine', duration=0.2, volume=0.08) {
             if (isMuted) return;
@@ -407,7 +964,7 @@
             } catch(e) {}
         }
 
-        // Particle FX system
+        // Confetti particles FX
         const canvas = document.getElementById('game-canvas');
         const ctx = canvas.getContext('2d');
         let particles = [];
@@ -420,7 +977,7 @@
         resizeCanvas();
 
         function createConfetti(x, y) {
-            const colors = ['#3b82f6', '#60a5fa', '#fbbf24', '#f59e0b', '#10b981', '#f43f5e'];
+            const colors = ['#3b82f6', '#0ea5e9', '#fbbf24', '#f59e0b', '#10b981', '#f43f5e'];
             for (let i = 0; i < 70; i++) {
                 particles.push({
                     x: x,
@@ -441,7 +998,7 @@
             particles = particles.filter(p => {
                 p.x += p.vx;
                 p.y += p.vy;
-                p.vy += 0.35;
+                p.vy += 0.35; // gravity
                 p.rot += p.rotSpeed;
                 p.opacity -= 0.015;
 
@@ -459,38 +1016,51 @@
         }
         requestAnimationFrame(animateParticles);
 
-        // Simulated Loading Screen progress
+        // Preloader progress bar
         function startLoading() {
             const bar = document.getElementById('loading-bar');
             let progress = 0;
             const interval = setInterval(() => {
-                progress += Math.random() * 15;
+                progress += Math.random() * 20;
                 if (progress >= 100) {
                     progress = 100;
                     clearInterval(interval);
                     setTimeout(() => {
                         document.getElementById('loading-screen').classList.add('hide');
-                        // Play adventure overture: C4 -> G4 -> C5
+                        // play fanfare
                         playTone([261.63, 392.00, 523.25], 'triangle', 0.5, 0.1);
-                    }, 400);
+                    }, 300);
                 }
                 bar.style.width = `${progress}%`;
-            }, 80);
+            }, 60);
         }
 
+        function isKeyCard(card) {
+            const q = card.q || "";
+            const title = card.title || "";
+            return keyKeywords.some(keyword => q.includes(keyword) || title.includes(keyword));
+        }
+
+        // Initialize Lecture UI
         function initReview() {
-            // Muted settings
+            // Restore silent configurations
             try {
                 isMuted = localStorage.getItem('ia_review_muted') === 'true';
                 updateAudioIcon();
             } catch(e) {}
 
+            try {
+                const savedMode = localStorage.getItem('ia_review_recite_mode');
+                reciteModeActive = savedMode === 'true';
+                setGlobalModeUI(reciteModeActive ? 'recite' : 'read');
+            } catch(e) {}
+
             startLoading();
 
             try {
-                const saved = localStorage.getItem('ia_review_mastered');
-                if (saved) {
-                    masteredCards = new Set(JSON.parse(saved));
+                const savedMastered = localStorage.getItem('ia_review_mastered');
+                if (savedMastered) {
+                    masteredCards = new Set(JSON.parse(savedMastered));
                 }
             } catch(e) {}
 
@@ -499,7 +1069,7 @@
             if (!iaShortAnswers || !Array.isArray(iaShortAnswers.cards)) {
                 document.getElementById('sections-wrapper').innerHTML = `
                     <div class="empty-state" style="padding:40px; text-align:center; color:var(--text-weak);">
-                        未加载到讲义闪卡数据，请确认 data.js 配置。
+                        未加载到讲义卡片数据，请确认 data.js 配置。
                     </div>`;
                 return;
             }
@@ -526,8 +1096,8 @@
 
                 const iconContainer = document.createElement('div');
                 iconContainer.className = 'section-icon';
-                const icons = ['1', '2', '3', '4', '5', '6', '7', '8', '🏆'];
-                iconContainer.innerHTML = icons[secIdx] === '🏆' ? '<i class="fa-solid fa-trophy"></i>' : `<b>${icons[secIdx]}</b>`;
+                const icons = ['1', '2', '3', '4', '5', '6', '7', '8', '⚙️'];
+                iconContainer.innerHTML = icons[secIdx] === '⚙️' ? '<i class="fa-solid fa-gear"></i>' : `<b>${icons[secIdx]}</b>`;
                 
                 const titleEl = document.createElement('h2');
                 titleEl.textContent = section.name;
@@ -548,11 +1118,12 @@
                 listEl.className = 'card-list';
 
                 if (sectionCards.length === 0) {
-                    listEl.innerHTML = `<div style="color:var(--text-weak); font-size:0.9rem; padding:10px 0;">该关卡无挑战</div>`;
+                    listEl.innerHTML = `<div style="color:var(--text-weak); font-size:0.9rem; padding:10px 0;">暂无考点数据</div>`;
                 } else {
                     sectionCards.forEach(card => {
                         const globalIndex = iaCards.indexOf(card);
                         const isMastered = masteredCards.has(globalIndex);
+                        const isKey = isKeyCard(card);
 
                         const itemEl = document.createElement('div');
                         itemEl.className = `card-item ${isMastered ? 'mastered' : ''}`;
@@ -563,25 +1134,91 @@
 
                         const cardTitleEl = document.createElement('span');
                         cardTitleEl.className = 'card-title';
-                        cardTitleEl.innerHTML = `<i class="fa-solid fa-star star-icon"></i> ${card.title}`;
+                        cardTitleEl.innerHTML = `<i class="fa-solid fa-crown" style="color:var(--gold-400); margin-right: 4px; ${isMastered ? 'display:inline-block;' : 'display:none;'}"></i> ${card.title}`;
 
-                        const badgeEl = document.createElement('span');
-                        badgeEl.className = 'card-badge';
-                        badgeEl.onclick = (e) => {
-                            e.stopPropagation();
-                            showModal(globalIndex);
-                        };
-                        badgeEl.innerHTML = isMastered ? `<i class="fa-solid fa-crown"></i> 重新演练` : `<i class="fa-solid fa-sword"></i> 开启挑战`;
+                        const badgeGroup = document.createElement('div');
+                        badgeGroup.className = 'badge-group';
+
+                        if (isKey) {
+                            const keyBadge = document.createElement('span');
+                            keyBadge.className = 'key-badge';
+                            keyBadge.innerHTML = `<i class="fa-solid fa-fire"></i> 核心高频考点`;
+                            badgeGroup.appendChild(keyBadge);
+                        }
 
                         itemHeader.appendChild(cardTitleEl);
-                        itemHeader.appendChild(badgeEl);
+                        itemHeader.appendChild(badgeGroup);
 
                         const qEl = document.createElement('p');
                         qEl.className = 'card-q';
                         qEl.innerHTML = card.q;
 
+                        // Answer wrapper (frosted glass mode supports)
+                        const aWrapEl = document.createElement('div');
+                        aWrapEl.className = 'concept-a-wrap';
+
+                        const maskEl = document.createElement('div');
+                        maskEl.className = `recite-mask ${(!reciteModeActive || isMastered) ? 'hidden-mask' : ''}`;
+                        maskEl.id = `mask-${globalIndex}`;
+                        maskEl.onclick = (e) => revealAnswer(globalIndex, e);
+                        maskEl.innerHTML = `
+                            <div class="recite-mask-content">
+                                <i class="fa-solid fa-eye-slash"></i>
+                                <span>点击解封背诵答案</span>
+                            </div>
+                        `;
+
+                        const realContent = document.createElement('div');
+                        realContent.className = 'real-answer-content';
+
+                        const tipEl = document.createElement('div');
+                        tipEl.className = 'concept-mnemonic';
+                        tipEl.innerHTML = `
+                            <span class="mnemonic-icon">🧠</span>
+                            <div class="mnemonic-content">
+                                <strong>记忆口诀：</strong>${card.tip || '暂无口诀'}
+                            </div>
+                        `;
+
+                        const aDetail = document.createElement('div');
+                        aDetail.className = 'concept-a-detail';
+                        
+                        const aTitle = document.createElement('span');
+                        aTitle.className = 'concept-a-title';
+                        aTitle.textContent = "参考解析与得分要点";
+
+                        const aContent = document.createElement('div');
+                        aContent.className = 'prose prose-sm';
+                        aContent.innerHTML = card.a || '暂无详细解答';
+
+                        aDetail.appendChild(aTitle);
+                        aDetail.appendChild(aContent);
+
+                        realContent.appendChild(tipEl);
+                        realContent.appendChild(aDetail);
+
+                        aWrapEl.appendChild(maskEl);
+                        aWrapEl.appendChild(realContent);
+
+                        // Actions footer
+                        const footerEl = document.createElement('div');
+                        footerEl.className = 'card-actions';
+
+                        const masterBtn = document.createElement('button');
+                        masterBtn.className = `master-btn ${isMastered ? 'btn-gold' : 'btn-blue'}`;
+                        masterBtn.id = `master-btn-${globalIndex}`;
+                        masterBtn.onclick = (e) => toggleMastery(globalIndex, e);
+                        masterBtn.innerHTML = isMastered ? 
+                            `<i class="fa-solid fa-crown"></i> 已降服` : 
+                            `<i class="fa-solid fa-sword"></i> 降服考点`;
+
+                        footerEl.appendChild(masterBtn);
+
                         itemEl.appendChild(itemHeader);
                         itemEl.appendChild(qEl);
+                        itemEl.appendChild(aWrapEl);
+                        itemEl.appendChild(footerEl);
+
                         listEl.appendChild(itemEl);
                     });
                 }
@@ -594,10 +1231,11 @@
                 renderMathInElement(sectionsWrapper, katexOptions);
             }
 
-            updateHUD(true); // silent update on startup
+            updateHUD(true); // silent update on launch
             setupScrollObserver();
         }
 
+        // Scroll to specific section ID
         function scrollToSection(id) {
             playTone(400, 'triangle', 0.1);
             const el = document.getElementById(id);
@@ -606,6 +1244,105 @@
             }
         }
 
+        // Global mode switcher (Recite vs Read)
+        function setGlobalMode(mode) {
+            reciteModeActive = mode === 'recite';
+            try {
+                localStorage.setItem('ia_review_recite_mode', String(reciteModeActive));
+            } catch(e) {}
+
+            setGlobalModeUI(mode);
+            playTone(600, 'sine', 0.08);
+
+            // Apply overlay changes on all card items
+            const masks = document.querySelectorAll('.recite-mask');
+            masks.forEach(mask => {
+                const globalIdx = parseInt(mask.id.replace('mask-', ''));
+                if (reciteModeActive && !masteredCards.has(globalIdx)) {
+                    mask.classList.remove('hidden-mask');
+                } else {
+                    mask.classList.add('hidden-mask');
+                }
+            });
+        }
+
+        function setGlobalModeUI(mode) {
+            const btnRead = document.getElementById('btn-mode-read');
+            const btnRecite = document.getElementById('btn-mode-recite');
+            if (mode === 'recite') {
+                btnRecite.classList.add('active');
+                btnRead.classList.remove('active');
+            } else {
+                btnRead.classList.add('active');
+                btnRecite.classList.remove('active');
+            }
+        }
+
+        // Reveal answer on individual mask click
+        function revealAnswer(index, e) {
+            e.stopPropagation();
+            playTone(800, 'triangle', 0.04);
+            const mask = document.getElementById(`mask-${index}`);
+            if (mask) {
+                mask.classList.add('hidden-mask');
+            }
+        }
+
+        // Toggle Mastery status on card click
+        function toggleMastery(index, e) {
+            e.stopPropagation();
+            const isAlreadyMastered = masteredCards.has(index);
+            const cardEl = document.getElementById(`card-item-${index}`);
+            const btn = document.getElementById(`master-btn-${index}`);
+
+            if (isAlreadyMastered) {
+                // Cancel mastery
+                masteredCards.delete(index);
+                cardEl.classList.remove('mastered');
+                
+                // Hide crown
+                const crownIcon = cardEl.querySelector('.card-title i');
+                if (crownIcon) crownIcon.style.display = 'none';
+
+                btn.className = 'master-btn btn-blue';
+                btn.innerHTML = `<i class="fa-solid fa-sword"></i> 降服考点`;
+
+                // If in recite mode, re-apply the frosted mask
+                if (reciteModeActive) {
+                    const mask = document.getElementById(`mask-${index}`);
+                    if (mask) mask.classList.remove('hidden-mask');
+                }
+
+                playTone([300, 200], 'sine', 0.2);
+            } else {
+                // Master card
+                masteredCards.add(index);
+                cardEl.classList.add('mastered');
+
+                // Show crown
+                const crownIcon = cardEl.querySelector('.card-title i');
+                if (crownIcon) crownIcon.style.display = 'inline-block';
+
+                btn.className = 'master-btn btn-gold';
+                btn.innerHTML = `<i class="fa-solid fa-crown"></i> 已降服`;
+
+                // Always reveal when mastered
+                const mask = document.getElementById(`mask-${index}`);
+                if (mask) mask.classList.add('hidden-mask');
+
+                // Play pleasant sound + trigger sparkles
+                playTone([523.25, 659.25], 'sine', 0.22, 0.1);
+                createConfetti(e.clientX, e.clientY);
+            }
+
+            try {
+                localStorage.setItem('ia_review_mastered', JSON.stringify(Array.from(masteredCards)));
+            } catch(err) {}
+
+            updateHUD();
+        }
+
+        // Update levels, HUD status and chapter stars
         function updateHUD(silent = false) {
             const total = iaCards.length;
             const exp = masteredCards.size;
@@ -615,7 +1352,6 @@
 
             if (!silent && calculatedLevel > currentLevel) {
                 currentLevel = calculatedLevel;
-                // Show Level Up Modal and trigger victory effect
                 showLevelUpModal();
             } else {
                 currentLevel = calculatedLevel;
@@ -627,6 +1363,7 @@
             const ratio = total ? (exp / total) * 100 : 0;
             document.getElementById('xp-bar').style.width = `${ratio}%`;
 
+            // Update star progress for each chapter section
             sectionInfo.forEach(section => {
                 const sectionCards = iaCards.filter(c => c.title && c.title.startsWith(section.prefix));
                 const masteredCount = sectionCards.filter(c => masteredCards.has(iaCards.indexOf(c))).length;
@@ -635,21 +1372,24 @@
                 if (starsSpan) {
                     starsSpan.textContent = `${masteredCount}/${sectionCards.length}`;
                 }
-                const starsIcon = document.querySelector(`#stars-${section.id} i`);
-                if (starsIcon) {
-                    starsIcon.style.color = (masteredCount === sectionCards.length) ? 'var(--gold-500)' : 'var(--text-weak)';
+                
+                const starBox = document.getElementById(`stars-${section.id}`);
+                if (starBox) {
+                    if (masteredCount === sectionCards.length && sectionCards.length > 0) {
+                        starBox.classList.add('perfect');
+                    } else {
+                        starBox.classList.remove('perfect');
+                    }
                 }
             });
         }
 
-        // Level Up popup logic
+        // Level Up popup display
         function showLevelUpModal() {
             document.getElementById('l-up-title').textContent = `晋升为【${levelTitles[currentLevel - 1]}】`;
-            document.getElementById('level-up-modal').class = 'level-up-overlay show';
             document.getElementById('level-up-modal').classList.add('show');
-            // Play victory melody: C5 -> E5 -> G5 -> C6
+            // Play melodic upward synth
             playTone([523.25, 659.25, 784.00, 1046.50], 'triangle', 0.6, 0.12);
-            // Spawn heavy sparks
             createConfetti(window.innerWidth / 2, window.innerHeight / 2 - 100);
         }
 
@@ -658,7 +1398,7 @@
             document.getElementById('level-up-modal').classList.remove('show');
         }
 
-        // Mute logic
+        // Sound volume toggler
         function toggleMute() {
             isMuted = !isMuted;
             try {
@@ -679,6 +1419,7 @@
             }
         }
 
+        // Svg road map tracker via Intersection Observer
         function setupScrollObserver() {
             const stations = document.querySelectorAll('.station');
             const sections = sectionInfo.map(sec => document.getElementById(sec.id)).filter(Boolean);
@@ -686,7 +1427,7 @@
 
             const observerOptions = {
                 root: null,
-                rootMargin: '-150px 0px -60% 0px',
+                rootMargin: '-120px 0px -70% 0px',
                 threshold: 0
             };
 
@@ -716,99 +1457,19 @@
                             }
                         });
 
+                        // Calculate SVG progress line width
                         const activeIndex = sectionInfo.findIndex(sec => sec.id === sectionId);
                         if (activeIndex !== -1) {
                             const xCoordinates = [50, 162, 274, 386, 498, 610, 722, 834, 950];
                             const currentX = xCoordinates[activeIndex];
                             const ratio = (currentX - 50) / 900;
-                            progressLine.style.strokeDashoffset = 800 - (800 * ratio);
+                            progressLine.style.strokeDashoffset = 900 - (900 * ratio);
                         }
                     }
                 });
             }, observerOptions);
 
             sections.forEach(sec => observer.observe(sec));
-        }
-
-        function showModal(index) {
-            const card = iaCards[index];
-            if (!card) return;
-
-            playTone([350, 250], 'sine', 0.15, 0.04);
-
-            activeModalIndex = index;
-            document.getElementById('m-header').textContent = card.title;
-            document.getElementById('m-q').innerHTML = card.q;
-            document.getElementById('m-tip').innerHTML = card.tip || '暂无记忆口诀';
-            document.getElementById('m-a').innerHTML = card.a || '暂无答案';
-
-            const cardNode = document.getElementById('modal-card');
-            cardNode.classList.remove('flipped');
-
-            const isMastered = masteredCards.has(index);
-            const btnMaster = document.getElementById('btn-master');
-            if (isMastered) {
-                btnMaster.innerHTML = `<i class="fa-solid fa-crown"></i> 重新挑战`;
-            } else {
-                btnMaster.innerHTML = `<i class="fa-solid fa-crown"></i> 彻底降服`;
-            }
-
-            const overlay = document.getElementById('modal-overlay');
-            overlay.classList.add('show');
-
-            if (window.renderMathInElement) {
-                renderMathInElement(document.getElementById('modal-overlay'), katexOptions);
-            }
-        }
-
-        function hideModal() {
-            playTone([250, 350], 'sine', 0.15, 0.04);
-            const overlay = document.getElementById('modal-overlay');
-            overlay.classList.remove('show');
-            activeModalIndex = -1;
-        }
-
-        function closeModal(e) {
-            if (e.target.id === 'modal-overlay') {
-                hideModal();
-            }
-        }
-
-        function flipModalCard(e) {
-            if (e.target.closest('a, button, table, input')) return;
-            
-            playTone(800, 'triangle', 0.04);
-            
-            const cardNode = document.getElementById('modal-card');
-            cardNode.classList.toggle('flipped');
-        }
-
-        function masterCard(e) {
-            e.stopPropagation();
-            if (activeModalIndex === -1) return;
-
-            const index = activeModalIndex;
-            const isAlreadyMastered = masteredCards.has(index);
-
-            if (isAlreadyMastered) {
-                masteredCards.delete(index);
-                document.getElementById(`card-item-${index}`).classList.remove('mastered');
-                document.querySelector(`#card-item-${index} .card-badge`).innerHTML = `<i class="fa-solid fa-sword"></i> 开启挑战`;
-                playTone([300, 200], 'sine', 0.2);
-            } else {
-                masteredCards.add(index);
-                document.getElementById(`card-item-${index}`).classList.add('mastered');
-                document.querySelector(`#card-item-${index} .card-badge`).innerHTML = `<i class="fa-solid fa-crown"></i> 重新演练`;
-                
-                // Coin double-beep sound: 523Hz -> 659Hz
-                playTone([523, 659], 'sine', 0.25, 0.08);
-                createConfetti(e.clientX, e.clientY);
-            }
-
-            localStorage.setItem('ia_review_mastered', JSON.stringify(Array.from(masteredCards)));
-            
-            updateHUD();
-            hideModal();
         }
 
         window.addEventListener('DOMContentLoaded', initReview);
