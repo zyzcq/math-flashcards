@@ -7,7 +7,7 @@ const appData = {
         title: "工业 App 应用开发：智能制造冒险讲义",
         subtitle: "SVG 关卡路线图 · 勇者等级与星级挑战 · 原地背诵闯关",
         themeColor: "blue",
-        type: "lecture",
+        type: "article",
         url: "ia/ia_review.html"
     },
     ia_quiz: {
