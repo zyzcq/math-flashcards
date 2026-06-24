@@ -755,6 +755,15 @@
                     return title.startsWith(section.prefix);
                 });
 
+                // Sort: core exam cards (isKeyCard) first
+                sectionCards.sort((a, b) => {
+                    const isKeyA = isKeyCard(a);
+                    const isKeyB = isKeyCard(b);
+                    if (isKeyA && !isKeyB) return -1;
+                    if (!isKeyA && isKeyB) return 1;
+                    return 0;
+                });
+
                 // Create Section
                 const sectionEl = document.createElement('section');
                 sectionEl.className = 'section-card';
