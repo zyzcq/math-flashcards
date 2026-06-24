@@ -2,6 +2,14 @@
 // 统一定义所有知识模块和闪卡数据
 
 const appData = {
+    ia_review: {
+        id: "ia_review",
+        title: "工业 App 应用开发：智能制造冒险讲义",
+        subtitle: "SVG 关卡路线图 · 勇者等级与星级挑战 · 原地背诵闯关",
+        themeColor: "blue",
+        type: "lecture",
+        url: "ia/ia_review.html"
+    },
     ia_quiz: {
     "id": "ia_quiz",
     "title": "工业 App 应用开发：选择与判断通关",
@@ -2245,6 +2253,7 @@ const siteData = [
                 themeColor: "blue",
                 type: "course",
                 examTime: "2026-06-29T08:50:00+08:00",
+                lecture: appData.ia_review,
                 quiz: appData.ia_quiz,
                 flashcard: appData.ia_short_answers
             }
@@ -2512,6 +2521,7 @@ const siteData = [
         }
         const iaCourse = majorCategory.items.find(item => item.id === "ia_course");
         if (iaCourse) {
+            iaCourse.lecture = appData.ia_review;
             iaCourse.quiz = appData.ia_quiz;
             iaCourse.flashcard = appData.ia_short_answers;
         }
