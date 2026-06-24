@@ -2,6 +2,300 @@
 // 统一定义所有知识模块和闪卡数据
 
 const appData = {
+    ia_quiz: {
+    "id": "ia_quiz",
+    "title": "工业 App 应用开发：选择与判断通关",
+    "subtitle": "专业课自测题库 · 答错显示记忆口诀",
+    "themeColor": "blue",
+    "type": "article",
+    "url": "ia/ia_quiz.html",
+    "cards": []
+},
+    ia_short_answers: {
+    "id": "ia_short_answers",
+    "title": "工业 App 应用开发：简答题与案例分析",
+    "subtitle": "课后问答 + 实验7综合案例",
+    "themeColor": "blue",
+    "type": "flashcard",
+    "cards": [
+        {
+            "title": "第一章 智能制造的三类范式",
+            "q": "智能制造的三类范式主要特征是什么？",
+            "tip": "<b>记忆口诀：数字网络智能化，三代演进靠融合</b><ul><li>数字化制造：计算机、感知、控制、通信与制造业融合</li><li>数字化网络化制造：互联网与制造业融合</li><li>数字化网络化智能化制造：AI、大数据、5G等与制造业融合</li></ul>",
+            "a": "<div class='sa-list'><div class='sa-item'><span class='sa-badge sa-badge-blue'>1</span><div class='sa-content'><b class='sa-title'>数字化制造</b>：<span class='sa-desc'>计算机、感知、控制、通信等技术与制造业融合，逐步演化出数字化制造。</span></div></div><div class='sa-item'><span class='sa-badge sa-badge-blue'>2</span><div class='sa-content'><b class='sa-title'>数字化网络化制造</b>：<span class='sa-desc'>互联网技术与制造业的融合发展形成数字化网络化制造。</span></div></div><div class='sa-item'><span class='sa-badge sa-badge-blue'>3</span><div class='sa-content'><b class='sa-title'>数字化网络化智能化制造</b>：<span class='sa-desc'>以人工智能(AI)、大数据、5G等为代表的新一代信息通信技术与制造业融合应用，助力制造业迈向数字化网络化智能化制造。</span></div></div></div>"
+        },
+        {
+            "title": "第一章 数字化制造",
+            "q": "分别概括数字化、网络化、智能化赋能技术的主要组成。",
+            "tip": "<b>记忆口诀：传统HPS加信息，HCPS三元成主体</b><ul><li>传统制造系统：人和物理系统两部分</li><li>数字化制造：加入信息系统，形成HCPS三元系统</li><li>HCPS 1.0中物理系统仍是主体</li></ul>",
+            "a": "<div class='sa-list'><div class='sa-item'><span class='sa-badge sa-badge-blue'>数字化</span><div class='sa-content'><b class='sa-title'>数字化制造</b>：<span class='sa-desc'>传统制造系统只包含人和物理系统两部分。数字化制造时期最本质的变化是信息系统的加入，从而融合形成了HCPS三元系统。在HCPS 1.0中，物理系统仍然是主体。</span></div></div><div class='sa-item'><span class='sa-badge sa-badge-blue'>网络化</span><div class='sa-content'><b class='sa-title'>网络化制造</b>：<span class='sa-desc'>互联网技术与制造业融合，实现设备、系统、企业间的互联互通。</span></div></div><div class='sa-item'><span class='sa-badge sa-badge-blue'>智能化</span><div class='sa-content'><b class='sa-title'>智能化制造</b>：<span class='sa-desc'>以人工智能2.0为核心，包括大数据智能、跨媒体智能、群体智能、混合增强智能等技术。</span></div></div></div>"
+        },
+        {
+            "title": "第一章 智能化技术",
+            "q": "智能化技术包括哪些方面？作用主要体现在哪些方面？",
+            "tip": "<b>记忆口诀：大数据跨媒体，群体混合增智能</b><ul><li>大数据智能</li><li>跨媒体智能</li><li>群体智能</li><li>混合增强智能</li></ul>",
+            "a": "<div class='sa-list'><div class='sa-item'><span class='sa-badge sa-badge-blue'>1</span><div class='sa-content'><b class='sa-title'>大数据智能</b>：<span class='sa-desc'>利用大数据技术进行智能分析和决策。</span></div></div><div class='sa-item'><span class='sa-badge sa-badge-blue'>2</span><div class='sa-content'><b class='sa-title'>跨媒体智能</b>：<span class='sa-desc'>处理和理解多种媒体信息（文本、图像、视频等）。</span></div></div><div class='sa-item'><span class='sa-badge sa-badge-blue'>3</span><div class='sa-content'><b class='sa-title'>群体智能</b>：<span class='sa-desc'>通过多个智能体的协作实现复杂任务。</span></div></div><div class='sa-item'><span class='sa-badge sa-badge-blue'>4</span><div class='sa-content'><b class='sa-title'>混合增强智能</b>：<span class='sa-desc'>人机协同，增强智能系统的能力。</span></div></div></div>"
+        },
+        {
+            "title": "第一章 智能工厂金字塔结构",
+            "q": "经典的制造系统可描述为五层次的金字塔结构，各层的作用是？",
+            "tip": "<b>记忆口诀：场感监控生产业务，五层协同造奇迹</b><ul><li>场设备层</li><li>感知层</li><li>监控与控制层</li><li>生产管控层</li><li>业务运营层</li></ul>",
+            "a": "<div class='sa-list'><div class='sa-item'><span class='sa-badge sa-badge-blue'>场设备层</span><div class='sa-content'><b class='sa-title'>场设备层</b>：<span class='sa-desc'>包括各种生产设备和传感器，执行具体制造任务。</span></div></div><div class='sa-item'><span class='sa-badge sa-badge-blue'>感知层</span><div class='sa-content'><b class='sa-title'>感知层</b>：<span class='sa-desc'>通过传感器等设备采集生产现场数据。</span></div></div><div class='sa-item'><span class='sa-badge sa-badge-blue'>监控与控制层</span><div class='sa-content'><b class='sa-title'>监控与控制层</b>：<span class='sa-desc'>基于全面感知监视，对生产流程、作业顺序、物料配送等进行调度与控制，确保按规定完成生产作业过程。</span></div></div><div class='sa-item'><span class='sa-badge sa-badge-blue'>生产管控层</span><div class='sa-content'><b class='sa-title'>生产管控层</b>：<span class='sa-desc'>用于对车间层面的生产活动进行管控，保障车间正常的生产运营与产品按时交付。</span></div></div><div class='sa-item'><span class='sa-badge sa-badge-blue'>业务运营层</span><div class='sa-content'><b class='sa-title'>业务运营层</b>：<span class='sa-desc'>用于对整个企业或工厂层面的生产计划和经营业务进行管理，包括生产计划、采购物流、研发管理、营销销售等内部业务，以及企业与产业链上下游的协同。</span></div></div></div>"
+        },
+        {
+            "title": "第二章 数字电路与集成电路",
+            "q": "什么是数字电路？什么是集成电路？在计算机系统里的作用各是什么？",
+            "tip": "<b>记忆口诀：数字电路算逻辑，集成电路缩体积，核心硬件提性能</b><ul><li>数字电路：用数字信号完成算术和逻辑运算</li><li>集成电路：将大量元件集成在芯片上</li><li>作用：核心硬件，提高性能，降低功耗</li></ul>",
+            "a": "<div class='sa-list'><div class='sa-item'><span class='sa-badge sa-badge-blue'>数字电路</span><div class='sa-content'><b class='sa-title'>定义</b>：<span class='sa-desc'>指用数字信号完成算术运算和逻辑运算的电路，通过控制代表“1”或“0”的电平变化实现运算过程。</span></div></div><div class='sa-item'><span class='sa-badge sa-badge-blue'>集成电路</span><div class='sa-content'><b class='sa-title'>定义</b>：<span class='sa-desc'>将多达数十亿枚晶体管等元件集成在几平方厘米的芯片上，紧密排列降低能耗，提高性能。</span></div></div><div class='sa-item'><span class='sa-badge sa-badge-blue'>作用</span><div class='sa-content'><b class='sa-title'>在计算机系统中的作用</b>：<span class='sa-desc'>数字电路与集成电路是计算机系统的核心硬件，通过对信息的数字化表示，具备代替人类处理复杂信息的能力。集成电路的应用使计算机体积减小、成本降低、功耗降低、性能提高。</span></div></div></div>"
+        },
+        {
+            "title": "第二章 集成电路制造工序",
+            "q": "集成电路制造主要需要哪几个工序？",
+            "tip": "<b>记忆口诀：光刻刻蚀再掺杂，三步造出芯片来</b><ul><li>光刻</li><li>刻蚀</li><li>掺杂</li></ul>",
+            "a": "<div class='sa-list'><div class='sa-item'><span class='sa-badge sa-badge-blue'>1</span><div class='sa-content'><b class='sa-title'>光刻</b>：<span class='sa-desc'>通过光源、掩模板和透镜系统，将掩模板上的图案缩小投射并曝光到涂有光刻胶的晶圆上，显影后留下与掩模板结构一致的图案。</span></div></div><div class='sa-item'><span class='sa-badge sa-badge-blue'>2</span><div class='sa-content'><b class='sa-title'>刻蚀</b>：<span class='sa-desc'>在光刻的基础上对氧化层进行腐蚀，构造出凹槽，从而暴露出需要的部分硅晶圆。</span></div></div><div class='sa-item'><span class='sa-badge sa-badge-blue'>3</span><div class='sa-content'><b class='sa-title'>掺杂</b>：<span class='sa-desc'>对暴露出的晶圆部分注入杂质离子，改变其导电性，用于构造晶体管器件。</span></div></div></div>"
+        },
+        {
+            "title": "第二章 数字电路与集成电路在工业中的应用",
+            "q": "数字电路与集成电路技术在工业领域的应用主要有哪些？",
+            "tip": "<b>记忆口诀：通用专用加FPGA，MCU DSP CPU GPU</b><ul><li>通用集成电路：MCU、DSP、CPU、GPU、存储器</li><li>专用集成电路：ASIC</li><li>其他：FPGA、MEMS传感器</li></ul>",
+            "a": "<div class='sa-list'><div class='sa-item'><span class='sa-badge sa-badge-blue'>通用集成电路</span><div class='sa-content'><b class='sa-title'>通用集成电路</b>：<span class='sa-desc'>包括微控制器(MCU)、数字信号处理器(DSP)、中央处理器(CPU)、图形处理单元(GPU)、集成电路存储器等。</span></div></div><div class='sa-item'><span class='sa-badge sa-badge-blue'>专用集成电路</span><div class='sa-content'><b class='sa-title'>专用集成电路</b>：<span class='sa-desc'>面向工业定制的专用集成电路(ASIC)。</span></div></div><div class='sa-item'><span class='sa-badge sa-badge-blue'>其他</span><div class='sa-content'><b class='sa-title'>其他</b>：<span class='sa-desc'>现场可编程门阵列(FPGA)、微机电系统(MEMS)传感器等。</span></div></div><div class='sa-item'><span class='sa-badge sa-badge-blue'>环境要求</span><div class='sa-content'><b class='sa-title'>工业环境要求</b>：<span class='sa-desc'>工业集成电路需长期处于高温或低温、高湿、强盐、强电磁辐射的恶劣环境中，其可靠性、稳定性、服役寿命等指标均超过普通商用集成电路。</span></div></div></div>"
+        },
+        {
+            "title": "第二章 软件定义与组成",
+            "q": "什么是软件？软件主要由几部分组成？",
+            "tip": "<b>记忆口诀：程序数据加文档，软件三要素要记牢</b><ul><li>程序</li><li>数据</li><li>说明文档</li></ul>",
+            "a": "<div class='sa-list'><div class='sa-item'><span class='sa-badge sa-badge-blue'>定义</span><div class='sa-content'><b class='sa-title'>软件定义</b>：<span class='sa-desc'>软件技术是为系统提供程序和相关文档支持的技术，软件通过与硬件相互协同实现其功能，软件的有序指令可以改变硬件的状态，实现用户的需要。所有在计算机中执行的程序都属于软件的范畴。</span></div></div><div class='sa-item'><span class='sa-badge sa-badge-blue'>组成</span><div class='sa-content'><b class='sa-title'>软件组成</b>：<span class='sa-desc'>软件由程序、数据和说明文档三部分组成。</span></div></div><div class='sa-item'><span class='sa-badge sa-badge-blue'>程序</span><div class='sa-content'><b class='sa-title'>程序</b>：<span class='sa-desc'>按照事先设计的功能和性能要求执行的指令序列。</span></div></div><div class='sa-item'><span class='sa-badge sa-badge-blue'>数据</span><div class='sa-content'><b class='sa-title'>数据</b>：<span class='sa-desc'>是程序能正常操纵的信息，是程序加工的材料和结果。</span></div></div><div class='sa-item'><span class='sa-badge sa-badge-blue'>说明文档</span><div class='sa-content'><b class='sa-title'>说明文档</b>：<span class='sa-desc'>是与程序开发维护和使用有关的各种图文资料，用于解释软件的工作原理、使用方法、技术特点等。</span></div></div></div>"
+        },
+        {
+            "title": "第二章 软件分类",
+            "q": "系统软件、支撑软件、应用软件分类方式主要有哪些？",
+            "tip": "<b>记忆口诀：系统管资源，支撑助开发，应用解问题</b><ul><li>系统软件：处理器、存储器、设备、文件管理</li><li>支撑软件：软件工具、软件开发环境</li><li>应用软件：办公软件、嵌入式软件、文字处理、图形图像、通信等</li></ul>",
+            "a": "<div class='sa-list'><div class='sa-item'><span class='sa-badge sa-badge-blue'>系统软件</span><div class='sa-content'><b class='sa-title'>系统软件</b>：<span class='sa-desc'>主要负责管理、调度和控制硬件及软件资源。包括处理器管理（CPU时间分配）、存储器管理（内存分配回收等）、设备管理（I/O设备管理）、文件管理（软件资源管理）。</span></div></div><div class='sa-item'><span class='sa-badge sa-badge-blue'>支撑软件</span><div class='sa-content'><b class='sa-title'>支撑软件</b>：<span class='sa-desc'>为应用软件提供设计、开发、测试、评估、运行检测等辅助功能。分为软件工具（提供特定功能，如项目管理、软件分析等）和软件开发环境（一系列软件工具的集成，如集成开发环境）。</span></div></div><div class='sa-item'><span class='sa-badge sa-badge-blue'>应用软件</span><div class='sa-content'><b class='sa-title'>应用软件</b>：<span class='sa-desc'>为解决实际问题而应用于特定领域的专用软件。按交互方式分为办公软件和嵌入式软件；按功能分为文字处理软件（如Word、WPS）、图形图像处理软件（如Photoshop、机械绘图软件）、媒体播放软件、通信软件（如电子邮件、语音视频通信）等。</span></div></div></div>"
+        },
+        {
+            "title": "3.2 数字传感技术",
+            "q": "什么是传感器？它由几部分组成，在工业应用中有什么作用？",
+            "tip": "<b>记忆口诀：传感组成四部分，敏感转换处理算</b><ul><li>敏感元件感受量</li><li>转换元件变电量</li><li>信号处理放大滤</li><li>计算分析控输出</li></ul>",
+            "a": "<div class='sa-list'><div class='sa-item'><span class='sa-badge sa-badge-blue'>定义</span><div class='sa-content'><b class='sa-title'>传感器</b>：<span class='sa-desc'>能感受被测量并按一定规律转换成可用输出信号的器件或装置。</span></div></div><div class='sa-item'><span class='sa-badge sa-badge-blue'>组成</span><div class='sa-content'><b class='sa-title'>四部分</b>：<span class='sa-desc'>敏感元件、转换元件、信号处理环节、信号计算分析与控制环节。</span></div></div><div class='sa-item'><span class='sa-badge sa-badge-blue'>作用</span><div class='sa-content'><b class='sa-title'>工业应用</b>：<span class='sa-desc'>将物理信号转换为电信号，经处理用于测量、监测和自动控制。</span></div></div></div>"
+        },
+        {
+            "title": "3.2 数字传感技术",
+            "q": "传感信号获取技术主要包含哪些？其核心功能是如何实现的？",
+            "tip": "<b>记忆口诀：力流温度位移湿，五种信号获取法</b><ul><li>力信号：位移应变压电谐振平衡</li><li>流量：伯努利热耗散</li><li>温度：接触非接触</li><li>位移：小应变大光栅</li><li>湿度：湿敏电阻电容</li></ul>",
+            "a": "<div class='sa-list'><div class='sa-item'><span class='sa-badge sa-badge-blue'>力</span><div class='sa-content'><b class='sa-title'>力信号获取</b>：<span class='sa-desc'>位移法、应变法、压电效应法、谐振法、电磁力平衡法。</span></div></div><div class='sa-item'><span class='sa-badge sa-badge-blue'>流量</span><div class='sa-content'><b class='sa-title'>流量信号获取</b>：<span class='sa-desc'>伯努利差压法、热耗散法。</span></div></div><div class='sa-item'><span class='sa-badge sa-badge-blue'>温度</span><div class='sa-content'><b class='sa-title'>温度信号获取</b>：<span class='sa-desc'>接触式（热敏电阻、PN结）、非接触式（光学、声波）。</span></div></div><div class='sa-item'><span class='sa-badge sa-badge-blue'>位移</span><div class='sa-content'><b class='sa-title'>位移信号获取</b>：<span class='sa-desc'>小位移用应变、电感、涡流等；大位移用光栅、磁栅等。</span></div></div><div class='sa-item'><span class='sa-badge sa-badge-blue'>湿度</span><div class='sa-content'><b class='sa-title'>湿度信号获取</b>：<span class='sa-desc'>湿敏材料电阻或电容随湿度变化。</span></div></div></div>"
+        },
+        {
+            "title": "3.2 数字传感技术",
+            "q": "传感信号处理技术主要包含哪些？其核心功能是如何实现的？",
+            "tip": "<b>记忆口诀：转换调理误差估，三大技术保信号</b><ul><li>转换：调制解调A/D</li><li>调理：放大滤波</li><li>误差：非递归递归估计</li></ul>",
+            "a": "<div class='sa-list'><div class='sa-item'><span class='sa-badge sa-badge-blue'>转换</span><div class='sa-content'><b class='sa-title'>信号转换技术</b>：<span class='sa-desc'>调制解调、A/D转换，保持信号真实性，减少传输干扰。</span></div></div><div class='sa-item'><span class='sa-badge sa-badge-blue'>调理</span><div class='sa-content'><b class='sa-title'>信号调理技术</b>：<span class='sa-desc'>放大（μV→V）、滤波（低通、高通等，模拟/数字）。</span></div></div><div class='sa-item'><span class='sa-badge sa-badge-blue'>误差</span><div class='sa-content'><b class='sa-title'>误差和估计处理技术</b>：<span class='sa-desc'>非递归估计（全部数据）、递归估计（逐步更新）。</span></div></div></div>"
+        },
+        {
+            "title": "3.2 数字传感技术",
+            "q": "列举数字传感技术在工业中的应用。",
+            "tip": "<b>记忆口诀：压力液位光传感，工业应用三典型</b><ul><li>压力：压阻应变薄膜</li><li>液位：接触非接触</li><li>光：视觉光电</li></ul>",
+            "a": "<div class='sa-list'><div class='sa-item'><span class='sa-badge sa-badge-blue'>压力</span><div class='sa-content'><b class='sa-title'>压力传感器</b>：<span class='sa-desc'>压阻式、应变片式、薄膜式，用于自动化控制和汽车领域。</span></div></div><div class='sa-item'><span class='sa-badge sa-badge-blue'>液位</span><div class='sa-content'><b class='sa-title'>液位传感器</b>：<span class='sa-desc'>接触式（浮球、电容）、非接触式（超声波、雷达），用于化工、食品、水处理。</span></div></div><div class='sa-item'><span class='sa-badge sa-badge-blue'>光</span><div class='sa-content'><b class='sa-title'>光传感器</b>：<span class='sa-desc'>视觉传感器（检测、定位）、光电式传感器（测量非电量）。</span></div></div></div>"
+        },
+        {
+            "title": "3.3 数字控制技术",
+            "q": "什么是数字控制？它由哪几部分组成，在工业应用中有什么作用？",
+            "tip": "<b>记忆口诀：检测转换控制器，驱动执行控对象</b><ul><li>检测装置</li><li>A/D转换</li><li>控制器</li><li>D/A转换</li><li>驱动器与执行机构</li><li>被控对象</li></ul>",
+            "a": "<div class='sa-list'><div class='sa-item'><span class='sa-badge sa-badge-blue'>定义</span><div class='sa-content'><b class='sa-title'>数字控制</b>：<span class='sa-desc'>利用数字信号对工作对象进行编程控制的自动控制方法。</span></div></div><div class='sa-item'><span class='sa-badge sa-badge-blue'>组成</span><div class='sa-content'><b class='sa-title'>六部分</b>：<span class='sa-desc'>检测装置、A/D转换器、控制器、D/A转换器、驱动器与执行机构、被控对象。</span></div></div><div class='sa-item'><span class='sa-badge sa-badge-blue'>作用</span><div class='sa-content'><b class='sa-title'>工业作用</b>：<span class='sa-desc'>高灵活性、高精度、高稳定性，替代人工，提高生产效率。</span></div></div></div>"
+        },
+        {
+            "title": "3.3 数字控制技术",
+            "q": "什么是PID控制方法？",
+            "tip": "<b>记忆口诀：比例积分微分，现在过去未来</b><ul><li>P：比例，现在，快速性</li><li>I：积分，过去，准确性</li><li>D：微分，未来，稳定性</li></ul>",
+            "a": "<div class='sa-list'><div class='sa-item'><span class='sa-badge sa-badge-blue'>定义</span><div class='sa-content'><b class='sa-title'>PID控制</b>：<span class='sa-desc'>控制器输出与偏差呈比例-积分-微分关系。</span></div></div><div class='sa-item'><span class='sa-badge sa-badge-blue'>P</span><div class='sa-content'><b class='sa-title'>比例</b>：<span class='sa-desc'>代表“现在”，决定响应快速性。</span></div></div><div class='sa-item'><span class='sa-badge sa-badge-blue'>I</span><div class='sa-content'><b class='sa-title'>积分</b>：<span class='sa-desc'>代表“过去”，消除稳态误差。</span></div></div><div class='sa-item'><span class='sa-badge sa-badge-blue'>D</span><div class='sa-content'><b class='sa-title'>微分</b>：<span class='sa-desc'>代表“未来”，提供超前控制，增强稳定性。</span></div></div></div>"
+        },
+        {
+            "title": "3.3 数字控制技术",
+            "q": "数字控制技术在工业中有哪些应用？",
+            "tip": "<b>记忆口诀：数控PLC和DCS，先进过程控制APC</b><ul><li>CNC机床</li><li>PLC</li><li>DCS</li><li>APC</li></ul>",
+            "a": "<div class='sa-list'><div class='sa-item'><span class='sa-badge sa-badge-blue'>CNC</span><div class='sa-content'><b class='sa-title'>数控机床</b>：<span class='sa-desc'>多轴联动、高速高精度加工。</span></div></div><div class='sa-item'><span class='sa-badge sa-badge-blue'>PLC</span><div class='sa-content'><b class='sa-title'>可编程逻辑控制器</b>：<span class='sa-desc'>逻辑运算、顺序控制、定时计数，替代继电器。</span></div></div><div class='sa-item'><span class='sa-badge sa-badge-blue'>DCS</span><div class='sa-content'><b class='sa-title'>分布式控制系统</b>：<span class='sa-desc'>大型流程工业集中管理、分散控制。</span></div></div><div class='sa-item'><span class='sa-badge sa-badge-blue'>APC</span><div class='sa-content'><b class='sa-title'>先进过程控制</b>：<span class='sa-desc'>模型预测等算法提高经济效益和稳定性。</span></div></div></div>"
+        },
+        {
+            "title": "4.2.1 定义与技术原理",
+            "q": "什么是数字通信？数字通信有哪些优缺点？",
+            "tip": "<b>记忆口诀：数字通信抗干扰，加密集成质量好；频带宽设备复杂，同步系统不能少。</b><ul><li>定义：离散数字信号为载体</li><li>优点：抗干扰、差错可控、加密、集成</li><li>缺点：频带宽、设备复杂</li></ul>",
+            "a": "<div class='sa-list'><div class='sa-item'><span class='sa-badge sa-badge-blue'>定义</span><div class='sa-content'><b class='sa-title'>数字通信</b>：<span class='sa-desc'>以离散的数字信号作为载体来传递信息的通信方式，不仅可以传输电报、数据等数字信号，也可以传输经过数字化处理的语音、图像等模拟信号。</span></div></div><div class='sa-item'><span class='sa-badge sa-badge-blue'>优点</span><div class='sa-content'><b class='sa-title'>抗干扰能力强</b>：<span class='sa-desc'>数字信号抗干扰能力强。</span></div></div><div class='sa-item'><span class='sa-badge sa-badge-blue'>优点</span><div class='sa-content'><b class='sa-title'>传输差错可控</b>：<span class='sa-desc'>传输质量好，可通过信道编码进行差错控制与纠错。</span></div></div><div class='sa-item'><span class='sa-badge sa-badge-blue'>优点</span><div class='sa-content'><b class='sa-title'>便于加密，保密性好</b>：<span class='sa-desc'>数字信号易于加密处理。</span></div></div><div class='sa-item'><span class='sa-badge sa-badge-blue'>优点</span><div class='sa-content'><b class='sa-title'>易于集成，设备便于微型化</b>：<span class='sa-desc'>数字电路易于集成。</span></div></div><div class='sa-item'><span class='sa-badge sa-badge-blue'>缺点</span><div class='sa-content'><b class='sa-title'>占用信道频带较宽</b>：<span class='sa-desc'>通常比模拟通信宽。</span></div></div><div class='sa-item'><span class='sa-badge sa-badge-blue'>缺点</span><div class='sa-content'><b class='sa-title'>系统设备较复杂</b>：<span class='sa-desc'>需要严格的同步系统。</span></div></div></div>"
+        },
+        {
+            "title": "4.2.1 定义与技术原理",
+            "q": "简单描述数字通信系统的一般模型中各组成部分的主要功能。",
+            "tip": "<b>记忆口诀：信源编码提效率，信道编码加冗余；调制解调传信道，译码还原给信宿。</b><ul><li>信源：发出信号</li><li>信源编码：压缩与数字化</li><li>信道编码：加冗余纠错</li><li>调制器：频谱搬移</li><li>信道：传输介质</li><li>解调器：反变换</li><li>信道译码：检错纠错</li><li>信源译码：还原信息</li><li>信宿：接收者</li></ul>",
+            "a": "<div class='sa-list'><div class='sa-item'><span class='sa-badge sa-badge-blue'>1</span><div class='sa-content'><b class='sa-title'>信源</b>：<span class='sa-desc'>发出信号的源头，可能是模拟信号或数字信号。</span></div></div><div class='sa-item'><span class='sa-badge sa-badge-blue'>2</span><div class='sa-content'><b class='sa-title'>信源编码</b>：<span class='sa-desc'>提高信号传输的有效性（压缩编码），实现模拟信号与数字信号的转换（数字化）。</span></div></div><div class='sa-item'><span class='sa-badge sa-badge-blue'>3</span><div class='sa-content'><b class='sa-title'>信道编码</b>：<span class='sa-desc'>对数字信号进行再次编码，引入冗余纠错码，提高传输可靠性。</span></div></div><div class='sa-item'><span class='sa-badge sa-badge-blue'>4</span><div class='sa-content'><b class='sa-title'>调制器</b>：<span class='sa-desc'>将数字基带信号频谱变换到高频范围，形成适合在信道中传输的频带信号。</span></div></div><div class='sa-item'><span class='sa-badge sa-badge-blue'>5</span><div class='sa-content'><b class='sa-title'>信道</b>：<span class='sa-desc'>信号传输的物理介质，信号在传输中会受到噪声干扰。</span></div></div><div class='sa-item'><span class='sa-badge sa-badge-blue'>6</span><div class='sa-content'><b class='sa-title'>解调器</b>：<span class='sa-desc'>进行调制的反变换，将高频频带信号还原为数字基带信号。</span></div></div><div class='sa-item'><span class='sa-badge sa-badge-blue'>7</span><div class='sa-content'><b class='sa-title'>信道译码</b>：<span class='sa-desc'>按照信道编码的逆规则进行检错与纠错，恢复出信源编码后的信号。</span></div></div><div class='sa-item'><span class='sa-badge sa-badge-blue'>8</span><div class='sa-content'><b class='sa-title'>信源译码</b>：<span class='sa-desc'>进行信源编码的反变换，将数字信号还原为信宿可接受的原始信息。</span></div></div><div class='sa-item'><span class='sa-badge sa-badge-blue'>9</span><div class='sa-content'><b class='sa-title'>信宿</b>：<span class='sa-desc'>信息的最终接收者。</span></div></div></div>"
+        },
+        {
+            "title": "4.2.2 数字通信关键技术",
+            "q": "简述有线通信技术的分类、各类优缺点及其应用。",
+            "tip": "<b>记忆口诀：电缆光纤各有长，同轴高频双绞便；光纤容量大抗扰，电缆便宜易弯折。</b><ul><li>电缆通信：同轴电缆、双绞线</li><li>光纤通信：容量大、抗干扰</li><li>应用：骨干网、接入网</li></ul>",
+            "a": "<div class='sa-list'><div class='sa-item'><span class='sa-badge sa-badge-blue'>电缆通信</span><div class='sa-content'><b class='sa-title'>同轴电缆</b>：<span class='sa-desc'>中心铜芯，外部绝缘层、屏蔽金属网、外护套。支持高频通信，抗干扰性好；但体积庞大，抗拉抗压抗弯折能力较差。主要用于传输高速信号或高频信号，早期计算机局域网。</span></div></div><div class='sa-item'><span class='sa-badge sa-badge-blue'>电缆通信</span><div class='sa-content'><b class='sa-title'>双绞线电缆</b>：<span class='sa-desc'>两根相互绝缘铜线绞合，减少干扰。有非屏蔽（UTP）和屏蔽（STP）之分。低成本，轻便易弯折，安装方便，抗干扰性能适中。超五类支持1000Mbps，六类适用于高于1Gbps的高速网络。</span></div></div><div class='sa-item'><span class='sa-badge sa-badge-blue'>光纤通信</span><div class='sa-content'><b class='sa-title'>光纤</b>：<span class='sa-desc'>以光波为载体，玻璃纤芯、包层、保护套。优点：通信容量大、传输距离远、抗磁干扰强、保密性好、重量轻、节省有色金属。缺点：材质脆，机械强度低，连接和切断技术要求高。广泛应用于骨干网、城域网、光纤到户（FTTH）。</span></div></div></div>"
+        },
+        {
+            "title": "4.2.2 数字通信关键技术",
+            "q": "简述常见的无线通信技术。",
+            "tip": "<b>记忆口诀：蜂窝移动覆盖广，无线局域网自由；物联网低功耗，短距蓝牙Zigbee。</b><ul><li>蜂窝移动通信：蜂窝组网，频率复用</li><li>无线局域网：WLAN，CSMA/CA</li><li>物联网无线：NB-IoT、LoRa</li><li>短距离无线：蓝牙、Zigbee、UWB、RFID</li></ul>",
+            "a": "<div class='sa-list'><div class='sa-item'><span class='sa-badge sa-badge-blue'>1</span><div class='sa-content'><b class='sa-title'>蜂窝移动通信</b>：<span class='sa-desc'>采用蜂窝无线组网方式，将大区覆盖划分为多个六边形小区，每个小区部署基站，终端和基站通过无线信道连接。相邻小区不同频率，相隔一定距离可频率复用，最大化利用频谱资源，降低终端发射功率。</span></div></div><div class='sa-item'><span class='sa-badge sa-badge-blue'>2</span><div class='sa-content'><b class='sa-title'>无线局域网技术（WLAN）</b>：<span class='sa-desc'>以无线电波为传输介质的局域网，物理层采用扩频、OFDM、MIMO；MAC层采用CSMA/CA协议及四次握手协议避免碰撞。</span></div></div><div class='sa-item'><span class='sa-badge sa-badge-blue'>3</span><div class='sa-content'><b class='sa-title'>物联网无线技术</b>：<span class='sa-desc'>广域物联网包括NB-IoT、LoRa等，具有低功耗、广覆盖、大连接特点，应用于智能抄表、环境监测等。</span></div></div><div class='sa-item'><span class='sa-badge sa-badge-blue'>4</span><div class='sa-content'><b class='sa-title'>短距离无线通信技术</b>：<span class='sa-desc'>覆盖范围几十米内，如蓝牙、Zigbee、UWB、RFID等。</span></div></div></div>"
+        },
+        {
+            "title": "4.3.1 定义与技术原理",
+            "q": "简述OSI七层参考模型各层的作用。",
+            "tip": "<b>记忆口诀：物链网传会表应，从下到上七层清；物理比特链成帧，网络路由传端到端。</b><ul><li>物理层：比特流传输</li><li>数据链路层：成帧、差错控制</li><li>网络层：路由选择</li><li>传输层：端到端可靠传输</li><li>会话层：建立维护会话</li><li>表示层：数据格式转换</li><li>应用层：网络服务接口</li></ul>",
+            "a": "<div class='sa-list'><div class='sa-item'><span class='sa-badge sa-badge-blue'>1</span><div class='sa-content'><b class='sa-title'>物理层</b>：<span class='sa-desc'>位于最底层，为数据链路层提供建立、传输、维持和释放物理连接所需的机械、电气、功能和规程特性，实现比特流在物理介质中的透明传输。</span></div></div><div class='sa-item'><span class='sa-badge sa-badge-blue'>2</span><div class='sa-content'><b class='sa-title'>数据链路层</b>：<span class='sa-desc'>将物理层提供的可能出错的物理连接改造成无差错的数据链路，在相邻节点间提供可靠的数据传输，负责成帧、差错控制和流量控制。</span></div></div><div class='sa-item'><span class='sa-badge sa-badge-blue'>3</span><div class='sa-content'><b class='sa-title'>网络层</b>：<span class='sa-desc'>负责为分组选择最佳路径（路由选择），控制子网拥塞，实现异构网络互联。</span></div></div><div class='sa-item'><span class='sa-badge sa-badge-blue'>4</span><div class='sa-content'><b class='sa-title'>传输层</b>：<span class='sa-desc'>为高层提供端到端的可靠、透明的数据传输服务，进行差错控制、流量控制和端口多路复用，是面向通信的低三层与面向处理的高三层之间的接口。</span></div></div><div class='sa-item'><span class='sa-badge sa-badge-blue'>5</span><div class='sa-content'><b class='sa-title'>会话层</b>：<span class='sa-desc'>负责在两个节点之间建立、维护和终止会话连接，组织和同步数据交换，确保点到点传输不中断。</span></div></div><div class='sa-item'><span class='sa-badge sa-badge-blue'>6</span><div class='sa-content'><b class='sa-title'>表示层</b>：<span class='sa-desc'>处理用户信息的表示方法，如数据格式转换、加密解密、压缩解压缩，确保一个系统的应用层发出的信息能被另一个系统的应用层识别。</span></div></div><div class='sa-item'><span class='sa-badge sa-badge-blue'>7</span><div class='sa-content'><b class='sa-title'>应用层</b>：<span class='sa-desc'>位于最顶层，直接向用户或应用程序提供网络服务接口（如HTTP、FTP等），负责网络中应用程序与网络操作系统间的联系、协调和管理。</span></div></div></div>"
+        },
+        {
+            "title": "4.3.2 互联网关键技术",
+            "q": "网络互联技术包括哪些？简要介绍这些技术。",
+            "tip": "<b>记忆口诀：TCP/IP基础，SDN/NFV软定义，5G移动超高速。</b><ul><li>TCP/IP：互联网基本协议</li><li>SDN/NFV：控制转发分离，软硬件解耦</li><li>5G：超高速率、低时延、大连接</li></ul>",
+            "a": "<div class='sa-list'><div class='sa-item'><span class='sa-badge sa-badge-blue'>1</span><div class='sa-content'><b class='sa-title'>TCP/IP技术</b>：<span class='sa-desc'>互联网最基本的协议簇，定义了电子设备接入互联网以及数据在网络间传输的规范。采用4层模型：应用层、传输层、网络层、网络接口层。</span></div></div><div class='sa-item'><span class='sa-badge sa-badge-blue'>2</span><div class='sa-content'><b class='sa-title'>SDN/NFV技术</b>：<span class='sa-desc'>SDN（软件定义网络）核心是将控制平面与转发平面分离，通过开放可编程接口实现流量灵活控制。NFV（网络功能虚拟化）通过标准x86服务器等取代专有网元硬件，实现软硬件解耦与弹性伸缩。</span></div></div><div class='sa-item'><span class='sa-badge sa-badge-blue'>3</span><div class='sa-content'><b class='sa-title'>5G与移动互联网技术</b>：<span class='sa-desc'>第五代移动通信技术，具有超高速率（eMBB）、极低时延（uRLLC）、超大连接（mMTC）三大特征，采用新频段和多天线技术，广泛应用于自动驾驶、远程医疗、工业控制等场景。</span></div></div></div>"
+        },
+        {
+            "title": "4.3.2 互联网关键技术",
+            "q": "什么是数据互通技术？包括哪些？",
+            "tip": "<b>记忆口诀：地址域名标识解析，数据互通靠它们。</b><ul><li>地址与域名技术：IP地址与DNS</li><li>标识及其解析技术：物联网标识解析</li></ul>",
+            "a": "<div class='sa-list'><div class='sa-item'><span class='sa-badge sa-badge-blue'>定义</span><div class='sa-content'><b class='sa-title'>数据互通技术</b>：<span class='sa-desc'>实现互联网上不同系统、实体间信息互通和理解的关键技术。</span></div></div><div class='sa-item'><span class='sa-badge sa-badge-blue'>1</span><div class='sa-content'><b class='sa-title'>地址与域名技术</b>：<span class='sa-desc'>IP地址是互联网主机的唯一标识，字符型域名便于记忆，通过DNS实现域名与IP地址的相互映射。</span></div></div><div class='sa-item'><span class='sa-badge sa-badge-blue'>2</span><div class='sa-content'><b class='sa-title'>标识及其解析技术</b>：<span class='sa-desc'>随着物联网发展，物理和虚拟实体需要标识。标识解析技术实现快速资源定位、跨系统信息获取和分布式数据存储，打破数据壁垒。</span></div></div></div>"
+        },
+        {
+            "title": "4.3.2 互联网关键技术",
+            "q": "什么是时间敏感网络 (TSN)？",
+            "tip": "<b>记忆口诀：时间敏感低时延，工业实时保安全。</b><ul><li>面向工业智能化生产</li><li>有限时延、低抖动、低丢失率</li><li>基于标准以太网，通过时间同步、数据调度、帧重整形实现</li></ul>",
+            "a": "<div class='sa-list'><div class='sa-item'><span class='sa-badge sa-badge-blue'>定义</span><div class='sa-content'><b class='sa-title'>时间敏感网络（TSN）</b>：<span class='sa-desc'>面向工业智能化生产的一种具有有限传输时延、低传输抖动和极低数据丢失率的高质量实时传输网络。它基于标准以太网技术，通过时间同步、数据调度和帧重整形等多种优化机制，确保时间敏感数据在工业复杂、严苛环境下的实时、高效、稳定和安全传输。</span></div></div></div>"
+        },
+        {
+            "title": "5.2 云计算与边缘计算技术",
+            "q": "何谓云计算？",
+            "tip": "<b>记忆口诀：云上分解，多机协作</b><ul><li>分布式计算的一种</li><li>通过网络“云”分解程序</li><li>多服务器处理分析</li></ul>",
+            "a": "<div class='sa-list'><div class='sa-item'><span class='sa-badge sa-badge-blue'>定</span><div class='sa-content'><b class='sa-title'>定义</b>：<span class='sa-desc'>云计算是分布式计算的一种，它通过网络“云”将巨大的数据计算处理程序分解成无数个小程序，利用由多个服务器组成的系统处理和分析这些小程序得到结果并反馈给用户。</span></div></div></div>"
+        },
+        {
+            "title": "5.2 云计算与边缘计算技术",
+            "q": "何谓边缘计算？",
+            "tip": "<b>记忆口诀：靠近源头，融合计算</b><ul><li>新型计算模式</li><li>在靠近物或数据源头的网络边缘侧</li><li>提供融合计算、存储和网络等资源</li></ul>",
+            "a": "<div class='sa-list'><div class='sa-item'><span class='sa-badge sa-badge-blue'>定</span><div class='sa-content'><b class='sa-title'>定义</b>：<span class='sa-desc'>边缘计算是随着云计算技术的不断发展衍生出的新型计算模式，通过在靠近物或数据源头的网络边缘侧，为应用系统提供融合计算、存储和网络等资源。</span></div></div></div>"
+        },
+        {
+            "title": "5.2.2 云计算与边缘计算关键技术",
+            "q": "云计算有哪些关键代表性技术？",
+            "tip": "<b>记忆口诀：虚拟云网边，分布式架构全</b><ul><li>虚拟化及虚拟化管理技术</li><li>云网边技术</li><li>分布式架构技术</li></ul>",
+            "a": "<div class='sa-list'><div class='sa-item'><span class='sa-badge sa-badge-blue'>技</span><div class='sa-content'><b class='sa-title'>关键技术</b>：<span class='sa-desc'>虚拟化及虚拟化管理技术、云网边技术和分布式架构技术。</span></div></div></div>"
+        },
+        {
+            "title": "5.2.2 云计算与边缘计算关键技术",
+            "q": "什么是虚拟化技术？",
+            "tip": "<b>记忆口诀：资源抽象，逻辑分割</b><ul><li>资源管理技术</li><li>抽象和转化实体资源</li><li>分割、重新组合</li><li>最大化利用物理资源</li></ul>",
+            "a": "<div class='sa-list'><div class='sa-item'><span class='sa-badge sa-badge-blue'>定</span><div class='sa-content'><b class='sa-title'>定义</b>：<span class='sa-desc'>虚拟化是一种资源管理技术，它将计算机的各种实体资源（CPU、内存、存储器、网络等）予以抽象和转化，并进行分割、重新组合，以达到最大化利用物理资源的目的。虚拟化技术将一台计算机虚拟为多台逻辑计算机，每台逻辑计算机可运行不同的操作系统，并且应用程序可以在相互独立的空间内运行而互不影响。</span></div></div></div>"
+        },
+        {
+            "title": "5.2.2 云计算与边缘计算关键技术",
+            "q": "什么是虚拟化管理技术？",
+            "tip": "<b>记忆口诀：管理对接，简化运维</b><ul><li>与虚拟化环境及实体硬件对接的管理软件</li><li>管理资源、分析数据</li><li>简化运维流程</li></ul>",
+            "a": "<div class='sa-list'><div class='sa-item'><span class='sa-badge sa-badge-blue'>定</span><div class='sa-content'><b class='sa-title'>定义</b>：<span class='sa-desc'>虚拟化管理技术主要指与虚拟化环境及相关联的实体硬件对接的管理软件，用于管理资源、分析数据和简化运维流程。</span></div></div></div>"
+        },
+        {
+            "title": "5.3 大数据技术",
+            "q": "什么是大数据？其主要特征是什么？",
+            "tip": "<b>记忆口诀：4V特征记心间，量大多样速度快变</b><ul><li>体量巨大、来源多样、生成极快、复杂多变</li><li>4V：volume、variety、velocity、variability</li></ul>",
+            "a": "<div class='sa-list'><div class='sa-item'><span class='sa-badge sa-badge-blue'>定</span><div class='sa-content'><b class='sa-title'>定义</b>：<span class='sa-desc'>大数据是指具有体量巨大、来源多样、生成极快、复杂多变等特征并且难以用传统数据体系结构有效处理的包含大量数据集的数据。</span></div></div><div class='sa-item'><span class='sa-badge sa-badge-blue'>特</span><div class='sa-content'><b class='sa-title'>特征</b>：<span class='sa-desc'>国际上，大数据的特征普遍用volume（数据量大）、variety（类型复杂）、velocity（速度快）和variability（多变性）予以表述，简称4V特征。</span></div></div></div>"
+        },
+        {
+            "title": "5.3 大数据技术",
+            "q": "大数据技术主要包含哪几种？",
+            "tip": "<b>记忆口诀：采集存储计算应用，四大板块要分清</b><ul><li>数据采集技术</li><li>数据存储技术</li><li>数据计算技术</li><li>数据应用技术</li></ul>",
+            "a": "<div class='sa-list'><div class='sa-item'><span class='sa-badge sa-badge-blue'>技</span><div class='sa-content'><b class='sa-title'>技术体系</b>：<span class='sa-desc'>大数据技术体系包含四大板块：数据采集技术、数据存储技术、数据计算技术、数据应用技术。其中数据采集是从数据源收集、识别和选取数据的过程。</span></div></div></div>"
+        },
+        {
+            "title": "6.2 网络信息安全技术",
+            "q": "什么是网络信息安全技术？与其相关联的三大要素是什么？",
+            "tip": "<b>记忆口诀：保护软硬件数据，三要素资产威胁措施</b><ul><li>保护网络系统硬件、软件及数据</li><li>防止破坏、更改、泄露</li><li>确保系统连续可靠运行</li><li>三大要素：安全资产、安全威胁、安全措施</li></ul>",
+            "a": "<div class='sa-list'><div class='sa-item'><span class='sa-badge sa-badge-blue'>定</span><div class='sa-content'><b class='sa-title'>定义</b>：<span class='sa-desc'>网络信息安全技术是指保护网络系统中的硬件、软件及数据等，不因无意或者恶意的原因遭到破坏、更改或者泄露，使系统连续、可靠、正常运行，确保网络服务不中断的技术手段。</span></div></div><div class='sa-item'><span class='sa-badge sa-badge-blue'>要</span><div class='sa-content'><b class='sa-title'>三大要素</b>：<span class='sa-desc'>网络信息安全技术相关联的三大要素包括安全资产、安全威胁与安全措施。安全资产是安全技术保护的主体，包括基础信息技术资产。</span></div></div></div>"
+        },
+        {
+            "title": "6.2 网络信息安全技术",
+            "q": "网络信息安全技术有哪些关键技术？",
+            "tip": "<b>记忆口诀：防护检测加响应，三大类技术保安全</b><ul><li>安全防护技术</li><li>风险检测技术</li><li>响应修复技术</li></ul>",
+            "a": "<div class='sa-list'><div class='sa-item'><span class='sa-badge sa-badge-blue'>技</span><div class='sa-content'><b class='sa-title'>关键技术</b>：<span class='sa-desc'>网络信息安全技术分为安全防护技术、风险检测技术以及响应修复技术三大类。</span></div></div></div>"
+        },
+        {
+            "title": "6.3 区块链技术",
+            "q": "何谓区块链与其技术原理？许可链和非许可链有哪些主要区别？",
+            "tip": "<b>记忆口诀：去中心化共识存储，许可非许可看权限</b><ul><li>去中心化方式</li><li>多方共同维护</li><li>共识算法实现一致存储、难以篡改、防止抵赖</li><li>许可链需许可，非许可链无需许可</li></ul>",
+            "a": "<div class='sa-list'><div class='sa-item'><span class='sa-badge sa-badge-blue'>定</span><div class='sa-content'><b class='sa-title'>定义</b>：<span class='sa-desc'>区块链技术是以“去中心化”的方式，由多方共同维护，通过共识算法实现数据一致存储、难以篡改、防止抵赖的数据管理技术。</span></div></div><div class='sa-item'><span class='sa-badge sa-badge-blue'>原</span><div class='sa-content'><b class='sa-title'>技术原理</b>：<span class='sa-desc'>区块链系统利用块（block）—链（chain）式数据结构验证和存储数据，利用分布式共识算法集体产生和更新数据，利用密码学保证数据的传输和使用安全，利用智能合约来编程和操作数据。</span></div></div><div class='sa-item'><span class='sa-badge sa-badge-blue'>区</span><div class='sa-content'><b class='sa-title'>区别</b>：<span class='sa-desc'>根据其节点的加入是否需要许可及对网络访问权限的不同可以划分为许可链（permissioned blockchain）与非许可链（permissionless blockchain）。许可链需要授权才能加入，非许可链则无需许可。</span></div></div></div>"
+        },
+        {
+            "title": "6.3.2 区块链关键技术",
+            "q": "其五大核心技术有哪些？",
+            "tip": "<b>记忆口诀：密码对等共识，智能合约数据存储</b><ul><li>密码算法</li><li>对等网络</li><li>共识算法</li><li>智能合约</li><li>数据存储</li></ul>",
+            "a": "<div class='sa-list'><div class='sa-item'><span class='sa-badge sa-badge-blue'>技</span><div class='sa-content'><b class='sa-title'>五大核心技术</b>：<span class='sa-desc'>包括密码算法、对等网络、共识算法、智能合约、数据存储。密码算法用于解决信息加密、数字签名和登录认证等问题；共识算法用于解决系统中不同节点数据如何就区块链信息达成全网一致性和正确性的问题；智能合约用于解决区块链中多方共同记录程序和进行运算的问题；数据存储技术用于解决分布式系统的数据存储、备份、容错和一致性等问题。</span></div></div></div>"
+        },
+        {
+            "title": "7.2.2 大数据智能关键技术",
+            "q": "深度学习在大数据智能中扮演什么角色？它有哪些新技术分支？",
+            "tip": "<b>记忆口诀：深度迁移强化，大模型挖数据</b><ul><li>深度学习是核心技术</li><li>新技术：DL、TL、RL、大模型</li></ul>",
+            "a": "<div class='sa-list'><div class='sa-item'><span class='sa-badge sa-badge-blue'>核</span><div class='sa-content'><b class='sa-title'>核心地位</b>：<span class='sa-desc'>深度学习是大数据智能的核心技术。</span></div></div><div class='sa-item'><span class='sa-badge sa-badge-blue'>新</span><div class='sa-content'><b class='sa-title'>新技术分支</b>：<span class='sa-desc'>包括深度学习（DL）、迁移学习（TL）、强化学习（RL）、大模型（large model）等，用于实现对海量数据的挖掘利用。</span></div></div></div>"
+        },
+        {
+            "title": "7.2.2 大数据智能关键技术",
+            "q": "深度学习的基本结构是什么？各层的作用是什么？",
+            "tip": "<b>记忆口诀：输入隐藏输出，层层映射转换</b><ul><li>分层结构：输入层、隐藏层、输出层</li><li>隐藏层参数可学习动态更新</li></ul>",
+            "a": "<div class='sa-list'><div class='sa-item'><span class='sa-badge sa-badge-blue'>结</span><div class='sa-content'><b class='sa-title'>分层结构</b>：<span class='sa-desc'>深度学习采用与传统神经网络相似的分层结构，包括输入层、隐藏层、输出层。</span></div></div><div class='sa-item'><span class='sa-badge sa-badge-blue'>参</span><div class='sa-content'><b class='sa-title'>隐藏层参数</b>：<span class='sa-desc'>每一个隐藏层都具有一组可学习的、动态更新的参数，实现对输入数据的映射和转换。</span></div></div></div>"
+        },
+        {
+            "title": "7.3.2 跨媒体智能关键技术",
+            "q": "跨媒体智能技术包含哪两个方面？",
+            "tip": "<b>记忆口诀：感知加认知，跨媒体智能</b><ul><li>感知：计算机视觉、语音识别</li><li>认知：知识图谱等</li></ul>",
+            "a": "<div class='sa-list'><div class='sa-item'><span class='sa-badge sa-badge-blue'>感</span><div class='sa-content'><b class='sa-title'>感知技术</b>：<span class='sa-desc'>对视频、音频、语音等内容进行感知并分析挖掘隐含知识，包括计算机视觉、语音识别等核心感知技术。</span></div></div><div class='sa-item'><span class='sa-badge sa-badge-blue'>认</span><div class='sa-content'><b class='sa-title'>认知技术</b>：<span class='sa-desc'>在感知基础上建立知识表征，通过构建基于文本的知识体系，实现知识关联、推理与演化，即知识图谱等认知技术。</span></div></div></div>"
+        },
+        {
+            "title": "7.4.1 定义与技术原理",
+            "q": "什么是群体智能？",
+            "tip": "<b>记忆口诀：个体协作，超越局限</b><ul><li>基于互联网的组织结构</li><li>大量独立个体共同作用</li><li>超越个体智能局限性</li></ul>",
+            "a": "<div class='sa-list'><div class='sa-item'><span class='sa-badge sa-badge-blue'>定</span><div class='sa-content'><b class='sa-title'>定义</b>：<span class='sa-desc'>群体智能是在某种基于互联网的组织结构下，被激励执行计算任务的大量独立个体共同作用所产生的超越个体智能局限性的智能形态。</span></div></div></div>"
+        },
+        {
+            "title": "7.4.1 定义与技术原理",
+            "q": "群体智能方法有哪些重要作用？",
+            "tip": "<b>记忆口诀：理论创新，应用核心</b><ul><li>推动人工智能理论技术创新</li><li>提供核心竞争力</li></ul>",
+            "a": "<div class='sa-list'><div class='sa-item'><span class='sa-badge sa-badge-blue'>理</span><div class='sa-content'><b class='sa-title'>理论创新</b>：<span class='sa-desc'>群体智能方法能够推动人工智能的理论技术创新，通过模仿自然界群体智能行为研发新型高效优化算法。</span></div></div><div class='sa-item'><span class='sa-badge sa-badge-blue'>应</span><div class='sa-content'><b class='sa-title'>应用核心</b>：<span class='sa-desc'>群体智能方法能够为整个信息社会的应用创新、体制创新、管理创新和商业创新等提供核心竞争力。</span></div></div></div>"
+        },
+        {
+            "title": "7.2 大数据智能（联邦学习）",
+            "q": "什么是联邦学习？其核心思想是什么？",
+            "tip": "<b>记忆口诀：分布训练，参数交换</b><ul><li>分布式机器学习技术</li><li>不交换本地数据，只交换模型参数</li></ul>",
+            "a": "<div class='sa-list'><div class='sa-item'><span class='sa-badge sa-badge-blue'>定</span><div class='sa-content'><b class='sa-title'>定义</b>：<span class='sa-desc'>联邦学习又名联邦机器学习、联合学习，是一种分布式机器学习技术。</span></div></div><div class='sa-item'><span class='sa-badge sa-badge-blue'>核</span><div class='sa-content'><b class='sa-title'>核心思想</b>：<span class='sa-desc'>通过在多个拥有本地数据的数据源之间进行分布式模型训练，在不需要交换本地个体或样本数据的前提下，仅通过交换模型参数或中间结果的方式，构建基于虚拟...</span></div></div></div>"
+        },
+        {
+            "title": "第八章 工业智能（定义）",
+            "q": "什么是工业智能？它有哪些特征？",
+            "tip": "<b>记忆口诀：自感知学习，执行决策适应</b><ul><li>人工智能与工业深度融合</li><li>特征：自感知、自学习、自执行、自决策、自适应</li></ul>",
+            "a": "<div class='sa-list'><div class='sa-item'><span class='sa-badge sa-badge-blue'>定</span><div class='sa-content'><b class='sa-title'>定义</b>：<span class='sa-desc'>工业智能（或工业人工智能）是人工智能技术与工业应用深度融合并贯穿于设计、生产、管理、服务等各环节，实现模仿或超越人类感知、分析、决策等能力的技术、方法及应用系统。</span></div></div><div class='sa-item'><span class='sa-badge sa-badge-blue'>特</span><div class='sa-content'><b class='sa-title'>特征</b>：<span class='sa-desc'>具有自感知、自学习、自执行、自决策、自适应等特征，本质上是承载于工业应用实体之中的智能系统。</span></div></div></div>"
+        },
+        {
+            "title": "8.2.2 工业智能的应用",
+            "q": "人工智能技术在制造业中有哪些典型应用场景？",
+            "tip": "<b>记忆口诀：研发生产管理服务，降本增效提质减排</b><ul><li>全环节全领域应用</li><li>实现降本、增效、提质、减排</li></ul>",
+            "a": "<div class='sa-list'><div class='sa-item'><span class='sa-badge sa-badge-blue'>场</span><div class='sa-content'><b class='sa-title'>应用场景</b>：<span class='sa-desc'>人工智能技术已在制造业的研发、生产、管理、服务等全环节、全领域形成典型应用场景，细分场景多达近百个。</span></div></div><div class='sa-item'><span class='sa-badge sa-badge-blue'>效</span><div class='sa-content'><b class='sa-title'>应用效果</b>：<span class='sa-desc'>工业智能制造平台实现广泛应用，实现降本、增效、提质、减排，推动制造业转型升级。</span></div></div></div>"
+        },
+        {
+            "title": "8.3.1 定义与技术原理",
+            "q": "什么是数字孪生技术？",
+            "tip": "<b>记忆口诀：虚拟双胞胎，数据交流</b><ul><li>虚拟空间构建数字模型</li><li>包含全生命周期产品信息</li><li>物理实体与数字模型数据交流</li></ul>",
+            "a": "<div class='sa-list'><div class='sa-item'><span class='sa-badge sa-badge-blue'>定</span><div class='sa-content'><b class='sa-title'>定义</b>：<span class='sa-desc'>数字孪生技术是指在虚拟空间中构建物理产品的数字模型，该模型包含从产品设计到回收再利用全生命周期的产品信息。</span></div></div><div class='sa-item'><span class='sa-badge sa-badge-blue'>比</span><div class='sa-content'><b class='sa-title'>比喻</b>：<span class='sa-desc'>简单来说，就是构建一对“双胞胎”，一个存在于物理现实世界中，另一个存在于数字虚拟空间中，是用大量数据仿真出来并与物理实体进行数据交流的数字化模型。</span></div></div></div>"
+        },
+        {
+            "title": "8.3.1 数字孪生关键技术",
+            "q": "数字孪生关键技术包括哪些核心要素？",
+            "tip": "<b>记忆口诀：虚拟数据连接，物理实体</b><ul><li>虚拟实体：模型构建、管理、互操作、修正、验证</li><li>孪生数据：数据管理</li><li>连接：采集感知、工业通信、反馈控制</li><li>物理实体</li></ul>",
+            "a": "<div class='sa-list'><div class='sa-item'><span class='sa-badge sa-badge-blue'>虚</span><div class='sa-content'><b class='sa-title'>虚拟实体</b>：<span class='sa-desc'>包括模型构建（几何、仿真、数据、业务模型）、模型管理（开发、审核、调用、鉴权、监控、存储）、模型互操作（管理壳技术、MBSE技术）、模型修正（数据模型修正、有限元模型修正）、模型验证（静态、动态模型验证）。</span></div></div><div class='sa-item'><span class='sa-badge sa-badge-blue'>孪</span><div class='sa-content'><b class='sa-title'>孪生数据</b>：<span class='sa-desc'>包括数据管理（物理实体数据、虚拟实体数据、服务数据、知识型数据、衍生数据）。</span></div></div><div class='sa-item'><span class='sa-badge sa-badge-blue'>连</span><div class='sa-content'><b class='sa-title'>连接</b>：<span class='sa-desc'>包括采集感知、工业通信、反馈控制。</span></div></div><div class='sa-item'><span class='sa-badge sa-badge-blue'>物</span><div class='sa-content'><b class='sa-title'>物理实体</b>：<span class='sa-desc'>物理实体本身。</span></div></div></div>"
+        },
+        {
+            "title": "实验7：工业 APP 设计原型（案例）",
+            "q": "请结合实验7，设计一款“智能设备点检 APP”，描述其痛点分析、核心功能、与消费级APP差异及对比传统方式的优势。",
+            "tip": "<b>记忆口诀：设备点检掌上通，异常提报立跟踪，传统纸质化云雾，高效运维有神功</b>",
+            "a": "<div class='sa-list'><h4>一、痛点分析</h4><ul><li><span class='sa-badge-blue'>数据延迟与丢失</span>：纸质点检表单填写后需人工录入系统，过程耗时且易丢失，导致数据滞后，无法及时反映设备状态。</li><li><span class='sa-badge-blue'>信息孤岛</span>：点检记录独立存放，无法与设备运行数据（如振动、温度）联动，难以发现潜在故障。</li><li><span class='sa-badge-blue'>缺乏实时预警与闭环</span>：异常发现后通过电话或口头沟通，无系统跟踪，维修进度不透明，问题易遗漏。</li><li><span class='sa-badge-blue'>统计分析困难</span>：纸质数据难以汇总分析，无法支撑设备健康度评估和预测性维护决策。</li></ul><h4>二、核心功能定义</h4><p><strong>APP名称：</strong>智能设备点检 APP</p><p><strong>使用角色：</strong>操作工、维修工程师、班组长</p><ul><li><span class='sa-badge-blue'>点检计划</span>：<br>输入：设备清单、点检标准（周期、项目、阈值）<br>处理：系统自动生成每日/每周点检任务，推送至对应操作工<br>输出：待办任务列表，含设备位置、点检项、正常值范围</li><li><span class='sa-badge-blue'>异常提报</span>：<br>输入：点检时发现异常（拍照、文字描述、数值超标）<br>处理：自动触发异常工单，关联设备信息，通知维修工程师<br>输出：异常记录（含时间、位置、图片、初步判断）</li><li><span class='sa-badge-blue'>维修派单</span>：<br>输入：异常工单、维修人员技能与忙闲状态<br>处理：班组长审核并指派维修任务，系统推送至工程师<br>输出：维修工单（含故障描述、优先级、预计完成时间）</li><li><span class='sa-badge-blue'>点检分析</span>：<br>输入：历史点检数据、维修记录、设备运行参数<br>处理：统计分析点检完成率、异常趋势、设备MTBF等<br>输出：可视化报表（仪表盘、趋势图），支持导出</li></ul><h4>三、与消费级APP的关键差异</h4><ul><li><span class='sa-badge-blue'>数据采集方式</span>：工业APP支持扫码、NFC、蓝牙连接传感器自动采集，消费级APP多为手动输入或拍照。</li><li><span class='sa-badge-blue'>交互设计</span>：工业APP界面简洁，按钮大、字体清晰，适应戴手套操作；消费级APP注重美观和动效。</li><li><span class='sa-badge-blue'>异常处理</span>：工业APP有严格的闭环流程（提报→派单→维修→确认），消费级APP通常仅记录或反馈。</li><li><span class='sa-badge-blue'>权限与安全</span>：工业APP需角色权限控制，数据加密传输；消费级APP权限较宽松。</li></ul><h4>四、与传统方式的对比优势</h4><table><thead><tr><th>维度</th><th>传统方式（纸质/Excel）</th><th>智能设备点检APP</th></tr></thead><tbody><tr><td>效率</td><td>填写、录入耗时，查找困难</td><td>扫码快速录入，自动推送任务，一键查询</td></tr><tr><td>准确性</td><td>易错字、漏项，数据二次录入易出错</td><td>标准化表单，自动校验，减少人为错误</td></tr><tr><td>实时性</td><td>数据滞后数小时甚至数天</td><td>点检数据实时上传，异常即时通知</td></tr><tr><td>可追溯性</td><td>纸质易丢失，Excel版本混乱</td><td>所有操作留痕，时间戳+责任人，可审计</td></tr><tr><td>协同能力</td><td>电话/口头沟通，信息不对称</td><td>多角色在线协作，任务流转透明</td></tr></tbody></table></div>"
+        }
+    ]
+},
     // === 模块 1：导数公式 ===
     derivatives: {
         id: "derivatives",
@@ -1943,6 +2237,16 @@ const siteData = [
                 examTime: "2026-06-26T19:00:00+08:00",
                 quiz: appData.ai_quiz,
                 flashcard: appData.ai_short_answers
+            },
+            {
+                id: "ia_course",
+                title: "工业 App 应用开发",
+                subtitle: "选择与简答双轨通关",
+                themeColor: "blue",
+                type: "course",
+                examTime: "2026-06-29T08:50:00+08:00",
+                quiz: appData.ia_quiz,
+                flashcard: appData.ia_short_answers
             }
         ]
     }
@@ -2206,6 +2510,11 @@ const siteData = [
             aiCourse.quiz = appData.ai_quiz;
             aiCourse.flashcard = appData.ai_short_answers;
         }
+        const iaCourse = majorCategory.items.find(item => item.id === "ia_course");
+        if (iaCourse) {
+            iaCourse.quiz = appData.ia_quiz;
+            iaCourse.flashcard = appData.ia_short_answers;
+        }
         const spCourse = majorCategory.items.find(item => item.id === "sp_course");
         if (spCourse) {
             spCourse.flashcard = appData.sp_short_answers;
@@ -2247,7 +2556,7 @@ window.EXAM_SCHEDULE = [
     { date: "06.22 (周一)", time: "19:00-21:00", subject: "软件项目规划", status: "已关联" },
     { date: "06.24 (周三)", time: "16:10-18:10", subject: "Linux基础", status: "已关联" },
     { date: "06.26 (周五)", time: "19:00-21:00", subject: "人工智能大模型应用", status: "已关联" },
-    { date: "06.29 (周一)", time: "08:50-10:50", subject: "工业 App 应用开发", status: "未关联" },
+    { date: "06.29 (周一)", time: "08:50-10:50", subject: "工业 App 应用开发", status: "已关联" },
     { date: "06.30 (周二)", time: "08:50-10:50", subject: "软件测试", status: "已关联" },
     { date: "06.30 (周二)", time: "14:00-16:00", subject: "移动应用开发技术", status: "已关联" },
     { date: "06.30 (周二)", time: "19:00-21:00", subject: "嵌入式系统", status: "未关联" }
