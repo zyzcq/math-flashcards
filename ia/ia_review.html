@@ -19,6 +19,8 @@
             --blue-500: #3b82f6;
             --blue-600: #2563eb;
             --blue-700: #1d4ed8;
+            --blue-800: #1e40af;
+            --blue-900: #1e3a8a;
             --rose-50: #fff1f2;
             --rose-100: #ffe4e6;
             --rose-600: #e11d48;
@@ -36,6 +38,8 @@
             --blue-500: #60a5fa;
             --blue-600: #3b82f6;
             --blue-700: #2563eb;
+            --blue-800: #1d4ed8;
+            --blue-900: #1e40af;
             --rose-50: rgba(225, 29, 72, 0.1);
             --rose-100: rgba(225, 29, 72, 0.2);
             --rose-600: #fb7185;
@@ -235,6 +239,62 @@
             font-size: 1.35rem; 
             color: var(--text-main); 
             font-weight: 800; 
+        }
+
+        /* Story Card */
+        .story-card {
+            background: linear-gradient(135deg, var(--blue-700), var(--blue-900));
+            color: #fff;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 25px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(29, 78, 216, 0.3);
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        [data-theme="dark"] .story-card {
+            background: linear-gradient(135deg, rgba(30, 58, 138, 0.6), rgba(15, 23, 42, 0.8));
+            border-color: rgba(59, 130, 246, 0.3);
+        }
+        .story-card::after {
+            content: "✦";
+            position: absolute;
+            right: 15px;
+            bottom: -15px;
+            font-size: 90px;
+            opacity: 0.08;
+            color: #fff;
+            line-height: 1;
+            pointer-events: none;
+        }
+        .story-role {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(255, 255, 255, 0.15);
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 800;
+            margin-bottom: 12px;
+            backdrop-filter: blur(4px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: #fff;
+        }
+        .story-title {
+            font-size: 1.15rem;
+            font-weight: 800;
+            margin: 0 0 8px 0;
+            color: #fff;
+            letter-spacing: 0.5px;
+        }
+        .story-text {
+            font-size: 0.95rem;
+            line-height: 1.6;
+            margin: 0;
+            color: rgba(255, 255, 255, 0.9);
+            font-style: italic;
         }
 
         /* Concept Flat Cards (No Hidden Content) */
@@ -441,15 +501,51 @@
         };
 
         const sectionInfo = [
-            { id: "ch1", name: "第一章：智能制造范式与金字塔结构", prefix: "第一章" },
-            { id: "ch2", name: "第二章：集成电路与计算机软件基础", prefix: "第二章" },
-            { id: "ch3", name: "第三章：数字传感与数字控制技术", prefix: "3." },
-            { id: "ch4", name: "第四章：大数据、云技术与边缘计算", prefix: "4." },
-            { id: "ch5", name: "第五章：工业 APP 及其生态体系", prefix: "5." },
-            { id: "ch6", name: "第六章：工业互联网与网络安全要素", prefix: "6." },
-            { id: "ch7", name: "第七章：大数据智能与联邦学习", prefix: "第七章" },
-            { id: "ch8", name: "第八章：工业智能定义与数字孪生", prefix: "第八章" },
-            { id: "ch9", name: "设计案例：实验 7 智能设备点检 APP", prefix: "实验7" }
+            { 
+                id: "ch1", name: "第一章：智能制造范式与金字塔结构", prefix: "第一章",
+                role: "🌱 见习工程师", storyTitle: "入职第一天：宏伟的蓝图",
+                storyText: "你站在智能工厂的巨大数字屏幕前。导师拍了拍你的肩膀：“要开发工业 App，首先得看懂这座工厂。”你必须弄清楚智能制造的三大范式，以及这座工厂是如何通过五层金字塔结构严密运转的。"
+            },
+            { 
+                id: "ch2", name: "第二章：集成电路与计算机软件基础", prefix: "第二章",
+                role: "🔧 硬件拆解员", storyTitle: "底层探秘：从沙子到智慧",
+                storyText: "宏观架构了解后，你被带到了无尘车间。机器轰鸣声中，你要探究工厂设备的大脑——芯片是如何制造的，以及工业软件如何作为灵魂，指挥着这些冷冰冰的硬件。"
+            },
+            { 
+                id: "ch3", name: "第三章：数字传感与数字控制技术", prefix: "3.",
+                role: "🦾 躯体塑造者", storyTitle: "赋予感知与手脚",
+                storyText: "软件再聪明，没有眼睛和手脚也无法干活。你的下一个任务是给工厂装上神经末梢（传感器），并调参PID等数字控制算法，让机械臂的每一次移动都精准无误。"
+            },
+            { 
+                id: "ch4", name: "第四章：数字通信与网络互联", prefix: "4.",
+                role: "🌐 织网蜘蛛侠", storyTitle: "连接孤岛：网络的桥梁",
+                storyText: "设备都动起来了，但它们是彼此孤立的。你拉起网线，部署数字通信协议、5G 和 TSN（时间敏感网络），让海量数据在设备之间无延迟地穿梭，让工厂真正“连”在一起。"
+            },
+            { 
+                id: "ch5", name: "第五章：云计算与边缘计算", prefix: "5.",
+                role: "☁️ 云端架构师", storyTitle: "冲上云霄：算力无界",
+                storyText: "数据量呈指数级爆发，单台设备根本算不过来！你果断将目光投向了云计算和边缘计算，分配算力资源，打破性能瓶颈。"
+            },
+            { 
+                id: "ch6", name: "第六章：工业互联网与网络安全要素", prefix: "6.",
+                role: "🛡️ 赛博守望者", storyTitle: "钢铁长城：守卫数据疆土",
+                storyText: "随着工厂完全联网，潜伏在暗处的黑客盯上了你们的数据。你紧急部署网络安全防线，抵御恶意攻击，保卫刚刚建立起的工业互联网。"
+            },
+            { 
+                id: "ch7", name: "第七章：大数据智能与联邦学习", prefix: "第七章",
+                role: "🧙 数据炼金术士", storyTitle: "数据炼金：越用越聪明",
+                storyText: "工厂积累了堆积如山的运行数据。你引入了大数据智能，甚至使用了“联邦学习”这一黑科技，让多个工厂在不泄露商业机密的情况下共同训练 AI 模型。"
+            },
+            { 
+                id: "ch8", name: "第八章：工业智能定义与数字孪生", prefix: "第八章",
+                role: "🌌 孪生造物主", storyTitle: "终极形态：虚拟与现实的交响",
+                storyText: "你终于触及了工业 App 的巅峰领域。你在赛博空间中完美复刻了一座一模一样的数字虚拟工厂（数字孪生），在虚拟中预演，在现实中执行。智能制造，大功告成！"
+            },
+            { 
+                id: "ch9", name: "设计案例：实验 7 智能设备点检 APP", prefix: "实验7",
+                role: "👑 首席架构师", storyTitle: "实战演练：毕业设计",
+                storyText: "警报响起，车间一台关键设备出现异常！现在，将你一路走来学到的所有软硬件知识融会贯通，开发出“智能设备点检 App”，完成你的毕业首秀吧！"
+            }
         ];
 
         // Core Exam keywords for marking as high frequency key cards
@@ -506,6 +602,18 @@
                 headerEl.appendChild(iconContainer);
                 headerEl.appendChild(titleEl);
                 sectionEl.appendChild(headerEl);
+
+                // Story Card
+                if (section.storyTitle) {
+                    const storyEl = document.createElement('div');
+                    storyEl.className = 'story-card';
+                    storyEl.innerHTML = `
+                        <div class="story-role">${section.role}</div>
+                        <h3 class="story-title">${section.storyTitle}</h3>
+                        <p class="story-text">${section.storyText}</p>
+                    `;
+                    sectionEl.appendChild(storyEl);
+                }
 
                 // Concept Cards List
                 const conceptListEl = document.createElement('div');
