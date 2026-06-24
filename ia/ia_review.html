@@ -6,13 +6,13 @@
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>工业 App 应用开发期末复习讲�?/title>
+    <title>工业 App 应用开发期末复习讲义</title>
     <link rel="stylesheet" href="../css/common.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
     <script src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js"></script>
-    <style>
+        <style>
         :root {
             --blue-50: #eff6ff;
             --blue-100: #dbeafe;
@@ -26,30 +26,40 @@
             --rose-600: #e11d48;
             --sky-50: #f0f9ff;
             --sky-500: #0ea5e9;
-            --accent-glow: rgba(37, 99, 235, 0.15);
+            --accent-glow: rgba(37, 99, 235, 0.12);
             --gold-50: rgba(245, 158, 11, 0.05);
             --gold-600: #d97706;
             --gold-border: rgba(245, 158, 11, 0.3);
             --neon-shadow: 0 0 10px rgba(37, 99, 235, 0.4);
+
+            --bg-glass: rgba(255, 255, 255, 0.75);
+            --border-glass: rgba(226, 232, 240, 0.8);
+            --shadow-glass: 0 8px 30px rgba(0, 0, 0, 0.03);
+            --shadow-glass-hover: 0 12px 35px rgba(37, 99, 235, 0.08);
         }
         [data-theme="dark"] {
             --blue-50: rgba(37, 99, 235, 0.1);
             --blue-100: rgba(37, 99, 235, 0.2);
-            --blue-500: #60a5fa;
-            --blue-600: #3b82f6;
+            --blue-500: #3b82f6;
+            --blue-600: #60a5fa;
             --blue-700: #2563eb;
             --blue-800: #1d4ed8;
             --blue-900: #1e40af;
-            --rose-50: rgba(225, 29, 72, 0.1);
-            --rose-100: rgba(225, 29, 72, 0.2);
+            --rose-50: rgba(225, 29, 72, 0.12);
+            --rose-100: rgba(225, 29, 72, 0.25);
             --rose-600: #fb7185;
             --sky-50: rgba(14, 165, 233, 0.1);
             --sky-500: #38bdf8;
-            --accent-glow: rgba(59, 130, 246, 0.35);
+            --accent-glow: rgba(59, 130, 246, 0.25);
             --gold-50: rgba(217, 119, 6, 0.08);
             --gold-600: #fbbf24;
             --gold-border: rgba(251, 191, 36, 0.35);
-            --neon-shadow: 0 0 15px rgba(59, 130, 246, 0.5);
+            --neon-shadow: 0 0 15px rgba(59, 130, 246, 0.4);
+
+            --bg-glass: rgba(15, 23, 42, 0.6);
+            --border-glass: rgba(255, 255, 255, 0.08);
+            --shadow-glass: 0 8px 30px rgba(0, 0, 0, 0.25);
+            --shadow-glass-hover: 0 12px 35px rgba(0, 0, 0, 0.35);
         }
         
         body { 
@@ -57,13 +67,18 @@
             background: var(--bg-app); 
             color: var(--text-main); 
             line-height: 1.6; 
+            background-image: 
+                radial-gradient(at 0% 0%, rgba(59, 130, 246, 0.02) 0px, transparent 50%),
+                radial-gradient(at 100% 100%, rgba(14, 165, 233, 0.02) 0px, transparent 50%);
+            background-attachment: fixed;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            transition: background-color 0.3s;
         }
         
         .review-container { 
-            width: min(1080px, calc(100% - 32px)); 
+            width: min(960px, calc(100% - 32px)); 
             margin: 0 auto; 
-            padding: 20px 0; 
-            padding-bottom: 80px; 
+            padding: 24px 0 80px 0; 
         }
 
         /* Topbar & Sticky Roadmap Nav */
@@ -71,18 +86,20 @@
             position: sticky; 
             top: 0; 
             z-index: 100; 
-            backdrop-filter: blur(12px); 
-            -webkit-backdrop-filter: blur(12px); 
-            background: color-mix(in srgb, var(--bg-app) 85%, transparent); 
-            border-bottom: 1px solid var(--border-color); 
-            padding: 10px 0; 
+            backdrop-filter: blur(20px); 
+            -webkit-backdrop-filter: blur(20px); 
+            background: color-mix(in srgb, var(--bg-app) 80%, transparent); 
+            border-bottom: 1px solid var(--border-glass); 
+            padding: 12px 0; 
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.01);
+            transition: all 0.3s;
         }
         .topbar-inner { 
-            width: min(1080px, calc(100% - 32px)); 
+            width: min(960px, calc(100% - 32px)); 
             margin: 0 auto; 
             display: flex; 
             flex-direction: column; 
-            gap: 8px; 
+            gap: 12px; 
         }
         .topbar-header { 
             display: flex; 
@@ -97,84 +114,99 @@
             display: flex; 
             align-items: center; 
             gap: 6px; 
-            transition: color 0.2s; 
+            transition: all 0.2s ease; 
         }
         .topbar a:hover { 
-            color: var(--blue-600); 
+            color: var(--blue-500); 
+            transform: translateX(-2px);
         }
 
-        /* SVG Roadmap (Current Flowing Line) */
+        /* SVG Roadmap */
         .roadmap-container { 
             width: 100%; 
             overflow-x: auto; 
-            padding: 6px 0; 
+            padding: 4px 0; 
             -webkit-overflow-scrolling: touch; 
         }
         .roadmap-container::-webkit-scrollbar { 
             height: 4px; 
         }
         .roadmap-container::-webkit-scrollbar-thumb { 
-            background: var(--border-color); 
+            background: rgba(148, 163, 184, 0.3); 
             border-radius: 4px; 
         }
         .roadmap-svg { 
             display: block; 
-            min-width: 900px; 
-            height: 50px; 
+            min-width: 880px; 
+            height: 54px; 
         }
         .roadmap-line { 
             fill: none; 
-            stroke: var(--border-color); 
+            stroke: var(--border-glass); 
             stroke-width: 4; 
+            stroke-linecap: round;
         }
         .roadmap-progress-line { 
             fill: none; 
             stroke: var(--blue-500); 
             stroke-width: 4; 
+            stroke-linecap: round;
             stroke-dasharray: 900; 
             stroke-dashoffset: 900; 
-            transition: stroke-dashoffset 0.1s ease; 
+            transition: stroke-dashoffset 0.2s cubic-bezier(0.16, 1, 0.3, 1); 
         }
         .station { 
             cursor: pointer; 
+            outline: none;
         }
         .station circle { 
-            fill: var(--bg-card); 
-            stroke: var(--border-color); 
+            fill: var(--bg-app); 
+            stroke: var(--border-glass); 
             stroke-width: 3; 
-            transition: all 0.3s ease; 
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1); 
+        }
+        .station:hover circle {
+            stroke: var(--blue-500);
+            r: 9;
         }
         .station.active circle { 
             fill: var(--blue-500); 
-            stroke: var(--blue-600); 
-            filter: drop-shadow(0 0 6px var(--blue-500)); 
+            stroke: var(--blue-500); 
+            r: 9;
+            filter: drop-shadow(0 0 8px rgba(37, 99, 235, 0.4)); 
         }
         .station text { 
             fill: var(--text-weak); 
-            font-family: system-ui, sans-serif; 
+            font-family: inherit; 
             font-size: 10px; 
             font-weight: 600; 
             text-anchor: middle; 
-            transition: all 0.3s ease; 
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1); 
         }
         .station.active text { 
-            fill: var(--blue-600); 
+            fill: var(--blue-500); 
             font-weight: 800; 
             font-size: 11px; 
         }
 
         /* Header */
         .header-card { 
-            background: var(--bg-card); 
-            border-radius: 16px; 
-            padding: 30px 20px; 
+            background: var(--bg-glass); 
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-radius: 20px; 
+            padding: 36px 24px; 
             text-align: center; 
-            box-shadow: var(--list-item-shadow); 
-            border: 1px solid var(--border-color); 
-            margin-top: 15px; 
-            margin-bottom: 25px; 
+            box-shadow: var(--shadow-glass); 
+            border: 1px solid var(--border-glass); 
+            margin-top: 20px; 
+            margin-bottom: 24px; 
             position: relative; 
             overflow: hidden; 
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
         }
         .header-card::before { 
             content: ""; 
@@ -182,141 +214,182 @@
             top: 0; 
             left: 0; 
             width: 100%; 
-            height: 6px; 
+            height: 4px; 
             background: linear-gradient(90deg, var(--blue-500), var(--sky-500)); 
         }
         .title { 
-            font-size: clamp(1.6rem, 4vw, 2.2rem); 
-            font-weight: 800; 
-            margin: 0 0 8px 0; 
+            font-size: clamp(1.5rem, 5vw, 2.0rem); 
+            font-weight: 900; 
+            margin: 0; 
             color: var(--text-main); 
             letter-spacing: -0.5px; 
         }
         .subtitle { 
             color: var(--text-weak); 
-            font-size: 1rem; 
+            font-size: 0.95rem; 
             margin: 0; 
             font-weight: 500; 
         }
 
+        /* Mode Switcher Buttons */
+        .mode-toggle-container {
+            display: inline-flex;
+            background: rgba(148, 163, 184, 0.08);
+            padding: 4px;
+            border-radius: 30px;
+            border: 1px solid var(--border-glass);
+            margin-top: 14px;
+            gap: 4px;
+        }
+        .mode-btn {
+            border: none;
+            outline: none;
+            padding: 8px 18px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            background: transparent;
+            color: var(--text-weak);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .mode-btn:hover {
+            color: var(--text-main);
+        }
+        .mode-btn.active {
+            background: var(--blue-500);
+            color: #ffffff;
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.25);
+        }
+
         /* Section Cards */
         .section-card { 
-            background: var(--bg-card); 
-            border-radius: 16px; 
-            padding: 25px; 
-            margin-bottom: 30px; 
-            box-shadow: var(--list-item-shadow); 
-            border: 1px solid var(--border-color); 
-            scroll-margin-top: 130px; 
-            transition: border-color 0.3s;
+            background: var(--bg-glass); 
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-radius: 20px; 
+            padding: 28px; 
+            margin-bottom: 28px; 
+            box-shadow: var(--shadow-glass); 
+            border: 1px solid var(--border-glass); 
+            scroll-margin-top: 140px; 
+            transition: border-color 0.3s, box-shadow 0.3s;
         }
         .section-card:hover {
-            border-color: var(--blue-500);
+            border-color: rgba(59, 130, 246, 0.15);
         }
         .section-header { 
             display: flex; 
             align-items: center; 
             gap: 14px; 
-            margin-bottom: 25px; 
-            border-bottom: 2px solid var(--blue-50); 
-            padding-bottom: 12px; 
+            margin-bottom: 24px; 
+            border-bottom: 1px solid var(--border-glass); 
+            padding-bottom: 14px; 
         }
         .section-icon { 
             display: flex; 
             align-items: center; 
             justify-content: center; 
-            width: 40px; 
-            height: 40px; 
+            width: 36px; 
+            height: 36px; 
             border-radius: 10px; 
             background: var(--blue-50); 
             color: var(--blue-600); 
-            font-size: 1.2rem; 
-            font-weight: bold; 
+            font-size: 1.1rem; 
+            font-weight: 800; 
             flex-shrink: 0; 
         }
         .section-card h2 { 
             margin: 0; 
-            font-size: 1.35rem; 
+            font-size: 1.25rem; 
             color: var(--text-main); 
             font-weight: 800; 
         }
 
         /* Story Card */
         .story-card {
-            background: linear-gradient(135deg, var(--blue-700), var(--blue-900));
-            color: #fff;
-            border-radius: 12px;
-            padding: 20px;
-            margin-bottom: 25px;
+            background: linear-gradient(135deg, var(--blue-800), var(--blue-950));
+            color: #ffffff;
+            border-radius: 14px;
+            padding: 20px 24px;
+            margin-bottom: 24px;
             position: relative;
             overflow: hidden;
-            box-shadow: 0 4px 15px rgba(29, 78, 216, 0.3);
-            border: 1px solid rgba(255,255,255,0.1);
+            box-shadow: 0 4px 20px rgba(30, 64, 175, 0.12);
+            border: 1px solid rgba(255, 255, 255, 0.05);
         }
         [data-theme="dark"] .story-card {
-            background: linear-gradient(135deg, rgba(30, 58, 138, 0.6), rgba(15, 23, 42, 0.8));
-            border-color: rgba(59, 130, 246, 0.3);
+            background: linear-gradient(135deg, rgba(30, 58, 138, 0.35), rgba(15, 23, 42, 0.55));
+            border-color: rgba(59, 130, 246, 0.15);
         }
         .story-card::after {
-            content: "�?;
+            content: "✦";
             position: absolute;
-            right: 15px;
-            bottom: -15px;
-            font-size: 90px;
-            opacity: 0.08;
-            color: #fff;
-            line-height: 1;
+            right: 20px;
+            bottom: -20px;
+            font-size: 80px;
+            opacity: 0.06;
+            color: #ffffff;
             pointer-events: none;
         }
         .story-role {
             display: inline-flex;
             align-items: center;
             gap: 6px;
-            background: rgba(255, 255, 255, 0.15);
+            background: rgba(255, 255, 255, 0.12);
             padding: 4px 12px;
             border-radius: 20px;
-            font-size: 0.85rem;
+            font-size: 0.8rem;
             font-weight: 800;
-            margin-bottom: 12px;
+            margin-bottom: 10px;
             backdrop-filter: blur(4px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            color: #fff;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            color: #ffffff;
         }
         .story-title {
-            font-size: 1.15rem;
+            font-size: 1.1rem;
             font-weight: 800;
-            margin: 0 0 8px 0;
-            color: #fff;
+            margin: 0 0 6px 0;
+            color: #ffffff;
             letter-spacing: 0.5px;
         }
         .story-text {
-            font-size: 0.95rem;
-            line-height: 1.6;
+            font-size: 0.9rem;
+            line-height: 1.5;
             margin: 0;
-            color: rgba(255, 255, 255, 0.9);
+            color: rgba(255, 255, 255, 0.85);
             font-style: italic;
         }
 
-        /* Concept Flat Cards (No Hidden Content) */
+        /* Concept Flat Cards */
         .concept-list { 
             display: flex; 
             flex-direction: column; 
-            gap: 24px; 
+            gap: 20px; 
         }
         .concept-card { 
-            border: 1px solid var(--border-color); 
-            border-radius: 12px; 
-            padding: 22px; 
-            background: var(--bg-card); 
+            border: 1px solid var(--border-glass); 
+            border-radius: 14px; 
+            padding: 20px 24px; 
+            background: rgba(255, 255, 255, 0.25);
             display: flex; 
             flex-direction: column; 
-            gap: 14px; 
-            transition: border-color 0.3s, box-shadow 0.3s; 
+            gap: 12px; 
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1); 
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.005);
             position: relative; 
+            cursor: pointer;
+        }
+        [data-theme="dark"] .concept-card {
+            background: rgba(30, 41, 59, 0.2);
         }
         .concept-card:hover { 
-            border-color: var(--blue-100); 
-            box-shadow: 0 4px 20px var(--accent-glow); 
+            border-color: var(--blue-500); 
+            box-shadow: var(--shadow-glass-hover);
+            transform: translateY(-2px);
         }
         
         .concept-meta { 
@@ -325,15 +398,14 @@
             gap: 10px; 
             justify-content: space-between; 
             align-items: center; 
-            border-bottom: 1px dashed var(--border-color); 
+            border-bottom: 1px solid var(--border-glass); 
             padding-bottom: 10px; 
         }
         .concept-tag { 
-            font-size: 0.8rem; 
+            font-size: 0.78rem; 
             font-weight: 700; 
             color: var(--text-weak); 
-            text-transform: uppercase; 
-            letter-spacing: 0.5px; 
+            letter-spacing: 0.3px; 
         }
         
         /* Key exam node tag */
@@ -341,43 +413,104 @@
             display: inline-flex; 
             align-items: center; 
             gap: 4px; 
-            padding: 4px 10px; 
+            padding: 3px 10px; 
             font-size: 0.75rem; 
             font-weight: 800; 
             color: var(--rose-600); 
             background: var(--rose-50); 
             border: 1px solid var(--rose-100); 
             border-radius: 20px; 
-            animation: pulseGlow 1.5s infinite alternate; 
+            box-shadow: 0 0 10px rgba(225, 29, 72, 0.05);
+            transition: all 0.3s;
+        }
+        .concept-card:hover .key-badge {
+            animation: pulseGlow 1.2s infinite alternate;
         }
         @keyframes pulseGlow {
             0% { box-shadow: 0 0 0 0 rgba(225, 29, 72, 0.2); }
-            100% { box-shadow: 0 0 0 5px rgba(225, 29, 72, 0.3); }
+            100% { box-shadow: 0 0 0 5px rgba(225, 29, 72, 0.35); }
         }
 
+        .concept-header-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 12px;
+        }
         .concept-q { 
-            font-size: 1.18rem; 
+            font-size: 1.12rem; 
             font-weight: 800; 
             color: var(--text-main); 
             margin: 0; 
-            line-height: 1.4; 
+            line-height: 1.45; 
             border-left: 4px solid var(--blue-500); 
             padding-left: 10px; 
+            flex: 1;
         }
         
-        /* Mnemonic Flat Box */
+        .expand-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: rgba(148, 163, 184, 0.1);
+            color: var(--text-weak);
+            font-size: 0.75rem;
+            transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+            flex-shrink: 0;
+            border: 1px solid var(--border-glass);
+        }
+        .concept-card:hover .expand-icon {
+            color: var(--blue-500);
+            background: rgba(59, 130, 246, 0.08);
+        }
+        .concept-card.expanded .expand-icon {
+            transform: rotate(180deg);
+            background: var(--blue-500);
+            color: #ffffff;
+            border-color: var(--blue-500);
+            box-shadow: 0 2px 8px rgba(37, 99, 235, 0.3);
+        }
+
+        /* Smooth Accordion Layout */
+        .card-expandable-content {
+            display: grid;
+            grid-template-rows: 0fr;
+            transition: grid-template-rows 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+            overflow: hidden;
+        }
+        .concept-card.expanded .card-expandable-content {
+            grid-template-rows: 1fr;
+        }
+        .card-expandable-inner {
+            min-height: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+            padding-top: 10px;
+        }
+        
+        /* Mnemonic Box */
         .concept-mnemonic { 
             display: flex; 
             gap: 12px; 
             background: var(--gold-50); 
             border: 1px solid var(--gold-border); 
-            border-radius: 8px; 
+            border-radius: 10px; 
             padding: 12px 16px; 
             color: var(--text-main); 
-            font-size: 0.95rem; 
+            font-size: 0.92rem; 
+            box-shadow: inset 0 1px 2px rgba(245, 158, 11, 0.02);
+            transition: all 0.3s;
+        }
+        .concept-mnemonic:hover {
+            background: rgba(245, 158, 11, 0.08);
+            border-color: rgba(245, 158, 11, 0.45);
         }
         .mnemonic-icon { 
-            font-size: 1.25rem; 
+            font-size: 1.2rem; 
             line-height: 1; 
         }
         .mnemonic-content { 
@@ -385,30 +518,40 @@
         }
         .mnemonic-content strong { 
             color: var(--gold-600); 
-            font-weight: 900; 
+            font-weight: 800; 
         }
 
         /* Answer Detail area */
         .concept-a-wrap { 
-            padding-top: 5px; 
             display: flex;
             flex-direction: column;
             gap: 8px;
+            background: rgba(148, 163, 184, 0.02);
+            border: 1px solid var(--border-glass);
+            border-radius: 10px;
+            padding: 16px;
         }
         .concept-a-title { 
-            font-size: 0.85rem; 
+            font-size: 0.8rem; 
             font-weight: 800; 
             color: var(--text-weak); 
             text-transform: uppercase; 
-            border-bottom: 1px solid var(--border-color); 
-            padding-bottom: 4px; 
+            letter-spacing: 0.5px;
+            border-bottom: 1px solid var(--border-glass); 
+            padding-bottom: 6px; 
             margin-bottom: 4px;
+        }
+        .concept-a-wrap .prose {
+            font-size: 0.95rem;
+            color: var(--text-main);
+            line-height: 1.65;
         }
 
         @media (max-width: 640px) {
-            .section-card { padding: 18px 15px; }
-            .concept-card { padding: 16px 12px; }
-            .concept-q { font-size: 1.05rem; }
+            .section-card { padding: 20px 16px; }
+            .concept-card { padding: 16px 18px; }
+            .concept-q { font-size: 1.02rem; }
+            .review-container { padding-top: 14px; }
         }
     </style>
     <script>
@@ -427,7 +570,7 @@
                     <i class="fa-solid fa-angle-left"></i>
                     <span>返回首页</span>
                 </a>
-                <span style="font-weight: 800; font-size: 0.95rem; color: var(--blue-600);">工业 App 线性复习讲�?/span>
+                <span style="font-weight: 800; font-size: 0.95rem; color: var(--blue-600);">工业 App 线性复习讲义</span>
             </div>
             
             <div class="roadmap-container">
@@ -438,35 +581,35 @@
                     <!-- Stations -->
                     <g class="station" onclick="scrollToSection('ch1')" data-target="ch1" transform="translate(50, 0)">
                         <circle cx="0" cy="25" r="7" />
-                        <text x="0" y="45">第一�?/text>
+                        <text x="0" y="45">第一章</text>
                     </g>
                     <g class="station" onclick="scrollToSection('ch2')" data-target="ch2" transform="translate(162, 0)">
                         <circle cx="0" cy="25" r="7" />
-                        <text x="0" y="45">第二�?/text>
+                        <text x="0" y="45">第二章</text>
                     </g>
                     <g class="station" onclick="scrollToSection('ch3')" data-target="ch3" transform="translate(274, 0)">
                         <circle cx="0" cy="25" r="7" />
-                        <text x="0" y="45">第三�?/text>
+                        <text x="0" y="45">第三章</text>
                     </g>
                     <g class="station" onclick="scrollToSection('ch4')" data-target="ch4" transform="translate(386, 0)">
                         <circle cx="0" cy="25" r="7" />
-                        <text x="0" y="45">第四�?/text>
+                        <text x="0" y="45">第四章</text>
                     </g>
                     <g class="station" onclick="scrollToSection('ch5')" data-target="ch5" transform="translate(498, 0)">
                         <circle cx="0" cy="25" r="7" />
-                        <text x="0" y="45">第五�?/text>
+                        <text x="0" y="45">第五章</text>
                     </g>
                     <g class="station" onclick="scrollToSection('ch6')" data-target="ch6" transform="translate(610, 0)">
                         <circle cx="0" cy="25" r="7" />
-                        <text x="0" y="45">第六�?/text>
+                        <text x="0" y="45">第六章</text>
                     </g>
                     <g class="station" onclick="scrollToSection('ch7')" data-target="ch7" transform="translate(722, 0)">
                         <circle cx="0" cy="25" r="7" />
-                        <text x="0" y="45">第七�?/text>
+                        <text x="0" y="45">第七章</text>
                     </g>
                     <g class="station" onclick="scrollToSection('ch8')" data-target="ch8" transform="translate(834, 0)">
                         <circle cx="0" cy="25" r="7" />
-                        <text x="0" y="45">第八�?/text>
+                        <text x="0" y="45">第八章</text>
                     </g>
                     <g class="station" onclick="scrollToSection('ch9')" data-target="ch9" transform="translate(950, 0)">
                         <circle cx="0" cy="25" r="8" style="stroke-width: 4;" />
@@ -479,8 +622,16 @@
 
     <main class="review-container">
         <div class="header-card">
-            <h1 class="title">工业 App 应用开发期末复习讲�?/h1>
-            <p class="subtitle">全书划线重点问题线性梳�?· 🔥 核心高频考点重点标记</p>
+            <h1 class="title">工业 App 应用开发期末复习讲义</h1>
+            <p class="subtitle">全书划线重点问题线性梳理 · 🔥 核心高频考点重点标记</p>
+            <div class="mode-toggle-container">
+                <button id="btn-mode-memorize" class="mode-btn active" onclick="setAppMode('memorize')">
+                    <i class="fa-solid fa-eye-slash"></i> 遮挡背诵模式 (自测)
+                </button>
+                <button id="btn-mode-read" class="mode-btn" onclick="setAppMode('read')">
+                    <i class="fa-solid fa-book-open"></i> 连贯阅读模式
+                </button>
+            </div>
         </div>
 
         <div id="sections-wrapper">
@@ -489,7 +640,7 @@
     </main>
 
     <script src="../data.js"></script>
-    <script>
+        <script>
         const katexOptions = {
             delimiters: [
                 {left: '$$', right: '$$', display: true},
@@ -502,63 +653,85 @@
 
         const sectionInfo = [
             { 
-                id: "ch1", name: "第一章：智能制造范式与金字塔结�?, prefix: "第一�?,
-                role: "🌱 见习工程�?, storyTitle: "入职第一天：宏伟的蓝�?,
-                storyText: "你站在智能工厂的巨大数字屏幕前。导师拍了拍你的肩膀：“要开发工�?App，首先得看懂这座工厂。”你必须弄清楚智能制造的三大范式，以及这座工厂是如何通过五层金字塔结构严密运转的�?
+                id: "ch1", name: "第一章：智能制造范式与金字塔结构", prefix: "第一章",
+                role: "🌱 见习工程师", storyTitle: "入职第一天：宏伟的蓝图",
+                storyText: "你站在智能工厂的巨大数字屏幕前。导师拍了拍你的肩膀：“要开发工业 App，首先得看懂这座工厂。”你必须弄清楚智能制造的三大范式，以及这座工厂是如何通过五层金字塔结构严密运转的。"
             },
             { 
-                id: "ch2", name: "第二章：集成电路与计算机软件基础", prefix: "第二�?,
-                role: "🔧 硬件拆解�?, storyTitle: "底层探秘：从沙子到智�?,
-                storyText: "宏观架构了解后，你被带到了无尘车间。机器轰鸣声中，你要探究工厂设备的大脑——芯片是如何制造的，以及工业软件如何作为灵魂，指挥着这些冷冰冰的硬件�?
+                id: "ch2", name: "第二章：集成电路与计算机软件基础", prefix: "第二章",
+                role: "🔧 硬件拆解员", storyTitle: "底层探秘：从沙子到智慧",
+                storyText: "宏观架构了解后，你被带到了无尘车间。机器轰鸣声中，你要探究工厂设备的大脑——芯片是如何制造的，以及工业软件如何作为灵魂，指挥着这些冷冰冰的硬件。"
             },
             { 
-                id: "ch3", name: "第三章：数字传感与数字控制技�?, prefix: "3.",
-                role: "🦾 躯体塑造�?, storyTitle: "赋予感知与手�?,
-                storyText: "软件再聪明，没有眼睛和手脚也无法干活。你的下一个任务是给工厂装上神经末梢（传感器），并调参PID等数字控制算法，让机械臂的每一次移动都精准无误�?
+                id: "ch3", name: "第三章：数字传感与数字控制技术", prefix: "3.",
+                role: "🦾 躯体塑造者", storyTitle: "赋予感知与手脚",
+                storyText: "软件再聪明，没有眼睛和手脚也无法干活。你的下一个任务是给工厂装上神经末梢（传感器），并调参PID等数字控制算法，让机械臂的每一次移动都精准无误。"
             },
             { 
-                id: "ch4", name: "第四章：数字通信与网络互�?, prefix: "4.",
-                role: "🌐 织网蜘蛛�?, storyTitle: "连接孤岛：网络的桥梁",
-                storyText: "设备都动起来了，但它们是彼此孤立的。你拉起网线，部署数字通信协议�?G �?TSN（时间敏感网络），让海量数据在设备之间无延迟地穿梭，让工厂真正“连”在一起�?
+                id: "ch4", name: "第四章：数字通信与网络互联", prefix: "4.",
+                role: "🌐 织网蜘蛛侠", storyTitle: "连接孤岛：网络的桥梁",
+                storyText: "设备都动起来了，但它们是彼此孤立的。你拉起网线，部署数字通信协议、5G 和 TSN（时间敏感网络），让海量数据在设备之间无延迟地穿梭，让工厂真正“连”在一起。"
             },
             { 
                 id: "ch5", name: "第五章：云计算与边缘计算", prefix: "5.",
-                role: "☁️ 云端架构�?, storyTitle: "冲上云霄：算力无�?,
-                storyText: "数据量呈指数级爆发，单台设备根本算不过来！你果断将目光投向了云计算和边缘计算，分配算力资源，打破性能瓶颈�?
+                role: "☁️ 云端架构师", storyTitle: "冲上云霄：算力无界",
+                storyText: "数据量呈指数级爆发，单台设备根本算不过来！你果断将目光投向了云计算和边缘计算，分配算力资源，打破性能瓶颈。"
             },
             { 
                 id: "ch6", name: "第六章：工业互联网与网络安全要素", prefix: "6.",
-                role: "🛡�?赛博守望�?, storyTitle: "钢铁长城：守卫数据疆�?,
-                storyText: "随着工厂完全联网，潜伏在暗处的黑客盯上了你们的数据。你紧急部署网络安全防线，抵御恶意攻击，保卫刚刚建立起的工业互联网�?
+                role: "🛡️ 赛博守望者", storyTitle: "钢铁长城：守卫数据疆土",
+                storyText: "随着工厂完全联网，潜伏在暗处的黑客盯上了你们的数据。你紧急部署网络安全防线，抵御恶意攻击，保卫刚刚建立起的工业互联网。"
             },
             { 
-                id: "ch7", name: "第七章：大数据智能与联邦学习", prefix: "第七�?,
+                id: "ch7", name: "第七章：大数据智能与联邦学习", prefix: "第七章",
                 role: "🧙 数据炼金术士", storyTitle: "数据炼金：越用越聪明",
-                storyText: "工厂积累了堆积如山的运行数据。你引入了大数据智能，甚至使用了“联邦学习”这一黑科技，让多个工厂在不泄露商业机密的情况下共同训练 AI 模型�?
+                storyText: "工厂积累了堆积如山的运行数据。你引入了大数据智能，甚至使用了“联邦学习”这一黑科技，让多个工厂在不泄露商业机密的情况下共同训练 AI 模型。"
             },
             { 
-                id: "ch8", name: "第八章：工业智能定义与数字孪�?, prefix: "第八�?,
-                role: "🌌 孪生造物�?, storyTitle: "终极形态：虚拟与现实的交响",
-                storyText: "你终于触及了工业 App 的巅峰领域。你在赛博空间中完美复刻了一座一模一样的数字虚拟工厂（数字孪生），在虚拟中预演，在现实中执行。智能制造，大功告成�?
+                id: "ch8", name: "第八章：工业智能定义与数字孪生", prefix: "第八章",
+                role: "🌌 孪生造物主", storyTitle: "终极形态：虚拟与现实的交响",
+                storyText: "你终于触及了工业 App 的巅峰领域。你在赛博空间中完美复刻了一座一模一样的数字虚拟工厂（数字孪生），在虚拟中预演，在现实中执行。智能制造，大功告成！"
             },
             { 
-                id: "ch9", name: "设计案例：实�?7 智能设备点检 APP", prefix: "实验7",
-                role: "👑 首席架构�?, storyTitle: "实战演练：毕业设�?,
+                id: "ch9", name: "设计案例：实验 7 智能设备点检 APP", prefix: "实验7",
+                role: "👑 首席架构师", storyTitle: "实战演练：毕业设计",
                 storyText: "警报响起，车间一台关键设备出现异常！现在，将你一路走来学到的所有软硬件知识融会贯通，开发出“智能设备点检 App”，完成你的毕业首秀吧！"
             }
         ];
 
         // Core Exam keywords for marking as high frequency key cards
         const keyKeywords = [
-            "范式主要特征", "赋能技�?, "五层次的金字�?, "作用各是什�?, "哪几个工�?, "工业软件类别",
-            "数据库关键技�?, "传感�?, "控制技�?, "边缘计算", "生态体�?, "网络安全", "联邦学习", 
-            "工业智能的定�?, "数字孪生中的关键技�?, "实验7"
+            "范式主要特征", "赋能技术", "五层次的金字塔", "作用各是什么", "哪几个工序", "工业软件类别",
+            "数据库关键技术", "传感器", "控制技术", "边缘计算", "生态体系", "网络安全", "联邦学习", 
+            "工业智能的定义", "数字孪生中的关键技术", "实验7"
         ];
+
+        window.currentAppMode = 'memorize'; // 'memorize' (collapsed) or 'read' (expanded)
 
         function isKeyCard(card) {
             const q = card.q || "";
             const title = card.title || "";
             return keyKeywords.some(keyword => q.includes(keyword) || title.includes(keyword));
+        }
+
+        function setAppMode(mode) {
+            window.currentAppMode = mode;
+            const btnMemorize = document.getElementById('btn-mode-memorize');
+            const btnRead = document.getElementById('btn-mode-read');
+
+            if (mode === 'memorize') {
+                btnMemorize.classList.add('active');
+                btnRead.classList.remove('active');
+                document.querySelectorAll('.concept-card').forEach(card => {
+                    card.classList.remove('expanded');
+                });
+            } else {
+                btnMemorize.classList.remove('active');
+                btnRead.classList.add('active');
+                document.querySelectorAll('.concept-card').forEach(card => {
+                    card.classList.add('expanded');
+                });
+            }
         }
 
         function initReview() {
@@ -567,7 +740,8 @@
             if (!iaShortAnswers || !Array.isArray(iaShortAnswers.cards)) {
                 document.getElementById('sections-wrapper').innerHTML = `
                     <div class="empty-state" style="padding:40px; text-align:center; color:var(--text-weak);">
-                        未加载到讲义数据，请确认 data.js 配置�?                    </div>`;
+                        未加载到讲义数据，请确认 data.js 配置。
+                    </div>`;
                 return;
             }
 
@@ -624,7 +798,16 @@
                     sectionCards.forEach(card => {
                         const isKey = isKeyCard(card);
                         const cardEl = document.createElement('div');
-                        cardEl.className = 'concept-card';
+                        
+                        // Default state based on currentAppMode
+                        const isExpanded = (window.currentAppMode === 'read');
+                        cardEl.className = `concept-card ${isExpanded ? 'expanded' : ''}`;
+                        
+                        // Toggle on click
+                        cardEl.addEventListener('click', (e) => {
+                            if (e.target.tagName === 'A' || e.target.closest('a')) return;
+                            cardEl.classList.toggle('expanded');
+                        });
 
                         // Meta Row
                         const metaEl = document.createElement('div');
@@ -641,21 +824,43 @@
                             keyBadge.innerHTML = `<i class="fa-solid fa-fire"></i> 核心高频考点`;
                             metaEl.appendChild(keyBadge);
                         }
+                        cardEl.appendChild(metaEl);
 
-                        // Question
+                        // Header (Question + Chevron icon)
+                        const headerRow = document.createElement('div');
+                        headerRow.className = 'concept-header-row';
+
                         const qEl = document.createElement('h3');
                         qEl.className = 'concept-q';
                         qEl.innerHTML = card.q;
+                        headerRow.appendChild(qEl);
 
-                        // Mnemonic
-                        const mnemonicEl = document.createElement('div');
-                        mnemonicEl.className = 'concept-mnemonic';
-                        mnemonicEl.innerHTML = `
-                            <span class="mnemonic-icon">🧠</span>
-                            <div class="mnemonic-content">
-                                <strong>记忆口诀�?/strong>${card.tip || '暂无口诀'}
-                            </div>
-                        `;
+                        const expandIcon = document.createElement('div');
+                        expandIcon.className = 'expand-icon';
+                        expandIcon.innerHTML = `<i class="fa-solid fa-chevron-down"></i>`;
+                        headerRow.appendChild(expandIcon);
+
+                        cardEl.appendChild(headerRow);
+
+                        // Expandable wrapper
+                        const expandableContent = document.createElement('div');
+                        expandableContent.className = 'card-expandable-content';
+
+                        const expandableInner = document.createElement('div');
+                        expandableInner.className = 'card-expandable-inner';
+
+                        // Mnemonic Tip
+                        if (card.tip && card.tip.trim() !== '') {
+                            const mnemonicEl = document.createElement('div');
+                            mnemonicEl.className = 'concept-mnemonic';
+                            mnemonicEl.innerHTML = `
+                                <span class="mnemonic-icon">🧠</span>
+                                <div class="mnemonic-content">
+                                    <strong>记忆口诀：</strong>${card.tip}
+                                </div>
+                            `;
+                            expandableInner.appendChild(mnemonicEl);
+                        }
 
                         // Answer Detail
                         const aWrapEl = document.createElement('div');
@@ -671,11 +876,10 @@
 
                         aWrapEl.appendChild(aTitle);
                         aWrapEl.appendChild(aContent);
+                        expandableInner.appendChild(aWrapEl);
 
-                        cardEl.appendChild(metaEl);
-                        cardEl.appendChild(qEl);
-                        cardEl.appendChild(mnemonicEl);
-                        cardEl.appendChild(aWrapEl);
+                        expandableContent.appendChild(expandableInner);
+                        cardEl.appendChild(expandableContent);
 
                         conceptListEl.appendChild(cardEl);
                     });
@@ -734,7 +938,6 @@
                             }
                         });
 
-                        // Svg progress line computation
                         const activeIndex = sectionInfo.findIndex(sec => sec.id === sectionId);
                         if (activeIndex !== -1) {
                             const xCoordinates = [50, 162, 274, 386, 498, 610, 722, 834, 950];
@@ -751,7 +954,5 @@
 
         window.addEventListener('DOMContentLoaded', initReview);
     </script>
-<script src="../js/loader.js"></script>
 </body>
 </html>
-
