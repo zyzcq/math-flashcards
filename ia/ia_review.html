@@ -547,6 +547,102 @@
             line-height: 1.65;
         }
 
+        /* Premium Case Study Layout (Not a flashcard) */
+        .case-study-board {
+            background: rgba(255, 255, 255, 0.4);
+            border-radius: 16px;
+            padding: 30px;
+            border: 1px solid var(--border-glass);
+            box-shadow: var(--shadow-glass);
+            margin-top: 10px;
+        }
+        [data-theme="dark"] .case-study-board {
+            background: rgba(15, 23, 42, 0.3);
+        }
+        .case-study-header {
+            border-bottom: 2px solid var(--blue-500);
+            padding-bottom: 18px;
+            margin-bottom: 24px;
+        }
+        .case-study-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: var(--blue-50);
+            color: var(--blue-600);
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.78rem;
+            font-weight: 800;
+            margin-bottom: 12px;
+            border: 1px solid var(--blue-100);
+        }
+        [data-theme="dark"] .case-study-badge {
+            background: rgba(59, 130, 246, 0.15);
+            color: #60a5fa;
+            border-color: rgba(59, 130, 246, 0.25);
+        }
+        .case-study-title {
+            font-size: 1.22rem;
+            font-weight: 800;
+            color: var(--text-main);
+            margin: 0 0 8px 0;
+            line-height: 1.45;
+        }
+        .case-study-desc {
+            font-size: 0.88rem;
+            color: var(--text-weak);
+            line-height: 1.5;
+        }
+        .case-study-content .sa-list {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        .case-study-content .sa-item {
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 12px;
+            padding: 20px;
+            border: 1px solid var(--border-glass);
+            display: flex;
+            gap: 16px;
+        }
+        [data-theme="dark"] .case-study-content .sa-item {
+            background: rgba(30, 41, 59, 0.15);
+        }
+        .case-study-content .sa-badge {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--blue-500);
+            color: white;
+            font-weight: 800;
+            font-size: 0.95rem;
+            flex-shrink: 0;
+            box-shadow: 0 4px 10px rgba(37, 99, 235, 0.2);
+        }
+        .case-study-content .sa-content {
+            flex: 1;
+        }
+        .case-study-content .sa-title {
+            font-size: 1.05rem;
+            color: var(--text-main);
+            display: block;
+            margin-bottom: 10px;
+            border-bottom: 1px dashed var(--border-glass);
+            padding-bottom: 6px;
+        }
+        .case-study-content .sa-desc ul {
+            margin: 0;
+            padding-left: 20px;
+        }
+        .case-study-content .sa-desc li {
+            margin-bottom: 8px;
+        }
+
         @media (max-width: 640px) {
             .section-card { padding: 20px 16px; }
             .concept-card { padding: 16px 18px; }
@@ -800,6 +896,27 @@
                 // Concept Cards List
                 const conceptListEl = document.createElement('div');
                 conceptListEl.className = 'concept-list';
+
+                if (section.id === 'ch9') {
+                    const caseCard = sectionCards[0];
+                    if (caseCard) {
+                        const caseStudyEl = document.createElement('div');
+                        caseStudyEl.className = 'case-study-board';
+                        caseStudyEl.innerHTML = `
+                            <div class="case-study-header">
+                                <div class="case-study-badge"><i class="fa-solid fa-graduation-cap"></i> 期末大案例分析</div>
+                                <h3 class="case-study-title">${caseCard.q.replace(/\\n/g, '<br>').replace(/\\n/g, '<br>')}</h3>
+                                <div class="case-study-desc">本设计基于合理的工程逻辑，严密参考《工业 APP 白皮书》及实验7原型规范，构建闭环运维系统。</div>
+                            </div>
+                            <div class="case-study-content">
+                                ${caseCard.a}
+                            </div>
+                        `;
+                        sectionEl.appendChild(caseStudyEl);
+                        sectionsWrapper.appendChild(sectionEl);
+                        return;
+                    }
+                }
 
                 if (sectionCards.length === 0) {
                     conceptListEl.innerHTML = `<div style="color:var(--text-weak); font-size:0.9rem; padding:10px 0;">暂无数据</div>`;
