@@ -167,6 +167,37 @@
             letter-spacing: 0.015em;
         }
         
+        /* 针对案例分析/长题目的特殊处理 */
+        .q-text-long {
+            font-size: 0.95rem;
+            font-weight: 500;
+            color: var(--text-color);
+            max-height: 35vh; /* 限制最高高度 */
+            overflow-y: auto;
+            padding-right: 12px;
+            margin-bottom: 1.5rem;
+            border-left: 4px solid var(--accent-color);
+            padding-left: 1rem;
+            background: rgba(133, 153, 0, 0.03); /* 微弱的强调背景 */
+            border-radius: 0 8px 8px 0;
+            padding-top: 0.8rem;
+            padding-bottom: 0.8rem;
+        }
+        .q-text-long::-webkit-scrollbar {
+            width: 6px;
+        }
+        .q-text-long::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.02);
+            border-radius: 4px;
+        }
+        .q-text-long::-webkit-scrollbar-thumb {
+            background-color: var(--border-color);
+            border-radius: 4px;
+        }
+        .q-text-long::-webkit-scrollbar-thumb:hover {
+            background-color: var(--text-weak);
+        }
+        
         .options-grid { display: grid; gap: 0.8rem; }
         .option-btn { 
             background: var(--bg-card); 
@@ -489,6 +520,11 @@
                     <h3 style="color: var(--theme-green);">模拟考试</h3>
                     <p>随机抽取 20 题<br>全书混合 · 实战演练</p>
                     <div class="stat-pill" id="stat-mock">最高正确率: 0%</div>
+                </div>
+                <div class="menu-card" id="btn-cases" onclick="window.location.href='ia_cases.html'" style="border-color: var(--blue-500); background: rgba(59, 130, 246, 0.04);">
+                    <div class="menu-badge" style="color: var(--blue-500); opacity:0.15;">🏆</div>
+                    <h3 style="color: var(--blue-500);">压轴案例专区</h3>
+                    <p>沉浸式大题背诵<br><span style="font-weight:bold">实验7</span>等综合设计题</p>
                 </div>
  
                 <div class="menu-card" id="btn-mistakes" onclick="app.startMode('mistakes')" style="border-color: var(--theme-accent); background: rgba(204, 109, 78, 0.04);">
@@ -1205,7 +1241,15 @@ class App {
         document.getElementById('q-tag').textContent = `第 ${q.chapter} 章 ${q.type === 1 ? '单选题' : '填空题'}`;
         
         // 渲染题干
-        document.getElementById('q-text').textContent = q.q;
+        const qTextEl = document.getElementById('q-text');
+        qTextEl.textContent = q.q;
+        
+        // 针对案例分析卡/超长题目的自适应处理
+        if (q.q.length > 150 || q.q.includes('案例') || q.q.includes('实验7') || q.q.includes('痛点分析')) {
+            qTextEl.classList.add('q-text-long');
+        } else {
+            qTextEl.classList.remove('q-text-long');
+        }
         
         // 重置底部区域
         document.getElementById('explanation').classList.add('hide');

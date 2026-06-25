@@ -19,6 +19,14 @@ const appData = {
     "url": "ia/ia_quiz.html",
     "cards": []
 },
+    ia_cases: {
+        "id": "ia_cases",
+        "title": "工业 App 应用开发：压轴案例专区",
+        "subtitle": "沉浸式大题背诵 · 实验7综合设计题",
+        "themeColor": "blue",
+        "type": "article",
+        "url": "ia/ia_cases.html"
+    },
     ia_short_answers: {
     "id": "ia_short_answers",
     "title": "工业 App 应用开发：简答题与案例分析",
