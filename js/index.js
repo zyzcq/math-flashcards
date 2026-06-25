@@ -307,9 +307,9 @@ function renderModule(module) {
                 </div>
                 <div class="course-actions">
                     ${item.lecture ? `
-                    <a class="course-action-btn lecture-btn" href="${escapeAttribute(lectureUrl)}" aria-label="${title}完整讲义">
+                    <a class="course-action-btn lecture-btn" href="${escapeAttribute(lectureUrl)}" aria-label="${title}${escapeAttribute(item.lecture.btnText || '完整讲义')}">
                         <span class="btn-text">
-                            <i class="fa-solid fa-book-open"></i> 完整讲义
+                            <i class="fa-solid ${escapeAttribute(item.lecture.btnIcon || 'fa-book-open')}"></i> ${escapeHtml(item.lecture.btnText || '完整讲义')}
                         </span>
                         <span class="btn-status">
                             ${renderProgress(item.lecture, lectureProgress)}

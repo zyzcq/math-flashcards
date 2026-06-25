@@ -25,7 +25,9 @@ const appData = {
         "subtitle": "沉浸式大题背诵 · 实验7综合设计题",
         "themeColor": "blue",
         "type": "article",
-        "url": "ia/ia_cases.html"
+        "url": "ia/ia_cases.html",
+        "btnText": "案例题",
+        "btnIcon": "fa-swatchbook"
     },
     ia_short_answers: {
     "id": "ia_short_answers",
@@ -2279,7 +2281,7 @@ const siteData = [
                 themeColor: "blue",
                 type: "course",
                 examTime: "2026-06-29T08:50:00+08:00",
-                lecture: appData.ia_review,
+                lecture: appData.ia_cases,
                 quiz: appData.ia_quiz,
                 flashcard: appData.ia_short_answers
             }
@@ -2547,7 +2549,7 @@ const siteData = [
         }
         const iaCourse = majorCategory.items.find(item => item.id === "ia_course");
         if (iaCourse) {
-            iaCourse.lecture = appData.ia_review;
+            iaCourse.lecture = appData.ia_cases;
             iaCourse.quiz = appData.ia_quiz;
             iaCourse.flashcard = appData.ia_short_answers;
         }
