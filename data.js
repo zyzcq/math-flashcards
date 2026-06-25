@@ -29,6 +29,33 @@ const appData = {
         "btnText": "案例题",
         "btnIcon": "fa-swatchbook"
     },
+    se_cases: {
+        id: "se_cases",
+        title: "软件测试：课程设计案例专区",
+        subtitle: "黑马头条内容管理 · 功能/接口/性能测试设计",
+        themeColor: "fuchsia",
+        type: "article",
+        url: "se/se_cases.html",
+        btnText: "案例题",
+        btnIcon: "fa-swatchbook",
+        cards: [
+            {
+                title: "黑马头条内容管理：功能测试点与用例设计",
+                q: "在软件测试课程设计中，针对“黑马头条系统”后台管理端的“内容管理模块”（主要包括内容列表展示、搜索内容查询、发布状态/日期筛选、上架/下架操作等），请进行详细的测试点分析，并基于等价类、边界值和场景法，设计出一套完整的功能测试用例表，列出至少 8 个核心用例的步骤、数据及预期结果。",
+                a: `<div class='sa-list'>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-fuchsia'>析</span>\n    <div class='sa-content'>\n      <b class='sa-title'>测试点分析 (Test Point Analysis)</b>：\n      <span class='sa-desc'>\n        <ul>\n          <li><b>列表展示</b>：首次进入正常加载文章，字段（序号、标题、作者、状态、时间等）完整。</li>\n          <li><b>搜索查询</b>：支持模糊查询已存在标题；查询不存在标题时正常显空且不报错；查询条件为空时恢复展示全部。</li>\n          <li><b>状态筛选</b>：筛选“已上架”或“已下架”或“全部”，数据需百分百对齐。</li>\n          <li><b>日期筛选</b>：根据所选时间范围精准过滤；对“开始日期晚于结束日期”等异常日期范围做纠偏或合理提示。</li>\n          <li><b>上下架操作</b>：状态为已下架文章可“上架”，状态为已上架文章可“下架”，点击后系统提示操作成功并即时刷新列表状态。</li>\n          <li><b>按钮状态控制</b>：已上架文章的“上架”按钮必须置灰不可点击，已下架文章的“下架”按钮必须置灰。</li>\n        </ul>\n      </span>\n    </div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-sky'>例</span>\n    <div class='sa-content'>\n      <b class='sa-title'>核心功能测试用例表 (Test Cases Table)</b>：\n      <span class='sa-desc'>\n        <table class='sa-table' style='width:100%; border-collapse: collapse; margin-top: 8px;'>\n          <thead>\n            <tr style='background: rgba(217, 70, 239, 0.1); border-bottom: 2px solid var(--fuchsia-500);'>\n              <th style='padding: 6px; text-align: left;'>用例编号</th>\n              <th style='padding: 6px; text-align: left;'>测试名称</th>\n              <th style='padding: 6px; text-align: left;'>测试数据</th>\n              <th style='padding: 6px; text-align: left;'>预期结果</th>\n            </tr>\n          </thead>\n          <tbody>\n            <tr style='border-bottom: 1px solid rgba(255,255,255,0.1);'>\n              <td style='padding: 6px;'>hmtt-001</td>\n              <td style='padding: 6px;'>内容列表展示</td>\n              <td style='padding: 6px;'>无</td>\n              <td style='padding: 6px;'>成功进入内容管理页面，展示文章列表，各字段展示完整。</td>\n            </tr>\n            <tr style='border-bottom: 1px solid rgba(255,255,255,0.1);'>\n              <td style='padding: 6px;'>hmtt-002</td>\n              <td style='padding: 6px;'>搜索存在标题</td>\n              <td style='padding: 6px;'>工作计划</td>\n              <td style='padding: 6px;'>系统展示标题包含\"工作计划\"的文章，如\"工作计划如何制定，来听听专家怎么说\"。</td>\n            </tr>\n            <tr style='border-bottom: 1px solid rgba(255,255,255,0.1);'>\n              <td style='padding: 6px;'>hmtt-003</td>\n              <td style='padding: 6px;'>查询不存在标题</td>\n              <td style='padding: 6px;'>不存在文章999</td>\n              <td style='padding: 6px;'>系统无匹配数据，页面显示空数据提示，页面不报错。</td>\n            </tr>\n            <tr style='border-bottom: 1px solid rgba(255,255,255,0.1);'>\n              <td style='padding: 6px;'>hmtt-005</td>\n              <td style='padding: 6px;'>已上架状态筛选</td>\n              <td style='padding: 6px;'>发布状态：已上架</td>\n              <td style='padding: 6px;'>系统只展示状态为\"已上架\"的文章。</td>\n            </tr>\n            <tr style='border-bottom: 1px solid rgba(255,255,255,0.1);'>\n              <td style='padding: 6px;'>hmtt-008</td>\n              <td style='padding: 6px;'>异常日期范围筛选</td>\n              <td style='padding: 6px;'>开始:2026-06-22 结束:2021-07-10</td>\n              <td style='padding: 6px;'>系统提示日期范围不合法，或不执行查询，页面不报错。</td>\n            </tr>\n            <tr style='border-bottom: 1px solid rgba(255,255,255,0.1);'>\n              <td style='padding: 6px;'>hmtt-011</td>\n              <td style='padding: 6px;'>文章下架成功</td>\n              <td style='padding: 6px;'>文章：工作计划如何制定...</td>\n              <td style='padding: 6px;'>点击\"下架\"并确认，系统提示操作成功，文章状态更新为\"已下架\"。</td>\n            </tr>\n            <tr style='border-bottom: 1px solid rgba(255,255,255,0.1);'>\n              <td style='padding: 6px;'>hmtt-012</td>\n              <td style='padding: 6px;'>文章上架成功</td>\n              <td style='padding: 6px;'>文章：工作计划如何制定...</td>\n              <td style='padding: 6px;'>点击\"上架\"并确认，系统提示操作成功，文章状态更新为\"已上架\"。</td>\n            </tr>\n            <tr style='border-bottom: 1px solid rgba(255,255,255,0.1);'>\n              <td style='padding: 6px;'>hmtt-014</td>\n              <td style='padding: 6px;'>按钮状态控制</td>\n              <td style='padding: 6px;'>检查状态与操作区</td>\n              <td style='padding: 6px;'>已下架文章的“下架”按钮置灰，已上架的“上架”按钮置灰，交互防错。</td>\n            </tr>\n          </tbody>\n        </table>\n      </span>\n    </div>\n  </div>\n</div>`
+            },
+            {
+                title: "黑马头条内容管理：接口测试流程与 Postman 实践",
+                q: "在内容管理模块的测试中，除了进行手工页面功能测试外，还需要对后端服务接口进行校验。请指出该模块中最核心的两个接口（列表查询接口和文章状态变更接口）的请求方式、请求地址及常用的请求参数类型与参数体格式，并详述在使用 Postman 进行接口测试时的流程及如何处理鉴权登录凭证（Token）。",
+                a: `<div class='sa-list'>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-sky'>口</span>\n    <div class='sa-content'>\n      <b class='sa-title'>核心接口详细数据 (API Endpoint Metadata)</b>：\n      <span class='sa-desc'>\n        <ul>\n          <li><b>内容列表查询接口</b>：\n            <br>• 请求路径：<code>/service_6001/wemedia/api/v1/news/findPublished</code>\n            <br>• 请求方式：<code>POST</code>\n            <br>• 参数格式：<code>JSON</code> 请求负载，如 <code>{"beginDate":"2021-07-09","endDate":"2021-07-11","page":1,"size":10}</code>\n          </li>\n          <li><b>文章状态变更接口 (上架/下架)</b>：\n            <br>• 请求路径：<code>/service_6001/wemedia/api/v1/news/down_or_up</code>\n            <br>• 请求方式：<code>POST</code>\n            <br>• 参数格式：<code>JSON</code> 请求负载，如 <code>{"id":6463,"enable":0}</code> （其中 <code>enable=0</code> 代表下架，<code>enable=1</code> 代表上架）\n          </li>\n        </ul>\n      </span>\n    </div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-violet'>测</span>\n    <div class='sa-content'>\n      <b class='sa-title'>Postman 接口测试流程与鉴权处理</b>：\n      <span class='sa-desc'>\n        <ol>\n          <li><b>抓取真实请求</b>：在浏览器中登录后台系统，按 F12 打开开发者工具，在 Network 选项卡中抓取上述两个接口的真实 Headers、Payload 和 Authorization 信息。</li>\n          <li><b>配置 Postman 请求</b>：\n            <br>• 在 Postman 中新建请求，选择请求方式为 <code>POST</code>，输入接口的完整 URL。\n            <br>• 在 Headers 标签页下，除配置标准的 <code>Content-Type: application/json</code> 外，必须将抓取到的 Token 填入请求头（例如 <code>Token: xxx</code>），否则接口会返回 <code>401 Unauthorized</code> 错误。\n            <br>• 在 Body 标签页中选择 <code>raw</code> -> <code>JSON</code>，输入测试用的 JSON 参数体。\n          </li>\n          <li><b>验证断言 (Assertion)</b>：\n            <br>• 检查 HTTP 响应状态码是否为 <code>200 OK</code>。\n            <br>• 检查返回体 JSON 格式，如 <code>code</code> 必须为 200 或 0，检查 <code>data</code> 返回的数据是否准确，<code>errorMessage</code> 是否为空。\n          </li>\n        </ol>\n      </span>\n    </div>\n  </div>\n</div>`
+            },
+            {
+                title: "JMeter 接口性能测试配置与本地工具异常诊断",
+                q: "在对“黑马头条内容管理查询”接口做并发性能测试时，如何利用 Apache JMeter 进行基础配置？若在测试运行中，JMeter 报错提示 `Could not delete existing file D:\\app\\JMeter\\bin` 导致无法生成性能测试聚合报告，请对该问题进行分析并给出正确的测试缺陷判定及处理方案。",
+                a: `<div class='sa-list'>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-emerald'>置</span>\n    <div class='sa-content'>\n      <b class='sa-title'>JMeter 基础性能测试配置要点</b>：\n      <span class='sa-desc'>\n        <ul>\n          <li><b>添加线程组</b>：配置并发线程数（如 5 到 50 线程）、Ramp-up 时间（如 1 秒内启动所有并发）以及循环次数（通常为 1 或持续运行时间）。</li>\n          <li><b>HTTP 请求元件</b>：配置协议为 <code>https</code>，服务器域名为被测后台地址，方法选择 <code>POST</code>，路径输入 <code>/service_6001/wemedia/api/v1/news/findPublished</code>。</li>\n          <li><b>HTTP 信息头管理器</b>：必须添加请求头 <code>Content-Type: application/json</code> 以及登录凭证 <code>Token</code>，确保并发请求通过系统的安全验证。</li>\n          <li><b>监听器</b>：添加“聚合报告 (Aggregate Report)” and “察看结果树 (View Results Tree)”用于搜集性能数据。</li>\n        </ul>\n      </span>\n    </div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-rose'>诊</span>\n    <div class='sa-content'>\n      <b class='sa-title'>本地工具异常分析与处理</b>：\n      <span class='sa-desc'>\n        <ul>\n          <li><b>异常原因</b>：JMeter 在生成测试报告时，会指定一个输出文件夹或 CSV 结果文件。如果用户将性能测试的结果文件路径直接配置为了 JMeter 自身的 bin 目录（或未指定具体文件名导致其误判），JMeter 就会尝试删除或重置该文件夹。Windows 系统出于文件占用和保护机制，会拒绝该删除操作，抛出 <code>Could not delete existing file D:\\app\\JMeter\\bin</code> 错误，从而导致聚合报告文件写入失败。</li>\n          <li><b>缺陷判定</b>：<b>该异常属于测试工具本地配置错误，绝对不能判定为被测系统（黑马头条）的软件缺陷。</b></li>\n          <li><b>处理方案</b>：\n            <br>① 修改 JMeter 聚合报告或结果文件保存路径，确保其指向一个新建的、拥有完全读写权限的本地文件夹（例如 <code>D:\\test_results\\report.csv</code>），避开 JMeter 自身的 bin 路径。\n            <br>② 在提交测试报告时，如实记录此工具报错的现象与成因，但不能将其列为被测系统的 Bug。\n          </li>\n        </ul>\n      </span>\n    </div>\n  </div>\n</div>`
+            }
+        ]
+    },
     ia_short_answers: {
     "id": "ia_short_answers",
     "title": "工业 App 应用开发：简答题与案例分析",
@@ -2251,6 +2278,7 @@ const siteData = [
                 themeColor: "fuchsia",
                 type: "course",
                 examTime: "2026-06-30T08:50:00+08:00",
+                lecture: appData.se_cases,
                 quiz: appData.se_quiz,
                 flashcard: appData.se_short_answers
             },
@@ -2556,6 +2584,12 @@ const siteData = [
         const spCourse = majorCategory.items.find(item => item.id === "sp_course");
         if (spCourse) {
             spCourse.flashcard = appData.sp_short_answers;
+        }
+        const seCourse = majorCategory.items.find(item => item.id === "se_course");
+        if (seCourse) {
+            seCourse.lecture = appData.se_cases;
+            seCourse.quiz = appData.se_quiz;
+            seCourse.flashcard = appData.se_short_answers;
         }
     }
 

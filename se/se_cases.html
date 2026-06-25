@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>压轴案例专区</title>
+    <link rel="stylesheet" href="../css/common.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js"></script>
+    <style>
+        :root {
+            --blue-50: #fdf4ff;
+            --blue-100: #fae8ff;
+            --blue-500: #d946ef;
+            --blue-600: #c026d3;
+            --blue-700: #a21caf;
+            --blue-800: #86198f;
+            --blue-900: #701a75;
+            --accent-glow: rgba(217, 70, 239, 0.12);
+            --bg-glass: rgba(255, 255, 255, 0.75);
+            --border-glass: rgba(226, 232, 240, 0.8);
+            --shadow-glass: 0 8px 30px rgba(0, 0, 0, 0.03);
+            --shadow-glass-hover: 0 12px 35px rgba(217, 70, 239, 0.08);
+        }
+        [data-theme="dark"] {
+            --blue-50: rgba(217, 70, 239, 0.1);
+            --blue-100: rgba(217, 70, 239, 0.2);
+            --blue-500: #d946ef;
+            --blue-600: #e879f9;
+            --blue-700: #c026d3;
+            --blue-800: #a21caf;
+            --blue-900: #86198f;
+            --accent-glow: rgba(217, 70, 239, 0.25);
+            --bg-glass: rgba(15, 23, 42, 0.6);
+            --border-glass: rgba(255, 255, 255, 0.08);
+            --shadow-glass: 0 8px 30px rgba(0, 0, 0, 0.25);
+            --shadow-glass-hover: 0 12px 35px rgba(0, 0, 0, 0.35);
+        }
+        
+        body { 
+            margin: 0; 
+            background: var(--bg-app); 
+            color: var(--text-main); 
+            line-height: 1.6; 
+            background-image: 
+                radial-gradient(at 0% 0%, rgba(217, 70, 239, 0.03) 0px, transparent 50%),
+                radial-gradient(at 100% 100%, rgba(232, 121, 249, 0.03) 0px, transparent 50%);
+            background-attachment: fixed;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            transition: background-color 0.3s;
+        }
+
+        /* Topbar */
+        .topbar { 
+            position: sticky; 
+            top: 0; 
+            z-index: 100; 
+            backdrop-filter: blur(20px); 
+            -webkit-backdrop-filter: blur(20px); 
+            background: color-mix(in srgb, var(--bg-app) 80%, transparent); 
+            border-bottom: 1px solid var(--border-glass); 
+            padding: 12px 0; 
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.01);
+            transition: all 0.3s;
+        }
+        .topbar-inner { 
+            width: min(1200px, calc(100% - 32px)); 
+            margin: 0 auto; 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+        }
+        .topbar-left { display: flex; align-items: center; gap: 12px; }
+        .back-btn { 
+            background: var(--bg-glass); 
+            border: 1px solid var(--border-glass); 
+            color: var(--text-main); 
+            width: 36px; height: 36px; 
+            border-radius: 50%; 
+            display: flex; align-items: center; justify-content: center; 
+            cursor: pointer; 
+            transition: all 0.2s; 
+            text-decoration: none; 
+        }
+        .back-btn:hover { background: var(--blue-50); color: var(--blue-600); transform: translateX(-2px); }
+        .topbar-title { font-weight: 700; font-size: 1.1rem; letter-spacing: 0.5px; }
+        .theme-toggle { background: none; border: none; font-size: 1.2rem; cursor: pointer; color: var(--text-main); padding: 4px; transition: transform 0.3s; }
+        
+        .container {
+            width: min(1200px, calc(100% - 32px));
+            margin: 2rem auto 4rem auto;
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        .hero-section {
+            text-align: center;
+            padding: 3rem 1rem;
+            background: var(--bg-glass);
+            border: 1px solid var(--border-glass);
+            border-radius: 24px;
+            box-shadow: var(--shadow-glass);
+            position: relative;
+            overflow: hidden;
+        }
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            top: -50%; left: -50%;
+            width: 200%; height: 200%;
+            background: radial-gradient(circle, var(--accent-glow) 0%, transparent 60%);
+            z-index: 0;
+            pointer-events: none;
+        }
+        .hero-content {
+            position: relative;
+            z-index: 1;
+        }
+        .hero-title {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin: 0 0 1rem 0;
+            background: linear-gradient(135deg, var(--blue-500), var(--sky-500));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .hero-subtitle {
+            font-size: 1.1rem;
+            color: var(--text-weak);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Case Card */
+        .case-card {
+            background: var(--bg-glass);
+            border: 1px solid var(--border-glass);
+            border-radius: 20px;
+            box-shadow: var(--shadow-glass);
+            overflow: hidden;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .case-card:hover {
+            box-shadow: var(--shadow-glass-hover);
+        }
+        .case-header {
+            padding: 1.5rem 2rem;
+            background: var(--bg-card);
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+        .case-badge {
+            background: var(--blue-100);
+            color: var(--blue-700);
+            padding: 6px 12px;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .case-title {
+            font-size: 1.4rem;
+            font-weight: 700;
+            margin: 0;
+            color: var(--heading-color);
+        }
+
+        .case-body {
+            padding: 0;
+            display: grid;
+            grid-template-columns: 1fr;
+            background: var(--bg-app);
+        }
+        @media (min-width: 900px) {
+            .case-body {
+                grid-template-columns: 1fr 1fr;
+            }
+            .case-question-col {
+                border-right: 1px solid var(--border-color);
+            }
+        }
+
+        .case-col {
+            padding: 2rem;
+        }
+        .col-title {
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: var(--text-weak);
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 600;
+        }
+
+        /* Question specific */
+        .q-text {
+            font-size: 1.05rem;
+            line-height: 1.8;
+            color: var(--text-color);
+            white-space: pre-wrap;
+        }
+        .q-tip {
+            margin-top: 2rem;
+            padding: 1.5rem;
+            background: var(--code-bg);
+            border-left: 4px solid var(--blue-500);
+            border-radius: 0 12px 12px 0;
+            font-size: 0.95rem;
+            display: none; /* Shown when toggled */
+        }
+        .q-tip.active {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+
+        /* Answer specific */
+        .answer-overlay {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100%;
+            min-height: 200px;
+            background: var(--bg-card);
+            border-radius: 12px;
+            text-align: center;
+            padding: 2rem;
+        }
+        .btn-reveal {
+            background: var(--blue-600);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s, transform 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .btn-reveal:hover {
+            background: var(--blue-700);
+            transform: translateY(-2px);
+        }
+        .answer-content {
+            display: none;
+        }
+        .answer-content.active {
+            display: block;
+            animation: fadeIn 0.4s ease;
+        }
+
+        /* Answer List Styles (Extracted from review) */
+        .sa-list { display: flex; flex-direction: column; gap: 1rem; }
+        .sa-item { 
+            display: flex; 
+            gap: 1rem; 
+            background: var(--bg-glass); 
+            padding: 1rem; 
+            border-radius: 12px; 
+            border: 1px solid var(--border-glass); 
+            align-items: flex-start;
+        }
+        .sa-badge {
+            width: 32px; height: 32px; 
+            border-radius: 8px; 
+            display: flex; align-items: center; justify-content: center; 
+            font-weight: 700; font-size: 0.9rem; 
+            flex-shrink: 0; color: white;
+            margin-top: 2px;
+        }
+        .sa-badge-blue { background: linear-gradient(135deg, var(--blue-500), var(--blue-600)); box-shadow: 0 4px 10px rgba(37,99,235,0.3); }
+        .sa-content { flex: 1; }
+        .sa-title { font-size: 1.05rem; display: block; margin-bottom: 0.3rem; color: var(--heading-color); }
+        .sa-desc { font-size: 0.95rem; color: var(--text-weak); line-height: 1.6; display: block; }
+        .sa-desc ul { padding-left: 1.2rem; margin: 0.5rem 0; }
+        .sa-desc li { margin-bottom: 0.3rem; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Action bar for switching */
+        .case-actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+            background: var(--bg-card);
+            border-top: 1px solid var(--border-color);
+        }
+        .btn-text {
+            background: none; border: none;
+            color: var(--text-weak);
+            font-size: 0.9rem; font-weight: 600;
+            cursor: pointer; padding: 8px 12px;
+            transition: color 0.2s;
+            display: flex; align-items: center; gap: 6px;
+        }
+        .btn-text:hover { color: var(--blue-500); }
+
+    </style>
+</head>
+<body>
+
+    <div class="topbar">
+        <div class="topbar-inner">
+            <div class="topbar-left">
+                <a href="se_quiz.html" class="back-btn"><i class="fa-solid fa-arrow-left"></i></a>
+                <div class="topbar-title">🏆 课程设计案例专区</div>
+            </div>
+            <button class="theme-toggle" id="theme-btn" title="切换主题">
+                <i class="fa-solid fa-sun" id="theme-icon"></i>
+            </button>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="hero-section">
+            <div class="hero-content">
+                <h1 class="hero-title">高分冲刺 · 压轴题集</h1>
+                <p class="hero-subtitle">沉浸式阅读软件测试报告，掌握功能测试用例设计、接口测试与性能异常分析的核心思路。</p>
+            </div>
+        </div>
+
+        <div id="cases-container">
+            <!-- Cases will be injected here -->
+            <div style="text-align:center; padding: 3rem; color: var(--text-weak);">
+                <i class="fa-solid fa-circle-notch fa-spin fa-2x"></i>
+                <p style="margin-top:1rem;">正在加载案例库...</p>
+            </div>
+        </div>
+    </div>
+
+    <script src="../data.js"></script>
+    <script>
+        // 主题初始化
+        let savedTheme = localStorage.getItem('theme') || 'light';
+        document.documentElement.setAttribute('data-theme', savedTheme);
+        const themeIcon = document.getElementById('theme-icon');
+        if (savedTheme === 'dark') themeIcon.className = 'fa-solid fa-moon';
+
+        document.getElementById('theme-btn').onclick = () => {
+            const current = document.documentElement.getAttribute('data-theme');
+            const next = current === 'light' ? 'dark' : 'light';
+            document.documentElement.setAttribute('data-theme', next);
+            localStorage.setItem('theme', next);
+            themeIcon.className = next === 'dark' ? 'fa-solid fa-moon' : 'fa-solid fa-sun';
+        };
+
+        // 数据加载与渲染
+        document.addEventListener('DOMContentLoaded', () => {
+            const container = document.getElementById('cases-container');
+            
+            // 获取案例分析题
+            let cases = [];
+            if (typeof appData !== 'undefined' && appData.se_cases && appData.se_cases.cards) {
+                cases = appData.se_cases.cards;
+            }
+
+            if (cases.length === 0) {
+                container.innerHTML = `
+                    <div style="text-align:center; padding: 4rem; background: var(--bg-glass); border-radius: 20px; border: 1px dashed var(--border-color);">
+                        <i class="fa-solid fa-inbox fa-3x" style="color: var(--border-color); margin-bottom: 1rem;"></i>
+                        <p>未在题库中找到压轴案例题。</p>
+                    </div>`;
+                return;
+            }
+
+            container.innerHTML = '';
+            
+            cases.forEach((c, index) => {
+                const card = document.createElement('div');
+                card.className = 'case-card';
+                
+                const tipHtml = c.tip ? `<div class="q-tip" id="tip-${index}">${c.tip}</div>` : '';
+                
+                card.innerHTML = `
+                    <div class="case-header">
+                        <div class="case-badge"><i class="fa-solid fa-star"></i> 案例分析 ${index + 1}</div>
+                        <h2 class="case-title">${c.title}</h2>
+                    </div>
+                    <div class="case-body">
+                        <!-- 左侧：题目区 -->
+                        <div class="case-col case-question-col">
+                            <div class="col-title"><i class="fa-solid fa-clipboard-question"></i> 背景与任务</div>
+                            <div class="q-text">${c.q}</div>
+                            ${tipHtml}
+                        </div>
+                        
+                        <!-- 右侧：答案区 -->
+                        <div class="case-col case-answer-col">
+                            <div class="col-title"><i class="fa-solid fa-lightbulb"></i> 标准解析</div>
+                            
+                            <!-- 遮罩 -->
+                            <div class="answer-overlay" id="overlay-${index}">
+                                <button class="btn-reveal" onclick="revealAnswer(${index})">
+                                    <i class="fa-solid fa-eye"></i> 展开大题解析
+                                </button>
+                                <p style="font-size:0.85rem; color:var(--text-weak); margin-top:12px;">建议先在脑海中构思框架，再核对答案</p>
+                            </div>
+                            
+                            <!-- 解析内容 -->
+                            <div class="answer-content" id="answer-${index}">
+                                ${c.a}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="case-actions">
+                        <button class="btn-text" onclick="toggleTip(${index})"><i class="fa-solid fa-key"></i> 显示记忆口诀</button>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+
+            // 渲染数学公式
+            renderMathInElement(container, {
+                delimiters: [
+                    {left: '$$', right: '$$', display: true},
+                    {left: '$', right: '$', display: false},
+                    {left: '\\(', right: '\\)', display: false},
+                    {left: '\\[', right: '\\]', display: true}
+                ],
+                throwOnError: false
+            });
+        });
+
+        // 展开答案
+        window.revealAnswer = function(index) {
+            document.getElementById(`overlay-${index}`).style.display = 'none';
+            document.getElementById(`answer-${index}`).classList.add('active');
+        };
+
+        // 切换口诀
+        window.toggleTip = function(index) {
+            const tip = document.getElementById(`tip-${index}`);
+            if (tip) {
+                if (tip.classList.contains('active')) {
+                    tip.classList.remove('active');
+                } else {
+                    tip.classList.add('active');
+                }
+            }
+        };
+    </script>
+</body>
+</html>
