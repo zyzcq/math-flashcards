@@ -339,8 +339,9 @@ function nextCard() {
 }
 
 function prevCard() {
-    if (currentIndex <= 0) return;
-    goToCard(currentIndex - 1, 'prev');
+    if (cardsData.length === 0) return;
+    const prevIndex = currentIndex > 0 ? currentIndex - 1 : cardsData.length - 1;
+    goToCard(prevIndex, 'prev');
 }
 
 function shuffleCards() {
@@ -370,7 +371,7 @@ function updateUI() {
     dom.progressBar.style.width = `${percent}%`;
     dom.progressBar.setAttribute('aria-valuenow', String(Math.round(percent)));
 
-    dom.prevBtn.disabled = currentIndex === 0 || total === 0;
+    dom.prevBtn.disabled = total === 0;
     dom.nextBtn.disabled = total === 0;
 
     if (total === 0) {
