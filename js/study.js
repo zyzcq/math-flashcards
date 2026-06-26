@@ -301,6 +301,11 @@ function flipCard(event) {
     if (cardsData.length === 0) return;
     if (window.getSelection().toString().length > 0) return;
 
+    if (hasMoved) {
+        hasMoved = false;
+        return;
+    }
+
     const target = event?.target;
     if (target?.closest?.('a, button, input, textarea, select, [data-no-flip]')) return;
 
@@ -404,17 +409,29 @@ document.addEventListener('keydown', (event) => {
 
 let touchStartX = 0;
 let touchStartY = 0;
+let hasMoved = false;
 
 dom.swipeZone.addEventListener('touchstart', event => {
     const touch = event.changedTouches[0];
-    touchStartX = touch.screenX;
-    touchStartY = touch.screenY;
+    touchStartX = touch.clientX;
+    touchStartY = touch.clientY;
+    hasMoved = false;
+}, {passive: true});
+
+dom.swipeZone.addEventListener('touchmove', event => {
+    if (event.changedTouches.length === 0) return;
+    const touch = event.changedTouches[0];
+    const deltaX = Math.abs(touch.clientX - touchStartX);
+    const deltaY = Math.abs(touch.clientY - touchStartY);
+    if (deltaX > 10 || deltaY > 10) {
+        hasMoved = true;
+    }
 }, {passive: true});
 
 dom.swipeZone.addEventListener('touchend', event => {
     const touch = event.changedTouches[0];
-    const deltaX = touchStartX - touch.screenX;
-    const deltaY = touchStartY - touch.screenY;
+    const deltaX = touchStartX - touch.clientX;
+    const deltaY = touchStartY - touch.clientY;
 
     if (Math.abs(deltaX) <= 50 || Math.abs(deltaX) <= Math.abs(deltaY)) return;
 

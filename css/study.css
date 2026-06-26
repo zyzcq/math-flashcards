@@ -187,6 +187,8 @@ a:focus-visible {
     display: flex;
     flex-direction: column;
     -webkit-overflow-scrolling: touch;
+    transform: translateZ(0);
+    -webkit-transform: translateZ(0);
 }
 
 .mnemonic-box {
