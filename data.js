@@ -2642,6 +2642,15 @@ const siteData = [
             card.tip = makeTip(card, tip[0], tip[1] || [], tip[2] || '');
         });
     };
+    const cleanCardText = card => {
+        ['q', 'tip', 'a'].forEach(field => {
+            if (typeof card[field] !== 'string') return;
+            card[field] = card[field]
+                .replace(/\s+and\s+/g, '和')
+                .replace(/In app\.json中加入配置/g, '在 app.json 中加入配置')
+                .replace(/如<my-component \/>/g, '如<code>&lt;my-component /&gt;</code>');
+        });
+    };
 
     applyIndexedTips(asCards(appData.ia_short_answers), [
         ["数网智三步走，技术融合往上升", ["数字化：计算机、感知、控制、通信进制造", "网络化：互联网把设备、系统、企业连起来", "智能化：AI、大数据、5G让系统会感知、会决策"]],
@@ -2744,8 +2753,14 @@ const siteData = [
     });
 
     appData.se_short_answers.subtitle = "高频已标注 · 口诀化速背";
+    appData.wx_short_answers.title = "移动应用开发技术：核心简答闪卡";
     appData.wx_short_answers.subtitle = "高频已标注 · 移动应用口诀速背";
     appData.ia_short_answers.subtitle = "工业 App 口诀速背 · 章节骨架化记忆";
+    [
+        ...asCards(appData.ia_short_answers),
+        ...asCards(appData.se_short_answers),
+        ...asCards(appData.wx_short_answers)
+    ].forEach(cleanCardText);
 })();
 
 window.EXAM_SCHEDULE = [
