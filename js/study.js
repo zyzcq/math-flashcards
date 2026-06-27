@@ -250,19 +250,21 @@ function loadCard(index) {
     dom.tipContent.innerHTML = data.tip || '暂无解析';
     dom.aContent.innerHTML = data.a || '';
 
-    // 判断高频考点
+    // 判断高频考点：优先使用数据中的显式标注，旧题库继续兼容关键词判断。
     const keyKeywords = [
         "范式主要特征", "赋能技术", "五层次的金字塔", "作用各是什么", "哪几个工序", "工业软件类别",
         "数据库关键技术", "传感器", "控制技术", "边缘计算", "生态体系", "网络安全", "联邦学习", 
         "工业智能的定义", "数字孪生中的关键技术", "实验7"
     ];
-    const isKey = keyKeywords.some(kw => (data.q || '').includes(kw) || (data.title || '').includes(kw));
+    const explicitHighFreq = data.highFreq === true;
+    const explicitNormal = data.highFreq === false;
+    const isKey = explicitHighFreq || (!explicitNormal && keyKeywords.some(kw => (data.q || '').includes(kw) || (data.title || '').includes(kw)));
     const badgeEl = document.getElementById('high-freq-badge');
     if (badgeEl) {
         if (isKey) {
             badgeEl.innerHTML = `
                 <span class="bg-rose-600/90 backdrop-blur-sm text-white px-2.5 py-1 rounded-full text-[10px] font-black border border-rose-400/20 flex items-center gap-1 shadow-sm">
-                    <i class="fa-solid fa-fire animate-pulse"></i> 核心高频考点
+                    <i class="fa-solid fa-fire animate-pulse"></i> ${data.examTag || '核心高频考点'}
                 </span>
             `;
         } else {
