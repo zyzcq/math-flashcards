@@ -2349,7 +2349,7 @@ const siteData = [
             type: "article",
             url: "mcu/mcu_quiz.html"
         },
-                mcu_points: {
+                        mcu_points: {
             id: "mcu_points",
             title: "嵌入式系统：全书考点速背",
             subtitle: "第一章至第九章核心考点与实验代码",
@@ -2357,61 +2357,80 @@ const siteData = [
             type: "flashcard",
             cards: [
                 {
-                    title: "第一章：嵌入式系统概述 <span style='color: #64748b; font-size: 0.8rem; border: 1px solid #cbd5e1; padding: 2px 6px; border-radius: 4px; margin-left: 8px;'>[理解即可]</span>",
-                    q: "1. 嵌入式系统的特点有哪些？<br>2. 嵌入式系统的应用领域和分类有哪些？",
+                    title: "第一章：嵌入式系统概述 [理解即可]",
+                    highFreq: false,
+                    q: "1. 嵌入式系统的特点有哪些？<br>2. 嵌入式系统的应用领域 and 分类有哪些？",
                     tip: "<b>专用、可裁剪、可靠、寿命长、不垄断、实时</b>",
                     a: "<ul><li><b>特点</b>：专用性、可裁剪性、可靠性、具有较长的生命周期、不易被垄断、实时性。</li><li><b>应用</b>：消费电子、工业控制、汽车电子、网络通信等。</li><li><b>分类</b>：按处理器（MCU、MPU、DSP、SoC）；按实时性（硬实时、软实时）。</li></ul>"
                 },
                 {
-                    title: "第二章与第三章：开发环境与基础结构 <span style='color: #64748b; font-size: 0.8rem; border: 1px solid #cbd5e1; padding: 2px 6px; border-radius: 4px; margin-left: 8px;'>[理解即可]</span>",
+                    title: "第二章与第三章：开发环境与基础结构 [理解即可]",
+                    highFreq: false,
                     q: "1. 典型的嵌入式开发环境包含哪些？开发过程包括哪些步骤？<br>2. 存储器的映射（Memory Mapping）是什么概念？",
                     tip: "宿主机与目标机交叉开发",
                     a: "<ul><li><b>开发环境</b>：交叉开发环境（宿主机、目标机、仿真器/调试线）。</li><li><b>开发过程</b>：需求分析、系统设计、系统实现（编码与交叉编译）、调试与测试、系统发布。</li><li><b>存储器映射</b>：STM32 Cortex-M3 拥有 4GB 的统一寻址空间，将 Flash、SRAM、片上外设寄存器等分配到不同的固定物理地址段的技术叫存储器映射。</li></ul>"
                 },
                 {
-                    title: "第四章：STM32F103 最小系统与时钟 <span style='color: #ef4444; font-size: 0.8rem; border: 1px solid #fca5a5; padding: 2px 6px; border-radius: 4px; margin-left: 8px;'>🚨 [需背诵]</span>",
+                    title: "第四章：STM32F103 最小系统与时钟",
+                    highFreq: true,
+                    examTag: "需要背诵",
                     q: "1. STM32F103最小系统的组成有哪些？<br>2. STM32 输入时钟源有哪些？",
                     a: "<ul><li><b>最小系统五大件</b>：电源电路、复位电路、时钟电路（晶振）、BOOT启动选择电路、调试下载接口（JTAG/SWD）。</li><li><b>五大时钟源</b>：<br>1. <b>HSI</b>：内部高速时钟（RC振荡器，8MHz）<br>2. <b>HSE</b>：外部高速时钟（石英晶振，通常为8MHz）<br>3. <b>LSI</b>：内部低速时钟（RC振荡器，约40kHz，用于看门狗等）<br>4. <b>LSE</b>：外部低速时钟（32.768kHz晶振，用于RTC实时时钟）<br>5. <b>PLL</b>：锁相环倍频输出（用于将时钟倍频到最高 72MHz）</li></ul>"
                 },
                 {
-                    title: "第四章：低功耗模式 <span style='color: #ef4444; font-size: 0.8rem; border: 1px solid #fca5a5; padding: 2px 6px; border-radius: 4px; margin-left: 8px;'>🚨 [需背诵]</span>",
+                    title: "第四章：低功耗模式",
+                    highFreq: true,
+                    examTag: "需要背诵",
                     q: "STM32的低功耗模式有哪些，各自有什么特点？",
                     tip: "睡眠、停机、待机，功耗依次递减",
-                    a: "<ul><li><b>睡眠模式 (Sleep)</b>：CPU停止工作，但所有外设（如定时器、串口）继续运行。功耗最高，唤醒最快（任何中断即可唤醒）。</li><li><b>停机模式 (Stop)</b>：1.8V内核电源依然开启，但所有时钟（HSI、HSE、PLL）都关闭，SRAM 和寄存器内容保留。只有 EXTI 外部中断能唤醒，唤醒延迟中等。</li><li><b>待机模式 (Standby)</b>：1.8V内核电源断开，SRAM和寄存器内容丢失，仅后备区域供电。功耗最低（极省电），只能通过 WKUP 引脚、RTC 闹钟或复位引脚唤醒，相当于重启。</li></ul>"
+                    a: "<ul><li><b>睡眠模式 (Sleep)</b>：CPU停止工作，但所有外设继续运行。功耗最高，唤醒最快（任何中断即可唤醒）。</li><li><b>停机模式 (Stop)</b>：1.8V内核电源依然开启，但所有时钟都关闭，SRAM 和寄存器内容保留。只有 EXTI 外部中断能唤醒。</li><li><b>待机模式 (Standby)</b>：1.8V内核电源断开，SRAM和寄存器内容丢失，仅后备区域供电。功耗最低，只能通过 WKUP 引脚、RTC 闹钟或复位引脚唤醒，相当于重启。</li></ul>"
                 },
                 {
-                    title: "第五章：GPIO 输入输出控制 <span style='color: #ef4444; font-size: 0.8rem; border: 1px solid #fca5a5; padding: 2px 6px; border-radius: 4px; margin-left: 8px;'>🚨 [需背诵]</span>",
+                    title: "第五章：GPIO 输入输出控制",
+                    highFreq: true,
+                    examTag: "需要背诵",
                     q: "1. GPIO 输入输出工作模式有哪 8 种？",
-                    a: "<ul><li><b>4种输入模式</b>：<br>1. <b>浮空输入</b>：电平由外部决定（按键常用）<br>2. <b>上拉输入</b>：默认高电平<br>3. <b>下拉输入</b>：默认低电平<br>4. <b>模拟输入</b>：用于 ADC 采集</li><li><b>4种输出模式</b>：<br>5. <b>开漏输出</b>：只能输出低电平，需要外接上拉电阻才能输出高电平（适合I2C等总线）<br>6. <b>推挽输出</b>：能强力输出高低电平（驱动LED等）<br>7. <b>复用开漏输出</b>：由片上外设（硬件I2C）控制引脚<br>8. <b>复用推挽输出</b>：由片上外设（串口TX、PWM输出）控制引脚</li></ul>"
+                    a: "<ul><li><b>4种输入模式</b>：<br>1. <b>浮空输入</b>：电平由外部决定（按键常用）<br>2. <b>上拉输入</b>：默认高电平<br>3. <b>下拉输入</b>：默认低电平<br>4. <b>模拟输入</b>：用于 ADC 采集</li><li><b>4种输出模式</b>：<br>5. <b>开漏输出</b>：只能输出低电平，需要外接上拉电阻（适合I2C等总线）<br>6. <b>推挽输出</b>：能强力输出高低电平（驱动LED等）<br>7. <b>复用开漏输出</b>：由片上外设（硬件I2C）控制引脚<br>8. <b>复用推挽输出</b>：由片上外设（串口TX、PWM输出）控制引脚</li></ul>"
                 },
                 {
-                    title: "第六章：定时器概述 <span style='color: #ef4444; font-size: 0.8rem; border: 1px solid #fca5a5; padding: 2px 6px; border-radius: 4px; margin-left: 8px;'>🚨 [需背诵]</span>",
+                    title: "第六章：定时器概述",
+                    highFreq: true,
+                    examTag: "需要背诵",
                     q: "STM32F103 可编程的定时器有多少个？各自的主要类型和功能是什么？",
                     a: "共有 <b>8个</b> 定时器：<br><ul><li><b>基本定时器 (TIM6, TIM7)</b>：只有向上计数方向，没有外部引脚，主要用于驱动 DAC 或产生基础精确延时。</li><li><b>通用定时器 (TIM2~TIM5)</b>：支持向上、向下、中心对齐计数，具有 4 个独立通道，可用于输入捕获、输出比较、产生 PWM 等功能。</li><li><b>高级定时器 (TIM1, TIM8)</b>：功能最强，除了具备通用定时器所有功能外，还支持带死区控制的互补 PWM 输出（用于电机控制等）和刹车功能。</li></ul>"
                 },
                 {
-                    title: "第六章：定时器核心寄存器与溢出时间 <span style='color: #ef4444; font-size: 0.8rem; border: 1px solid #fca5a5; padding: 2px 6px; border-radius: 4px; margin-left: 8px;'>🚨 [需背诵]</span>",
+                    title: "第六章：定时器核心寄存器与溢出时间",
+                    highFreq: true,
+                    examTag: "需要背诵",
                     q: "1. 定时器的 ARR、PSC、CCR 寄存器各有什么作用？<br>2. 溢出时间（延时时间）如何计算？",
                     tip: "<b>T = (PSC+1) * (ARR+1) / TIMx_CLK</b>",
                     a: "<ul><li><b>PSC (Prescaler) 预分频寄存器</b>：用于将定时器时钟源（如 72MHz）进行分频，降低计数频率。</li><li><b>ARR (Auto-Reload Register) 自动重装载寄存器</b>：决定计数的周期（上限值），当计数值达到 ARR 时就会产生更新（溢出）中断。</li><li><b>CCR (Capture/Compare Register) 捕获/比较寄存器</b>：用于输入捕获或输出比较，在 PWM 输出中，CCR 的值决定了占空比。</li><li><b>溢出时间公式</b>：<br><code>T = (PSC + 1) * (ARR + 1) / TIMx_CLK</code></li></ul>"
                 },
                 {
-                    title: "第六章：PWM 与精确延时应用 <span style='color: #ef4444; font-size: 0.8rem; border: 1px solid #fca5a5; padding: 2px 6px; border-radius: 4px; margin-left: 8px;'>🚨 [需背诵]</span>",
+                    title: "第六章：PWM 与精确延时应用",
+                    highFreq: true,
+                    examTag: "需要背诵",
                     q: "什么场景用到 PWM？什么场景用到精确定时？",
                     a: "<ul><li><b>PWM (脉冲宽度调制) 场景</b>：通过改变占空比调节平均电压输出。常见于：<b>呼吸灯/氛围灯亮度调节</b>、<b>直流电机速度控制（风扇）</b>、<b>水泵流速控制</b>等。</li><li><b>精确定时场景</b>：用于需要严格时间间隔的操作。常见于：<b>按键消抖</b>、<b>传感器时序控制（如DHT11）</b>、<b>周期性采样任务</b>等。</li></ul>"
                 },
                 {
-                    title: "第七章：中断处理与中断嵌套 <span style='color: #ef4444; font-size: 0.8rem; border: 1px solid #fca5a5; padding: 2px 6px; border-radius: 4px; margin-left: 8px;'>🚨 [需背诵]</span>",
+                    title: "第七章：中断处理与中断嵌套",
+                    highFreq: true,
+                    examTag: "需要背诵",
                     q: "1. 中断处理包括哪些步骤？<br>2. 什么是中断嵌套，怎么产生？",
                     a: "<ul><li><b>中断处理步骤</b>：中断请求 &rarr; 中断响应 &rarr; 保护现场（寄存器压栈） &rarr; 执行中断服务程序(ISR) &rarr; 恢复现场（出栈） &rarr; 中断返回。</li><li><b>中断嵌套</b>：当 CPU 正在执行一个低优先级的中断服务程序时，又来了一个更高优先级的中断请求，CPU 暂停当前服务，转而去执行高优先级的中断，完成后再返回低优先级中断继续执行。</li><li><b>产生条件</b>：必须配置 NVIC 中的<b>抢占优先级</b>，只有新中断的抢占优先级高于当前运行的中断，才会发生嵌套。</li></ul>"
                 },
                 {
-                    title: "第九章：ADC (模数转换器) <span style='color: #64748b; font-size: 0.8rem; border: 1px solid #cbd5e1; padding: 2px 6px; border-radius: 4px; margin-left: 8px;'>[需要了解]</span>",
+                    title: "第九章：ADC (模数转换器) [需要了解]",
+                    highFreq: false,
                     q: "1. 什么是 ADC，有什么作用？<br>2. ADC 的应用场景有哪些？",
                     a: "<ul><li><b>ADC定义及作用</b>：Analog-to-Digital Converter（模数转换器）。它能将连续变化的模拟电压信号转换为离散的数字量，供单片机处理。</li><li><b>ADC量程（分辨率）</b>：STM32F103 的 ADC 通常是 <b>12位</b> 的，数字量范围是 0~4095。若参考电压为 3.3V，则量程转换公式为：实际电压 = (ADC转换值 / 4095) * 3.3V。</li><li><b>应用场景</b>：温度传感器采集、光敏电阻测光、电池电压检测、声音/麦克风信号采集等。</li></ul>"
                 },
                 {
-                    title: "实验与代码：五大核心结构体 <span style='color: #ef4444; font-size: 0.8rem; border: 1px solid #fca5a5; padding: 2px 6px; border-radius: 4px; margin-left: 8px;'>🚨 [需背诵]</span>",
+                    title: "实验与代码：五大核心结构体",
+                    highFreq: true,
+                    examTag: "必须掌握",
                     q: "STM32库函数开发中，常用的五个结构体（GPIO, 定时器, PWM输出比较, NVIC, EXTI）分别有哪些核心成员？",
                     tip: "至少考四个，GPIO必须会！",
                     a: `<div class='sa-list'>
