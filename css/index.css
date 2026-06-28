@@ -1,6 +1,7 @@
 .home-page {
     min-height: 100vh;
-    width: min(100%, 820px);         /* 适度收窄，更符合文章和学习主页的紧凑高级感 */
+    width: 100%;
+    max-width: 820px;
     margin: 0 auto;
     padding: 36px 24px 64px;
     color: var(--text-main);
@@ -501,6 +502,9 @@
 }
 
 @media (min-width: 1024px) {
+    .home-page {
+        max-width: 1200px;
+    }
     .study-list {
         grid-template-columns: repeat(3, minmax(0, 1fr));
     }
