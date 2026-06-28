@@ -2316,7 +2316,7 @@ const siteData = [
             {
                 id: "mcu_course",
                 title: "嵌入式系统",
-                subtitle: "考点速背与大题通关",
+                subtitle: "代码讲义、题库、闪卡三轨通关",
                 themeColor: "emerald",
                 type: "course",
                 examTime: "2026-06-30T19:00:00+08:00",
@@ -2333,12 +2333,14 @@ const siteData = [
 // ====================================================
 (function normalizeCatalogForReviewHome() {
     Object.assign(appData, {
-                mcu_cases: {
+        mcu_cases: {
             id: "mcu_cases",
-            title: "嵌入式系统：大题专区",
-            subtitle: "程序设计题与综合题沉浸式背诵",
+            title: "嵌入式系统：代码题讲义",
+            subtitle: "结构体、程序设计题与实验模板一页通关",
             themeColor: "emerald",
             type: "article",
+            btnText: "代码讲义",
+            btnIcon: "fa-microchip",
             url: "mcu/mcu_cases.html"
         },
         mcu_quiz: {
@@ -2813,6 +2815,13 @@ const siteData = [
         return `<b>最简答题模板：【${memory}】</b><p>考试直接按下面顺序答：</p>${hookList}${examLine}`;
     };
 
+    const makeSaList = (theme, items) => `<div class='sa-list'>${items.map(item => `
+  <div class='sa-item'>
+    <span class='sa-badge sa-badge-${theme}'>${item.k}</span>
+    <div class='sa-content'><b class='sa-title'>${item.t}</b>：<span class='sa-desc'>${item.d}</span></div>
+  </div>`).join('')}
+</div>`;
+
     const applyIndexedTips = (cards, tips) => {
         cards.forEach((card, index) => {
             const tip = tips[index];
@@ -2928,6 +2937,172 @@ const siteData = [
     asCards(appData.wx_short_answers).forEach((card, index) => {
         card.highFreq = wxHighFreq.has(index);
         card.examTag = card.highFreq ? "高频考点" : "常规考点";
+    });
+
+    appData.mcu_points.title = "嵌入式系统：核心考点闪卡";
+    appData.mcu_points.subtitle = "高频已标注 · 按图片范围重排";
+    appData.mcu_points.cards = [
+        {
+            title: "第一章：特点、应用与分类",
+            highFreq: false,
+            examTag: "理解即可",
+            q: "嵌入式系统的特点、应用领域和分类有哪些？",
+            tip: makeTip(null, "专裁可长不实时，应用分类按两线", ["特点：专用、可裁剪、可靠、生命周期长、不易被垄断、实时", "应用：工业控制、消费电子、汽车电子、网络通信", "分类：按处理器分 MCU/MPU/DSP/SoC；按实时性分硬实时/软实时"], "常规考点：选择判断更常见"),
+            a: makeSaList("emerald", [
+                { k: "特", t: "六个特点", d: "专用性、可裁剪性、可靠性、较长生命周期、不易被垄断、实时性。" },
+                { k: "用", t: "应用领域", d: "工业控制、消费电子、汽车电子、医疗设备、智能家居、网络通信等。" },
+                { k: "类", t: "常见分类", d: "按处理器可分为 MCU、MPU、DSP、SoC；按实时性可分为硬实时和软实时系统。" }
+            ])
+        },
+        {
+            title: "第二章：开发环境、工具与过程",
+            highFreq: false,
+            examTag: "理解即可",
+            q: "嵌入式系统的开发环境、开发工具和开发过程分别是什么？",
+            tip: makeTip(null, "宿主目标仿真线，编译调试再下载", ["开发环境：宿主机、目标机、仿真器或调试线", "开发工具：编辑器、交叉编译器、链接器、调试器、烧录工具", "开发过程：需求、设计、编码编译、调试测试、下载发布"], "常规考点：流程顺序别漏"),
+            a: makeSaList("emerald", [
+                { k: "境", t: "交叉开发环境", d: "在宿主机上编写、编译和调试程序，再下载到目标机运行，常配合仿真器、JTAG/SWD 调试线。" },
+                { k: "具", t: "开发工具", d: "常用工具包括集成开发环境、交叉编译器、链接器、调试器、烧录下载工具和仿真器。" },
+                { k: "程", t: "开发过程", d: "需求分析、系统设计、软件/硬件实现、交叉编译、下载调试、系统测试与发布。" }
+            ])
+        },
+        {
+            title: "第三章：寄存器与存储器映射",
+            highFreq: false,
+            examTag: "理解即可",
+            q: "什么是寄存器？什么是存储器映射？",
+            tip: makeTip(null, "寄存器管硬件，地址映射找外设", ["寄存器：CPU或外设内部的高速存储单元", "外设寄存器：用特定位控制硬件工作状态", "存储器映射：把 Flash、SRAM、外设寄存器分配到统一地址空间"], "常规考点：理解即可"),
+            a: makeSaList("emerald", [
+                { k: "寄", t: "寄存器", d: "位于 CPU 或片上外设内部的高速存储单元，用于保存控制位、状态位和数据。" },
+                { k: "控", t: "外设控制", d: "操作外设本质上就是读写对应寄存器，例如 GPIO 模式寄存器、输出数据寄存器、定时器控制寄存器等。" },
+                { k: "映", t: "存储器映射", d: "Cortex-M3 使用统一 4GB 地址空间，把 Flash、SRAM、片上外设寄存器等映射到固定地址段。" }
+            ])
+        },
+        {
+            title: "第四章：STM32F103 最小系统与输入时钟",
+            highFreq: true,
+            examTag: "需要背诵",
+            q: "STM32F103 最小系统由哪些部分组成？输入时钟源有哪些？",
+            tip: makeTip(null, "电复时启调，HSI HSE LSI LSE PLL", ["最小系统：电源、复位、时钟、BOOT启动、调试下载", "高速：HSI内部8MHz，HSE外部晶振", "低速：LSI内部约40kHz，LSE外部32.768kHz", "PLL：锁相环倍频到系统时钟"], "高频考点：第四章需要背诵"),
+            a: makeSaList("emerald", [
+                { k: "系", t: "最小系统五件套", d: "电源电路、复位电路、时钟电路、BOOT 启动选择电路、JTAG/SWD 调试下载接口。" },
+                { k: "高", t: "高速时钟", d: "HSI 是内部高速 RC 时钟，常为 8MHz；HSE 是外部高速晶振，精度更高。" },
+                { k: "低", t: "低速时钟", d: "LSI 是内部低速 RC 时钟，常用于独立看门狗；LSE 是 32.768kHz 外部低速晶振，常用于 RTC。" },
+                { k: "倍", t: "PLL", d: "锁相环倍频输出，可把输入时钟倍频到系统所需频率，STM32F103 最高常用 72MHz。" }
+            ])
+        },
+        {
+            title: "第四章：低功耗模式",
+            highFreq: true,
+            examTag: "需要背诵",
+            q: "STM32 的低功耗模式有哪些？各自有什么特点？",
+            tip: makeTip(null, "睡眠停机待机，越往后越省电", ["睡眠：停 CPU，外设还跑", "停机：时钟关，SRAM和寄存器保留", "待机：内核断电，功耗最低，基本相当重启"], "高频考点：三种模式对比必背"),
+            a: makeSaList("emerald", [
+                { k: "睡", t: "睡眠模式", d: "CPU 停止运行，外设继续工作；功耗降低有限，但唤醒最快，普通中断即可唤醒。" },
+                { k: "停", t: "停机模式", d: "系统时钟关闭，1.8V 内核电源保持，SRAM 和寄存器内容保留；通常由 EXTI 等唤醒。" },
+                { k: "待", t: "待机模式", d: "1.8V 内核电源关闭，SRAM 和大部分寄存器丢失；功耗最低，可由 WKUP、RTC 或复位唤醒。" }
+            ])
+        },
+        {
+            title: "第五章：GPIO 内部结构与 8 种工作模式",
+            highFreq: true,
+            examTag: "需要背诵",
+            q: "GPIO 口内部结构包含什么？输入输出控制器由哪些组成？工作模式有哪几种？",
+            tip: makeTip(null, "浮上拉模拟，开推复开复推", ["内部结构：保护、上下拉、输入缓冲、输出驱动、复用/模拟通路", "4输入：浮空、上拉、下拉、模拟", "4输出：开漏、推挽、复用开漏、复用推挽", "区别：输入看电平，输出能驱动；复用交给外设"], "高频考点：第五章需要背诵"),
+            a: makeSaList("emerald", [
+                { k: "构", t: "GPIO 内部结构", d: "通常包含保护二极管、上拉/下拉电阻、输入缓冲器、输出控制与驱动电路、复用功能通路和模拟输入通路。" },
+                { k: "入", t: "四种输入模式", d: "浮空输入、上拉输入、下拉输入、模拟输入。浮空由外部电平决定；上拉默认高；下拉默认低；模拟输入常用于 ADC。" },
+                { k: "出", t: "四种输出模式", d: "开漏输出、推挽输出、复用开漏输出、复用推挽输出。推挽能主动输出高低电平；开漏常需外接上拉。" },
+                { k: "区", t: "输入输出区别", d: "输入模式主要读取外部电平；输出模式由 MCU 主动驱动引脚；复用模式由串口、定时器、I2C 等片上外设接管引脚。" }
+            ])
+        },
+        {
+            title: "第六章：定时器类型、计数方向与功能",
+            highFreq: true,
+            examTag: "需要背诵",
+            q: "STM32F103 可编程定时器有多少个？主要类型、计数方向和功能是什么？",
+            tip: makeTip(null, "二基四通二高级，上下中心看通高", ["共 8 个：TIM1~TIM8", "基本 TIM6/7：只向上计数", "通用 TIM2~5：向上、向下、中心对齐", "高级 TIM1/8：通用功能加互补PWM、死区、刹车"], "高频考点：定时器类型和功能常考"),
+            a: makeSaList("emerald", [
+                { k: "数", t: "数量", d: "STM32F103 常用可编程定时器共 8 个：TIM1 到 TIM8。" },
+                { k: "基", t: "基本定时器 TIM6/TIM7", d: "结构简单，通常只支持向上计数，无外部通道，常用于基础定时、触发 DAC 等。" },
+                { k: "通", t: "通用定时器 TIM2~TIM5", d: "支持向上、向下、中心对齐计数，带 4 个通道，可做输入捕获、输出比较、PWM、定时中断。" },
+                { k: "高", t: "高级定时器 TIM1/TIM8", d: "除通用定时器功能外，还支持互补 PWM、死区控制、刹车功能，常用于电机控制。" }
+            ])
+        },
+        {
+            title: "第六章：ARR、PSC、CCR 与溢出时间",
+            highFreq: true,
+            examTag: "需要背诵",
+            q: "ARR、PSC、CCR 分别有什么作用？溢出时间如何计算？",
+            tip: makeTip(null, "PSC先分频，ARR定周期，CCR管占空", ["PSC：预分频，决定计数频率", "ARR：自动重装载，决定计数上限和周期", "CCR：捕获/比较，PWM里决定占空比", "公式：T=(PSC+1)*(ARR+1)/TIMx_CLK"], "高频考点：公式和寄存器作用必背"),
+            a: makeSaList("emerald", [
+                { k: "P", t: "PSC 预分频寄存器", d: "把定时器输入时钟分频，计数频率 = TIMx_CLK / (PSC + 1)。" },
+                { k: "A", t: "ARR 自动重装载寄存器", d: "决定计数周期上限，计数到 ARR 后产生更新事件或溢出中断。" },
+                { k: "C", t: "CCR 捕获/比较寄存器", d: "用于输入捕获或输出比较；在 PWM 中，CCR 的值决定有效电平持续时间，即占空比。" },
+                { k: "T", t: "溢出时间公式", d: "<code>T = (PSC + 1) * (ARR + 1) / TIMx_CLK</code>，答题时先写公式，再代入数值。" }
+            ])
+        },
+        {
+            title: "第六章：PWM 与精确定时场景",
+            highFreq: true,
+            examTag: "需要背诵",
+            q: "PWM 常用于什么场景？什么场景需要精确定时？",
+            tip: makeTip(null, "PWM调平均，定时控间隔", ["PWM：呼吸灯、氛围灯、风扇、电机、水泵", "精确定时：按键消抖、传感器时序、周期采样、通信超时", "核心区别：PWM管占空比，定时管时间点"], "高频考点：应用场景容易出简答"),
+            a: makeSaList("emerald", [
+                { k: "P", t: "PWM 场景", d: "通过改变占空比调节平均输出电压或功率，常用于呼吸灯、氛围灯、风扇调速、电机控制、开水泵等。" },
+                { k: "准", t: "精确定时场景", d: "用于需要严格时间间隔的任务，例如按键消抖、传感器时序控制、周期性 ADC 采样、通信超时检测。" },
+                { k: "别", t: "区别", d: "PWM 关注周期内高电平比例；精确定时关注某个固定时间间隔后触发事件。" }
+            ])
+        },
+        {
+            title: "第七章：中断处理与中断嵌套",
+            highFreq: true,
+            examTag: "需要背诵",
+            q: "中断处理包括哪些步骤？什么是中断嵌套，怎么产生？",
+            tip: makeTip(null, "请响保执恢返，高抢占才能嵌", ["步骤：请求、响应、保护现场、执行ISR、恢复现场、返回", "嵌套：高优先级中断打断低优先级 ISR", "条件：NVIC配置抢占优先级，且新中断抢占优先级更高"], "高频考点：第七章需要背诵"),
+            a: makeSaList("emerald", [
+                { k: "步", t: "中断处理步骤", d: "中断请求 → 中断响应 → 保护现场 → 执行中断服务程序 ISR → 恢复现场 → 中断返回。" },
+                { k: "嵌", t: "中断嵌套", d: "CPU 正在执行低优先级中断时，更高抢占优先级的中断到来，CPU 暂停当前 ISR，先执行高优先级 ISR。" },
+                { k: "因", t: "产生条件", d: "必须在 NVIC 中设置抢占优先级；只有新中断的抢占优先级高于当前中断，才会发生嵌套。" }
+            ])
+        },
+        {
+            title: "第九章：ADC 定义、量程与场景",
+            highFreq: false,
+            examTag: "需要了解",
+            q: "什么是 ADC？有什么作用？应用场景和量程如何理解？",
+            tip: makeTip(null, "模拟转数字，零到4095", ["定义：Analog-to-Digital Converter", "作用：把连续电压变成离散数字量", "STM32F103 常见 12 位：0~4095", "场景：温度、光照、电池电压、声音采集"], "常规考点：需要了解"),
+            a: makeSaList("emerald", [
+                { k: "定", t: "ADC 定义", d: "ADC 是模数转换器，把连续变化的模拟电压信号转换成 MCU 能处理的数字量。" },
+                { k: "量", t: "量程与分辨率", d: "STM32F103 ADC 常见为 12 位，数字量范围 0~4095；若参考电压 3.3V，则电压约为 <code>ADC值 / 4095 * 3.3V</code>。" },
+                { k: "景", t: "应用场景", d: "温度传感器、光敏电阻、电池电压检测、声音/麦克风信号、旋钮电位器采集等。" }
+            ])
+        },
+        {
+            title: "代码：五个核心结构体",
+            highFreq: true,
+            examTag: "代码题高频",
+            q: "STM32 库函数开发中，GPIO、定时器、PWM输出比较、NVIC、EXTI 五个结构体分别有哪些核心成员？",
+            tip: makeTip(null, "GPIO必会，时基OC，中断EXTI补齐", ["GPIO：Pin、Speed、Mode", "TIM时基：Period、Prescaler、CounterMode", "PWM/OC：OCMode、OutputState、Pulse、Polarity", "NVIC：IRQChannel、PreemptionPriority、SubPriority、Cmd", "EXTI：Line、Mode、Trigger、LineCmd"], "高频考点：代码题至少背 4 个，GPIO 必会"),
+            a: makeSaList("emerald", [
+                { k: "G", t: "GPIO_InitTypeDef", d: "<code>GPIO_Pin</code>、<code>GPIO_Speed</code>、<code>GPIO_Mode</code>。" },
+                { k: "T", t: "TIM_TimeBaseInitTypeDef", d: "<code>TIM_Period</code>、<code>TIM_Prescaler</code>、<code>TIM_ClockDivision</code>、<code>TIM_CounterMode</code>。" },
+                { k: "O", t: "TIM_OCInitTypeDef", d: "<code>TIM_OCMode</code>、<code>TIM_OutputState</code>、<code>TIM_Pulse</code>、<code>TIM_OCPolarity</code>。" },
+                { k: "N", t: "NVIC_InitTypeDef", d: "<code>NVIC_IRQChannel</code>、<code>NVIC_IRQChannelPreemptionPriority</code>、<code>NVIC_IRQChannelSubPriority</code>、<code>NVIC_IRQChannelCmd</code>。" },
+                { k: "E", t: "EXTI_InitTypeDef", d: "<code>EXTI_Line</code>、<code>EXTI_Mode</code>、<code>EXTI_Trigger</code>、<code>EXTI_LineCmd</code>。" }
+            ])
+        }
+    ];
+
+    appData.mcu_short_answers.title = "嵌入式系统：代码题闪卡";
+    appData.mcu_short_answers.subtitle = "代码题已进讲义 · 闪卡只背答题模板";
+    applyIndexedTips(asCards(appData.mcu_short_answers), [
+        ["先算周期再配四项，开时钟初始化再使能", ["写公式：T=(PSC+1)*(ARR+1)/TIMx_CLK", "代入：100*720/72MHz=1ms", "配置 Period、Prescaler、ClockDivision、CounterMode", "开启 TIM2 时钟，初始化，清标志，使能"], "代码题高频：定时器程序题"],
+        ["开GPIO配PC1，Reset亮Set灭，Delay夹中间", ["写 Delay 空循环", "开 GPIOC 时钟", "PC.1 配推挽输出 50MHz", "while(1) 中 ResetBits 点亮、Delay、SetBits 熄灭、Delay"], "代码题高频：GPIO 实验题"]
+    ]);
+    asCards(appData.mcu_short_answers).forEach(card => {
+        card.highFreq = true;
+        card.examTag = "代码题高频";
     });
 
     appData.se_short_answers.subtitle = "高频已标注 · 最简答题模板";
