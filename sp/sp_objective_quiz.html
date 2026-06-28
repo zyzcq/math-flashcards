@@ -1637,12 +1637,30 @@ class App {
                 const correctAnswerText = Array.isArray(originalAnsIndex)
                     ? originalAnsIndex.map(idx => item[2][idx])
                     : item[2][originalAnsIndex];
-                // 如果是判断题 (只有两个选项，且是 对/错 结构)，则不进行选项乱序以保证 A.对 B.错 顺序
+                // 判断是否为判断题：选项长度为2，且包含肯定的“对”/“正确”及否定的“错”/“错误”
                 const normalizeOption = text => String(text).replace(/^[A-G][.、]\s*/, '').trim();
-                const isTrueFalse = finalOptions.length === 2 &&
-                                    ((normalizeOption(finalOptions[0]) === '对' && normalizeOption(finalOptions[1]) === '错') ||
-                                     (normalizeOption(finalOptions[0]) === '正确' && normalizeOption(finalOptions[1]) === '错误'));
-                if (!isTrueFalse) {
+                const hasTrue = finalOptions.some(opt => {
+                    const norm = normalizeOption(opt);
+                    return norm === '对' || norm === '正确';
+                });
+                const hasFalse = finalOptions.some(opt => {
+                    const norm = normalizeOption(opt);
+                    return norm === '错' || norm === '错误';
+                });
+                const isTrueFalse = finalOptions.length === 2 && hasTrue && hasFalse;
+
+                if (isTrueFalse) {
+                    // 如果是判断题，固定选项顺序：肯定（对/正确）在前，否定（错/错误）在后，防止选项位置乱序及位置不统一
+                    const trueOpt = finalOptions.find(opt => {
+                        const norm = normalizeOption(opt);
+                        return norm === '对' || norm === '正确';
+                    });
+                    const falseOpt = finalOptions.find(opt => {
+                        const norm = normalizeOption(opt);
+                        return norm === '错' || norm === '错误';
+                    });
+                    finalOptions = [trueOpt, falseOpt];
+                } else {
                     for (let i = finalOptions.length - 1; i > 0; i--) {
                         const j = Math.floor(Math.random() * (i + 1));
                         [finalOptions[i], finalOptions[j]] = [finalOptions[j], finalOptions[i]];
