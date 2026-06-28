@@ -2312,6 +2312,16 @@ const siteData = [
                 lecture: appData.ia_cases,
                 quiz: appData.ia_quiz,
                 flashcard: appData.ia_short_answers
+            },
+            {
+                id: "mcu_course",
+                title: "嵌入式系统",
+                subtitle: "选择与大题双轨通关",
+                themeColor: "emerald",
+                type: "course",
+                examTime: "2026-06-30T19:00:00+08:00",
+                quiz: appData.mcu_quiz,
+                flashcard: appData.mcu_short_answers
             }
         ]
     }
@@ -2322,6 +2332,35 @@ const siteData = [
 // ====================================================
 (function normalizeCatalogForReviewHome() {
     Object.assign(appData, {
+        mcu_quiz: {
+            id: "mcu_quiz",
+            title: "嵌入式系统：选择与判断通关",
+            subtitle: "选择与判断 · 全30题",
+            themeColor: "emerald",
+            type: "article",
+            url: "mcu/mcu_quiz.html"
+        },
+        mcu_short_answers: {
+            id: "mcu_short_answers",
+            title: "嵌入式系统：程序设计与综合题闪卡",
+            subtitle: "大题与主观题",
+            themeColor: "emerald",
+            type: "flashcard",
+            cards: [
+                {
+                    title: "程序设计题：TIM2 延时 1ms 程序配置",
+                    q: "使用定时器 TIM2，预分频系数为 100，自动重装载寄存器的值为 720-1，设置时钟模式为向上计数模式（TIMx_CLK=72MHz）。（1）求出定时器的延时时间；（2）使用 TIM_TimeBaseInitTypeDef 结构体，写出延时程序。",
+                    tip: "<b>最简答题模板：【周期装载分频快，使能开启时钟来】</b><p>时钟频率 72MHz，分频系数为 100 时实际分频比 PSC+1=100，自动重装载值 ARR=719。溢出公式为 T = 100 * 720 / 72,000,000 = 1ms。</p>",
+                    a: `<div class='sa-list'>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-emerald'>算</span>\n    <div class='sa-content'>\n      <b class='sa-title'>(1) 定时器延时时间计算</b>：\n      <span class='sa-desc'>根据公式 <code>T = (PSC + 1) * (ARR + 1) / TIMx_CLK</code>。<br>因为实际分频系数为 100，所以 <code>PSC + 1 = 100</code>（寄存器写入值 99）；<br>ARR 自动重装载寄存器的值为 <code>720 - 1 = 719</code>，所以 <code>ARR + 1 = 720</code>；<br><code>TIMx_CLK = 72MHz = 72,000,000Hz</code>。<br>带入计算：<code>T = 100 * 720 / 72,000,000 = 0.001 s = 1 ms</code>。</span>\n    </div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-emerald'>代</span>\n    <div class='sa-content'>\n      <b class='sa-title'>(2) TIM_TimeBaseInitTypeDef 初始化代码</b>：\n      <span class='sa-desc'>\n        <pre style='background: rgba(0,0,0,0.2); padding: 8px; border-radius: 4px; font-family: monospace; overflow-x: auto; color: #a9ffaf;'>\nvoid TIM2_Init(void)\n{\n    TIM_TimeBaseInitTypeDef TIM_TimeBaseStructure;\n    \n    // 开启 TIM2 外设时钟\n    RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM2, ENABLE);\n    \n    // 时基单元配置\n    TIM_TimeBaseStructure.TIM_Period = 720 - 1;                // 自动重装载值\n    TIM_TimeBaseStructure.TIM_Prescaler = 100 - 1;             // 预分频系数\n    TIM_TimeBaseStructure.TIM_ClockDivision = TIM_CKD_DIV1;    // 时钟分割系数\n    TIM_TimeBaseStructure.TIM_CounterMode = TIM_CounterMode_Up;// 向上计数模式\n    \n    TIM_TimeBaseInit(TIM2, &TIM_TimeBaseStructure);\n    \n    // 清除一次更新标志位，防止一启用就进入中断\n    TIM_ClearFlag(TIM2, TIM_FLAG_Update);\n    \n    // 使能 TIM2\n    TIM_Cmd(TIM2, ENABLE);\n}</pre>\n      </span>\n    </div>\n  </div>\n</div>`
+                },
+                {
+                    title: "综合题：PC.1引脚发光二极管D1闪烁实现",
+                    q: "使用 STM32 微控制器 PC.1 引脚接有一发光二极管，用库函数方式编程实现 D1 闪烁。（1）利用非精准延时实现延时功能的延时子程序；（2）画出 D1 小灯实现闪烁功能的流程图；（3）写出 D1 小灯实现闪烁功能的主函数。",
+                    tip: "<b>最简答题模板：【主函数内初始完，Reset点亮Set关】</b><p>配置 PC.1 为推挽输出模式，开启 GPIOC 时钟。主循环中 ResetBits 点亮灯，SetBits 灭灯，两次状态之间使用 Delay 进行软件自减循环延时。</p>",
+                    a: `<div class='sa-list'>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-emerald'>延</span>\n    <div class='sa-content'>\n      <b class='sa-title'>(1) 非精准软件延时子程序</b>：\n      <span class='sa-desc'>\n        <pre style='background: rgba(0,0,0,0.2); padding: 8px; border-radius: 4px; font-family: monospace; color: #a9ffaf;'>\nvoid Delay(vu32 nCount)\n{\n    for(; nCount != 0; nCount--);\n}</pre>\n      </span>\n    </div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-emerald'>图</span>\n    <div class='sa-content'>\n      <b class='sa-title'>(2) 闪烁控制流程图描述</b>：\n      <span class='sa-desc'>\n        <ul style='margin: 0; padding-left: 16px;'>\n          <li><b>Step 1</b>: 系统启动，初始化配置 GPIOC.1 为推挽输出模式，开启相应时钟。</li>\n          <li><b>Step 2</b>: 进入 <code>while(1)</code> 无限主循环。</li>\n          <li><b>Step 3</b>: 调用库函数 <code>GPIO_ResetBits</code> 输出低电平，二极管导通点亮小灯。</li>\n          <li><b>Step 4</b>: 调用 <code>Delay</code> 延时子程序进行软件空循环等待。</li>\n          <li><b>Step 5</b>: 调用库函数 <code>GPIO_SetBits</code> 输出高电平，二极管截止熄灭小灯。</li>\n          <li><b>Step 6</b>: 再次调用 <code>Delay</code> 子程序延时，完毕后跳回 Step 3 循环往复。</li>\n        </ul>\n      </span>\n    </div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-emerald'>主</span>\n    <div class='sa-content'>\n      <b class='sa-title'>(3) 完整主函数及初始化实现</b>：\n      <span class='sa-desc'>\n        <pre style='background: rgba(0,0,0,0.2); padding: 8px; border-radius: 4px; font-family: monospace; overflow-x: auto; color: #a9ffaf;'>\n#include "stm32f10x.h"\n\nvoid Delay(vu32 nCount)\n{\n    for(; nCount != 0; nCount--);\n}\n\nvoid LED_Init(void)\n{\n    GPIO_InitTypeDef GPIO_InitStructure;\n    \n    // 开启 GPIOC 外设时钟\n    RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOC, ENABLE);\n    \n    // 配置 PC.1 引脚\n    GPIO_InitStructure.GPIO_Pin = GPIO_Pin_1;\n    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP; // 推挽输出\n    GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;\n    \n    GPIO_Init(GPIOC, &GPIO_InitStructure);\n}\n\nint main(void)\n{\n    // 初始化 LED GPIO\n    LED_Init();\n    \n    while(1)\n    {\n        // 点亮 LED (输出低电平)\n        GPIO_ResetBits(GPIOC, GPIO_Pin_1);\n        Delay(0x1FFFFF);\n        \n        // 熄灭 LED (输出高电平)\n        GPIO_SetBits(GPIOC, GPIO_Pin_1);\n        Delay(0x1FFFFF);\n    }\n}</pre>\n      </span>\n    </div>\n  </div>\n</div>`
+                }
+            ]
+        },
         c_pointer_adv1: {
             id: "c_pointer_adv1",
             title: "C语言：指针进阶（上）",
@@ -2591,6 +2630,11 @@ const siteData = [
             seCourse.quiz = appData.se_quiz;
             seCourse.flashcard = appData.se_short_answers;
         }
+        const mcuCourse = majorCategory.items.find(item => item.id === "mcu_course");
+        if (mcuCourse) {
+            mcuCourse.quiz = appData.mcu_quiz;
+            mcuCourse.flashcard = appData.mcu_short_answers;
+        }
     }
 
     const cCategory = siteData.find(category => category.categoryId === "c-language");
@@ -2759,7 +2803,8 @@ const siteData = [
     [
         ...asCards(appData.ia_short_answers),
         ...asCards(appData.se_short_answers),
-        ...asCards(appData.wx_short_answers)
+        ...asCards(appData.wx_short_answers),
+        ...asCards(appData.mcu_short_answers)
     ].forEach(cleanCardText);
 })();
 
@@ -2770,5 +2815,5 @@ window.EXAM_SCHEDULE = [
     { date: "06.29 (周一)", time: "08:50-10:50", subject: "工业 App 应用开发", status: "已关联" },
     { date: "06.30 (周二)", time: "08:50-10:50", subject: "软件测试", status: "已关联" },
     { date: "06.30 (周二)", time: "14:00-16:00", subject: "移动应用开发技术", status: "已关联" },
-    { date: "06.30 (周二)", time: "19:00-21:00", subject: "嵌入式系统", status: "未关联" }
+    { date: "06.30 (周二)", time: "19:00-21:00", subject: "嵌入式系统", status: "已关联" }
 ];

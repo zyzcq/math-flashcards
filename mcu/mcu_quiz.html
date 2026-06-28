@@ -1,0 +1,1535 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>嵌入式系统期末通关自测</title>
+    <link rel="stylesheet" href="../css/common.css">
+    <style>
+        :root {
+            /* 引用自 common.css 的色彩与字体，这里作为 quiz 专属映射 */
+            --bg-color: var(--bg-app);
+            --card-bg: var(--bg-card);
+            --text-color: var(--text-main);
+            --heading-color: var(--text-main);
+            --accent-color: #059669;
+            --border-color: rgba(31, 27, 24, 0.08);
+            --shadow: 0 1px 3px rgba(31, 27, 24, 0.01), 0 8px 30px rgba(31, 27, 24, 0.02);
+            --code-bg: rgba(31, 27, 24, 0.03);
+            --btn-shadow: 0 2px 6px rgba(31, 27, 24, 0.04);
+
+            /* 口诀框变量 - 浅色 */
+            --mnemonic-bg: rgba(204, 109, 78, 0.04);
+            --mnemonic-border: rgba(204, 109, 78, 0.3);
+            --mnemonic-text: #059669;
+        }
+
+        [data-theme="dark"] {
+            --border-color: rgba(230, 228, 222, 0.08);
+            --shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+            --code-bg: rgba(230, 228, 222, 0.04);
+            --btn-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+
+            /* 口诀框变量 - 深色 */
+            --mnemonic-bg: rgba(224, 131, 98, 0.06);
+            --mnemonic-border: rgba(224, 131, 98, 0.3);
+            --mnemonic-text: #059669;
+        }
+
+        * { 
+            box-sizing: border-box; 
+            transition: background-color 0.25s ease, color 0.25s ease, border-color 0.25s ease, transform 0.2s ease, box-shadow 0.25s ease; 
+            -webkit-tap-highlight-color: transparent; 
+        }
+        
+        body { 
+            margin: 0; 
+            font-family: var(--font-sans); 
+            background-color: var(--bg-color); 
+            color: var(--text-color); 
+            height: 100vh; 
+            display: flex; 
+            flex-direction: column; 
+            overflow: hidden; 
+            user-select: none; 
+        }
+
+        /* HUD Header */
+        .hud { 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            padding: 0 2rem; 
+            height: 60px; 
+            background: var(--bg-card); 
+            border-bottom: 1px solid var(--border-color); 
+            z-index: 10; 
+            flex-shrink: 0; 
+            box-shadow: 0 1px 2px rgba(31, 27, 24, 0.01);
+        }
+        .stat-group { display: flex; gap: 2rem; }
+        .stat-item { display: flex; flex-direction: column; align-items: center; justify-content: center; line-height: 1.2; }
+        .stat-label { font-size: 0.7rem; color: var(--text-weak); letter-spacing: 0.05em; font-weight: 500; text-transform: uppercase; margin-bottom: 3px; }
+        .stat-value { font-family: var(--font-serif); font-size: 1.15rem; font-weight: 600; color: var(--text-main); }
+        .combo-active { color: var(--theme-accent) !important; animation: pop 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+        
+        /* Main Container */
+        main { flex: 1; display: flex; justify-content: center; align-items: center; padding: 1.5rem; position: relative; overflow: hidden; }
+        .card { 
+            background: var(--card-bg); 
+            width: 100%; 
+            max-width: 820px; 
+            height: 100%; 
+            max-height: 85vh; 
+            padding: 2.5rem; 
+            border-radius: 20px; 
+            box-shadow: var(--shadow); 
+            position: relative; 
+            display: flex; 
+            flex-direction: column; 
+            overflow-y: auto; 
+            border: 1px solid var(--border-color); 
+        }
+        
+        /* Menu Grid */
+        .menu-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; width: 100%; margin-top: 1rem; }
+        .menu-card { 
+            background: var(--bg-card); 
+            border: 1px solid var(--border-color); 
+            border-radius: 14px; 
+            padding: 1.75rem; 
+            cursor: pointer; 
+            text-align: left; 
+            position: relative; 
+            overflow: hidden; 
+            display: flex; 
+            flex-direction: column; 
+            box-shadow: 0 1px 3px rgba(31, 27, 24, 0.01);
+        }
+        .menu-card:hover { 
+            transform: translateY(-2px); 
+            border-color: var(--accent-color); 
+            box-shadow: 0 6px 20px rgba(31, 27, 24, 0.03); 
+        }
+        .menu-card h3 { 
+            margin: 0 0 0.6rem 0; 
+            color: var(--heading-color); 
+            font-family: var(--font-serif);
+            font-size: 1.25rem; 
+            font-weight: 600;
+            display: flex; 
+            align-items: center; 
+            gap: 0.5rem; 
+        }
+        .menu-card p { margin: 0; font-size: 0.9rem; color: var(--text-weak); line-height: 1.5; flex: 1; }
+        .menu-badge { position: absolute; top: 1.25rem; right: 1.25rem; font-size: 1.4rem; color: var(--accent-color); opacity: 0.15; }
+        .menu-card.disabled { opacity: 0.4; pointer-events: none; filter: grayscale(1); }
+        
+        .stat-pill { 
+            margin-top: 1rem; 
+            font-size: 0.75rem; 
+            font-weight: 600; 
+            color: var(--theme-green); 
+            background: rgba(84, 132, 96, 0.08); 
+            padding: 4px 10px; 
+            border-radius: 6px; 
+            align-self: flex-start; 
+            display: none; 
+            border: 1px solid rgba(84, 132, 96, 0.15);
+        }
+        .stat-pill.show { display: inline-block; }
+
+        /* Quiz UI */
+        .progress-container { position: absolute; top: 0; left: 0; right: 0; height: 4px; background: transparent; }
+        .progress-bar { height: 100%; background: var(--accent-color); width: 0%; transition: width 0.4s cubic-bezier(0.16, 1, 0.3, 1); }
+        
+        .q-header { display: flex; justify-content: space-between; margin-bottom: 1.5rem; align-items: center; }
+        .q-tag { 
+            font-size: 0.75rem; 
+            background: var(--code-bg); 
+            color: var(--accent-color); 
+            padding: 4px 10px; 
+            border-radius: 6px; 
+            font-weight: 600; 
+            letter-spacing: 0.5px; 
+            border: 1px solid var(--border-color); 
+        }
+        .q-text { 
+            font-size: 1.3rem; 
+            font-weight: 700; 
+            color: var(--heading-color); 
+            line-height: 1.6; 
+            margin: 0 0 2rem 0; 
+            white-space: pre-wrap; 
+            letter-spacing: 0.015em;
+        }
+        
+        /* 针对案例分析/长题目的特殊处理 */
+        .q-text-long {
+            font-size: 0.95rem;
+            font-weight: 500;
+            color: var(--text-color);
+            max-height: 35vh; /* 限制最高高度 */
+            overflow-y: auto;
+            padding-right: 12px;
+            margin-bottom: 1.5rem;
+            border-left: 4px solid var(--accent-color);
+            padding-left: 1rem;
+            background: rgba(133, 153, 0, 0.03); /* 微弱的强调背景 */
+            border-radius: 0 8px 8px 0;
+            padding-top: 0.8rem;
+            padding-bottom: 0.8rem;
+        }
+        .q-text-long::-webkit-scrollbar {
+            width: 6px;
+        }
+        .q-text-long::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.02);
+            border-radius: 4px;
+        }
+        .q-text-long::-webkit-scrollbar-thumb {
+            background-color: var(--border-color);
+            border-radius: 4px;
+        }
+        .q-text-long::-webkit-scrollbar-thumb:hover {
+            background-color: var(--text-weak);
+        }
+        
+        .options-grid { display: grid; gap: 0.8rem; }
+        .option-btn { 
+            background: var(--bg-card); 
+            border: 1px solid var(--border-color); 
+            padding: 1.1rem 1.4rem; 
+            border-radius: 12px; 
+            text-align: left; 
+            font-size: 0.95rem; 
+            color: var(--text-color); 
+            cursor: pointer; 
+            position: relative; 
+            display: flex; 
+            align-items: flex-start; 
+            line-height: 1.5; 
+            box-shadow: 0 1px 2px rgba(31, 27, 24, 0.01);
+        }
+        .option-key { 
+            font-family: 'JetBrains Mono', monospace; 
+            font-size: 0.8rem; 
+            color: var(--text-weak); 
+            margin-right: 1rem; 
+            border: 1px solid var(--border-color); 
+            width: 24px; 
+            height: 24px; 
+            min-width: 24px; 
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            border-radius: 6px; 
+            margin-top: 1px; 
+            flex-shrink: 0; 
+            background: var(--bg-color);
+            transition: all 0.2s ease;
+        }
+        .option-btn:hover:not(:disabled) { 
+            border-color: var(--accent-color); 
+            transform: translateX(3px); 
+            box-shadow: 0 4px 12px rgba(31, 27, 24, 0.02);
+        }
+        .option-btn:disabled { cursor: default; }
+        
+        .option-btn.correct { 
+            background-color: rgba(84, 132, 96, 0.08) !important; 
+            border-color: var(--theme-green) !important; 
+            color: var(--theme-green) !important; 
+        }
+        .option-btn.correct .option-key { 
+            background: var(--theme-green) !important; 
+            color: white !important; 
+            border-color: var(--theme-green) !important; 
+        }
+        
+        .option-btn.wrong { 
+            background-color: rgba(204, 109, 78, 0.08) !important; 
+            border-color: var(--accent-color) !important; 
+            color: var(--accent-color) !important; 
+            opacity: 0.9; 
+        }
+        .option-btn.wrong .option-key { 
+            background: var(--accent-color) !important; 
+            color: white !important; 
+            border-color: var(--accent-color) !important; 
+        }
+
+        .explanation { 
+            margin-top: 1.5rem; 
+            padding: 1.2rem; 
+            background: var(--code-bg); 
+            border-radius: 12px; 
+            font-size: 0.95rem; 
+            border-left: 3px solid var(--accent-color); 
+            animation: slideUp 0.3s ease; 
+            line-height: 1.6;
+        }
+        .explanation strong { 
+            color: var(--accent-color); 
+            display: block; 
+            margin-bottom: 0.5rem; 
+            font-size: 0.85rem; 
+            text-transform: uppercase; 
+            letter-spacing: 1px; 
+            font-weight: 700;
+        }
+
+        /* Fill-in-the-blank Type2 specific */
+        .type2-container { 
+            background: var(--bg-card); 
+            border-radius: 12px; 
+            border: 1px solid var(--border-color); 
+            padding: 2.5rem 1.5rem; 
+            text-align: center;
+            box-shadow: 0 1px 2px rgba(31, 27, 24, 0.01);
+        }
+        .type2-ans-box { 
+            font-family: var(--font-serif);
+            font-size: 1.4rem; 
+            font-weight: 700; 
+            color: var(--theme-green); 
+            margin: 1.5rem 0; 
+            padding: 1rem; 
+            border: 1.5px dashed var(--theme-green); 
+            border-radius: 12px; 
+            background: rgba(84, 132, 96, 0.04); 
+        }
+
+        /* Results */
+        .result-container { text-align: center; display: flex; flex-direction: column; align-items: center; gap: 1.25rem; padding-top: 1rem; }
+        .score-circle { 
+            width: 120px; 
+            height: 120px; 
+            border-radius: 50%; 
+            border: 4px solid var(--border-color); 
+            display: flex; 
+            flex-direction: column; 
+            justify-content: center; 
+            align-items: center; 
+            margin: 0 auto; 
+            position: relative; 
+            background: var(--bg-card);
+        }
+        .score-val { font-family: var(--font-serif); font-size: 2.6rem; font-weight: 700; color: var(--accent-color); line-height: 1; }
+        .score-label { font-size: 0.75rem; color: var(--text-weak); margin-top: 2px; }
+        
+        .stat-row { display: flex; justify-content: center; gap: 1.5rem; width: 100%; margin: 1rem 0; }
+        .stat-box { 
+            background: var(--bg-card); 
+            padding: 1.25rem; 
+            border-radius: 14px; 
+            flex: 1; 
+            border: 1px solid var(--border-color); 
+            box-shadow: 0 1px 2px rgba(31, 27, 24, 0.01);
+        }
+        .stat-box h4 { margin: 0 0 0.5rem 0; font-size: 0.75rem; color: var(--text-weak); font-weight: 500; }
+        .stat-box .val { font-family: var(--font-serif); font-size: 1.5rem; font-weight: 700; }
+        .val.good { color: var(--theme-green); } 
+        .val.bad { color: var(--accent-color); }
+
+        /* Common Elements */
+        .btn { 
+            padding: 0.8rem 2rem; 
+            border: none; 
+            border-radius: 10px; 
+            font-weight: 500; 
+            cursor: pointer; 
+            font-size: 0.95rem; 
+            transition: all 0.2s ease; 
+            box-shadow: var(--btn-shadow); 
+            display: inline-flex; 
+            align-items: center; 
+            gap: 0.5rem; 
+            justify-content: center; 
+            text-decoration: none; 
+        }
+        .btn:active { transform: scale(0.98); }
+        .btn-primary { background: var(--text-main); color: var(--bg-card); }
+        .btn-primary:hover { background: var(--accent-color); color: white; }
+        .btn-secondary { background: var(--bg-color); color: var(--text-weak); border: 1px solid var(--border-color); }
+        .btn-secondary:hover { background: var(--bg-card); color: var(--text-main); border-color: var(--text-main); }
+        .btn-outline { background: transparent; border: 1px solid var(--border-color); color: var(--text-color); }
+        .btn-outline:hover { border-color: var(--text-main); color: var(--text-main); }
+        .btn-full { width: 100%; margin-top: 1rem; }
+
+        .theme-toggle { background: none; border: none; font-size: 1.2rem; cursor: pointer; color: var(--text-color); padding: 0.5rem; border-radius: 50%; display: flex; align-items: center; justify-content: center; transition: background-color 0.2s; }
+        .theme-toggle:hover { background: var(--code-bg); }
+
+        .hide { display: none !important; }
+        
+        /* Animations */
+        @keyframes pop { 0% { transform: scale(1); } 50% { transform: scale(1.15); } 100% { transform: scale(1); } }
+        @keyframes slideUp { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
+        
+        /* 记忆口诀盒美化 */
+        .quiz-mnemonic-box {
+            margin-top: 1.25rem;
+            padding: 1.2rem;
+            background-color: var(--mnemonic-bg);
+            border: 1.5px dashed var(--mnemonic-border);
+            border-radius: 12px;
+            animation: slideUp 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+            text-align: left;
+        }
+        .quiz-mnemonic-title {
+            color: var(--mnemonic-text);
+            font-family: var(--font-serif);
+            font-size: 0.85rem;
+            margin-bottom: 0.5rem;
+            display: block;
+            letter-spacing: 0.05em;
+            font-weight: 700;
+        }
+        .quiz-mnemonic-text {
+            color: var(--mnemonic-text);
+            font-weight: 700;
+            font-size: 1.05rem;
+            line-height: 1.5;
+            display: block;
+        }
+
+        /* 题目平滑渐显动画 */
+        @keyframes qFadeIn {
+            from { opacity: 0; transform: translateY(8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .q-fade-in {
+            animation: qFadeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        #confetti-canvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 100; }
+
+        /* 做题卡片 3D 左右侧滑渐变切换 */
+        .q-slide-out {
+            opacity: 0 !important;
+            transform: translateX(-10px) scale(0.99) !important;
+            transition: opacity 0.15s cubic-bezier(0.25, 0.8, 0.25, 1), transform 0.15s cubic-bezier(0.25, 0.8, 0.25, 1) !important;
+        }
+
+        .q-slide-in {
+            animation: qSlideIn 0.38s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        @keyframes qSlideIn {
+            from {
+                opacity: 0;
+                transform: translateX(10px) scale(0.99);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0) scale(1);
+            }
+        }
+
+        /* 右上角控制按钮区 */
+        .hud-actions {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .hud-btn {
+            width: 36px;
+            height: 36px;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            background: var(--bg-card);
+            color: var(--text-weak);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            text-decoration: none;
+            transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
+        }
+
+        .hud-btn:hover {
+            background: rgba(31, 27, 24, 0.03);
+            border-color: var(--theme-accent);
+            color: var(--theme-accent);
+            transform: scale(1.05);
+        }
+
+        [data-theme="dark"] .hud-btn:hover {
+            background: rgba(230, 228, 222, 0.03);
+        }
+
+        .hud-btn:active {
+            transform: scale(0.95);
+        }
+
+        .hud-btn i {
+            font-size: 0.95rem;
+        }
+
+        .theme-icon {
+            transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .theme-icon.rotate-animation {
+            transform: rotate(360deg) scale(1.25);
+        }
+    </style>
+    <script src="../js/analytics-config.js"></script>
+    <script defer src="../js/analytics.js"></script>
+</head>
+<body>
+    <canvas id="confetti-canvas"></canvas>
+
+    <header class="hud">
+        <div class="stat-group">
+            <div class="stat-item">
+                <span class="stat-label">MODE</span>
+                <span class="stat-value" id="hud-mode" style="font-size: 0.9rem">MENU</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-label">SCORE</span>
+                <span class="stat-value" id="hud-score">0</span>
+            </div>
+            <div class="stat-item" id="combo-box">
+                <span class="stat-label">COMBO</span>
+                <span class="stat-value" id="hud-combo">0</span>
+            </div>
+        </div>
+        <div class="hud-actions">
+            <a href="../index.html" class="hud-btn" title="返回首页" aria-label="返回首页">
+                <i class="fa-solid fa-house" aria-hidden="true"></i>
+            </a>
+            <button class="hud-btn" id="theme-btn" title="切换黑夜/白昼模式" aria-label="切换主题">
+                <i class="fa-solid fa-sun theme-icon" id="theme-icon" aria-hidden="true"></i>
+            </button>
+        </div>
+    </header>
+
+    <main>
+        <div id="screen-menu" class="card">
+            <h1 style="color: #059669; margin-bottom: 0.5rem;">嵌入式系统期末题库</h1>
+            <p style="opacity: 0.7; margin-bottom: 2rem;">选择题与判断题 · 课程考点自测</p>
+            
+            <div class="menu-grid">
+                <div class="menu-card" onclick="app.startMode('mock')" style="border-color: var(--theme-green); background: rgba(84, 132, 96, 0.04);">
+                    <div class="menu-badge" style="color: var(--theme-green); opacity:0.15;">🎓</div>
+                    <h3 style="color: var(--theme-green);">模拟考试</h3>
+                    <p>随机抽取 20 题<br>全书混合 · 实战演练</p>
+                    <div class="stat-pill" id="stat-mock">最高正确率: 0%</div>
+                </div>
+                
+                    <h3 style="color: var(--blue-500);">压轴案例专区</h3>
+                    <p>沉浸式大题背诵<br><span style="font-weight:bold">实验7</span>等综合设计题</p>
+                </div>
+ 
+                <div class="menu-card" id="btn-mistakes" onclick="app.startMode('mistakes')" style="border-color: var(--theme-accent); background: rgba(204, 109, 78, 0.04);">
+                    <div class="menu-badge" style="color: var(--theme-accent); opacity:0.15;">🎯</div>
+                    <h3 style="color: var(--theme-accent);">错题攻坚</h3>
+                    <p>重做历史错题<br><span id="mistake-count" style="font-weight:bold">0</span> 道待修复</p>
+                </div>
+
+                <div class="menu-card" onclick="app.startMode('part1')">
+                    <div class="menu-badge">📐</div>
+                    <h3>1. 单项选择题</h3>
+                    <p>共 20 小题</p>
+                    <div class="stat-pill" id="stat-part1">最高正确率: 0%</div>
+                </div>
+                
+                <div class="menu-card" onclick="app.startMode('part2')">
+                    <div class="menu-badge">🚀</div>
+                    <h3>2. 判断题</h3>
+                    <p>共 10 小题</p>
+                    <div class="stat-pill" id="stat-part2">最高正确率: 0%</div>
+                </div>
+            </div>
+            </div>
+            
+            <div style="margin-top: auto; padding-top: 2rem; text-align: center;">
+                <button class="btn btn-outline" onclick="app.clearHistory()" style="font-size: 0.8rem; padding: 0.5rem 1rem;">🗑️ 重置所有进度与错题</button>
+            </div>
+        </div>
+
+        <div id="screen-game" class="card hide">
+            <div class="progress-container"><div class="progress-bar" id="progress-bar"></div></div>
+            
+            <div class="q-header">
+                <span class="q-tag" id="q-tag">Category</span>
+                <span style="font-family: 'JetBrains Mono'; font-weight: 700; opacity: 0.6;" id="q-counter">1/10</span>
+            </div>
+
+            <div id="q-content-area" style="flex:1; overflow-y: auto;">
+                <h2 class="q-text" id="q-text">题目加载中...</h2>
+                
+                <!-- Type 1: 多选题容器 -->
+                <div class="options-grid" id="options-container"></div>
+                
+                <!-- Type 2: 填空题容器 -->
+                <div id="type2-container" class="type2-container hide">
+                    <p style="opacity: 0.8; margin-bottom: 1.5rem;">这是一道填空题。请先在心中想好答案，然后点击下方按钮核对。</p>
+                    <button class="btn btn-primary" id="btn-show-answer">👀 查看正确答案</button>
+                    
+                    <div id="type2-answer-area" class="hide" style="margin-top: 1rem;">
+                        <div class="type2-ans-box" id="type2-correct-answer"></div>
+                        <p style="opacity: 0.8; margin-bottom: 1rem; font-size: 0.9rem;">请诚实地自我评估：</p>
+                        <div style="display: flex; gap: 1rem; justify-content: center;">
+                            <button class="btn btn-outline" id="btn-self-correct" style="color: var(--green); border-color: var(--green);">✅ 我填对了</button>
+                            <button class="btn btn-outline" id="btn-self-wrong" style="color: var(--red); border-color: var(--red);">❌ 我填错了</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="explanation prose prose-sm hide" id="explanation">
+                    <strong>来源与解析</strong>
+                    <span id="exp-text"></span>
+                    <div id="mnemonic-area" class="quiz-mnemonic-box prose prose-sm hide">
+                        <strong class="quiz-mnemonic-title">💡 记忆口诀</strong>
+                        <span id="mnemonic-text" class="quiz-mnemonic-text"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="actions" style="margin-top: 1.5rem; display: flex; justify-content: flex-end;">
+                <button class="btn btn-primary hide" id="next-btn">下一题 (Enter) ➜</button>
+            </div>
+        </div>
+
+        <div id="screen-result" class="card hide">
+            <h2 style="color: var(--heading-color); margin-bottom: 0;">本次挑战完成!</h2>
+            
+            <div class="result-container">
+                <div class="score-circle">
+                    <span class="score-val" id="res-accuracy">0%</span>
+                    <span class="score-label">正确率</span>
+                </div>
+
+                <div class="stat-row">
+                    <div class="stat-box">
+                        <h4>得分</h4>
+                        <div class="val" style="color:var(--blue)" id="res-score">0</div>
+                    </div>
+                    <div class="stat-box">
+                        <h4>最高连击</h4>
+                        <div class="val" style="color:var(--orange)" id="res-combo">0</div>
+                    </div>
+                    <div class="stat-box">
+                        <h4>错题</h4>
+                        <div class="val bad" id="res-wrong">0</div>
+                    </div>
+                </div>
+
+                <div style="width: 100%; display: grid; gap: 1rem; margin-top: 1rem;">
+                    <button class="btn btn-primary" onclick="app.retrySessionMistakes()" id="btn-retry-session">只做刚才做错的题</button>
+                    <button class="btn btn-secondary" onclick="app.toMenu()">返回主菜单</button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+<script>
+/**
+ * 数据源: 软件测试课后习题 (选择与填空)
+ * 格式: [Type, Question, Options/Answer, CorrectIndex/Null, Explanation, Chapter]
+ * Type: 1=选择题, 2=填空题
+ */
+const rawDB = [
+  [
+    1,
+    "带操作系统系统的嵌入式软件的体系结构包括：设备驱动层、操作系统层和（ ）。",
+    ["引导加载程序", "嵌入式文件系统", "应用软件层", "应用设计层"],
+    2,
+    "嵌入式软件典型的三层体系结构包括设备驱动层（HAL/BSP）、操作系统层（OS Kernel/Services）和应用软件层（Application）。",
+    1,
+    "驱动底层管设备，系统层里作调配，应用层上展才华。"
+  ],
+  [
+    1,
+    "嵌入式处理器的技术指标不包括（ ）。",
+    ["体积", "指令集", "字长", "运行速度"],
+    0,
+    "技术指标是对处理器性能及计算架构的描述（如字长、指令集、运行速度、功耗等），物理体积属于外部封装物理规格，不属于处理器核心计算技术指标。",
+    1,
+    "字长速度指令集，技术指标算性能，体积属于外物理。"
+  ],
+  [
+    1,
+    "嵌入式存储器的主要类型包括易失性存储和非易失性存器，下列属于易失性存储器的是（ ）。",
+    ["NAND FLASH", "EEROM", "SRAM", "EPROM"],
+    2,
+    "SRAM（静态随机存取存储器）是易失性存储器（断电后数据丢失），其他选项均为非易失性存储器。",
+    1,
+    "SRAM断电空空如，易失非易看Flash。"
+  ],
+  [
+    1,
+    "嵌入式系统的开发环境称为交叉开发环境，主要由宿主机、目标机以及（ ）。",
+    ["仿真器", "导线", "USB", "SPI"],
+    0,
+    "典型的交叉开发环境包含开发用的宿主机、运行的目标机以及连接调试两者的仿真器/调试器。",
+    1,
+    "宿主目标仿真器，交叉开发三合一。"
+  ],
+  [
+    1,
+    "按技术特点和应用场合，嵌入式处理器可以分为嵌入式微处理器、嵌入式微控制器、（ ）和嵌入式片上系统。",
+    ["MPU", "DSP", "MCU", "SOC"],
+    1,
+    "嵌入式处理器主要分类为四种：微处理器（EMPU）、微控制器（MCU）、数字信号处理器（DSP）、片上系统（SoC）。",
+    1,
+    "MPU控制器，DSP和SOC，处理器分类牢记四。"
+  ],
+  [
+    1,
+    "Cortex-M3 采用（ ）级流水线结构。",
+    ["3", "4", "5", "6"],
+    0,
+    "ARM Cortex-M3 内核采用经典的3级流水线结构，包含取指、译码、执行。",
+    1,
+    "取指译码和执行，M3流水三级定。"
+  ],
+  [
+    1,
+    "PWM 是（ ）。",
+    ["脉冲幅度调制", "脉冲频率调制", "脉冲宽度调制", "脉冲位置调制"],
+    2,
+    "PWM 是 Pulse Width Modulation 脉冲宽度调制的缩写。",
+    1,
+    "脉冲宽度来调制，控制电压好用它。"
+  ],
+  [
+    1,
+    "ARM Cortex-M3 内核中的 Systick 定时器中的计数器位数是（ ）。",
+    ["8 位", "16 位", "24 位", "32 位"],
+    2,
+    "SysTick 定时器是一个 24 位的自减型计数系统定时器。",
+    1,
+    "系统时钟Systick，计数位数二十四。"
+  ],
+  [
+    1,
+    "如果微控制器的一个管脚接一个按键开关到电源，那么该管脚应该配置（ ）输入模式。",
+    ["模拟输入", "下拉输入", "上拉输入", "浮空输入"],
+    1,
+    "按键接电源（VCC），按下时管脚为高电平；为了保证断开时管脚电平稳定，应当配置为下拉输入（下拉到GND），确定默认状态下为低电平。",
+    1,
+    "按键接VCC，引脚必下拉；按键接GND，引脚用上拉。"
+  ],
+  [
+    1,
+    "STM32F103 可以采用电池和电源供电两种方式，当选择电池供电时其电压的范围必须为（ ）。",
+    ["2～3.3V", "2.4～3V", "1.8～3.6V", "2.4～3.6V"],
+    2,
+    "STM32F103 的后备电池供电引脚 VBAT 电压范围为 1.8V 至 3.6V。",
+    1,
+    "电池后备引脚，电压点八到三六。"
+  ],
+  [
+    1,
+    "STM32F103 微控制器的通用定时器的时钟源是（ ）。",
+    ["APB1", "APB2", "AHB", "I-Code"],
+    0,
+    "STM32F103 的通用定时器挂载在低速外设总线 APB1 上，其时钟源直接来自 APB1。",
+    1,
+    "通用定时器在下，APB1时钟挂；高级定时器在上，APB2总线连。"
+  ],
+  [
+    1,
+    "中断屏蔽器能屏蔽（ ）。",
+    ["所有中断和异常", "系统异常", "除了 NMI 外所有异常和中断", "部分中断"],
+    2,
+    "Cortex-M3 的 PRIMASK/FAULTMASK 中断屏蔽寄存器可屏蔽除不可屏蔽中断（NMI）之外的几乎所有可屏蔽中断与异常。",
+    1,
+    "中断屏蔽力量大，除了NMI都拿下。"
+  ],
+  [
+    1,
+    "ST 公司还提供了完善的通用 I/O 接口库函数，其位于 stm32f10x_gpio.c ，对应的头文件为（ ）。",
+    ["stm32f10x_gpio.cpp", "stm32f10x.h", "stm32f10x_gpio.h", "以上说法均可"],
+    2,
+    "C语言的库函数源文件 `.c` 对应的声明在其同名头文件 `.h` 中，即 `stm32f10x_gpio.h`。",
+    1,
+    "源文件配头文件，GPIO配gpio.h。"
+  ],
+  [
+    1,
+    "STM32 的可编程 TIM1 定时器的时时基单元包含（ ）。",
+    ["计数器寄存器（TIM2_CNT）", "预分频器寄存器（TIM2_PSC）", "自动装载寄存器（TIM1_ARR）", "周期计数寄存器（TIM2_RCR）"],
+    2,
+    "时基单元由 CNT, PSC, ARR 寄存器组成，选项 C 正确指向了 TIM1 的 ARR 自动装载寄存器。A, B, D 均错误引用了 TIM2 的寄存器名称。",
+    1,
+    "时基单元三件套，CNT、PSC与ARR，别把TIM2的名字套。"
+  ],
+  [
+    1,
+    "Cortex-M3 内核主要由中央处理器核心、嵌套向量中断控制器、系统定时器、（ ）和存储保护单元。",
+    ["Bus Matrix", "I-CODE", "D-CODE", "PPB"],
+    0,
+    "Cortex-M3 内核包含CPU、NVIC、SysTick、MPU（内存保护单元）和总线矩阵（Bus Matrix）。",
+    1,
+    "内核NVIC加Systick，还有MPU总线矩阵。"
+  ],
+  [
+    1,
+    "嵌入式系统和 PC 系统相比，以下哪个不是嵌入式系统独有的优点（ ）。",
+    ["系统内核小", "专用性强", "精简指令集", "可执行多任务"],
+    3,
+    "可执行多任务在通用PC系统和部分嵌入式系统中皆可实现，并非嵌入式系统独有的优点。",
+    1,
+    "内核小而专用强，多任务非你独占。"
+  ],
+  [
+    1,
+    "字节存储顺序（Endianess）分为小端格式（Little endian）和大端格式（Big endian），小端格式的含义是（ ）。",
+    [
+      "小端格式是指字的低字节存储在 CPU 内低位寄存器中，字的高字节存储在 CPU 内高位寄存器中。",
+      "小端格式是指字的低字节存储在 CPU 内高位寄存器中，字的高字节存储在 CPU 内低位寄存器中。",
+      "小端格式是指字的低字节存储在高地址中，字的高字节存储在低地址中。",
+      "小端格式是指字的低字节存储在低地址中，字的高字节存储在高地址中。"
+    ],
+    3,
+    "小端存储的规则为“低对低，高对高”，即数据的低字节存在内存的低地址，高字节存在高地址中。",
+    1,
+    "小端低字节低地址，高字节高地址，低对低来好记忆。"
+  ],
+  [
+    1,
+    "关于中断嵌套说法正确的是（ ）。",
+    [
+      "只要响应优先级不一样就有可能发生中断嵌套",
+      "只要抢占式优先级不一样就有可能发生中断嵌套",
+      "只有抢占式优先级和响应优先级都不一才有可能发生中断嵌套",
+      "以上说法都不对"
+    ],
+    1,
+    "中断嵌套仅受“抢占优先级（Preemption Priority）”控制。高抢占优先级的中断可以打断正在运行的低抢占优先级中断；而响应优先级只负责在同级中断挂起时决定谁先响应，无法进行嵌套打断。",
+    1,
+    "抢占不同能嵌套，响应不同只排队。"
+  ],
+  [
+    1,
+    "下列对前台程序描述正确的选项是（ ）。",
+    [
+      "前台程序负责任务的具体处理",
+      "前台程序是一个无限循环程序",
+      "前台程序要不断检测标志变量",
+      "前台程序是中断服务程序"
+    ],
+    3,
+    "在前后台系统中，前台指“中断服务程序（ISR）”，后台指“主循环程序（main loop）”。",
+    1,
+    "前台负责响应快，中断服务顶在前；后台大循环轮询，后台才是主循环。"
+  ],
+  [
+    1,
+    "TIM_Cmd(TIM2, ENABLE) 表示（ ）。",
+    ["定时器 2 失能", "关闭定时器", "使能定时器 2", "以上说法均不正确"],
+    2,
+    "TIM_Cmd 是使能或失能定时器外设的库函数，传入 ENABLE 代表使能。",
+    1,
+    "Cmd加ENABLE，定时器2开启跑。"
+  ],
+  [
+    1,
+    "嵌入式 I/O 接口按照传输方式可以分为串行 I/O 接口和并行 I/O 接口。",
+    ["正确", "错误"],
+    0,
+    "按照数据传送的通道宽度，I/O 接口通常分为串行和并行接口。",
+    2,
+    "串行并行两通道，传输方式分得好。"
+  ],
+  [
+    1,
+    "STM32 的不是所有 I/O 口都可以容忍 5V 电压。",
+    ["正确", "错误"],
+    0,
+    "STM32 部分引脚标有 FT（5V容忍），可以接5V器件；未标有 FT 的引脚最高只能接 3.3V 左右，不可接5V。",
+    2,
+    "引脚不都耐五伏，FT标记要看清。"
+  ],
+  [
+    1,
+    "外部高速时钟（HSE）通常以外部晶振作为时钟源，晶振频率可取范围为 4～36MHz。",
+    ["正确", "错误"],
+    1,
+    "STM32F103 的 HSE 外部晶振时钟源频率范围是 4 ~ 16MHz，而非 36MHz。",
+    2,
+    "HSE时钟频率，四到十六晶振起。"
+  ],
+  [
+    1,
+    "通用定时器可以同时产生 7 路 PWM 输出。",
+    ["正确", "错误"],
+    1,
+    "通用定时器（TIM2~5）只有4个通道，最多输出 4 路 PWM。高级定时器（TIM1/8）可通过前3通道的互补通道实现 7 路 PWM 输出。",
+    2,
+    "通用定时只有四，高级定时产七路。"
+  ],
+  [
+    1,
+    "STM32 的 I/O 引脚除了通用功能外，还可以通过 AFIO 实现复用功能重映射。",
+    ["正确", "错误"],
+    0,
+    "引脚功能重映射属于复用功能重映射，需要通过打开 AFIO 时钟并配置 AFIO 相关重映射寄存器实现。",
+    2,
+    "引脚重映射，AFIO时钟开。"
+  ],
+  [
+    1,
+    "STM32F103 系列微控制器是基于 ARM Cotex-M4 内核的。",
+    ["正确", "错误"],
+    1,
+    "STM32F103 系列基于 ARM Cortex-M3 内核。",
+    2,
+    "一零三配M3，M4要去四系列。"
+  ],
+  [
+    1,
+    "在 STM32 官方库函数中，可以通过结构体 GPIO_InitTypeDef 设置 GPIO 的引脚速率和工作状态。",
+    ["正确", "错误"],
+    0,
+    "GPIO_InitTypeDef 包含 GPIO_Pin, GPIO_Speed, GPIO_Mode 三个成员，用于控制引脚选择、速度和输入/输出工作状态。",
+    2,
+    "结构初始化，模式引脚加速率。"
+  ],
+  [
+    1,
+    "在中断服务程序中修改，在其他程序中访问的变量，在其定义和声明时要在前面加上 volatile 修饰词。",
+    ["正确", "错误"],
+    0,
+    "volatile 告诉编译器不要对该变量做缓存寄存器优化，从而确保每次在主循环中读取时，读到的都是中断服务程序写入的最新值。",
+    2,
+    "中断与主循环，共享变量volatile。"
+  ],
+  [
+    1,
+    "STM32F103 有三种类型的定时器，其中 TIM6/7 是高级定时器。",
+    ["正确", "错误"],
+    1,
+    "TIM6/7 是基本定时器；TIM2~5 是通用定时器；TIM1/8 是高级定时器。",
+    2,
+    "六七基本最简单，高级得看一和八。"
+  ],
+  [
+    1,
+    "STM32F103 的基本定时器的计数模式只能是向上计数。",
+    ["正确", "错误"],
+    0,
+    "基本定时器 TIM6/TIM7 设计简单，计数器只能朝向上计数，不支持向下和中心对齐计数模式。",
+    2,
+    "基本定时向上数，通用高级模式多。"
+  ]
+];
+
+class App {
+    constructor() {
+        this.questions = [];
+        try {
+            const rawMistakes = localStorage.getItem('ia_quiz_mistakes');
+            this.history = rawMistakes ? JSON.parse(rawMistakes).map(Number).filter(n => !isNaN(n)) : [];
+        } catch (e) {
+            this.history = [];
+        }
+        try {
+            this.stats = JSON.parse(localStorage.getItem('mcu_quiz_stats')) || {};
+        } catch (e) {
+            this.stats = {};
+        }
+        this.state = {
+            mode: 'menu',
+            qIndex: 0,
+            score: 0,
+            combo: 0,
+            sessionMistakes: [] // 当前会话的错题
+        };
+        this.audioCtx = null;
+        this.initUI();
+    }
+
+    initUI() {
+        // 主题初始化
+        let savedTheme = 'light';
+        try {
+            savedTheme = localStorage.getItem('theme') || 'light';
+        } catch (e) {}
+        document.documentElement.setAttribute('data-theme', savedTheme);
+        
+        const themeIcon = document.getElementById('theme-icon');
+        if (themeIcon) {
+            if (savedTheme === 'dark') {
+                themeIcon.className = 'fa-solid fa-moon theme-icon';
+            } else {
+                themeIcon.className = 'fa-solid fa-sun theme-icon';
+            }
+        }
+        
+        document.getElementById('theme-btn').onclick = () => {
+            const current = document.documentElement.getAttribute('data-theme');
+            const next = current === 'light' ? 'dark' : 'light';
+            document.documentElement.setAttribute('data-theme', next);
+            try {
+                localStorage.setItem('theme', next);
+            } catch (e) {}
+            
+            const icon = document.getElementById('theme-icon');
+            if (icon) {
+                if (next === 'dark') {
+                    icon.className = 'fa-solid fa-moon theme-icon';
+                } else {
+                    icon.className = 'fa-solid fa-sun theme-icon';
+                }
+                icon.classList.remove('rotate-animation');
+                void icon.offsetWidth; // 触发强制重绘
+                icon.classList.add('rotate-animation');
+            }
+        };
+
+        this.updateMenuStats();
+        // 键盘监听
+        document.addEventListener('keydown', (e) => this.handleInput(e));
+
+        // 填空题按钮事件绑定
+        document.getElementById('btn-show-answer').addEventListener('click', () => {
+            document.getElementById('btn-show-answer').classList.add('hide');
+            document.getElementById('type2-answer-area').classList.remove('hide');
+        });
+
+        document.getElementById('btn-self-correct').addEventListener('click', () => {
+            this.handleType2Answer(true);
+        });
+
+        document.getElementById('btn-self-wrong').addEventListener('click', () => {
+            this.handleType2Answer(false);
+        });
+    }
+
+    updateMenuStats() {
+        // 更新错题数量
+        document.getElementById('mistake-count').textContent = this.history.length;
+        const btn = document.getElementById('btn-mistakes');
+        if (this.history.length === 0) {
+            btn.classList.add('disabled');
+        } else {
+            btn.classList.remove('disabled');
+        }
+
+        // 更新各模块的最高正确率
+        ['mock', 'part1', 'part2', 'part3'].forEach(key => {
+            const el = document.getElementById(`stat-${key}`);
+            if (this.stats[key] && this.stats[key].bestAccuracy !== undefined) {
+                el.textContent = `最高正确率: ${this.stats[key].bestAccuracy}%`;
+                el.classList.add('show');
+            } else {
+                el.textContent = `最高正确率: 0%`;
+                el.classList.remove('show');
+            }
+        });
+    }
+
+    // --- 核心逻辑：开始不同模式 ---
+    startMode(mode) {
+        let rawSubset = [];
+        
+        if (mode === 'part1') rawSubset = rawDB.filter(q => q[5] === 1);
+        else if (mode === 'part2') rawSubset = rawDB.filter(q => q[5] === 2);
+        // part3 removed
+        else if (mode === 'mistakes') {
+            rawSubset = rawDB.filter((_, idx) => this.history.includes(idx));
+        } else if (mode === 'session_retry') {
+            rawSubset = this.lastSessionWrongData || [];
+        } else if (mode === 'mock') {
+            let all = [...rawDB];
+            this.shuffleArray(all);
+            rawSubset = all.slice(0, 20); // 随机抽取 20 题
+        }
+
+        if (rawSubset.length === 0) {
+            alert("当前模式没有可用的题目！");
+            return;
+        }
+
+        this.state = { mode: mode, qIndex: 0, score: 0, combo: 0, sessionMistakes: [] };
+
+        // 解析数据 + 选项乱序处理
+        this.questions = rawSubset.map(item => {
+            const globalId = rawDB.indexOf(item); 
+            const type = item[0];
+            const originalAnsIndex = item[3];
+            
+            let finalOptions = item[2];
+            let finalAnsIndex = originalAnsIndex;
+
+            // 选择题进行选项乱序
+            if(type === 1) {
+                finalOptions = [...item[2]];
+                const correctAnswerText = item[2][originalAnsIndex];
+                // 判断是否为判断题：选项长度为2，且包含肯定的“对”/“正确”及否定的“错”/“错误”
+                const normalizeOption = text => String(text).replace(/^[A-G][.、]\s*/, '').trim();
+                const hasTrue = finalOptions.some(opt => {
+                    const norm = normalizeOption(opt);
+                    return norm === '对' || norm === '正确';
+                });
+                const hasFalse = finalOptions.some(opt => {
+                    const norm = normalizeOption(opt);
+                    return norm === '错' || norm === '错误';
+                });
+                const isTrueFalse = finalOptions.length === 2 && hasTrue && hasFalse;
+
+                if (isTrueFalse) {
+                    // 如果是判断题，固定选项顺序：肯定（对/正确）在前，否定（错/错误）在后，防止选项位置乱序及位置不统一
+                    const trueOpt = finalOptions.find(opt => {
+                        const norm = normalizeOption(opt);
+                        return norm === '对' || norm === '正确';
+                    });
+                    const falseOpt = finalOptions.find(opt => {
+                        const norm = normalizeOption(opt);
+                        return norm === '错' || norm === '错误';
+                    });
+                    finalOptions = [trueOpt, falseOpt];
+                } else {
+                    for (let i = finalOptions.length - 1; i > 0; i--) {
+                        const j = Math.floor(Math.random() * (i + 1));
+                        [finalOptions[i], finalOptions[j]] = [finalOptions[j], finalOptions[i]];
+                    }
+                }
+                finalAnsIndex = finalOptions.indexOf(correctAnswerText);
+            }
+
+            return {
+                id: globalId,
+                type: type,
+                q: item[1],
+                options: finalOptions,
+                ans: finalAnsIndex,
+                exp: item[4],
+                chapter: item[5],
+                mnemonic: (item[6] !== undefined && item[6] !== null) ? item[6] : ""
+            };
+        });
+
+        // 打乱题目顺序 (如果是分类刷题)
+        if (mode !== 'session_retry') this.shuffleArray(this.questions);
+
+        // UI 切换
+        document.getElementById('screen-menu').classList.add('hide');
+        document.getElementById('screen-result').classList.add('hide');
+        document.getElementById('screen-game').classList.remove('hide');
+        
+        this.updateHUD();
+        this.renderQuestion();
+    }
+
+    renderQuestion() {
+        const q = this.questions[this.state.qIndex];
+        
+        // 触发做题卡片 3D 侧滑淡入淡出动画
+        const gameScreen = document.getElementById('screen-game');
+        if (gameScreen) {
+            gameScreen.classList.remove('q-slide-out');
+            gameScreen.classList.remove('q-slide-in');
+            void gameScreen.offsetWidth; // 触发 reflow
+            gameScreen.classList.add('q-slide-in');
+        }
+        
+        // 进度更新
+        const progress = ((this.state.qIndex) / this.questions.length) * 100;
+        document.getElementById('progress-bar').style.width = `${progress}%`;
+        document.getElementById('q-counter').textContent = `${this.state.qIndex + 1}/${this.questions.length}`;
+        document.getElementById('q-tag').textContent = `第 ${q.chapter} 章 ${q.type === 1 ? '单选题' : '填空题'}`;
+        
+        // 渲染题干
+        const qTextEl = document.getElementById('q-text');
+        qTextEl.textContent = q.q;
+        
+        // 针对案例分析卡/超长题目的自适应处理
+        if (q.q.length > 150 || q.q.includes('案例') || q.q.includes('实验7') || q.q.includes('痛点分析')) {
+            qTextEl.classList.add('q-text-long');
+        } else {
+            qTextEl.classList.remove('q-text-long');
+        }
+        
+        // 重置底部区域
+        document.getElementById('explanation').classList.add('hide');
+        const mnemonicArea = document.getElementById('mnemonic-area');
+        if (mnemonicArea) mnemonicArea.classList.add('hide');
+        const nextBtn = document.getElementById('next-btn');
+        nextBtn.classList.add('hide');
+        nextBtn.onclick = () => this.nextQuestion();
+
+        // 根据题型渲染
+        const optionsContainer = document.getElementById('options-container');
+        const type2Container = document.getElementById('type2-container');
+
+        if (q.type === 1) {
+            // 选择题
+            type2Container.classList.add('hide');
+            optionsContainer.classList.remove('hide');
+            optionsContainer.innerHTML = '';
+            
+            const labels = ['A', 'B', 'C', 'D', 'E', 'F', 'G'];
+            q.options.forEach((opt, idx) => {
+                const btn = document.createElement('button');
+                btn.className = 'option-btn';
+                const label = labels[idx] || String.fromCharCode(65 + idx);
+                btn.innerHTML = `<span class="option-key">${label}</span><span>${opt}</span>`;
+                btn.onclick = () => this.handleType1Answer(idx, btn);
+                optionsContainer.appendChild(btn);
+            });
+        } else {
+            // 填空题
+            optionsContainer.classList.add('hide');
+            type2Container.classList.remove('hide');
+            document.getElementById('type2-correct-answer').textContent = q.options[0];
+            document.getElementById('btn-show-answer').classList.remove('hide');
+            document.getElementById('type2-answer-area').classList.add('hide');
+            document.getElementById('btn-self-correct').disabled = false;
+            document.getElementById('btn-self-wrong').disabled = false;
+        }
+    }
+
+    // --- 选择题评判逻辑 ---
+    handleType1Answer(selectedIndex, btnElement) {
+        if (document.getElementById('explanation').classList.contains('hide') === false) return; // 已答过
+
+        const q = this.questions[this.state.qIndex];
+        if (!q) return;
+        const isCorrect = (selectedIndex === q.ans);
+        const options = document.querySelectorAll('.option-btn');
+        
+        options.forEach(btn => btn.disabled = true);
+        options[q.ans].classList.add('correct');
+
+        if (isCorrect) {
+            this.handleScoreLogic(true, q.id);
+            const mnemonicArea = document.getElementById('mnemonic-area');
+            if (mnemonicArea) mnemonicArea.classList.add('hide');
+            
+            // 答对选择题后直接跳转到下一题，保留 320ms 正确态反馈时间
+            setTimeout(() => {
+                this.nextQuestion();
+            }, 320);
+        } else {
+            btnElement.classList.add('wrong');
+            this.handleScoreLogic(false, q.id);
+            const mnemonicArea = document.getElementById('mnemonic-area');
+            if (mnemonicArea) {
+                const mnemonicText = q.mnemonic || "熟能生巧，多记多练！";
+                document.getElementById('mnemonic-text').innerHTML = mnemonicText;
+                mnemonicArea.classList.remove('hide');
+            }
+            this.showExplanation(q.exp);
+        }
+    }
+
+    // --- 填空题评判逻辑 ---
+    handleType2Answer(isCorrect) {
+        if (document.getElementById('explanation').classList.contains('hide') === false) return; // 已答过
+        
+        const q = this.questions[this.state.qIndex];
+        if (!q) return;
+        document.getElementById('btn-self-correct').disabled = true;
+        document.getElementById('btn-self-wrong').disabled = true;
+
+        this.handleScoreLogic(isCorrect, q.id);
+        if (isCorrect) {
+            const mnemonicArea = document.getElementById('mnemonic-area');
+            if (mnemonicArea) mnemonicArea.classList.add('hide');
+        } else {
+            const mnemonicArea = document.getElementById('mnemonic-area');
+            if (mnemonicArea) {
+                const mnemonicText = q.mnemonic || "熟能生巧，多记多练！";
+                document.getElementById('mnemonic-text').innerHTML = mnemonicText;
+                mnemonicArea.classList.remove('hide');
+            }
+        }
+        this.showExplanation(q.exp);
+    }
+
+    // --- 分数与错题本逻辑 ---
+    handleScoreLogic(isCorrect, globalId) {
+        if (isCorrect) {
+            this.state.combo++;
+            this.state.score += 10 + (this.state.combo * 2); 
+            this.playTone(600 + (this.state.combo * 50));
+            this.triggerComboAnim();
+            
+            // 如果做对且在历史错题中，则移出错题本
+            if (this.history.includes(globalId)) {
+                this.history = this.history.filter(id => id !== globalId);
+                this.saveData();
+            }
+        } else {
+            this.state.combo = 0;
+            this.playTone(150, 'square');
+            
+            // 加入错题本和当前会话错误列表
+            if (!this.history.includes(globalId)) {
+                this.history.push(globalId);
+                this.saveData();
+            }
+            this.state.sessionMistakes.push(this.questions[this.state.qIndex]);
+        }
+        this.updateHUD();
+    }
+
+    showExplanation(expText) {
+        const exp = document.getElementById('explanation');
+        document.getElementById('exp-text').innerHTML = expText;
+        exp.classList.remove('hide');
+        document.getElementById('next-btn').classList.remove('hide');
+    }
+
+    nextQuestion() {
+        const gameScreen = document.getElementById('screen-game');
+        if (gameScreen) {
+            gameScreen.classList.add('q-slide-out');
+        }
+
+        setTimeout(() => {
+            this.state.qIndex++;
+            if (this.state.qIndex >= this.questions.length) {
+                if (gameScreen) gameScreen.classList.remove('q-slide-out');
+                this.endSession();
+            } else {
+                this.renderQuestion();
+            }
+        }, 150);
+    }
+
+    endSession() {
+        document.getElementById('screen-game').classList.add('hide');
+        document.getElementById('screen-result').classList.remove('hide');
+
+        const total = this.questions.length;
+        const wrongCount = this.state.sessionMistakes.length;
+        const correctCount = total - wrongCount;
+        const accuracy = Math.round((correctCount / total) * 100);
+
+        document.getElementById('res-accuracy').textContent = `${accuracy}%`;
+        document.getElementById('res-score').textContent = this.state.score;
+        document.getElementById('res-combo').textContent = this.state.combo;
+        document.getElementById('res-wrong').textContent = wrongCount;
+
+        // 更新历史最高正确率记录
+        if (this.state.mode !== 'session_retry' && this.state.mode !== 'mistakes') {
+            const m = this.state.mode;
+            if (!this.stats[m]) this.stats[m] = { bestAccuracy: 0 };
+            if (accuracy > this.stats[m].bestAccuracy) {
+                this.stats[m].bestAccuracy = accuracy;
+                try {
+                    localStorage.setItem('mcu_quiz_stats', JSON.stringify(this.stats));
+                } catch (e) {}
+            }
+        }
+
+        if (accuracy === 100) this.fireConfetti();
+
+        const btnRetry = document.getElementById('btn-retry-session');
+        if (wrongCount > 0) {
+            // 保存会话错题引用，并转换为原始数据格式
+            this.lastSessionWrongData = this.state.sessionMistakes.map(q => rawDB[q.id]);
+            btnRetry.classList.remove('hide');
+        } else {
+            btnRetry.classList.add('hide');
+        }
+
+        this.updateMenuStats();
+    }
+
+    retrySessionMistakes() {
+        this.startMode('session_retry');
+    }
+
+    toMenu() {
+        document.getElementById('screen-result').classList.add('hide');
+        document.getElementById('screen-menu').classList.remove('hide');
+        this.updateMenuStats();
+    }
+
+    updateHUD() {
+        let modeName = "N/A";
+        if(this.state.mode==='mock') modeName='模拟考';
+        if(this.state.mode==='mistakes') modeName='错题';
+        if(this.state.mode==='part1') modeName='模块1';
+        if(this.state.mode==='part2') modeName='模块2';
+        if(this.state.mode==='part3') modeName='模块3';
+        if(this.state.mode==='session_retry') modeName='重试';
+        if(this.state.mode==='menu') modeName='MENU';
+        
+        document.getElementById('hud-mode').textContent = modeName;
+        document.getElementById('hud-score').textContent = this.state.score;
+        document.getElementById('hud-combo').textContent = this.state.combo;
+    }
+
+    triggerComboAnim() {
+        const comboEl = document.getElementById('hud-combo');
+        comboEl.classList.remove('combo-active');
+        void comboEl.offsetWidth; // trigger reflow
+        comboEl.classList.add('combo-active');
+    }
+
+    clearHistory() {
+        if(confirm("确定要清空所有错题记录和正确率数据吗？这不可恢复。")) {
+            this.history = [];
+            this.stats = {};
+            this.saveData();
+            this.updateMenuStats();
+        }
+    }
+
+    saveData() {
+        try {
+            localStorage.setItem('ia_quiz_mistakes', JSON.stringify(this.history));
+            localStorage.setItem('mcu_quiz_stats', JSON.stringify(this.stats));
+        } catch (e) {
+            console.error("Failed to save data to localStorage", e);
+        }
+    }
+
+    shuffleArray(array) {
+        for (let i = array.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [array[i], array[j]] = [array[j], array[i]];
+        }
+    }
+
+    handleInput(e) {
+        if (this.state.mode === 'menu' || document.getElementById('screen-game').classList.contains('hide')) return;
+        if (['INPUT', 'TEXTAREA'].includes(e.target.tagName)) return;
+        const nextBtn = document.getElementById('next-btn');
+        
+        // 键盘 Enter 键自动下一题 / 查看答案
+        if (e.key === 'Enter') {
+            const q = this.questions[this.state.qIndex];
+            if (!q) return;
+            
+            if (q.type === 2) {
+                const btnShow = document.getElementById('btn-show-answer');
+                if (btnShow && !btnShow.classList.contains('hide')) {
+                    btnShow.click();
+                    return;
+                }
+            }
+
+            if (nextBtn && !nextBtn.classList.contains('hide')) {
+                this.nextQuestion();
+                return;
+            }
+        }
+        
+        // 键盘 1,2,3,4 选择答案/填空题自我评估
+        if (e.key >= '1' && e.key <= '4') {
+            const q = this.questions[this.state.qIndex];
+            if (q) {
+                if (q.type === 1) {
+                    const options = document.querySelectorAll('.option-btn');
+                    if (options.length > 0 && !options[0].disabled) {
+                        const idx = parseInt(e.key) - 1;
+                        if (options[idx]) options[idx].click();
+                    }
+                } else if (q.type === 2) {
+                    const ansArea = document.getElementById('type2-answer-area');
+                    const btnCorrect = document.getElementById('btn-self-correct');
+                    if (ansArea && !ansArea.classList.contains('hide') && btnCorrect && !btnCorrect.disabled) {
+                        if (e.key === '1') {
+                            btnCorrect.click();
+                        } else if (e.key === '2') {
+                            const btnWrong = document.getElementById('btn-self-wrong');
+                            if (btnWrong) btnWrong.click();
+                        }
+                    }
+                }
+            }
+        }
+
+        // 字母键 Y/N 自我评估支持
+        if (e.key.toLowerCase() === 'y' || e.key.toLowerCase() === 'n') {
+            const q = this.questions[this.state.qIndex];
+            if (q && q.type === 2) {
+                const ansArea = document.getElementById('type2-answer-area');
+                const btnCorrect = document.getElementById('btn-self-correct');
+                if (ansArea && !ansArea.classList.contains('hide') && btnCorrect && !btnCorrect.disabled) {
+                    if (e.key.toLowerCase() === 'y') {
+                        btnCorrect.click();
+                    } else if (e.key.toLowerCase() === 'n') {
+                        const btnWrong = document.getElementById('btn-self-wrong');
+                        if (btnWrong) btnWrong.click();
+                    }
+                }
+            }
+        }
+    }
+
+    playTone(freq, type='sine') {
+        try {
+            if (!this.audioCtx) this.audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            const osc = this.audioCtx.createOscillator();
+            const gain = this.audioCtx.createGain();
+            osc.type = type;
+            osc.frequency.setValueAtTime(freq, this.audioCtx.currentTime);
+            gain.gain.setValueAtTime(0.1, this.audioCtx.currentTime);
+            gain.gain.exponentialRampToValueAtTime(0.001, this.audioCtx.currentTime + 0.3);
+            osc.connect(gain);
+            gain.connect(this.audioCtx.destination);
+            osc.start();
+            osc.stop(this.audioCtx.currentTime + 0.3);
+        } catch(e) {}
+    }
+
+    fireConfetti() {
+        const canvas = document.getElementById('confetti-canvas');
+        const ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        
+        const pieces = [];
+        const colors = ['#268bd2', '#859900', '#b58900', '#cb4b16', '#d33682', '#6c71c4'];
+        
+        for(let i=0; i<100; i++) {
+            pieces.push({
+                x: canvas.width / 2,
+                y: canvas.height / 2 + 100,
+                vx: (Math.random() - 0.5) * 20,
+                vy: (Math.random() - 1) * 20,
+                size: Math.random() * 10 + 5,
+                color: colors[Math.floor(Math.random() * colors.length)],
+                rot: Math.random() * Math.PI,
+                rotSpeed: (Math.random() - 0.5) * 0.2
+            });
+        }
+        
+        let reqId;
+        const animate = () => {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            let active = false;
+            
+            pieces.forEach(p => {
+                p.x += p.vx;
+                p.y += p.vy;
+                p.vy += 0.5; // gravity
+                p.rot += p.rotSpeed;
+                
+                if (p.y < canvas.height) active = true;
+                
+                ctx.save();
+                ctx.translate(p.x, p.y);
+                ctx.rotate(p.rot);
+                ctx.fillStyle = p.color;
+                ctx.fillRect(-p.size/2, -p.size/2, p.size, p.size);
+                ctx.restore();
+            });
+            
+            if(active) reqId = requestAnimationFrame(animate);
+            else ctx.clearRect(0, 0, canvas.width, canvas.height);
+        };
+        animate();
+        setTimeout(() => cancelAnimationFrame(reqId), 5000);
+    }
+}
+
+const app = new App();
+</script>
+</body>
+</html>
