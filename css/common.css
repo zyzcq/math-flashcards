@@ -1,4 +1,6 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+SC:wght@400;500;700;900&display=swap');
+@import url('https://cdn.jsdelivr.net/npm/anthropic-fonts@1.1.0/cdn/v1/css/anthropicsans.css');
+@import url('https://cdn.jsdelivr.net/npm/anthropic-fonts@1.1.0/cdn/v1/css/anthropicserif.css');
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700;900&display=swap');
 
 :root {
     --bg-app: #FAF9F5;              /* 暖米白/燕麦底色 */
@@ -11,9 +13,9 @@
     --theme-green: #548460;         /* 优雅苔绿 */
     --theme-hex: var(--theme-accent);
     
-    --font-claude: 'Inter', ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans SC", "Microsoft YaHei", "PingFang SC", "Helvetica Neue", Arial, sans-serif;
-    --font-serif: var(--font-claude);
-    --font-sans: var(--font-claude);
+    --font-sans: 'Anthropic Sans', ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans SC", "Microsoft YaHei", "PingFang SC", "Helvetica Neue", Arial, sans-serif;
+    --font-serif: 'Anthropic Serif', "Noto Serif SC", Georgia, "Times New Roman", "Noto Sans SC", "Microsoft YaHei", serif;
+    --font-mono: 'Anthropic Mono', 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
     
     --highlight-bg: #F3EBDD;        /* 温暖淡金黄背景 */
     --highlight-text: #B2533E;      /* 深珊瑚红高亮字 */

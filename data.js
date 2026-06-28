@@ -2629,10 +2629,10 @@ const siteData = [
 
     const makeTip = (card, memory, hooks = [], examText = '') => {
         const hookList = hooks.length
-            ? `<ul>${hooks.map(hook => `<li>${hook}</li>`).join('')}</ul>`
+            ? `<ol>${hooks.map(hook => `<li>${hook}</li>`).join('')}</ol>`
             : '';
         const examLine = examText ? `<p><b>${examText}</b></p>` : '';
-        return `<b>记忆口诀：【${memory}】</b>${hookList}${examLine}`;
+        return `<b>最简答题模板：【${memory}】</b><p>考试直接按下面顺序答：</p>${hookList}${examLine}`;
     };
 
     const applyIndexedTips = (cards, tips) => {
@@ -2752,10 +2752,10 @@ const siteData = [
         card.examTag = card.highFreq ? "高频考点" : "常规考点";
     });
 
-    appData.se_short_answers.subtitle = "高频已标注 · 口诀化速背";
+    appData.se_short_answers.subtitle = "高频已标注 · 最简答题模板";
     appData.wx_short_answers.title = "移动应用开发技术：核心简答闪卡";
-    appData.wx_short_answers.subtitle = "高频已标注 · 移动应用口诀速背";
-    appData.ia_short_answers.subtitle = "工业 App 口诀速背 · 章节骨架化记忆";
+    appData.wx_short_answers.subtitle = "高频已标注 · 最简答题模板";
+    appData.ia_short_answers.subtitle = "工业 App 最简答题模板 · 章节骨架化记忆";
     [
         ...asCards(appData.ia_short_answers),
         ...asCards(appData.se_short_answers),

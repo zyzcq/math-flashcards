@@ -224,8 +224,22 @@ a:focus-visible {
     transition: color 0.3s ease;
 }
 
+.mnemonic-text ul,
+.mnemonic-text ol {
+    counter-reset: sa-list-counter;
+    list-style: none !important;
+    padding-left: 0 !important;
+}
+
+.mnemonic-text ul li,
+.mnemonic-text ol li {
+    display: flex;
+    align-items: flex-start;
+}
+
 /* 精致的圆圈数字徽章 */
-.mnemonic-text ul li::before {
+.mnemonic-text ul li::before,
+.mnemonic-text ol li::before {
     counter-increment: sa-list-counter;
     content: counter(sa-list-counter) !important;
     display: inline-flex;
@@ -248,7 +262,8 @@ a:focus-visible {
 
 /* 精致的列表项文本容器 */
 .sa-item-content,
-.mnemonic-text ul li > * {
+.mnemonic-text ul li > *,
+.mnemonic-text ol li > * {
     flex: 1;
     font-size: 0.9rem;
     line-height: 1.55;
@@ -268,14 +283,14 @@ a:focus-visible {
 }
 
 /* Staggered Delay */
-.sa-item:nth-child(1), .mnemonic-text ul li:nth-child(1) { animation-delay: 0.04s; }
-.sa-item:nth-child(2), .mnemonic-text ul li:nth-child(2) { animation-delay: 0.08s; }
-.sa-item:nth-child(3), .mnemonic-text ul li:nth-child(3) { animation-delay: 0.12s; }
-.sa-item:nth-child(4), .mnemonic-text ul li:nth-child(4) { animation-delay: 0.16s; }
-.sa-item:nth-child(5), .mnemonic-text ul li:nth-child(5) { animation-delay: 0.2s; }
-.sa-item:nth-child(6), .mnemonic-text ul li:nth-child(6) { animation-delay: 0.24s; }
-.sa-item:nth-child(7), .mnemonic-text ul li:nth-child(7) { animation-delay: 0.28s; }
-.sa-item:nth-child(n+8), .mnemonic-text ul li:nth-child(n+8) { animation-delay: 0.32s; }
+.sa-item:nth-child(1), .mnemonic-text ul li:nth-child(1), .mnemonic-text ol li:nth-child(1) { animation-delay: 0.04s; }
+.sa-item:nth-child(2), .mnemonic-text ul li:nth-child(2), .mnemonic-text ol li:nth-child(2) { animation-delay: 0.08s; }
+.sa-item:nth-child(3), .mnemonic-text ul li:nth-child(3), .mnemonic-text ol li:nth-child(3) { animation-delay: 0.12s; }
+.sa-item:nth-child(4), .mnemonic-text ul li:nth-child(4), .mnemonic-text ol li:nth-child(4) { animation-delay: 0.16s; }
+.sa-item:nth-child(5), .mnemonic-text ul li:nth-child(5), .mnemonic-text ol li:nth-child(5) { animation-delay: 0.2s; }
+.sa-item:nth-child(6), .mnemonic-text ul li:nth-child(6), .mnemonic-text ol li:nth-child(6) { animation-delay: 0.24s; }
+.sa-item:nth-child(7), .mnemonic-text ul li:nth-child(7), .mnemonic-text ol li:nth-child(7) { animation-delay: 0.28s; }
+.sa-item:nth-child(n+8), .mnemonic-text ul li:nth-child(n+8), .mnemonic-text ol li:nth-child(n+8) { animation-delay: 0.32s; }
 
 /* Highlight styling */
 .highlight {
