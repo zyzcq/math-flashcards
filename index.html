@@ -21,30 +21,32 @@
     <script src="js/analytics-config.js"></script>
     <script defer src="js/analytics.js"></script>
 </head>
-<body class="home-page">
-    <header class="home-header">
-        <div class="home-title">
-            <h1>复习</h1>
-        </div>
-        <div class="home-session">
-            <span id="user-display" class="user-chip" aria-live="polite"></span>
-            <button type="button" id="theme-toggle-btn" class="theme-toggle-button" aria-label="切换主题">
-                <i class="fa-solid fa-sun theme-icon" id="theme-icon" aria-hidden="true"></i>
-            </button>
-            <button type="button" id="logout-btn" class="logout-button" aria-label="退出登录">
-                <i class="fa-solid fa-right-from-bracket" aria-hidden="true"></i>
-                <span>退出</span>
-            </button>
-        </div>
-    </header>
+<body>
+    <div class="home-container">
+        <header class="home-header">
+            <div class="home-title">
+                <h1>复习</h1>
+            </div>
+            <div class="home-session">
+                <span id="user-display" class="user-chip" aria-live="polite"></span>
+                <button type="button" id="theme-toggle-btn" class="theme-toggle-button" aria-label="切换主题">
+                    <i class="fa-solid fa-sun theme-icon" id="theme-icon" aria-hidden="true"></i>
+                </button>
+                <button type="button" id="logout-btn" class="logout-button" aria-label="退出登录">
+                    <i class="fa-solid fa-right-from-bracket" aria-hidden="true"></i>
+                    <span>退出</span>
+                </button>
+            </div>
+        </header>
 
-    <main id="main-container" class="home-main"></main>
+        <main id="main-container" class="home-main"></main>
 
-    <noscript>
-        <div class="empty-state">
-            <p>请启用 JavaScript 后继续学习。</p>
-        </div>
-    </noscript>
+        <noscript>
+            <div class="empty-state">
+                <p>请启用 JavaScript 后继续学习。</p>
+            </div>
+        </noscript>
+    </div>
 
     <script src="data.js?v=2.0"></script>
     <script src="js/index.js?v=2.1"></script>
