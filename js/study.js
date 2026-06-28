@@ -2,14 +2,14 @@ const STUDY_PROGRESS_KEY = 'math_flashcard_progress';
 const ANIMATION_DURATION = 300;
 
 const themeColors = {
-    sky: { hex: '#0ea5e9', gradStart: '#0ea5e9', gradEnd: '#3b82f6', text: '#0369a1', border: '#bae6fd', shadow: 'rgba(14, 165, 233, 0.25)' },
-    indigo: { hex: '#6366f1', gradStart: '#6366f1', gradEnd: '#8b5cf6', text: '#3730a3', border: '#a5b4fc', shadow: 'rgba(99, 102, 241, 0.25)' },
-    violet: { hex: '#8b5cf6', gradStart: '#8b5cf6', gradEnd: '#a855f7', text: '#5b21b6', border: '#c4b5fd', shadow: 'rgba(139, 92, 246, 0.25)' },
-    fuchsia: { hex: '#c026d3', gradStart: '#c026d3', gradEnd: '#e879f9', text: '#86198f', border: '#f0abfc', shadow: 'rgba(192, 38, 211, 0.24)' },
-    rose: { hex: '#f43f5e', gradStart: '#f43f5e', gradEnd: '#fb7185', text: '#be123c', border: '#fecdd3', shadow: 'rgba(244, 63, 94, 0.25)' },
-    emerald: { hex: '#10b981', gradStart: '#10b981', gradEnd: '#34d399', text: '#047857', border: '#a7f3d0', shadow: 'rgba(16, 185, 129, 0.25)' },
-    amber: { hex: '#d97706', gradStart: '#d97706', gradEnd: '#f59e0b', text: '#92400e', border: '#fde68a', shadow: 'rgba(217, 119, 6, 0.24)' },
-    default: { hex: '#64748b', gradStart: '#64748b', gradEnd: '#475569', text: '#334155', border: '#cbd5e1', shadow: 'rgba(100, 116, 139, 0.22)' }
+    sky: { hex: '#6A9BCC', gradStart: '#6A9BCC', gradEnd: '#93B4D1', text: '#315F84', border: '#D7E5EF', shadow: 'rgba(106, 155, 204, 0.16)' },
+    indigo: { hex: '#7A83A6', gradStart: '#7A83A6', gradEnd: '#A2A8C3', text: '#4E5579', border: '#DDDFF0', shadow: 'rgba(122, 131, 166, 0.15)' },
+    violet: { hex: '#8B7A9A', gradStart: '#8B7A9A', gradEnd: '#B0A0BC', text: '#5D4B6B', border: '#E4DDE9', shadow: 'rgba(139, 122, 154, 0.15)' },
+    fuchsia: { hex: '#D97757', gradStart: '#D97757', gradEnd: '#E8A184', text: '#9F4F37', border: '#EFD2C4', shadow: 'rgba(217, 119, 87, 0.16)' },
+    rose: { hex: '#C96F63', gradStart: '#C96F63', gradEnd: '#DEA194', text: '#8D493F', border: '#EED5D0', shadow: 'rgba(201, 111, 99, 0.16)' },
+    emerald: { hex: '#788C5D', gradStart: '#788C5D', gradEnd: '#A0AD82', text: '#52613E', border: '#DDE4D1', shadow: 'rgba(120, 140, 93, 0.16)' },
+    amber: { hex: '#C98B42', gradStart: '#C98B42', gradEnd: '#DFB06A', text: '#8A5B25', border: '#EEDDBE', shadow: 'rgba(201, 139, 66, 0.16)' },
+    default: { hex: '#8A867D', gradStart: '#8A867D', gradEnd: '#AAA69D', text: '#5F5A52', border: '#E1DED5', shadow: 'rgba(138, 134, 125, 0.16)' }
 };
 
 let currentModule = null;
@@ -189,6 +189,12 @@ function initPage() {
 
 function applyTheme(colorKey) {
     activeTheme = themeColors[colorKey] || themeColors.default;
+    document.documentElement.style.setProperty('--theme-hex', activeTheme.hex);
+    document.documentElement.style.setProperty('--theme-grad-start', activeTheme.gradStart);
+    document.documentElement.style.setProperty('--theme-grad-end', activeTheme.gradEnd);
+    document.documentElement.style.setProperty('--theme-text', activeTheme.text);
+    document.documentElement.style.setProperty('--theme-border', activeTheme.border);
+    document.documentElement.style.setProperty('--theme-shadow', activeTheme.shadow);
 
     dom.frontFace.style.background = `linear-gradient(135deg, ${activeTheme.gradStart}, ${activeTheme.gradEnd})`;
     dom.card.style.boxShadow = `0 20px 40px -5px ${activeTheme.shadow}`;
@@ -198,7 +204,7 @@ function applyTheme(colorKey) {
     dom.tipBox.style.borderColor = activeTheme.border;
     dom.tipTitle.style.color = activeTheme.hex;
     dom.tipTitle.style.borderBottomColor = activeTheme.border;
-    dom.tipContent.style.color = activeTheme.text;
+    dom.tipContent.style.color = 'var(--text-main)';
 }
 
 function renderEmptyModule(message) {
@@ -263,8 +269,8 @@ function loadCard(index) {
     if (badgeEl) {
         if (isKey) {
             badgeEl.innerHTML = `
-                <span class="bg-rose-600/90 backdrop-blur-sm text-white px-2.5 py-1 rounded-full text-[10px] font-black border border-rose-400/20 flex items-center gap-1 shadow-sm">
-                    <i class="fa-solid fa-fire animate-pulse"></i> ${data.examTag || '核心高频考点'}
+                <span class="high-freq-chip">
+                    <i class="fa-solid fa-fire"></i> ${data.examTag || '核心高频考点'}
                 </span>
             `;
         } else {

@@ -1,16 +1,16 @@
 @import url('https://cdn.jsdelivr.net/npm/anthropic-fonts@1.1.0/cdn/v1/css/anthropicsans.css');
 @import url('https://cdn.jsdelivr.net/npm/anthropic-fonts@1.1.0/cdn/v1/css/anthropicserif.css');
-@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700;900&family=Noto+Serif+SC:wght@400;500;600;700;900&display=swap');
 
 :root {
     --bg-app: #FAF9F5;              /* 暖米白/燕麦底色 */
     --bg-card: #FFFFFF;             /* 纯净沙白 */
-    --text-main: #1F1B18;           /* 炭木褐 */
-    --text-weak: #7A7570;           /* 温暖灰褐 */
-    --border-color: rgba(31, 27, 24, 0.08); /* 极细炭墨边框 */
+    --text-main: #141413;           /* 炭木黑 */
+    --text-weak: #6F6B63;           /* 温暖灰褐 */
+    --border-color: rgba(20, 20, 19, 0.09); /* 极细炭墨边框 */
     
-    --theme-accent: #CC6D4E;        /* 珊瑚红 (Claude 经典红赭) */
-    --theme-green: #548460;         /* 优雅苔绿 */
+    --theme-accent: #D97757;        /* Anthropic 暖橙 */
+    --theme-green: #788C5D;         /* 优雅苔绿 */
     --theme-hex: var(--theme-accent);
     
     --font-sans: 'Anthropic Sans', ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans SC", "Microsoft YaHei", "PingFang SC", "Helvetica Neue", Arial, sans-serif;
@@ -18,11 +18,11 @@
     --font-mono: 'Anthropic Mono', 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
     
     --highlight-bg: #F3EBDD;        /* 温暖淡金黄背景 */
-    --highlight-text: #B2533E;      /* 深珊瑚红高亮字 */
+    --highlight-text: #9F4F37;      /* 深暖橙高亮字 */
     
     --list-item-bg: rgba(255, 255, 255, 0.95);
-    --list-item-border: rgba(31, 27, 24, 0.05);
-    --list-item-shadow: 0 1px 3px rgba(31, 27, 24, 0.01), 0 8px 24px rgba(31, 27, 24, 0.02);
+    --list-item-border: rgba(20, 20, 19, 0.07);
+    --list-item-shadow: 0 1px 3px rgba(20, 20, 19, 0.015), 0 8px 24px rgba(20, 20, 19, 0.025);
 }
 
 [data-theme="dark"] {
@@ -32,8 +32,8 @@
     --text-weak: #94908A;           /* 暖石灰 */
     --border-color: rgba(230, 228, 222, 0.1); /* 极细浅墨边框 */
     
-    --theme-accent: #E08362;        /* 浅珊瑚红 */
-    --theme-green: #72A67E;         /* 嫩苔绿 */
+    --theme-accent: #E8A184;        /* 浅暖橙 */
+    --theme-green: #A0AD82;         /* 嫩苔绿 */
     --theme-hex: var(--theme-accent);
     
     --highlight-bg: rgba(224, 131, 98, 0.15);
@@ -173,7 +173,7 @@ h1, h2, h3, .serif-text {
 .prose code {
     color: var(--highlight-text) !important;
     background-color: var(--highlight-bg) !important;
-    font-family: 'JetBrains Mono', monospace !important;
+    font-family: var(--font-mono) !important;
     font-size: 0.85em !important;
     padding: 0.15rem 0.35rem !important;
     border-radius: 0.25rem !important;
