@@ -2316,7 +2316,7 @@ const siteData = [
             {
                 id: "mcu_course",
                 title: "嵌入式系统",
-                subtitle: "代码讲义、题库、闪卡三轨通关",
+                subtitle: "五个结构体、代码模板、核心闪卡",
                 themeColor: "emerald",
                 type: "course",
                 examTime: "2026-06-30T19:00:00+08:00",
@@ -2335,11 +2335,11 @@ const siteData = [
     Object.assign(appData, {
         mcu_cases: {
             id: "mcu_cases",
-            title: "嵌入式系统：代码题讲义",
-            subtitle: "结构体、程序设计题与实验模板一页通关",
+            title: "嵌入式系统：五个结构体速记",
+            subtitle: "GPIO、TIM、PWM、NVIC、EXTI 一页背完",
             themeColor: "emerald",
             type: "article",
-            btnText: "代码讲义",
+            btnText: "结构体速记",
             btnIcon: "fa-microchip",
             url: "mcu/mcu_cases.html"
         },

@@ -4,420 +4,451 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="color-scheme" content="light dark">
-    <title>嵌入式系统代码题讲义</title>
+    <title>嵌入式系统：五个结构体速记</title>
     <link rel="stylesheet" href="../css/common.css">
-    <link rel="stylesheet" href="../css/lecture.css">
     <style>
         :root {
-            --mcu-paper: #faf9f5;
-            --mcu-ink: #141413;
-            --mcu-muted: #6f6b63;
-            --mcu-line: rgba(20, 20, 19, 0.1);
-            --mcu-accent: #788c5d;
-            --mcu-accent-strong: #52613e;
-            --mcu-warm: #d97757;
-            --mcu-code: #1f2a24;
+            --paper: #faf9f5;
+            --ink: #141413;
+            --muted: #6f6b63;
+            --line: rgba(20, 20, 19, 0.1);
+            --card: rgba(255, 255, 255, 0.76);
+            --green: #788c5d;
+            --green-dark: #52613e;
+            --orange: #d97757;
+            --orange-soft: rgba(217, 119, 87, 0.1);
+            --code: #1f2a24;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html {
+            background: var(--paper);
+            scroll-behavior: smooth;
         }
 
         body {
             margin: 0;
-            background: var(--mcu-paper);
-            color: var(--mcu-ink);
+            color: var(--ink);
+            background: var(--paper);
             font-family: var(--font-sans);
         }
 
-        .mcu-page {
-            width: min(1080px, calc(100% - 32px));
+        .page {
+            width: min(1040px, calc(100% - 28px));
             margin: 0 auto;
-            padding: 40px 0 72px;
+            padding: 22px 0 56px;
         }
 
-        .mcu-hero {
-            display: grid;
-            grid-template-columns: minmax(0, 1.12fr) minmax(280px, 0.88fr);
-            gap: 22px;
-            align-items: end;
-            padding: 34px 0 26px;
-            border-bottom: 1px solid var(--mcu-line);
+        .topbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            min-height: 44px;
         }
 
-        .mcu-eyebrow {
+        .back-link {
+            color: var(--muted);
+            text-decoration: none;
+            font-size: 0.86rem;
+            font-weight: 800;
+        }
+
+        .back-link:hover,
+        .back-link:focus-visible {
+            color: var(--green-dark);
+        }
+
+        .hero {
+            padding: 28px 0 22px;
+            border-bottom: 1px solid var(--line);
+        }
+
+        .tag {
             display: inline-flex;
             align-items: center;
             min-height: 28px;
             padding: 0 10px;
-            border: 1px solid rgba(120, 140, 93, 0.22);
+            border: 1px solid rgba(120, 140, 93, 0.24);
             border-radius: 999px;
-            color: var(--mcu-accent-strong);
+            color: var(--green-dark);
             background: rgba(120, 140, 93, 0.1);
             font-size: 0.78rem;
-            font-weight: 800;
-        }
-
-        h1,
-        h2,
-        h3 {
-            letter-spacing: 0;
+            font-weight: 850;
         }
 
         h1 {
-            margin: 16px 0 12px;
+            margin: 14px 0 10px;
             font-family: var(--font-serif);
-            font-size: clamp(2.05rem, 5vw, 3.6rem);
-            line-height: 1.08;
+            font-size: clamp(2.1rem, 5.6vw, 4.4rem);
+            line-height: 1.04;
+            letter-spacing: 0;
         }
 
-        .mcu-hero p {
-            max-width: 680px;
+        .hero p {
+            max-width: 760px;
             margin: 0;
-            color: var(--mcu-muted);
+            color: var(--muted);
             font-family: var(--font-serif);
             font-size: 1.02rem;
-            line-height: 1.85;
+            line-height: 1.84;
         }
 
-        .exam-box {
-            border: 1px solid var(--mcu-line);
+        .memory-line {
+            margin-top: 18px;
+            padding: 14px 16px;
+            border: 1px solid rgba(217, 119, 87, 0.2);
             border-radius: 8px;
-            background: rgba(255, 255, 255, 0.7);
-            box-shadow: 0 16px 36px rgba(20, 20, 19, 0.04);
-            padding: 18px;
-        }
-
-        .exam-box h2 {
-            margin: 0 0 12px;
-            font-size: 0.95rem;
+            color: #8a5b25;
+            background: var(--orange-soft);
             font-weight: 850;
+            line-height: 1.72;
         }
 
-        .exam-grid {
-            display: grid;
-            grid-template-columns: repeat(2, minmax(0, 1fr));
-            gap: 8px;
+        .section {
+            padding-top: 28px;
         }
 
-        .exam-grid span {
-            display: flex;
-            justify-content: space-between;
-            gap: 10px;
-            padding: 9px 10px;
-            border: 1px solid rgba(20, 20, 19, 0.08);
-            border-radius: 8px;
-            color: var(--mcu-muted);
-            background: rgba(250, 249, 245, 0.82);
-            font-size: 0.84rem;
-            font-weight: 750;
-        }
-
-        .exam-grid b {
-            color: var(--mcu-ink);
-        }
-
-        .mcu-section {
-            padding: 34px 0 8px;
-        }
-
-        .mcu-section > h2 {
+        h2 {
             margin: 0 0 14px;
             font-family: var(--font-serif);
-            font-size: clamp(1.55rem, 3.2vw, 2.25rem);
+            font-size: clamp(1.55rem, 3vw, 2.15rem);
+            line-height: 1.16;
+            letter-spacing: 0;
         }
 
-        .scope-grid,
-        .lab-grid {
+        .structure-stack,
+        .template-grid {
             display: grid;
-            grid-template-columns: repeat(2, minmax(0, 1fr));
             gap: 14px;
         }
 
-        .scope-item,
-        .lab-card,
-        .case-card {
-            border: 1px solid var(--mcu-line);
+        .structure-card,
+        .template-card {
+            border: 1px solid var(--line);
             border-radius: 8px;
-            background: rgba(255, 255, 255, 0.72);
-            box-shadow: 0 12px 28px rgba(20, 20, 19, 0.035);
-        }
-
-        .scope-item {
-            padding: 16px;
-        }
-
-        .scope-item h3,
-        .lab-card h3,
-        .case-card h3 {
-            margin: 0;
-            color: var(--mcu-ink);
-            font-size: 1rem;
-            font-weight: 850;
-        }
-
-        .scope-item p {
-            margin: 9px 0 0;
-            color: var(--mcu-muted);
-            font-family: var(--font-serif);
-            font-size: 0.94rem;
-            line-height: 1.72;
-        }
-
-        .case-list {
-            display: grid;
-            gap: 16px;
-        }
-
-        .case-card {
-            padding: clamp(16px, 2.4vw, 24px);
-        }
-
-        .case-top {
-            display: flex;
-            align-items: flex-start;
-            justify-content: space-between;
-            gap: 12px;
-            padding-bottom: 12px;
-            border-bottom: 1px solid var(--mcu-line);
-        }
-
-        .case-no {
-            display: inline-flex;
-            align-items: center;
-            min-height: 26px;
-            padding: 0 9px;
-            border-radius: 999px;
-            color: #ffffff;
-            background: var(--mcu-accent);
-            font-size: 0.72rem;
-            font-weight: 850;
-            white-space: nowrap;
-        }
-
-        .case-tip,
-        .case-question,
-        .case-answer {
-            margin-top: 14px;
-        }
-
-        .case-tip {
-            padding: 13px 14px;
-            border-left: 3px solid var(--mcu-warm);
-            border-radius: 8px;
-            background: rgba(217, 119, 87, 0.09);
-            color: var(--mcu-accent-strong);
-            font-size: 0.92rem;
-            line-height: 1.7;
-        }
-
-        .case-question {
-            color: var(--mcu-muted);
-            font-family: var(--font-serif);
-            font-size: 0.98rem;
-            line-height: 1.82;
-        }
-
-        .case-answer {
-            color: var(--mcu-ink);
-            font-size: 0.96rem;
-            line-height: 1.75;
-        }
-
-        .case-answer .sa-list {
-            margin-bottom: 0;
-        }
-
-        .lab-card {
-            display: flex;
-            flex-direction: column;
-            min-width: 0;
+            background: var(--card);
+            box-shadow: 0 12px 30px rgba(20, 20, 19, 0.04);
             overflow: hidden;
         }
 
-        .lab-card h3 {
-            padding: 16px 16px 0;
+        .structure-card {
+            display: grid;
+            grid-template-columns: 1fr 1.25fr;
+            min-height: 260px;
         }
 
-        .lab-card p {
-            margin: 8px 16px 12px;
-            color: var(--mcu-muted);
+        .structure-head {
+            padding: 22px;
+            border-right: 1px solid var(--line);
+            background: rgba(255, 255, 255, 0.55);
+        }
+
+        .structure-index {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 34px;
+            height: 34px;
+            border-radius: 999px;
+            color: #fff;
+            background: var(--green);
+            font-size: 0.95rem;
+            font-weight: 900;
+        }
+
+        .structure-head h3 {
+            margin: 14px 0 8px;
+            font-size: 1.22rem;
+            letter-spacing: 0;
+        }
+
+        .formula {
+            margin: 0;
+            color: var(--orange);
+            font-size: 1rem;
+            font-weight: 900;
+            line-height: 1.6;
+        }
+
+        .plain {
+            margin: 12px 0 0;
+            color: var(--muted);
+            font-family: var(--font-serif);
+            line-height: 1.74;
+        }
+
+        .field-list {
+            display: grid;
+            gap: 8px;
+            margin: 14px 0 0;
+            padding: 0;
+            list-style: none;
+        }
+
+        .field-list li {
+            display: flex;
+            align-items: flex-start;
+            gap: 8px;
+            padding: 9px 10px;
+            border: 1px solid rgba(20, 20, 19, 0.08);
+            border-radius: 8px;
+            background: rgba(250, 249, 245, 0.76);
+            color: var(--ink);
+            font-size: 0.92rem;
+            font-weight: 750;
+            line-height: 1.5;
+        }
+
+        .field-list b {
+            color: var(--green-dark);
+            font-family: var(--font-mono);
+            white-space: nowrap;
+        }
+
+        .structure-code,
+        .template-card pre {
+            margin: 0;
+            padding: 18px;
+            overflow-x: auto;
+            color: #e8e6dc;
+            background: var(--code);
+            font-family: var(--font-mono);
+            font-size: 0.84rem;
+            line-height: 1.6;
+            tab-size: 4;
+        }
+
+        .template-grid {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+
+        .template-card h3 {
+            margin: 0;
+            padding: 16px 16px 0;
+            font-size: 1.02rem;
+            letter-spacing: 0;
+        }
+
+        .template-card p {
+            margin: 8px 16px 14px;
+            color: var(--muted);
             font-family: var(--font-serif);
             line-height: 1.72;
         }
 
-        pre {
-            margin: 0;
+        .answer-rule {
+            margin-top: 16px;
             padding: 16px;
-            overflow-x: auto;
-            color: #e8e6dc;
-            background: var(--mcu-code);
-            font-family: var(--font-mono);
-            font-size: 0.83rem;
-            line-height: 1.62;
-            tab-size: 4;
-        }
-
-        code {
-            font-family: var(--font-mono);
-        }
-
-        .mcu-note {
-            margin-top: 18px;
-            padding: 14px 16px;
-            border: 1px solid rgba(217, 119, 87, 0.24);
             border-radius: 8px;
-            color: #8a5b25;
-            background: rgba(217, 119, 87, 0.08);
-            font-weight: 750;
-            line-height: 1.7;
+            border: 1px solid rgba(120, 140, 93, 0.22);
+            background: rgba(120, 140, 93, 0.09);
+            color: var(--green-dark);
+            font-weight: 850;
+            line-height: 1.75;
         }
 
-        @media (max-width: 820px) {
-            .mcu-hero,
-            .scope-grid,
-            .lab-grid {
+        @media (max-width: 860px) {
+            .structure-card,
+            .template-grid {
                 grid-template-columns: 1fr;
             }
 
-            .mcu-page {
-                width: min(100% - 22px, 720px);
-                padding-top: 22px;
+            .structure-head {
+                border-right: 0;
+                border-bottom: 1px solid var(--line);
             }
         }
 
-        @media (max-width: 520px) {
-            .exam-grid {
-                grid-template-columns: 1fr;
+        @media (max-width: 560px) {
+            .page {
+                width: min(100% - 20px, 680px);
+                padding-top: 14px;
             }
 
-            .case-top {
-                flex-direction: column;
+            .hero {
+                padding-top: 18px;
             }
         }
     </style>
 </head>
 <body>
-    <main class="mcu-page">
-        <header class="mcu-hero">
-            <div>
-                <span class="mcu-eyebrow">嵌入式系统 · 代码题讲义</span>
-                <h1>结构体、程序设计题、实验模板</h1>
-                <p>按图片范围把代码相关内容集中到一页：先背五个结构体，再看 TIM2 精确定时和 PC.1 闪烁两道程序设计题，最后用实验模板覆盖 GPIO、中断、定时器和 PWM。</p>
-            </div>
-            <aside class="exam-box" aria-label="考试题型">
-                <h2>题型分值</h2>
-                <div class="exam-grid">
-                    <span>选择 <b>20*1</b></span>
-                    <span>判断 <b>10*1</b></span>
-                    <span>简答 <b>4*5</b></span>
-                    <span>程序分析 <b>2*10</b></span>
-                    <span>程序设计 <b>1*20</b></span>
-                    <span>综合题 <b>1*10</b></span>
-                </div>
-            </aside>
+    <main class="page">
+        <nav class="topbar" aria-label="页面导航">
+            <a class="back-link" href="../index.html">返回首页</a>
+        </nav>
+
+        <header class="hero">
+            <span class="tag">嵌入式代码题只背这个</span>
+            <h1>五个结构体速记</h1>
+            <p>不要硬背整段代码。考试写程序题时，先把结构体字段写对，再按“开时钟、填结构体、初始化、使能”的顺序套模板。</p>
+            <div class="memory-line">总口诀：GPIO 是“针速模”，TIM 是“周分分模”，PWM 是“模使脉极”，NVIC 是“道抢响使”，EXTI 是“线式触使”。</div>
         </header>
 
-        <section class="mcu-section" id="scope">
-            <h2>背诵优先级</h2>
-            <div class="scope-grid">
-                <article class="scope-item">
-                    <h3>需要背诵</h3>
-                    <p>第四章 STM32F103 最小系统、输入时钟、低功耗；第五章 GPIO 内部结构与输入输出模式；第六章定时器类型、ARR/PSC/CCR、溢出时间、PWM 场景；第七章中断处理与嵌套。</p>
+        <section class="section" aria-labelledby="structures-title">
+            <h2 id="structures-title">五个结构体</h2>
+            <div class="structure-stack">
+                <article class="structure-card">
+                    <div class="structure-head">
+                        <span class="structure-index">1</span>
+                        <h3>GPIO_InitTypeDef</h3>
+                        <p class="formula">口诀：GPIO 针速模</p>
+                        <p class="plain">看到 GPIO 输出、输入、LED、按键，先写这个。GPIO 必会。</p>
+                        <ul class="field-list">
+                            <li><b>GPIO_Pin</b> 选引脚</li>
+                            <li><b>GPIO_Speed</b> 选速度</li>
+                            <li><b>GPIO_Mode</b> 选模式</li>
+                        </ul>
+                    </div>
+                    <pre class="structure-code"><code>GPIO_InitTypeDef GPIO_InitStructure;
+
+RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOC, ENABLE);
+
+GPIO_InitStructure.GPIO_Pin = GPIO_Pin_1;
+GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
+GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;
+GPIO_Init(GPIOC, &GPIO_InitStructure);</code></pre>
                 </article>
-                <article class="scope-item">
-                    <h3>代码高频</h3>
-                    <p>五个结构体至少背四个，GPIO 必会；程序设计重点看 GPIO 点灯、定时器精确定时、PWM 输出比较、NVIC 与 EXTI。</p>
+
+                <article class="structure-card">
+                    <div class="structure-head">
+                        <span class="structure-index">2</span>
+                        <h3>TIM_TimeBaseInitTypeDef</h3>
+                        <p class="formula">口诀：时基周分分模</p>
+                        <p class="plain">看到定时、延时、溢出时间，写这个。公式先行：T = (PSC+1)(ARR+1)/TIMx_CLK。</p>
+                        <ul class="field-list">
+                            <li><b>TIM_Period</b> 周期 ARR</li>
+                            <li><b>TIM_Prescaler</b> 预分频 PSC</li>
+                            <li><b>TIM_ClockDivision</b> 时钟分割</li>
+                            <li><b>TIM_CounterMode</b> 计数模式</li>
+                        </ul>
+                    </div>
+                    <pre class="structure-code"><code>TIM_TimeBaseInitTypeDef TIM_TimeBaseStructure;
+
+RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM2, ENABLE);
+
+TIM_TimeBaseStructure.TIM_Period = 720 - 1;
+TIM_TimeBaseStructure.TIM_Prescaler = 100 - 1;
+TIM_TimeBaseStructure.TIM_ClockDivision = TIM_CKD_DIV1;
+TIM_TimeBaseStructure.TIM_CounterMode = TIM_CounterMode_Up;
+TIM_TimeBaseInit(TIM2, &TIM_TimeBaseStructure);
+
+TIM_Cmd(TIM2, ENABLE);</code></pre>
                 </article>
-                <article class="scope-item">
-                    <h3>理解即可</h3>
-                    <p>嵌入式系统应用、特点、分类；开发环境、开发工具、开发过程；寄存器与存储器映射。</p>
+
+                <article class="structure-card">
+                    <div class="structure-head">
+                        <span class="structure-index">3</span>
+                        <h3>TIM_OCInitTypeDef</h3>
+                        <p class="formula">口诀：OC 模使脉极</p>
+                        <p class="plain">看到 PWM、输出比较、呼吸灯、风扇调速，写这个。Pulse 就是 CCR，占空比看它。</p>
+                        <ul class="field-list">
+                            <li><b>TIM_OCMode</b> PWM/比较模式</li>
+                            <li><b>TIM_OutputState</b> 输出使能</li>
+                            <li><b>TIM_Pulse</b> 脉冲值 CCR</li>
+                            <li><b>TIM_OCPolarity</b> 输出极性</li>
+                        </ul>
+                    </div>
+                    <pre class="structure-code"><code>TIM_OCInitTypeDef TIM_OCInitStructure;
+
+TIM_OCInitStructure.TIM_OCMode = TIM_OCMode_PWM1;
+TIM_OCInitStructure.TIM_OutputState = TIM_OutputState_Enable;
+TIM_OCInitStructure.TIM_Pulse = 500;
+TIM_OCInitStructure.TIM_OCPolarity = TIM_OCPolarity_High;
+TIM_OC1Init(TIM3, &TIM_OCInitStructure);
+
+TIM_OC1PreloadConfig(TIM3, TIM_OCPreload_Enable);</code></pre>
                 </article>
-                <article class="scope-item">
-                    <h3>需要了解</h3>
-                    <p>ADC 的定义、作用、应用场景和 12 位量程；答题时记住“模拟量转数字量，0 到 4095”。</p>
+
+                <article class="structure-card">
+                    <div class="structure-head">
+                        <span class="structure-index">4</span>
+                        <h3>NVIC_InitTypeDef</h3>
+                        <p class="formula">口诀：NVIC 道抢响使</p>
+                        <p class="plain">看到中断优先级，写这个。嵌套看抢占优先级，响应优先级只管同级先后。</p>
+                        <ul class="field-list">
+                            <li><b>NVIC_IRQChannel</b> 中断通道</li>
+                            <li><b>NVIC_IRQChannelPreemptionPriority</b> 抢占优先级</li>
+                            <li><b>NVIC_IRQChannelSubPriority</b> 响应优先级</li>
+                            <li><b>NVIC_IRQChannelCmd</b> 通道使能</li>
+                        </ul>
+                    </div>
+                    <pre class="structure-code"><code>NVIC_InitTypeDef NVIC_InitStructure;
+
+NVIC_InitStructure.NVIC_IRQChannel = EXTI0_IRQn;
+NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 1;
+NVIC_InitStructure.NVIC_IRQChannelSubPriority = 1;
+NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
+NVIC_Init(&NVIC_InitStructure);</code></pre>
+                </article>
+
+                <article class="structure-card">
+                    <div class="structure-head">
+                        <span class="structure-index">5</span>
+                        <h3>EXTI_InitTypeDef</h3>
+                        <p class="formula">口诀：EXTI 线式触使</p>
+                        <p class="plain">看到外部中断、按键中断，写这个。先 GPIO_EXTILineConfig，再 EXTI_Init。</p>
+                        <ul class="field-list">
+                            <li><b>EXTI_Line</b> 中断线</li>
+                            <li><b>EXTI_Mode</b> 中断/事件模式</li>
+                            <li><b>EXTI_Trigger</b> 触发边沿</li>
+                            <li><b>EXTI_LineCmd</b> 线路使能</li>
+                        </ul>
+                    </div>
+                    <pre class="structure-code"><code>EXTI_InitTypeDef EXTI_InitStructure;
+
+GPIO_EXTILineConfig(GPIO_PortSourceGPIOA, GPIO_PinSource0);
+
+EXTI_InitStructure.EXTI_Line = EXTI_Line0;
+EXTI_InitStructure.EXTI_Mode = EXTI_Mode_Interrupt;
+EXTI_InitStructure.EXTI_Trigger = EXTI_Trigger_Falling;
+EXTI_InitStructure.EXTI_LineCmd = ENABLE;
+EXTI_Init(&EXTI_InitStructure);</code></pre>
                 </article>
             </div>
         </section>
 
-        <section class="mcu-section" id="code-bank">
-            <h2>代码题全集</h2>
-            <div class="case-list" id="case-list"></div>
-        </section>
-
-        <section class="mcu-section" id="lab-templates">
-            <h2>实验模板速查</h2>
-            <div class="lab-grid">
-                <article class="lab-card">
-                    <h3>GPIO 输出：初始化 + 主循环</h3>
-                    <p>看到 LED、蜂鸣器、继电器，先开 GPIO 时钟，再配推挽输出，最后 Set/Reset 控制电平。</p>
-                    <pre><code>#include "stm32f10x.h"
-
-void GPIO_Output_Init(void)
+        <section class="section" aria-labelledby="templates-title">
+            <h2 id="templates-title">其他常考代码模板</h2>
+            <div class="template-grid">
+                <article class="template-card">
+                    <h3>PC.1 小灯闪烁</h3>
+                    <p>口诀：开 C 配 PC1，Reset 亮，Set 灭，Delay 夹中间。</p>
+                    <pre><code>void Delay(vu32 nCount)
 {
-    GPIO_InitTypeDef GPIO_InitStructure;
-
-    RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOC, ENABLE);
-
-    GPIO_InitStructure.GPIO_Pin = GPIO_Pin_1;
-    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;
-    GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
-    GPIO_Init(GPIOC, &GPIO_InitStructure);
+    for (; nCount != 0; nCount--);
 }
 
 int main(void)
 {
-    GPIO_Output_Init();
+    GPIO_InitTypeDef GPIO_InitStructure;
+
+    RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOC, ENABLE);
+    GPIO_InitStructure.GPIO_Pin = GPIO_Pin_1;
+    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;
+    GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
+    GPIO_Init(GPIOC, &GPIO_InitStructure);
+
     while (1) {
         GPIO_ResetBits(GPIOC, GPIO_Pin_1);
+        Delay(0x1FFFFF);
         GPIO_SetBits(GPIOC, GPIO_Pin_1);
+        Delay(0x1FFFFF);
     }
 }</code></pre>
                 </article>
 
-                <article class="lab-card">
-                    <h3>EXTI 中断：GPIO + AFIO + EXTI + NVIC</h3>
-                    <p>外部中断题按四步写：引脚输入、引脚映射到中断线、配置触发边沿、配置 NVIC 优先级。</p>
-                    <pre><code>void EXTI0_Init(void)
-{
-    GPIO_InitTypeDef GPIO_InitStructure;
-    EXTI_InitTypeDef EXTI_InitStructure;
-    NVIC_InitTypeDef NVIC_InitStructure;
-
-    RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA | RCC_APB2Periph_AFIO, ENABLE);
-
-    GPIO_InitStructure.GPIO_Pin = GPIO_Pin_0;
-    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IPU;
-    GPIO_Init(GPIOA, &GPIO_InitStructure);
-
-    GPIO_EXTILineConfig(GPIO_PortSourceGPIOA, GPIO_PinSource0);
-
-    EXTI_InitStructure.EXTI_Line = EXTI_Line0;
-    EXTI_InitStructure.EXTI_Mode = EXTI_Mode_Interrupt;
-    EXTI_InitStructure.EXTI_Trigger = EXTI_Trigger_Falling;
-    EXTI_InitStructure.EXTI_LineCmd = ENABLE;
-    EXTI_Init(&EXTI_InitStructure);
-
-    NVIC_InitStructure.NVIC_IRQChannel = EXTI0_IRQn;
-    NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 1;
-    NVIC_InitStructure.NVIC_IRQChannelSubPriority = 1;
-    NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
-    NVIC_Init(&NVIC_InitStructure);
-}
-
-void EXTI0_IRQHandler(void)
-{
-    if (EXTI_GetITStatus(EXTI_Line0) != RESET) {
-        EXTI_ClearITPendingBit(EXTI_Line0);
-    }
-}</code></pre>
-                </article>
-
-                <article class="lab-card">
-                    <h3>定时器精确定时：Period + Prescaler</h3>
-                    <p>定时器题先写公式，再把目标时间拆成 PSC 和 ARR，最后使能更新中断或直接启动定时器。</p>
-                    <pre><code>void TIM2_1ms_Init(void)
+                <article class="template-card">
+                    <h3>TIM2 1ms 精确定时</h3>
+                    <p>口诀：先算再配。T = 100 * 720 / 72MHz = 1ms。</p>
+                    <pre><code>void TIM2_Init(void)
 {
     TIM_TimeBaseInitTypeDef TIM_TimeBaseStructure;
 
     RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM2, ENABLE);
-
     TIM_TimeBaseStructure.TIM_Period = 720 - 1;
     TIM_TimeBaseStructure.TIM_Prescaler = 100 - 1;
     TIM_TimeBaseStructure.TIM_ClockDivision = TIM_CKD_DIV1;
@@ -429,80 +460,37 @@ void EXTI0_IRQHandler(void)
 }</code></pre>
                 </article>
 
-                <article class="lab-card">
-                    <h3>PWM 输出比较：GPIO 复用 + OC 配置</h3>
-                    <p>PWM 题的关键是引脚复用推挽输出，TIM 时基设周期，OC 结构体用 Pulse 写占空比。</p>
-                    <pre><code>void TIM3_PWM_Init(void)
+                <article class="template-card">
+                    <h3>中断服务函数固定写法</h3>
+                    <p>口诀：判断标志，处理任务，清除标志。</p>
+                    <pre><code>void EXTI0_IRQHandler(void)
 {
-    GPIO_InitTypeDef GPIO_InitStructure;
-    TIM_TimeBaseInitTypeDef TIM_TimeBaseStructure;
-    TIM_OCInitTypeDef TIM_OCInitStructure;
-
-    RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA, ENABLE);
-    RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM3, ENABLE);
-
-    GPIO_InitStructure.GPIO_Pin = GPIO_Pin_6;
-    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF_PP;
-    GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
-    GPIO_Init(GPIOA, &GPIO_InitStructure);
-
-    TIM_TimeBaseStructure.TIM_Period = 1000 - 1;
-    TIM_TimeBaseStructure.TIM_Prescaler = 72 - 1;
-    TIM_TimeBaseStructure.TIM_ClockDivision = TIM_CKD_DIV1;
-    TIM_TimeBaseStructure.TIM_CounterMode = TIM_CounterMode_Up;
-    TIM_TimeBaseInit(TIM3, &TIM_TimeBaseStructure);
-
-    TIM_OCInitStructure.TIM_OCMode = TIM_OCMode_PWM1;
-    TIM_OCInitStructure.TIM_OutputState = TIM_OutputState_Enable;
-    TIM_OCInitStructure.TIM_Pulse = 500;
-    TIM_OCInitStructure.TIM_OCPolarity = TIM_OCPolarity_High;
-    TIM_OC1Init(TIM3, &TIM_OCInitStructure);
-
-    TIM_OC1PreloadConfig(TIM3, TIM_OCPreload_Enable);
-    TIM_Cmd(TIM3, ENABLE);
+    if (EXTI_GetITStatus(EXTI_Line0) != RESET) {
+        /* 在这里写中断处理代码 */
+        EXTI_ClearITPendingBit(EXTI_Line0);
+    }
 }</code></pre>
                 </article>
+
+                <article class="template-card">
+                    <h3>PWM 输出最小骨架</h3>
+                    <p>口诀：GPIO 复用推挽，TIM 定周期，OC 写占空比。</p>
+                    <pre><code>GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF_PP;
+
+TIM_TimeBaseStructure.TIM_Period = 1000 - 1;
+TIM_TimeBaseStructure.TIM_Prescaler = 72 - 1;
+TIM_TimeBaseInit(TIM3, &TIM_TimeBaseStructure);
+
+TIM_OCInitStructure.TIM_OCMode = TIM_OCMode_PWM1;
+TIM_OCInitStructure.TIM_OutputState = TIM_OutputState_Enable;
+TIM_OCInitStructure.TIM_Pulse = 500;
+TIM_OCInitStructure.TIM_OCPolarity = TIM_OCPolarity_High;
+TIM_OC1Init(TIM3, &TIM_OCInitStructure);</code></pre>
+                </article>
             </div>
-            <div class="mcu-note">答程序设计题时固定顺序：包含头文件 → 定义结构体变量 → 开外设时钟 → 填结构体成员 → 调初始化函数 → 清标志/开中断/使能外设 → 主循环或中断服务函数。</div>
+
+            <div class="answer-rule">代码题答题顺序：先写结构体变量，再开外设时钟，然后填字段，调用 Init，最后清标志、开中断或使能外设。背顺序，比背整段代码更稳。</div>
         </section>
     </main>
-
-    <script src="../data.js"></script>
-    <script>
-        function escapeHtml(value) {
-            return String(value ?? '')
-                .replace(/&/g, '&amp;')
-                .replace(/</g, '&lt;')
-                .replace(/>/g, '&gt;')
-                .replace(/"/g, '&quot;')
-                .replace(/'/g, '&#39;');
-        }
-
-        function renderCase(card, index) {
-            return `
-                <article class="case-card">
-                    <div class="case-top">
-                        <h3>${escapeHtml(card.title || `代码题 ${index + 1}`)}</h3>
-                        <span class="case-no">代码题 ${index + 1}</span>
-                    </div>
-                    ${card.tip ? `<div class="case-tip">${card.tip}</div>` : ''}
-                    ${card.q ? `<div class="case-question">${card.q}</div>` : ''}
-                    ${card.a ? `<div class="case-answer">${card.a}</div>` : ''}
-                </article>
-            `;
-        }
-
-        function renderCodeCases() {
-            const pointCards = Array.isArray(appData?.mcu_points?.cards) ? appData.mcu_points.cards : [];
-            const structureCard = pointCards.find(card => /结构体/.test(card.title || ''));
-            const programCards = Array.isArray(appData?.mcu_short_answers?.cards) ? appData.mcu_short_answers.cards : [];
-            const cases = [structureCard, ...programCards].filter(Boolean);
-            const target = document.getElementById('case-list');
-            target.innerHTML = cases.map(renderCase).join('');
-        }
-
-        renderCodeCases();
-    </script>
-    <script src="../js/lecture.js"></script>
 </body>
 </html>
