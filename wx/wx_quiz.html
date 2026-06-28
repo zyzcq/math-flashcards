@@ -2190,17 +2190,47 @@ class App {
 
         this.state = { mode: mode, qIndex: 0, score: 0, combo: 0, sessionMistakes: [] };
 
-        // 解析数据 + 选项乱序处理
+        
+		// 提取全部填空题的正确答案，用于动态生成选择题的干扰项
+		const fillBlankAnswers = [...new Set(rawDB.filter(q => q[0] === 2).map(q => q[2][0]))];
+
+		// 解析数据 + 选项乱序处理
         this.questions = rawSubset.map(item => {
             const globalId = rawDB.indexOf(item); 
-            const type = item[0];
-            const originalAnsIndex = item[3];
+            let type = item[0];
+			let originalAnsIndex = item[3];
             
             let finalOptions = item[2];
             let finalAnsIndex = originalAnsIndex;
 
             // 选择题进行选项乱序
-            if(type === 1) {
+            if (type === 2) {
+				// 将填空题转换成选择题！
+				type = 1;
+				const correctAnswerText = item[2][0];
+
+				// 从所有填空题答案中过滤掉当前答案作为干扰项
+				const distractors = fillBlankAnswers.filter(ans => ans !== correctAnswerText);
+
+				// 随机抽取最多 3 个作为干扰项
+				const shuffledDistractors = [...distractors];
+				for (let i = shuffledDistractors.length - 1; i > 0; i--) {
+					const j = Math.floor(Math.random() * (i + 1));
+					[shuffledDistractors[i], shuffledDistractors[j]] = [shuffledDistractors[j], shuffledDistractors[i]];
+				}
+				const chosenDistractors = shuffledDistractors.slice(0, 3);
+
+				// 正确答案与干扰项合并
+				finalOptions = [correctAnswerText, ...chosenDistractors];
+
+				// 乱序选项
+				for (let i = finalOptions.length - 1; i > 0; i--) {
+					const j = Math.floor(Math.random() * (i + 1));
+					[finalOptions[i], finalOptions[j]] = [finalOptions[j], finalOptions[i]];
+				}
+
+				finalAnsIndex = finalOptions.indexOf(correctAnswerText);
+			} else if (type === 1) {
                 finalOptions = [...item[2]];
                 const correctAnswerText = item[2][originalAnsIndex];
                 // 判断是否为判断题：选项长度为2，且包含肯定的“对”/“正确”及否定的“错”/“错误”
