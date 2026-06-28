@@ -522,8 +522,10 @@
                     <div class="stat-pill" id="stat-mock">最高正确率: 0%</div>
                 </div>
                 
+                <div class="menu-card" id="btn-cases" onclick="window.location.href='mcu_cases.html'" style="border-color: var(--blue-500); background: rgba(59, 130, 246, 0.04);">
+                    <div class="menu-badge" style="color: var(--blue-500); opacity:0.15;">🏆</div>
                     <h3 style="color: var(--blue-500);">压轴案例专区</h3>
-                    <p>沉浸式大题背诵<br><span style="font-weight:bold">实验7</span>等综合设计题</p>
+                    <p>五个结构体速记<br>核心代码大题重点背诵</p>
                 </div>
  
                 <div class="menu-card" id="btn-mistakes" onclick="app.startMode('mistakes')" style="border-color: var(--theme-accent); background: rgba(204, 109, 78, 0.04);">
@@ -927,7 +929,7 @@ class App {
     constructor() {
         this.questions = [];
         try {
-            const rawMistakes = localStorage.getItem('ia_quiz_mistakes');
+            const rawMistakes = localStorage.getItem('mcu_quiz_mistakes');
             this.history = rawMistakes ? JSON.parse(rawMistakes).map(Number).filter(n => !isNaN(n)) : [];
         } catch (e) {
             this.history = [];
@@ -1381,7 +1383,7 @@ class App {
 
     saveData() {
         try {
-            localStorage.setItem('ia_quiz_mistakes', JSON.stringify(this.history));
+            localStorage.setItem('mcu_quiz_mistakes', JSON.stringify(this.history));
             localStorage.setItem('mcu_quiz_stats', JSON.stringify(this.stats));
         } catch (e) {
             console.error("Failed to save data to localStorage", e);
