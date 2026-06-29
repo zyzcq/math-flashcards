@@ -30,9 +30,11 @@
             background: #fff;
         }
         #mcu-lock-screen img {
-            width: 100vw;
-            height: 100vh;
-            object-fit: cover;
+            max-width: 100vw;
+            max-height: 100vh;
+            width: auto;
+            height: auto;
+            object-fit: contain;
         }
     `;
     document.head.appendChild(style);
