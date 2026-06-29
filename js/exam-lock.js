@@ -1,6 +1,6 @@
 (function () {
     const script = document.currentScript;
-    const lockMinutes = Number(script?.dataset?.lockMinutes || 50);
+    const lockMinutes = Number(script?.dataset?.lockMinutes || 55);
     const mode = script?.dataset?.examLock || 'page';
     const params = new URLSearchParams(window.location.search);
     const courseLocks = {
