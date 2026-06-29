@@ -1,13 +1,15 @@
 (function () {
-    const lockStartAt = Date.parse('2026-06-29T20:44:00+08:00');
-    const lockEndAt = Date.parse('2026-06-29T20:50:00+08:00');
     const script = document.currentScript;
+    const examStart = script?.dataset?.examStart || '2026-06-30T19:00:00+08:00';
+    const lockMinutes = Number(script?.dataset?.lockMinutes || 50);
+    const lockStartAt = Date.parse(examStart);
+    const lockEndAt = lockStartAt + lockMinutes * 60 * 1000;
     const mode = script?.dataset?.mcuLock || 'always';
     const mcuStudyTypes = new Set(['mcu_points', 'mcu_short_answers']);
     const params = new URLSearchParams(window.location.search);
     const shouldLock = mode === 'always' || mcuStudyTypes.has(params.get('type'));
 
-    if (!shouldLock || Date.now() >= lockEndAt) return;
+    if (!shouldLock || !Number.isFinite(lockStartAt) || !Number.isFinite(lockEndAt) || Date.now() >= lockEndAt) return;
 
     const imageUrl = new URL('../assets/mcu-lock-meme.png', script?.src || window.location.href).href;
     const style = document.createElement('style');
