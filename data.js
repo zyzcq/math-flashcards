@@ -1367,11 +1367,11 @@ const appData = {
 
     se_quiz: {
         id: "se_quiz",
-        title: "软件测试：选择与填空通关",
+        title: "软件测试：客观题通关",
         subtitle: "专业课自测题库 · 答错显示记忆口诀",
         themeColor: "fuchsia",
         type: "article",
-        url: "se/se_quiz.html?v=1.3",
+        url: "se/se_quiz.html?v=1.4",
         cards: []
     },
 
