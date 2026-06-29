@@ -1,6 +1,6 @@
 (function () {
-    const lockStartAt = Date.parse('2026-06-29T20:40:00+08:00');
-    const lockEndAt = Date.parse('2026-06-29T20:43:00+08:00');
+    const lockStartAt = Date.parse('2026-06-29T20:44:00+08:00');
+    const lockEndAt = Date.parse('2026-06-29T20:50:00+08:00');
     const script = document.currentScript;
     const mode = script?.dataset?.mcuLock || 'always';
     const mcuStudyTypes = new Set(['mcu_points', 'mcu_short_answers']);
