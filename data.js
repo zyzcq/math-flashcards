@@ -52,7 +52,7 @@ const appData = {
             {
                 title: "JMeter 接口性能测试配置与本地工具异常诊断",
                 q: "在对“黑马头条内容管理查询”接口做并发性能测试时，如何利用 Apache JMeter 进行基础配置？若在测试运行中，JMeter 报错提示 `Could not delete existing file D:\\app\\JMeter\\bin` 导致无法生成性能测试聚合报告，请对该问题进行分析并给出正确的测试缺陷判定及处理方案。",
-                a: `<div class='sa-list'>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-emerald'>置</span>\n    <div class='sa-content'>\n      <b class='sa-title'>JMeter 基础性能测试配置要点</b>：\n      <span class='sa-desc'>\n        <ul>\n          <li><b>添加线程组</b>：配置并发线程数（如 5 到 50 线程）、Ramp-up 时间（如 1 秒内启动所有并发）以及循环次数（通常为 1 或持续运行时间）。</li>\n          <li><b>HTTP 请求元件</b>：配置协议为 <code>https</code>，服务器域名为被测后台地址，方法选择 <code>POST</code>，路径输入 <code>/service_6001/wemedia/api/v1/news/findPublished</code>。</li>\n          <li><b>HTTP 信息头管理器</b>：必须添加请求头 <code>Content-Type: application/json</code> 以及登录凭证 <code>Token</code>，确保并发请求通过系统的安全验证。</li>\n          <li><b>监听器</b>：添加“聚合报告 (Aggregate Report)” and “察看结果树 (View Results Tree)”用于搜集性能数据。</li>\n        </ul>\n      </span>\n    </div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-rose'>诊</span>\n    <div class='sa-content'>\n      <b class='sa-title'>本地工具异常分析与处理</b>：\n      <span class='sa-desc'>\n        <ul>\n          <li><b>异常原因</b>：JMeter 在生成测试报告时，会指定一个输出文件夹或 CSV 结果文件。如果用户将性能测试的结果文件路径直接配置为了 JMeter 自身的 bin 目录（或未指定具体文件名导致其误判），JMeter 就会尝试删除或重置该文件夹。Windows 系统出于文件占用和保护机制，会拒绝该删除操作，抛出 <code>Could not delete existing file D:\\app\\JMeter\\bin</code> 错误，从而导致聚合报告文件写入失败。</li>\n          <li><b>缺陷判定</b>：<b>该异常属于测试工具本地配置错误，绝对不能判定为被测系统（黑马头条）的软件缺陷。</b></li>\n          <li><b>处理方案</b>：\n            <br>① 修改 JMeter 聚合报告或结果文件保存路径，确保其指向一个新建的、拥有完全读写权限的本地文件夹（例如 <code>D:\\test_results\\report.csv</code>），避开 JMeter 自身的 bin 路径。\n            <br>② 在提交测试报告时，如实记录此工具报错的现象与成因，但不能将其列为被测系统的 Bug。\n          </li>\n        </ul>\n      </span>\n    </div>\n  </div>\n</div>`
+                a: `<div class='sa-list'>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-emerald'>置</span>\n    <div class='sa-content'>\n      <b class='sa-title'>JMeter 基础性能测试配置要点</b>：\n      <span class='sa-desc'>\n        <ul>\n          <li><b>添加线程组</b>：配置并发线程数（如 5 到 50 线程）、Ramp-up 时间（如 1 秒内启动所有并发）以及循环次数（通常为 1 或持续运行时间）。</li>\n          <li><b>HTTP 请求元件</b>：配置协议为 <code>https</code>，服务器域名为被测后台地址，方法选择 <code>POST</code>，路径输入 <code>/service_6001/wemedia/api/v1/news/findPublished</code>。</li>\n          <li><b>HTTP 信息头管理器</b>：必须添加请求头 <code>Content-Type: application/json</code> 以及登录凭证 <code>Token</code>，确保并发请求通过系统的安全验证。</li>\n          <li><b>监听器</b>：添加“聚合报告 (Aggregate Report)”和“察看结果树 (View Results Tree)”用于搜集性能数据。</li>\n        </ul>\n      </span>\n    </div>\n  </div>\n  <div class='sa-item'>\n    <span class='sa-badge sa-badge-rose'>诊</span>\n    <div class='sa-content'>\n      <b class='sa-title'>本地工具异常分析与处理</b>：\n      <span class='sa-desc'>\n        <ul>\n          <li><b>异常原因</b>：JMeter 在生成测试报告时，会指定一个输出文件夹或 CSV 结果文件。如果用户将性能测试的结果文件路径直接配置为了 JMeter 自身的 bin 目录（或未指定具体文件名导致其误判），JMeter 就会尝试删除或重置该文件夹。Windows 系统出于文件占用和保护机制，会拒绝该删除操作，抛出 <code>Could not delete existing file D:\\app\\JMeter\\bin</code> 错误，从而导致聚合报告文件写入失败。</li>\n          <li><b>缺陷判定</b>：<b>该异常属于测试工具本地配置错误，绝对不能判定为被测系统（黑马头条）的软件缺陷。</b></li>\n          <li><b>处理方案</b>：\n            <br>① 修改 JMeter 聚合报告或结果文件保存路径，确保其指向一个新建的、拥有完全读写权限的本地文件夹（例如 <code>D:\\test_results\\report.csv</code>），避开 JMeter 自身的 bin 路径。\n            <br>② 在提交测试报告时，如实记录此工具报错的现象与成因，但不能将其列为被测系统的 Bug。\n          </li>\n        </ul>\n      </span>\n    </div>\n  </div>\n</div>`
             }
         ]
     },
@@ -1885,7 +1885,7 @@ const siteData = [
             {
                 id: "mcu_course",
                 title: "嵌入式系统",
-                subtitle: "五个结构体、代码模板、核心闪卡",
+                subtitle: "结构体速记、客观题与核心闪卡",
                 themeColor: "emerald",
                 type: "course",
                 examTime: "2026-06-30T19:00:00+08:00",
@@ -1930,7 +1930,7 @@ const siteData = [
                 {
                     title: "第一章：嵌入式系统概述 [理解即可]",
                     highFreq: false,
-                    q: "1. 嵌入式系统的特点有哪些？<br>2. 嵌入式系统的应用领域 and 分类有哪些？",
+                    q: "1. 嵌入式系统的特点有哪些？<br>2. 嵌入式系统的应用领域和分类有哪些？",
                     tip: "<b>专用、可裁剪、可靠、寿命长、不垄断、实时</b>",
                     a: "<ul><li><b>特点</b>：专用性、可裁剪性、可靠性、具有较长的生命周期、不易被垄断、实时性。</li><li><b>应用</b>：消费电子、工业控制、汽车电子、网络通信等。</li><li><b>分类</b>：按处理器（MCU、MPU、DSP、SoC）；按实时性（硬实时、软实时）。</li></ul>"
                 },

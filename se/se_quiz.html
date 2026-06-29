@@ -981,7 +981,7 @@ const rawDB = [
         "关于程序插桩法，下列说法中错误的是（）。",
         [
             "往程序中插入测试代码",
-            "分目标代码 and 源代码插桩",
+            "分目标代码和源代码插桩",
             "源代码插桩测试代码不参与编译",
             "目标代码插桩是往二进制中插入"
         ],
@@ -1003,7 +1003,7 @@ const rawDB = [
     ],
     [
         2,
-        "TPS是指系统 _____ 能够处理的事务 and 交易的数量。",
+        "TPS是指系统 _____ 能够处理的事务或交易的数量。",
         [
             "每秒"
         ],
@@ -2099,7 +2099,12 @@ class App {
         const progress = ((this.state.qIndex) / this.questions.length) * 100;
         document.getElementById('progress-bar').style.width = `${progress}%`;
         document.getElementById('q-counter').textContent = `${this.state.qIndex + 1}/${this.questions.length}`;
-        document.getElementById('q-tag').textContent = `第 ${q.chapter} 章 ${q.type === 1 ? '单选题' : '填空题'}`;
+        const normalizedOptions = Array.isArray(q.options) ? q.options.map(opt => String(opt).replace(/^[A-G][.、]\s*/, '').trim()) : [];
+        const isTrueFalse = q.type === 1 && normalizedOptions.length === 2
+            && normalizedOptions.some(opt => opt === '正确' || opt === '对')
+            && normalizedOptions.some(opt => opt === '错误' || opt === '错');
+        const typeLabel = q.type === 2 ? '填空题' : (isTrueFalse ? '判断题' : '单选题');
+        document.getElementById('q-tag').textContent = `第 ${q.chapter} 章 ${typeLabel}`;
         
         // 渲染题干
         document.getElementById('q-text').textContent = q.q;

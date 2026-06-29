@@ -485,7 +485,7 @@
     <main>
         <div id="screen-menu" class="card">
             <h1 style="color: var(--theme-accent); margin-bottom: 0.5rem;">微信小程序期末题库</h1>
-            <p style="opacity: 0.7; margin-bottom: 2rem;">选择题与判断题 · 全8章考点</p>
+            <p style="opacity: 0.7; margin-bottom: 2rem;">选择题、判断题与填空题 · 1-6章考点</p>
             
             <div class="menu-grid">
                 <div class="menu-card" onclick="app.startMode('mock')" style="border-color: #07c160; background: rgba(7, 193, 96, 0.04);">
@@ -517,8 +517,8 @@
                 
                 <div class="menu-card" onclick="app.startMode('part3')">
                     <div class="menu-badge">🤖</div>
-                    <h3>3. 实战与uni-app</h3>
-                    <p>第 6 - 8 章</p>
+                    <h3>3. 登录与综合应用</h3>
+                    <p>第 6 章</p>
                     <div class="stat-pill" id="stat-part3">最高正确率: 0%</div>
                 </div>
             </div>
@@ -606,7 +606,7 @@
 
 <script>
 /**
- * 数据源: 软件测试课后习题 (选择与填空)
+ * 数据源: 微信小程序课后习题 (选择、判断与填空)
  * 格式: [Type, Question, Options/Answer, CorrectIndex/Null, Explanation, Chapter]
  * Type: 1=选择题, 2=填空题
  */
@@ -722,7 +722,7 @@ const rawDB = [
       "B. 错误"
     ],
     0,
-    "在小程序管理后台可以添加项目成员，他们可以拥有开发者权限、体验者权限、运营者权限等，共同参与小程序的开发、测试 and 运行管理。",
+    "在小程序管理后台可以添加项目成员，他们可以拥有开发者权限、体验者权限、运营者权限等，共同参与小程序的开发、测试和运行管理。",
     1,
     "项目成员来合作，开发运行分工多。"
   ],
@@ -1136,7 +1136,7 @@ const rawDB = [
       "D. [[ ]]"
     ],
     0,
-    "微信小程序使用 Mustache 语法（双大括号 {{ }}）将变量绑定 to WXML 页面中，这是前后端绑定的基本语法。",
+    "微信小程序使用 Mustache 语法（双大括号 {{ }}）将变量绑定到 WXML 页面中，这是前后端绑定的基本语法。",
     3,
     "数据绑定双括号，Mustache最牢靠。"
   ],
@@ -1634,20 +1634,6 @@ const rawDB = [
   ],
   [
     1,
-    "下列选项中，用于配置微信小程序所有的页面地址的文件是（    ）",
-    [
-      "A. app.js",
-      "B. app.json",
-      "C. app.wxss",
-      "D. project.config.json"
-    ],
-    1,
-    "app.json 是全局配置文件，其中的 pages 字段配置了小程序的全部页面地址。",
-    6,
-    "路由配置app.json，页面路径列其中。"
-  ],
-  [
-    1,
     "下列选项中，关于swiper 组件的用法描述错误的是（    ）。",
     [
       "A. 若indicatorDots 属性设置为false，则显示面板指示点",
@@ -1802,7 +1788,7 @@ class App {
         
         if (mode === 'part1') rawSubset = rawDB.filter(q => q[5] >= 1 && q[5] <= 3);
         else if (mode === 'part2') rawSubset = rawDB.filter(q => q[5] >= 4 && q[5] <= 5);
-        else if (mode === 'part3') rawSubset = rawDB.filter(q => q[5] >= 6 && q[5] <= 8);
+        else if (mode === 'part3') rawSubset = rawDB.filter(q => q[5] === 6);
         else if (mode === 'mistakes') {
             rawSubset = rawDB.filter((_, idx) => this.history.includes(idx));
         } else if (mode === 'session_retry') {
@@ -1935,7 +1921,12 @@ class App {
         const progress = ((this.state.qIndex) / this.questions.length) * 100;
         document.getElementById('progress-bar').style.width = `${progress}%`;
         document.getElementById('q-counter').textContent = `${this.state.qIndex + 1}/${this.questions.length}`;
-        document.getElementById('q-tag').textContent = `第 ${q.chapter} 章 ${q.type === 1 ? '单选题' : '填空题'}`;
+        const normalizedOptions = Array.isArray(q.options) ? q.options.map(opt => String(opt).replace(/^[A-G][.、]\s*/, '').trim()) : [];
+        const isTrueFalse = q.type === 1 && normalizedOptions.length === 2
+            && normalizedOptions.some(opt => opt === '正确' || opt === '对')
+            && normalizedOptions.some(opt => opt === '错误' || opt === '错');
+        const typeLabel = q.type === 2 ? '填空题' : (isTrueFalse ? '判断题' : '单选题');
+        document.getElementById('q-tag').textContent = `第 ${q.chapter} 章 ${typeLabel}`;
         
         // 渲染题干
         document.getElementById('q-text').textContent = q.q;

@@ -524,7 +524,7 @@
                 
                 <div class="menu-card" id="btn-cases" onclick="window.location.href='mcu_cases.html'" style="border-color: var(--blue-500); background: rgba(59, 130, 246, 0.04);">
                     <div class="menu-badge" style="color: var(--blue-500); opacity:0.15;">🏆</div>
-                    <h3 style="color: var(--blue-500);">压轴案例专区</h3>
+                    <h3 style="color: var(--blue-500);">结构体速记</h3>
                     <p>五个结构体速记<br>核心代码大题重点背诵</p>
                 </div>
  
@@ -632,9 +632,9 @@
 
 <script>
 /**
- * 数据源: 软件测试课后习题 (选择与填空)
+ * 数据源: 嵌入式系统期末题库 (选择与判断)
  * 格式: [Type, Question, Options/Answer, CorrectIndex/Null, Explanation, Chapter]
- * Type: 1=选择题, 2=填空题
+ * Type: 1=单选/判断题
  */
 const rawDB = [
   [
@@ -1138,7 +1138,12 @@ class App {
         const progress = ((this.state.qIndex) / this.questions.length) * 100;
         document.getElementById('progress-bar').style.width = `${progress}%`;
         document.getElementById('q-counter').textContent = `${this.state.qIndex + 1}/${this.questions.length}`;
-        document.getElementById('q-tag').textContent = `第 ${q.chapter} 章 ${q.type === 1 ? '单选题' : '填空题'}`;
+        const normalizedOptions = Array.isArray(q.options) ? q.options.map(opt => String(opt).replace(/^[A-G][.、]\s*/, '').trim()) : [];
+        const isTrueFalse = q.type === 1 && normalizedOptions.length === 2
+            && normalizedOptions.some(opt => opt === '正确' || opt === '对')
+            && normalizedOptions.some(opt => opt === '错误' || opt === '错');
+        const typeLabel = q.type === 2 ? '填空题' : (isTrueFalse ? '判断题' : '单选题');
+        document.getElementById('q-tag').textContent = `第 ${q.chapter} 章 ${typeLabel}`;
         
         // 渲染题干
         const qTextEl = document.getElementById('q-text');
