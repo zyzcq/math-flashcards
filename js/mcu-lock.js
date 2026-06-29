@@ -1,5 +1,5 @@
 (function () {
-    const releaseAt = 1782735720765;
+    const releaseAt = 1782735999526;
     const script = document.currentScript;
     const mode = script?.dataset?.mcuLock || 'always';
     const mcuStudyTypes = new Set(['mcu_points', 'mcu_short_answers']);
