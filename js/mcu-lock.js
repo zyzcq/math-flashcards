@@ -1,6 +1,6 @@
 (function () {
-    const lockStartAt = 1782736380000;
-    const lockEndAt = 1782736500000;
+    const lockStartAt = Date.parse('2026-06-29T20:40:00+08:00');
+    const lockEndAt = Date.parse('2026-06-29T20:43:00+08:00');
     const script = document.currentScript;
     const mode = script?.dataset?.mcuLock || 'always';
     const mcuStudyTypes = new Set(['mcu_points', 'mcu_short_answers']);
@@ -43,8 +43,8 @@
         document.documentElement.classList.add('mcu-lock-active');
         const screen = document.createElement('div');
         screen.id = 'mcu-lock-screen';
-        screen.setAttribute('aria-label', '嵌入式页面临时锁定');
-        screen.innerHTML = `<img src="${imageUrl}" alt="嵌入式页面临时锁定">`;
+        screen.setAttribute('aria-label', 'Embedded systems temporary lock');
+        screen.innerHTML = `<img src="${imageUrl}" alt="Embedded systems temporary lock">`;
         document.body.appendChild(screen);
     }
 
