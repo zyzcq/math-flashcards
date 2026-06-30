@@ -1020,6 +1020,7 @@ class App {
         // 更新各模块的最高正确率
         ['mock', 'part1', 'part2', 'part3'].forEach(key => {
             const el = document.getElementById(`stat-${key}`);
+            if (!el) return;
             if (this.stats[key] && this.stats[key].bestAccuracy !== undefined) {
                 el.textContent = `最高正确率: ${this.stats[key].bestAccuracy}%`;
                 el.classList.add('show');
@@ -1536,7 +1537,7 @@ class App {
     }
 }
 
-const app = new App();
+window.app = new App();
 </script>
 </body>
 </html>
